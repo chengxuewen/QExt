@@ -45,7 +45,7 @@ qt_internal_add_qml_module(QmlFontIcon
     URI "QExtQml.FontIcon"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQmlFontIconPlugin
-    PLUGIN_TARGET QmlFontIconPlugin
+    PLUGIN_TARGET QExtQmlFontIconPlugin
     PLUGIN_SOURCES source/qextQmlFontIconPlugin.cpp
     DEPENDENCIES
     QExt::Core

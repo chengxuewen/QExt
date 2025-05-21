@@ -1,4 +1,4 @@
-#ifndef _QEXTPROPERTYMODEL_H
+﻿#ifndef _QEXTPROPERTYMODEL_H
 #define _QEXTPROPERTYMODEL_H
 
 #include <qextWidgetGlobal.h>
@@ -22,7 +22,7 @@ public:
         Editor_DoubleSpinBox,
         Editor_Custom
     };
-    QEXT_STATIC_CONSTANT(int, EditorEnumNum = 6);
+    QEXT_STATIC_CONSTANT_NUMBER(EditorEnumNum, 6)
 
     QExtPropertyModelItem();
     ~QExtPropertyModelItem() QEXT_OVERRIDE;
@@ -73,10 +73,13 @@ Q_SIGNALS:
     void childAboutToBeRemoveed(QExtPropertyModelItem *child);
     void childRemoveed(QExtPropertyModelItem *child);
 
+public Q_SLOTS:
+    void updateItem() { emit this->itemDataChanged(this); }
+
 protected:
-    bool m_enable;
-    QExtPropertyModelItem *m_parent;
-    QList<QExtPropertyModelItem *> m_childrenList;
+    bool mEnable;
+    QExtPropertyModelItem *mParent;
+    QList<QExtPropertyModelItem *> mChildrenList;
 };
 
 class QEXT_WIDGETS_API QExtPropertyModelRootItem : public QExtPropertyModelItem
@@ -105,7 +108,7 @@ public:
         Column_Property = 0,
         Column_Value,
     };
-    QEXT_STATIC_CONSTANT(int, ColumnNum = 2);
+    QEXT_STATIC_CONSTANT_NUMBER(ColumnNum, 2)
 
     QExtPropertyModel(QObject *parent = QEXT_NULLPTR);
     ~QExtPropertyModel() QEXT_OVERRIDE;
@@ -172,8 +175,8 @@ protected:
     bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) QEXT_OVERRIDE;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) QEXT_OVERRIDE;
 
-    QExtPropertyModelItem *m_rootItem;
-    QHash<qulonglong, QExtPropertyModelItem *> m_itemMap;
+    QExtPropertyModelItem *mRootItem;
+    QHash<qulonglong, QExtPropertyModelItem *> mItemMap;
 };
 
 #endif // _QEXTPROPERTYMODEL_H

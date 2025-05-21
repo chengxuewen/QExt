@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -23,5 +23,5 @@
 
 if(NOT CMAKE_CROSSCOMPILING)
     qext_add_subdirectory(tester QEXT_BUILD_TESTS)
-    qext_add_subdirectory(qmlplugindump QEXT_BUILD_QMLS)
+    # qext_add_subdirectory(qmlplugindump QEXT_BUILD_QMLS)
 endif()

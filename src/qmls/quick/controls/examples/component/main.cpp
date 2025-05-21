@@ -1,9 +1,10 @@
-#include <QGuiApplication>
+﻿#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QElapsedTimer>
 #include <QDebug>
 
 #include <qextCoreConfig.h>
+#include <qextQmlConfig.h>
 #include <qextObject.h>
 
 #ifndef QEXT_BUILD_SHARED
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
 #else
     qDebug() << "addImportPath:" << QML_MODULES_DIR;
     engine.addImportPath(QML_MODULES_DIR);
+    engine.addImportPath(QEXT_QT_QML_MODULE_PATH);
 #endif
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

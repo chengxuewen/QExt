@@ -61,6 +61,9 @@ public:
     void setCheckedIcon(const QPixmap &icon);
     void setSelectedIcon(const QPixmap &icon);
 
+    QVariant userData() const;
+    void setUserData(const QVariant &data);
+
     QChar fontIcon() const;
     void setFontIcon(const QChar &ch);
 
@@ -103,6 +106,7 @@ Q_SIGNALS:
     void expandChanged(QExtNavigationListItem *item);
     void enableChanged(QExtNavigationListItem *item);
     void checkChanged(QExtNavigationListItem *item);
+    void userDataChanged(const QVariant &data);
 
     void visiableAboutToBeChanged(QExtNavigationListItem *item);
     void visiableChanged(QExtNavigationListItem *item);
@@ -217,7 +221,7 @@ public:
         ItemState_Normal
     };
     Q_ENUM(ItemState)
-    QEXT_STATIC_CONSTANT(int, ItemStateNum = 4);
+    QEXT_STATIC_CONSTANT_NUMBER(ItemStateNum, 4)
 
     explicit QExtNavigationListView(QWidget *parent = QEXT_NULLPTR);
     ~QExtNavigationListView() QEXT_OVERRIDE;
@@ -257,6 +261,8 @@ public:
     int itemFontSize(bool isParent) const;
     int itemIconMargin(bool isParent) const;
 
+    void expandAll();
+    void collapseAll();
     ExpendMode expendMode() const;
 
     QSize sizeHint() const QEXT_OVERRIDE;

@@ -77,6 +77,9 @@ qext_add_library(Core
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
+    source/tools/qextEndian.h
+    source/tools/qextIdRegistry.cpp
+    source/tools/qextIdRegistry.h
     source/tools/qextInvoke.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h
@@ -96,6 +99,8 @@ qext_add_library(Core
     source/tools/qextObject.h
     source/tools/qextObject.cpp
     source/tools/qextVariant.h
+    source/utils/qextCRCUtils.cpp
+    source/utils/qextCRCUtils.h
     source/utils/qextCodecUtils.cpp
     source/utils/qextCodecUtils.h
     source/utils/qextCommonUtils.cpp

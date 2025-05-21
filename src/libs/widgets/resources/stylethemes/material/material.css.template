@@ -1058,7 +1058,9 @@ QTableView:focus {
     selection-background-color: {{primaryColor}};
 }
 
-QTableView::item:disabled {
+QTableView::item:disabled,
+QTreeView::item:disabled,
+QListView::item:disabled {
     color: {{secondaryTextColor|opacity(0.3)}};
     selection-color: {{secondaryTextColor|opacity(0.3)}};
     background-color: {{secondaryColor}};

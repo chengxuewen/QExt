@@ -81,7 +81,7 @@ QExtQuickPopup {
     }
 
     Connections{
-        target: root.rootWindow
+        target: QExtQuickRootWindow
         onWidthChanged:close();
         onHeightChanged:close();
     }
@@ -138,7 +138,7 @@ QExtQuickPopup {
                     height: 28
                     Label{
                         text: "TPopover测试"
-                        font.pixelSize: TPixelSizePreset.PH5
+                        font.pixelSize: 20
                         anchors.centerIn: parent;
                     }
                 }
@@ -146,7 +146,7 @@ QExtQuickPopup {
                 Label{
                     width: parent.width - 10;
                     text: "重新实现bodyComponent ，可完成高级扩展!请参考 TPopoverMenu";
-                    font.pixelSize: TPixelSizePreset.PH6
+                    font.pixelSize: 22
                     wrapMode: Text.WordWrap
                     anchors.horizontalCenter: parent.horizontalCenter;
                 }

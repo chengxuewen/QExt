@@ -19,11 +19,11 @@ int main()
     QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 #endif
     //! [1]
-    QList<QEXTPortInfo> ports = QExtSerialEnumerator::portInfoList();
+    QList<QExtPortInfo> ports = QExtSerialEnumerator::portInfoList();
     //! [1]
     qDebug() << "List of ports:";
     //! [2]
-    foreach (QEXTPortInfo info, ports) {
+    foreach (QExtPortInfo info, ports) {
         qDebug() << "port name:"       << info.portName;
         qDebug() << "friendly name:"   << info.friendName;
         qDebug() << "physical name:"   << info.physName;

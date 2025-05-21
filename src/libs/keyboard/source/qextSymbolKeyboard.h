@@ -1,4 +1,4 @@
-#ifndef _QEXTSYMBOLKEYBOARD_H
+﻿#ifndef _QEXTSYMBOLKEYBOARD_H
 #define _QEXTSYMBOLKEYBOARD_H
 
 #include <qextKeyboardGlobal.h>
@@ -43,6 +43,7 @@ private:
     QVector<QPair<int, QString>> m_page1;
     QMap<QAbstractButton *, int> m_keyMap;
     QVector<QAbstractButton *> m_symbolButtons;
+    QEXT_DISABLE_COPY_MOVE(QExtSymbolKeyboard)
 };
 
 #endif // _QEXTSYMBOLKEYBOARD_H

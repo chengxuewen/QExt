@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 ** Copyright (c) 2000-2003 Wayne Roth
 ** Copyright (c) 2004-2007 Stefan Sander
 ** Copyright (c) 2007 Michal Policht
@@ -32,14 +32,12 @@
 #ifndef _QEXTSERIALPORT_H
 #define _QEXTSERIALPORT_H
 
-#include "qextSerialPortGlobal.h"
+#include <qextSerialPortGlobal.h>
 
-#include <QtCore/QIODevice>
+#include <QIODevice>
 #ifdef Q_OS_UNIX
-#include <termios.h>
+#   include <termios.h>
 #endif
-
-
 
 /*line status constants*/
 // ### QESP2.0 move to enum
@@ -172,12 +170,12 @@ class QExtSerialPortPrivate;
 class QEXT_SERIALPORT_API QExtSerialPort : public QIODevice
 {
     Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSerialPort)
 
     Q_PROPERTY(QString portName READ portName WRITE setPortName)
     Q_PROPERTY(QueryMode queryMode READ queryMode WRITE setQueryMode)
 public:
-    enum QueryMode {
+    enum QueryMode
+    {
         Polling,
         EventDriven
     };
@@ -231,15 +229,16 @@ protected:
     qint64 readData(char *data, qint64 maxSize);
     qint64 writeData(const char *data, qint64 maxSize);
 
+    QExtSerialPortPrivate *const dd_ptr;
+
 private:
     Q_DISABLE_COPY(QExtSerialPort)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSerialPort)
 
 #ifdef Q_OS_WIN
     Q_PRIVATE_SLOT(d_func(), void _q_onWinEvent(HANDLE))
 #endif
     Q_PRIVATE_SLOT(d_func(), void _q_canRead())
-
-    QExtSerialPortPrivate *const dd_ptr;
 };
 
 

@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -47,7 +47,7 @@ qt_internal_add_qml_module(QuickControls
     URI "QExtQuick.Controls"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickControlsPlugin
-    PLUGIN_TARGET QuickControlsPlugin
+    PLUGIN_TARGET QExtQuickControlsPlugin
     PLUGIN_SOURCES source/qextQuickControlsPlugin.cpp
     DEPENDENCIES
     QExt::Qml

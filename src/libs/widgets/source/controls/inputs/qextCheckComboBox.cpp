@@ -20,9 +20,9 @@ public:
 
     QExtCheckComboBoxModel * q_ptr;
 
-    QStringList m_itemList;
-    QStringList m_checkLockItems;
-    QSet<QString> m_checkedItems;
+    QStringList mItemList;
+    QStringList mCheckLockItems;
+    QSet<QString> mCheckedItems;
 
 private:
     QEXT_DECL_PUBLIC(QExtCheckComboBoxModel)
@@ -42,17 +42,17 @@ bool QExtCheckComboBoxModelPrivate::setCheckState(const QString &text, bool chec
 {
     if (checked)
     {
-        if (!m_checkedItems.contains(text))
+        if (!mCheckedItems.contains(text))
         {
-            m_checkedItems.insert(text);
+            mCheckedItems.insert(text);
             return true;
         }
     }
     else
     {
-        if (m_checkedItems.contains(text))
+        if (mCheckedItems.contains(text))
         {
-            m_checkedItems.remove(text);
+            mCheckedItems.remove(text);
             return true;
         }
     }
@@ -72,7 +72,7 @@ QExtCheckComboBoxModel::~QExtCheckComboBoxModel()
 Qt::ItemFlags QExtCheckComboBoxModel::flags(const QModelIndex &index) const
 {
     Q_D(const QExtCheckComboBoxModel);
-    if (!d->m_checkLockItems.contains(d->m_itemList.at(index.row())))
+    if (!d->mCheckLockItems.contains(d->mItemList.at(index.row())))
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
     }
@@ -86,11 +86,11 @@ QVariant QExtCheckComboBoxModel::data(const QModelIndex &index, int role) const
     {
         if (Qt::DisplayRole == role || Qt::EditRole == role)
         {
-            return d->m_itemList.at(index.row());
+            return d->mItemList.at(index.row());
         }
         else if (Qt::CheckStateRole == role)
         {
-            return d->m_checkedItems.contains(d->m_itemList.at(index.row())) ? Qt::Checked : Qt::Unchecked;
+            return d->mCheckedItems.contains(d->mItemList.at(index.row())) ? Qt::Checked : Qt::Unchecked;
         }
     }
     return QVariant();
@@ -105,8 +105,8 @@ bool QExtCheckComboBoxModel::setData(const QModelIndex &index, const QVariant &v
     }
 
     bool ret = false;
-    QString text = d->m_itemList.at(index.row());
-    if (!d->m_checkLockItems.contains(text))
+    QString text = d->mItemList.at(index.row());
+    if (!d->mCheckLockItems.contains(text))
     {
         if (Qt::CheckStateRole == role)
         {
@@ -124,11 +124,11 @@ bool QExtCheckComboBoxModel::setData(const QModelIndex &index, const QVariant &v
 void QExtCheckComboBoxModel::removeItem(const QString &text)
 {
     Q_D(QExtCheckComboBoxModel);
-    if (d->m_itemList.contains(text))
+    if (d->mItemList.contains(text))
     {
         this->beginResetModel();
-        d->m_itemList.removeOne(text);
-        d->m_checkedItems.remove(text);
+        d->mItemList.removeOne(text);
+        d->mCheckedItems.remove(text);
         this->endResetModel();
     }
 }
@@ -136,27 +136,27 @@ void QExtCheckComboBoxModel::removeItem(const QString &text)
 QStringList QExtCheckComboBoxModel::checkedItems() const
 {
     Q_D(const QExtCheckComboBoxModel);
-    return d->m_checkedItems.values();
+    return d->mCheckedItems.values();
 }
 
 bool QExtCheckComboBoxModel::isItemChecked(const QString &text) const
 {
     Q_D(const QExtCheckComboBoxModel);
-    return d->m_checkedItems.contains(text);
+    return d->mCheckedItems.contains(text);
 }
 
 void QExtCheckComboBoxModel::setItemChecked(const QString &text, bool checked)
 {
     Q_D(QExtCheckComboBoxModel);
-    if (!d->m_itemList.contains(text))
+    if (!d->mItemList.contains(text))
     {
         this->beginResetModel();
-        d->m_itemList.append(text);
+        d->mItemList.append(text);
         this->endResetModel();
     }
     if (d->setCheckState(text, checked))
     {
-        QModelIndex index = this->index(d->m_itemList.indexOf(text), 0);
+        QModelIndex index = this->index(d->mItemList.indexOf(text), 0);
         emit this->dataChanged(index, index);
     }
 }
@@ -164,16 +164,16 @@ void QExtCheckComboBoxModel::setItemChecked(const QString &text, bool checked)
 QStringList QExtCheckComboBoxModel::checkLockItems() const
 {
     Q_D(const QExtCheckComboBoxModel);
-    return d->m_checkLockItems;
+    return d->mCheckLockItems;
 }
 
 void QExtCheckComboBoxModel::removeCheckLockItem(const QString &text)
 {
     Q_D(QExtCheckComboBoxModel);
-    if (d->m_checkLockItems.contains(text))
+    if (d->mCheckLockItems.contains(text))
     {
-        d->m_checkLockItems.removeOne(text);
-        QModelIndex index = this->index(d->m_itemList.indexOf(text), 0);
+        d->mCheckLockItems.removeOne(text);
+        QModelIndex index = this->index(d->mItemList.indexOf(text), 0);
         emit this->dataChanged(index, index);
     }
 }
@@ -181,10 +181,10 @@ void QExtCheckComboBoxModel::removeCheckLockItem(const QString &text)
 void QExtCheckComboBoxModel::appendCheckLockItem(const QString &text)
 {
     Q_D(QExtCheckComboBoxModel);
-    if (!d->m_checkLockItems.contains(text))
+    if (!d->mCheckLockItems.contains(text))
     {
-        d->m_checkLockItems.append(text);
-        QModelIndex index = this->index(d->m_itemList.indexOf(text), 0);
+        d->mCheckLockItems.append(text);
+        QModelIndex index = this->index(d->mItemList.indexOf(text), 0);
         emit this->dataChanged(index, index);
     }
 }
@@ -192,10 +192,10 @@ void QExtCheckComboBoxModel::appendCheckLockItem(const QString &text)
 void QExtCheckComboBoxModel::setCheckLockItems(const QStringList &texts)
 {
     Q_D(QExtCheckComboBoxModel);
-    if (texts != d->m_checkLockItems)
+    if (texts != d->mCheckLockItems)
     {
         this->beginResetModel();
-        d->m_checkLockItems = texts;
+        d->mCheckLockItems = texts;
         this->endResetModel();
     }
 }
@@ -203,7 +203,7 @@ void QExtCheckComboBoxModel::setCheckLockItems(const QStringList &texts)
 int QExtCheckComboBoxModel::rowCount(const QModelIndex &parent) const
 {
     Q_D(const QExtCheckComboBoxModel);
-    return d->m_itemList.size();
+    return d->mItemList.size();
 }
 
 int QExtCheckComboBoxModel::columnCount(const QModelIndex &parent) const
@@ -222,9 +222,9 @@ public:
 
     QExtCheckComboBox * const q_ptr;
 
-    bool m_singleSelectModeEnabled;
-    QPointer<QExtCheckComboBoxLineEdit> m_lineEdit;
-    QPointer<QExtCheckComboBoxModel> m_model;
+    bool mSingleSelectModeEnabled;
+    QPointer<QExtCheckComboBoxModel> mModel;
+    QPointer<QExtCheckComboBoxLineEdit> mLineEdit;
 
 private:
     QEXT_DECL_PUBLIC(QExtCheckComboBox)
@@ -234,7 +234,7 @@ private:
 QExtCheckComboBoxPrivate::QExtCheckComboBoxPrivate(QExtCheckComboBox *q)
     : q_ptr(q)
 {
-    m_singleSelectModeEnabled = false;
+    mSingleSelectModeEnabled = false;
 }
 
 QExtCheckComboBoxPrivate::~QExtCheckComboBoxPrivate()
@@ -243,7 +243,7 @@ QExtCheckComboBoxPrivate::~QExtCheckComboBoxPrivate()
 
 void QExtCheckComboBoxPrivate::updateText()
 {
-    m_lineEdit->setText(m_model->checkedItems().join(", "));
+    mLineEdit->setText(mModel->checkedItems().join(", "));
 }
 
 QExtCheckComboBox::QExtCheckComboBox(QWidget *parent)
@@ -251,13 +251,13 @@ QExtCheckComboBox::QExtCheckComboBox(QWidget *parent)
     , dd_ptr(new QExtCheckComboBoxPrivate(this))
 {
     Q_D(QExtCheckComboBox);
-    d->m_model = new QExtCheckComboBoxModel(this);
-    this->setModel(d->m_model.data());
+    d->mModel = new QExtCheckComboBoxModel(this);
+    this->setModel(d->mModel.data());
     this->setView(new QListView(this));
-    d->m_lineEdit = new QExtCheckComboBoxLineEdit(this);
-    d->m_lineEdit->setReadOnly(true);
-    connect(d->m_lineEdit.data(), SIGNAL(mouseRelease()), this, SLOT(showPopup()));
-    this->setLineEdit(d->m_lineEdit.data());
+    d->mLineEdit = new QExtCheckComboBoxLineEdit(this);
+    d->mLineEdit->setReadOnly(true);
+    connect(d->mLineEdit.data(), SIGNAL(mouseRelease()), this, SLOT(showPopup()));
+    this->setLineEdit(d->mLineEdit.data());
     this->setProperty("readOnly", true);
 }
 
@@ -268,15 +268,15 @@ QExtCheckComboBox::~QExtCheckComboBox()
 bool QExtCheckComboBox::isSingleSelectModeEnabled() const
 {
     Q_D(const QExtCheckComboBox);
-    return d->m_singleSelectModeEnabled;
+    return d->mSingleSelectModeEnabled;
 }
 
 void QExtCheckComboBox::setSingleSelectModeEnabled(bool enable)
 {
     Q_D(QExtCheckComboBox);
-    if (enable != d->m_singleSelectModeEnabled)
+    if (enable != d->mSingleSelectModeEnabled)
     {
-        d->m_singleSelectModeEnabled = enable;
+        d->mSingleSelectModeEnabled = enable;
         emit this->singleSelectModeEnabledChanged(enable);
     }
 }
@@ -284,40 +284,40 @@ void QExtCheckComboBox::setSingleSelectModeEnabled(bool enable)
 QStringList QExtCheckComboBox::checkLockItems() const
 {
     Q_D(const QExtCheckComboBox);
-    return d->m_model.isNull() ? QStringList() : d->m_model->checkLockItems();
+    return d->mModel.isNull() ? QStringList() : d->mModel->checkLockItems();
 }
 
 void QExtCheckComboBox::removeCheckLockItem(const QString &text)
 {
     Q_D(QExtCheckComboBox);
-    if (!d->m_model.isNull())
+    if (!d->mModel.isNull())
     {
-        d->m_model->removeCheckLockItem(text);
+        d->mModel->removeCheckLockItem(text);
     }
 }
 
 void QExtCheckComboBox::appendCheckLockItem(const QString &text)
 {
     Q_D(QExtCheckComboBox);
-    if (!d->m_model.isNull())
+    if (!d->mModel.isNull())
     {
-        d->m_model->appendCheckLockItem(text);
+        d->mModel->appendCheckLockItem(text);
     }
 }
 
 void QExtCheckComboBox::setCheckLockItems(const QStringList &texts)
 {
     Q_D(QExtCheckComboBox);
-    if (!d->m_model.isNull())
+    if (!d->mModel.isNull())
     {
-        d->m_model->setCheckLockItems(texts);
+        d->mModel->setCheckLockItems(texts);
     }
 }
 
 QStringList QExtCheckComboBox::checkedItems() const
 {
     Q_D(const QExtCheckComboBox);
-    return d->m_model.isNull() ? QStringList() : d->m_model->checkedItems();
+    return d->mModel.isNull() ? QStringList() : d->mModel->checkedItems();
 }
 
 void QExtCheckComboBox::setCheckedItems(const QStringList &texts)
@@ -326,7 +326,7 @@ void QExtCheckComboBox::setCheckedItems(const QStringList &texts)
     QStringList::ConstIterator iter;
     for (iter = texts.begin(); iter != texts.end(); ++iter)
     {
-        d->m_model->setItemChecked((*iter), true);
+        d->mModel->setItemChecked((*iter), true);
     }
     d->updateText();
 }
@@ -334,7 +334,7 @@ void QExtCheckComboBox::setCheckedItems(const QStringList &texts)
 bool QExtCheckComboBox::isItemChecked(const QString &text)
 {
     Q_D(const QExtCheckComboBox);
-    return d->m_model.isNull() ? false : d->m_model->isItemChecked(text);
+    return d->mModel.isNull() ? false : d->mModel->isItemChecked(text);
 }
 
 void QExtCheckComboBox::setItemChecked(const QString &text, bool checked)
@@ -354,9 +354,9 @@ void QExtCheckComboBox::addItems(const QStringList &texts)
 void QExtCheckComboBox::addItem(const QString &text, bool checked)
 {
     Q_D(QExtCheckComboBox);
-    if (!d->m_model.isNull())
+    if (!d->mModel.isNull())
     {
-        d->m_model->setItemChecked(text, checked);
+        d->mModel->setItemChecked(text, checked);
         d->updateText();
     }
 }
@@ -446,7 +446,7 @@ bool QExtCheckComboBox::eventFilter(QObject *watched, QEvent *event)
         bool checked = Qt::Checked == this->view()->model()->data(index, Qt::CheckStateRole).toInt();
         this->view()->model()->setData(index, !checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
         d->updateText();
-        if (d->m_singleSelectModeEnabled)
+        if (d->mSingleSelectModeEnabled)
         {
             QComboBox::hidePopup();
             this->update();

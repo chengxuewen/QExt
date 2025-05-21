@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 ** Copyright (c) 2000-2003 Wayne Roth
 ** Copyright (c) 2004-2007 Stefan Sander
 ** Copyright (c) 2007 Michal Policht
@@ -78,13 +78,15 @@ class QEXT_SERIALPORT_API QExtSerialEnumeratorPrivate
 public:
     QExtSerialEnumeratorPrivate(QExtSerialEnumerator *enumrator);
     ~QExtSerialEnumeratorPrivate();
+
     void platformSpecificInit();
     void platformSpecificDestruct();
 
-    static QList<QEXTPortInfo> getPorts_sys();
+    static QList<QExtPortInfo> getPorts_sys();
     bool setUpNotifications_sys(bool setup);
 
-#ifdef Q_OS_WIN
+#if QEXT_FEATURE_SERIALPORT_USE_QT_BACKEND
+#else defined(Q_OS_WIN)
     LRESULT onDeviceChanged(WPARAM wParam, LPARAM lParam);
     bool matchAndDispatchChangedDevice(const QString &deviceID, const GUID &guid, WPARAM wParam);
 #  ifdef QT_GUI_LIB
@@ -97,8 +99,8 @@ public:
      * Search for serial ports using IOKit.
      *    \param infoList list with result.
      */
-    static void iterateServicesOSX(io_object_t service, QList<QEXTPortInfo> &infoList);
-    static bool getServiceDetailsOSX(io_object_t service, QEXTPortInfo *portInfo);
+    static void iterateServicesOSX(io_object_t service, QList<QExtPortInfo> &infoList);
+    static bool getServiceDetailsOSX(io_object_t service, QExtPortInfo *portInfo);
     void onDeviceDiscoveredOSX(io_object_t service);
     void onDeviceTerminatedOSX(io_object_t service);
     friend void deviceDiscoveredCallbackOSX(void *ctxt, io_iterator_t serialPortIterator);

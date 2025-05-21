@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QEXT
 #
@@ -231,7 +231,7 @@ function(__qext_internal_walk_libs target out_var rcc_objects_out_var dict_name 
                     qext_internal_should_not_promote_package_target_to_global(
                         "${lib_target_unaliased}" should_not_promote)
                     if(is_imported AND NOT should_not_promote)
-                        __qext_internal_promote_target_to_global(${lib_target_unaliased})
+                        qext_internal_promote_target_to_global(${lib_target_unaliased})
                     endif()
                 endif()
             elseif("${lib_target}" MATCHES "^QExt::(.*)")

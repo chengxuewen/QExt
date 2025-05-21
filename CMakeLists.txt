@@ -28,12 +28,15 @@ message(STATUS "===============================================QExt=============
 cmake_minimum_required(VERSION 3.15)
 cmake_policy(SET CMP0075 NEW) # use CMAKE_REQUIRED_LIBRARIES
 cmake_policy(SET CMP0083 NEW) # use check_pie_supported
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 4.0)
+    cmake_policy(SET CMP0177 NEW) # use install() DESTINATION
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.2.6 LANGUAGES CXX C)
+project(QExt VERSION 1.3.3.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -94,13 +97,14 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     add_definitions(${QT_DEFINITIONS})
     find_package(Qt4 COMPONENTS QtOpenGL)
     set(QEXT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
+    set(QEXT_QT_SERIALPORT_FOUND OFF)
     set(QEXT_QT_HAS_QML OFF)
     set(QEXT_CXX_STANDARD 98)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Network Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent QUIET)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent SerialPort QUIET)
     if(UNIX)
         find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras QUIET)
         set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
@@ -109,6 +113,7 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     endif()
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
     set(QEXT_QT_CONCURRENT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}Concurrent_FOUND})
+    set(QEXT_QT_SERIALPORT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}SerialPort_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt5)
     set(QEXT_CXX_STANDARD 11)
     set(QEXT_QT_HAS_QJSON ON)
@@ -121,7 +126,7 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Core5Compat Network Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent OpenGLWidgets QUIET)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent SerialPort OpenGLWidgets QUIET)
     if(UNIX)
         find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras QUIET)
         set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
@@ -130,6 +135,7 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     endif()
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
     set(QEXT_QT_CONCURRENT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}Concurrent_FOUND})
+    set(QEXT_QT_SERIALPORT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}SerialPort_FOUND})
     set(QEXT_QT_OPENGLWIDGET_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGLWidgets_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt6)
     set(QEXT_CXX_STANDARD 17)
@@ -153,9 +159,10 @@ endforeach()
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
 get_filename_component(QEXT_QT_KIT_DIR "${QEXT_QT_BIN_DIR}" DIRECTORY)
 set(QEXT_QT_LIB_DIR ${QEXT_QT_KIT_DIR}/lib)
+set(QEXT_QT_QML_DIR ${QEXT_QT_KIT_DIR}/qml)
 
 if(WIN32)
-    set(QEXT_QT_HAS_QML OFF)
+    # set(QEXT_QT_HAS_QML OFF)
 endif()
 
 set(CMAKE_AUTOUIC ON)
@@ -218,7 +225,8 @@ if(WIN32)
         # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
     endif()
-    set(CMAKE_OBJECT_PATH_MAX 512)
+    # Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+    set(CMAKE_OBJECT_PATH_MAX 2048)
 endif()
 
 ## Position independent code:
@@ -230,9 +238,6 @@ check_pie_supported()
 
 # Do not relink dependent libraries when no header has changed:
 set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
-
-# Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
-set(CMAKE_OBJECT_PATH_MAX 1024)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -395,12 +400,17 @@ qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ${QEXTT_DEFA
 
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
     DEPENDS QEXT_ENABLE_LIB_GUI
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_DAVIEW "Enable this to build the daview lib" OFF
+    DEPENDS QEXT_ENABLE_LIB_PLOT AND QEXT_ENABLE_LIB_WIDGETS
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_FONTICON "Enable this to build the fonticon lib" OFF
     DEPENDS QEXT_SINCE_QT5
@@ -414,7 +424,6 @@ qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib"
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
-qext_option(QEXT_ENABLE_3RDPARTY_QWT_LAST "Enable this to build the 3rdparty last version Qwt-6.3.0 lib" ON)
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
@@ -718,14 +727,10 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 #-----------------------------------------------------------------------------------------------------------------------
 # Add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_ENABLE_3RDPARTY_QWT_LAST)
-    set(QWT_VERSION "6.3.0" CACHE INTERNAL "" FORCE)
-else()
-    set(QWT_VERSION "6.1.3" CACHE INTERNAL "" FORCE)
-endif()
+set(QWT_VERSION 6.3.0)
 if(QEXT_ADD_SUBDIRECTORY_QWT)
     set(QWT_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwt-${QWT_VERSION})
+    add_subdirectory(3rdparty/qwt-${QWT_VERSION} ${PROJECT_BINARY_DIR}/3rdparty/qwt-${QWT_VERSION}/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
@@ -733,19 +738,19 @@ endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D)
     set(QWTPLOT3D_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwtplot3d-0.2.7)
+    add_subdirectory(3rdparty/qwtplot3d-0.2.7 ${PROJECT_BINARY_DIR}/3rdparty/qwtplot3d-0.2.7/subbuild)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
     set(USER_QAPPLICATION_CLASS "${QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS}")
-    add_subdirectory(3rdparty/SingleApplication-3.5.1)
+    add_subdirectory(3rdparty/SingleApplication-3.5.1 ${PROJECT_BINARY_DIR}/3rdparty/SingleApplication-3.5.1/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
     qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
-    add_subdirectory(3rdparty/qwindowkit-1.0.1)
+    add_subdirectory(3rdparty/qwindowkit-1.0.1 ${PROJECT_BINARY_DIR}/3rdparty/qwindowkit-1.0.1/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
     qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)

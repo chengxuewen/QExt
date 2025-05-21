@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -43,10 +43,11 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qt_internal_add_qml_module(Qml
+    # NO_GENERATE_QMLTYPES
     URI "QExtQml"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQmlPlugin
-    PLUGIN_TARGET QmlPlugin
+    PLUGIN_TARGET QExtQmlPlugin
     PLUGIN_SOURCES source/qextQmlPlugin.cpp
     DEPENDENCIES
     QExt::Core
