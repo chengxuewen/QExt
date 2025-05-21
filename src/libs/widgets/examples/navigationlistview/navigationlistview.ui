@@ -27,22 +27,22 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QEXTNavigationListView" name="navListView1"/>
+    <widget class="QExtNavigationListView" name="navListView1"/>
    </item>
    <item row="0" column="3">
-    <widget class="QEXTNavigationListView" name="navListView4"/>
+    <widget class="QExtNavigationListView" name="navListView4"/>
    </item>
    <item row="0" column="1">
-    <widget class="QEXTNavigationListView" name="navListView2"/>
+    <widget class="QExtNavigationListView" name="navListView2"/>
    </item>
    <item row="0" column="2">
-    <widget class="QEXTNavigationListView" name="navListView3"/>
+    <widget class="QExtNavigationListView" name="navListView3"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTNavigationListView</class>
+   <class>QExtNavigationListView</class>
    <extends>QListView</extends>
    <header>qextNavigationListView.h</header>
   </customwidget>

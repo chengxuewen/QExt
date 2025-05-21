@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -39,14 +39,7 @@ endif()
 
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
 
-qext_find_qt_tool(moc)
-set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-qext_find_qt_tool(rcc)
-set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
-qext_find_qt_tool(qmlplugindump)
-set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
+
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
@@ -54,7 +47,7 @@ qt_internal_add_qml_module(QuickControls
     URI "QExtQuick.Controls"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickControlsPlugin
-    PLUGIN_TARGET QuickControlsPlugin
+    PLUGIN_TARGET QExtQuickControlsPlugin
     PLUGIN_SOURCES source/qextQuickControlsPlugin.cpp
     DEPENDENCIES
     QExt::Qml
@@ -84,7 +77,7 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickTriangleItem.h
     source/qextQuickWorld.cpp
     source/qextQuickWorld.h
-    qextQuickControls.qrc
+    resources/qextQuickControls.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
     DEFINES

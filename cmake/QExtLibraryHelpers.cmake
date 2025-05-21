@@ -52,6 +52,7 @@ macro(qext_internal_get_add_library_keywords option_args single_args multi_args)
         EXTRA_CMAKE_INCLUDES
         NO_PCH_SOURCES
         EXTERNAL_HEADERS
+        EXTERNAL_HEADERS_DIRS
         ${QEXT_DEFAULT_PUBLIC_ARGS}
         ${QEXT_DEFAULT_PRIVATE_ARGS})
 endmacro()
@@ -183,6 +184,9 @@ function(qext_add_library target)
 
     qext_internal_library_info(library "${target}")
     qext_internal_add_repo_known_library("${target}")
+    # for qext_internal_extend_target EXTERNAL_HEADERS_DIRS ptk_install
+    set_property(TARGET ${target} APPEND PROPERTY _qext_library_install_interface_include_dir
+            "${library_install_interface_include_dir}")
 
     if(arg_INTERNAL_LIBRARY)
         set_target_properties(${target} PROPERTIES _qext_is_internal_library TRUE)
@@ -400,6 +404,7 @@ function(qext_add_library target)
     if(is_framework)
         set(public_headers_list "private_includes")
     endif()
+    set(private_includes ${arg_INCLUDE_DIRECTORIES})
 
     # Make sure the BUILD_INTERFACE include paths come before the framework headers, so that the
     # the compiler prefers the build dir includes.
@@ -418,14 +423,14 @@ function(qext_add_library target)
         if(library_headers_private)
             list(APPEND private_includes
                 "$<BUILD_INTERFACE:${library_build_interface_versioned_include_dir}>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include/private>"
+                # "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include/private>"
                 "$<BUILD_INTERFACE:${library_build_interface_versioned_inner_include_dir}>")
         endif()
 
         list(APPEND public_includes
             # For the syncqext headers
             "$<BUILD_INTERFACE:${repo_build_interface_include_dir}>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+            # "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
             "$<BUILD_INTERFACE:${library_build_interface_include_dir}>")
     endif()
 
@@ -492,6 +497,7 @@ function(qext_add_library target)
 #            message(dir=${dir})
 #        endforeach()
     # qext_internal_add_repo_local_defines("${target}")
+    # message(target=${target},private_includes=${private_includes})
     qext_internal_extend_target("${target}"
         ${header_library}
         SOURCES
@@ -505,6 +511,7 @@ function(qext_add_library target)
         DEFINES
         ${arg_DEFINES}
         ${defines_for_extend_target}
+        EXTERNAL_HEADERS_DIRS ${arg_EXTERNAL_HEADERS_DIRS}
         PUBLIC_LIBRARIES ${arg_PUBLIC_LIBRARIES}
         LIBRARIES ${arg_LIBRARIES}
         PRIVATE_LIBRARY_INTERFACE ${arg_PRIVATE_LIBRARY_INTERFACE}

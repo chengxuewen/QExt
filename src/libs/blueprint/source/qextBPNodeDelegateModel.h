@@ -54,9 +54,9 @@ public:
 
     void setNodeStyle(const QExtBPNodeStyle &style);
 
-    virtual void setInData(QSharedPointer<QExtBPNodeData> nodeData, const QExtBPTypes::PortIndex portIndex) = 0;
+    virtual void setInData(QExtSharedPointer<QExtBPNodeData> nodeData, const QExtBPTypes::PortIndex portIndex) = 0;
 
-    virtual QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) = 0;
+    virtual QExtSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) = 0;
 
     /**
    * It is recommented to preform a lazy initialization for the

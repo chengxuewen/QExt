@@ -1,8 +1,9 @@
-#include <QGuiApplication>
+﻿#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QElapsedTimer>
 
+#include <qextQmlConfig.h>
 #include <qextCoreConfig.h>
 #include <qextquickpalettetablemodel.h>
 
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
 #else
     qDebug() << "addImportPath:" << QML_MODULES_DIR;
     engine.addImportPath(QML_MODULES_DIR);
+    engine.addImportPath(QEXT_QT_QML_MODULE_PATH);
 #endif
 
     qmlRegisterType<QExtQuickPaletteTableModel>("QExtQuickPaletteView", 1, 0, "QExtQuickPaletteTableModel");

@@ -83,8 +83,8 @@ bool QExtPinyin::open(const QString &strDBPath)
        // QString pyUserPath = QString("%1/dict_pinyin_user.dat").arg(dbPath);
     Q_UNUSED(strDBPath);
     // Q_INIT_RESOURCE(qextGui);
-    QString strPYPath = QString(":/input/dict_pinyin.dat");
-    QString strPYUserPath = QString(":/input/dict_pinyin_user.dat");
+    QString strPYPath = QString(":/QExtKeyboard/input/dict_pinyin.dat");
+    QString strPYUserPath = QString(":/QExtKeyboard/input/dict_pinyin_user.dat");
     dd_ptr->m_bOk = im_open_decoder(strPYPath.toUtf8().constData(), strPYUserPath.toUtf8().constData());
 
     //Load the custom dictionary file

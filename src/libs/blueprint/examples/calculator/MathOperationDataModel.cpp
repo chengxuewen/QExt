@@ -19,23 +19,23 @@ QExtBPNodeDataType MathOperationDataModel::dataType(QExtBPTypes::PortTypeEnum, Q
     return DecimalData().type();
 }
 
-QSharedPointer<QExtBPNodeData> MathOperationDataModel::outData(QExtBPTypes::PortIndex)
+QExtSharedPointer<QExtBPNodeData> MathOperationDataModel::outData(QExtBPTypes::PortIndex)
 {
     return _result;
 }
 
-void MathOperationDataModel::setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
+void MathOperationDataModel::setInData(QExtSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
 {
-    QSharedPointer<DecimalData> numberData = data.dynamicCast<DecimalData>();
+    QExtSharedPointer<DecimalData> numberData = qextDynamicPointerCast<DecimalData>(data);
 
     if (!data) {
         Q_EMIT dataInvalidated(0);
     }
 
     if (portIndex == 0) {
-        _number1 = numberData;
+        _number1 = qextMakeWeakRef(numberData);
     } else {
-        _number2 = numberData;
+        _number2 = qextMakeWeakRef(numberData);
     }
 
     compute();

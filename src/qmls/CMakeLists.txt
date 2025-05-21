@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -21,6 +21,21 @@
 #
 ########################################################################################################################
 
+qext_find_qt_tool(moc)
+set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+# message(QEXT_QT_MOC_EXECUTABLE=${QEXT_QT_MOC_EXECUTABLE})
+qext_find_qt_tool(rcc)
+set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
+qext_find_qt_tool(qmlplugindump)
+set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+# set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${QEXT_BUILD_DIR}/${QEXT_DEFAULT_DLLDIR}/qmlplugindump.exe" CACHE INTERNAL "" FORCE)
+# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
+
 add_subdirectory(qml)
 add_subdirectory(quick)
 add_subdirectory(toou2d)
+
+list(APPEND QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} "${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+list(REMOVE_DUPLICATES QEXT_QML_IMPORT_PATH)
+set(QML_IMPORT_PATH ${QEXT_QML_IMPORT_PATH} CACHE INTERNAL "Qt Creator extra qml import paths" FORCE)

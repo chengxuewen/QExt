@@ -1,6 +1,6 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 Column {
     spacing: 10
@@ -43,7 +43,7 @@ Column {
                         height: 30
                         background: null
                         visible: true
-                        iconSource: "qrc:/QExtQuickControls/resource/image/close_px.svg"
+                        iconSource: "qrc:/QExtQuickControls/image/close_px.svg"
                         iconDisplay: QExtQuickControls.IconDisplay_IconOnly
                         anchors.right: parent.right
                         anchors.rightMargin: 5

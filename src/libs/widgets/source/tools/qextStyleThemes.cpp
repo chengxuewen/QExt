@@ -1,4 +1,4 @@
-#include <private/qextStyleThemes_p.h>
+﻿#include <private/qextStyleThemes_p.h>
 
 #include <QMap>
 #include <QXmlStreamReader>
@@ -677,16 +677,20 @@ QStringList QExtStyleThemes::themes(const QString &style) const
     return themes;
 }
 
-QStringList QExtStyleThemes::styleThemes() const
+QStringList QExtStyleThemes::styleThemes(bool all) const
 {
     QStringList styleThemes;
     QStringList styles = this->styles();
-    for (QStringList::ConstIterator stylesIter = styles.begin(); stylesIter != styles.end(); ++stylesIter)
+    for (QStringList::ConstIterator stylesIter = styles.constBegin(); stylesIter != styles.constEnd(); ++stylesIter)
     {
-        QStringList themes = this->themes(*stylesIter);
-        for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+        const QString style = *stylesIter;
+        if (all || "fluent" != style)
         {
-            styleThemes.append(QString("%1 %2").arg(*stylesIter).arg(*themesIter));
+            QStringList themes = this->themes(style);
+            for (QStringList::ConstIterator themesIter = themes.constBegin(); themesIter != themes.constEnd(); ++themesIter)
+            {
+                styleThemes.append(QString("%1 %2").arg(style).arg(*themesIter));
+            }
         }
     }
     return styleThemes;
@@ -696,7 +700,7 @@ QStringList QExtStyleThemes::styleThemes(const QString &style) const
 {
     QStringList styleThemes;
     QStringList themes = this->themes(style);
-    for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+    for (QStringList::ConstIterator themesIter = themes.constBegin(); themesIter != themes.constEnd(); ++themesIter)
     {
         styleThemes.append(QString("%1 %2").arg(style).arg(*themesIter));
     }

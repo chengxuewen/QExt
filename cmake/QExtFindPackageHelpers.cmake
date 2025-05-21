@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -196,7 +196,7 @@ macro(qext_find_package)
                 get_property(is_global TARGET ${qext_find_package_target_name} PROPERTY IMPORTED_GLOBAL)
                 qext_internal_should_not_promote_package_target_to_global("${qext_find_package_target_name}" should_not_promote)
                 if(NOT is_global AND NOT should_not_promote)
-                    __qext_internal_promote_target_to_global(${qext_find_package_target_name})
+                    qext_internal_promote_target_to_global(${qext_find_package_target_name})
                     qext_find_package_promote_targets_to_global_scope("${qext_find_package_target_name}")
                 endif()
             endif()

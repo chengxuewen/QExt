@@ -54,6 +54,7 @@ bool QExtDeviceWatcherPrivate::start()
 {
     init();
     QThread::start();
+    return true;
 }
 
 bool QExtDeviceWatcherPrivate::stop()

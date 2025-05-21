@@ -1,4 +1,4 @@
-#ifndef _QEXTSPINLOCK_H
+﻿#ifndef _QEXTSPINLOCK_H
 #define _QEXTSPINLOCK_H
 
 #include <qextGlobal.h>
@@ -41,20 +41,20 @@ public:
         QExtSpinLock &spinLock;
     };
 
-    QExtSpinLock() : m_flag(false) {}
+    QExtSpinLock() : mFlag(false) {}
     virtual ~QExtSpinLock() {}
 
-    QEXT_ATTR_FORCE_INLINE void lock()
+    QEXT_FORCE_INLINE void lock()
     {
-        while (!m_flag.testAndSetOrdered(false, true)) { }
+        while (!mFlag.testAndSetOrdered(false, true)) { }
     }
-    QEXT_ATTR_FORCE_INLINE void unlock()
+    QEXT_FORCE_INLINE void unlock()
     {
-        m_flag.fetchAndStoreOrdered(0);
+        mFlag.fetchAndStoreOrdered(0);
     }
 
 private:
-    QAtomicInt m_flag;
+    QAtomicInt mFlag;
     QEXT_DISABLE_COPY_MOVE(QExtSpinLock)
 };
 
@@ -65,67 +65,67 @@ public:
     {
         QEXT_DISABLE_COPY_MOVE(DLocker)
         DLocker(QExtDSpinLock &lock, qint64 timeout, const char *func, qint64 line)
-            : spinLock(lock), m_timeout(timeout), m_elapsed(0), m_func(func), m_line(line)
+            : spinLock(lock), mTimeout(timeout), mElapsed(0), mFunc(func), mLine(line)
         {
-            m_elapsed = spinLock.lockElapsed();
-            if (m_timeout > 0 && m_elapsed > m_timeout)
+            mElapsed = spinLock.lockElapsed();
+            if (mTimeout > 0 && mElapsed > mTimeout)
             {
-                qDebug() << QString("%1:%2 lock timeout %3us").arg(m_func).arg(m_line).arg(m_elapsed);
+                qDebug() << QString("%1:%2 lock timeout %3us").arg(mFunc).arg(mLine).arg(mElapsed);
             }
         }
         virtual ~DLocker()
         {
-            m_elapsed = spinLock.unlockElapsed();
-            if (m_timeout > 0 && m_elapsed > m_timeout)
+            mElapsed = spinLock.unlockElapsed();
+            if (mTimeout > 0 && mElapsed > mTimeout)
             {
-                qDebug() << QString("%1:%2 lock&unlock timeout %3us").arg(m_func).arg(m_line).arg(m_elapsed);
+                qDebug() << QString("%1:%2 lock&unlock timeout %3us").arg(mFunc).arg(mLine).arg(mElapsed);
             }
         }
         void unlock()
         {
-            m_elapsed = spinLock.unlockElapsed();
-            if (m_timeout > 0 && m_elapsed > m_timeout)
+            mElapsed = spinLock.unlockElapsed();
+            if (mTimeout > 0 && mElapsed > mTimeout)
             {
-                qDebug() << QString("%1:%2 lock&unlock timeout %3us").arg(m_func).arg(m_line).arg(m_elapsed);
+                qDebug() << QString("%1:%2 lock&unlock timeout %3us").arg(mFunc).arg(mLine).arg(mElapsed);
             }
         }
         void relock()
         {
-            m_elapsed = spinLock.lockElapsed();
-            if (m_timeout > 0 && m_elapsed > m_timeout)
+            mElapsed = spinLock.lockElapsed();
+            if (mTimeout > 0 && mElapsed > mTimeout)
             {
-                qDebug() << QString("%1:%2 relock timeout %3us").arg(m_func).arg(m_line).arg(m_elapsed);
+                qDebug() << QString("%1:%2 relock timeout %3us").arg(mFunc).arg(mLine).arg(mElapsed);
             }
         }
-        qint64 elapsed() const { return m_elapsed; }
+        qint64 elapsed() const { return mElapsed; }
         QExtDSpinLock &spinLock;
     private:
-        const qint64 m_timeout;
-        qint64 m_elapsed;
-        const char *m_func;
-        qint64 m_line;
+        const qint64 mTimeout;
+        const char *mFunc;
+        qint64 mElapsed;
+        qint64 mLine;
     };
 
-    QExtDSpinLock() : m_timestamp(0) {}
+    QExtDSpinLock() : mTimestamp(0) {}
     ~QExtDSpinLock() QEXT_OVERRIDE {}
 
-    QEXT_ATTR_FORCE_INLINE qint64 lockElapsed()
+    QEXT_FORCE_INLINE qint64 lockElapsed()
     {
         const qint64 ts = QExtDateTimeUtils::usecsTimeSinceEpoch();
         QExtSpinLock::lock();
-        m_timestamp = QExtDateTimeUtils::usecsTimeSinceEpoch();
-        return m_timestamp - ts;
+        mTimestamp = QExtDateTimeUtils::usecsTimeSinceEpoch();
+        return mTimestamp - ts;
     }
 
-    QEXT_ATTR_FORCE_INLINE qint64 unlockElapsed()
+    QEXT_FORCE_INLINE qint64 unlockElapsed()
     {
-        const qint64 elapsed = QExtDateTimeUtils::usecsTimeSinceEpoch() - m_timestamp;
+        const qint64 elapsed = QExtDateTimeUtils::usecsTimeSinceEpoch() - mTimestamp;
         QExtSpinLock::unlock();
         return elapsed;
     }
 
 private:
-    qint64 m_timestamp;
+    qint64 mTimestamp;
     QEXT_DISABLE_COPY_MOVE(QExtDSpinLock)
 };
 

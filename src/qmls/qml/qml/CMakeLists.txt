@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -39,22 +39,15 @@ endif()
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
 
 
-qext_find_qt_tool(moc)
-set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-qext_find_qt_tool(rcc)
-set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
-qext_find_qt_tool(qmlplugindump)
-set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qt_internal_add_qml_module(Qml
+    # NO_GENERATE_QMLTYPES
     URI "QExtQml"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQmlPlugin
-    PLUGIN_TARGET QmlPlugin
+    PLUGIN_TARGET QExtQmlPlugin
     PLUGIN_SOURCES source/qextQmlPlugin.cpp
     DEPENDENCIES
     QExt::Core
@@ -62,7 +55,7 @@ qt_internal_add_qml_module(Qml
     source/qextQml.cpp
     source/qextQml.h
     source/qextQmlGlobal.h
-    qextQml.qrc
+    resources/qextQml.qrc
     PRECOMPILED_HEADER
     source/qextQmlPch.h
     PUBLIC_LIBRARIES

@@ -78,7 +78,7 @@ QExtBPNodeDataType NumberSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QE
     return DecimalData().type();
 }
 
-QSharedPointer<QExtBPNodeData> NumberSourceDataModel::outData(QExtBPTypes::PortIndex)
+QExtSharedPointer<QExtBPNodeData> NumberSourceDataModel::outData(QExtBPTypes::PortIndex)
 {
     return _number;
 }

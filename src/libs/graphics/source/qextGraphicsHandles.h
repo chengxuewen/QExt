@@ -1,4 +1,4 @@
-#ifndef _QEXTGRAPHICSHANDLES_H
+﻿#ifndef _QEXTGRAPHICSHANDLES_H
 #define _QEXTGRAPHICSHANDLES_H
 
 #include <qextGraphicsGlobal.h>
@@ -32,7 +32,7 @@ public:
         Handle_LeftBottom,
         Handle_Left
     };
-    QEXT_STATIC_CONSTANT(int, HandleEnumNum = 9);
+    QEXT_STATIC_CONSTANT_NUMBER(HandleEnumNum, 9)
 
     QExtGraphicsSizeHandle(QGraphicsItem *parent, int dir, bool control = false);
     QExtGraphicsSizeHandle(QExtGraphicsSizeHandlePrivate *d, QGraphicsItem *parent, bool control = false);

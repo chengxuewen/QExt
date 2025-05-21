@@ -1,9 +1,12 @@
-#ifndef _QEXTNETWORKUTILS_H
+﻿#ifndef _QEXTNETWORKUTILS_H
 #define _QEXTNETWORKUTILS_H
 
 #include <qextGlobal.h>
+#include <qextTypeTrait.h>
 
 #include <QObject>
+#include <QSysInfo>
+#include <QtEndian>
 
 class QEXT_CORE_API QExtNetworkUtils
 {
@@ -37,6 +40,13 @@ public:
     static quint32 quint32NetToHost(char *src);
     static qint64 qint64NetToHost(char *src);
     static quint64 quint64NetToHost(char *src);
+
+    static qint16 qint16NetToHost(qint16 val);
+    static quint16 quint16NetToHost(qint16 val);
+    static qint32 qint32NetToHost(qint16 val);
+    static quint32 quint32NetToHost(qint16 val);
+    static qint64 qint64NetToHost(qint16 val);
+    static quint64 quint64NetToHost(qint16 val);
 
     static void qint16NetToHost(const char *src, qint16 *des);
     static void quint16NetToHost(const char *src, quint16 *des);

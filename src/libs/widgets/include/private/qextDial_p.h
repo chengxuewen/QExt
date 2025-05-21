@@ -1,1 +1,1 @@
-#include "../../source/widgets/qextDial_p.h"
+﻿#include "../../source/controls/inputs/qextDial_p.h"

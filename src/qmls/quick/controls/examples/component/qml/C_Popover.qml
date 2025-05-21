@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 Column{
     Row{
@@ -10,7 +10,7 @@ Column{
             id:button
             height: 40
             text: "Loose"
-            onClicked: popover.openToGlobal(button,mouseX,mouseY)
+            onClicked: popover.openToGlobal(button, mouseX, mouseY)
         }
 
         // Button{
@@ -32,49 +32,4 @@ Column{
     QExtQuickPopover {
         id:popover
     }
-
-    // QExtQuickPopoverMenu {
-    //     id:popoverMenu
-
-    //     QExtQuickPopoverElement{
-    //         type:"group"
-    //         text: "BUILDING BLOCKS";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_apple
-    //         text:  "Request";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_android
-    //         text: "Collection";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_git
-    //         text: "Environment";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         type:"group"
-    //         text: "ADVANCED";
-    //     }
-
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_music
-    //         text: "Document";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_heartbeat
-    //         text: "Mock Server";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_car
-    //         text: "Monitor";
-    //     }
-    // }
 }

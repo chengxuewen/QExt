@@ -8,7 +8,7 @@
 #include <QExtBlueprint>
 
 
-static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
     auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
     ret->registerModel<NumberSourceDataModel>("Sources");
@@ -99,7 +99,7 @@ static QString addingNumbersScene(
 
 int main(int argc, char *argv[])
 {
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
 
     // Here we create a graph model without attaching to any view or scene.
     QExtBPDataFlowGraphModel dataFlowGraphModel(registry);

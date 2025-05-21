@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -20,3 +20,6 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+
+qext_configure_definition("QEXT_QT_QML_MODULE_PATH" PUBLIC VALUE "\"${QEXT_QT_QML_DIR}\"")
+qext_configure_definition("QEXT_QML_MODULE_PATH" PUBLIC VALUE "\"${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}\"")

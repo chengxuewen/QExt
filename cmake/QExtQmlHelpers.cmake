@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -74,19 +74,19 @@ endmacro()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# This function is essentially a wrapper around qt6_add_qml_module().
-# It creates the targets explicitly and sets up internal properties before passing those targets to qt6_add_qml_module()
+# This function is essentially a wrapper around qext_add_qt_qml_module().
+# It creates the targets explicitly and sets up internal properties before passing those targets to qext_add_qt_qml_module()
 # for further updates.
-# All keywords supported by qt_internal_add_module() can be used, as can most keywords for qt6_add_qml_module() except
+# All keywords supported by qt_internal_add_module() can be used, as can most keywords for qext_add_qt_qml_module() except
 # RESOURCE_PREFIX and OUTPUT_TARGETS.
 #
 # OUTPUT_DIRECTORY and INSTALL_DIRECTORY will be given more appropriate defaults
 # if not provided by the caller. The defaults are usually what you want to use.
 #
 # - SOURCES is only passed through to qt_internal_add_plugin() or
-#   qt_internal_add_module() but not to qt6_add_qml_module()
+#   qt_internal_add_module() but not to qext_add_qt_qml_module()
 #
-# See qt_internal_add_plugin() and qt6_add_qml_module() for the full set of supported keywords.
+# See qt_internal_add_plugin() and qext_add_qt_qml_module() for the full set of supported keywords.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qt_internal_add_qml_module target)
     qext_internal_get_internal_add_module_keywords(
@@ -145,6 +145,9 @@ function(qt_internal_add_qml_module target)
         set(arg_PLUGIN_TARGET ${target}plugin)
     endif()
     # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
+    if(CMAKE_BUILD_TYPE MATCHES "Debug") # TODO
+        set(arg_NO_GENERATE_QMLTYPES ON)
+    endif()
 
     set(plugin_args "")
     if(arg_NO_PLUGIN OR NOT arg_PLUGIN_TARGET STREQUAL target)
@@ -304,8 +307,8 @@ function(qt_internal_add_qml_module target)
         list(APPEND add_qml_module_args TYPE_COMPILER_NAMESPACE ${qext_namespace})
     endif()
     # Update the backing and plugin targets with qml-specific things.
-    # message(add_qml_module_args=${add_qml_module_args})
-    qt6_add_qml_module(${target}
+    #     message(add_qml_module_args=${add_qml_module_args})
+    qext_add_qt_qml_module(${target}
         ${add_qml_module_args}
         __QT_INTERNAL_INSTALL_METATYPES_JSON
         OUTPUT_DIRECTORY ${arg_OUTPUT_DIRECTORY}
@@ -427,7 +430,7 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 function(qt_add_qml_module)
     message(qt_add_qml_module-----------)
-    qt6_add_qml_module(${ARGV})
+    qext_add_qt_qml_module(${ARGV})
     cmake_parse_arguments(PARSE_ARGV 1 arg "" "OUTPUT_TARGETS" "")
     if(arg_OUTPUT_TARGETS)
         set(${arg_OUTPUT_TARGETS} ${${arg_OUTPUT_TARGETS}} PARENT_SCOPE)
@@ -436,7 +439,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-function(qt6_add_qml_module target)
+function(qext_add_qt_qml_module target)
     set(args_option
         STATIC
         SHARED
@@ -586,11 +589,11 @@ function(qt6_add_qml_module target)
         get_target_property(source_dir ${target} SOURCE_DIR)
         if(NOT source_dir STREQUAL CMAKE_CURRENT_SOURCE_DIR AND CMAKE_VERSION VERSION_LESS "3.18")
             message(WARNING
-                "qt6_add_qml_module() is being called in a different "
+                "qext_add_qt_qml_module() is being called in a different "
                 "directory scope to the one in which the target \"${target}\" "
                 "was created. CMake 3.18 or later is required to generate a "
                 "project robustly for this scenario, but you are using "
-                "CMake ${CMAKE_VERSION}. Ideally, qt6_add_qml_module() should "
+                "CMake ${CMAKE_VERSION}. Ideally, qext_add_qt_qml_module() should "
                 "only be called from the same scope as the one the target was "
                 "created in to avoid dependency and visibility problems.")
         endif()
@@ -1215,7 +1218,7 @@ function(qt6_add_qml_plugin target)
         list(LENGTH path path_count)
         string(REPEAT "../" ${path_count} rel_path)
         string(APPEND rel_path "${CMAKE_INSTALL_LIBDIR}")
-#        message(rel_path=${rel_path})
+        #        message(rel_path=${rel_path})
         if(APPLE)
             set(install_rpath
                 # If embedded in an app bundle, search in a bundle-local path
@@ -1356,7 +1359,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 # target: Expected to be the backing target for a qml module. Certain target
-#   properties normally set by qt6_add_qml_module() will be retrieved from this
+#   properties normally set by qext_add_qt_qml_module() will be retrieved from this
 #   target. (REQUIRED)
 #
 # MANUAL_MOC_JSON_FILES: Specifies a list of json files, generated by a manual
@@ -1437,18 +1440,35 @@ function(qext_internal_qml_type_registration target)
     set(generated_marker_file "${target_binary_dir}/.generated/${qmltypes_output_name}")
     get_filename_component(generated_marker_dir "${generated_marker_file}" DIRECTORY)
     set_target_properties(${target} PROPERTIES QEXT_QML_MODULE_PLUGIN_TYPES_FILE ${plugin_types_file})
-    # message(output_dir=${output_dir})
-    # message(plugin_types_file=${plugin_types_file})
-    # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
+    #     message(output_dir=${output_dir})
+    #     message(plugin_types_file=${plugin_types_file})
+    #     message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
     # message(QEXT_QML_OUTPUT_DIRECTORY=${QEXT_QML_OUTPUT_DIRECTORY})
-    if(TARGET ${arg_PLUGIN_TARGET})
+    # message(arg_LIBRARIES=${arg_LIBRARIES})
+    # message(arg_PUBLIC_LIBRARIES=${arg_PUBLIC_LIBRARIES})
+    if(TARGET ${arg_PLUGIN_TARGET} AND EXISTS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}")
+        if(WIN32)
+            foreach(library ${arg_PUBLIC_LIBRARIES})
+                if (TARGET ${library})
+                    string(FIND "${library}" "Qt" prefix_pos)
+                    if (NOT prefix_pos EQUAL 0)
+                        # message(library="${library}")
+                        add_custom_command(TARGET ${target} PRE_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${library}>"
+                            "${QEXT_QT_BIN_DIR}/")
+                    endif()
+                endif()
+            endforeach()
+            add_custom_command(
+                TARGET ${arg_PLUGIN_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${target}>" "${QEXT_QT_BIN_DIR}/"
+                COMMENT "Running qmlplugindump for ${import_name} qml module"
+                POST_BUILD)
+        endif()
         add_custom_command(
             TARGET ${arg_PLUGIN_TARGET}
-            COMMAND
-            ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version} ${QEXT_QML_OUTPUT_DIRECTORY}
-            -output ${plugin_types_file}
-            DEPENDS
-            "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}"
+            COMMAND ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version}
+            ${QEXT_QML_OUTPUT_DIRECTORY} -output ${plugin_types_file}
             COMMENT "Running qmlplugindump for ${import_name} qml module"
             POST_BUILD)
     endif()
@@ -2082,7 +2102,7 @@ function(qext_internal_target_generate_qmldir target)
     endif()
 
     # Record the contents but defer the actual write. We will write the file
-    # later, either at the end of qt6_add_qml_module() or the end of the
+    # later, either at the end of qext_add_qt_qml_module() or the end of the
     # directory scope (depending on the CMake version being used).
     set_property(TARGET ${target} PROPERTY _qext_internal_qmldir_content "${content}")
 endfunction()
@@ -2890,7 +2910,7 @@ function(qt6_target_qml_sources target)
         NO_LINT
         NO_CACHEGEN
         NO_QMLDIR_TYPES
-        __QT_INTERNAL_FORCE_DEFER_QMLDIR)  # Used only by qt6_add_qml_module())
+        __QT_INTERNAL_FORCE_DEFER_QMLDIR)  # Used only by qext_add_qt_qml_module())
 
     set(args_single
         PREFIX
@@ -2917,7 +2937,7 @@ function(qt6_target_qml_sources target)
         message(FATAL_ERROR
             "You are using CMake ${CMAKE_VERSION}, but CMake 3.19 or later "
             "is required to add qml files with this function. Either pass "
-            "the qml files to qt6_add_qml_module() instead or update to "
+            "the qml files to qext_add_qt_qml_module() instead or update to "
             "CMake 3.19 or later.")
     endif()
 
@@ -3269,7 +3289,7 @@ function(qt6_target_qml_sources target)
 
         if(copied_files OR generated_sources_other_scope)
             if(CMAKE_VERSION VERSION_LESS 3.19)
-                # Called from qt6_add_qml_module() and we know there can only be
+                # Called from qext_add_qt_qml_module() and we know there can only be
                 # this one call. With those constraints, we can use a custom target
                 # to implement the necessary dependencies to get files copied to the
                 # build directory when their source files change.

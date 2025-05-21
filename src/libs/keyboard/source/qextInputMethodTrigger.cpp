@@ -1,4 +1,4 @@
-#include <qextInputMethodTrigger.h>
+﻿#include <qextInputMethodTrigger.h>
 #include <qextKeyboardConstants.h>
 #include <qextSystemKeyboard.h>
 #include <qextDateTimeUtils.h>
@@ -193,29 +193,39 @@ QExtInputMethodTrigger::QExtInputMethodTrigger(QObject *parent)
 
 bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
 {
+    QEXT_WARNING_PUSH
+    QEXT_WARNING_DISABLE_MSVC(4061)
     Q_D(QExtInputMethodTrigger);
     switch (event->type())
     {
     case QEvent::TouchBegin:
+    {
         d->m_touched = true;
         d->m_touchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
         // qDebug() << "QExtInputMethodTrigger::eventFilter():TouchBegin:" << watched;
         break;
+    }
     case QEvent::TouchUpdate:
+    {
         d->m_touched = true;
         d->m_touchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
         // qDebug() << "QExtInputMethodTrigger::eventFilter():TouchUpdate:" << watched;
         break;
+    }
     case QEvent::TouchCancel:
+    {
         d->m_touched = false;
         d->m_touchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
         // qDebug() << "QExtInputMethodTrigger::eventFilter():TouchCancel:" << watched;
         break;
+    }
     case QEvent::TouchEnd:
+    {
         d->m_touched = false;
         d->m_touchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
         // qDebug() << "QExtInputMethodTrigger::eventFilter():TouchEnd:" << watched;
         break;
+    }
     default:
     {
         if (watched && watched->isWidgetType())
@@ -223,8 +233,6 @@ bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
             QWidget *widget = qobject_cast<QWidget *>(watched);
             if (widget)
             {
-                QEXT_WARNING_PUSH
-                QEXT_WARNING_DISABLE_MSVC(4061)
                 switch (event->type())
                 {
                 case QEvent::MouseButtonPress:
@@ -246,11 +254,11 @@ bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
                 default:
                     break;
                 }
-                QEXT_WARNING_POP
             }
         }
         break;
     }
     }
     return QObject::eventFilter(watched, event);
+    QEXT_WARNING_POP
 }

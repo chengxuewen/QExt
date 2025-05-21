@@ -1,1 +1,1 @@
-#include "../source/widgets/qextSemicircleGauge.h"
+#include "../source/controls/qextSemicircleGauge.h"

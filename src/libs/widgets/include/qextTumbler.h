@@ -1,1 +1,1 @@
-#include "../source/widgets/qextTumbler.h"
+#include "../source/controls/qextTumbler.h"

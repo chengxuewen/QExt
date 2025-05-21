@@ -68,12 +68,12 @@ void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 }
 
 #if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
-static QEXTPortInfo portInfoFromDevice(struct udev_device *dev)
+static QExtPortInfo portInfoFromDevice(struct udev_device *dev)
 {
     QString vendor = QString::fromLatin1(udev_device_get_property_value(dev, "ID_VENDOR_ID"));
     QString product = QString::fromLatin1(udev_device_get_property_value(dev, "ID_MODEL_ID"));
 
-    QEXTPortInfo pi;
+    QExtPortInfo pi;
     pi.vendorID = vendor.toInt(0, 16);
     pi.productID = product.toInt(0, 16);
     pi.portName = QString::fromLatin1(udev_device_get_devnode(dev));
@@ -83,9 +83,9 @@ static QEXTPortInfo portInfoFromDevice(struct udev_device *dev)
 }
 #endif
 
-QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
+QList<QExtPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
-    QList<QEXTPortInfo> infoList;
+    QList<QExtPortInfo> infoList;
 #if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     struct udev *ud = udev_new();
     if (!ud) {
@@ -141,7 +141,7 @@ QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
     portNameList += dir.entryList(portNamePrefixes, (QDir::System | QDir::Files), QDir::Name);
 
     foreach (QString str , portNameList) {
-        QEXTPortInfo inf;
+        QExtPortInfo inf;
         inf.physName = QLatin1String("/dev/")+str;
         inf.portName = str;
 
@@ -174,7 +174,7 @@ bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 
     // Emit signals immediately for devices already connected (Windows version seems to behave
     // this way)
-    foreach (QEXTPortInfo i, getPorts_sys())
+    foreach (QExtPortInfo i, getPorts_sys())
         Q_EMIT q->deviceDiscovered(i);
 
     // Look for tty devices from udev.
@@ -198,7 +198,7 @@ void QExtSerialEnumeratorPrivate::_q_deviceEvent()
     Q_Q(QExtSerialEnumerator);
     struct udev_device *dev = udev_monitor_receive_device(monitor);
     if (dev) {
-        QEXTPortInfo pi = portInfoFromDevice(dev);
+        QExtPortInfo pi = portInfoFromDevice(dev);
 
         QLatin1String action(udev_device_get_action(dev));
         udev_device_unref(dev);

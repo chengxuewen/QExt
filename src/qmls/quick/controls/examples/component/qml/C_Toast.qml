@@ -2,7 +2,7 @@ import QtQml 2.9
 import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 Column {
     id: root
@@ -34,10 +34,10 @@ Column {
                 anchors.verticalCenter: parent.verticalCenter
                 source:{
                     switch("const_info"){
-                    case "const_success": return "qrc:/QExtQuickControls/resource/image/success.svg"
-                    case "const_warning": return "qrc:/QExtQuickControls/resource/image/warning.svg"
-                    case "const_info":    return "qrc:/QExtQuickControls/resource/image/info.svg"
-                    case "const_error":   return "qrc:/QExtQuickControls/resource/image/error.svg"
+                    case "const_success": return "qrc:/QExtQuickControls/image/success.svg"
+                    case "const_warning": return "qrc:/QExtQuickControls/image/warning.svg"
+                    case "const_info":    return "qrc:/QExtQuickControls/image/info.svg"
+                    case "const_error":   return "qrc:/QExtQuickControls/image/error.svg"
                     }
                     return "#FFFFFF"
                 }
@@ -82,7 +82,7 @@ Column {
             x:parent.width - width
             width: 12
             height: width
-            source: "qrc:/QExtQuickControls/resource/image/close_px.svg"
+            source: "qrc:/QExtQuickControls/image/close_px.svg"
             color: "#ADADAD"
         }
     }

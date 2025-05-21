@@ -1,4 +1,4 @@
-﻿# #######################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -19,11 +19,11 @@
 # OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-# #######################################################################################################################
+########################################################################################################################
 
-# -----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
-# -----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_TEST_LINK_LIBRARIES QExt::Core)
 set(QEXT_TEST_INCLUDE_DIRECTORIES)
 
@@ -42,9 +42,9 @@ endif()
 find_package(Threads)
 list(APPEND QEXT_TEST_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 
-# -----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # add tests
-# -----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 qext_internal_add_test(QExtTstCoreTypeTrait
     SOURCES
     tools/tst_qextTypeTrait.cpp
@@ -55,6 +55,34 @@ qext_internal_add_test(QExtTstCoreTypeTrait
 qext_internal_add_test(QExtTstCoreTSValue
     SOURCES
     tools/tst_qextTSValue.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
+qext_internal_add_test(QExtTstCoreInvoke
+    SOURCES
+    tools/tst_qextInvoke.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
+qext_internal_add_test(QExtTstCoreMemory
+    SOURCES
+    tools/tst_qextMemory.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
+qext_internal_add_test(QExtTstCoreOptional
+    SOURCES
+    tools/tst_qextOptional.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
+qext_internal_add_test(QExtTstCoreVariant
+    SOURCES
+    tools/tst_qextVariant.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
@@ -73,126 +101,6 @@ qext_internal_add_test(QExtTstCoreNumeric
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCorePointerFunctor
-    SOURCES
-    invoke/tst_qextPointerFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreMemberFunctor
-    SOURCES
-    invoke/tst_qextMemberFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreFunction
-    SOURCES
-    invoke/tst_qextFunction.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreVisitor
-    SOURCES
-    invoke/tst_qextVisitor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreTrackable
-    SOURCES
-    invoke/tst_qextTrackable.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreBindFunctor
-    SOURCES
-    invoke/tst_qextBindFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreBindReturnFunctor
-    SOURCES
-    invoke/tst_qextBindReturnFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreConnection
-    SOURCES
-    invoke/tst_qextConnection.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreFunctorTrait
-    SOURCES
-    invoke/tst_qextFunctorTrait.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreHideFunctor
-    SOURCES
-    invoke/tst_qextHideFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreLimitReference
-    SOURCES
-    invoke/tst_qextLimitReference.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreReturnTypeDeduce
-    SOURCES
-    invoke/tst_qextReturnTypeDeduce.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreRetypeReturnFunctor
-    SOURCES
-    invoke/tst_qextRetypeReturnFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreTrackObjectFunctor
-    SOURCES
-    invoke/tst_qextTrackObjectFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreRetypeFunctor
-    SOURCES
-    invoke/tst_qextRetypeFunctor.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreSignal
-    SOURCES
-    invoke/tst_qextSignal.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreSlot
-    SOURCES
-    invoke/tst_qextSlot.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
-
 qext_internal_add_test(QExtTstCoreDatatime
     SOURCES
     utils/tst_qextDataTimeUtils.cpp

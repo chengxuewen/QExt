@@ -58,6 +58,10 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
+qext_find_package(WrapInvokeLite PROVIDED_TARGETS QExt3rdparty::WrapInvokeLite)
+qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
+qext_find_package(WrapOptionalLite PROVIDED_TARGETS QExt3rdparty::WrapOptionalLite)
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
@@ -70,64 +74,33 @@ qext_add_library(Core
     source/global/qextPreprocessor.h
     source/global/qextProcessor.h
     source/global/qextSystem.h
-    source/invoke/qextAdaptorTrait.h
-    source/invoke/qextBindFunctor.h
-    source/invoke/qextBindReturnFunctor.h
-    source/invoke/qextBoundArgument.h
-    source/invoke/qextComposeFunctor.h
-    source/invoke/qextConnection.h
-    source/invoke/qextConnection.cpp
-    source/invoke/qextEmitter.h
-    source/invoke/qextFunction.h
-    source/invoke/qextFunction.cpp
-    source/invoke/qextHideFunctor.h
-    source/invoke/qextInPlace.h
-    source/invoke/qextLimitReference.h
-    source/invoke/qextMemberFunctor.h
-    source/invoke/qextPointerFunctor.h
-    source/invoke/qextReferenceWrapper.h
-    source/invoke/qextReturnTypeDeduce.h
-    source/invoke/qextRetypeFunctor.h
-    source/invoke/qextRetypeReturnFunctor.h
-    source/invoke/qextSignal.h
-    source/invoke/qextSignal.cpp
-    source/invoke/qextTrackObjectFunctor.h
-    source/invoke/qextVisitor.h
-    source/model/qextModelConstants.h
-    source/model/qextModelItem.cpp
-    source/model/qextModelItem.h
-    source/model/qextModelItemContainer.cpp
-    source/model/qextModelItemContainer.h
-    source/model/qextModelItemData.cpp
-    source/model/qextModelItemData.h
-    source/model/qextModelItemTags.cpp
-    source/model/qextModelItemTags.h
-    source/model/qextModelTagInfo.cpp
-    source/model/qextModelTagInfo.h
-    source/model/qextModelTagRow.cpp
-    source/model/qextModelTagRow.h
-    source/tools/qextBackTrace.cpp
-    source/tools/qextBackTrace.h
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
-    source/tools/qextException.cpp
-    source/tools/qextException.h
+    source/tools/qextEndian.h
+    source/tools/qextIdRegistry.cpp
+    source/tools/qextIdRegistry.h
+    source/tools/qextInvoke.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h
+    source/tools/qextMath.h
     source/tools/qextMemory.h
     source/tools/qextNumeric.cpp
     source/tools/qextNumeric.h
-    source/tools/qextTag.cpp
-    source/tools/qextTag.h
+    source/tools/qextTagId.cpp
+    source/tools/qextTagId.h
     source/tools/qextSpinlock.h
     source/tools/qextTSValue.h
     source/tools/qextOnceFlag.h
+    source/tools/qextOptional.h
     source/tools/qextTypeInfo.h
     source/tools/qextTypeTrait.h
     source/tools/qextUniquePointer.h
     source/tools/qextObject.h
     source/tools/qextObject.cpp
+    source/tools/qextVariant.h
+    source/utils/qextCRCUtils.cpp
+    source/utils/qextCRCUtils.h
     source/utils/qextCodecUtils.cpp
     source/utils/qextCodecUtils.h
     source/utils/qextCommonUtils.cpp
@@ -145,7 +118,14 @@ qext_add_library(Core
     source/utils/qextVariantUtils.h
     PRECOMPILED_HEADER
     source/qextPch.h
+    EXTERNAL_HEADERS_DIRS
+    ${QExtWrapInvokeLite_INSTALL_DIR}/include
+    ${QExtWrapVariantLite_INSTALL_DIR}/include
+    ${QExtWrapOptionalLite_INSTALL_DIR}/include
     PUBLIC_LIBRARIES
+    QExt3rdparty::WrapInvokeLite
+    QExt3rdparty::WrapVariantLite
+    QExt3rdparty::WrapOptionalLite
     ${QEXT_LIB_LINK_LIBRARIES})
 
 if(QEXT_FEATURE_USE_CJSON_BACKEND)

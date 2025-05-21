@@ -89,7 +89,7 @@ qext_add_library(Keyboard
     source/qextPinyin.h
     source/qextPinyin_p.h
     source/qextPinyin.cpp
-    resource/qextKeyboard.qrc
+    resources/qextKeyboard.qrc
     PRECOMPILED_HEADER
     source/qextKeyboardPch.h
     LIBRARIES

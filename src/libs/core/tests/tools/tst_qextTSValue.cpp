@@ -16,7 +16,7 @@ private Q_SLOTS:
 void QExtTSValueTest::constructor()
 {
     QExtTSValue<QAtomicInt> tsValue(0);
-    QCOMPARE(tsValue->load(), 0);
+    QCOMPARE(tsValue->loadAcquire(), 0);
     QCOMPARE(tsValue.get(), 0);
 }
 

@@ -1,4 +1,5 @@
-﻿#include "frmnavigationlistview.h"
+﻿#pragma execution_character_set("utf-8")
+#include "frmnavigationlistview.h"
 #include "ui_frmnavigationlistview.h"
 
 #include <QDebug>
@@ -21,22 +22,22 @@ void FrmNavigationListView::initForm()
     ui->navListWidget->setItemSeparateHeight(1);
     ui->navListWidget->setItemSeparateColor(QColor(40, 43, 51));
 
-    ui->navListWidget->setChildItemNormalBackgroundColor(QColor(40, 43, 51));
-    ui->navListWidget->setChildItemBackgroundCheckedColor(QColor(20, 20, 20));
-    ui->navListWidget->setChildItemHoverBackgroundColor(QColor(20, 20, 20));
-    ui->navListWidget->setChildItemNormalTextColor(QColor(180, 180, 180));
-    ui->navListWidget->setChildItemCheckedTextColor(QColor(250, 250, 250));
-    ui->navListWidget->setChildItemHoverTextColor(QColor(255, 255, 255));
+    // ui->navListWidget->setChildItemNormalBackgroundColor(QColor(40, 43, 51));
+    // ui->navListWidget->setChildItemBackgroundCheckedColor(QColor(20, 20, 20));
+    // ui->navListWidget->setChildItemHoverBackgroundColor(QColor(20, 20, 20));
+    // ui->navListWidget->setChildItemNormalTextColor(QColor(180, 180, 180));
+    // ui->navListWidget->setChildItemCheckedTextColor(QColor(250, 250, 250));
+    // ui->navListWidget->setChildItemHoverTextColor(QColor(255, 255, 255));
 
-    ui->navListWidget->setParentItemNormalBackgroundColor(QColor(57, 61, 73));
-    ui->navListWidget->setParentItemCheckedBackgroundColor(QColor(78, 83, 102));
-    ui->navListWidget->setParentItemHoverBackgroundColor(QColor(78, 83, 102));
-    ui->navListWidget->setParentItemNormalTextColor(QColor(250, 250, 250));
-    ui->navListWidget->setParentItemCheckedTextColor(QColor(250, 250, 250));
-    ui->navListWidget->setParentItemHoverTextColor(QColor(250, 250, 250));
-    ui->navListWidget->setBackgroundColor(QColor(57, 61, 73));
+    // ui->navListWidget->setParentItemNormalBackgroundColor(QColor(57, 61, 73));
+    // ui->navListWidget->setParentItemCheckedBackgroundColor(QColor(78, 83, 102));
+    // ui->navListWidget->setParentItemHoverBackgroundColor(QColor(78, 83, 102));
+    // ui->navListWidget->setParentItemNormalTextColor(QColor(250, 250, 250));
+    // ui->navListWidget->setParentItemCheckedTextColor(QColor(250, 250, 250));
+    // ui->navListWidget->setParentItemHoverTextColor(QColor(250, 250, 250));
+    // ui->navListWidget->setBackgroundColor(QColor(57, 61, 73));
 
-    ui->navListWidget->setExpendMode(QEXTNavigationListView::ExpendMode_SingleClick);
+    ui->navListWidget->setExpendMode(QExtNavigationListView::ExpendMode_SingleClick);
 
     //设置节点数据,格式 标题|父节点标题(父节点为空)|是否展开|提示信息|左侧图标
     QStringList items;
@@ -91,9 +92,9 @@ void FrmNavigationListView::onItemPressed(QExtNavigationListItem *item)
         //        optionMap.insert(QExtFontAwesome::Option_Color, ui->navListWidget->childItemTextNormalColor());
         //        optionMap.insert(QExtFontAwesome::Option_ColorActive, ui->navListWidget->childItemTextHoverColor());
         //        optionMap.insert(QExtFontAwesome::Option_ColorSelected, ui->navListWidget->childItemTextCheckedColor());
-        //        optionMap.insert(QExtFontAwesome::Option_TextActive, qextIconFontAwesome->fontChar(QExtFontAwesome::FA_address_book_o));
-        //        item->setIcon(qextIconFontAwesome->icon(QExtFontAwesome::FA_address_book, optionMap));
-        //        item->setFontIcon(qextIconFontAwesome->fontChar(QExtFontAwesome::FA_address_book));
+        //        optionMap.insert(QExtFontAwesome::Option_TextActive, qextFontAwesome->fontChar(QExtFontAwesome::FA_address_book_o));
+        //        item->setIcon(qextFontAwesome->icon(QExtFontAwesome::FA_address_book, optionMap));
+        //        item->setFontIcon(qextFontAwesome->fontChar(QExtFontAwesome::FA_address_book));
 
 //        item->setEnable(false);
 //        item->parentItem()->setEnable(false);

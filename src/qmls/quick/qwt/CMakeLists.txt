@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -31,23 +31,18 @@ if (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_QML_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
+        Qt${QEXT_QT_VERSION_MAJOR}::Svg
+        Qt${QEXT_QT_VERSION_MAJOR}::OpenGL
         Qt${QEXT_QT_VERSION_MAJOR}::Quick)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
 qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 
-qext_find_qt_tool(moc)
-set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-qext_find_qt_tool(rcc)
-set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
-qext_find_qt_tool(qmlplugindump)
-set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
+
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
@@ -55,7 +50,7 @@ qt_internal_add_qml_module(QuickQwt
     URI "QExtQuick.Qwt"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickQwtPlugin
-    PLUGIN_TARGET QuickQwtPlugin
+    PLUGIN_TARGET QExtQuickQwtPlugin
     PLUGIN_SOURCES source/qextQuickQwtPlugin.cpp
     DEPENDENCIES
     QExt::Core
@@ -73,6 +68,9 @@ qt_internal_add_qml_module(QuickQwt
     source/qextQuickQwtPch.h
     PUBLIC_LIBRARIES
     ${QEXT_QML_LINK_LIBRARIES})
+set_target_properties(QExtQuickQwtPlugin PROPERTIES
+    INSTALL_RPATH "\$ORIGIN/../../../lib"
+    BUILD_WITH_INSTALL_RPATH TRUE)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

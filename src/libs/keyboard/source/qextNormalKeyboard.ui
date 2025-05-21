@@ -219,7 +219,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/images/backspace.png</normaloff>:/images/backspace.png</iconset>
+         <normaloff>:/QExtKeyboard/images/backspace.png</normaloff>:/QExtKeyboard/images/backspace.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -415,7 +415,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/images/enter.png</normaloff>:/images/enter.png</iconset>
+         <normaloff>:/QExtKeyboard/images/enter.png</normaloff>:/QExtKeyboard/images/enter.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -442,7 +442,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/images/shift.png</normaloff>:/images/shift.png</iconset>
+         <normaloff>:/QExtKeyboard/images/shift.png</normaloff>:/QExtKeyboard/images/shift.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -603,7 +603,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/images/shift.png</normaloff>:/images/shift.png</iconset>
+         <normaloff>:/QExtKeyboard/images/shift.png</normaloff>:/QExtKeyboard/images/shift.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -649,7 +649,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/images/globe.png</normaloff>:/images/globe.png</iconset>
+         <normaloff>:/QExtKeyboard/images/globe.png</normaloff>:/QExtKeyboard/images/globe.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -711,7 +711,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/images/hidekeyboard.png</normaloff>:/images/hidekeyboard.png</iconset>
+         <normaloff>:/QExtKeyboard/images/hidekeyboard.png</normaloff>:/QExtKeyboard/images/hidekeyboard.png</iconset>
        </property>
        <property name="iconSize">
         <size>

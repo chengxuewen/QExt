@@ -1,5 +1,6 @@
 #include <private/qextBPAbstractGraphModel_p.h>
 #include <qextBPUtils.h>
+#include <qextMemory.h>
 
 QExtBPAbstractGraphModelPrivate::QExtBPAbstractGraphModelPrivate(QExtBPAbstractGraphModel *q)
     : q_ptr(q)
@@ -78,7 +79,7 @@ void QExtBPAbstractGraphModel::portsAboutToBeDeleted(const QExtBPTypes::NodeId n
 void QExtBPAbstractGraphModel::portsDeleted()
 {
     Q_D(QExtBPAbstractGraphModel);
-    for (const auto &connectionId : d->m_shiftedByDynamicPortsConnections)
+    Q_FOREACH (const auto &connectionId, d->m_shiftedByDynamicPortsConnections)
     {
         this->addConnection(connectionId);
     }
@@ -127,7 +128,7 @@ void QExtBPAbstractGraphModel::portsAboutToBeInserted(const QExtBPTypes::NodeId 
 void QExtBPAbstractGraphModel::portsInserted()
 {
     Q_D(QExtBPAbstractGraphModel);
-    for (const auto &connectionId : d->m_shiftedByDynamicPortsConnections)
+    Q_FOREACH (const auto &connectionId, d->m_shiftedByDynamicPortsConnections)
     {
         this->addConnection(connectionId);
     }

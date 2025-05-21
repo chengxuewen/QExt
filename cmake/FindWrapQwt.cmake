@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -86,16 +86,22 @@ if(NOT EXISTS ${QExtWrapQwt_STAMP_FILE_PATH})
     endif()
 endif()
 # wrap lib
-find_package(Qwt PATHS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
-add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
-target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
+find_package(Qwt ${QWT_VERSION} EXACT PATHS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
+add_library(QExt3rdparty::WrapQwt ALIAS Qwt::Qwt)
+# add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
+# target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
 # copy lib to build dir
 set(QExtWrapQwt_INSTALL_DLLDIR "${QExtWrapQwt_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
 qext_get_files("${QExtWrapQwt_INSTALL_DLLDIR}" QExtWrapQwt_LIBRARIES)
 execute_process(
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QExtWrapQwt_LIBRARIES}"
-    "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
     WORKING_DIRECTORY "${QExtWrapQwt_ROOT_DIR}"
     ERROR_QUIET)
+foreach(library ${QExtWrapQwt_LIBRARIES})
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${library}" "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
+        WORKING_DIRECTORY "${QExtWrapQwt_ROOT_DIR}"
+        ERROR_QUIET)
+endforeach()
 qext_install(FILES "${QExtWrapQwt_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
 set(WrapQwt_FOUND ON)

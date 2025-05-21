@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 ** Copyright (c) 2000-2003 Wayne Roth
 ** Copyright (c) 2004-2007 Stefan Sander
 ** Copyright (c) 2007 Michal Policht
@@ -30,9 +30,9 @@
 ****************************************************************************/
 
 #include <qextSerialPort.h>
-#include <qextSerialPort_p.h>
 #include <qextSerialEnumerator.h>
-#include <qextSerialEnumerator_p.h>
+#include <private/qextSerialPort_p.h>
+#include <private/qextSerialEnumerator_p.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMetaType>
@@ -44,29 +44,33 @@
 
 
 #ifdef QT_GUI_LIB
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-#include <QtGui/QWidget>
+#   if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+#       include <QtGui/QWidget>
 class QExtSerialRegistrationWidget : public QWidget
-#else
-#include <QtGui/QWindow>
+#   else
+#       include <QtGui/QWindow>
 class QExtSerialRegistrationWidget : public QWindow
-#endif
+#   endif
 {
 public:
-    QExtSerialRegistrationWidget(QExtSerialEnumeratorPrivate *qese) {
+    QExtSerialRegistrationWidget(QExtSerialEnumeratorPrivate *qese)
+    {
         this->qese = qese;
     }
     ~QExtSerialRegistrationWidget() {}
 
 protected:
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-    bool winEvent(MSG *message, long *result) {
-#else
-    bool nativeEvent(const QByteArray & /*eventType*/, void *msg, long *result) {
+#   if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+    bool winEvent(MSG *message, long *result)
+    {
+#   else
+    bool nativeEvent(const QByteArray & /*eventType*/, void *msg, long *result)
+    {
         MSG *message = static_cast<MSG *>(msg);
-#endif
-        if (message->message == WM_DEVICECHANGE) {
+#   endif
+        if (message->message == WM_DEVICECHANGE)
+        {
             qese->onDeviceChanged(message->wParam, message->lParam);
             *result = 1;
             return true;
@@ -93,35 +97,37 @@ void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 {
 #ifdef QT_GUI_LIB
     if (notificationWidget)
+    {
         delete notificationWidget;
+    }
 #endif
 }
 
 // see http://msdn.microsoft.com/en-us/library/windows/hardware/ff553426(v=vs.85).aspx
 // for list of GUID classes
 const GUID deviceClassGuids[] =
-{
-    // Ports (COM & LPT ports), Class = Ports
-    {0x4D36E978, 0xE325, 0x11CE, {0xBF, 0xC1, 0x08, 0x00, 0x2B, 0xE1, 0x03, 0x18}},
-    // Modem, Class = Modem
-    {0x4D36E96D, 0xE325, 0x11CE, {0xBF, 0xC1, 0x08, 0x00, 0x2B, 0xE1, 0x03, 0x18}},
-    // Bluetooth Devices, Class = Bluetooth
-    {0xE0CBF06C, 0xCD8B, 0x4647, {0xBB, 0x8A, 0x26, 0x3B, 0x43, 0xF0, 0xF9, 0x74}},
-    // Added by Arne Kristian Jansen, for use with com0com virtual ports (See Issue 54)
-    {0xDF799E12, 0x3C56, 0x421B, {0xB2, 0x98, 0xB6, 0xD3, 0x64, 0x2B, 0xC8, 0x78}}
-};
+    {
+        // Ports (COM & LPT ports), Class = Ports
+        {0x4D36E978, 0xE325, 0x11CE, {0xBF, 0xC1, 0x08, 0x00, 0x2B, 0xE1, 0x03, 0x18}},
+        // Modem, Class = Modem
+        {0x4D36E96D, 0xE325, 0x11CE, {0xBF, 0xC1, 0x08, 0x00, 0x2B, 0xE1, 0x03, 0x18}},
+        // Bluetooth Devices, Class = Bluetooth
+        {0xE0CBF06C, 0xCD8B, 0x4647, {0xBB, 0x8A, 0x26, 0x3B, 0x43, 0xF0, 0xF9, 0x74}},
+        // Added by Arne Kristian Jansen, for use with com0com virtual ports (See Issue 54)
+        {0xDF799E12, 0x3C56, 0x421B, {0xB2, 0x98, 0xB6, 0xD3, 0x64, 0x2B, 0xC8, 0x78}}
+    };
 
 /* Gordon Schumacher's macros for TCHAR -> QString conversions and vice versa */
 #ifdef UNICODE
-    #define QStringToTCHAR(x)     (wchar_t *) x.utf16()
-    #define PQStringToTCHAR(x)    (wchar_t *) x->utf16()
-    #define TCHARToQString(x)     QString::fromUtf16((ushort *)(x))
-    #define TCHARToQStringN(x,y)  QString::fromUtf16((ushort *)(x),(y))
+#   define QStringToTCHAR(x)     (wchar_t *) x.utf16()
+#   define PQStringToTCHAR(x)    (wchar_t *) x->utf16()
+#   define TCHARToQString(x)     QString::fromUtf16((ushort *)(x))
+#   define TCHARToQStringN(x,y)  QString::fromUtf16((ushort *)(x),(y))
 #else
-    #define QStringToTCHAR(x)     x.local8Bit().constData()
-    #define PQStringToTCHAR(x)    x->local8Bit().constData()
-    #define TCHARToQString(x)     QString::fromLocal8Bit((char *)(x))
-    #define TCHARToQStringN(x,y)  QString::fromLocal8Bit((char *)(x),(y))
+#   define QStringToTCHAR(x)     x.local8Bit().constData()
+#   define PQStringToTCHAR(x)    x->local8Bit().constData()
+#   define TCHARToQString(x)     QString::fromLocal8Bit((char *)(x))
+#   define TCHARToQStringN(x,y)  QString::fromLocal8Bit((char *)(x),(y))
 #endif /*UNICODE*/
 
 /*!
@@ -140,7 +146,9 @@ static QString getRegKeyValue(HKEY key, LPCTSTR property)
     BYTE *buff = new BYTE[size];
     QString result;
     if (::RegQueryValueEx(key, property, NULL, &type, buff, &size) == ERROR_SUCCESS)
+    {
         result = TCHARToQString(buff);
+    }
     ::RegCloseKey(key);
     delete [] buff;
     return result;
@@ -171,18 +179,21 @@ static QString getDeviceProperty(HDEVINFO devInfo, PSP_DEVINFO_DATA devData, DWO
 /*!
      \internal
 */
-static bool getDeviceDetailsWin(QEXTPortInfo *portInfo, HDEVINFO devInfo, PSP_DEVINFO_DATA devData
-                                 , WPARAM wParam = DBT_DEVICEARRIVAL)
+static bool getDeviceDetailsWin(QExtPortInfo *portInfo, HDEVINFO devInfo, PSP_DEVINFO_DATA devData,
+                                WPARAM wParam = DBT_DEVICEARRIVAL)
 {
     portInfo->friendName = getDeviceProperty(devInfo, devData, SPDRP_FRIENDLYNAME);
     if (wParam == DBT_DEVICEARRIVAL)
+    {
         portInfo->physName = getDeviceProperty(devInfo, devData, SPDRP_PHYSICAL_DEVICE_OBJECT_NAME);
+    }
     portInfo->enumName = getDeviceProperty(devInfo, devData, SPDRP_ENUMERATOR_NAME);
     QString hardwareIDs = getDeviceProperty(devInfo, devData, SPDRP_HARDWAREID);
     HKEY devKey = ::SetupDiOpenDevRegKey(devInfo, devData, DICS_FLAG_GLOBAL, 0, DIREG_DEV, KEY_QUERY_VALUE);
     portInfo->portName = getRegKeyValue(devKey, TEXT("PortName"));
     QRegExp idRx(QLatin1String("VID_(\\w+)&PID_(\\w+)"));
-    if (hardwareIDs.toUpper().contains(idRx)) {
+    if (hardwareIDs.toUpper().contains(idRx))
+    {
         bool dummy;
         portInfo->vendorID = idRx.cap(1).toInt(&dummy, 16);
         portInfo->productID = idRx.cap(2).toInt(&dummy, 16);
@@ -194,28 +205,33 @@ static bool getDeviceDetailsWin(QEXTPortInfo *portInfo, HDEVINFO devInfo, PSP_DE
 /*!
      \internal
 */
-static void enumerateDevicesWin(const GUID &guid, QList<QEXTPortInfo> *infoList)
+static void enumerateDevicesWin(const GUID &guid, QList<QExtPortInfo> *infoList)
 {
     HDEVINFO devInfo;
-    if ((devInfo = ::SetupDiGetClassDevs(&guid, NULL, NULL, DIGCF_PRESENT)) != INVALID_HANDLE_VALUE) {
+    if ((devInfo = ::SetupDiGetClassDevs(&guid, NULL, NULL, DIGCF_PRESENT)) != INVALID_HANDLE_VALUE)
+    {
         SP_DEVINFO_DATA devInfoData;
         devInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
-        for(int i = 0; ::SetupDiEnumDeviceInfo(devInfo, i, &devInfoData); i++) {
-            QEXTPortInfo info;
+        for(int i = 0; ::SetupDiEnumDeviceInfo(devInfo, i, &devInfoData); i++)
+        {
+            QExtPortInfo info;
             info.productID = info.vendorID = 0;
             getDeviceDetailsWin(&info, devInfo, &devInfoData);
             if (!info.portName.startsWith(QLatin1String("LPT"), Qt::CaseInsensitive))
+            {
                 infoList->append(info);
+            }
         }
         ::SetupDiDestroyDeviceInfoList(devInfo);
     }
 }
 
 
-static bool lessThan(const QEXTPortInfo &s1, const QEXTPortInfo &s2)
+static bool lessThan(const QExtPortInfo &s1, const QExtPortInfo &s2)
 {
     if (s1.portName.startsWith(QLatin1String("COM"))
-            && s2.portName.startsWith(QLatin1String("COM"))) {
+        && s2.portName.startsWith(QLatin1String("COM")))
+    {
         return s1.portName.mid(3).toInt()<s2.portName.mid(3).toInt();
     }
     return s1.portName < s2.portName;
@@ -227,12 +243,14 @@ static bool lessThan(const QEXTPortInfo &s1, const QEXTPortInfo &s2)
 
     return list of ports currently available in the system.
 */
-QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
+QList<QExtPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
-    QList<QEXTPortInfo> ports;
+    QList<QExtPortInfo> ports;
     const int count = sizeof(deviceClassGuids)/sizeof(deviceClassGuids[0]);
     for (int i=0; i<count; ++i)
+    {
         enumerateDevicesWin(deviceClassGuids[i], &ports);
+    }
     qSort(ports.begin(), ports.end(), lessThan);
     return ports;
 }
@@ -250,7 +268,9 @@ bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 #else
     Q_Q(QExtSerialEnumerator);
     if (setup && notificationWidget) //already setup
+    {
         return true;
+    }
     notificationWidget = new QExtSerialRegistrationWidget(this);
 
     DEV_BROADCAST_DEVICEINTERFACE dbh;
@@ -259,31 +279,40 @@ bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
     dbh.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
     // dbh.dbcc_classguid = GUID_DEVCLASS_PORTS; //Ignored in such case
     DWORD flags = DEVICE_NOTIFY_WINDOW_HANDLE|DEVICE_NOTIFY_ALL_INTERFACE_CLASSES;
-    if (::RegisterDeviceNotification((HWND)notificationWidget->winId(), &dbh, flags) == NULL) {
+    if (::RegisterDeviceNotification((HWND)notificationWidget->winId(), &dbh, flags) == NULL)
+    {
         qWarning() << "RegisterDeviceNotification failed:" << GetLastError();
         return false;
     }
     // setting up notifications doesn't tell us about devices already connected
     // so get those manually
-    foreach (QEXTPortInfo port, getPorts_sys())
-      Q_EMIT q->deviceDiscovered(port);
+    foreach (QExtPortInfo port, getPorts_sys())
+    {
+        Q_EMIT q->deviceDiscovered(port);
+    }
     return true;
 #endif // QT_GUI_LIB
 }
 
 LRESULT QExtSerialEnumeratorPrivate::onDeviceChanged(WPARAM wParam, LPARAM lParam)
 {
-    if (DBT_DEVICEARRIVAL == wParam || DBT_DEVICEREMOVECOMPLETE == wParam) {
+    if (DBT_DEVICEARRIVAL == wParam || DBT_DEVICEREMOVECOMPLETE == wParam)
+    {
         PDEV_BROADCAST_HDR pHdr = (PDEV_BROADCAST_HDR)lParam;
-        if (pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) {
+        if (pHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE)
+        {
             PDEV_BROADCAST_DEVICEINTERFACE pDevInf = (PDEV_BROADCAST_DEVICEINTERFACE)pHdr;
-             // delimiters are different across APIs...change to backslash.  ugh.
-            QString deviceID = TCHARToQString(pDevInf->dbcc_name).toUpper().replace(QLatin1String("#"), QLatin1String("\\"));
+                // delimiters are different across APIs...change to backslash.  ugh.
+            QString deviceID = TCHARToQString(pDevInf->dbcc_name).toUpper().replace(QLatin1String("#"),
+                                                                                    QLatin1String("\\"));
 
             const int count = sizeof(deviceClassGuids)/sizeof(deviceClassGuids[0]);
-            for (int i=0; i<count; ++i) {
+            for (int i=0; i<count; ++i)
+            {
                 if (matchAndDispatchChangedDevice(deviceID, deviceClassGuids[i], wParam))
+                {
                     break;
+                }
             }
         }
     }
@@ -296,22 +325,29 @@ bool QExtSerialEnumeratorPrivate::matchAndDispatchChangedDevice(const QString &d
     bool rv = false;
     DWORD dwFlag = (DBT_DEVICEARRIVAL == wParam) ? DIGCF_PRESENT : DIGCF_ALLCLASSES;
     HDEVINFO devInfo;
-    if ((devInfo = SetupDiGetClassDevs(&guid,NULL,NULL,dwFlag)) != INVALID_HANDLE_VALUE) {
+    if ((devInfo = SetupDiGetClassDevs(&guid,NULL,NULL,dwFlag)) != INVALID_HANDLE_VALUE)
+    {
         SP_DEVINFO_DATA spDevInfoData;
         spDevInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
-        for(int i=0; SetupDiEnumDeviceInfo(devInfo, i, &spDevInfoData); i++) {
+        for(int i=0; SetupDiEnumDeviceInfo(devInfo, i, &spDevInfoData); i++)
+        {
             DWORD nSize = 0;
             TCHAR buf[MAX_PATH];
             if (SetupDiGetDeviceInstanceId(devInfo, &spDevInfoData, buf, MAX_PATH, &nSize) &&
-                    deviceID.contains(TCHARToQString(buf))) { // we found a match
+                deviceID.contains(TCHARToQString(buf)))
+            { // we found a match
                 rv = true;
-                QEXTPortInfo info;
+                QExtPortInfo info;
                 info.productID = info.vendorID = 0;
                 getDeviceDetailsWin(&info, devInfo, &spDevInfoData, wParam);
                 if (wParam == DBT_DEVICEARRIVAL)
+                {
                     Q_EMIT q->deviceDiscovered(info);
+                }
                 else if (wParam == DBT_DEVICEREMOVECOMPLETE)
+                {
                     Q_EMIT q->deviceRemoved(info);
+                }
                 break;
             }
         }

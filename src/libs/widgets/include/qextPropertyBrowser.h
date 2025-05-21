@@ -1,1 +1,1 @@
-#include "../source/widgets/browser/qextPropertyBrowser.h"
+#include "../source/controls/browser/qextPropertyBrowser.h"

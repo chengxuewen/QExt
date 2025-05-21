@@ -39,14 +39,6 @@ endif()
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core QExt::Keyboard)
 
 
-qext_find_qt_tool(moc)
-set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-qext_find_qt_tool(rcc)
-set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
-qext_find_qt_tool(qmlplugindump)
-set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
@@ -54,7 +46,7 @@ qt_internal_add_qml_module(QuickKeyboard
     URI "QExtQuick.Keyboard"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickKeyboardPlugin
-    PLUGIN_TARGET QuickKeyboardPlugin
+    PLUGIN_TARGET QExtQuickKeyboardPlugin
     PLUGIN_SOURCES source/qextQuickKeyboardPlugin.cpp
     DEPENDENCIES
     QExt::Core

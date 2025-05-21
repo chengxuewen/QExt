@@ -546,6 +546,10 @@ qext_add_executable(QExtExpWidgetsStyleThemes
     navigationbutton/frmnavigationbutton.cpp
     navigationbutton/frmnavigationbutton.h
     navigationbutton/frmnavigationbutton.ui
+    navigationlistview/frmnavigationlistview.h
+    navigationlistview/frmnavigationlistview.cpp
+    navigationlistview/navigationlistview.h
+    navigationlistview/navigationlistview.cpp
     stylethemes/main.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}

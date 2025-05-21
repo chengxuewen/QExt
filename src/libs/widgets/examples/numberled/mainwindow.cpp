@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //初始化随机数种子
     QTime t = QTime::currentTime();
-    qsrand(t.msec() + t.second() * 1000);
+    QEXT_RANDOM_INT_SEED(t.msec() + t.second() * 1000);
 
     QTimer *timer = new QTimer(this);
     timer->setInterval(1000);
@@ -29,8 +29,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateValue()
 {
-    ui->lcdNumber1->setNumber(qrand() % 10);
-    ui->lcdNumber2->setNumber(qrand() % 10);
+    ui->lcdNumber1->setNumber(QEXT_RANDOM_INT() % 10);
+    ui->lcdNumber2->setNumber(QEXT_RANDOM_INT() % 10);
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)

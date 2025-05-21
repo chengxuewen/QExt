@@ -28,54 +28,54 @@ QIcon createGradientIcon( int type , const QColor & c )
 
     QBrush brush;
     if ( type == 0 ){
-        brush = c.dark(150);
+        brush = c.darker(150);
     }else if ( type == 1){
         QLinearGradient result(0,0,40,0);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.light(200));
-        result.setColorAt(1, c.dark(150));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.lighter(200));
+        result.setColorAt(1, c.darker(150));
         brush = result;
     }else if ( type == 2){
         QLinearGradient result(0,0,0,20);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.light(200));
-        result.setColorAt(1, c.dark(150));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.lighter(200));
+        result.setColorAt(1, c.darker(150));
         brush = result;
     }else if ( type == 3 ){
         QLinearGradient result(0,0,40,20);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.dark(200));
-        result.setColorAt(1, c.dark(250));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.darker(200));
+        result.setColorAt(1, c.darker(250));
         brush = result;
     }else if ( type == 4 ){
         QLinearGradient result(40,20,20,0);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.dark(200));
-        result.setColorAt(1, c.dark(250));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.darker(200));
+        result.setColorAt(1, c.darker(250));
         brush = result;
     }else if ( type == 5 ){
         QLinearGradient result(40,20,20,0);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.dark(200));
-        result.setColorAt(1, c.dark(250));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.darker(200));
+        result.setColorAt(1, c.darker(250));
         brush = result;
     }else if ( type == 6 ){
         QLinearGradient result(40,20,20,0);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.dark(200));
-        result.setColorAt(1, c.dark(250));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.darker(200));
+        result.setColorAt(1, c.darker(250));
         brush = result;
     }else if ( type == 7 ){
         QRadialGradient result(20,10,20);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.light(200));
-        result.setColorAt(1, c.dark(150));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.lighter(200));
+        result.setColorAt(1, c.darker(150));
         brush = result;
     } else {
         QConicalGradient result(20,10,45);
-        result.setColorAt(0, c.dark(150));
-        result.setColorAt(0.5, c.light(200));
-        result.setColorAt(1, c.dark(150));
+        result.setColorAt(0, c.darker(150));
+        result.setColorAt(0.5, c.lighter(200));
+        result.setColorAt(1, c.darker(150));
         brush = result;
 
     }
@@ -155,7 +155,7 @@ void ShadeWidget::paintEvent(QPaintEvent *event)
     p.drawRect(rect().adjusted(1,1,-1,-1));
     QBrush brush;
     if ( m_type == 0 ){
-        brush = m_colorBegin.dark(150);
+        brush = m_colorBegin.darker(150);
     }else if ( m_type == 1){
         QLinearGradient result(r.topLeft(),r.topRight());
         result.setColorAt(0, m_colorBegin);

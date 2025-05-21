@@ -543,8 +543,9 @@ void QExtGraphicsRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, QExt
         m_item = new QExtGraphicsEllipseItem(QRect(1, 1, 1, 1));
         break;
     }
+    default: break;
     }
-    if (m_item == QEXT_NULLPTR)
+    if (QEXT_NULLPTR == m_item)
     {
         return;
     }

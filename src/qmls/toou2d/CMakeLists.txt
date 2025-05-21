@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -21,7 +21,6 @@
 #
 ########################################################################################################################
 
-
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
 #-----------------------------------------------------------------------------------------------------------------------
@@ -37,22 +36,14 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
+# list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
 
-qext_find_qt_tool(moc)
-set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-qext_find_qt_tool(rcc)
-set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
-qext_find_qt_tool(qmlplugindump)
-set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
-# set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${QEXT_BUILD_DIR}/${QEXT_INSTALL_BINDIR}/qmlplugindump/qmlplugindump.exe" CACHE INTERNAL "" FORCE)
-# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
+
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qt_internal_add_qml_module(Toou2D
-    NO_GENERATE_QMLTYPES
+    # NO_GENERATE_QMLTYPES
     URI "Toou2D"
     VERSION "1.0"
     CLASS_NAME Toou2DQmlPlugin

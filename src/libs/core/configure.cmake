@@ -34,6 +34,10 @@ qext_configure_feature("ENABLE_DEBUG" PUBLIC
     LABEL "Enable this to build enable debug"
     CONDITION ON)
 
+qext_configure_feature("ENABLE_VARIADIC_TEMPLATES" PUBLIC
+    LABEL "Enable this to use cxx_variadic_templates"
+    CONDITION OFF)
+
 qext_configure_feature("USE_3rdQJSON_BACKEND" PUBLIC
     LABEL "Enable this to build use 3rd cJSON backend"
     CONDITION ON)
@@ -55,7 +59,9 @@ qext_configure_definition("QEXT_VERSION_TWEAK" PUBLIC VALUE ${QEXT_VERSION_TWEAK
 qext_configure_definition("QEXT_SYSTEM_NAME" PUBLIC VALUE ${QEXT_SYSTEM_NAME})
 qext_configure_definition("QEXT_SYSTEM_VERSION" PUBLIC VALUE ${QEXT_SYSTEM_VERSION})
 qext_configure_definition("QEXT_SYSTEM_PROCESSOR" PUBLIC VALUE ${QEXT_SYSTEM_PROCESSOR})
-qext_configure_definition("QEXT_CXX_COMPILER_ID" PUBLIC VALUE ${QEXT_CXX_COMPILER_ID})
+
+qext_configure_definition("QEXT_CXX_STANDARD" PUBLIC VALUE ${QEXT_CXX_STANDARD})
+qext_configure_definition("QEXT_CXX_COMPILER_ID" PUBLIC VALUE "\"${QEXT_CXX_COMPILER_ID}\"")
 
 # QExt lib type
 if (BUILD_SHARED_LIBS)

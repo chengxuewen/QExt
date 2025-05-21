@@ -1,1 +1,1 @@
-#include "../source/widgets/qextSwitchButton.h"
+﻿#include "../source/controls/buttons/qextSwitchButton.h"
