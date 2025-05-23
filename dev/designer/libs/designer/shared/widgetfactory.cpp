@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -45,18 +45,18 @@
 #include "layoutinfo_p.h"
 #include "spacer_widget_p.h"
 #include "layout_p.h"
-#include "abstractintrospection_p.h"
 
 // sdk
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/container.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/abstractformwindowmanager.h>
-#include <../sdk/abstractformwindowcursor.h>
+#include <qextDesignerExtensionManager.h>
+#include <private/qextDesignerAbstractIntrospection_p.h>
+#include <qextDesignerAbstractFormWindowManager.h>
+#include <qextDesignerAbstractFormWindowCursor.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerLanguageExtension.h>
 
-#include <../uiplugin/customwidget.h>
+#include "../../uiplugin/customwidget.h"
 
 #include <QtWidgets/QtWidgets>
 #include <QtWidgets/qscrollbar.h>
@@ -145,10 +145,10 @@ void WizardPageChangeWatcher::pageChanged()
      * change the selection only if a selected child becomes invisible by
      * changing the page. */
     QWizard *wizard = static_cast<QWizard *>(parent());
-    QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(wizard);
+    QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(wizard);
     if (!fw)
         return;
-    QDesignerFormWindowCursorInterface *cursor = fw->cursor();
+    QExtDesignerFormWindowCursorInterface *cursor = fw->cursor();
     const int selCount = cursor->selectedWidgetCount();
     for (int i = 0; i <  selCount; i++) {
         if (!cursor->selectedWidget(i)->isVisible()) {
@@ -191,8 +191,8 @@ WidgetFactory::Strings::Strings() :
 // ---------------- WidgetFactory
 const char *WidgetFactory::disableStyleCustomPaintingPropertyC = "_q_custom_style_disabled";
 
-WidgetFactory::WidgetFactory(QDesignerFormEditorInterface *core, QObject *parent)
-    : QDesignerWidgetFactoryInterface(parent),
+WidgetFactory::WidgetFactory(QExtDesignerAbstractFormEditor *core, QObject *parent)
+    : QExtDesignerAbstractWidgetFactory(parent),
       m_core(core),
       m_formWindow(nullptr),
       m_currentStyle(nullptr)
@@ -201,9 +201,9 @@ WidgetFactory::WidgetFactory(QDesignerFormEditorInterface *core, QObject *parent
 
 WidgetFactory::~WidgetFactory() = default;
 
-QDesignerFormWindowInterface *WidgetFactory::currentFormWindow(QDesignerFormWindowInterface *fw)
+QExtDesignerAbstractFormWindow *WidgetFactory::currentFormWindow(QExtDesignerAbstractFormWindow *fw)
 {
-    QDesignerFormWindowInterface *was = m_formWindow;
+    QExtDesignerAbstractFormWindow *was = m_formWindow;
     m_formWindow = fw;
     return was;
 }
@@ -272,7 +272,7 @@ QWidget*  WidgetFactory::createCustomWidget(const QString &className, QWidget *p
         const int widgetInfoIndex = wdb->indexOfObject(rc, false);
         if (widgetInfoIndex != -1) {
             if (wdb->item(widgetInfoIndex)->extends().isEmpty()) {
-                const QDesignerMetaObjectInterface *mo = core()->introspection()->metaObject(rc)->superClass();
+                const QExtDesignerMetaObjectInterface *mo = core()->introspection()->metaObject(rc)->superClass();
                 // If we hit on a 'Q3DesignerXXWidget' that claims to be a 'Q3XXWidget', step
                 // over.
                 if (mo && mo->className() == className)
@@ -290,8 +290,8 @@ QWidget*  WidgetFactory::createCustomWidget(const QString &className, QWidget *p
     }
     // Since a language plugin may lie about its names, like Qt Jambi
     // does, return immediately here...
-    QDesignerLanguageExtension *lang =
-        qt_extension<QDesignerLanguageExtension *>(m_core->extensionManager(), m_core);
+    QExtDesignerLanguageExtension *lang =
+        qt_extension<QExtDesignerLanguageExtension *>(m_core->extensionManager(), m_core);
     if (lang)
         return rc;
 
@@ -312,9 +312,9 @@ QWidget *WidgetFactory::createWidget(const QString &widgetName, QWidget *parentW
         return nullptr;
     }
     // Preview or for form window?
-    QDesignerFormWindowInterface *fw = m_formWindow;
+    QExtDesignerAbstractFormWindow *fw = m_formWindow;
     if (! fw)
-        fw = QDesignerFormWindowInterface::findFormWindow(parentWidget);
+        fw = QExtDesignerAbstractFormWindow::findFormWindow(parentWidget);
 
     QWidget *w = nullptr;
     do {
@@ -351,7 +351,7 @@ QWidget *WidgetFactory::createWidget(const QString &widgetName, QWidget *parentW
              * forms and container extension pages (not for preview and not
              * for normal QWidget children on forms (legacy) */
             if (fw && parentWidget) {
-                if (qt_extension<QDesignerContainerExtension*>(m_core->extensionManager(), parentWidget)) {
+                if (qt_extension<QExtDesignerContainerExtension*>(m_core->extensionManager(), parentWidget)) {
                     w = new QDesignerWidget(fw, parentWidget);
                 } else {
                     if (parentWidget == fw->formContainer())
@@ -376,7 +376,7 @@ QWidget *WidgetFactory::createWidget(const QString &widgetName, QWidget *parentW
 #define DECLARE_WIDGET(W, C) else if (!qstrcmp(widgetNameC, #W)) { Q_ASSERT(w == 0); w = new W(parentWidget); }
 #define DECLARE_WIDGET_1(W, C) else if (!qstrcmp(widgetNameC, #W)) { Q_ASSERT(w == 0); w = new W(0, parentWidget); }
 
-#include <widgets.table>
+#include <qextDesignerWidgetsTable.h>
 
 #undef DECLARE_COMPAT_WIDGET
 #undef DECLARE_LAYOUT
@@ -388,7 +388,7 @@ QWidget *WidgetFactory::createWidget(const QString &widgetName, QWidget *parentW
         // 4) fallBack
         const QString fallBackBaseClass = m_strings.m_qWidget;
         QDesignerWidgetDataBaseInterface *db = core()->widgetDataBase();
-        QDesignerWidgetDataBaseItemInterface *item = db->item(db->indexOfClassName(widgetName));
+        QExtDesignerWidgetDataBaseItemInterface *item = db->item(db->indexOfClassName(widgetName));
         if (item == nullptr) {
             // Emergency: Create, derived from QWidget
             QString includeFile = widgetName.toLower();
@@ -420,7 +420,7 @@ QWidget *WidgetFactory::createWidget(const QString &widgetName, QWidget *parentW
     return w;
 }
 
-QString WidgetFactory::classNameOf(QDesignerFormEditorInterface *c, const QObject* o)
+QString WidgetFactory::classNameOf(QExtDesignerAbstractFormEditor *c, const QObject* o)
 {
     if (o == nullptr)
         return QString();
@@ -475,7 +475,7 @@ QLayout *WidgetFactory::createUnmanagedLayout(QWidget *parentWidget, int type)
 
 QLayout *WidgetFactory::createLayout(QWidget *widget, QLayout *parentLayout, int type) const // ### (sizepolicy)
 {
-    QDesignerMetaDataBaseInterface *metaDataBase = core()->metaDataBase();
+    QExtDesignerAbstractMetaDataBase *metaDataBase = core()->metaDataBase();
 
     if (parentLayout == nullptr) {
         QWidget *page = containerOfWidget(widget);
@@ -501,7 +501,7 @@ QLayout *WidgetFactory::createLayout(QWidget *widget, QLayout *parentLayout, int
     QLayout *layout = createUnmanagedLayout(parentWidget, type);
     metaDataBase->add(layout); // add the layout in the MetaDataBase
 
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core()->extensionManager(), layout);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core()->extensionManager(), layout);
 
     if (sheet) {
         sheet->setChanged(sheet->indexOf(m_strings.m_objectName), true);
@@ -544,7 +544,7 @@ QLayout *WidgetFactory::createLayout(QWidget *widget, QLayout *parentLayout, int
  */
 QWidget* WidgetFactory::containerOfWidget(QWidget *w) const
 {
-    if (QDesignerContainerExtension *container = qt_extension<QDesignerContainerExtension*>(core()->extensionManager(), w))
+    if (QExtDesignerContainerExtension *container = qt_extension<QExtDesignerContainerExtension*>(core()->extensionManager(), w))
         return container->widget(container->currentIndex());
 
     return w;
@@ -570,7 +570,7 @@ QWidget* WidgetFactory::widgetOfContainer(QWidget *w) const
 
     while (w != nullptr) {
         if (core()->widgetDataBase()->isContainer(w) ||
-             (w && qobject_cast<QDesignerFormWindowInterface*>(w->parentWidget())))
+             (w && qobject_cast<QExtDesignerAbstractFormWindow*>(w->parentWidget())))
             return w;
 
         w = w->parentWidget();
@@ -579,7 +579,7 @@ QWidget* WidgetFactory::widgetOfContainer(QWidget *w) const
     return w;
 }
 
-QDesignerFormEditorInterface *WidgetFactory::core() const
+QExtDesignerAbstractFormEditor *WidgetFactory::core() const
 {
     return m_core;
 }
@@ -605,9 +605,9 @@ void WidgetFactory::initializePreview(QWidget *widget) const
 // Necessary initializations for form editor objects
 void WidgetFactory::initialize(QObject *object) const
 {
-    // Indicate that this is a form object (for QDesignerFormWindowInterface::findFormWindow)
+    // Indicate that this is a form object (for QExtDesignerAbstractFormWindow::findFormWindow)
     object->setProperty(formEditorDynamicProperty, QVariant(true));
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(m_core->extensionManager(), object);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(m_core->extensionManager(), object);
     if (!sheet)
         return;
 
@@ -843,17 +843,17 @@ bool WidgetFactory::isPassiveInteractor(QWidget *widget)
     return lastWasAPassiveInteractor;
 }
 
-void WidgetFactory::formWindowAdded(QDesignerFormWindowInterface *formWindow)
+void WidgetFactory::formWindowAdded(QExtDesignerAbstractFormWindow *formWindow)
 {
     setFormWindowStyle(formWindow);
 }
 
-void WidgetFactory::activeFormWindowChanged(QDesignerFormWindowInterface *formWindow)
+void WidgetFactory::activeFormWindowChanged(QExtDesignerAbstractFormWindow *formWindow)
 {
     setFormWindowStyle(formWindow);
 }
 
-void WidgetFactory::setFormWindowStyle(QDesignerFormWindowInterface *formWindow)
+void WidgetFactory::setFormWindowStyle(QExtDesignerAbstractFormWindow *formWindow)
 {
     if (FormWindowBase *fwb = qobject_cast<FormWindowBase *>(formWindow))
         setStyleName(fwb->styleName());

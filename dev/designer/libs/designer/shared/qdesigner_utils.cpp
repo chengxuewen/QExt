@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,15 +28,15 @@
 
 #include "qdesigner_utils_p.h"
 #include "qdesigner_propertycommand_p.h"
-#include "abstractformbuilder.h"
+#include <qextDesignerAbstractFormBuilder.h>
 #include "formwindowbase_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractresourcebrowser.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/taskmenu.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractResourceBrowser.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerTaskMenuExtension.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtCore/qdir.h>
 #include <QtCore/qprocess.h>
@@ -272,9 +272,9 @@ namespace qdesigner_internal
 
     PropertySheetPixmapValue::PropertySheetPixmapValue() = default;
 
-    PropertySheetPixmapValue::PixmapSource PropertySheetPixmapValue::getPixmapSource(QDesignerFormEditorInterface *core, const QString & path)
+    PropertySheetPixmapValue::PixmapSource PropertySheetPixmapValue::getPixmapSource(QExtDesignerAbstractFormEditor *core, const QString & path)
     {
-        if (const QDesignerLanguageExtension *lang = qt_extension<QDesignerLanguageExtension *>(core->extensionManager(), core))
+        if (const QExtDesignerLanguageExtension *lang = qt_extension<QExtDesignerLanguageExtension *>(core->extensionManager(), core))
             return lang->isLanguageResource(path) ?  LanguageResourcePixmap : FilePixmap;
         return path.startsWith(QLatin1Char(':')) ? ResourcePixmap : FilePixmap;
     }
@@ -677,7 +677,7 @@ namespace qdesigner_internal
         return d;
     }
 
-    QDESIGNER_SHARED_EXPORT QDesignerFormWindowCommand *createTextPropertyCommand(const QString &propertyName, const QString &text, QObject *object, QDesignerFormWindowInterface *fw)
+    QDESIGNER_SHARED_EXPORT QDesignerFormWindowCommand *createTextPropertyCommand(const QString &propertyName, const QString &text, QObject *object, QExtDesignerAbstractFormWindow *fw)
     {
         if (text.isEmpty()) {
             ResetPropertyCommand *cmd = new ResetPropertyCommand(fw);
@@ -689,10 +689,10 @@ namespace qdesigner_internal
         return cmd;
     }
 
-    QDESIGNER_SHARED_EXPORT QAction *preferredEditAction(QDesignerFormEditorInterface *core, QWidget *managedWidget)
+    QDESIGNER_SHARED_EXPORT QAction *preferredEditAction(QExtDesignerAbstractFormEditor *core, QWidget *managedWidget)
     {
         QAction *action = nullptr;
-        if (const QDesignerTaskMenuExtension *taskMenu = qt_extension<QDesignerTaskMenuExtension*>(core->extensionManager(), managedWidget)) {
+        if (const QExtDesignerTaskMenuExtension *taskMenu = qt_extension<QExtDesignerTaskMenuExtension*>(core->extensionManager(), managedWidget)) {
             action = taskMenu->preferredEditAction();
             if (!action) {
                 const auto actions = taskMenu->taskActions();
@@ -701,7 +701,7 @@ namespace qdesigner_internal
             }
         }
         if (!action) {
-            if (const QDesignerTaskMenuExtension *taskMenu = qobject_cast<QDesignerTaskMenuExtension *>(
+            if (const QExtDesignerTaskMenuExtension *taskMenu = qobject_cast<QExtDesignerTaskMenuExtension *>(
                         core->extensionManager()->extension(managedWidget, QStringLiteral("QDesignerInternalTaskMenuExtension")))) {
                 action = taskMenu->preferredEditAction();
                 if (!action) {

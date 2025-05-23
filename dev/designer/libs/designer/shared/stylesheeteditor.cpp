@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,18 +29,18 @@
 #include "stylesheeteditor_p.h"
 #include "csshighlighter_p.h"
 #include "iconselector_p.h"
-#include "qtgradientmanager.h"
-#include "qtgradientviewdialog.h"
-#include "qtgradientutils.h"
+#include "../qtgradienteditor/qtgradientmanager.h"
+#include "../qtgradienteditor/qtgradientviewdialog.h"
+#include "../qtgradienteditor/qtgradientutils.h"
 #include "qdesigner_utils_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformwindowcursor.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractintegration.h>
-#include <../sdk/abstractsettings.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractSettings.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractFormWindowCursor.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <texteditfindwidget.h>
 
@@ -74,7 +74,7 @@ StyleSheetEditor::StyleSheetEditor(QWidget *parent)
 }
 
 // --- StyleSheetEditorDialog
-StyleSheetEditorDialog::StyleSheetEditorDialog(QDesignerFormEditorInterface *core, QWidget *parent, Mode mode):
+StyleSheetEditorDialog::StyleSheetEditorDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent, Mode mode):
     QDialog(parent),
     m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::Help)),
     m_editor(new StyleSheetEditor),
@@ -176,7 +176,7 @@ StyleSheetEditorDialog::StyleSheetEditorDialog(QDesignerFormEditorInterface *cor
 
     m_editor->setFocus();
 
-    QDesignerSettingsInterface *settings = core->settingsManager();
+    QExtDesignerSettingsInterface *settings = core->settingsManager();
     settings->beginGroup(QLatin1String(StyleSheetDialogC));
 
     if (settings->contains(QLatin1String(Geometry)))
@@ -187,7 +187,7 @@ StyleSheetEditorDialog::StyleSheetEditorDialog(QDesignerFormEditorInterface *cor
 
 StyleSheetEditorDialog::~StyleSheetEditorDialog()
 {
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     settings->beginGroup(QLatin1String(StyleSheetDialogC));
 
     settings->setValue(QLatin1String(Geometry), saveGeometry());
@@ -367,6 +367,7 @@ bool StyleSheetEditorDialog::isStyleSheetValid(const QString &styleSheet)
     fullSheet += QLatin1Char('}');
     QCss::Parser parser2(fullSheet);
     return parser2.parse(&sheet);
+    // return false;
 }
 
 void StyleSheetEditorDialog::validateStyleSheet()
@@ -384,7 +385,7 @@ void StyleSheetEditorDialog::validateStyleSheet()
 
 // --- StyleSheetPropertyEditorDialog
 StyleSheetPropertyEditorDialog::StyleSheetPropertyEditorDialog(QWidget *parent,
-                                               QDesignerFormWindowInterface *fw,
+                                               QExtDesignerAbstractFormWindow *fw,
                                                QWidget *widget):
     StyleSheetEditorDialog(fw->core(), parent),
     m_fw(fw),
@@ -398,8 +399,8 @@ StyleSheetPropertyEditorDialog::StyleSheetPropertyEditorDialog(QWidget *parent,
     QObject::connect(buttonBox(), &QDialogButtonBox::accepted,
                      this, &StyleSheetPropertyEditorDialog::applyStyleSheet);
 
-    QDesignerPropertySheetExtension *sheet =
-            qt_extension<QDesignerPropertySheetExtension*>(m_fw->core()->extensionManager(), m_widget);
+    QExtDesignerPropertySheetExtension *sheet =
+            qt_extension<QExtDesignerPropertySheetExtension*>(m_fw->core()->extensionManager(), m_widget);
     Q_ASSERT(sheet != nullptr);
     const int index = sheet->indexOf(QLatin1String(styleSheetProperty));
     const PropertySheetStringValue value = qvariant_cast<PropertySheetStringValue>(sheet->property(index));

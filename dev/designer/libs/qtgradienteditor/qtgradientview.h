@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -37,8 +37,8 @@
 **
 ****************************************************************************/
 
-#ifndef GRADIENTVIEW_H
-#define GRADIENTVIEW_H
+#ifndef _QTGRADIENTVIEW_H
+#define _QTGRADIENTVIEW_H
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QMap>
@@ -89,9 +89,9 @@ private:
     QAction *m_removeAction;
 
     QtGradientManager *m_manager;
-    Ui::QtGradientView m_ui;
+    Ui_QtGradientView m_ui;
 };
 
 QT_END_NAMESPACE
 
-#endif
+#endif // _QTGRADIENTVIEW_H

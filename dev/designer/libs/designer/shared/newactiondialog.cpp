@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -34,8 +34,8 @@
 #include "qdesigner_utils_p.h"
 #include "iconloader_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
 
 #include <QtWidgets/qpushbutton.h>
 
@@ -81,7 +81,7 @@ NewActionDialog::NewActionDialog(ActionEditor *parent) :
     focusText();
     updateButtons();
 
-    QDesignerFormWindowInterface *form = parent->formWindow();
+    QExtDesignerAbstractFormWindow *form = parent->formWindow();
     m_ui->iconSelector->setFormEditor(form->core());
     FormWindowBase *formBase = qobject_cast<FormWindowBase *>(form);
 

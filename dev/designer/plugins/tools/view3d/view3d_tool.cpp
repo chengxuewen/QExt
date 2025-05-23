@@ -31,19 +31,19 @@
 #include <QtWidgets/qaction.h>
 #include <QtDesigner/qdesignerformwindowinterface.h>
 
-QView3DTool::QView3DTool(QDesignerFormWindowInterface *formWindow, QObject *parent)
-    :  QDesignerFormWindowToolInterface(parent)
+QView3DTool::QView3DTool(QExtDesignerAbstractFormWindow *formWindow, QObject *parent)
+    :  QExtDesignerAbstractFormWindowTool(parent)
 {
     m_action = new QAction(tr("3DView"), this);
     m_formWindow = formWindow;
 }
 
-QDesignerFormEditorInterface *QView3DTool::core() const
+QExtDesignerAbstractFormEditor *QView3DTool::core() const
 {
     return m_formWindow->core();
 }
 
-QDesignerFormWindowInterface *QView3DTool::formWindow() const
+QExtDesignerAbstractFormWindow *QView3DTool::formWindow() const
 {
     return m_formWindow;
 }

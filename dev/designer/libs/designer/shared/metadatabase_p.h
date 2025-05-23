@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,7 +42,7 @@
 
 #include "shared_global_p.h"
 
-#include <../sdk/abstractmetadatabase.h>
+#include <qextDesignerAbstractMetaDataBase.h>
 
 #include <QtCore/qhash.h>
 #include <QtCore/qstringlist.h>
@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
-class QDESIGNER_SHARED_EXPORT MetaDataBaseItem: public QDesignerMetaDataBaseItemInterface
+class QDESIGNER_SHARED_EXPORT MetaDataBaseItem: public QExtDesignerMetaDataBaseItemInterface
 {
 public:
     explicit MetaDataBaseItem(QObject *object);
@@ -85,16 +85,16 @@ private:
     QStringList m_fakeSignals;
 };
 
-class QDESIGNER_SHARED_EXPORT MetaDataBase: public QDesignerMetaDataBaseInterface
+class QDESIGNER_SHARED_EXPORT MetaDataBase: public QExtDesignerAbstractMetaDataBase
 {
     Q_OBJECT
 public:
-    explicit MetaDataBase(QDesignerFormEditorInterface *core, QObject *parent = nullptr);
+    explicit MetaDataBase(QExtDesignerAbstractFormEditor *core, QObject *parent = nullptr);
     ~MetaDataBase() override;
 
-    QDesignerFormEditorInterface *core() const override;
+    QExtDesignerAbstractFormEditor *core() const override;
 
-    QDesignerMetaDataBaseItemInterface *item(QObject *object) const override { return metaDataBaseItem(object); }
+    QExtDesignerMetaDataBaseItemInterface *item(QObject *object) const override { return metaDataBaseItem(object); }
     virtual MetaDataBaseItem *metaDataBaseItem(QObject *object) const;
     void add(QObject *object) override;
     void remove(QObject *object) override;
@@ -105,17 +105,17 @@ private slots:
     void slotDestroyed(QObject *object);
 
 private:
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     typedef QHash<QObject *, MetaDataBaseItem*> ItemMap;
     ItemMap m_items;
 };
 
     // promotion convenience
-    QDESIGNER_SHARED_EXPORT bool promoteWidget(QDesignerFormEditorInterface *core,QWidget *widget,const QString &customClassName);
-    QDESIGNER_SHARED_EXPORT void demoteWidget(QDesignerFormEditorInterface *core,QWidget *widget);
-    QDESIGNER_SHARED_EXPORT bool isPromoted(QDesignerFormEditorInterface *core, QWidget* w);
-    QDESIGNER_SHARED_EXPORT QString promotedCustomClassName(QDesignerFormEditorInterface *core, QWidget* w);
-    QDESIGNER_SHARED_EXPORT QString promotedExtends(QDesignerFormEditorInterface *core, QWidget* w);
+    QDESIGNER_SHARED_EXPORT bool promoteWidget(QExtDesignerAbstractFormEditor *core,QWidget *widget,const QString &customClassName);
+    QDESIGNER_SHARED_EXPORT void demoteWidget(QExtDesignerAbstractFormEditor *core,QWidget *widget);
+    QDESIGNER_SHARED_EXPORT bool isPromoted(QExtDesignerAbstractFormEditor *core, QWidget* w);
+    QDESIGNER_SHARED_EXPORT QString promotedCustomClassName(QExtDesignerAbstractFormEditor *core, QWidget* w);
+    QDESIGNER_SHARED_EXPORT QString promotedExtends(QExtDesignerAbstractFormEditor *core, QWidget* w);
 
 } // namespace qdesigner_internal
 

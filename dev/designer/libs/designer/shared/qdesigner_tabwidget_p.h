@@ -49,7 +49,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QTabWidget;
 class QTabBar;
 class QMenu;
@@ -77,7 +77,7 @@ public:
 
     bool eventFilter(QObject *o, QEvent *e) override;
 
-    QDesignerFormWindowInterface *formWindow() const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
 
 private slots:
     void removeCurrentPage();

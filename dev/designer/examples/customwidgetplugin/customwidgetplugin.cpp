@@ -61,7 +61,7 @@ AnalogClockPlugin::AnalogClockPlugin(QObject *parent)
 //! [0]
 
 //! [1]
-void AnalogClockPlugin::initialize(QDesignerFormEditorInterface * /* core */)
+void AnalogClockPlugin::initialize(QExtDesignerAbstractFormEditor * /* core */)
 {
     if (initialized)
         return;

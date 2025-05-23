@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -43,7 +43,7 @@
 #include "shared_global_p.h"
 #include "deviceprofile_p.h"
 
-#include <abstractnewformwidget.h>
+#include <qextDesignerAbstractNewFormWidget.h>
 
 #include <QtWidgets/qwidget.h>
 #include <QtGui/qpixmap.h>
@@ -64,7 +64,7 @@ namespace Ui {
     class NewFormWidget;
 }
 
-class QDESIGNER_SHARED_EXPORT NewFormWidget : public QDesignerNewFormWidgetInterface
+class QDESIGNER_SHARED_EXPORT NewFormWidget : public QExtDesignerAbstractNewFormWidget
 {
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(NewFormWidget)
@@ -72,14 +72,14 @@ class QDESIGNER_SHARED_EXPORT NewFormWidget : public QDesignerNewFormWidgetInter
 public:
     using DeviceProfileList = QVector<qdesigner_internal::DeviceProfile>;
 
-    explicit NewFormWidget(QDesignerFormEditorInterface *core, QWidget *parentWidget);
+    explicit NewFormWidget(QExtDesignerAbstractFormEditor *core, QWidget *parentWidget);
     ~NewFormWidget() override;
 
     bool hasCurrentTemplate() const override;
     QString currentTemplate(QString *errorMessage = nullptr) override;
 
     // Convenience for implementing file dialogs with preview
-    static QImage grabForm(QDesignerFormEditorInterface *core,
+    static QImage grabForm(QExtDesignerAbstractFormEditor *core,
                            QIODevice &file,
                            const QString &workingDir,
                            const qdesigner_internal::DeviceProfile &dp);
@@ -115,7 +115,7 @@ private:
     using ItemPixmapCache = QMap<ItemPixmapCacheKey, QPixmap>;
     ItemPixmapCache m_itemPixmapCache;
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     Ui::NewFormWidget *m_ui;
     QTreeWidgetItem *m_currentItem;
     QTreeWidgetItem *m_acceptedItem;

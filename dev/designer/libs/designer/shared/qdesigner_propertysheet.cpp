@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,11 +33,11 @@
 #include "qlayout_widget_p.h"
 #include "qdesigner_introspection_p.h"
 
-#include <../uilib/formbuilderextra_p.h>
+#include <private/qextDesignerFormBuilderExtra_p.h>
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractwidgetdatabase.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
 #include <QtCore/qdebug.h>
 
@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
 
 #define USE_LAYOUT_SIZE_CONSTRAINT
 
-static const QDesignerMetaObjectInterface *propertyIntroducedBy(const QDesignerMetaObjectInterface *meta, int index)
+static const QExtDesignerMetaObjectInterface *propertyIntroducedBy(const QExtDesignerMetaObjectInterface *meta, int index)
 {
     if (index >= meta->propertyOffset())
         return meta;
@@ -105,9 +105,9 @@ static const char *layoutGridColumnMinimumWidthC = "layoutColumnMinimumWidth";
 // We know that the parent of the sheet is the extension manager
 // whose parent is the core.
 
-static QDesignerFormEditorInterface *formEditorForObject(QObject *o) {
+static QExtDesignerAbstractFormEditor *formEditorForObject(QObject *o) {
     do {
-        if (QDesignerFormEditorInterface* core = qobject_cast<QDesignerFormEditorInterface*>(o))
+        if (QExtDesignerAbstractFormEditor* core = qobject_cast<QExtDesignerAbstractFormEditor*>(o))
             return core;
         o = o->parent();
     } while(o);
@@ -115,7 +115,7 @@ static QDesignerFormEditorInterface *formEditorForObject(QObject *o) {
     return nullptr;
 }
 
-static bool hasLayoutAttributes(QDesignerFormEditorInterface *core, QObject *object)
+static bool hasLayoutAttributes(QExtDesignerAbstractFormEditor *core, QObject *object)
 {
     if (!object->isWidgetType())
         return false;
@@ -129,7 +129,7 @@ static bool hasLayoutAttributes(QDesignerFormEditorInterface *core, QObject *obj
 }
 
 // Cache DesignerMetaEnum by scope/name of a  QMetaEnum
-static const qdesigner_internal::DesignerMetaEnum &designerMetaEnumFor(const QDesignerMetaEnumInterface *me)
+static const qdesigner_internal::DesignerMetaEnum &designerMetaEnumFor(const QExtDesignerMetaEnumInterface *me)
 {
     using ScopeNameKey = QPair<QString, QString>;
     using DesignerMetaEnumCache = QMap<ScopeNameKey, qdesigner_internal::DesignerMetaEnum>;
@@ -151,7 +151,7 @@ static const qdesigner_internal::DesignerMetaEnum &designerMetaEnumFor(const QDe
 }
 
 // Cache DesignerMetaFlags by scope/name of a  QMetaEnum
-static const qdesigner_internal::DesignerMetaFlags &designerMetaFlagsFor(const QDesignerMetaEnumInterface *me)
+static const qdesigner_internal::DesignerMetaFlags &designerMetaFlagsFor(const QExtDesignerMetaEnumInterface *me)
 {
     using ScopeNameKey = QPair<QString, QString>;
     using DesignerMetaFlagsCache = QMap<ScopeNameKey, qdesigner_internal::DesignerMetaFlags>;
@@ -186,7 +186,7 @@ public:
 
     PropertyType propertyType(int index) const;
     QString transformLayoutPropertyName(int index) const;
-    QLayout* layout(QDesignerPropertySheetExtension **layoutPropertySheet = nullptr) const;
+    QLayout* layout(QExtDesignerPropertySheetExtension **layoutPropertySheet = nullptr) const;
     static ObjectType objectType(const QObject *o);
 
     bool isReloadableProperty(int index) const;
@@ -229,8 +229,8 @@ public:
     Info &ensureInfo(int index);
 
     QDesignerPropertySheet *q;
-    QDesignerFormEditorInterface *m_core;
-    const QDesignerMetaObjectInterface *m_meta;
+    QExtDesignerAbstractFormEditor *m_core;
+    const QExtDesignerMetaObjectInterface *m_meta;
     const ObjectType m_objectType;
     const ObjectFlags m_objectFlags;
 
@@ -249,7 +249,7 @@ public:
     // Variables used for caching the layout, access via layout().
     QPointer<QObject> m_object;
     mutable QPointer<QLayout> m_lastLayout;
-    mutable QDesignerPropertySheetExtension *m_lastLayoutPropertySheet;
+    mutable QExtDesignerPropertySheetExtension *m_lastLayoutPropertySheet;
     mutable bool m_LastLayoutByDesigner;
 
     qdesigner_internal::DesignerPixmapCache *m_pixmapCache;
@@ -419,7 +419,7 @@ bool QDesignerPropertySheetPrivate::invalidIndex(const char *functionName, int i
     return false;
 }
 
-QLayout* QDesignerPropertySheetPrivate::layout(QDesignerPropertySheetExtension **layoutPropertySheet) const
+QLayout* QDesignerPropertySheetPrivate::layout(QExtDesignerPropertySheetExtension **layoutPropertySheet) const
 {
     // Return the layout and its property sheet
     // only if it is managed by designer and not one created on a custom widget.
@@ -445,7 +445,7 @@ QLayout* QDesignerPropertySheetPrivate::layout(QDesignerPropertySheetExtension *
         // Is this a layout managed by designer or some layout on a custom widget?
         if (qdesigner_internal::LayoutInfo::managedLayout(m_core ,widgetLayout)) {
             m_LastLayoutByDesigner = true;
-            m_lastLayoutPropertySheet = qt_extension<QDesignerPropertySheetExtension*>(m_core->extensionManager(), m_lastLayout);
+            m_lastLayoutPropertySheet = qt_extension<QExtDesignerPropertySheetExtension*>(m_core->extensionManager(), m_lastLayout);
         }
     }
     if (!m_LastLayoutByDesigner)
@@ -581,14 +581,14 @@ QDesignerPropertySheet::QDesignerPropertySheet(QObject *object, QObject *parent)
     d(new QDesignerPropertySheetPrivate(this, object, parent))
 {
     using Info = QDesignerPropertySheetPrivate::Info;
-    const QDesignerMetaObjectInterface *baseMeta = d->m_meta;
+    const QExtDesignerMetaObjectInterface *baseMeta = d->m_meta;
 
     while (baseMeta &&baseMeta->className().startsWith(QStringLiteral("QDesigner"))) {
         baseMeta = baseMeta->superClass();
     }
     Q_ASSERT(baseMeta != nullptr);
 
-    QDesignerFormWindowInterface *formWindow = QDesignerFormWindowInterface::findFormWindow(d->m_object);
+    QExtDesignerAbstractFormWindow *formWindow = QExtDesignerAbstractFormWindow::findFormWindow(d->m_object);
     d->m_fwb = qobject_cast<qdesigner_internal::FormWindowBase *>(formWindow);
     if (d->m_fwb) {
         d->m_pixmapCache = d->m_fwb->pixmapCache();
@@ -597,7 +597,7 @@ QDesignerPropertySheet::QDesignerPropertySheet(QObject *object, QObject *parent)
     }
 
     for (int index=0; index<count(); ++index) {
-        const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+        const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
         const QString name = p->name();
         if (p->type() == QVariant::KeySequence) {
             createFakeProperty(name);
@@ -607,7 +607,7 @@ QDesignerPropertySheet::QDesignerPropertySheet(QObject *object, QObject *parent)
 
         QString pgroup = baseMeta->className();
 
-        if (const QDesignerMetaObjectInterface *pmeta = propertyIntroducedBy(baseMeta, index)) {
+        if (const QExtDesignerMetaObjectInterface *pmeta = propertyIntroducedBy(baseMeta, index)) {
             pgroup = pmeta->className();
         }
 
@@ -907,7 +907,7 @@ int QDesignerPropertySheet::createFakeProperty(const QString &propertyName, cons
     // fake properties
     const int index = d->m_meta->indexOfProperty(propertyName);
     if (index != -1) {
-        if (!(d->m_meta->property(index)->attributes() & QDesignerMetaPropertyInterface::DesignableAttribute))
+        if (!(d->m_meta->property(index)->attributes() & QExtDesignerMetaPropertyInterface::DesignableAttribute))
             return -1;
         Info &info = d->ensureInfo(index);
         info.visible = false;
@@ -1017,7 +1017,7 @@ QVariant QDesignerPropertySheet::property(int index) const
         return QVariant();
     if (isAdditionalProperty(index)) {
         if (isFakeLayoutProperty(index)) {
-            QDesignerPropertySheetExtension *layoutPropertySheet;
+            QExtDesignerPropertySheetExtension *layoutPropertySheet;
             if (d->layout(&layoutPropertySheet) && layoutPropertySheet) {
                 const QString newPropName = d->transformLayoutPropertyName(index);
                 if (!newPropName.isEmpty()) {
@@ -1090,20 +1090,20 @@ QVariant QDesignerPropertySheet::metaProperty(int index) const
 {
     Q_ASSERT(!isFakeProperty(index));
 
-    const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+    const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
     QVariant v = p->read(d->m_object);
     switch (p->kind()) {
-    case QDesignerMetaPropertyInterface::FlagKind: {
+    case QExtDesignerMetaPropertyInterface::FlagKind: {
         qdesigner_internal::PropertySheetFlagValue psflags = qdesigner_internal::PropertySheetFlagValue(v.toInt(), designerMetaFlagsFor(p->enumerator()));
         v.setValue(psflags);
     }
         break;
-    case QDesignerMetaPropertyInterface::EnumKind: {
+    case QExtDesignerMetaPropertyInterface::EnumKind: {
         qdesigner_internal::PropertySheetEnumValue pse = qdesigner_internal::PropertySheetEnumValue(v.toInt(), designerMetaEnumFor(p->enumerator()));
         v.setValue(pse);
     }
         break;
-    case QDesignerMetaPropertyInterface::OtherKind:
+    case QExtDesignerMetaPropertyInterface::OtherKind:
         break;
     }
     return v;
@@ -1195,7 +1195,7 @@ void QDesignerPropertySheet::setProperty(int index, const QVariant &value)
         }
 
         if (isFakeLayoutProperty(index)) {
-            QDesignerPropertySheetExtension *layoutPropertySheet;
+            QExtDesignerPropertySheetExtension *layoutPropertySheet;
             if (d->layout(&layoutPropertySheet) && layoutPropertySheet) {
                 const QString newPropName = d->transformLayoutPropertyName(index);
                 if (!newPropName.isEmpty()) {
@@ -1233,14 +1233,14 @@ void QDesignerPropertySheet::setProperty(int index, const QVariant &value)
             d->setStringListProperty(index, qvariant_cast<qdesigner_internal::PropertySheetStringListValue>(value));
         if (d->isKeySequenceProperty(index))
             d->setKeySequenceProperty(index, qvariant_cast<qdesigner_internal::PropertySheetKeySequenceValue>(value));
-        const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+        const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
         p->write(d->m_object, resolvePropertyValue(index, value));
         if (qobject_cast<QGroupBox *>(d->m_object) && propertyType(index) == PropertyCheckable) {
             const int idx = indexOf(QStringLiteral("focusPolicy"));
             if (!isChanged(idx)) {
                 qdesigner_internal::PropertySheetEnumValue e = qvariant_cast<qdesigner_internal::PropertySheetEnumValue>(property(idx));
                 if (value.toBool()) {
-                    const QDesignerMetaPropertyInterface *p = d->m_meta->property(idx);
+                    const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(idx);
                     p->write(d->m_object, Qt::NoFocus);
                     e.value = Qt::StrongFocus;
                     QVariant v;
@@ -1278,8 +1278,8 @@ bool QDesignerPropertySheet::reset(int index)
             if (classNameDefaultV.isValid())
                 value.setValue(classNameDefaultV.toString());
         } else if (!isAdditionalProperty(index)) {
-            const QDesignerMetaPropertyInterface *property = d->m_meta->property(index);
-            if ((property->accessFlags() & QDesignerMetaPropertyInterface::ResetAccess) && property->reset(d->m_object))
+            const QExtDesignerMetaPropertyInterface *property = d->m_meta->property(index);
+            if ((property->accessFlags() & QExtDesignerMetaPropertyInterface::ResetAccess) && property->reset(d->m_object))
                 value.setValue(property->read(d->m_object).toString());
             else
                 return false;
@@ -1341,7 +1341,7 @@ bool QDesignerPropertySheet::reset(int index)
            case PropertyLayoutRowWrapPolicy:
            case PropertyLayoutLabelAlignment:
            case PropertyLayoutFormAlignment: {
-               QDesignerPropertySheetExtension *layoutPropertySheet;
+               QExtDesignerPropertySheetExtension *layoutPropertySheet;
                if (d->layout(&layoutPropertySheet) && layoutPropertySheet)
                    return layoutPropertySheet->reset(layoutPropertySheet->indexOf(d->transformLayoutPropertyName(index)));
            }
@@ -1368,7 +1368,7 @@ bool QDesignerPropertySheet::reset(int index)
         return false;
     }
     if (isFakeProperty(index)) {
-        const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+        const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
         const bool result = p->reset(d->m_object);
         d->m_fakeProperties[index] = p->read(d->m_object);
         return result;
@@ -1390,7 +1390,7 @@ bool QDesignerPropertySheet::reset(int index)
     }
     // ### TODO: reset for fake properties.
 
-    const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+    const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
     return p->reset(d->m_object);
 }
 
@@ -1400,7 +1400,7 @@ bool QDesignerPropertySheet::isChanged(int index) const
         return false;
     if (isAdditionalProperty(index)) {
         if (isFakeLayoutProperty(index)) {
-            QDesignerPropertySheetExtension *layoutPropertySheet;
+            QExtDesignerPropertySheetExtension *layoutPropertySheet;
             if (d->layout(&layoutPropertySheet) && layoutPropertySheet) {
                 const QString newPropName = d->transformLayoutPropertyName(index);
                 if (!newPropName.isEmpty()) {
@@ -1421,7 +1421,7 @@ void QDesignerPropertySheet::setChanged(int index, bool changed)
         return;
     if (isAdditionalProperty(index)) {
         if (isFakeLayoutProperty(index)) {
-            QDesignerPropertySheetExtension *layoutPropertySheet;
+            QExtDesignerPropertySheetExtension *layoutPropertySheet;
             if (d->layout(&layoutPropertySheet) && layoutPropertySheet) {
                 const QString newPropName = d->transformLayoutPropertyName(index);
                 if (!newPropName.isEmpty()) {
@@ -1485,11 +1485,11 @@ enum DesignableState { PropertyIsDesignable,
                        PropertyOfObjectNotDesignable,
                        PropertyNotDesignable };
 
-static inline DesignableState designableState(const QDesignerMetaPropertyInterface *p, const QObject *object)
+static inline DesignableState designableState(const QExtDesignerMetaPropertyInterface *p, const QObject *object)
 {
-    if (p->attributes(object) & QDesignerMetaPropertyInterface::DesignableAttribute)
+    if (p->attributes(object) & QExtDesignerMetaPropertyInterface::DesignableAttribute)
         return PropertyIsDesignable;
-    return (p->attributes() & QDesignerMetaPropertyInterface::DesignableAttribute) ?
+    return (p->attributes() & QExtDesignerMetaPropertyInterface::DesignableAttribute) ?
             PropertyOfObjectNotDesignable : PropertyNotDesignable;
 }
 
@@ -1563,8 +1563,8 @@ bool QDesignerPropertySheet::isVisible(int index) const
         break;
     }
 
-    const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
-    if  (!(p->accessFlags() & QDesignerMetaPropertyInterface::WriteAccess))
+    const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+    if  (!(p->accessFlags() & QExtDesignerMetaPropertyInterface::WriteAccess))
          return false;
 
     // Enabled handling: Hide only statically not designable properties
@@ -1601,8 +1601,8 @@ bool QDesignerPropertySheet::isEnabled(int index) const
     // Enable setting of properties for statically non-designable properties
     // as this might be done via TaskMenu/Cursor::setProperty. Note that those
     // properties are not visible.
-    const QDesignerMetaPropertyInterface *p = d->m_meta->property(index);
-    if (!p->accessFlags().testFlag(QDesignerMetaPropertyInterface::WriteAccess))
+    const QExtDesignerMetaPropertyInterface *p = d->m_meta->property(index);
+    if (!p->accessFlags().testFlag(QExtDesignerMetaPropertyInterface::WriteAccess))
         return false;
 
     if (designableState(p, d->m_object) == PropertyOfObjectNotDesignable)
@@ -1634,7 +1634,7 @@ void QDesignerPropertySheet::setAttribute(int index, bool attribute)
     d->ensureInfo(index).attribute = attribute;
 }
 
-QDesignerFormEditorInterface *QDesignerPropertySheet::core() const
+QExtDesignerAbstractFormEditor *QDesignerPropertySheet::core() const
 {
     return d->m_core;
 }
@@ -1661,8 +1661,8 @@ struct QDesignerAbstractPropertySheetFactory::PropertySheetFactoryPrivate {
 };
 
 QDesignerAbstractPropertySheetFactory::PropertySheetFactoryPrivate::PropertySheetFactoryPrivate() :
-    m_propertySheetId(Q_TYPEID(QDesignerPropertySheetExtension)),
-    m_dynamicPropertySheetId(Q_TYPEID(QDesignerDynamicPropertySheetExtension))
+    m_propertySheetId(Q_TYPEID(QExtDesignerPropertySheetExtension)),
+    m_dynamicPropertySheetId(Q_TYPEID(QExtDesignerDynamicPropertySheetExtension))
 {
 }
 

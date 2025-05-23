@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,7 +42,7 @@
 
 #include "shared_global_p.h"
 
-#include "../sdk/layoutdecoration.h"
+#include <qextDesignerLayoutDecorationExtension.h>
 
 #include <QtCore/qpointer.h>
 #include <QtCore/qvariant.h>
@@ -51,8 +51,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerAbstractFormEditor;
 class QGridLayout;
 class QFormLayout;
 
@@ -82,8 +82,8 @@ struct QDESIGNER_SHARED_EXPORT LayoutProperties
     static int visibleProperties(const QLayout *layout);
 
     // Retrieve from /apply to sheet: A property mask is returned indicating the properties found in the sheet
-    int fromPropertySheet(const QDesignerFormEditorInterface *core, QLayout *l, int mask = AllProperties);
-    int toPropertySheet(const QDesignerFormEditorInterface *core, QLayout *l, int mask = AllProperties, bool applyChanged = true) const;
+    int fromPropertySheet(const QExtDesignerAbstractFormEditor *core, QLayout *l, int mask = AllProperties);
+    int toPropertySheet(const QExtDesignerAbstractFormEditor *core, QLayout *l, int mask = AllProperties, bool applyChanged = true) const;
 
     int m_margins[MarginCount];
     bool m_marginsChanged[MarginCount];
@@ -123,7 +123,7 @@ struct QDESIGNER_SHARED_EXPORT LayoutProperties
 
 // -- LayoutHelper: For use with the 'insert widget'/'delete widget' command,
 //    able to store and restore states.
-//    This could become part of 'QDesignerLayoutDecorationExtensionV2',
+//    This could become part of 'QExtDesignerLayoutDecorationExtensionV2',
 //    but to keep any existing old extensions working, it is provided as
 //    separate class with a factory function.
 class LayoutHelper {
@@ -150,29 +150,29 @@ public:
 
     // Simplify a grid, remove empty columns, rows within the rectangle
     // The DeleteWidget command restricts the area to be simplified.
-    virtual bool canSimplify(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const = 0;
-    virtual void simplify(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea) = 0;
+    virtual bool canSimplify(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const = 0;
+    virtual void simplify(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea) = 0;
 
     // Push and pop a state. Can be used for implementing undo for
     // simplify/row, column insertion commands, provided that
     // the widgets remain the same.
-    virtual void pushState(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout)  = 0;
-    virtual void popState(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout) = 0;
+    virtual void pushState(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout)  = 0;
+    virtual void popState(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout) = 0;
 };
 
 // Base class for layout decoration extensions.
-class QDESIGNER_SHARED_EXPORT QLayoutSupport: public QObject, public QDesignerLayoutDecorationExtension
+class QDESIGNER_SHARED_EXPORT QLayoutSupport: public QObject, public QExtDesignerLayoutDecorationExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerLayoutDecorationExtension)
+    Q_INTERFACES(QExtDesignerLayoutDecorationExtension)
 
 protected:
-    QLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, LayoutHelper *helper, QObject *parent = nullptr);
+    QLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, LayoutHelper *helper, QObject *parent = nullptr);
 
 public:
     ~QLayoutSupport() override;
 
-    inline QDesignerFormWindowInterface *formWindow() const   { return m_formWindow; }
+    inline QExtDesignerAbstractFormWindow *formWindow() const   { return m_formWindow; }
 
     // DecorationExtension V2
     LayoutHelper* helper() const                              { return m_helper; }
@@ -205,7 +205,7 @@ public:
     static bool canSimplifyQuickCheck(const QGridLayout *);
     static bool canSimplifyQuickCheck(const QFormLayout *fl);
     // Factory function, create layout support according to layout type of widget
-    static QLayoutSupport *createLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, QObject *parent = nullptr);
+    static QLayoutSupport *createLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, QObject *parent = nullptr);
 
 protected:
     // figure out insertion position and mode from indicator on empty cell if supported
@@ -232,7 +232,7 @@ private:
     void hideIndicator(Indicator i);
     void showIndicator(Indicator i, const QRect &geometry, const QPalette &);
 
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     LayoutHelper* m_helper;
 
     QPointer<QWidget> m_widget;
@@ -248,7 +248,7 @@ class QDESIGNER_SHARED_EXPORT QLayoutWidget: public QWidget
 {
     Q_OBJECT
 public:
-    explicit QLayoutWidget(QDesignerFormWindowInterface *formWindow, QWidget *parent = nullptr);
+    explicit QLayoutWidget(QExtDesignerAbstractFormWindow *formWindow, QWidget *parent = nullptr);
 
     int layoutLeftMargin() const;
     void setLayoutLeftMargin(int layoutMargin);
@@ -262,14 +262,14 @@ public:
     int layoutBottomMargin() const;
     void setLayoutBottomMargin(int layoutMargin);
 
-    inline QDesignerFormWindowInterface *formWindow() const    { return m_formWindow; }
+    inline QExtDesignerAbstractFormWindow *formWindow() const    { return m_formWindow; }
 
 protected:
     bool event(QEvent *e) override;
     void paintEvent(QPaintEvent *e) override;
 
 private:
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     int m_leftMargin;
     int m_topMargin;
     int m_rightMargin;

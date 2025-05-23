@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -43,15 +43,15 @@
 #include "shared_global_p.h"
 #include "deviceprofile_p.h"
 
-#include <../../lib/uilib/formbuilder.h>
+#include <qextDesignerFormBuilder.h>
 
 #include <QtCore/qmap.h>
 #include <QtCore/qset.h>
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerAbstractFormWindow;
 
 class QPixmap;
 class QtResourceSet;
@@ -67,32 +67,32 @@ class DesignerIconCache;
 class QDESIGNER_SHARED_EXPORT QDesignerFormBuilder: public QFormBuilder
 {
 public:
-    QDesignerFormBuilder(QDesignerFormEditorInterface *core,
+    QDesignerFormBuilder(QExtDesignerAbstractFormEditor *core,
                          const DeviceProfile &deviceProfile = DeviceProfile());
 
     virtual QWidget *createWidget(DomWidget *ui_widget, QWidget *parentWidget = nullptr)
     { return QFormBuilder::create(ui_widget, parentWidget); }
 
-    inline QDesignerFormEditorInterface *core() const
+    inline QExtDesignerAbstractFormEditor *core() const
     { return m_core; }
 
     QString systemStyle() const;
 
     // Create a preview widget (for integrations) or return 0. The widget has to be embedded into a main window.
     // Experimental, depending on script support.
-    static QWidget *createPreview(const QDesignerFormWindowInterface *fw, const QString &styleName /* ="" */,
+    static QWidget *createPreview(const QExtDesignerAbstractFormWindow *fw, const QString &styleName /* ="" */,
                                   const QString &appStyleSheet  /* ="" */,
                                   const DeviceProfile &deviceProfile,
                                   QString *errorMessage);
     // Convenience that pops up message boxes in case of failures.
-    static QWidget *createPreview(const QDesignerFormWindowInterface *fw, const QString &styleName = QString());
+    static QWidget *createPreview(const QExtDesignerAbstractFormWindow *fw, const QString &styleName = QString());
     //  Create a preview widget (for integrations) or return 0. The widget has to be embedded into a main window.
-    static QWidget *createPreview(const QDesignerFormWindowInterface *fw, const QString &styleName, const QString &appStyleSheet, QString *errorMessage);
+    static QWidget *createPreview(const QExtDesignerAbstractFormWindow *fw, const QString &styleName, const QString &appStyleSheet, QString *errorMessage);
     // Convenience that pops up message boxes in case of failures.
-    static QWidget *createPreview(const QDesignerFormWindowInterface *fw, const QString &styleName, const QString &appStyleSheet);
+    static QWidget *createPreview(const QExtDesignerAbstractFormWindow *fw, const QString &styleName, const QString &appStyleSheet);
 
     // Create a preview image
-    static QPixmap createPreviewPixmap(const QDesignerFormWindowInterface *fw, const QString &styleName = QString(), const QString &appStyleSheet = QString());
+    static QPixmap createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const QString &styleName = QString(), const QString &appStyleSheet = QString());
 
 protected:
     using QFormBuilder::createDom;
@@ -120,7 +120,7 @@ protected:
     DeviceProfile deviceProfile() const { return m_deviceProfile; }
 
 private:
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
 
     using WidgetSet = QSet<QWidget *>;
     WidgetSet m_customWidgetsWithScript;
@@ -140,7 +140,7 @@ private:
 
 class QDESIGNER_SHARED_EXPORT NewFormWidgetFormBuilder: public QDesignerFormBuilder {
 public:
-    NewFormWidgetFormBuilder(QDesignerFormEditorInterface *core,
+    NewFormWidgetFormBuilder(QExtDesignerAbstractFormEditor *core,
                              const DeviceProfile &deviceProfile = DeviceProfile());
 
 protected:

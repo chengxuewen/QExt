@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #include "formwindowbase_p.h"
 #include "grid_p.h"
 
-#include <../sdk/abstractformwindow.h>
+#include <qextDesignerAbstractFormWindow.h>
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qstyle.h>
 #include <QtWidgets/qstyleoption.h>
@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
  * the QStyleSheetStyle setting Qt::WA_StyledBackground to false for subclasses of QWidget.
  */
 
-QDesignerDialog::QDesignerDialog(QDesignerFormWindowInterface *fw, QWidget *parent) :
+QDesignerDialog::QDesignerDialog(QExtDesignerAbstractFormWindow *fw, QWidget *parent) :
     QDialog(parent),
     m_formWindow(qobject_cast<qdesigner_internal::FormWindowBase*>(fw))
 {
@@ -66,7 +66,7 @@ void QDesignerDialog::paintEvent(QPaintEvent *e)
         m_formWindow->designerGrid().paint(p, this, e);
 }
 
-QDesignerWidget::QDesignerWidget(QDesignerFormWindowInterface* formWindow, QWidget *parent)  :
+QDesignerWidget::QDesignerWidget(QExtDesignerAbstractFormWindow* formWindow, QWidget *parent)  :
     QWidget(parent),
     m_formWindow(qobject_cast<qdesigner_internal::FormWindowBase*>(formWindow))
 {
@@ -74,7 +74,7 @@ QDesignerWidget::QDesignerWidget(QDesignerFormWindowInterface* formWindow, QWidg
 
 QDesignerWidget::~QDesignerWidget() = default;
 
-QDesignerFormWindowInterface* QDesignerWidget::formWindow() const
+QExtDesignerAbstractFormWindow* QDesignerWidget::formWindow() const
 {
     return m_formWindow;
 }

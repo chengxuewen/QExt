@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2018 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -54,10 +54,10 @@
 
 #include <QtUiPlugin/customwidget.h>
 
-#include <formbuilder.h>
-#include <formbuilderextra_p.h>
-#include <textbuilder_p.h>
-#include <ui4_p.h>
+#include "../designer/uilib/formbuilder.h"
+#include "../designer/uilib/formbuilderextra_p.h"
+#include "../designer/uilib/textbuilder_p.h"
+#include "../designer/uilib/ui4_p.h"
 
 #include <QtCore/qdebug.h>
 #include <QtCore/qdatastream.h>

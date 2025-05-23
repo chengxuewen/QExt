@@ -54,7 +54,7 @@ static inline QString charToQString(const char *c)
 
 namespace  {
     // ------- QDesignerMetaEnum
-    class QDesignerMetaEnum : public QDesignerMetaEnumInterface {
+    class QDesignerMetaEnum : public QExtDesignerMetaEnumInterface {
     public:
         QDesignerMetaEnum(const QMetaEnum &qEnum);
         bool isFlag() const override                        { return m_enum.isFlag(); }
@@ -89,12 +89,12 @@ namespace  {
     }
 
     // ------- QDesignerMetaProperty
-    class QDesignerMetaProperty : public QDesignerMetaPropertyInterface {
+    class QDesignerMetaProperty : public QExtDesignerMetaPropertyInterface {
     public:
         QDesignerMetaProperty(const QMetaProperty &property);
         ~QDesignerMetaProperty() override;
 
-        const QDesignerMetaEnumInterface *enumerator() const override { return m_enumerator; }
+        const QExtDesignerMetaEnumInterface *enumerator() const override { return m_enumerator; }
 
         Kind kind() const override { return m_kind; }
 
@@ -118,7 +118,7 @@ namespace  {
         Kind m_kind;
         AccessFlags m_access;
         Attributes m_defaultAttributes;
-        QDesignerMetaEnumInterface *m_enumerator;
+        QExtDesignerMetaEnumInterface *m_enumerator;
     };
 
     QDesignerMetaProperty::QDesignerMetaProperty(const QMetaProperty &property) :
@@ -180,7 +180,7 @@ namespace  {
 
     // -------------- QDesignerMetaMethod
 
-    class QDesignerMetaMethod : public QDesignerMetaMethodInterface {
+    class QDesignerMetaMethod : public QExtDesignerMetaMethodInterface {
     public:
         QDesignerMetaMethod(const QMetaMethod &method);
 
@@ -242,13 +242,13 @@ namespace  {
     }
 
     // ------------- QDesignerMetaObject
-    class QDesignerMetaObject : public QDesignerMetaObjectInterface {
+    class QDesignerMetaObject : public QExtDesignerMetaObjectInterface {
     public:
         QDesignerMetaObject(const qdesigner_internal::QDesignerIntrospection *introspection, const QMetaObject *metaObject);
         ~QDesignerMetaObject() override;
 
         QString className() const override { return m_className; }
-        const QDesignerMetaEnumInterface *enumerator(int index) const  override
+        const QExtDesignerMetaEnumInterface *enumerator(int index) const  override
         { return m_enumerators[index]; }
         int enumeratorCount() const override { return m_enumerators.size(); }
         int enumeratorOffset() const override { return m_metaObject->enumeratorOffset(); }
@@ -264,18 +264,18 @@ namespace  {
         int indexOfSlot(const QString &slot) const override
         { return m_metaObject->indexOfSlot(slot.toUtf8()); }
 
-        const QDesignerMetaMethodInterface *method(int index) const override
+        const QExtDesignerMetaMethodInterface *method(int index) const override
         { return m_methods[index]; }
         int methodCount() const override { return m_methods.size(); }
         int methodOffset() const override { return m_metaObject->methodOffset(); }
 
-        const QDesignerMetaPropertyInterface *property(int index) const override
+        const QExtDesignerMetaPropertyInterface *property(int index) const override
         { return m_properties[index]; }
         int propertyCount() const override { return m_properties.size(); }
         int propertyOffset() const override { return m_metaObject->propertyOffset(); }
 
-        const QDesignerMetaObjectInterface *superClass() const override;
-        const QDesignerMetaPropertyInterface *userProperty() const override
+        const QExtDesignerMetaObjectInterface *superClass() const override;
+        const QExtDesignerMetaPropertyInterface *userProperty() const override
         { return m_userProperty; }
 
     private:
@@ -283,16 +283,16 @@ namespace  {
         const qdesigner_internal::QDesignerIntrospection *m_introspection;
         const QMetaObject *m_metaObject;
 
-        using Enumerators = QVector<QDesignerMetaEnumInterface *>;
+        using Enumerators = QVector<QExtDesignerMetaEnumInterface *>;
         Enumerators m_enumerators;
 
-        using Methods = QVector<QDesignerMetaMethodInterface *>;
+        using Methods = QVector<QExtDesignerMetaMethodInterface *>;
         Methods m_methods;
 
-        using Properties = QVector<QDesignerMetaPropertyInterface *>;
+        using Properties = QVector<QExtDesignerMetaPropertyInterface *>;
         Properties m_properties;
 
-        QDesignerMetaPropertyInterface *m_userProperty;
+        QExtDesignerMetaPropertyInterface *m_userProperty;
     };
 
     QDesignerMetaObject::QDesignerMetaObject(const qdesigner_internal::QDesignerIntrospection *introspection, const QMetaObject *metaObject) :
@@ -328,7 +328,7 @@ namespace  {
         delete m_userProperty;
     }
 
-    const QDesignerMetaObjectInterface *QDesignerMetaObject::superClass() const
+    const QExtDesignerMetaObjectInterface *QDesignerMetaObject::superClass() const
     {
         const QMetaObject *qSuperClass = m_metaObject->superClass();
         if (!qSuperClass)
@@ -347,12 +347,12 @@ namespace qdesigner_internal {
         qDeleteAll(m_metaObjectMap.values());
     }
 
-    const QDesignerMetaObjectInterface* QDesignerIntrospection::metaObject(const QObject *object) const
+    const QExtDesignerMetaObjectInterface* QDesignerIntrospection::metaObject(const QObject *object) const
     {
         return metaObjectForQMetaObject(object->metaObject());
     }
 
-    const QDesignerMetaObjectInterface* QDesignerIntrospection::metaObjectForQMetaObject(const QMetaObject *metaObject) const
+    const QExtDesignerMetaObjectInterface* QDesignerIntrospection::metaObjectForQMetaObject(const QMetaObject *metaObject) const
     {
         MetaObjectMap::iterator it = m_metaObjectMap.find(metaObject);
         if (it == m_metaObjectMap.end())

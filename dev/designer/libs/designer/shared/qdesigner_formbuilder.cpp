@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -27,29 +27,29 @@
 ****************************************************************************/
 
 #include "qdesigner_formbuilder_p.h"
-#include "dynamicpropertysheet.h"
 #include "qsimpleresource_p.h"
 #include "widgetfactory_p.h"
 #include "qdesigner_introspection_p.h"
 
-#include <../uilib/ui4_p.h>
-#include <../uilib/formbuilderextra_p.h>
+#include <private/qextDesignerDomUI_p.h>
+#include <private/qextDesignerFormBuilderExtra_p.h>
 // sdk
-#include <../sdk/container.h>
-#include <../sdk/propertysheet.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractwidgetfactory.h>
-#include <abstractdialoggui_p.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerDynamicPropertySheetExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractWidgetFactory.h>
+#include <private/qextDesignerAbstractDialogGui_p.h>
 
-#include <../uiplugin/customwidget.h>
+#include "../../uiplugin/customwidget.h"
 
 // shared
-#include <qdesigner_propertysheet_p.h>
-#include <qdesigner_utils_p.h>
-#include <formwindowbase_p.h>
-#include <qtresourcemodel_p.h>
+#include "qdesigner_propertysheet_p.h"
+#include "qdesigner_utils_p.h"
+#include "formwindowbase_p.h"
+#include "qtresourcemodel_p.h"
 
 #include <QtWidgets/qwidget.h>
 #include <QtWidgets/qmenu.h>
@@ -71,7 +71,7 @@ QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
-QDesignerFormBuilder::QDesignerFormBuilder(QDesignerFormEditorInterface *core,
+QDesignerFormBuilder::QDesignerFormBuilder(QExtDesignerAbstractFormEditor *core,
                                            const DeviceProfile &deviceProfile) :
     m_core(core),
     m_deviceProfile(deviceProfile),
@@ -152,7 +152,7 @@ bool QDesignerFormBuilder::addItem(DomWidget *ui_widget, QWidget *widget, QWidge
     if (QFormBuilder::addItem(ui_widget, widget, parentWidget))
         return true;
 
-    if (QDesignerContainerExtension *container = qt_extension<QDesignerContainerExtension*>(m_core->extensionManager(), parentWidget)) {
+    if (QExtDesignerContainerExtension *container = qt_extension<QExtDesignerContainerExtension*>(m_core->extensionManager(), parentWidget)) {
         container->addWidget(widget);
         return true;
     }
@@ -184,7 +184,7 @@ QPixmap QDesignerFormBuilder::nameToPixmap(const QString &filePath, const QStrin
  * the existing enum/flag type via property sheet and use it to convert */
 
 static bool readDomEnumerationValue(const DomProperty *p,
-                                    const QDesignerPropertySheetExtension* sheet,
+                                    const QExtDesignerPropertySheetExtension* sheet,
                                     QVariant &v)
 {
     switch (p->kind()) {
@@ -229,14 +229,14 @@ void QDesignerFormBuilder::applyProperties(QObject *o, const QList<DomProperty*>
     if (properties.isEmpty())
         return;
 
-    const QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core()->extensionManager(), o);
-    const QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core()->extensionManager(), o);
+    const QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core()->extensionManager(), o);
+    const QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core()->extensionManager(), o);
     const bool changingMetaObject = WidgetFactory::classNameOf(core(), o) == QStringLiteral("QAxWidget");
-    const QDesignerMetaObjectInterface *meta = core()->introspection()->metaObject(o);
+    const QExtDesignerMetaObjectInterface *meta = core()->introspection()->metaObject(o);
     const bool dynamicPropertiesAllowed = dynamicSheet && dynamicSheet->dynamicPropertiesAllowed();
 
     QDesignerPropertySheet *designerPropertySheet = qobject_cast<QDesignerPropertySheet *>(
-                    core()->extensionManager()->extension(o, Q_TYPEID(QDesignerPropertySheetExtension)));
+                    core()->extensionManager()->extension(o, Q_TYPEID(QExtDesignerPropertySheetExtension)));
 
     if (designerPropertySheet) {
         if (designerPropertySheet->pixmapCache())
@@ -316,7 +316,7 @@ void QDesignerFormBuilder::loadExtraInfo(DomWidget *ui_widget, QWidget *widget, 
     QFormBuilder::loadExtraInfo(ui_widget, widget, parentWidget);
 }
 
-QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface *fw,
+QWidget *QDesignerFormBuilder::createPreview(const QExtDesignerAbstractFormWindow *fw,
                                              const QString &styleName,
                                              const QString &appStyleSheet,
                                              const DeviceProfile &deviceProfile,
@@ -355,12 +355,12 @@ QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface 
     return widget;
 }
 
-QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface *fw, const QString &styleName)
+QWidget *QDesignerFormBuilder::createPreview(const QExtDesignerAbstractFormWindow *fw, const QString &styleName)
 {
     return createPreview(fw, styleName, QString());
 }
 
-QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface *fw,
+QWidget *QDesignerFormBuilder::createPreview(const QExtDesignerAbstractFormWindow *fw,
                                              const QString &styleName,
                                              const QString &appStyleSheet,
                                              QString *errorMessage)
@@ -368,14 +368,14 @@ QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface 
     return  createPreview(fw, styleName, appStyleSheet, DeviceProfile(), errorMessage);
 }
 
-QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface *fw, const QString &styleName, const QString &appStyleSheet)
+QWidget *QDesignerFormBuilder::createPreview(const QExtDesignerAbstractFormWindow *fw, const QString &styleName, const QString &appStyleSheet)
 {
     QString errorMessage;
     QWidget *widget = createPreview(fw, styleName, appStyleSheet, DeviceProfile(), &errorMessage);
     if (!widget && !errorMessage.isEmpty()) {
         // Display Script errors or message box
         QWidget *dialogParent = fw->core()->topLevel();
-        fw->core()->dialogGui()->message(dialogParent, QDesignerDialogGuiInterface::PreviewFailureMessage,
+        fw->core()->dialogGui()->message(dialogParent, QExtDesignerAbstractDialogGui::PreviewFailureMessage,
                                          QMessageBox::Warning, QCoreApplication::translate("QDesignerFormBuilder", "Designer"),
                                          errorMessage, QMessageBox::Ok);
         return nullptr;
@@ -383,7 +383,7 @@ QWidget *QDesignerFormBuilder::createPreview(const QDesignerFormWindowInterface 
     return widget;
 }
 
-QPixmap QDesignerFormBuilder::createPreviewPixmap(const QDesignerFormWindowInterface *fw, const QString &styleName, const QString &appStyleSheet)
+QPixmap QDesignerFormBuilder::createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const QString &styleName, const QString &appStyleSheet)
 {
     QWidget *widget = createPreview(fw, styleName, appStyleSheet);
     if (!widget)
@@ -396,7 +396,7 @@ QPixmap QDesignerFormBuilder::createPreviewPixmap(const QDesignerFormWindowInter
 
 // ---------- NewFormWidgetFormBuilder
 
-NewFormWidgetFormBuilder::NewFormWidgetFormBuilder(QDesignerFormEditorInterface *core,
+NewFormWidgetFormBuilder::NewFormWidgetFormBuilder(QExtDesignerAbstractFormEditor *core,
                              const DeviceProfile &deviceProfile) :
     QDesignerFormBuilder(core, deviceProfile)
 {

@@ -35,7 +35,7 @@
 
     The Task Menu Extension example shows how to create a custom
     widget plugin for \l {Qt Designer Manual}{\QD}, and how to to use
-    the QDesignerTaskMenuExtension class to provide custom task menu
+    the QExtDesignerTaskMenuExtension class to provide custom task menu
     entries associated with the plugin.
 
     \image taskmenuextension-example-faded.png
@@ -46,23 +46,23 @@
     The TicTacToe widget.
 
     An extension is an object which modifies the behavior of \QD. The
-    QDesignerTaskMenuExtension can provide custom task menu entries
+    QExtDesignerTaskMenuExtension can provide custom task menu entries
     when a widget with this extension is selected.
 
     There are four available types of extensions in \QD:
 
     \list
-        \li QDesignerContainerExtension provides an extension that allows
+        \li QExtDesignerContainerExtension provides an extension that allows
            you to add (and delete) pages to a multi-page container plugin
            in \QD.
-        \li QDesignerMemberSheetExtension provides an extension that allows
+        \li QExtDesignerMemberSheetExtension provides an extension that allows
            you to manipulate a widget's member functions which is displayed
            when configuring connections using Qt Designer's mode for editing
            signals and slots.
-        \li QDesignerPropertySheetExtension provides an extension that
+        \li QExtDesignerPropertySheetExtension provides an extension that
            allows you to manipulate a widget's properties which is displayed
            in Qt Designer's property editor.
-        \li QDesignerTaskMenuExtension provides an extension that allows
+        \li QExtDesignerTaskMenuExtension provides an extension that allows
            you to add custom menu entries to \QD's task menu.
     \endlist
 
@@ -163,7 +163,7 @@
     TicTacToePlugin also defines the \l
     {QDesignerCustomWidgetInterface::initialize()}{initialize()}
     function which is called after the plugin is loaded into \QD. The
-    function's QDesignerFormEditorInterface parameter provides the
+    function's QExtDesignerAbstractFormEditor parameter provides the
     plugin with a gateway to all of \QD's API's.
 
     The \c TicTacToePlugin class inherits from both QObject and
@@ -187,12 +187,12 @@
 
     \snippet taskmenuextension/tictactoeplugin.cpp 1
 
-    The \c initialize() function takes a QDesignerFormEditorInterface
-    object as argument.  The QDesignerFormEditorInterface class
+    The \c initialize() function takes a QExtDesignerAbstractFormEditor
+    object as argument.  The QExtDesignerAbstractFormEditor class
     provides access to Qt Designer's components.
 
     In \QD you can create two kinds of plugins: custom widget plugins
-    and tool plugins. QDesignerFormEditorInterface provides access to
+    and tool plugins. QExtDesignerAbstractFormEditor provides access to
     all the \QD components that you normally need to create a tool
     plugin: the extension manager, the object inspector, the property
     editor and the widget box. Custom widget plugins have access to
@@ -202,9 +202,9 @@
 
     When creating extensions associated with custom widget plugins, we
     need to access \QD's current extension manager which we retrieve
-    from the QDesignerFormEditorInterface parameter.
+    from the QExtDesignerAbstractFormEditor parameter.
 
-    \QD's QDesignerFormEditorInterface holds information about all Qt
+    \QD's QExtDesignerAbstractFormEditor holds information about all Qt
     Designer's components: The action editor, the object inspector,
     the property editor, the widget box, and the extension and form
     window managers.
@@ -225,7 +225,7 @@
 
     We create a \c TicTacToeTaskMenuFactory object that we register
     using \QD's current \l {QExtensionManager}{extension manager}
-    retrieved from the QDesignerFormEditorInterface parameter. The
+    retrieved from the QExtDesignerAbstractFormEditor parameter. The
     first argument is the newly created factory and the second
     argument is an extension identifier which is a string. The \c
     Q_TYPEID() macro simply converts the string into a QLatin1String.
@@ -294,7 +294,7 @@
 
     \image taskmenuextension-menu.png
 
-    The \c TicTacToeTaskMenu class inherits QDesignerTaskMenuExtension
+    The \c TicTacToeTaskMenu class inherits QExtDesignerTaskMenuExtension
     which allows you to add custom entries (in the form of QActions)
     to the task menu in \QD.
 
@@ -385,9 +385,9 @@
     OK button, and transfers the state of the editor widget to the
     widget which state we want to modify. In order to make the change
     of state visible to \QD we need to set the latter widget's state
-    property using the QDesignerFormWindowInterface class.
+    property using the QExtDesignerAbstractFormWindow class.
 
-    QDesignerFormWindowInterface provides you with information about
+    QExtDesignerAbstractFormWindow provides you with information about
     the associated form window as well as allowing you to alter its
     properties. The interface is not intended to be instantiated
     directly, but to provide access to Qt Designer's current form
@@ -395,18 +395,18 @@
 
     If you are looking for the form window containing a specific
     widget, you can use the static
-    QDesignerFormWindowInterface::findFormWindow() function:
+    QExtDesignerAbstractFormWindow::findFormWindow() function:
 
     \snippet taskmenuextension/tictactoedialog.cpp 4
 
     After retrieving the form window of the widget (which state we
-    want to modify), we use the QDesignerFormWindowInterface::cursor()
+    want to modify), we use the QExtDesignerAbstractFormWindow::cursor()
     function to retrieve the form window's cursor.
 
-    The QDesignerFormWindowCursorInterface class provides an interface
+    The QExtDesignerFormWindowCursorInterface class provides an interface
     to the form window's text cursor. Once we have cursor, we can
     finally set the state property using the
-    QDesignerFormWindowCursorInterface::setProperty() function.
+    QExtDesignerFormWindowCursorInterface::setProperty() function.
 
     \snippet taskmenuextension/tictactoedialog.cpp 5
 

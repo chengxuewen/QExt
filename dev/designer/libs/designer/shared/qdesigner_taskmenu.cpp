@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -47,18 +47,18 @@
 #include "morphmenu_p.h"
 #include "formlayoutmenu_p.h"
 #include "widgetfactory_p.h"
-#include "abstractintrospection_p.h"
 #include "widgetdatabase_p.h"
 
-#include <shared_enums_p.h>
+#include "../shared/shared_enums_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformwindowcursor.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/abstractintegration.h>
-#include <../extension/qextensionmanager.h>
+#include <private/qextDesignerAbstractIntrospection_p.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormWindowCursor.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qactiongroup.h>
@@ -81,9 +81,9 @@ static inline QAction *createSeparatorHelper(QObject *parent) {
     return rc;
 }
 
-static QString objName(const QDesignerFormEditorInterface *core, QObject *object) {
-    QDesignerPropertySheetExtension *sheet
-            = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), object);
+static QString objName(const QExtDesignerAbstractFormEditor *core, QObject *object) {
+    QExtDesignerPropertySheetExtension *sheet
+            = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), object);
     Q_ASSERT(sheet != nullptr);
 
     const QString objectNameProperty = QStringLiteral("objectName");
@@ -153,7 +153,7 @@ public:
     void connect(QObject *receiver, const char *aSlot);
 
     // Set up enabled state and checked actions according to widget (managed box/grid)
-    bool setAlignment(const QDesignerFormEditorInterface *core, QWidget *w);
+    bool setAlignment(const QExtDesignerAbstractFormEditor *core, QWidget *w);
 
     // Return the currently checked alignment
     Qt::Alignment alignment() const;
@@ -206,7 +206,7 @@ void LayoutAlignmentMenu::connect(QObject *receiver, const char *aSlot)
     QObject::connect(m_verticalGroup, SIGNAL(triggered(QAction*)), receiver, aSlot);
 }
 
-bool LayoutAlignmentMenu::setAlignment(const QDesignerFormEditorInterface *core, QWidget *w)
+bool LayoutAlignmentMenu::setAlignment(const QExtDesignerAbstractFormEditor *core, QWidget *w)
 {
     bool enabled;
     const Qt::Alignment alignment = LayoutAlignmentCommand::alignmentOf(core, w, &enabled);
@@ -357,7 +357,7 @@ QDesignerTaskMenu::QDesignerTaskMenu(QWidget *widget, QObject *parent) :
     d(new QDesignerTaskMenuPrivate(widget, parent))
 {
     d->m_q = this;
-    Q_ASSERT(qobject_cast<QDesignerFormWindowInterface*>(widget) == 0);
+    Q_ASSERT(qobject_cast<QExtDesignerAbstractFormWindow*>(widget) == 0);
 
     connect(d->m_changeObjectNameAction, &QAction::triggered, this, &QDesignerTaskMenu::changeObjectName);
     connect(d->m_changeToolTip, &QAction::triggered, this, &QDesignerTaskMenu::changeToolTip);
@@ -397,16 +397,16 @@ QWidget *QDesignerTaskMenu::widget() const
     return d->m_widget;
 }
 
-QDesignerFormWindowInterface *QDesignerTaskMenu::formWindow() const
+QExtDesignerAbstractFormWindow *QDesignerTaskMenu::formWindow() const
 {
-    QDesignerFormWindowInterface *result = QDesignerFormWindowInterface::findFormWindow(widget());
+    QExtDesignerAbstractFormWindow *result = QExtDesignerAbstractFormWindow::findFormWindow(widget());
     Q_ASSERT(result != nullptr);
     return result;
 }
 
 void QDesignerTaskMenu::createMenuBar()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         QMainWindow *mw = qobject_cast<QMainWindow*>(fw->mainContainer());
         if (!mw) {
             // ### warning message
@@ -421,7 +421,7 @@ void QDesignerTaskMenu::createMenuBar()
 
 void QDesignerTaskMenu::addToolBar(Qt::ToolBarArea area)
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         QMainWindow *mw = qobject_cast<QMainWindow*>(fw->mainContainer());
         if (!mw) {
             // ### warning message
@@ -436,7 +436,7 @@ void QDesignerTaskMenu::addToolBar(Qt::ToolBarArea area)
 
 void QDesignerTaskMenu::createStatusBar()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         QMainWindow *mw = qobject_cast<QMainWindow*>(fw->mainContainer());
         if (!mw) {
             // ### warning message
@@ -451,7 +451,7 @@ void QDesignerTaskMenu::createStatusBar()
 
 void QDesignerTaskMenu::removeStatusBar()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         QMainWindow *mw = qobject_cast<QMainWindow*>(fw->mainContainer());
         if (!mw) {
             // ### warning message
@@ -466,7 +466,7 @@ void QDesignerTaskMenu::removeStatusBar()
 
 QList<QAction*> QDesignerTaskMenu::taskActions() const
 {
-    QDesignerFormWindowInterface *formWindow = QDesignerFormWindowInterface::findFormWindow(widget());
+    QExtDesignerAbstractFormWindow *formWindow = QExtDesignerAbstractFormWindow::findFormWindow(widget());
     Q_ASSERT(formWindow);
 
     const bool isMainContainer = formWindow->mainContainer() == widget();
@@ -505,7 +505,7 @@ QList<QAction*> QDesignerTaskMenu::taskActions() const
                                     PromotionTaskMenu::ModeManagedMultiSelection : PromotionTaskMenu::ModeUnmanagedMultiSelection);
     d->m_promotionTaskMenu->addActions(formWindow, PromotionTaskMenu::LeadingSeparator, actions);
 
-    if (isMainContainer && !qt_extension<QDesignerLanguageExtension*>(formWindow->core()->extensionManager(), formWindow->core())) {
+    if (isMainContainer && !qt_extension<QExtDesignerLanguageExtension*>(formWindow->core()->extensionManager(), formWindow->core())) {
         actions.append(d->m_separator5);
         actions.append(d->m_containerFakeMethods);
     }
@@ -520,7 +520,7 @@ QList<QAction*> QDesignerTaskMenu::taskActions() const
 
 void QDesignerTaskMenu::changeObjectName()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     Q_ASSERT(fw != nullptr);
 
     const QString oldObjectName = objName(fw->core(), widget());
@@ -539,12 +539,12 @@ void QDesignerTaskMenu::changeObjectName()
 
 void QDesignerTaskMenu::changeTextProperty(const QString &propertyName, const QString &windowTitle, PropertyMode pm, Qt::TextFormat desiredFormat)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return;
     Q_ASSERT(d->m_widget->parentWidget() != nullptr);
 
-    const QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(fw->core()->extensionManager(), d->m_widget);
+    const QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(fw->core()->extensionManager(), d->m_widget);
     const int index = sheet->indexOf(propertyName);
     if (index == -1) {
         qDebug() << "** WARNING Invalid property" << propertyName << " passed to changeTextProperty!";
@@ -598,7 +598,7 @@ void QDesignerTaskMenu::changeWhatsThis()
 
 void QDesignerTaskMenu::changeStyleSheet()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         StyleSheetPropertyEditorDialog dlg(fw, fw, d->m_widget);
         dlg.exec();
     }
@@ -606,25 +606,25 @@ void QDesignerTaskMenu::changeStyleSheet()
 
 void QDesignerTaskMenu::containerFakeMethods()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return;
     SignalSlotDialog::editMetaDataBase(fw, d->m_widget, fw);
 }
 
-bool QDesignerTaskMenu::isSlotNavigationEnabled(const QDesignerFormEditorInterface *core)
+bool QDesignerTaskMenu::isSlotNavigationEnabled(const QExtDesignerAbstractFormEditor *core)
 {
-    return core->integration()->hasFeature(QDesignerIntegration::SlotNavigationFeature);
+    return core->integration()->hasFeature(QExtDesignerIntegration::SlotNavigationFeature);
 }
 
 void QDesignerTaskMenu::slotNavigateToSlot()
 {
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
     Q_ASSERT(core);
     navigateToSlot(core, widget());
 }
 
-void QDesignerTaskMenu::navigateToSlot(QDesignerFormEditorInterface *core,
+void QDesignerTaskMenu::navigateToSlot(QExtDesignerAbstractFormEditor *core,
                                        QObject *object,
                                        const QString &defaultSignal)
 {
@@ -643,7 +643,7 @@ void QDesignerTaskMenu::navigateToSlot(QDesignerFormEditorInterface *core,
 
 // Add a command that takes over the value of the current geometry as
 // minimum/maximum size according to the flags.
-static void createSizeCommand(QDesignerFormWindowInterface *fw, QWidget *w, int flags)
+static void createSizeCommand(QExtDesignerAbstractFormWindow *fw, QWidget *w, int flags)
 {
     const QSize size = w->size();
     if (flags & (ApplyMinimumWidth|ApplyMinimumHeight)) {
@@ -670,7 +670,7 @@ static void createSizeCommand(QDesignerFormWindowInterface *fw, QWidget *w, int 
 
 void QDesignerTaskMenu::applySize(QAction *a)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return;
 
@@ -687,7 +687,7 @@ void QDesignerTaskMenu::applySize(QAction *a)
 }
 
 template <class Container>
-    static void getApplicableObjects(const QDesignerFormWindowInterface *fw, QWidget *current,
+    static void getApplicableObjects(const QExtDesignerAbstractFormWindow *fw, QWidget *current,
                                      QDesignerTaskMenu::PropertyMode pm, Container *c)
 {
     // Current is always first
@@ -707,21 +707,21 @@ template <class Container>
             c->push_back(*it);
 }
 
-QObjectList QDesignerTaskMenu::applicableObjects(const QDesignerFormWindowInterface *fw, PropertyMode pm) const
+QObjectList QDesignerTaskMenu::applicableObjects(const QExtDesignerAbstractFormWindow *fw, PropertyMode pm) const
 {
     QObjectList rc;
     getApplicableObjects(fw, d->m_widget, pm, &rc);
     return rc;
 }
 
-QWidgetList QDesignerTaskMenu::applicableWidgets(const QDesignerFormWindowInterface *fw, PropertyMode pm) const
+QWidgetList QDesignerTaskMenu::applicableWidgets(const QExtDesignerAbstractFormWindow *fw, PropertyMode pm) const
 {
     QWidgetList rc;
     getApplicableObjects(fw, d->m_widget, pm, &rc);
     return rc;
 }
 
-void QDesignerTaskMenu::setProperty(QDesignerFormWindowInterface *fw,  PropertyMode pm, const QString &name, const QVariant &newValue)
+void QDesignerTaskMenu::setProperty(QExtDesignerAbstractFormWindow *fw,  PropertyMode pm, const QString &name, const QVariant &newValue)
 {
     SetPropertyCommand* setPropertyCommand = new SetPropertyCommand(fw);
     if (setPropertyCommand->init(applicableObjects(fw, pm), name, newValue, d->m_widget)) {
@@ -734,7 +734,7 @@ void QDesignerTaskMenu::setProperty(QDesignerFormWindowInterface *fw,  PropertyM
 
 void QDesignerTaskMenu::slotLayoutAlignment()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     const Qt::Alignment newAlignment = d->m_layoutAlignmentMenu.alignment();
     LayoutAlignmentCommand *cmd = new LayoutAlignmentCommand(fw);
     if (cmd->init(d->m_widget, newAlignment)) {

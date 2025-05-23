@@ -37,14 +37,14 @@
 
 QT_BEGIN_NAMESPACE
 
-class VIEW3D_EXPORT QView3DTool : public QDesignerFormWindowToolInterface
+class VIEW3D_EXPORT QView3DTool : public QExtDesignerAbstractFormWindowTool
 {
     Q_OBJECT
 
 public:
-    explicit QView3DTool(QDesignerFormWindowInterface *formWindow, QObject *parent = 0);
-    QDesignerFormEditorInterface *core() const override;
-    QDesignerFormWindowInterface *formWindow() const override;
+    explicit QView3DTool(QExtDesignerAbstractFormWindow *formWindow, QObject *parent = 0);
+    QExtDesignerAbstractFormEditor *core() const override;
+    QExtDesignerAbstractFormWindow *formWindow() const override;
     QWidget *editor() const override;
 
     QAction *action() const override;
@@ -55,7 +55,7 @@ public:
     bool handleEvent(QWidget *widget, QWidget *managedWidget, QEvent *event) override;
 
 private:
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     mutable QPointer<QView3D> m_editor;
     QAction *m_action;
 };

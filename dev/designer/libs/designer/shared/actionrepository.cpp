@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,9 +31,9 @@
 #include "iconloader_p.h"
 #include "qdesigner_utils_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/propertysheet.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtGui/qdrag.h>
 #include <QtGui/qevent.h>
@@ -149,15 +149,15 @@ QWidgetList ActionModel::associatedWidgets(const QAction *action)
 }
 
 // shortcut is a fake property, need to retrieve it via property sheet.
-PropertySheetKeySequenceValue ActionModel::actionShortCut(QDesignerFormEditorInterface *core, QAction *action)
+PropertySheetKeySequenceValue ActionModel::actionShortCut(QExtDesignerAbstractFormEditor *core, QAction *action)
 {
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), action);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), action);
     if (!sheet)
         return PropertySheetKeySequenceValue();
     return actionShortCut(sheet);
 }
 
-PropertySheetKeySequenceValue ActionModel::actionShortCut(const QDesignerPropertySheetExtension *sheet)
+PropertySheetKeySequenceValue ActionModel::actionShortCut(const QExtDesignerPropertySheetExtension *sheet)
 {
     const int index = sheet->indexOf(QStringLiteral("shortcut"));
     if (index == -1)
@@ -165,7 +165,7 @@ PropertySheetKeySequenceValue ActionModel::actionShortCut(const QDesignerPropert
     return qvariant_cast<PropertySheetKeySequenceValue>(sheet->property(index));
 }
 
-void  ActionModel::setItems(QDesignerFormEditorInterface *core, QAction *action,
+void  ActionModel::setItems(QExtDesignerAbstractFormEditor *core, QAction *action,
                             const QIcon &defaultIcon,
                             QStandardItemList &sl)
 {

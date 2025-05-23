@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,11 +33,11 @@
 #include "invisible_widget_p.h"
 #include "qdesigner_widgetitem_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractwidgetfactory.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractWidgetFactory.h>
 
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qboxlayout.h>
@@ -166,7 +166,7 @@ static inline bool canSimplifyFormLayout(const QFormLayout *formLayout, const QR
 // recreate a managed layout (which does not automagically remove
 // empty rows/columns like grid or form layout) in case it needs to shrink
 
-static QLayout *recreateManagedLayout(const QDesignerFormEditorInterface *core, QWidget *w, QLayout *lt)
+static QLayout *recreateManagedLayout(const QExtDesignerAbstractFormEditor *core, QWidget *w, QLayout *lt)
 {
     const qdesigner_internal::LayoutInfo::Type t = qdesigner_internal::LayoutInfo::layoutType(core, lt);
     qdesigner_internal::LayoutProperties properties;
@@ -285,7 +285,7 @@ static const char *gridColumnStretchPropertyC = "columnStretch";
 static const char *gridRowMinimumHeightPropertyC = "rowMinimumHeight";
 static const char *gridColumnMinimumWidthPropertyC = "columnMinimumWidth";
 
-static bool intValueFromSheet(const QDesignerPropertySheetExtension *sheet, const QString &name, int *value, bool *changed)
+static bool intValueFromSheet(const QExtDesignerPropertySheetExtension *sheet, const QString &name, int *value, bool *changed)
 {
     const int sheetIndex = sheet->indexOf(name);
     if (sheetIndex == -1)
@@ -295,7 +295,7 @@ static bool intValueFromSheet(const QDesignerPropertySheetExtension *sheet, cons
     return true;
 }
 
-static void variantPropertyFromSheet(int mask, int flag, const QDesignerPropertySheetExtension *sheet, const QString &name,
+static void variantPropertyFromSheet(int mask, int flag, const QExtDesignerPropertySheetExtension *sheet, const QString &name,
                                      QVariant *value, bool *changed, int *returnMask)
 {
     if (mask & flag) {
@@ -308,10 +308,10 @@ static void variantPropertyFromSheet(int mask, int flag, const QDesignerProperty
     }
 }
 
-int LayoutProperties::fromPropertySheet(const QDesignerFormEditorInterface *core, QLayout *l, int mask)
+int LayoutProperties::fromPropertySheet(const QExtDesignerAbstractFormEditor *core, QLayout *l, int mask)
 {
     int rc = 0;
-    const QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), l);
+    const QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), l);
     Q_ASSERT(sheet);
     // name
     if (mask & ObjectNameProperty) {
@@ -347,7 +347,7 @@ int LayoutProperties::fromPropertySheet(const QDesignerFormEditorInterface *core
     return rc;
 }
 
-static bool intValueToSheet(QDesignerPropertySheetExtension *sheet, const QString &name, int value, bool changed, bool applyChanged)
+static bool intValueToSheet(QExtDesignerPropertySheetExtension *sheet, const QString &name, int value, bool changed, bool applyChanged)
 
 {
 
@@ -362,7 +362,7 @@ static bool intValueToSheet(QDesignerPropertySheetExtension *sheet, const QStrin
     return true;
 }
 
-static void variantPropertyToSheet(int mask, int flag, bool applyChanged, QDesignerPropertySheetExtension *sheet, const QString &name,
+static void variantPropertyToSheet(int mask, int flag, bool applyChanged, QExtDesignerPropertySheetExtension *sheet, const QString &name,
                                    const QVariant &value, bool changed, int *returnMask)
 {
     if (mask & flag) {
@@ -376,10 +376,10 @@ static void variantPropertyToSheet(int mask, int flag, bool applyChanged, QDesig
     }
 }
 
-int LayoutProperties::toPropertySheet(const QDesignerFormEditorInterface *core, QLayout *l, int mask, bool applyChanged) const
+int LayoutProperties::toPropertySheet(const QExtDesignerAbstractFormEditor *core, QLayout *l, int mask, bool applyChanged) const
 {
     int rc = 0;
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), l);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), l);
     Q_ASSERT(sheet);
     // name
     if (mask & ObjectNameProperty) {
@@ -453,11 +453,11 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         void removeWidget(QLayout *lt, QWidget *widget) override;
         void replaceWidget(QLayout *lt, QWidget *before, QWidget *after) override;
 
-        void pushState(const QDesignerFormEditorInterface *, const QWidget *) override;
-        void popState(const QDesignerFormEditorInterface *, QWidget *) override;
+        void pushState(const QExtDesignerAbstractFormEditor *, const QWidget *) override;
+        void popState(const QExtDesignerAbstractFormEditor *, QWidget *) override;
 
-        bool canSimplify(const QDesignerFormEditorInterface *, const QWidget *, const QRect &) const override { return  false; }
-        void simplify(const QDesignerFormEditorInterface *, QWidget *, const QRect &) override {}
+        bool canSimplify(const QExtDesignerAbstractFormEditor *, const QWidget *, const QRect &) const override { return  false; }
+        void simplify(const QExtDesignerAbstractFormEditor *, QWidget *, const QRect &) override {}
 
         // Helper for restoring layout states
         using LayoutItemVector = QVector<QLayoutItem *>;
@@ -525,7 +525,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         return rc;
     }
 
-    void BoxLayoutHelper::pushState(const QDesignerFormEditorInterface *core, const QWidget *w)
+    void BoxLayoutHelper::pushState(const QExtDesignerAbstractFormEditor *core, const QWidget *w)
     {
         const QBoxLayout *boxLayout = qobject_cast<const QBoxLayout *>(LayoutInfo::managedLayout(core, w));
         Q_ASSERT(boxLayout);
@@ -555,7 +555,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         return rc;
     }
 
-    void BoxLayoutHelper::popState(const QDesignerFormEditorInterface *core, QWidget *w)
+    void BoxLayoutHelper::popState(const QExtDesignerAbstractFormEditor *core, QWidget *w)
     {
         QBoxLayout *boxLayout = qobject_cast<QBoxLayout *>(LayoutInfo::managedLayout(core, w));
         Q_ASSERT(boxLayout);
@@ -586,7 +586,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         GridLayoutState() = default;
 
         void fromLayout(QGridLayout *l);
-        void applyToLayout(const QDesignerFormEditorInterface *core, QWidget *w) const;
+        void applyToLayout(const QExtDesignerAbstractFormEditor *core, QWidget *w) const;
 
         void insertRow(int row);
         void insertColumn(int column);
@@ -688,7 +688,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         }
     }
 
-    void GridLayoutState::applyToLayout(const QDesignerFormEditorInterface *core, QWidget *w) const
+    void GridLayoutState::applyToLayout(const QExtDesignerAbstractFormEditor *core, QWidget *w) const
     {
         using LayoutItemRectMap =QHash<QLayoutItem *, QRect>;
         QGridLayout *grid = qobject_cast<QGridLayout *>(LayoutInfo::managedLayout(core, w));
@@ -862,11 +862,11 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         void removeWidget(QLayout *lt, QWidget *widget) override;
         void replaceWidget(QLayout *lt, QWidget *before, QWidget *after) override;
 
-        void pushState(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout) override;
-        void popState(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout) override;
+        void pushState(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout) override;
+        void popState(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout) override;
 
-        bool canSimplify(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const override;
-        void simplify(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea) override;
+        bool canSimplify(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const override;
+        void simplify(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea) override;
 
         static void insertRow(QGridLayout *grid, int row);
 
@@ -879,7 +879,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         GridLayoutState state;
         state.fromLayout(grid);
         state.insertRow(row);
-        QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(grid);
+        QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(grid);
         state.applyToLayout(fw->core(), grid->parentWidget());
     }
 
@@ -967,7 +967,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
             qWarning() << "GridLayoutHelper::replaceWidget : Unable to replace " << before << " by " << after << " in " << lt;
     }
 
-    void GridLayoutHelper::pushState(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout)
+    void GridLayoutHelper::pushState(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout)
     {
         QGridLayout *gridLayout = qobject_cast<QGridLayout *>(LayoutInfo::managedLayout(core, widgetWithManagedLayout));
         Q_ASSERT(gridLayout);
@@ -976,14 +976,14 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         m_states.push(gs);
     }
 
-    void GridLayoutHelper::popState(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout)
+    void GridLayoutHelper::popState(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout)
     {
         Q_ASSERT(!m_states.isEmpty());
         const GridLayoutState state = m_states.pop();
         state.applyToLayout(core, widgetWithManagedLayout);
     }
 
-    bool GridLayoutHelper::canSimplify(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const
+    bool GridLayoutHelper::canSimplify(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const
     {
         QGridLayout *gridLayout = qobject_cast<QGridLayout *>(LayoutInfo::managedLayout(core, widgetWithManagedLayout));
         Q_ASSERT(gridLayout);
@@ -992,7 +992,7 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         return gs.simplify(restrictionArea, true);
     }
 
-    void GridLayoutHelper::simplify(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea)
+    void GridLayoutHelper::simplify(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea)
     {
         QGridLayout *gridLayout = qobject_cast<QGridLayout *>(LayoutInfo::managedLayout(core, widgetWithManagedLayout));
         Q_ASSERT(gridLayout);
@@ -1019,11 +1019,11 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         void removeWidget(QLayout *lt, QWidget *widget) override;
         void replaceWidget(QLayout *lt, QWidget *before, QWidget *after) override;
 
-        void pushState(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout) override;
-        void popState(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout) override;
+        void pushState(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout) override;
+        void popState(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout) override;
 
-        bool canSimplify(const QDesignerFormEditorInterface *core, const QWidget *, const QRect &) const override;
-        void simplify(const QDesignerFormEditorInterface *, QWidget *, const QRect &) override;
+        bool canSimplify(const QExtDesignerAbstractFormEditor *core, const QWidget *, const QRect &) const override;
+        void simplify(const QExtDesignerAbstractFormEditor *, QWidget *, const QRect &) override;
 
     private:
         static FormLayoutState state(const QFormLayout *lt);
@@ -1126,14 +1126,14 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         return rc;
     }
 
-    void FormLayoutHelper::pushState(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout)
+    void FormLayoutHelper::pushState(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout)
     {
         QFormLayout *formLayout = qobject_cast<QFormLayout *>(LayoutInfo::managedLayout(core, widgetWithManagedLayout));
         Q_ASSERT(formLayout);
         m_states.push(state(formLayout));
     }
 
-    void FormLayoutHelper::popState(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout)
+    void FormLayoutHelper::popState(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout)
     {
         QFormLayout *formLayout = qobject_cast<QFormLayout *>(LayoutInfo::managedLayout(core, widgetWithManagedLayout));
         Q_ASSERT(!m_states.isEmpty() && formLayout);
@@ -1165,14 +1165,14 @@ QRect LayoutHelper::itemInfo(QLayout *lt, const QWidget *widget) const
         }
     }
 
-    bool FormLayoutHelper::canSimplify(const QDesignerFormEditorInterface *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const
+    bool FormLayoutHelper::canSimplify(const QExtDesignerAbstractFormEditor *core, const QWidget *widgetWithManagedLayout, const QRect &restrictionArea) const
     {
         const QFormLayout *formLayout = qobject_cast<QFormLayout *>(LayoutInfo::managedLayout(core, widgetWithManagedLayout));
         Q_ASSERT(formLayout);
         return canSimplifyFormLayout(formLayout, restrictionArea);
     }
 
-    void FormLayoutHelper::simplify(const QDesignerFormEditorInterface *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea)
+    void FormLayoutHelper::simplify(const QExtDesignerAbstractFormEditor *core, QWidget *widgetWithManagedLayout, const QRect &restrictionArea)
     {
         using LayoutItemPair = QPair<QLayoutItem*, QLayoutItem*>;
         using LayoutItemPairs = QVector<LayoutItemPair>;
@@ -1242,13 +1242,13 @@ LayoutHelper *LayoutHelper::createLayoutHelper(int type)
 }
 
 // ---- QLayoutSupport (LayoutDecorationExtension)
-QLayoutSupport::QLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, LayoutHelper *helper, QObject *parent)  :
+QLayoutSupport::QLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, LayoutHelper *helper, QObject *parent)  :
       QObject(parent),
       m_formWindow(formWindow),
       m_helper(helper),
       m_widget(widget),
       m_currentIndex(-1),
-      m_currentInsertMode(QDesignerLayoutDecorationExtension::InsertWidgetMode)
+      m_currentInsertMode(QExtDesignerLayoutDecorationExtension::InsertWidgetMode)
 {
 }
 
@@ -1314,7 +1314,7 @@ void QLayoutSupport::adjustIndicator(const QPoint &pos, int index)
         return;
     }
     m_currentIndex = index;
-    m_currentInsertMode = QDesignerLayoutDecorationExtension::InsertWidgetMode;
+    m_currentInsertMode = QExtDesignerLayoutDecorationExtension::InsertWidgetMode;
 
     QLayoutItem *item = layout()->itemAt(index);
     const QRect g = extendedGeometry(index);
@@ -1535,7 +1535,7 @@ namespace {
 class QBoxLayoutSupport: public QLayoutSupport
 {
 public:
-    QBoxLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, Qt::Orientation orientation, QObject *parent = nullptr);
+    QBoxLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, Qt::Orientation orientation, QObject *parent = nullptr);
 
     void insertWidget(QWidget *widget, const QPair<int, int> &cell) override;
     void removeWidget(QWidget *widget) override;
@@ -1581,7 +1581,7 @@ void QBoxLayoutSupport::removeWidget(QWidget *widget)
     helper()->removeWidget(lt, widget);
 }
 
-QBoxLayoutSupport::QBoxLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, Qt::Orientation orientation, QObject *parent) :
+QBoxLayoutSupport::QBoxLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, Qt::Orientation orientation, QObject *parent) :
     QLayoutSupport(formWindow, widget, new BoxLayoutHelper(orientation), parent),
     m_orientation(orientation)
 {
@@ -1666,7 +1666,7 @@ class GridLikeLayoutSupportBase: public QLayoutSupport
 {
 public:
 
-    GridLikeLayoutSupportBase(QDesignerFormWindowInterface *formWindow, QWidget *widget, LayoutHelper *helper, QObject *parent = nullptr) :
+    GridLikeLayoutSupportBase(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, LayoutHelper *helper, QObject *parent = nullptr) :
         QLayoutSupport(formWindow, widget, helper, parent) {}
 
     void insertWidget(QWidget *widget, const QPair<int, int> &cell) override;
@@ -1781,7 +1781,7 @@ class QGridLayoutSupport: public GridLikeLayoutSupportBase<QGridLayout>
 {
 public:
 
-    QGridLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, QObject *parent = nullptr);
+    QGridLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, QObject *parent = nullptr);
 
     void simplify() override;
     void insertRow(int row) override;
@@ -1790,7 +1790,7 @@ public:
 private:
 };
 
-QGridLayoutSupport::QGridLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, QObject *parent) :
+QGridLayoutSupport::QGridLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, QObject *parent) :
     GridLikeLayoutSupportBase<QGridLayout>(formWindow, widget, new GridLayoutHelper, parent)
 {
 }
@@ -1828,7 +1828,7 @@ void QGridLayoutSupport::simplify()
 class QFormLayoutSupport: public GridLikeLayoutSupportBase<QFormLayout>
 {
 public:
-    QFormLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, QObject *parent = nullptr);
+    QFormLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, QObject *parent = nullptr);
 
     void simplify() override {}
     void insertRow(int /*row*/) override {}
@@ -1838,7 +1838,7 @@ private:
     void checkCellForInsertion(int * row, int *col) const override;
 };
 
-QFormLayoutSupport::QFormLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, QObject *parent) :
+QFormLayoutSupport::QFormLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, QObject *parent) :
     GridLikeLayoutSupportBase<QFormLayout>(formWindow, widget, new FormLayoutHelper, parent)
 {
 }
@@ -1852,7 +1852,7 @@ void QFormLayoutSupport::checkCellForInsertion(int *row, int *col) const
 }
 } //  anonymous namespace
 
-QLayoutSupport *QLayoutSupport::createLayoutSupport(QDesignerFormWindowInterface *formWindow, QWidget *widget, QObject *parent)
+QLayoutSupport *QLayoutSupport::createLayoutSupport(QExtDesignerAbstractFormWindow *formWindow, QWidget *widget, QObject *parent)
 {
     const QLayout *layout = LayoutInfo::managedLayout(formWindow->core(), widget);
     Q_ASSERT(layout);
@@ -1879,7 +1879,7 @@ QLayoutSupport *QLayoutSupport::createLayoutSupport(QDesignerFormWindowInterface
 } // namespace qdesigner_internal
 
 // -------------- QLayoutWidget
-QLayoutWidget::QLayoutWidget(QDesignerFormWindowInterface *formWindow, QWidget *parent)
+QLayoutWidget::QLayoutWidget(QExtDesignerAbstractFormWindow *formWindow, QWidget *parent)
     : QWidget(parent), m_formWindow(formWindow),
       m_leftMargin(0), m_topMargin(0), m_rightMargin(0), m_bottomMargin(0)
 {

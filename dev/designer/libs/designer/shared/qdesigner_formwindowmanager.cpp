@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,7 +29,7 @@
 #include "qdesigner_formwindowmanager_p.h"
 #include "plugindialog_p.h"
 
-#include <../sdk/abstractformeditor.h>
+#include <qextDesignerAbstractFormEditor.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -40,7 +40,7 @@ using namespace qdesigner_internal;
     \inmodule QtDesigner
     \internal
 
-    Extends QDesignerFormWindowManagerInterface with methods to control
+    Extends QExtDesignerAbstractFormWindowManager with methods to control
     the preview and printing of forms. It provides a facade that simplifies
     the complexity of the more general PreviewConfiguration & PreviewManager
     interfaces.
@@ -50,7 +50,7 @@ using namespace qdesigner_internal;
 
 
 QDesignerFormWindowManager::QDesignerFormWindowManager(QObject *parent)
-    : QDesignerFormWindowManagerInterface(parent)
+    : QExtDesignerAbstractFormWindowManager(parent)
 {
 }
 

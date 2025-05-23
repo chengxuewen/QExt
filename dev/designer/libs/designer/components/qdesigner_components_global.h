@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -38,7 +38,7 @@ QT_BEGIN_NAMESPACE
 
 #ifdef QT_DESIGNER_STATIC
 #  define QDESIGNER_COMPONENTS_EXPORT
-#elif defined(QDESIGNER_COMPONENTS_LIBRARY)
+#elif defined(QEXT_BUILD_DESIGNER_LIB)
 #  define QDESIGNER_COMPONENTS_EXPORT QDESIGNER_COMPONENTS_EXTERN
 #else
 #  define QDESIGNER_COMPONENTS_EXPORT QDESIGNER_COMPONENTS_IMPORT

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -47,7 +47,7 @@
 #include "qdesigner_formwindowcommand_p.h"
 #include "qdesigner_formeditorcommand_p.h"
 
-#include <../sdk/layoutdecoration.h>
+#include <qextDesignerLayoutDecorationExtension.h>
 
 #include <QtGui/qicon.h>
 #include <QtCore/qobject.h>
@@ -60,8 +60,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerContainerExtension;
-class QDesignerMetaDataBaseItemInterface;
+class QExtDesignerContainerExtension;
+class QExtDesignerMetaDataBaseItemInterface;
 class QDesignerMenu;
 
 class QMenuBar;
@@ -93,7 +93,7 @@ class QDESIGNER_SHARED_EXPORT InsertWidgetCommand: public QDesignerFormWindowCom
 {
 
 public:
-    explicit InsertWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit InsertWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~InsertWidgetCommand() override;
 
     void init(QWidget *widget, bool already_in_form = false, int layoutRow = -1, int layoutColumn = -1);
@@ -105,7 +105,7 @@ private:
     void refreshBuddyLabels();
 
     QPointer<QWidget> m_widget;
-    QDesignerLayoutDecorationExtension::InsertMode m_insertMode;
+    QExtDesignerLayoutDecorationExtension::InsertMode m_insertMode;
     QPair<int, int> m_cell;
     LayoutHelper* m_layoutHelper;
     bool m_widgetWasManaged;
@@ -115,7 +115,7 @@ class QDESIGNER_SHARED_EXPORT ChangeZOrderCommand: public QDesignerFormWindowCom
 {
 
 public:
-    explicit ChangeZOrderCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeZOrderCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget);
 
@@ -135,7 +135,7 @@ class QDESIGNER_SHARED_EXPORT RaiseWidgetCommand: public ChangeZOrderCommand
 {
 
 public:
-    explicit RaiseWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit RaiseWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget);
 
@@ -148,7 +148,7 @@ class QDESIGNER_SHARED_EXPORT LowerWidgetCommand: public ChangeZOrderCommand
 {
 
 public:
-    explicit LowerWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit LowerWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget);
 
@@ -161,7 +161,7 @@ class QDESIGNER_SHARED_EXPORT AdjustWidgetSizeCommand: public QDesignerFormWindo
 {
 
 public:
-    explicit AdjustWidgetSizeCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AdjustWidgetSizeCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget);
 
@@ -183,11 +183,11 @@ public:
     using WidgetVector = QVector<QWidget *>;
 
     ManageWidgetCommandHelper();
-    void init(const QDesignerFormWindowInterface *fw, QWidget *widget);
+    void init(const QExtDesignerAbstractFormWindow *fw, QWidget *widget);
     void init(QWidget *widget, const WidgetVector &managedChildren);
 
-    void manage(QDesignerFormWindowInterface *fw);
-    void unmanage(QDesignerFormWindowInterface *fw);
+    void manage(QExtDesignerAbstractFormWindow *fw);
+    void unmanage(QExtDesignerAbstractFormWindow *fw);
 
     const WidgetVector &managedChildren() const { return m_managedChildren; }
 private:
@@ -199,7 +199,7 @@ class QDESIGNER_SHARED_EXPORT DeleteWidgetCommand: public QDesignerFormWindowCom
 {
 
 public:
-    explicit DeleteWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~DeleteWidgetCommand() override;
 
     enum DeleteFlags { DoNotUnmanage = 0x1, DoNotSimplifyLayout = 0x2 };
@@ -219,7 +219,7 @@ private:
     QRect m_layoutPosition;
     int m_splitterIndex;
     bool m_layoutSimplified;
-    QDesignerMetaDataBaseItemInterface *m_formItem;
+    QExtDesignerMetaDataBaseItemInterface *m_formItem;
     int m_tabOrderIndex;
     int m_widgetOrderIndex;
     int m_zOrderIndex;
@@ -230,7 +230,7 @@ class QDESIGNER_SHARED_EXPORT ReparentWidgetCommand: public QDesignerFormWindowC
 {
 
 public:
-    explicit ReparentWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ReparentWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget, QWidget *parentWidget);
 
@@ -252,7 +252,7 @@ class QDESIGNER_SHARED_EXPORT ChangeFormLayoutItemRoleCommand : public QDesigner
 public:
     enum Operation { SpanningToLabel = 0x1, SpanningToField = 0x2, LabelToSpanning = 0x4, FieldToSpanning =0x8 };
 
-    explicit ChangeFormLayoutItemRoleCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeFormLayoutItemRoleCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget, Operation op);
 
@@ -260,10 +260,10 @@ public:
     void undo() override;
 
     // Return a mask of possible operations of that item
-    static unsigned possibleOperations(QDesignerFormEditorInterface *core, QWidget *w);
+    static unsigned possibleOperations(QExtDesignerAbstractFormEditor *core, QWidget *w);
 
 private:
-    static QFormLayout *managedFormLayoutOf(QDesignerFormEditorInterface *core, QWidget *w);
+    static QFormLayout *managedFormLayoutOf(QExtDesignerAbstractFormEditor *core, QWidget *w);
     static Operation reverseOperation(Operation op);
     void doOperation(Operation op);
 
@@ -275,7 +275,7 @@ class QDESIGNER_SHARED_EXPORT ChangeLayoutItemGeometry: public QDesignerFormWind
 {
 
 public:
-    explicit ChangeLayoutItemGeometry(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeLayoutItemGeometry(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QWidget *widget, int row, int column, int rowspan, int colspan);
 
@@ -295,7 +295,7 @@ class QDESIGNER_SHARED_EXPORT TabOrderCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit TabOrderCommand(QDesignerFormWindowInterface *formWindow);
+    explicit TabOrderCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(const QWidgetList &newTabOrder);
 
@@ -309,7 +309,7 @@ public:
     void undo() override;
 
 private:
-    QDesignerMetaDataBaseItemInterface *m_widgetItem;
+    QExtDesignerMetaDataBaseItemInterface *m_widgetItem;
     QWidgetList m_oldTabOrder;
     QWidgetList m_newTabOrder;
 };
@@ -319,7 +319,7 @@ class QDESIGNER_SHARED_EXPORT PromoteToCustomWidgetCommand : public QDesignerFor
 public:
     using WidgetPointerList = QVector<QPointer<QWidget> >;
 
-    explicit PromoteToCustomWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit PromoteToCustomWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(const WidgetPointerList &widgets, const QString &customClassName);
     void redo() override;
@@ -336,7 +336,7 @@ class QDESIGNER_SHARED_EXPORT DemoteFromCustomWidgetCommand : public QDesignerFo
 public:
     using WidgetList = PromoteToCustomWidgetCommand::WidgetPointerList;
 
-    explicit DemoteFromCustomWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DemoteFromCustomWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(const WidgetList &promoted);
     void redo() override;
@@ -351,8 +351,8 @@ class QDESIGNER_SHARED_EXPORT CursorSelectionState {
 public:
     CursorSelectionState();
 
-    void save(const QDesignerFormWindowInterface *formWindow);
-    void restore(QDesignerFormWindowInterface *formWindow) const;
+    void save(const QExtDesignerAbstractFormWindow *formWindow);
+    void restore(QExtDesignerAbstractFormWindow *formWindow) const;
 
 private:
     using WidgetPointerList = QVector<QPointer<QWidget> >;
@@ -364,7 +364,7 @@ class QDESIGNER_SHARED_EXPORT LayoutCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit LayoutCommand(QDesignerFormWindowInterface *formWindow);
+    explicit LayoutCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~LayoutCommand() override;
 
     inline QWidgetList widgets() const { return m_widgets; }
@@ -390,7 +390,7 @@ class QDESIGNER_SHARED_EXPORT BreakLayoutCommand: public QDesignerFormWindowComm
 {
 
 public:
-    explicit BreakLayoutCommand(QDesignerFormWindowInterface *formWindow);
+    explicit BreakLayoutCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~BreakLayoutCommand() override;
 
     inline QWidgetList widgets() const { return m_widgets; }
@@ -419,13 +419,13 @@ private:
 class QDESIGNER_SHARED_EXPORT SimplifyLayoutCommand: public QDesignerFormWindowCommand
 {
 public:
-    explicit SimplifyLayoutCommand(QDesignerFormWindowInterface *formWindow);
+    explicit SimplifyLayoutCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~SimplifyLayoutCommand() override;
 
     bool init(QWidget *layoutBase);
 
     // Quick check
-    static bool canSimplify(QDesignerFormEditorInterface *core, const QWidget *w, int *layoutType = nullptr);
+    static bool canSimplify(QExtDesignerAbstractFormEditor *core, const QWidget *w, int *layoutType = nullptr);
 
     void redo() override;
     void undo() override;
@@ -441,7 +441,7 @@ class ToolBoxCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit ToolBoxCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ToolBoxCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~ToolBoxCommand() override;
 
     void init(QToolBox *toolBox);
@@ -461,7 +461,7 @@ class MoveToolBoxPageCommand: public ToolBoxCommand
 {
 
 public:
-    explicit MoveToolBoxPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit MoveToolBoxPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~MoveToolBoxPageCommand() override;
 
     void init(QToolBox *toolBox, QWidget *page, int newIndex);
@@ -478,7 +478,7 @@ class DeleteToolBoxPageCommand: public ToolBoxCommand
 {
 
 public:
-    explicit DeleteToolBoxPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteToolBoxPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~DeleteToolBoxPageCommand() override;
 
     void init(QToolBox *toolBox);
@@ -495,7 +495,7 @@ public:
         InsertBefore,
         InsertAfter
     };
-    explicit AddToolBoxPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddToolBoxPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~AddToolBoxPageCommand() override;
 
     void init(QToolBox *toolBox);
@@ -509,7 +509,7 @@ class TabWidgetCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit TabWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit TabWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~TabWidgetCommand() override;
 
     void init(QTabWidget *tabWidget);
@@ -529,7 +529,7 @@ class DeleteTabPageCommand: public TabWidgetCommand
 {
 
 public:
-    explicit DeleteTabPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteTabPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~DeleteTabPageCommand() override;
 
     void init(QTabWidget *tabWidget);
@@ -546,7 +546,7 @@ public:
         InsertBefore,
         InsertAfter
     };
-    explicit AddTabPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddTabPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~AddTabPageCommand() override;
 
     void init(QTabWidget *tabWidget);
@@ -560,7 +560,7 @@ class MoveTabPageCommand: public TabWidgetCommand
 {
 
 public:
-    explicit MoveTabPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit MoveTabPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~MoveTabPageCommand() override;
 
     void init(QTabWidget *tabWidget, QWidget *page,
@@ -582,7 +582,7 @@ class StackedWidgetCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit StackedWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit StackedWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~StackedWidgetCommand() override;
 
     void init(QStackedWidget *stackedWidget);
@@ -600,7 +600,7 @@ class MoveStackedWidgetCommand: public StackedWidgetCommand
 {
 
 public:
-    explicit MoveStackedWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit MoveStackedWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~MoveStackedWidgetCommand() override;
 
     void init(QStackedWidget *stackedWidget, QWidget *page, int newIndex);
@@ -617,7 +617,7 @@ class DeleteStackedWidgetPageCommand: public StackedWidgetCommand
 {
 
 public:
-    explicit DeleteStackedWidgetPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteStackedWidgetPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~DeleteStackedWidgetPageCommand() override;
 
     void init(QStackedWidget *stackedWidget);
@@ -634,7 +634,7 @@ public:
         InsertBefore,
         InsertAfter
     };
-    explicit AddStackedWidgetPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddStackedWidgetPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~AddStackedWidgetPageCommand() override;
 
     void init(QStackedWidget *stackedWidget);
@@ -648,7 +648,7 @@ class  CreateMenuBarCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit CreateMenuBarCommand(QDesignerFormWindowInterface *formWindow);
+    explicit CreateMenuBarCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QMainWindow *mainWindow);
 
@@ -664,7 +664,7 @@ class DeleteMenuBarCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit DeleteMenuBarCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteMenuBarCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QMenuBar *menuBar);
 
@@ -680,7 +680,7 @@ class CreateStatusBarCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit CreateStatusBarCommand(QDesignerFormWindowInterface *formWindow);
+    explicit CreateStatusBarCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QMainWindow *mainWindow);
 
@@ -696,7 +696,7 @@ class QDESIGNER_SHARED_EXPORT DeleteStatusBarCommand: public QDesignerFormWindow
 {
 
 public:
-    explicit DeleteStatusBarCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteStatusBarCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QStatusBar *statusBar);
 
@@ -712,7 +712,7 @@ class AddToolBarCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit AddToolBarCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddToolBarCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QMainWindow *mainWindow, Qt::ToolBarArea area);
 
@@ -728,7 +728,7 @@ class DeleteToolBarCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit DeleteToolBarCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteToolBarCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QToolBar *toolBar);
 
@@ -744,7 +744,7 @@ class DockWidgetCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit DockWidgetCommand(const QString &description, QDesignerFormWindowInterface *formWindow);
+    explicit DockWidgetCommand(const QString &description, QExtDesignerAbstractFormWindow *formWindow);
     ~DockWidgetCommand() override;
 
     void init(QDockWidget *dockWidget);
@@ -757,7 +757,7 @@ class AddDockWidgetCommand: public QDesignerFormWindowCommand
 {
 
 public:
-    explicit AddDockWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddDockWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QMainWindow *mainWindow, QDockWidget *dockWidget);
     void init(QMainWindow *mainWindow);
@@ -774,10 +774,10 @@ class QDESIGNER_SHARED_EXPORT ContainerWidgetCommand: public QDesignerFormWindow
 {
 
 public:
-    explicit ContainerWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ContainerWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~ContainerWidgetCommand() override;
 
-    QDesignerContainerExtension *containerExtension() const;
+    QExtDesignerContainerExtension *containerExtension() const;
 
     void init(QWidget *containerWidget);
 
@@ -794,7 +794,7 @@ class QDESIGNER_SHARED_EXPORT DeleteContainerWidgetPageCommand: public Container
 {
 
 public:
-    explicit DeleteContainerWidgetPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit DeleteContainerWidgetPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~DeleteContainerWidgetPageCommand() override;
 
     void init(QWidget *containerWidget, ContainerType ct);
@@ -811,7 +811,7 @@ public:
         InsertBefore,
         InsertAfter
     };
-    explicit AddContainerWidgetPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddContainerWidgetPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~AddContainerWidgetPageCommand() override;
 
     void init(QWidget *containerWidget, ContainerType ct, InsertionMode mode);
@@ -824,10 +824,10 @@ class QDESIGNER_SHARED_EXPORT ChangeCurrentPageCommand: public QDesignerFormWind
 {
 
 public:
-    explicit ChangeCurrentPageCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeCurrentPageCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~ChangeCurrentPageCommand() override;
 
-    QDesignerContainerExtension *containerExtension() const;
+    QExtDesignerContainerExtension *containerExtension() const;
 
     void init(QWidget *containerWidget, int newIndex);
 
@@ -907,7 +907,7 @@ struct QDESIGNER_SHARED_EXPORT TableWidgetContents {
 class QDESIGNER_SHARED_EXPORT ChangeTableContentsCommand: public QDesignerFormWindowCommand
 {
 public:
-    explicit ChangeTableContentsCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeTableContentsCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QTableWidget *tableWidget, const TableWidgetContents &oldCont, const TableWidgetContents &newCont);
     void redo() override;
@@ -955,7 +955,7 @@ class QDESIGNER_SHARED_EXPORT ChangeTreeContentsCommand: public QDesignerFormWin
 {
 
 public:
-    explicit ChangeTreeContentsCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeTreeContentsCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QTreeWidget *treeWidget, const TreeWidgetContents &oldState, const TreeWidgetContents &newState);
     void redo() override;
@@ -975,7 +975,7 @@ class QDESIGNER_SHARED_EXPORT ChangeListContentsCommand: public QDesignerFormWin
 {
 
 public:
-    explicit ChangeListContentsCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ChangeListContentsCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void init(QListWidget *listWidget, const ListContents &oldItems, const ListContents &items);
     void init(QComboBox *comboBox, const ListContents &oldItems, const ListContents &items);
@@ -993,7 +993,7 @@ class QDESIGNER_SHARED_EXPORT AddActionCommand : public QDesignerFormWindowComma
 {
 
 public:
-    explicit AddActionCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddActionCommand(QExtDesignerAbstractFormWindow *formWindow);
     void init(QAction *action);
     void redo() override;
     void undo() override;
@@ -1008,7 +1008,7 @@ class QDESIGNER_SHARED_EXPORT RemoveActionCommand : public QDesignerFormWindowCo
 {
 
 public:
-    explicit RemoveActionCommand(QDesignerFormWindowInterface *formWindow);
+    explicit RemoveActionCommand(QExtDesignerAbstractFormWindow *formWindow);
     void init(QAction *action);
     void redo() override;
     void undo() override;
@@ -1031,7 +1031,7 @@ class ActionInsertionCommand : public QDesignerFormWindowCommand
 {
 
 protected:
-    ActionInsertionCommand(const QString &text, QDesignerFormWindowInterface *formWindow);
+    ActionInsertionCommand(const QString &text, QExtDesignerAbstractFormWindow *formWindow);
 
 public:
     void init(QWidget *parentWidget, QAction *action, QAction *beforeAction = nullptr, bool update = true);
@@ -1051,7 +1051,7 @@ class InsertActionIntoCommand : public ActionInsertionCommand
 {
 
 public:
-    explicit InsertActionIntoCommand(QDesignerFormWindowInterface *formWindow);
+    explicit InsertActionIntoCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void redo() override {  insertAction(); }
     void undo() override {  removeAction(); }
@@ -1061,7 +1061,7 @@ class RemoveActionFromCommand : public ActionInsertionCommand
 {
 
 public:
-    explicit RemoveActionFromCommand(QDesignerFormWindowInterface *formWindow);
+    explicit RemoveActionFromCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void redo() override {  removeAction(); }
     void undo() override {  insertAction(); }
@@ -1073,7 +1073,7 @@ public:
     void init(QAction *action, QAction *actionBefore, QWidget *associatedWidget, QWidget *objectToSelect);
 
 protected:
-    MenuActionCommand(const QString &text, QDesignerFormWindowInterface *formWindow);
+    MenuActionCommand(const QString &text, QExtDesignerAbstractFormWindow *formWindow);
     void insertMenu();
     void removeMenu();
 
@@ -1089,7 +1089,7 @@ class AddMenuActionCommand : public MenuActionCommand
 {
 
 public:
-    explicit AddMenuActionCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddMenuActionCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void redo() override { insertMenu(); }
     void undo() override { removeMenu(); }
@@ -1099,7 +1099,7 @@ class RemoveMenuActionCommand : public MenuActionCommand
 {
 
 public:
-    explicit RemoveMenuActionCommand(QDesignerFormWindowInterface *formWindow);
+    explicit RemoveMenuActionCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     void redo() override { removeMenu(); }
     void undo() override { insertMenu(); }
@@ -1109,7 +1109,7 @@ class CreateSubmenuCommand : public QDesignerFormWindowCommand
 {
 
 public:
-    explicit CreateSubmenuCommand(QDesignerFormWindowInterface *formWindow);
+    explicit CreateSubmenuCommand(QExtDesignerAbstractFormWindow *formWindow);
     void init(QDesignerMenu *menu, QAction *action, QObject *m_objectToSelect = nullptr);
     void redo() override;
     void undo() override;

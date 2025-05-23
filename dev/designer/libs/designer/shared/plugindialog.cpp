@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,11 +31,11 @@
 #include "pluginmanager_p.h"
 #include "iconloader_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractintegration.h>
-#include <../sdk/abstractwidgetdatabase.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
-#include <../uiplugin/customwidget.h>
+#include "../uiplugin/customwidget.h"
 
 #include <QtWidgets/qstyle.h>
 #include <QtWidgets/qheaderview.h>
@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
-PluginDialog::PluginDialog(QDesignerFormEditorInterface *core, QWidget *parent)
+PluginDialog::PluginDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent)
     : QDialog(parent
 #ifdef Q_OS_MACOS
             , Qt::Tool

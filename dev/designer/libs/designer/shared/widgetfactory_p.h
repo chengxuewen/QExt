@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -44,7 +44,7 @@
 #include "shared_global_p.h"
 #include "pluginmanager_p.h"
 
-#include "../sdk/abstractwidgetfactory.h"
+#include <qextDesignerAbstractWidgetFactory.h>
 
 #include <QtCore/qmap.h>
 #include <QtCore/qhash.h>
@@ -55,18 +55,18 @@ QT_BEGIN_NAMESPACE
 class QObject;
 class QWidget;
 class QLayout;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QDesignerCustomWidgetInterface;
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QStyle;
 
 namespace qdesigner_internal {
 
-class QDESIGNER_SHARED_EXPORT WidgetFactory: public QDesignerWidgetFactoryInterface
+class QDESIGNER_SHARED_EXPORT WidgetFactory: public QExtDesignerAbstractWidgetFactory
 {
     Q_OBJECT
 public:
-    explicit WidgetFactory(QDesignerFormEditorInterface *core, QObject *parent = nullptr);
+    explicit WidgetFactory(QExtDesignerAbstractFormEditor *core, QObject *parent = nullptr);
     ~WidgetFactory();
 
     QWidget* containerOfWidget(QWidget *widget) const override;
@@ -83,11 +83,11 @@ public:
     void initializePreview(QWidget *object) const;
 
 
-    QDesignerFormEditorInterface *core() const override;
+    QExtDesignerAbstractFormEditor *core() const override;
 
-    static QString classNameOf(QDesignerFormEditorInterface *core, const QObject* o);
+    static QString classNameOf(QExtDesignerAbstractFormEditor *core, const QObject* o);
 
-    QDesignerFormWindowInterface *currentFormWindow(QDesignerFormWindowInterface *fw);
+    QExtDesignerAbstractFormWindow *currentFormWindow(QExtDesignerAbstractFormWindow *fw);
 
     static QLayout *createUnmanagedLayout(QWidget *parentWidget, int type);
 
@@ -115,8 +115,8 @@ public:
 
 public slots:
     void loadPlugins();
-    void activeFormWindowChanged(QDesignerFormWindowInterface *formWindow);
-    void formWindowAdded(QDesignerFormWindowInterface *formWindow);
+    void activeFormWindowChanged(QExtDesignerAbstractFormWindow *formWindow);
+    void formWindowAdded(QExtDesignerAbstractFormWindow *formWindow);
 
 private:
     struct Strings { // Reduce string allocations by storing predefined strings
@@ -149,14 +149,14 @@ private:
     };
 
     QWidget* createCustomWidget(const QString &className, QWidget *parentWidget, bool *creationError) const;
-    QDesignerFormWindowInterface *findFormWindow(QWidget *parentWidget) const;
-    void setFormWindowStyle(QDesignerFormWindowInterface *formWindow);
+    QExtDesignerAbstractFormWindow *findFormWindow(QWidget *parentWidget) const;
+    void setFormWindowStyle(QExtDesignerAbstractFormWindow *formWindow);
 
     const Strings m_strings;
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     using CustomWidgetFactoryMap = QMap<QString, QDesignerCustomWidgetInterface*>;
     CustomWidgetFactoryMap m_customFactory;
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
 
     // Points to the cached style or 0 if the default (qApp) is active
     QStyle *m_currentStyle;

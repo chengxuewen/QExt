@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,12 +31,12 @@
 #include "metadatabase_p.h"
 #include "widgetdatabase_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformwindowmanager.h>
-#include <../sdk/abstractobjectinspector.h>
-#include <../sdk/abstractwidgetbox.h>
-#include <../sdk/abstractwidgetdatabase.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormWindowManager.h>
+#include <qextDesignerAbstractObjectInspector.h>
+#include <qextDesignerAbstractWidgetBox.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
 #include <QtCore/qmap.h>
 #include <QtCore/qcoreapplication.h>
@@ -73,7 +73,7 @@ namespace {
     }
 
     // Return widget database item of a promoted class or 0 with error message
-    QDesignerWidgetDataBaseItemInterface *promotedWidgetDataBaseItem(const QDesignerWidgetDataBaseInterface *widgetDataBase,
+    QExtDesignerWidgetDataBaseItemInterface *promotedWidgetDataBaseItem(const QDesignerWidgetDataBaseInterface *widgetDataBase,
                                                                      const QString &className,
                                                                      QString *errorMessage) {
 
@@ -98,12 +98,12 @@ namespace {
     }
 
     // return a list of class names in the scratch pad
-    QStringList getScratchPadClasses(const QDesignerWidgetBoxInterface *wb) {
+    QStringList getScratchPadClasses(const QExtDesignerAbstractWidgetBox *wb) {
         QStringList rc;
         const int catCount =  wb->categoryCount();
         for (int c = 0; c <  catCount; c++) {
-            const QDesignerWidgetBoxInterface::Category category = wb->category(c);
-            if (category.type() == QDesignerWidgetBoxInterface::Category::Scratchpad) {
+            const QExtDesignerAbstractWidgetBox::Category category = wb->category(c);
+            if (category.type() == QExtDesignerAbstractWidgetBox::Category::Scratchpad) {
                 const int widgetCount = category.widgetCount();
                 for (int w = 0; w < widgetCount; w++) {
                     const QString className = classNameFromXml( category.widget(w).domXml());
@@ -116,16 +116,16 @@ namespace {
     }
 }
 
-static void markFormsDirty(const QDesignerFormEditorInterface *core)
+static void markFormsDirty(const QExtDesignerAbstractFormEditor *core)
 {
-    const QDesignerFormWindowManagerInterface *fwm = core->formWindowManager();
+    const QExtDesignerAbstractFormWindowManager *fwm = core->formWindowManager();
     for (int f = 0, count = fwm->formWindowCount(); f < count; ++f)
         fwm->formWindow(f)->setDirty(true);
 }
 
 namespace qdesigner_internal {
 
-    QDesignerPromotion::QDesignerPromotion(QDesignerFormEditorInterface *core) :
+    QDesignerPromotion::QDesignerPromotion(QExtDesignerAbstractFormEditor *core) :
         m_core(core)  {
     }
 
@@ -149,7 +149,7 @@ namespace qdesigner_internal {
             return false;
         }
         // Clone derived item.
-        QDesignerWidgetDataBaseItemInterface *promotedItem = WidgetDataBaseItem::clone(widgetDataBase->item(baseClassIndex));
+        QExtDesignerWidgetDataBaseItemInterface *promotedItem = WidgetDataBaseItem::clone(widgetDataBase->item(baseClassIndex));
         // Also inherit the container flag in case of QWidget-derived classes
         // as it is most likely intended for stacked pages.
         // set new props
@@ -164,16 +164,16 @@ namespace qdesigner_internal {
         return true;
     }
 
-    QList<QDesignerWidgetDataBaseItemInterface *> QDesignerPromotion::promotionBaseClasses() const
+    QList<QExtDesignerWidgetDataBaseItemInterface *> QDesignerPromotion::promotionBaseClasses() const
     {
-        using SortedDatabaseItemMap = QMap<QString, QDesignerWidgetDataBaseItemInterface *>;
+        using SortedDatabaseItemMap = QMap<QString, QExtDesignerWidgetDataBaseItemInterface *>;
         SortedDatabaseItemMap sortedDatabaseItemMap;
 
         QDesignerWidgetDataBaseInterface *widgetDataBase = m_core->widgetDataBase();
 
         const int cnt = widgetDataBase->count();
         for (int i = 0; i <  cnt; i++) {
-            QDesignerWidgetDataBaseItemInterface *dbItem = widgetDataBase->item(i);
+            QExtDesignerWidgetDataBaseItemInterface *dbItem = widgetDataBase->item(i);
             if (canBePromoted(dbItem)) {
                 sortedDatabaseItemMap.insert(dbItem->name(), dbItem);
             }
@@ -183,7 +183,7 @@ namespace qdesigner_internal {
     }
 
 
-    bool QDesignerPromotion::canBePromoted(const QDesignerWidgetDataBaseItemInterface *dbItem) const
+    bool QDesignerPromotion::canBePromoted(const QExtDesignerWidgetDataBaseItemInterface *dbItem) const
     {
         if (dbItem->isPromoted() ||  !dbItem->extends().isEmpty())
             return false;
@@ -202,7 +202,7 @@ namespace qdesigner_internal {
 
     QDesignerPromotion::PromotedClasses QDesignerPromotion::promotedClasses()  const
     {
-        using ClassNameItemMap = QMap<QString, QDesignerWidgetDataBaseItemInterface *>;
+        using ClassNameItemMap = QMap<QString, QExtDesignerWidgetDataBaseItemInterface *>;
         // A map containing base classes and their promoted classes.
         using BaseClassPromotedMap = QMap<QString, ClassNameItemMap>;
 
@@ -212,7 +212,7 @@ namespace qdesigner_internal {
         // Look for promoted classes and insert into map according to base class.
         const  int cnt = widgetDataBase->count();
         for (int i = 0; i < cnt; i++) {
-            QDesignerWidgetDataBaseItemInterface *dbItem = widgetDataBase->item(i);
+            QExtDesignerWidgetDataBaseItemInterface *dbItem = widgetDataBase->item(i);
             if (dbItem->isPromoted()) {
                 const QString baseClassName = dbItem->extends();
                 BaseClassPromotedMap::iterator it = baseClassPromotedMap.find(baseClassName);
@@ -232,7 +232,7 @@ namespace qdesigner_internal {
         for (BaseClassPromotedMap::const_iterator bit = baseClassPromotedMap.constBegin(); bit !=  bcend; ++bit) {
             const int baseIndex = widgetDataBase->indexOfClassName(bit.key());
             Q_ASSERT(baseIndex >= 0);
-            QDesignerWidgetDataBaseItemInterface *baseItem = widgetDataBase->item(baseIndex);
+            QExtDesignerWidgetDataBaseItemInterface *baseItem = widgetDataBase->item(baseIndex);
             // promoted
             const ClassNameItemMap::const_iterator pcend = bit.value().constEnd();
             for (ClassNameItemMap::const_iterator pit = bit.value().constBegin(); pit != pcend; ++pit) {
@@ -260,7 +260,7 @@ namespace qdesigner_internal {
 
         }
         // check the scratchpad of the widget box
-        if (QDesignerWidgetBoxInterface *widgetBox = m_core->widgetBox()) {
+        if (QExtDesignerAbstractWidgetBox *widgetBox = m_core->widgetBox()) {
             const QStringList scratchPadClasses = getScratchPadClasses(widgetBox);
             if (!scratchPadClasses.isEmpty()) {
                 // Check whether these are actually promoted
@@ -333,7 +333,7 @@ namespace qdesigner_internal {
             return false;
         }
         // Check old class
-        QDesignerWidgetDataBaseItemInterface *dbItem = promotedWidgetDataBaseItem(widgetDataBase, oldclassName, errorMessage);
+        QExtDesignerWidgetDataBaseItemInterface *dbItem = promotedWidgetDataBaseItem(widgetDataBase, oldclassName, errorMessage);
         if (!dbItem)
             return false;
 
@@ -365,7 +365,7 @@ namespace qdesigner_internal {
         }
         // check item
         QDesignerWidgetDataBaseInterface *widgetDataBase = m_core->widgetDataBase();
-        QDesignerWidgetDataBaseItemInterface *dbItem = promotedWidgetDataBaseItem(widgetDataBase, className, errorMessage);
+        QExtDesignerWidgetDataBaseItemInterface *dbItem = promotedWidgetDataBaseItem(widgetDataBase, className, errorMessage);
         if (!dbItem)
             return false;
         if (dbItem->includeFile() != includeFile) {
@@ -376,9 +376,9 @@ namespace qdesigner_internal {
     }
 
     void QDesignerPromotion::refreshObjectInspector() {
-        if (QDesignerFormWindowManagerInterface *fwm = m_core->formWindowManager()) {
-            if (QDesignerFormWindowInterface *fw = fwm->activeFormWindow())
-                if ( QDesignerObjectInspectorInterface *oi = m_core->objectInspector()) {
+        if (QExtDesignerAbstractFormWindowManager *fwm = m_core->formWindowManager()) {
+            if (QExtDesignerAbstractFormWindow *fw = fwm->activeFormWindow())
+                if ( QExtDesignerAbstractObjectInspector *oi = m_core->objectInspector()) {
                     oi->setFormWindow(fw);
                 }
         }

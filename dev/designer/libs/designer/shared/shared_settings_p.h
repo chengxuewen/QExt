@@ -49,8 +49,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerSettingsInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerSettingsInterface;
 
 class QStringList;
 class QSize;
@@ -69,7 +69,7 @@ class QDESIGNER_SHARED_EXPORT QDesignerSharedSettings {
 public:
     using DeviceProfileList = QVector<DeviceProfile>;
 
-    explicit QDesignerSharedSettings(QDesignerFormEditorInterface *core);
+    explicit QDesignerSharedSettings(QExtDesignerAbstractFormEditor *core);
 
     Grid defaultGrid() const;
     void setDefaultGrid(const Grid &grid);
@@ -120,11 +120,11 @@ public:
     static const QStringList &defaultFormTemplatePaths();
 
 protected:
-    QDesignerSettingsInterface *settings() const { return m_settings; }
+    QExtDesignerSettingsInterface *settings() const { return m_settings; }
 
 private:
     QStringList deviceProfileXml() const;
-    QDesignerSettingsInterface *m_settings;
+    QExtDesignerSettingsInterface *m_settings;
 };
 
 } // namespace qdesigner_internal

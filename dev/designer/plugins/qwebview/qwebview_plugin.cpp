@@ -86,7 +86,7 @@ bool QWebViewPlugin::isInitialized() const
     return m_initialized;
 }
 
-void QWebViewPlugin::initialize(QDesignerFormEditorInterface * /*core*/)
+void QWebViewPlugin::initialize(QExtDesignerAbstractFormEditor * /*core*/)
 {
     if (m_initialized)
         return;

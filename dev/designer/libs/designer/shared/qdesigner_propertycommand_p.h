@@ -49,9 +49,9 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
-class QDesignerPropertySheetExtension;
-class QDesignerIntegration;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerPropertySheetExtension;
+class QExtDesignerIntegration;
 
 namespace qdesigner_internal {
 
@@ -78,7 +78,7 @@ public:
 
     PropertyHelper(QObject* object,
                    SpecialProperty specialProperty,
-                   QDesignerPropertySheetExtension *sheet,
+                   QExtDesignerPropertySheetExtension *sheet,
                    int index);
     virtual ~PropertyHelper() = default;
 
@@ -86,12 +86,12 @@ public:
     SpecialProperty specialProperty() const { return m_specialProperty; }
     // set a new value. Can be overwritten to perform a transformation (see
     // handling of Arrow key move in FormWindow class).
-    virtual Value setValue(QDesignerFormWindowInterface *fw, const QVariant &value, bool changed, unsigned subPropertyMask);
+    virtual Value setValue(QExtDesignerAbstractFormWindow *fw, const QVariant &value, bool changed, unsigned subPropertyMask);
 
     // restore old value
-    Value restoreOldValue(QDesignerFormWindowInterface *fw);
+    Value restoreOldValue(QExtDesignerAbstractFormWindow *fw);
     // set default value
-    Value restoreDefaultValue(QDesignerFormWindowInterface *fw);
+    Value restoreDefaultValue(QExtDesignerAbstractFormWindow *fw);
 
     inline QVariant oldValue() const
     { return m_oldValue.first; }
@@ -105,27 +105,27 @@ public:
 
     // can be merged into one command (that is, object and name match)
     bool canMerge(const PropertyHelper &other) const;
-    QDesignerIntegration *integration(QDesignerFormWindowInterface *fw) const;
+    QExtDesignerIntegration *integration(QExtDesignerAbstractFormWindow *fw) const;
 
     static void triggerActionChanged(QAction *a);
 
 private:
     // Apply the value and update. Returns corrected value
-    Value applyValue(QDesignerFormWindowInterface *fw, const QVariant &oldValue, Value newValue);
+    Value applyValue(QExtDesignerAbstractFormWindow *fw, const QVariant &oldValue, Value newValue);
 
-    static void checkApplyWidgetValue(QDesignerFormWindowInterface *fw, QWidget* w,
+    static void checkApplyWidgetValue(QExtDesignerAbstractFormWindow *fw, QWidget* w,
                                       SpecialProperty specialProperty, QVariant &v);
 
-    void updateObject(QDesignerFormWindowInterface *fw, const QVariant &oldValue, const QVariant &newValue);
-    QVariant findDefaultValue(QDesignerFormWindowInterface *fw) const;
-    void ensureUniqueObjectName(QDesignerFormWindowInterface *fw, QObject *object) const;
+    void updateObject(QExtDesignerAbstractFormWindow *fw, const QVariant &oldValue, const QVariant &newValue);
+    QVariant findDefaultValue(QExtDesignerAbstractFormWindow *fw) const;
+    void ensureUniqueObjectName(QExtDesignerAbstractFormWindow *fw, QObject *object) const;
     SpecialProperty m_specialProperty;
 
     QPointer<QObject> m_object;
     ObjectType m_objectType;
     QPointer<QWidget> m_parentWidget;
 
-    QDesignerPropertySheetExtension *m_propertySheet;
+    QExtDesignerPropertySheetExtension *m_propertySheet;
     int m_index;
 
     Value m_oldValue;
@@ -135,7 +135,7 @@ private:
 
 class QDESIGNER_SHARED_EXPORT PropertyListCommand : public QDesignerFormWindowCommand {
 public:
-    explicit PropertyListCommand(QDesignerFormWindowInterface *formWindow, QUndoCommand *parent = nullptr);
+    explicit PropertyListCommand(QExtDesignerAbstractFormWindow *formWindow, QUndoCommand *parent = nullptr);
 
     QObject* object(int index = 0) const;
 
@@ -181,7 +181,7 @@ protected:
     struct PropertyDescription {
     public:
         PropertyDescription() = default;
-        PropertyDescription(const QString &propertyName, QDesignerPropertySheetExtension *propertySheet, int index);
+        PropertyDescription(const QString &propertyName, QExtDesignerPropertySheetExtension *propertySheet, int index);
         bool equals(const PropertyDescription &p) const;
         void debug() const;
 
@@ -194,7 +194,7 @@ protected:
 
 protected:
     virtual PropertyHelper *createPropertyHelper(QObject *o, SpecialProperty sp,
-                                                 QDesignerPropertySheetExtension *sheet, int sheetIndex) const;
+                                                 QExtDesignerPropertySheetExtension *sheet, int sheetIndex) const;
 
 private:
     PropertyDescription m_propertyDescription;
@@ -205,7 +205,7 @@ class QDESIGNER_SHARED_EXPORT SetPropertyCommand: public PropertyListCommand
 {
 
 public:
-    explicit SetPropertyCommand(QDesignerFormWindowInterface *formWindow, QUndoCommand *parent = nullptr);
+    explicit SetPropertyCommand(QExtDesignerAbstractFormWindow *formWindow, QUndoCommand *parent = nullptr);
 
     bool init(QObject *object, const QString &propertyName, const QVariant &newValue);
     bool init(const QObjectList &list, const QString &propertyName, const QVariant &newValue,
@@ -237,7 +237,7 @@ class QDESIGNER_SHARED_EXPORT ResetPropertyCommand: public PropertyListCommand
 {
 
 public:
-    explicit ResetPropertyCommand(QDesignerFormWindowInterface *formWindow);
+    explicit ResetPropertyCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     bool init(QObject *object, const QString &propertyName);
     bool init(const QObjectList &list, const QString &propertyName, QObject *referenceObject = nullptr);
@@ -257,7 +257,7 @@ class QDESIGNER_SHARED_EXPORT AddDynamicPropertyCommand: public QDesignerFormWin
 {
 
 public:
-    explicit AddDynamicPropertyCommand(QDesignerFormWindowInterface *formWindow);
+    explicit AddDynamicPropertyCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     bool init(const QList<QObject *> &selection, QObject *current, const QString &propertyName, const QVariant &value);
 
@@ -274,7 +274,7 @@ class QDESIGNER_SHARED_EXPORT RemoveDynamicPropertyCommand: public QDesignerForm
 {
 
 public:
-    explicit RemoveDynamicPropertyCommand(QDesignerFormWindowInterface *formWindow);
+    explicit RemoveDynamicPropertyCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     bool init(const QList<QObject *> &selection, QObject *current, const QString &propertyName);
 

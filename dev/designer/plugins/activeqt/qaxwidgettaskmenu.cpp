@@ -55,7 +55,7 @@ QT_BEGIN_NAMESPACE
 class SetControlCommand : public QUndoCommand
 {
 public:
-    SetControlCommand(QDesignerAxWidget *ax, QDesignerFormWindowInterface *core, const QString &newClsid = QString());
+    SetControlCommand(QDesignerAxWidget *ax, QExtDesignerAbstractFormWindow *core, const QString &newClsid = QString());
 
     virtual void redo() {  apply(m_newClsid); }
     virtual void undo() {  apply(m_oldClsid);  }
@@ -64,12 +64,12 @@ private:
     bool apply(const QString &clsid);
 
     QDesignerAxWidget *m_axWidget;
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     QString m_oldClsid;
     QString m_newClsid;
 };
 
-SetControlCommand::SetControlCommand(QDesignerAxWidget *ax, QDesignerFormWindowInterface *fw, const QString &newClsid) :
+SetControlCommand::SetControlCommand(QDesignerAxWidget *ax, QExtDesignerAbstractFormWindow *fw, const QString &newClsid) :
     m_axWidget(ax),
     m_formWindow(fw),
     m_oldClsid(ax->control()),
@@ -87,7 +87,7 @@ bool SetControlCommand::apply(const QString &clsid)
         return true;
 
     QObject *ext = m_formWindow->core()->extensionManager()->extension(
-            m_axWidget, Q_TYPEID(QDesignerPropertySheetExtension));
+            m_axWidget, Q_TYPEID(QExtDesignerPropertySheetExtension));
     auto sheet = qobject_cast<QAxWidgetPropertySheet *>(ext);
     if (!sheet)
         return false;
@@ -126,7 +126,7 @@ QList<QAction*> QAxWidgetTaskMenu::taskActions() const
 
 void QAxWidgetTaskMenu::resetActiveXControl()
 {
-    auto formWin = QDesignerFormWindowInterface::findFormWindow(m_axwidget);
+    auto formWin = QExtDesignerAbstractFormWindow::findFormWindow(m_axwidget);
     Q_ASSERT(formWin != nullptr);
     formWin->commandHistory()->push(new SetControlCommand(m_axwidget, formWin));
 }
@@ -157,7 +157,7 @@ void QAxWidgetTaskMenu::setActiveXControl()
         cf2->Release();
     }
 
-    auto formWin = QDesignerFormWindowInterface::findFormWindow(m_axwidget);
+    auto formWin = QExtDesignerAbstractFormWindow::findFormWindow(m_axwidget);
 
     Q_ASSERT(formWin != nullptr);
     QString value = clsid.toString();

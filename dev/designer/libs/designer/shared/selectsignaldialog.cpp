@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,10 +30,10 @@
 
 #include "ui_selectsignaldialog.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractpromotioninterface.h>
+#include <private/qextDesignerAbstractIntrospection_p.h>
+#include <qextDesignerAbstractPromotion.h>
+#include <qextDesignerAbstractFormEditor.h>
 
-#include "abstractintrospection_p.h"
 #include "metadatabase_p.h"
 #include "widgetdatabase_p.h"
 
@@ -122,13 +122,13 @@ static void appendClass(const QString &className, Methods methods, QStandardItem
     }
 }
 
-static QString declaredInClass(const QDesignerMetaObjectInterface *metaObject, const QString &member)
+static QString declaredInClass(const QExtDesignerMetaObjectInterface *metaObject, const QString &member)
 {
     // Find class whose superclass does not contain the method.
-    const QDesignerMetaObjectInterface *meta = metaObject;
+    const QExtDesignerMetaObjectInterface *meta = metaObject;
 
     for (;;) {
-        const QDesignerMetaObjectInterface *tmpMeta = meta->superClass();
+        const QExtDesignerMetaObjectInterface *tmpMeta = meta->superClass();
         if (tmpMeta == nullptr)
             break;
         if (tmpMeta->indexOfMethod(member) == -1)
@@ -143,7 +143,7 @@ static inline QString msgNoSignals()
     return QCoreApplication::translate("QDesignerTaskMenu", "no signals available");
 }
 
-void SelectSignalDialog::populate(QDesignerFormEditorInterface *core, QObject *object,
+void SelectSignalDialog::populate(QExtDesignerAbstractFormEditor *core, QObject *object,
                                   const QString &defaultSignal)
 {
     m_okButton->setEnabled(false);
@@ -171,7 +171,7 @@ void SelectSignalDialog::populate(QDesignerFormEditorInterface *core, QObject *o
         m_ui->signalList->setCurrentIndex(selectedIndex);
 }
 
-void SelectSignalDialog::populateModel(QDesignerFormEditorInterface *core, QObject *object)
+void SelectSignalDialog::populateModel(QExtDesignerAbstractFormEditor *core, QObject *object)
 {
     m_model->removeRows(0, m_model->rowCount());
 
@@ -203,12 +203,12 @@ void SelectSignalDialog::populateModel(QDesignerFormEditorInterface *core, QObje
     }
 
     // "real" signals
-    if (const QDesignerMetaObjectInterface *metaObject = core->introspection()->metaObject(object)) {
+    if (const QExtDesignerMetaObjectInterface *metaObject = core->introspection()->metaObject(object)) {
         QString lastClassName;
         Methods methods;
         for (int i = metaObject->methodCount() - 1; i >= 0; --i) {
-            const QDesignerMetaMethodInterface *metaMethod = metaObject->method(i);
-            if (metaMethod->methodType() == QDesignerMetaMethodInterface::Signal) {
+            const QExtDesignerMetaMethodInterface *metaMethod = metaObject->method(i);
+            if (metaMethod->methodType() == QExtDesignerMetaMethodInterface::Signal) {
                 const QString signature = metaMethod->signature();
                 const QString className = declaredInClass(metaObject, signature);
                 if (lastClassName.isEmpty()) {

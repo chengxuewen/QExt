@@ -33,7 +33,7 @@ QT_BEGIN_NAMESPACE
 namespace qdesigner_internal {
 
 QDesignerObjectInspector::QDesignerObjectInspector(QWidget *parent, Qt::WindowFlags flags) :
-    QDesignerObjectInspectorInterface(parent, flags)
+    QExtDesignerAbstractObjectInspector(parent, flags)
 {
 }
 

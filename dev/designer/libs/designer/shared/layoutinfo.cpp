@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,10 +28,10 @@
 
 #include "layoutinfo_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/container.h>
-#include <../sdk/abstractmetadatabase.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerAbstractMetaDataBase.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qformlayout.h>
@@ -46,7 +46,7 @@ namespace qdesigner_internal {
 /*!
   \overload
 */
-LayoutInfo::Type LayoutInfo::layoutType(const QDesignerFormEditorInterface *core, const QLayout *layout)
+LayoutInfo::Type LayoutInfo::layoutType(const QExtDesignerAbstractFormEditor *core, const QLayout *layout)
 {
     Q_UNUSED(core);
     if (!layout)
@@ -87,14 +87,14 @@ QString LayoutInfo::layoutName(Type t)
 /*!
   \overload
 */
-LayoutInfo::Type LayoutInfo::layoutType(const QDesignerFormEditorInterface *core, const QWidget *w)
+LayoutInfo::Type LayoutInfo::layoutType(const QExtDesignerAbstractFormEditor *core, const QWidget *w)
 {
     if (const QSplitter *splitter = qobject_cast<const QSplitter *>(w))
         return  splitter->orientation() == Qt::Horizontal ? HSplitter : VSplitter;
     return layoutType(core, w->layout());
 }
 
-LayoutInfo::Type LayoutInfo::managedLayoutType(const QDesignerFormEditorInterface *core,
+LayoutInfo::Type LayoutInfo::managedLayoutType(const QExtDesignerAbstractFormEditor *core,
                                                const QWidget *w,
                                                QLayout **ptrToLayout)
 {
@@ -110,7 +110,7 @@ LayoutInfo::Type LayoutInfo::managedLayoutType(const QDesignerFormEditorInterfac
     return layoutType(core, layout);
 }
 
-QWidget *LayoutInfo::layoutParent(const QDesignerFormEditorInterface *core, QLayout *layout)
+QWidget *LayoutInfo::layoutParent(const QExtDesignerAbstractFormEditor *core, QLayout *layout)
 {
     Q_UNUSED(core);
 
@@ -124,9 +124,9 @@ QWidget *LayoutInfo::layoutParent(const QDesignerFormEditorInterface *core, QLay
     return nullptr;
 }
 
-void LayoutInfo::deleteLayout(const QDesignerFormEditorInterface *core, QWidget *widget)
+void LayoutInfo::deleteLayout(const QExtDesignerAbstractFormEditor *core, QWidget *widget)
 {
-    if (QDesignerContainerExtension *container = qt_extension<QDesignerContainerExtension*>(core->extensionManager(), widget))
+    if (QExtDesignerContainerExtension *container = qt_extension<QExtDesignerContainerExtension*>(core->extensionManager(), widget))
         widget = container->widget(container->currentIndex());
 
     Q_ASSERT(widget != nullptr);
@@ -142,7 +142,7 @@ void LayoutInfo::deleteLayout(const QDesignerFormEditorInterface *core, QWidget 
     qDebug() << "trying to delete an unmanaged layout:" << "widget:" << widget << "layout:" << layout;
 }
 
-LayoutInfo::Type LayoutInfo::laidoutWidgetType(const QDesignerFormEditorInterface *core,
+LayoutInfo::Type LayoutInfo::laidoutWidgetType(const QExtDesignerAbstractFormEditor *core,
                                                QWidget *widget,
                                                bool *isManaged,
                                                QLayout **ptrToLayout)
@@ -199,7 +199,7 @@ QLayout *LayoutInfo::internalLayout(const QWidget *widget)
 }
 
 
-QLayout *LayoutInfo::managedLayout(const QDesignerFormEditorInterface *core, const QWidget *widget)
+QLayout *LayoutInfo::managedLayout(const QExtDesignerAbstractFormEditor *core, const QWidget *widget)
 {
     if (widget == nullptr)
         return nullptr;
@@ -211,15 +211,15 @@ QLayout *LayoutInfo::managedLayout(const QDesignerFormEditorInterface *core, con
     return managedLayout(core, layout);
 }
 
-QLayout *LayoutInfo::managedLayout(const QDesignerFormEditorInterface *core, QLayout *layout)
+QLayout *LayoutInfo::managedLayout(const QExtDesignerAbstractFormEditor *core, QLayout *layout)
 {
-    QDesignerMetaDataBaseInterface *metaDataBase = core->metaDataBase();
+    QExtDesignerAbstractMetaDataBase *metaDataBase = core->metaDataBase();
 
     if (!metaDataBase)
         return layout;
     /* This code exists mainly for the Q3GroupBox class, for which
      * widget->layout() returns an internal VBoxLayout. */
-    const QDesignerMetaDataBaseItemInterface *item = metaDataBase->item(layout);
+    const QExtDesignerMetaDataBaseItemInterface *item = metaDataBase->item(layout);
     if (item == nullptr) {
         layout = layout->findChild<QLayout*>();
         item = metaDataBase->item(layout);

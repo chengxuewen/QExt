@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -44,7 +44,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -52,7 +52,7 @@ class PluginDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit PluginDialog(QDesignerFormEditorInterface *core, QWidget *parent = nullptr);
+    explicit PluginDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr);
 
 private slots:
     void updateCustomWidgetPlugins();
@@ -65,8 +65,8 @@ private:
     void setItem(QTreeWidgetItem *pluginItem, const QString &name,
                  const QString &toolTip, const QString &whatsThis, const QIcon &icon);
 
-    QDesignerFormEditorInterface *m_core;
-    Ui::PluginDialog ui;
+    QExtDesignerAbstractFormEditor *m_core;
+    Ui_PluginDialog ui;
     QIcon interfaceIcon;
     QIcon featureIcon;
 };

@@ -47,8 +47,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerAbstractFormEditor;
 class TextEditFindWidget;
 
 class QDialogButtonBox;
@@ -72,7 +72,7 @@ public:
         ModePerForm // resources are available
     };
 
-    StyleSheetEditorDialog(QDesignerFormEditorInterface *core, QWidget *parent, Mode mode = ModePerForm);
+    StyleSheetEditorDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent, Mode mode = ModePerForm);
     ~StyleSheetEditorDialog();
     QString text() const;
     void setText(const QString &t);
@@ -101,7 +101,7 @@ private:
     StyleSheetEditor *m_editor;
     TextEditFindWidget *m_findWidget;
     QLabel *m_validityLabel;
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     QAction *m_addResourceAction;
     QAction *m_addGradientAction;
     QAction *m_addColorAction;
@@ -116,7 +116,7 @@ class QDESIGNER_SHARED_EXPORT StyleSheetPropertyEditorDialog : public StyleSheet
 {
     Q_OBJECT
 public:
-    StyleSheetPropertyEditorDialog(QWidget *parent, QDesignerFormWindowInterface *fw, QWidget *widget);
+    StyleSheetPropertyEditorDialog(QWidget *parent, QExtDesignerAbstractFormWindow *fw, QWidget *widget);
 
     static bool isStyleSheetValid(const QString &styleSheet);
 
@@ -124,7 +124,7 @@ private slots:
     void applyStyleSheet();
 
 private:
-    QDesignerFormWindowInterface *m_fw;
+    QExtDesignerAbstractFormWindow *m_fw;
     QWidget *m_widget;
 };
 

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,7 @@
 #define QDESIGNER_WIDGETBOX_H
 
 #include "shared_global_p.h"
-#include <../sdk/abstractwidgetbox.h>
+#include <qextDesignerAbstractWidgetBox.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -51,7 +51,7 @@ namespace qdesigner_internal {
 
 // A widget box with a load mode that allows for updating custom widgets.
 
-class QDESIGNER_SHARED_EXPORT QDesignerWidgetBox : public QDesignerWidgetBoxInterface
+class QDESIGNER_SHARED_EXPORT QDesignerWidgetBox : public QExtDesignerAbstractWidgetBox
 {
     Q_OBJECT
 public:
@@ -70,7 +70,7 @@ public:
                                 const QString &category = QString()) const = 0;
 
     // Convenience to find a widget by class name. Empty category matches all
-    static bool findWidget(const QDesignerWidgetBoxInterface *wbox,
+    static bool findWidget(const QExtDesignerAbstractWidgetBox *wbox,
                            const QString &className,
                            const QString &category /* = QString()  */,
                            Widget *widgetData);

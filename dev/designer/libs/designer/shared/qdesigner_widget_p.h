@@ -46,7 +46,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 namespace qdesigner_internal {
     class FormWindowBase;
@@ -56,10 +56,10 @@ class QDESIGNER_SHARED_EXPORT QDesignerWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QDesignerWidget(QDesignerFormWindowInterface* formWindow, QWidget *parent = nullptr);
+    explicit QDesignerWidget(QExtDesignerAbstractFormWindow* formWindow, QWidget *parent = nullptr);
     ~QDesignerWidget() override;
 
-    QDesignerFormWindowInterface* formWindow() const;
+    QExtDesignerAbstractFormWindow* formWindow() const;
 
     void updatePixmap();
 
@@ -77,7 +77,7 @@ class QDESIGNER_SHARED_EXPORT QDesignerDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit QDesignerDialog(QDesignerFormWindowInterface *fw, QWidget *parent);
+    explicit QDesignerDialog(QExtDesignerAbstractFormWindow *fw, QWidget *parent);
 
     QSize minimumSizeHint() const override
     { return QWidget::minimumSizeHint().expandedTo(QSize(16, 16)); }

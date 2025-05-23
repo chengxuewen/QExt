@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -34,14 +34,14 @@
 #include "layoutinfo_p.h"
 #include "qdesigner_propertycommand_p.h"
 
-#include <../extension/qextensionmanager.h>
-#include <../sdk/container.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/abstractwidgetdatabase.h>
-#include <../sdk/abstractmetadatabase.h>
-#include <../sdk/propertysheet.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractMetaDataBase.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
+#include <qextDesignerPropertySheetExtension.h>
 
 #include <QtWidgets/qwidget.h>
 #include <QtWidgets/qaction.h>
@@ -188,10 +188,10 @@ static QStringList classesOfCategory(MorphCategory cat)
 }
 
 // Return the widgets containing the children to be transferred to. This is the
-// widget itself in most cases, except for QDesignerContainerExtension cases
-static QWidgetList childContainers(const QDesignerFormEditorInterface *core, QWidget *w)
+// widget itself in most cases, except for QExtDesignerContainerExtension cases
+static QWidgetList childContainers(const QExtDesignerAbstractFormEditor *core, QWidget *w)
 {
-    if (const QDesignerContainerExtension *ce = qt_extension<QDesignerContainerExtension*>(core->extensionManager(), w)) {
+    if (const QExtDesignerContainerExtension *ce = qt_extension<QExtDesignerContainerExtension*>(core->extensionManager(), w)) {
         QWidgetList children;
         if (const int count = ce->count()) {
             for (int i = 0; i < count; i++)
@@ -224,7 +224,7 @@ static QString suggestObjectName(const QString &oldClassName, const QString &new
 }
 
 // Find the label whose buddy the widget is.
-QLabel *buddyLabelOf(QDesignerFormWindowInterface *fw, QWidget *w)
+QLabel *buddyLabelOf(QExtDesignerAbstractFormWindow *fw, QWidget *w)
 {
     const auto labelList = fw->findChildren<QLabel*>();
     for (QLabel *label : labelList)
@@ -255,11 +255,11 @@ class MorphWidgetCommand : public QDesignerFormWindowCommand
     Q_DISABLE_COPY_MOVE(MorphWidgetCommand)
 public:
 
-    explicit MorphWidgetCommand(QDesignerFormWindowInterface *formWindow);
+    explicit MorphWidgetCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~MorphWidgetCommand() override;
 
     // Convenience to add a morph command sequence macro
-    static bool addMorphMacro(QDesignerFormWindowInterface *formWindow, QWidget *w, const QString &newClass);
+    static bool addMorphMacro(QExtDesignerAbstractFormWindow *formWindow, QWidget *w, const QString &newClass);
 
     bool init(QWidget *widget, const QString &newClassName);
 
@@ -268,17 +268,17 @@ public:
     void redo() override;
     void undo() override;
 
-    static QStringList candidateClasses(QDesignerFormWindowInterface *fw, QWidget *w);
+    static QStringList candidateClasses(QExtDesignerAbstractFormWindow *fw, QWidget *w);
 
 private:
-    static bool canMorph(QDesignerFormWindowInterface *fw, QWidget *w, int *childContainerCount = nullptr, MorphCategory *cat = nullptr);
+    static bool canMorph(QExtDesignerAbstractFormWindow *fw, QWidget *w, int *childContainerCount = nullptr, MorphCategory *cat = nullptr);
     void morph(QWidget *before, QWidget *after);
 
     QWidget *m_beforeWidget;
     QWidget *m_afterWidget;
 };
 
-bool MorphWidgetCommand::addMorphMacro(QDesignerFormWindowInterface *fw, QWidget *w, const QString &newClass)
+bool MorphWidgetCommand::addMorphMacro(QExtDesignerAbstractFormWindow *fw, QWidget *w, const QString &newClass)
 {
     MorphWidgetCommand *morphCmd = new MorphWidgetCommand(fw);
     if (!morphCmd->init(w, newClass)) {
@@ -307,7 +307,7 @@ bool MorphWidgetCommand::addMorphMacro(QDesignerFormWindowInterface *fw, QWidget
     return true;
 }
 
-MorphWidgetCommand::MorphWidgetCommand(QDesignerFormWindowInterface *formWindow)  :
+MorphWidgetCommand::MorphWidgetCommand(QExtDesignerAbstractFormWindow *formWindow)  :
     QDesignerFormWindowCommand(QString(), formWindow),
     m_beforeWidget(nullptr),
     m_afterWidget(nullptr)
@@ -318,8 +318,8 @@ MorphWidgetCommand::~MorphWidgetCommand() = default;
 
 bool MorphWidgetCommand::init(QWidget *widget, const QString &newClassName)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
-    QDesignerFormEditorInterface *core = fw->core();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
+    QExtDesignerAbstractFormEditor *core = fw->core();
 
     if (!canMorph(fw, widget))
         return false;
@@ -339,7 +339,7 @@ bool MorphWidgetCommand::init(QWidget *widget, const QString &newClassName)
 
     // If the target has a container extension, we add enough new pages to take
     // up the children of the before widget
-    if (QDesignerContainerExtension* c = qt_extension<QDesignerContainerExtension*>(core->extensionManager(), m_afterWidget)) {
+    if (QExtDesignerContainerExtension* c = qt_extension<QExtDesignerContainerExtension*>(core->extensionManager(), m_afterWidget)) {
         if (const int pageCount = childContainers(core, m_beforeWidget).size()) {
             const QString qWidget = QStringLiteral("QWidget");
             const QString containerName = m_afterWidget->objectName();
@@ -357,8 +357,8 @@ bool MorphWidgetCommand::init(QWidget *widget, const QString &newClassName)
     }
 
     // Copy over applicable properties
-    const QDesignerPropertySheetExtension *beforeSheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), widget);
-    QDesignerPropertySheetExtension *afterSheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), m_afterWidget);
+    const QExtDesignerPropertySheetExtension *beforeSheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), widget);
+    QExtDesignerPropertySheetExtension *afterSheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), m_afterWidget);
     const QString objectNameProperty = QStringLiteral("objectName");
     const int count = beforeSheet->count();
     for (int i = 0; i < count; i++)
@@ -390,7 +390,7 @@ void  MorphWidgetCommand::undo()
 
 void MorphWidgetCommand::morph(QWidget *before, QWidget *after)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
 
     fw->unmanageWidget(before);
 
@@ -454,7 +454,7 @@ void MorphWidgetCommand::morph(QWidget *before, QWidget *after)
     replaceWidgetListDynamicProperty(parent, before, after, widgetOrderPropertyC);
     replaceWidgetListDynamicProperty(parent, before, after, zOrderPropertyC);
 
-    QDesignerMetaDataBaseItemInterface *formItem = fw->core()->metaDataBase()->item(fw);
+    QExtDesignerMetaDataBaseItemInterface *formItem = fw->core()->metaDataBase()->item(fw);
     QWidgetList tabOrder = formItem->tabOrder();
     const int tabIndex = tabOrder.indexOf(before);
     if (tabIndex != -1) {
@@ -472,7 +472,7 @@ void MorphWidgetCommand::morph(QWidget *before, QWidget *after)
 /* Check if morphing is possible. It must be a valid category and the parent/
  * child relationships must be either non-laidout or directly on
  * Designer-managed layouts. */
-bool MorphWidgetCommand::canMorph(QDesignerFormWindowInterface *fw, QWidget *w, int *ptrToChildContainerCount, MorphCategory *ptrToCat)
+bool MorphWidgetCommand::canMorph(QExtDesignerAbstractFormWindow *fw, QWidget *w, int *ptrToChildContainerCount, MorphCategory *ptrToCat)
 {
     if (ptrToChildContainerCount)
         *ptrToChildContainerCount = 0;
@@ -482,9 +482,9 @@ bool MorphWidgetCommand::canMorph(QDesignerFormWindowInterface *fw, QWidget *w, 
     if (cat == MorphCategoryNone)
         return false;
 
-    QDesignerFormEditorInterface *core = fw->core();
+    QExtDesignerAbstractFormEditor *core = fw->core();
     // Don't know how to fiddle class names in Jambi..
-    if (qt_extension<QDesignerLanguageExtension *>(core->extensionManager(), core))
+    if (qt_extension<QExtDesignerLanguageExtension *>(core->extensionManager(), core))
         return false;
     if (!fw->isManaged(w) || w == fw->mainContainer())
         return false;
@@ -518,7 +518,7 @@ bool MorphWidgetCommand::canMorph(QDesignerFormWindowInterface *fw, QWidget *w, 
     return true;
 }
 
-QStringList MorphWidgetCommand::candidateClasses(QDesignerFormWindowInterface *fw, QWidget *w)
+QStringList MorphWidgetCommand::candidateClasses(QExtDesignerAbstractFormWindow *fw, QWidget *w)
 {
     int childContainerCount;
     MorphCategory cat;
@@ -549,13 +549,13 @@ MorphMenu::MorphMenu(QObject *parent) :
 {
 }
 
-void MorphMenu::populate(QWidget *w, QDesignerFormWindowInterface *fw, ActionList& al)
+void MorphMenu::populate(QWidget *w, QExtDesignerAbstractFormWindow *fw, ActionList& al)
 {
     if (populateMenu(w, fw))
         al.push_back(m_subMenuAction);
 }
 
-void MorphMenu::populate(QWidget *w, QDesignerFormWindowInterface *fw, QMenu& m)
+void MorphMenu::populate(QWidget *w, QExtDesignerAbstractFormWindow *fw, QMenu& m)
 {
     if (populateMenu(w, fw))
         m.addAction(m_subMenuAction);
@@ -566,7 +566,7 @@ void MorphMenu::slotMorph(const QString &newClassName)
     MorphWidgetCommand::addMorphMacro(m_formWindow, m_widget, newClassName);
 }
 
-bool MorphMenu::populateMenu(QWidget *w, QDesignerFormWindowInterface *fw)
+bool MorphMenu::populateMenu(QWidget *w, QExtDesignerAbstractFormWindow *fw)
 {
     m_widget = nullptr;
     m_formWindow = nullptr;

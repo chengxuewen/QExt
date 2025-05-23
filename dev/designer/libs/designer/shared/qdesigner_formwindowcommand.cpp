@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,14 +31,14 @@
 #include "qdesigner_objectinspector_p.h"
 #include "layout_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractobjectinspector.h>
-#include <../sdk/abstractactioneditor.h>
-#include <../sdk/abstractmetadatabase.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractpropertyeditor.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractActionEditor.h>
+#include <qextDesignerAbstractMetaDataBase.h>
+#include <qextDesignerAbstractObjectInspector.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractPropertyEditor.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtCore/qvariant.h>
 #include <QtWidgets/qwidget.h>
@@ -50,21 +50,21 @@ namespace qdesigner_internal {
 
 // ---- QDesignerFormWindowCommand ----
 QDesignerFormWindowCommand::QDesignerFormWindowCommand(const QString &description,
-                                                       QDesignerFormWindowInterface *formWindow,
+                                                       QExtDesignerAbstractFormWindow *formWindow,
                                                        QUndoCommand *parent)
     : QUndoCommand(description, parent),
       m_formWindow(formWindow)
 {
 }
 
-QDesignerFormWindowInterface *QDesignerFormWindowCommand::formWindow() const
+QExtDesignerAbstractFormWindow *QDesignerFormWindowCommand::formWindow() const
 {
     return m_formWindow;
 }
 
-QDesignerFormEditorInterface *QDesignerFormWindowCommand::core() const
+QExtDesignerAbstractFormEditor *QDesignerFormWindowCommand::core() const
 {
-    if (QDesignerFormWindowInterface *fw = formWindow())
+    if (QExtDesignerAbstractFormWindow *fw = formWindow())
         return fw->core();
 
     return nullptr;
@@ -89,12 +89,12 @@ void QDesignerFormWindowCommand::cheapUpdate()
         core()->actionEditor()->setFormWindow(formWindow());
 }
 
-QDesignerPropertySheetExtension* QDesignerFormWindowCommand::propertySheet(QObject *object) const
+QExtDesignerPropertySheetExtension* QDesignerFormWindowCommand::propertySheet(QObject *object) const
 {
-    return  qt_extension<QDesignerPropertySheetExtension*>(formWindow()->core()->extensionManager(), object);
+    return  qt_extension<QExtDesignerPropertySheetExtension*>(formWindow()->core()->extensionManager(), object);
 }
 
-void QDesignerFormWindowCommand::updateBuddies(QDesignerFormWindowInterface *form,
+void QDesignerFormWindowCommand::updateBuddies(QExtDesignerAbstractFormWindow *form,
                                                const QString &old_name,
                                                const QString &new_name)
 {
@@ -109,8 +109,8 @@ void QDesignerFormWindowCommand::updateBuddies(QDesignerFormWindowInterface *for
     const QByteArray newNameU8 = new_name.toUtf8();
 
     for (QLabel *label : label_list) {
-        if (QDesignerPropertySheetExtension* sheet =
-                qt_extension<QDesignerPropertySheetExtension*>(extensionManager, label)) {
+        if (QExtDesignerPropertySheetExtension* sheet =
+                qt_extension<QExtDesignerPropertySheetExtension*>(extensionManager, label)) {
             const int idx = sheet->indexOf(buddyProperty);
             if (idx != -1) {
                 const QByteArray oldBuddy = sheet->property(idx).toByteArray();

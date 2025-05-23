@@ -76,7 +76,7 @@ public:
     QString toolTip() const override;
     QString whatsThis() const override;
     QWidget *createWidget(QWidget *parent) override;
-    void initialize(QDesignerFormEditorInterface *core) override;
+    void initialize(QExtDesignerAbstractFormEditor *core) override;
 
 private:
     bool initialized = false;

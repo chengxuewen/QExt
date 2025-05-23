@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,8 @@
 #define QSIMPLERESOURCE_H
 
 #include "shared_global_p.h"
-#include "../uilib/abstractformbuilder.h"
+#include <qextDesignerAbstractFormBuilder.h>
+
 #include <QtCore/qstringlist.h>
 #include <QtCore/qvector.h>
 
@@ -51,7 +52,7 @@ class DomCustomWidgets;
 class DomCustomWidget;
 class DomSlots;
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -60,42 +61,42 @@ class WidgetDataBaseItem;
 class QDESIGNER_SHARED_EXPORT QSimpleResource : public QAbstractFormBuilder
 {
 public:
-    explicit QSimpleResource(QDesignerFormEditorInterface *core);
+    explicit QSimpleResource(QExtDesignerAbstractFormEditor *core);
     ~QSimpleResource() override;
 
     QBrush setupBrush(DomBrush *brush);
     DomBrush *saveBrush(const QBrush &brush);
 
-    inline QDesignerFormEditorInterface *core() const
+    inline QExtDesignerAbstractFormEditor *core() const
     { return m_core; }
 
     // Query extensions for additional data
     static void addExtensionDataToDOM(QAbstractFormBuilder *afb,
-                                      QDesignerFormEditorInterface *core,
+                                      QExtDesignerAbstractFormEditor *core,
                                       DomWidget *ui_widget, QWidget *widget);
     static void applyExtensionDataFromDOM(QAbstractFormBuilder *afb,
-                                          QDesignerFormEditorInterface *core,
+                                          QExtDesignerAbstractFormEditor *core,
                                           DomWidget *ui_widget, QWidget *widget);
     // Return the script returned by the CustomWidget codeTemplate API
-    static QString customWidgetScript(QDesignerFormEditorInterface *core, QObject *object);
-    static QString customWidgetScript(QDesignerFormEditorInterface *core, const QString &className);
-    static bool hasCustomWidgetScript(QDesignerFormEditorInterface *core, QObject *object);
+    static QString customWidgetScript(QExtDesignerAbstractFormEditor *core, QObject *object);
+    static QString customWidgetScript(QExtDesignerAbstractFormEditor *core, const QString &className);
+    static bool hasCustomWidgetScript(QExtDesignerAbstractFormEditor *core, QObject *object);
 
     // Implementation for FormBuilder::createDomCustomWidgets() that adds
     // the custom widgets to the widget database
-    static void handleDomCustomWidgets(const QDesignerFormEditorInterface *core,
+    static void handleDomCustomWidgets(const QExtDesignerAbstractFormEditor *core,
                                        const DomCustomWidgets *dom_custom_widgets);
 
 protected:
     static bool addFakeMethods(const DomSlots *domSlots, QStringList &fakeSlots, QStringList &fakeSignals);
 
 private:
-    static void addCustomWidgetsToWidgetDatabase(const QDesignerFormEditorInterface *core,
+    static void addCustomWidgetsToWidgetDatabase(const QExtDesignerAbstractFormEditor *core,
                                                  QVector<DomCustomWidget *> &custom_widget_list);
     static void addFakeMethodsToWidgetDataBase(const DomCustomWidget *domCustomWidget, WidgetDataBaseItem *item);
 
     static bool m_warningsEnabled;
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
 };
 
 // Contents of clipboard for formbuilder copy and paste operations
@@ -117,7 +118,7 @@ struct QDESIGNER_SHARED_EXPORT FormBuilderClipboard {
 class QDESIGNER_SHARED_EXPORT QEditorFormBuilder : public QSimpleResource
 {
 public:
-    explicit QEditorFormBuilder(QDesignerFormEditorInterface *core) : QSimpleResource(core) {}
+    explicit QEditorFormBuilder(QExtDesignerAbstractFormEditor *core) : QSimpleResource(core) {}
 
     virtual bool copy(QIODevice *dev, const FormBuilderClipboard &selection) = 0;
     virtual DomUI *copy(const FormBuilderClipboard &selection) = 0;

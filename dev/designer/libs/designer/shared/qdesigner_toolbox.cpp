@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -32,7 +32,7 @@
 #include "promotiontaskmenu_p.h"
 #include "formwindowbase_p.h"
 
-#include <../sdk/abstractformwindow.h>
+#include <qextDesignerAbstractFormWindow.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qtoolbox.h>
@@ -91,7 +91,7 @@ bool QToolBoxHelper::eventFilter(QObject *watched, QEvent *event)
         break;
     case QEvent::MouseButtonRelease:
         if (watched != m_toolbox)
-            if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(m_toolbox)) {
+            if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(m_toolbox)) {
                 fw->clearSelection();
                 fw->selectWidget(m_toolbox, true);
             }
@@ -126,7 +126,7 @@ void QToolBoxHelper::removeCurrentPage()
     if (m_toolbox->currentIndex() == -1 || !m_toolbox->widget(m_toolbox->currentIndex()))
         return;
 
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(m_toolbox)) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(m_toolbox)) {
         qdesigner_internal::DeleteToolBoxPageCommand *cmd = new qdesigner_internal::DeleteToolBoxPageCommand(fw);
         cmd->init(m_toolbox);
         fw->commandHistory()->push(cmd);
@@ -135,7 +135,7 @@ void QToolBoxHelper::removeCurrentPage()
 
 void QToolBoxHelper::addPage()
 {
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(m_toolbox)) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(m_toolbox)) {
         qdesigner_internal::AddToolBoxPageCommand *cmd = new qdesigner_internal::AddToolBoxPageCommand(fw);
         cmd->init(m_toolbox, qdesigner_internal::AddToolBoxPageCommand::InsertBefore);
         fw->commandHistory()->push(cmd);
@@ -144,7 +144,7 @@ void QToolBoxHelper::addPage()
 
 void QToolBoxHelper::changeOrder()
 {
-    QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(m_toolbox);
+    QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(m_toolbox);
 
     if (!fw)
         return;
@@ -176,7 +176,7 @@ void QToolBoxHelper::changeOrder()
 
 void QToolBoxHelper::addPageAfter()
 {
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(m_toolbox)) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(m_toolbox)) {
         qdesigner_internal::AddToolBoxPageCommand *cmd = new qdesigner_internal::AddToolBoxPageCommand(fw);
         cmd->init(m_toolbox, qdesigner_internal::AddToolBoxPageCommand::InsertAfter);
         fw->commandHistory()->push(cmd);
@@ -214,7 +214,7 @@ QMenu *QToolBoxHelper::addContextMenuActions(QMenu *popup) const
         // Set up promotion menu for current widget.
         if (QWidget *page =  m_toolbox->currentWidget ()) {
             m_pagePromotionTaskMenu->setWidget(page);
-            m_pagePromotionTaskMenu->addActions(QDesignerFormWindowInterface::findFormWindow(m_toolbox),
+            m_pagePromotionTaskMenu->addActions(QExtDesignerAbstractFormWindow::findFormWindow(m_toolbox),
                                                 qdesigner_internal::PromotionTaskMenu::SuppressGlobalEdit,
                                                 pageMenu);
         }

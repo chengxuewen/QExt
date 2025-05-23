@@ -35,7 +35,7 @@
 
 QT_BEGIN_NAMESPACE
 
-QAxWidgetExtraInfo::QAxWidgetExtraInfo(QDesignerAxWidget *widget, QDesignerFormEditorInterface *core, QObject *parent)
+QAxWidgetExtraInfo::QAxWidgetExtraInfo(QDesignerAxWidget *widget, QExtDesignerAbstractFormEditor *core, QObject *parent)
     : QObject(parent), m_widget(widget), m_core(core)
 {
 }
@@ -45,7 +45,7 @@ QWidget *QAxWidgetExtraInfo::widget() const
     return m_widget;
 }
 
-QDesignerFormEditorInterface *QAxWidgetExtraInfo::core() const
+QExtDesignerAbstractFormEditor *QAxWidgetExtraInfo::core() const
 {
     return m_core;
 }
@@ -85,14 +85,14 @@ bool QAxWidgetExtraInfo::loadWidgetExtraInfo(DomWidget *)
     return false;
 }
 
-QAxWidgetExtraInfoFactory::QAxWidgetExtraInfoFactory(QDesignerFormEditorInterface *core, QExtensionManager *parent)
+QAxWidgetExtraInfoFactory::QAxWidgetExtraInfoFactory(QExtDesignerAbstractFormEditor *core, QExtensionManager *parent)
     : QExtensionFactory(parent), m_core(core)
 {
 }
 
 QObject *QAxWidgetExtraInfoFactory::createExtension(QObject *object, const QString &iid, QObject *parent) const
 {
-    if (iid != Q_TYPEID(QDesignerExtraInfoExtension))
+    if (iid != Q_TYPEID(QExtDesignerExtraInfoExtension))
         return 0;
 
     if (QDesignerAxWidget *w = qobject_cast<QDesignerAxWidget*>(object))

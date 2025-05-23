@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -49,9 +49,10 @@
 #define QDESIGNER_SHARED_EXTERN Q_DECL_EXPORT
 #define QDESIGNER_SHARED_IMPORT Q_DECL_IMPORT
 #endif
+// QDESIGNER_SHARED_LIBRARY
 
 #ifndef QT_NO_SHARED_EXPORT
-#  ifdef QDESIGNER_SHARED_LIBRARY
+#  ifdef QEXT_BUILD_DESIGNER_LIB
 #    define QDESIGNER_SHARED_EXPORT QDESIGNER_SHARED_EXTERN
 #  else
 #    define QDESIGNER_SHARED_EXPORT QDESIGNER_SHARED_IMPORT

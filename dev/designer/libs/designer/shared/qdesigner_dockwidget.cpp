@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,11 +29,11 @@
 #include "qdesigner_dockwidget_p.h"
 #include "layoutinfo_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/container.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractformwindowcursor.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerAbstractFormWindowCursor.h>
 
 #include <qdesigner_propertysheet_p.h>
 
@@ -67,9 +67,9 @@ bool QDesignerDockWidget::docked() const
 void QDesignerDockWidget::setDocked(bool b)
 {
     if (QMainWindow *mainWindow = findMainWindow()) {
-        QDesignerFormEditorInterface *core = formWindow()->core();
-        QDesignerContainerExtension *c;
-        c = qt_extension<QDesignerContainerExtension*>(core->extensionManager(), mainWindow);
+        QExtDesignerAbstractFormEditor *core = formWindow()->core();
+        QExtDesignerContainerExtension *c;
+        c = qt_extension<QExtDesignerContainerExtension*>(core->extensionManager(), mainWindow);
         if (b && !docked()) {
             // Dock it
             // ### undo/redo stack
@@ -122,14 +122,14 @@ bool QDesignerDockWidget::inMainWindow() const
     return false;
 }
 
-QDesignerFormWindowInterface *QDesignerDockWidget::formWindow() const
+QExtDesignerAbstractFormWindow *QDesignerDockWidget::formWindow() const
 {
-    return QDesignerFormWindowInterface::findFormWindow(const_cast<QDesignerDockWidget*>(this));
+    return QExtDesignerAbstractFormWindow::findFormWindow(const_cast<QDesignerDockWidget*>(this));
 }
 
 QMainWindow *QDesignerDockWidget::findMainWindow() const
 {
-    if (QDesignerFormWindowInterface *fw = formWindow())
+    if (QExtDesignerAbstractFormWindow *fw = formWindow())
         return qobject_cast<QMainWindow*>(fw->mainContainer());
     return nullptr;
 }

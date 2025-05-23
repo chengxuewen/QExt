@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2017 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,10 +42,11 @@
 
 #include <QtWidgets/qdialog.h>
 #include <QtCore/qstringlist.h>
+#include "ui_selectsignaldialog.h"
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QStandardItemModel;
 
 namespace Ui { class SelectSignalDialog; }
@@ -73,7 +74,7 @@ public:
 
     Method selectedMethod() const;
 
-    void populate(QDesignerFormEditorInterface *core, QObject *object,
+    void populate(QExtDesignerAbstractFormEditor *core, QObject *object,
                   const QString &defaultSignal);
 
 private slots:
@@ -82,9 +83,9 @@ private slots:
 
 private:
     Method methodFromIndex(const QModelIndex &) const;
-    void populateModel(QDesignerFormEditorInterface *core, QObject *object);
+    void populateModel(QExtDesignerAbstractFormEditor *core, QObject *object);
 
-    Ui::SelectSignalDialog *m_ui;
+    Ui_SelectSignalDialog *m_ui;
     QPushButton *m_okButton;
     QStandardItemModel *m_model;
 };

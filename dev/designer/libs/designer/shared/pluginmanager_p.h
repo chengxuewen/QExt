@@ -51,7 +51,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QDesignerCustomWidgetInterface;
 class QDesignerPluginManagerPrivate;
 
@@ -101,10 +101,10 @@ class QDESIGNER_SHARED_EXPORT QDesignerPluginManager: public QObject
 public:
     using CustomWidgetList = QList<QDesignerCustomWidgetInterface *>;
 
-    explicit QDesignerPluginManager(QDesignerFormEditorInterface *core);
+    explicit QDesignerPluginManager(QExtDesignerAbstractFormEditor *core);
     ~QDesignerPluginManager() override;
 
-    QDesignerFormEditorInterface *core() const;
+    QExtDesignerAbstractFormEditor *core() const;
 
     QObject *instance(const QString &plugin) const;
 

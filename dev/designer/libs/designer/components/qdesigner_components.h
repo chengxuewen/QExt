@@ -37,27 +37,27 @@ QT_BEGIN_NAMESPACE
 class QObject;
 class QWidget;
 
-class QDesignerFormEditorInterface;
-class QDesignerWidgetBoxInterface;
-class QDesignerPropertyEditorInterface;
-class QDesignerObjectInspectorInterface;
-class QDesignerActionEditorInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerAbstractWidgetBox;
+class QExtDesignerAbstractPropertyEditor;
+class QExtDesignerAbstractObjectInspector;
+class QExtDesignerAbstractActionEditor;
 
 class QDESIGNER_COMPONENTS_EXPORT QDesignerComponents
 {
 public:
     static void initializeResources();
-    static void initializePlugins(QDesignerFormEditorInterface *core);
+    static void initializePlugins(QExtDesignerAbstractFormEditor *core);
 
-    static QDesignerFormEditorInterface *createFormEditor(QObject *parent);
-    static QDesignerWidgetBoxInterface *createWidgetBox(QDesignerFormEditorInterface *core, QWidget *parent);
-    static QDesignerPropertyEditorInterface *createPropertyEditor(QDesignerFormEditorInterface *core, QWidget *parent);
-    static QDesignerObjectInspectorInterface *createObjectInspector(QDesignerFormEditorInterface *core, QWidget *parent);
-    static QDesignerActionEditorInterface *createActionEditor(QDesignerFormEditorInterface *core, QWidget *parent);
+    static QExtDesignerAbstractFormEditor *createFormEditor(QObject *parent);
+    static QExtDesignerAbstractWidgetBox *createWidgetBox(QExtDesignerAbstractFormEditor *core, QWidget *parent);
+    static QExtDesignerAbstractPropertyEditor *createPropertyEditor(QExtDesignerAbstractFormEditor *core, QWidget *parent);
+    static QExtDesignerAbstractObjectInspector *createObjectInspector(QExtDesignerAbstractFormEditor *core, QWidget *parent);
+    static QExtDesignerAbstractActionEditor *createActionEditor(QExtDesignerAbstractFormEditor *core, QWidget *parent);
 
-    static QObject *createTaskMenu(QDesignerFormEditorInterface *core, QObject *parent);
-    static QWidget *createResourceEditor(QDesignerFormEditorInterface *core, QWidget *parent);
-    static QWidget *createSignalSlotEditor(QDesignerFormEditorInterface *core, QWidget *parent);
+    static QObject *createTaskMenu(QExtDesignerAbstractFormEditor *core, QObject *parent);
+    static QWidget *createResourceEditor(QExtDesignerAbstractFormEditor *core, QWidget *parent);
+    static QWidget *createSignalSlotEditor(QExtDesignerAbstractFormEditor *core, QWidget *parent);
 };
 
 QT_END_NAMESPACE

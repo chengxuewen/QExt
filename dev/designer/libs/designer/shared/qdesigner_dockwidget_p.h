@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,13 +42,13 @@
 
 #include "shared_global_p.h"
 
-#include <qdesigner_propertysheet_p.h>
+#include "qdesigner_propertysheet_p.h"
 
 #include <QtWidgets/qdockwidget.h>
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 class QDESIGNER_SHARED_EXPORT QDesignerDockWidget: public QDockWidget
 {
@@ -68,7 +68,7 @@ public:
     bool inMainWindow() const;
 
 private:
-    QDesignerFormWindowInterface *formWindow() const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
     QMainWindow *findMainWindow() const;
 };
 

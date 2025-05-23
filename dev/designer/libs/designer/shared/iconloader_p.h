@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -54,6 +54,8 @@ QDESIGNER_SHARED_EXPORT QIcon emptyIcon();
 QDESIGNER_SHARED_EXPORT QIcon qtLogoIcon();
 
 } // namespace qdesigner_internal
+
+using namespace qdesigner_internal;
 
 QT_END_NAMESPACE
 

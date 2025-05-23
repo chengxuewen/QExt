@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,10 +29,10 @@
 #include "spacer_widget_p.h"
 #include "layoutinfo_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/propertysheet.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtWidgets/qlayout.h>
 #include <QtGui/qpainter.h>
@@ -53,7 +53,7 @@ Spacer::Spacer(QWidget *parent) :
     QWidget(parent)
 {
     setAttribute(Qt::WA_MouseNoMask);
-    m_formWindow = QDesignerFormWindowInterface::findFormWindow(this);
+    m_formWindow = QExtDesignerAbstractFormWindow::findFormWindow(this);
     setSizeType(QSizePolicy::Expanding);
 }
 
@@ -151,7 +151,7 @@ void Spacer::resizeEvent(QResizeEvent* e)
     if (m_formWindow) {
         const QSize oldSize = e->oldSize();
         if (oldSize.isNull() || oldSize.width() <= m_SizeOffset.width() || oldSize.height() <= m_SizeOffset.height())
-            if (QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(m_formWindow->core()->extensionManager(), this))
+            if (QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(m_formWindow->core()->extensionManager(), this))
                 sheet->setChanged(sheet->indexOf(QStringLiteral("sizeHint")), true);
     }
 

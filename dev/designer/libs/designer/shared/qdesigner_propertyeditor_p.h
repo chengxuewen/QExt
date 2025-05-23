@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -43,16 +43,16 @@
 
 #include "shared_global_p.h"
 #include "shared_enums_p.h"
-#include <abstractpropertyeditor.h>
+#include <qextDesignerAbstractPropertyEditor.h>
 
 QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
-// Extends the QDesignerPropertyEditorInterface by property comment handling and
+// Extends the QExtDesignerAbstractPropertyEditor by property comment handling and
 // a signal for resetproperty.
 
-class QDESIGNER_SHARED_EXPORT QDesignerPropertyEditor: public QDesignerPropertyEditorInterface
+class QDESIGNER_SHARED_EXPORT QDesignerPropertyEditor: public QExtDesignerAbstractPropertyEditor
 {
     Q_OBJECT
 public:
@@ -63,7 +63,7 @@ public:
 
     // Return a pair of validation mode and flag indicating whether property is translatable
     // for textual properties.
-    static StringPropertyParameters textPropertyValidationMode(QDesignerFormEditorInterface *core,
+    static StringPropertyParameters textPropertyValidationMode(QExtDesignerAbstractFormEditor *core,
                 const QObject *object, const QString &propertyName, bool isMainContainer);
 
 Q_SIGNALS:

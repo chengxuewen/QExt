@@ -52,8 +52,8 @@ QT_BEGIN_NAMESPACE
 
 class QPixmap;
 
-class QDesignerFormEditorInterface;
-class QDesignerPropertySheetExtension;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerPropertySheetExtension;
 
 namespace qdesigner_internal {
 
@@ -68,7 +68,7 @@ public:
     enum   { ActionRole = Qt::UserRole + 1000 };
 
     explicit ActionModel(QWidget *parent = nullptr);
-    void initialize(QDesignerFormEditorInterface *core) { m_core = core; }
+    void initialize(QExtDesignerAbstractFormEditor *core) { m_core = core; }
 
     void clearActions();
     QModelIndex addAction(QAction *a);
@@ -91,8 +91,8 @@ public:
     static QWidgetList associatedWidgets(const QAction *action);
 
     // Retrieve shortcut via property sheet as it is a fake property
-    static PropertySheetKeySequenceValue actionShortCut(QDesignerFormEditorInterface *core, QAction *action);
-    static PropertySheetKeySequenceValue actionShortCut(const QDesignerPropertySheetExtension *ps);
+    static PropertySheetKeySequenceValue actionShortCut(QExtDesignerAbstractFormEditor *core, QAction *action);
+    static PropertySheetKeySequenceValue actionShortCut(const QExtDesignerPropertySheetExtension *ps);
 
 signals:
     void resourceImageDropped(const QString &path, QAction *action);
@@ -101,13 +101,13 @@ private:
     using QStandardItemList = QList<QStandardItem *>;
 
     void initializeHeaders();
-    static void setItems(QDesignerFormEditorInterface *core, QAction *a,
+    static void setItems(QExtDesignerAbstractFormEditor *core, QAction *a,
                          const QIcon &defaultIcon,
                          QStandardItemList &sl);
 
     const QIcon m_emptyIcon;
 
-    QDesignerFormEditorInterface *m_core = nullptr;
+    QExtDesignerAbstractFormEditor *m_core = nullptr;
 };
 
 // Internal class that provides the detailed view of actions.
@@ -188,7 +188,7 @@ public:
     // Separate initialize() function takes core argument to make this
     // thing usable as promoted widget.
     explicit ActionView(QWidget *parent = nullptr);
-    void initialize(QDesignerFormEditorInterface *core) { m_model->initialize(core); }
+    void initialize(QExtDesignerAbstractFormEditor *core) { m_model->initialize(core); }
 
     // View mode
     enum { DetailedView, IconView };

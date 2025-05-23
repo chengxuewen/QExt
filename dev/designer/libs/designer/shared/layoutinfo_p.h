@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 class QWidget;
 class QLayout;
 class QLayoutItem;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QFormLayout;
 class QRect;
 class QString;
@@ -69,23 +69,23 @@ public:
         UnknownLayout // QDockWindow inside QMainWindow is inside QMainWindowLayout - it doesn't mean there is no layout
     };
 
-    static void deleteLayout(const QDesignerFormEditorInterface *core, QWidget *widget);
+    static void deleteLayout(const QExtDesignerAbstractFormEditor *core, QWidget *widget);
 
     // Examines the immediate layout of the widget.
-    static Type layoutType(const QDesignerFormEditorInterface *core, const QWidget *w);
+    static Type layoutType(const QExtDesignerAbstractFormEditor *core, const QWidget *w);
     // Examines the managed layout of the widget
-    static Type managedLayoutType(const QDesignerFormEditorInterface *core, const QWidget *w, QLayout **layout = nullptr);
-    static Type layoutType(const QDesignerFormEditorInterface *core, const QLayout *layout);
+    static Type managedLayoutType(const QExtDesignerAbstractFormEditor *core, const QWidget *w, QLayout **layout = nullptr);
+    static Type layoutType(const QExtDesignerAbstractFormEditor *core, const QLayout *layout);
     static Type layoutType(const QString &typeName);
     static QString layoutName(Type t);
 
-    static QWidget *layoutParent(const QDesignerFormEditorInterface *core, QLayout *layout);
+    static QWidget *layoutParent(const QExtDesignerAbstractFormEditor *core, QLayout *layout);
 
-    static Type laidoutWidgetType(const QDesignerFormEditorInterface *core, QWidget *widget, bool *isManaged = nullptr, QLayout **layout = nullptr);
-    static bool inline isWidgetLaidout(const QDesignerFormEditorInterface *core, QWidget *widget) { return laidoutWidgetType(core, widget) != NoLayout; }
+    static Type laidoutWidgetType(const QExtDesignerAbstractFormEditor *core, QWidget *widget, bool *isManaged = nullptr, QLayout **layout = nullptr);
+    static bool inline isWidgetLaidout(const QExtDesignerAbstractFormEditor *core, QWidget *widget) { return laidoutWidgetType(core, widget) != NoLayout; }
 
-    static QLayout *managedLayout(const QDesignerFormEditorInterface *core, const QWidget *widget);
-    static QLayout *managedLayout(const QDesignerFormEditorInterface *core, QLayout *layout);
+    static QLayout *managedLayout(const QExtDesignerAbstractFormEditor *core, const QWidget *widget);
+    static QLayout *managedLayout(const QExtDesignerAbstractFormEditor *core, QLayout *layout);
     static QLayout *internalLayout(const QWidget *widget);
 
     // Is it a a dummy grid placeholder created by Designer?

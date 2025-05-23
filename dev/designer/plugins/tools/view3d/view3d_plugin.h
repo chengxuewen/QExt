@@ -38,33 +38,33 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QView3DTool;
 class QAction;
 
-class VIEW3D_EXPORT QView3DPlugin : public QObject, public QDesignerFormEditorPluginInterface
+class VIEW3D_EXPORT QView3DPlugin : public QObject, public QExtDesignerFormEditorPluginInterface
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerFormEditorPluginInterface)
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.Designer.QDesignerFormEditorPluginInterface")
+    Q_INTERFACES(QExtDesignerFormEditorPluginInterface)
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.Designer.QExtDesignerFormEditorPluginInterface")
 
 public:
     QView3DPlugin();
     bool isInitialized() const override;
-    void initialize(QDesignerFormEditorInterface *core) override;
+    void initialize(QExtDesignerAbstractFormEditor *core) override;
     QAction *action() const override;
-    QDesignerFormEditorInterface *core() const override;
+    QExtDesignerAbstractFormEditor *core() const override;
 
 public slots:
-    void activeFormWindowChanged(QDesignerFormWindowInterface *formWindow);
+    void activeFormWindowChanged(QExtDesignerAbstractFormWindow *formWindow);
 
 private slots:
-    void addFormWindow(QDesignerFormWindowInterface *formWindow);
-    void removeFormWindow(QDesignerFormWindowInterface *formWindow);
+    void addFormWindow(QExtDesignerAbstractFormWindow *formWindow);
+    void removeFormWindow(QExtDesignerAbstractFormWindow *formWindow);
 
 private:
-    QPointer<QDesignerFormEditorInterface> m_core;
-    QHash<QDesignerFormWindowInterface*, QView3DTool*> m_tool_list;
+    QPointer<QExtDesignerAbstractFormEditor> m_core;
+    QHash<QExtDesignerAbstractFormWindow*, QView3DTool*> m_tool_list;
     QAction *m_action;
 };
 

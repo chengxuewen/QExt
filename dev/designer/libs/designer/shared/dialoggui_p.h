@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,7 @@
 //
 
 #include "shared_global_p.h"
-#include <abstractdialoggui_p.h>
+#include <private/qextDesignerAbstractDialogGui_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -49,7 +49,7 @@ class QFileIconProvider;
 
 namespace qdesigner_internal {
 
-class QDESIGNER_SHARED_EXPORT DialogGui : public QDesignerDialogGuiInterface
+class QDESIGNER_SHARED_EXPORT DialogGui : public QExtDesignerAbstractDialogGui
 {
 public:
     DialogGui();

@@ -47,7 +47,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -62,7 +62,7 @@ public:
     OrderDialog(QWidget *parent);
     ~OrderDialog() override;
 
-    static QWidgetList pagesOfContainer(const QDesignerFormEditorInterface *core, QWidget *container);
+    static QWidgetList pagesOfContainer(const QExtDesignerAbstractFormEditor *core, QWidget *container);
 
     void setPageList(const QWidgetList &pages);
     QWidgetList pageList() const;

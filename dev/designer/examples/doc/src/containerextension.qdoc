@@ -34,7 +34,7 @@
 
     The Container Extension example shows how to create a custom multi-page
     plugin for \QD using the
-    QDesignerContainerExtension class.
+    QExtDesignerContainerExtension class.
 
     \image containerextension-example.png
 
@@ -44,23 +44,23 @@
     feature.
 
     An extension is an object which modifies the behavior of \QD. The
-    QDesignerContainerExtension enables \QD to manage and manipulate a
+    QExtDesignerContainerExtension enables \QD to manage and manipulate a
     custom multi-page widget, i.e. adding and deleting pages to the
     widget.
 
     There are four available types of extensions in \QD:
 
     \list
-        \li QDesignerMemberSheetExtension  provides an extension that allows
+        \li QExtDesignerMemberSheetExtension  provides an extension that allows
            you to manipulate a widget's member functions which is displayed
            when configuring connections using Qt Designer's mode for editing
            signals and slots.
-        \li QDesignerPropertySheetExtension provides an extension that
+        \li QExtDesignerPropertySheetExtension provides an extension that
            allows you to manipulate a widget's properties which is displayed
            in Qt Designer's property editor.
-        \li QDesignerTaskMenuExtension provides an extension that allows
+        \li QExtDesignerTaskMenuExtension provides an extension that allows
            you to add custom menu entries to \QD's task menu.
-        \li QDesignerContainerExtension provides an extension that allows
+        \li QExtDesignerContainerExtension provides an extension that allows
            you to add (and delete) pages to a multi-page container plugin
            in \QD.
     \endlist
@@ -162,7 +162,7 @@
     \c MultiPageWidgetPlugin also defines the \l
     {QDesignerCustomWidgetInterface::initialize()}{initialize()}
     function which is called after the plugin is loaded into \QD. The
-    function's QDesignerFormEditorInterface parameter provides the
+    function's QExtDesignerAbstractFormEditor parameter provides the
     plugin with a gateway to all of \QD's API's.
 
     In the case of a multipage widget such as ours, we must also implement
@@ -225,26 +225,26 @@
     \snippet containerextension/multipagewidgetplugin.cpp 9
 
     Once we have the widget we can update the property editor. \QD
-    uses the QDesignerPropertySheetExtension class to feed its
+    uses the QExtDesignerPropertySheetExtension class to feed its
     property editor, and whenever a widget is selected in its
     workspace, Qt Designer will query for the widget's property sheet
     extension and update the property editor.
 
     So what we want to achieve is to notify \QD that our widget's \e
     internal selection has changed: First we use the static
-    QDesignerFormWindowInterface::findFormWindow() function to
-    retrieve the QDesignerFormWindowInterface object containing the
-    widget. The QDesignerFormWindowInterface class allows you to query
+    QExtDesignerAbstractFormWindow::findFormWindow() function to
+    retrieve the QExtDesignerAbstractFormWindow object containing the
+    widget. The QExtDesignerAbstractFormWindow class allows you to query
     and manipulate form windows appearing in Qt Designer's
     workspace. Then, all we have to do is to emit its \l
-    {QDesignerFormWindowInterface::emitSelectionChanged()}{emitSelectionChanged()}
+    {QExtDesignerAbstractFormWindow::emitSelectionChanged()}{emitSelectionChanged()}
     signal, forcing an update of the property editor.
 
     When changing a page title a generic refresh of the property
     editor is not enough because it is actually the page's property
     extension that needs to be updated. For that reason we need to
-    access the QDesignerPropertySheetExtension object for the page
-    which title we want to change. The QDesignerPropertySheetExtension
+    access the QExtDesignerPropertySheetExtension object for the page
+    which title we want to change. The QExtDesignerPropertySheetExtension
     class also allows you to manipulate a widget's properties, but to
     get hold of the extension we must first retrieve access to \QD's
     extension manager:
@@ -255,18 +255,18 @@
     Again we first retrieve the widget emitting the signal, using the
     QObject::sender() and qobject_cast() functions. Then we retrieve
     the current page from the widget that emitted the signal, and we
-    use the static QDesignerFormWindowInterface::findFormWindow()
+    use the static QExtDesignerAbstractFormWindow::findFormWindow()
     function to retrieve the form containing our widget.
 
     \snippet containerextension/multipagewidgetplugin.cpp 12
 
-    Now that we have the form window, the QDesignerFormWindowInterface
+    Now that we have the form window, the QExtDesignerAbstractFormWindow
     class provides the \l
-    {QDesignerFormWindowInterface::core()}{core()} function which
-    returns the current QDesignerFormEditorInterface object. The
-    QDesignerFormEditorInterface class allows you to access Qt
+    {QExtDesignerAbstractFormWindow::core()}{core()} function which
+    returns the current QExtDesignerAbstractFormEditor object. The
+    QExtDesignerAbstractFormEditor class allows you to access Qt
     Designer's various components. In particular, the
-    QDesignerFormEditorInterface::extensionManager() function returns
+    QExtDesignerAbstractFormEditor::extensionManager() function returns
     a reference to the current extension manager.
 
     \snippet containerextension/multipagewidgetplugin.cpp 13
@@ -275,25 +275,25 @@
     sheet: First we retrieve the property extension for the page which
     title we want to change, using the qt_extension() function.  Then
     we retrieve the index for the page title using the
-    QDesignerPropertySheetExtension::indexOf() function. As previously
+    QExtDesignerPropertySheetExtension::indexOf() function. As previously
     mentioned, we have chosen to use the QWidget::windowTitle property
     to store the page title (for more information see the
     MultiPageWidget class implementation in
     \e containerextension/multipagewidget.cpp.
     Finally, we implicitly force an update of the page's property
     sheet by calling the
-    QDesignerPropertySheetExtension::setChanged() function.
+    QExtDesignerPropertySheetExtension::setChanged() function.
 
     \snippet containerextension/multipagewidgetplugin.cpp 4
 
     Note also the initialize() function: The \c initialize() function
-    takes a QDesignerFormEditorInterface object as argument.
+    takes a QExtDesignerAbstractFormEditor object as argument.
 
     \snippet containerextension/multipagewidgetplugin.cpp 5
 
     When creating extensions associated with custom widget plugins, we
     need to access \QD's current extension manager which we retrieve
-    from the QDesignerFormEditorInterface parameter.
+    from the QExtDesignerAbstractFormEditor parameter.
 
     In addition to allowing you to manipulate a widget's properties,
     the QExtensionManager class provides extension management
@@ -313,7 +313,7 @@
 
     We create a \c MultiPageWidgetExtensionFactory object that we
     register using \QD's current \l {QExtensionManager}{extension
-    manager} retrieved from the QDesignerFormEditorInterface
+    manager} retrieved from the QExtDesignerAbstractFormEditor
     parameter. The first argument is the newly created factory and the
     second argument is an extension identifier which is a string. The
     \c Q_TYPEID() macro simply convert the string into a
@@ -388,12 +388,12 @@
     \section1 MultiPageWidgetContainerExtension Class Definition
 
     The \c MultiPageWidgetContainerExtension class inherits
-    QDesignerContainerExtension which allows you to add (and delete)
+    QExtDesignerContainerExtension which allows you to add (and delete)
     pages to a multi-page container plugin in \QD.
 
     \snippet containerextension/multipagewidgetcontainerextension.h 0
 
-    It is important to recognize that the QDesignerContainerExtension
+    It is important to recognize that the QExtDesignerContainerExtension
     class only is intended to provide \QD access to your custom
     multi-page widget's functionality; your custom multi-page widget
     must implement functionality corresponding to the extension's
@@ -403,7 +403,7 @@
     arguments: the parent widget, and the \c MultiPageWidget object
     for which the task menu is requested.
 
-    QDesignerContainerExtension provides a couple of menu entries in
+    QExtDesignerContainerExtension provides a couple of menu entries in
     \QD's task menu by default, enabling the user to add or delete
     pages to the associated custom multi-page widget in \QD's
     workspace.
@@ -419,7 +419,7 @@
 
     To fully enable \QD to manage and manipulate your custom
     multi-page widget, you must reimplement all the functions of
-    QDesignerContainerExtension:
+    QExtDesignerContainerExtension:
 
     \snippet containerextension/multipagewidgetcontainerextension.cpp 1
     \codeline
@@ -428,11 +428,11 @@
     \snippet containerextension/multipagewidgetcontainerextension.cpp 3
 
     You must reimplement \l
-    {QDesignerContainerExtension::addWidget()}{addWidget()} adding a
+    {QExtDesignerContainerExtension::addWidget()}{addWidget()} adding a
     given page to the container, \l
-    {QDesignerContainerExtension::count()}{count()} returning the
+    {QExtDesignerContainerExtension::count()}{count()} returning the
     number of pages in the container, and \l
-    {QDesignerContainerExtension::currentIndex()}{currentIndex()}
+    {QExtDesignerContainerExtension::currentIndex()}{currentIndex()}
     returning the index of the currently selected page.
 
     \snippet containerextension/multipagewidgetcontainerextension.cpp 4
@@ -444,13 +444,13 @@
     \snippet containerextension/multipagewidgetcontainerextension.cpp 7
 
     You must reimplement \l
-    {QDesignerContainerExtension::insertWidget()}{insertWidget()}
+    {QExtDesignerContainerExtension::insertWidget()}{insertWidget()}
     adding a given page to the container at a given index, \l
-    {QDesignerContainerExtension::remove()}{remove()} deleting the
+    {QExtDesignerContainerExtension::remove()}{remove()} deleting the
     page at a given index, \l
-    {QDesignerContainerExtension::setCurrentIndex()}{setCurrentIndex()}
+    {QExtDesignerContainerExtension::setCurrentIndex()}{setCurrentIndex()}
     setting the index of the currently selected page, and finally \l
-    {QDesignerContainerExtension::widget()}{widget()} returning the
+    {QExtDesignerContainerExtension::widget()}{widget()} returning the
     page at a given index.
 
     \section1 MultiPageWidget Class Definition
@@ -463,8 +463,8 @@
 
     The main detail to observe is that your custom multi-page widget
     must implement functionality corresponding to the
-    QDesignerContainerExtension's member functions since the
-    QDesignerContainerExtension class only is intended to provide Qt
+    QExtDesignerContainerExtension's member functions since the
+    QExtDesignerContainerExtension class only is intended to provide Qt
     Designer access to your custom multi-page widget's functionality.
 
     In addition, we declare the \c currentIndex and \c pageTitle

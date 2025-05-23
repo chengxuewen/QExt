@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -34,13 +34,13 @@
 #include "qdesigner_command_p.h"
 #include "signalslotdialog_p.h"
 #include "qdesigner_objectinspector_p.h"
-#include "abstractintrospection_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformwindowcursor.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/abstractformeditor.h>
-#include <../extension/qextensionmanager.h>
+#include <private/qextDesignerAbstractIntrospection_p.h>
+#include <qextDesignerAbstractFormWindowCursor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qwidget.h>
@@ -56,9 +56,9 @@ static QAction *separatorAction(QObject *parent)
     return rc;
 }
 
-static inline QDesignerLanguageExtension *languageExtension(QDesignerFormEditorInterface *core)
+static inline QExtDesignerLanguageExtension *languageExtension(QExtDesignerAbstractFormEditor *core)
 {
-    return qt_extension<QDesignerLanguageExtension*>(core->extensionManager(), core);
+    return qt_extension<QExtDesignerLanguageExtension*>(core->extensionManager(), core);
 }
 
 namespace qdesigner_internal {
@@ -108,7 +108,7 @@ void PromotionTaskMenu::setDemoteLabel(const QString &demoteLabel)
     m_demoteLabel = demoteLabel;
 }
 
-PromotionTaskMenu::PromotionState  PromotionTaskMenu::createPromotionActions(QDesignerFormWindowInterface *formWindow)
+PromotionTaskMenu::PromotionState  PromotionTaskMenu::createPromotionActions(QExtDesignerAbstractFormWindow *formWindow)
 {
     // clear out old
     if (!m_promotionActions.isEmpty()) {
@@ -125,7 +125,7 @@ PromotionTaskMenu::PromotionState  PromotionTaskMenu::createPromotionActions(QDe
     if (promotionSelection.isEmpty())
         return NoHomogenousSelection;
 
-    QDesignerFormEditorInterface *core = formWindow->core();
+    QExtDesignerAbstractFormEditor *core = formWindow->core();
     // if it is promoted: demote only.
     if (isPromoted(formWindow->core(), m_widget)) {
         const QString label = m_demoteLabel.arg( promotedExtends(core , m_widget));
@@ -163,7 +163,7 @@ void PromotionTaskMenu::addActions(unsigned separatorFlags, ActionList &actionLi
     addActions(formWindow(), separatorFlags, actionList);
 }
 
-void PromotionTaskMenu::addActions(QDesignerFormWindowInterface *fw, unsigned flags,
+void PromotionTaskMenu::addActions(QExtDesignerAbstractFormWindow *fw, unsigned flags,
                                    ActionList &actionList)
 {
     Q_ASSERT(m_widget);
@@ -200,7 +200,7 @@ void PromotionTaskMenu::addActions(QDesignerFormWindowInterface *fw, unsigned fl
     }
 }
 
-void  PromotionTaskMenu::addActions(QDesignerFormWindowInterface *fw, unsigned flags, QMenu *menu)
+void  PromotionTaskMenu::addActions(QExtDesignerAbstractFormWindow *fw, unsigned flags, QMenu *menu)
 {
     ActionList actionList;
     addActions(fw, flags, actionList);
@@ -212,7 +212,7 @@ void  PromotionTaskMenu::addActions(unsigned flags, QMenu *menu)
     addActions(formWindow(), flags, menu);
 }
 
-void PromotionTaskMenu::promoteTo(QDesignerFormWindowInterface *fw, const QString &customClassName)
+void PromotionTaskMenu::promoteTo(QExtDesignerAbstractFormWindow *fw, const QString &customClassName)
 {
     Q_ASSERT(m_widget);
     PromoteToCustomWidgetCommand *cmd = new PromoteToCustomWidgetCommand(fw);
@@ -228,7 +228,7 @@ void  PromotionTaskMenu::slotPromoteToCustomWidget(const QString &customClassNam
 
 void PromotionTaskMenu::slotDemoteFromCustomWidget()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     const PromotionSelectionList promotedWidgets = promotionSelectionList(fw);
     Q_ASSERT(!promotedWidgets.isEmpty() && isPromoted(fw->core(), promotedWidgets.constFirst()));
 
@@ -242,14 +242,14 @@ void PromotionTaskMenu::slotEditPromoteTo()
 {
     Q_ASSERT(m_widget);
     // Check whether invoked over a promotable widget
-    QDesignerFormWindowInterface *fw = formWindow();
-    QDesignerFormEditorInterface *core = fw->core();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
+    QExtDesignerAbstractFormEditor *core = fw->core();
     const QString base_class_name = WidgetFactory::classNameOf(core, m_widget);
     Q_ASSERT(QDesignerPromotionDialog::baseClassNames(core->promotion()).contains(base_class_name));
     // Show over promotable widget
     QString promoteToClassName;
     QDialog *promotionEditor = nullptr;
-    if (QDesignerLanguageExtension *lang = languageExtension(core))
+    if (QExtDesignerLanguageExtension *lang = languageExtension(core))
         promotionEditor = lang->createPromotionDialog(core, base_class_name, &promoteToClassName, fw);
     if (!promotionEditor)
         promotionEditor = new QDesignerPromotionDialog(core, fw, base_class_name, &promoteToClassName);
@@ -262,13 +262,13 @@ void PromotionTaskMenu::slotEditPromoteTo()
 void PromotionTaskMenu::slotEditPromotedWidgets()
 {
     // Global context, show over non-promotable widget
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return;
     editPromotedWidgets(fw->core(), fw);
 }
 
-PromotionTaskMenu::PromotionSelectionList PromotionTaskMenu::promotionSelectionList(QDesignerFormWindowInterface *formWindow) const
+PromotionTaskMenu::PromotionSelectionList PromotionTaskMenu::promotionSelectionList(QExtDesignerAbstractFormWindow *formWindow) const
 {
     // In multi selection mode, check for a homogenous selection (same class, same promotion state)
     // and return the list if this is the case. Also make sure m_widget
@@ -278,8 +278,8 @@ PromotionTaskMenu::PromotionSelectionList PromotionTaskMenu::promotionSelectionL
     PromotionSelectionList rc;
 
     if (m_mode != ModeSingleWidget) {
-        QDesignerFormEditorInterface *core = formWindow->core();
-        const QDesignerIntrospectionInterface *intro = core->introspection();
+        QExtDesignerAbstractFormEditor *core = formWindow->core();
+        const QExtDesignerIntrospectionInterface *intro = core->introspection();
         const QString className = intro->metaObject(m_widget)->className();
         const bool promoted = isPromoted(formWindow->core(), m_widget);
         // Just in case someone plugged an old-style Object Inspector
@@ -305,18 +305,18 @@ PromotionTaskMenu::PromotionSelectionList PromotionTaskMenu::promotionSelectionL
     return rc;
 }
 
-QDesignerFormWindowInterface *PromotionTaskMenu::formWindow() const
+QExtDesignerAbstractFormWindow *PromotionTaskMenu::formWindow() const
 {
-    // Use the QObject overload of  QDesignerFormWindowInterface::findFormWindow since that works
+    // Use the QObject overload of  QExtDesignerAbstractFormWindow::findFormWindow since that works
     // for QDesignerMenus also.
     QObject *o = m_widget;
-    QDesignerFormWindowInterface *result = QDesignerFormWindowInterface::findFormWindow(o);
+    QExtDesignerAbstractFormWindow *result = QExtDesignerAbstractFormWindow::findFormWindow(o);
     Q_ASSERT(result != nullptr);
     return result;
 }
 
-void PromotionTaskMenu::editPromotedWidgets(QDesignerFormEditorInterface *core, QWidget* parent) {
-    QDesignerLanguageExtension *lang = languageExtension(core);
+void PromotionTaskMenu::editPromotedWidgets(QExtDesignerAbstractFormEditor *core, QWidget* parent) {
+    QExtDesignerLanguageExtension *lang = languageExtension(core);
     // Show over non-promotable widget
     QDialog *promotionEditor =  nullptr;
     if (lang)
@@ -329,7 +329,7 @@ void PromotionTaskMenu::editPromotedWidgets(QDesignerFormEditorInterface *core, 
 
 void PromotionTaskMenu::slotEditSignalsSlots()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return;
     SignalSlotDialog::editPromotedClass(fw->core(), m_widget, fw);

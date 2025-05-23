@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #include "qdesigner_utils_p.h"
 #include "iconloader_p.h"
 
-#include <texteditfindwidget.h>
+#include "../../findwidget/texteditfindwidget.h"
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qapplication.h>
@@ -149,7 +149,7 @@ void CodeDialog::setMimeType(const QString &m)
     m_impl->m_mimeType = m;
 }
 
-bool CodeDialog::generateCode(const QDesignerFormWindowInterface *fw,
+bool CodeDialog::generateCode(const QExtDesignerAbstractFormWindow *fw,
                               UicLanguage language,
                               QString *code,
                               QString *errorMessage)
@@ -189,7 +189,7 @@ bool CodeDialog::generateCode(const QDesignerFormWindowInterface *fw,
     return true;
 }
 
-bool CodeDialog::showCodeDialog(const QDesignerFormWindowInterface *fw,
+bool CodeDialog::showCodeDialog(const QExtDesignerAbstractFormWindow *fw,
                                 UicLanguage language,
                                 QWidget *parent,
                                 QString *errorMessage)

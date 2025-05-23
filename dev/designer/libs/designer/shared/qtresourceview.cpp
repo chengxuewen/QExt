@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,8 +31,8 @@
 #include "qtresourceeditordialog_p.h"
 #include "iconloader_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtWidgets/qtoolbar.h>
 #include <QtWidgets/qaction.h>
@@ -126,7 +126,7 @@ class QtResourceViewPrivate
     QtResourceView *q_ptr = nullptr;
     Q_DECLARE_PUBLIC(QtResourceView)
 public:
-    QtResourceViewPrivate(QDesignerFormEditorInterface *core);
+    QtResourceViewPrivate(QExtDesignerAbstractFormEditor *core);
 
     void slotResourceSetActivated(QtResourceSet *resourceSet);
     void slotCurrentPathChanged(QTreeWidgetItem *);
@@ -151,7 +151,7 @@ public:
 
     QPixmap makeThumbnail(const QPixmap &pix) const;
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     QtResourceModel *m_resourceModel = nullptr;
     QToolBar *m_toolBar;
     QWidget *m_filterWidget = nullptr;
@@ -177,7 +177,7 @@ public:
     bool m_resourceEditingEnabled = true;
 };
 
-QtResourceViewPrivate::QtResourceViewPrivate(QDesignerFormEditorInterface *core) :
+QtResourceViewPrivate::QtResourceViewPrivate(QExtDesignerAbstractFormEditor *core) :
     m_core(core),
     m_toolBar(new QToolBar),
     m_treeWidget(new QTreeWidget),
@@ -191,7 +191,7 @@ void QtResourceViewPrivate::restoreSettings()
     if (m_settingsKey.isEmpty())
         return;
 
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     settings->beginGroup(m_settingsKey);
 
     m_splitter->restoreState(settings->value(QLatin1String(SplitterPosition)).toByteArray());
@@ -203,7 +203,7 @@ void QtResourceViewPrivate::saveSettings()
     if (m_settingsKey.isEmpty())
         return;
 
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     settings->beginGroup(m_settingsKey);
 
     settings->setValue(QLatin1String(SplitterPosition), m_splitter->saveState());
@@ -547,7 +547,7 @@ void QtResourceViewPrivate::createResources(const QString &path)
 
 // -------------- QtResourceView
 
-QtResourceView::QtResourceView(QDesignerFormEditorInterface *core, QWidget *parent) :
+QtResourceView::QtResourceView(QExtDesignerAbstractFormEditor *core, QWidget *parent) :
     QWidget(parent),
     d_ptr(new QtResourceViewPrivate(core))
 {
@@ -804,17 +804,17 @@ class QtResourceViewDialogPrivate
     QtResourceViewDialog *q_ptr;
     Q_DECLARE_PUBLIC(QtResourceViewDialog)
 public:
-    QtResourceViewDialogPrivate(QDesignerFormEditorInterface *core);
+    QtResourceViewDialogPrivate(QExtDesignerAbstractFormEditor *core);
 
     void slotResourceSelected(const QString &resource) { setOkButtonEnabled(!resource.isEmpty()); }
     void setOkButtonEnabled(bool v)                    { m_box->button(QDialogButtonBox::Ok)->setEnabled(v); }
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     QtResourceView *m_view;
     QDialogButtonBox *m_box;
 };
 
-QtResourceViewDialogPrivate::QtResourceViewDialogPrivate(QDesignerFormEditorInterface *core) :
+QtResourceViewDialogPrivate::QtResourceViewDialogPrivate(QExtDesignerAbstractFormEditor *core) :
     q_ptr(nullptr),
     m_core(core),
     m_view(new QtResourceView(core)),
@@ -824,7 +824,7 @@ QtResourceViewDialogPrivate::QtResourceViewDialogPrivate(QDesignerFormEditorInte
 }
 
 // ------------ QtResourceViewDialog
-QtResourceViewDialog::QtResourceViewDialog(QDesignerFormEditorInterface *core, QWidget *parent) :
+QtResourceViewDialog::QtResourceViewDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent) :
     QDialog(parent),
     d_ptr(new QtResourceViewDialogPrivate(core))
 {
@@ -841,7 +841,7 @@ QtResourceViewDialog::QtResourceViewDialog(QDesignerFormEditorInterface *core, Q
     d_ptr->setOkButtonEnabled(false);
     d_ptr->m_view->setResourceModel(core->resourceModel());
 
-    QDesignerSettingsInterface *settings = core->settingsManager();
+    QExtDesignerSettingsInterface *settings = core->settingsManager();
     settings->beginGroup(QLatin1String(ResourceViewDialogC));
 
     const QVariant geometry = settings->value(QLatin1String(Geometry));
@@ -853,7 +853,7 @@ QtResourceViewDialog::QtResourceViewDialog(QDesignerFormEditorInterface *core, Q
 
 QtResourceViewDialog::~QtResourceViewDialog()
 {
-    QDesignerSettingsInterface *settings = d_ptr->m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = d_ptr->m_core->settingsManager();
     settings->beginGroup(QLatin1String(ResourceViewDialogC));
 
     settings->setValue(QLatin1String(Geometry), saveGeometry());

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,13 +33,13 @@
 #include "qdesigner_propertycommand_p.h"
 #include "ui_formlayoutrowdialog.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractwidgetfactory.h>
-#include <../sdk/propertysheet.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractwidgetdatabase.h>
-#include <../sdk/abstractlanguage.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractWidgetFactory.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qwidget.h>
@@ -84,7 +84,7 @@ class FormLayoutRowDialog : public QDialog {
     Q_DISABLE_COPY_MOVE(FormLayoutRowDialog)
     Q_OBJECT
 public:
-    explicit FormLayoutRowDialog(QDesignerFormEditorInterface *core,
+    explicit FormLayoutRowDialog(QExtDesignerAbstractFormEditor *core,
                                  QWidget *parent);
 
     FormLayoutRow formLayoutRow() const;
@@ -100,7 +100,7 @@ public:
     QString fieldClass() const;
     QString labelText() const;
 
-    static QStringList fieldWidgetClasses(QDesignerFormEditorInterface *core);
+    static QStringList fieldWidgetClasses(QExtDesignerAbstractFormEditor *core);
 
 private slots:
     void labelTextEdited(const QString &text);
@@ -123,7 +123,7 @@ private:
     bool m_buddyClicked;
 };
 
-FormLayoutRowDialog::FormLayoutRowDialog(QDesignerFormEditorInterface *core,
+FormLayoutRowDialog::FormLayoutRowDialog(QExtDesignerAbstractFormEditor *core,
                                          QWidget *parent) :
     QDialog(parent),
     m_buddyMarkerRegexp(QStringLiteral("\\&[^&]")),
@@ -353,7 +353,7 @@ void FormLayoutRowDialog::buddyClicked()
 /* Create a list of classes suitable for field widgets. Take the fixed base
  * classes provided and look in the widget database for custom widgets derived
  * from them ("QLineEdit", "CustomLineEdit", "QComboBox"...). */
-QStringList FormLayoutRowDialog::fieldWidgetClasses(QDesignerFormEditorInterface *core)
+QStringList FormLayoutRowDialog::fieldWidgetClasses(QExtDesignerAbstractFormEditor *core)
 {
     // Base class -> custom widgets map
     typedef QMultiHash<QString, QString> ClassMap;
@@ -368,13 +368,13 @@ QStringList FormLayoutRowDialog::fieldWidgetClasses(QDesignerFormEditorInterface
         // multimap of base class->custom widgets unless we have a language
         // extension installed which might do funny things with custom widgets.
         ClassMap customClassMap;
-        if (qt_extension<QDesignerLanguageExtension *>(core->extensionManager(), core) == nullptr) {
+        if (qt_extension<QExtDesignerLanguageExtension *>(core->extensionManager(), core) == nullptr) {
             const QDesignerWidgetDataBaseInterface *wdb = core->widgetDataBase();
             const int wdbCount = wdb->count();
             for (int w = 0; w < wdbCount; ++w) {
                 // Check for non-container custom types that extend the
                 // respective base class.
-                const QDesignerWidgetDataBaseItemInterface *dbItem = wdb->item(w);
+                const QExtDesignerWidgetDataBaseItemInterface *dbItem = wdb->item(w);
                 if (!dbItem->isPromoted() && !dbItem->isContainer() && dbItem->isCustom()) {
                     const int index = baseClasses.indexOf(dbItem->extends());
                     if (index != -1)
@@ -394,7 +394,7 @@ QStringList FormLayoutRowDialog::fieldWidgetClasses(QDesignerFormEditorInterface
 
 // ------------------ Utilities
 
-static QFormLayout *managedFormLayout(const QDesignerFormEditorInterface *core, const QWidget *w)
+static QFormLayout *managedFormLayout(const QExtDesignerAbstractFormEditor *core, const QWidget *w)
 {
     QLayout *l = nullptr;
     if (LayoutInfo::managedLayoutType(core, w, &l) == LayoutInfo::Form)
@@ -406,16 +406,16 @@ static QFormLayout *managedFormLayout(const QDesignerFormEditorInterface *core, 
 // in the struct, called by addFormLayoutRow()
 static QPair<QWidget *,QWidget *>
         createWidgets(const FormLayoutRow &row, QWidget *parent,
-                      QDesignerFormWindowInterface *formWindow)
+                      QExtDesignerAbstractFormWindow *formWindow)
 {
-    QDesignerFormEditorInterface *core = formWindow->core();
-    QDesignerWidgetFactoryInterface *wf = core->widgetFactory();
+    QExtDesignerAbstractFormEditor *core = formWindow->core();
+    QExtDesignerAbstractWidgetFactory *wf = core->widgetFactory();
 
     QPair<QWidget *,QWidget *> rc = QPair<QWidget *,QWidget *>(wf->createWidget(QStringLiteral("QLabel"), parent),
                                                                wf->createWidget(row.fieldClassName, parent));
     // Set up properties of the label
     const QString objectNameProperty = QStringLiteral("objectName");
-    QDesignerPropertySheetExtension *labelSheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), rc.first);
+    QExtDesignerPropertySheetExtension *labelSheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), rc.first);
     int nameIndex = labelSheet->indexOf(objectNameProperty);
     labelSheet->setProperty(nameIndex, QVariant::fromValue(PropertySheetStringValue(row.labelName)));
     labelSheet->setChanged(nameIndex, true);
@@ -424,7 +424,7 @@ static QPair<QWidget *,QWidget *>
     labelSheet->setProperty(textIndex, QVariant::fromValue(PropertySheetStringValue(row.labelText)));
     labelSheet->setChanged(textIndex, true);
     // Set up properties of the control
-    QDesignerPropertySheetExtension *controlSheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), rc.second);
+    QExtDesignerPropertySheetExtension *controlSheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), rc.second);
     nameIndex = controlSheet->indexOf(objectNameProperty);
     controlSheet->setProperty(nameIndex, QVariant::fromValue(PropertySheetStringValue(row.fieldName)));
     controlSheet->setChanged(nameIndex, true);
@@ -435,7 +435,7 @@ static QPair<QWidget *,QWidget *>
 // Create a command sequence on the undo stack of the form window that creates
 // the widgets of the row and inserts them into the form layout.
 static void addFormLayoutRow(const FormLayoutRow &formLayoutRow, int row, QWidget *w,
-                               QDesignerFormWindowInterface *formWindow)
+                               QExtDesignerAbstractFormWindow *formWindow)
 {
     QFormLayout *formLayout = managedFormLayout(formWindow->core(), w);
     Q_ASSERT(formLayout);
@@ -472,7 +472,7 @@ FormLayoutMenu::FormLayoutMenu(QObject *parent) :
     m_separator2->setSeparator(true);
 }
 
-void FormLayoutMenu::populate(QWidget *w, QDesignerFormWindowInterface *fw, ActionList &actions)
+void FormLayoutMenu::populate(QWidget *w, QExtDesignerAbstractFormWindow *fw, ActionList &actions)
 {
     switch (LayoutInfo::managedLayoutType(fw->core(), w)) {
     case LayoutInfo::Form:
@@ -490,7 +490,7 @@ void FormLayoutMenu::populate(QWidget *w, QDesignerFormWindowInterface *fw, Acti
 
 void FormLayoutMenu::slotAddRow()
 {
-    QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(m_widget);
+    QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(m_widget);
     Q_ASSERT(m_widget && fw);
     const int rowCount = managedFormLayout(fw->core(), m_widget)->rowCount();
 
@@ -503,7 +503,7 @@ void FormLayoutMenu::slotAddRow()
     addFormLayoutRow(dialog.formLayoutRow(), dialog.row(), m_widget, fw);
 }
 
-QAction *FormLayoutMenu::preferredEditAction(QWidget *w, QDesignerFormWindowInterface *fw)
+QAction *FormLayoutMenu::preferredEditAction(QWidget *w, QExtDesignerAbstractFormWindow *fw)
 {
     if (LayoutInfo::managedLayoutType(fw->core(), w) == LayoutInfo::Form) {
         m_widget = w;

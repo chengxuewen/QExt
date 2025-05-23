@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,8 +33,8 @@
 
 #include <actioneditor_p.h>
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtCore/qstringlist.h>
 #include <QtCore/qdir.h>
@@ -80,7 +80,7 @@ static bool checkTemplatePath(const QString &path, bool create)
 
 namespace qdesigner_internal {
 
-QDesignerSharedSettings::QDesignerSharedSettings(QDesignerFormEditorInterface *core)
+QDesignerSharedSettings::QDesignerSharedSettings(QExtDesignerAbstractFormEditor *core)
         : m_settings(core->settingsManager())
 {
 }

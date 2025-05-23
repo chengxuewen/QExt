@@ -65,7 +65,7 @@ QObject *MultiPageWidgetExtensionFactory::createExtension(QObject *object,
 {
     MultiPageWidget *widget = qobject_cast<MultiPageWidget*>(object);
 
-    if (widget && (iid == Q_TYPEID(QDesignerContainerExtension)))
+    if (widget && (iid == Q_TYPEID(QExtDesignerContainerExtension)))
         return new MultiPageWidgetContainerExtension(widget, parent);
     return nullptr;
 }

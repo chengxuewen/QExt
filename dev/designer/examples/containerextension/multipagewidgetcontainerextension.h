@@ -51,7 +51,7 @@
 #ifndef MULTIPAGEWIDGETCONTAINEREXTENSION_H
 #define MULTIPAGEWIDGETCONTAINEREXTENSION_H
 
-#include <QtDesigner/QDesignerContainerExtension>
+#include <QtDesigner/QExtDesignerContainerExtension>
 
 QT_BEGIN_NAMESPACE
 class QExtensionManager;
@@ -60,10 +60,10 @@ class MultiPageWidget;
 
 //! [0]
 class MultiPageWidgetContainerExtension: public QObject,
-                                         public QDesignerContainerExtension
+                                         public QExtDesignerContainerExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerContainerExtension)
+    Q_INTERFACES(QExtDesignerContainerExtension)
 
 public:
     explicit MultiPageWidgetContainerExtension(MultiPageWidget *widget, QObject *parent);

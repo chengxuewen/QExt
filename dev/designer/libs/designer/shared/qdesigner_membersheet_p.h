@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,18 +42,19 @@
 
 #include "shared_global_p.h"
 
-#include "../sdk/membersheet.h"
-#include "../extension/default_extensionfactory.h"
+#include <qextDesignerMemberSheetExtension.h>
+
+#include <qextDesignerExtensionFactory.h>
 #include <QtCore/qstringlist.h>
 
 QT_BEGIN_NAMESPACE
 
 class QDesignerMemberSheetPrivate;
 
-class QDESIGNER_SHARED_EXPORT QDesignerMemberSheet: public QObject, public QDesignerMemberSheetExtension
+class QDESIGNER_SHARED_EXPORT QDesignerMemberSheet: public QObject, public QExtDesignerMemberSheetExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerMemberSheetExtension)
+    Q_INTERFACES(QExtDesignerMemberSheetExtension)
 
 public:
     explicit QDesignerMemberSheet(QObject *object, QObject *parent = nullptr);

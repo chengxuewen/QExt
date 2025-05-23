@@ -61,18 +61,18 @@ class BreakLayoutCommand;
 class QDESIGNER_SHARED_EXPORT MorphLayoutCommand : public QDesignerFormWindowCommand {
     Q_DISABLE_COPY_MOVE(MorphLayoutCommand)
 public:
-    explicit MorphLayoutCommand(QDesignerFormWindowInterface *formWindow);
+    explicit MorphLayoutCommand(QExtDesignerAbstractFormWindow *formWindow);
     ~MorphLayoutCommand() override;
 
     bool init(QWidget *w, int newType);
 
-    static bool canMorph(const QDesignerFormWindowInterface *formWindow, QWidget *w, int *ptrToCurrentType = nullptr);
+    static bool canMorph(const QExtDesignerAbstractFormWindow *formWindow, QWidget *w, int *ptrToCurrentType = nullptr);
 
     void redo() override;
     void undo() override;
 
 private:
-    static QString formatDescription(QDesignerFormEditorInterface *core, const QWidget *w, int oldType, int newType);
+    static QString formatDescription(QExtDesignerAbstractFormEditor *core, const QWidget *w, int oldType, int newType);
 
     BreakLayoutCommand *m_breakLayoutCommand;
     LayoutCommand *m_layoutCommand;
@@ -85,7 +85,7 @@ private:
 class LayoutAlignmentCommand : public QDesignerFormWindowCommand {
     Q_DISABLE_COPY_MOVE(LayoutAlignmentCommand)
 public:
-    explicit LayoutAlignmentCommand(QDesignerFormWindowInterface *formWindow);
+    explicit LayoutAlignmentCommand(QExtDesignerAbstractFormWindow *formWindow);
 
     bool init(QWidget *w, Qt::Alignment alignment);
 
@@ -93,10 +93,10 @@ public:
     void undo() override;
 
     // Find out alignment and return whether command is enabled.
-    static Qt::Alignment alignmentOf(const QDesignerFormEditorInterface *core, QWidget *w, bool *enabled = nullptr);
+    static Qt::Alignment alignmentOf(const QExtDesignerAbstractFormEditor *core, QWidget *w, bool *enabled = nullptr);
 
 private:
-    static void applyAlignment(const QDesignerFormEditorInterface *core, QWidget *w, Qt::Alignment a);
+    static void applyAlignment(const QExtDesignerAbstractFormEditor *core, QWidget *w, Qt::Alignment a);
 
     Qt::Alignment m_newAlignment;
     Qt::Alignment m_oldAlignment;

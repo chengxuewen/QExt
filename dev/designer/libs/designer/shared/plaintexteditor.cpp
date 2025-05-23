@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,8 +28,8 @@
 
 #include "plaintexteditor_p.h"
 
-#include <../sdk/abstractsettings.h>
-#include <../sdk/abstractformeditor.h>
+#include <qextDesignerAbstractSettings.h>
+#include <qextDesignerAbstractFormEditor.h>
 
 #include <QtWidgets/qplaintextedit.h>
 #include <QtWidgets/qdialogbuttonbox.h>
@@ -44,7 +44,7 @@ static const char *Geometry = "Geometry";
 
 namespace qdesigner_internal {
 
-PlainTextEditorDialog::PlainTextEditorDialog(QDesignerFormEditorInterface *core, QWidget *parent)  :
+PlainTextEditorDialog::PlainTextEditorDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent)  :
     QDialog(parent),
     m_editor(new QPlainTextEdit),
     m_core(core)
@@ -62,7 +62,7 @@ PlainTextEditorDialog::PlainTextEditorDialog(QDesignerFormEditorInterface *core,
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     vlayout->addWidget(buttonBox);
 
-    QDesignerSettingsInterface *settings = core->settingsManager();
+    QExtDesignerSettingsInterface *settings = core->settingsManager();
     settings->beginGroup(QLatin1String(PlainTextDialogC));
 
     if (settings->contains(QLatin1String(Geometry)))
@@ -73,7 +73,7 @@ PlainTextEditorDialog::PlainTextEditorDialog(QDesignerFormEditorInterface *core,
 
 PlainTextEditorDialog::~PlainTextEditorDialog()
 {
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     settings->beginGroup(QLatin1String(PlainTextDialogC));
 
     settings->setValue(QLatin1String(Geometry), saveGeometry());

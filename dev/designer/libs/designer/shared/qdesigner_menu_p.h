@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 class QTimer;
 class QLineEdit;
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QDesignerActionProviderExtension;
 class QDesignerMenu;
 class QDesignerMenuBar;
@@ -73,7 +73,7 @@ public:
 
     bool eventFilter(QObject *object, QEvent *event) override;
 
-    QDesignerFormWindowInterface *formWindow() const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
     QDesignerActionProviderExtension *actionProvider();
 
     QDesignerMenu *parentMenu() const;

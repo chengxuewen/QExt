@@ -46,7 +46,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -54,13 +54,13 @@ class QDESIGNER_SHARED_EXPORT QDesignerFormEditorCommand: public QUndoCommand
 {
 
 public:
-    QDesignerFormEditorCommand(const QString &description, QDesignerFormEditorInterface *core);
+    QDesignerFormEditorCommand(const QString &description, QExtDesignerAbstractFormEditor *core);
 
 protected:
-    QDesignerFormEditorInterface *core() const;
+    QExtDesignerAbstractFormEditor *core() const;
 
 private:
-    QPointer<QDesignerFormEditorInterface> m_core;
+    QPointer<QExtDesignerAbstractFormEditor> m_core;
 };
 
 } // namespace qdesigner_internal

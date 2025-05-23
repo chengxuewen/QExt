@@ -48,14 +48,14 @@ QT_BEGIN_NAMESPACE
 
 class QtResourceModel;
 class QtResourceSet;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QMimeData;
 
 class QDESIGNER_SHARED_EXPORT QtResourceView : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QtResourceView(QDesignerFormEditorInterface *core, QWidget *parent = nullptr);
+    explicit QtResourceView(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr);
     ~QtResourceView();
 
     void setDragEnabled(bool dragEnabled);
@@ -109,7 +109,7 @@ class QDESIGNER_SHARED_EXPORT  QtResourceViewDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit QtResourceViewDialog(QDesignerFormEditorInterface *core, QWidget *parent = nullptr);
+    explicit QtResourceViewDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr);
     ~QtResourceViewDialog() override;
 
     QString selectedResource() const;

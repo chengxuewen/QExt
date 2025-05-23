@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,7 +33,7 @@
 #include "promotiontaskmenu_p.h"
 #include "widgetfactory_p.h"
 
-#include <../sdk/abstractformwindow.h>
+#include <qextDesignerAbstractFormWindow.h>
 
 #include <QtWidgets/qtoolbutton.h>
 #include <QtWidgets/qaction.h>
@@ -91,7 +91,7 @@ void QStackedWidgetPreviewEventFilter::updateButtons()
 
 void QStackedWidgetPreviewEventFilter::prevPage()
 {
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget())) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget())) {
         fw->clearSelection();
         fw->selectWidget(stackedWidget(), true);
     }
@@ -106,7 +106,7 @@ void QStackedWidgetPreviewEventFilter::prevPage()
 
 void QStackedWidgetPreviewEventFilter::nextPage()
 {
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget())) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget())) {
         fw->clearSelection();
         fw->selectWidget(stackedWidget(), true);
     }
@@ -154,7 +154,7 @@ void QStackedWidgetPreviewEventFilter::gotoPage(int page)
 
 static inline QString stackedClassName(QStackedWidget *w)
 {
-    if (const QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(w))
+    if (const QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(w))
         return qdesigner_internal::WidgetFactory::classNameOf(fw->core(), w);
     return QStringLiteral("Stacked widget");
 }
@@ -227,7 +227,7 @@ void QStackedWidgetEventFilter::removeCurrentPage()
     if (stackedWidget()->currentIndex() == -1)
         return;
 
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget())) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget())) {
         qdesigner_internal::DeleteStackedWidgetPageCommand *cmd = new qdesigner_internal::DeleteStackedWidgetPageCommand(fw);
         cmd->init(stackedWidget());
         fw->commandHistory()->push(cmd);
@@ -236,7 +236,7 @@ void QStackedWidgetEventFilter::removeCurrentPage()
 
 void QStackedWidgetEventFilter::changeOrder()
 {
-    QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget());
+    QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget());
 
     if (!fw)
         return;
@@ -268,7 +268,7 @@ void QStackedWidgetEventFilter::changeOrder()
 
 void QStackedWidgetEventFilter::addPage()
 {
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget())) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget())) {
         qdesigner_internal::AddStackedWidgetPageCommand *cmd = new qdesigner_internal::AddStackedWidgetPageCommand(fw);
         cmd->init(stackedWidget(), qdesigner_internal::AddStackedWidgetPageCommand::InsertBefore);
         fw->commandHistory()->push(cmd);
@@ -277,7 +277,7 @@ void QStackedWidgetEventFilter::addPage()
 
 void QStackedWidgetEventFilter::addPageAfter()
 {
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget())) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget())) {
         qdesigner_internal::AddStackedWidgetPageCommand *cmd = new qdesigner_internal::AddStackedWidgetPageCommand(fw);
         cmd->init(stackedWidget(), qdesigner_internal::AddStackedWidgetPageCommand::InsertAfter);
         fw->commandHistory()->push(cmd);
@@ -286,7 +286,7 @@ void QStackedWidgetEventFilter::addPageAfter()
 
 void QStackedWidgetEventFilter::gotoPage(int page) {
     // Are we on a form or in a preview?
-    if (QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(stackedWidget())) {
+    if (QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget())) {
         qdesigner_internal::SetPropertyCommand *cmd = new  qdesigner_internal::SetPropertyCommand(fw);
         cmd->init(stackedWidget(), QStringLiteral("currentIndex"), page);
         fw->commandHistory()->push(cmd);
@@ -310,7 +310,7 @@ QMenu *QStackedWidgetEventFilter::addContextMenuActions(QMenu *popup)
         // Set up promotion menu for current widget.
         if (QWidget *page =  stackedWidget()->currentWidget ()) {
             m_pagePromotionTaskMenu->setWidget(page);
-            m_pagePromotionTaskMenu->addActions(QDesignerFormWindowInterface::findFormWindow(stackedWidget()),
+            m_pagePromotionTaskMenu->addActions(QExtDesignerAbstractFormWindow::findFormWindow(stackedWidget()),
                                                 qdesigner_internal::PromotionTaskMenu::SuppressGlobalEdit,
                                                 pageMenu);
         }

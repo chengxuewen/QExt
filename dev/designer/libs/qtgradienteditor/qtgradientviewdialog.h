@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -37,8 +37,8 @@
 **
 ****************************************************************************/
 
-#ifndef GRADIENTVIEWDIALOG_H
-#define GRADIENTVIEWDIALOG_H
+#ifndef _QTGRADIENTVIEWDIALOG_H
+#define _QTGRADIENTVIEWDIALOG_H
 
 #include <QtWidgets/QWidget>
 #include <QtCore/QMap>
@@ -64,10 +64,10 @@ private slots:
     void slotGradientActivated(const QString &id);
 
 private:
-    Ui::QtGradientViewDialog m_ui;
+    Ui_QtGradientViewDialog m_ui;
 };
 
-QT_END_NAMESPACE
+QT_END_NAMESPACE // _QTGRADIENTVIEWDIALOG_H
 
 #endif
 

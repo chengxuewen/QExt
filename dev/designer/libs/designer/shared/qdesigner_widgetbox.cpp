@@ -29,7 +29,7 @@
 #include "qdesigner_widgetbox_p.h"
 #include "qdesigner_utils_p.h"
 
-#include <../uilib/ui4_p.h>
+#include <private/qextDesignerDomUI_p.h>
 
 #include <QtCore/qregularexpression.h>
 #include <QtCore/qdebug.h>
@@ -43,35 +43,35 @@ class QDesignerWidgetBoxWidgetData : public QSharedData
 public:
     QDesignerWidgetBoxWidgetData(const QString &aname, const QString &xml,
                                  const QString &icon_name,
-                                 QDesignerWidgetBoxInterface::Widget::Type atype);
+                                 QExtDesignerAbstractWidgetBox::Widget::Type atype);
     QString m_name;
     QString m_xml;
     QString m_icon_name;
-    QDesignerWidgetBoxInterface::Widget::Type m_type;
+    QExtDesignerAbstractWidgetBox::Widget::Type m_type;
 };
 
 QDesignerWidgetBoxWidgetData::QDesignerWidgetBoxWidgetData(const QString &aname,
                                                            const QString &xml,
                                                            const QString &icon_name,
-                                                           QDesignerWidgetBoxInterface::Widget::Type atype) :
+                                                           QExtDesignerAbstractWidgetBox::Widget::Type atype) :
     m_name(aname), m_xml(xml), m_icon_name(icon_name), m_type(atype)
 {
 }
 
-QDesignerWidgetBoxInterface::Widget::Widget(const QString &aname, const QString &xml,
+QExtDesignerAbstractWidgetBox::Widget::Widget(const QString &aname, const QString &xml,
                                             const QString &icon_name, Type atype) :
     m_data(new QDesignerWidgetBoxWidgetData(aname, xml, icon_name, atype))
 {
 }
 
-QDesignerWidgetBoxInterface::Widget::~Widget() = default;
+QExtDesignerAbstractWidgetBox::Widget::~Widget() = default;
 
-QDesignerWidgetBoxInterface::Widget::Widget(const Widget &w) :
+QExtDesignerAbstractWidgetBox::Widget::Widget(const Widget &w) :
     m_data(w.m_data)
 {
 }
 
-QDesignerWidgetBoxInterface::Widget &QDesignerWidgetBoxInterface::Widget::operator=(const Widget &rhs)
+QExtDesignerAbstractWidgetBox::Widget &QExtDesignerAbstractWidgetBox::Widget::operator=(const Widget &rhs)
 {
     if (this != &rhs) {
         m_data = rhs.m_data;
@@ -79,54 +79,54 @@ QDesignerWidgetBoxInterface::Widget &QDesignerWidgetBoxInterface::Widget::operat
     return *this;
 }
 
-QString QDesignerWidgetBoxInterface::Widget::name() const
+QString QExtDesignerAbstractWidgetBox::Widget::name() const
 {
     return m_data->m_name;
 }
 
-void QDesignerWidgetBoxInterface::Widget::setName(const QString &aname)
+void QExtDesignerAbstractWidgetBox::Widget::setName(const QString &aname)
 {
     m_data->m_name = aname;
 }
 
-QString QDesignerWidgetBoxInterface::Widget::domXml() const
+QString QExtDesignerAbstractWidgetBox::Widget::domXml() const
 {
     return m_data->m_xml;
 }
 
-void QDesignerWidgetBoxInterface::Widget::setDomXml(const QString &xml)
+void QExtDesignerAbstractWidgetBox::Widget::setDomXml(const QString &xml)
 {
     m_data->m_xml = xml;
 }
 
-QString QDesignerWidgetBoxInterface::Widget::iconName() const
+QString QExtDesignerAbstractWidgetBox::Widget::iconName() const
 {
     return m_data->m_icon_name;
 }
 
-void QDesignerWidgetBoxInterface::Widget::setIconName(const QString &icon_name)
+void QExtDesignerAbstractWidgetBox::Widget::setIconName(const QString &icon_name)
 {
     m_data->m_icon_name = icon_name;
 }
 
-QDesignerWidgetBoxInterface::Widget::Type QDesignerWidgetBoxInterface::Widget::type() const
+QExtDesignerAbstractWidgetBox::Widget::Type QExtDesignerAbstractWidgetBox::Widget::type() const
 {
     return m_data->m_type;
 }
 
-void QDesignerWidgetBoxInterface::Widget::setType(Type atype)
+void QExtDesignerAbstractWidgetBox::Widget::setType(Type atype)
 {
     m_data->m_type = atype;
 }
 
-bool QDesignerWidgetBoxInterface::Widget::isNull() const
+bool QExtDesignerAbstractWidgetBox::Widget::isNull() const
 {
     return m_data->m_name.isEmpty();
 }
 
 namespace qdesigner_internal {
 QDesignerWidgetBox::QDesignerWidgetBox(QWidget *parent, Qt::WindowFlags flags)
-    : QDesignerWidgetBoxInterface(parent, flags)
+    : QExtDesignerAbstractWidgetBox(parent, flags)
 {
 
 }
@@ -142,7 +142,7 @@ void QDesignerWidgetBox::setLoadMode(LoadMode lm)
 }
 
 // Convenience to find a widget by class name
-bool QDesignerWidgetBox::findWidget(const QDesignerWidgetBoxInterface *wbox,
+bool QDesignerWidgetBox::findWidget(const QExtDesignerAbstractWidgetBox *wbox,
                                     const QString &className,
                                     const QString &category,
                                     Widget *widgetData)

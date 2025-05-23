@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,7 +42,7 @@
 
 #include "shared_global_p.h"
 
-#include <../sdk/abstractformwindow.h>
+#include <qextDesignerAbstractFormWindow.h>
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qshareddata.h>
@@ -227,9 +227,9 @@ public:
 
     // Check where a pixmap comes from
     enum PixmapSource { LanguageResourcePixmap , ResourcePixmap, FilePixmap };
-    static PixmapSource getPixmapSource(QDesignerFormEditorInterface *core, const QString & path);
+    static PixmapSource getPixmapSource(QExtDesignerAbstractFormEditor *core, const QString & path);
 
-    PixmapSource pixmapSource(QDesignerFormEditorInterface *core) const { return getPixmapSource(core, m_path); }
+    PixmapSource pixmapSource(QExtDesignerAbstractFormEditor *core) const { return getPixmapSource(core, m_path); }
 
     QString path() const;
     void setPath(const QString &path); // passing the empty path resets the pixmap
@@ -430,10 +430,10 @@ namespace qdesigner_internal {
 
 
 // Create a command to change a text property (that is, create a reset property command if the text is empty)
-QDESIGNER_SHARED_EXPORT QDesignerFormWindowCommand *createTextPropertyCommand(const QString &propertyName, const QString &text, QObject *object, QDesignerFormWindowInterface *fw);
+QDESIGNER_SHARED_EXPORT QDesignerFormWindowCommand *createTextPropertyCommand(const QString &propertyName, const QString &text, QObject *object, QExtDesignerAbstractFormWindow *fw);
 
 // Returns preferred task menu action for managed widget
-QDESIGNER_SHARED_EXPORT QAction *preferredEditAction(QDesignerFormEditorInterface *core, QWidget *managedWidget);
+QDESIGNER_SHARED_EXPORT QAction *preferredEditAction(QExtDesignerAbstractFormEditor *core, QWidget *managedWidget);
 
 enum class UicLanguage
 {
@@ -492,7 +492,7 @@ inline bool isObjectAncestorOf(QObject *ancestor, QObject *child)
     return false;
 }
 
-inline bool isCentralWidget(QDesignerFormWindowInterface *fw, QWidget *widget)
+inline bool isCentralWidget(QExtDesignerAbstractFormWindow *fw, QWidget *widget)
 {
     if (! fw || ! widget)
         return false;

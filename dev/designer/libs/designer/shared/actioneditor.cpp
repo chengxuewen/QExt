@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -39,12 +39,12 @@
 #include "formwindowbase_p.h"
 #include "qdesigner_taskmenu_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractpropertyeditor.h>
-#include <../sdk/propertysheet.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractmetadatabase.h>
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractPropertyEditor.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractMetaDataBase.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtWidgets/qmenu.h>
 #include <QtWidgets/qtoolbar.h>
@@ -103,8 +103,8 @@ public:
 //--------  ActionEditor
 ObjectNamingMode ActionEditor::m_objectNamingMode = Underscore; // fixme Qt 6: CamelCase
 
-ActionEditor::ActionEditor(QDesignerFormEditorInterface *core, QWidget *parent, Qt::WindowFlags flags) :
-    QDesignerActionEditorInterface(parent, flags),
+ActionEditor::ActionEditor(QExtDesignerAbstractFormEditor *core, QWidget *parent, Qt::WindowFlags flags) :
+    QExtDesignerAbstractActionEditor(parent, flags),
     m_core(core),
     m_actionGroups(nullptr),
     m_actionView(new ActionView),
@@ -271,12 +271,12 @@ QAction *ActionEditor::actionDelete() const
     return m_actionDelete;
 }
 
-QDesignerFormWindowInterface *ActionEditor::formWindow() const
+QExtDesignerAbstractFormWindow *ActionEditor::formWindow() const
 {
     return m_formWindow;
 }
 
-void ActionEditor::setFormWindow(QDesignerFormWindowInterface *formWindow)
+void ActionEditor::setFormWindow(QExtDesignerAbstractFormWindow *formWindow)
 {
     if (formWindow != nullptr && formWindow->mainContainer() == nullptr)
         formWindow = nullptr;
@@ -335,7 +335,7 @@ void  ActionEditor::slotSelectionChanged(const QItemSelection& selected, const Q
 
 void ActionEditor::slotCurrentItemChanged(QAction *action)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return;
 
@@ -379,7 +379,7 @@ void ActionEditor::slotActionChanged()
     }
 }
 
-QDesignerFormEditorInterface *ActionEditor::core() const
+QExtDesignerAbstractFormEditor *ActionEditor::core() const
 {
     return m_core;
 }
@@ -396,7 +396,7 @@ void ActionEditor::setFilter(const QString &f)
 }
 
 // Set changed state of icon property,  reset when icon is cleared
-static void refreshIconPropertyChanged(const QAction *action, QDesignerPropertySheetExtension *sheet)
+static void refreshIconPropertyChanged(const QAction *action, QExtDesignerPropertySheetExtension *sheet)
 {
     sheet->setChanged(sheet->indexOf(QLatin1String(iconPropertyC)), !action->icon().isNull());
 }
@@ -409,7 +409,7 @@ void ActionEditor::manageAction(QAction *action)
     if (action->isSeparator() || action->menu() != nullptr)
         return;
 
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core()->extensionManager(), action);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core()->extensionManager(), action);
     sheet->setChanged(sheet->indexOf(QLatin1String(objectNamePropertyC)), true);
     sheet->setChanged(sheet->indexOf(QLatin1String(textPropertyC)), true);
     refreshIconPropertyChanged(action, sheet);
@@ -431,7 +431,7 @@ void ActionEditor::unmanageAction(QAction *action)
 }
 
 // Set an initial property and mark it as changed in the sheet
-static void setInitialProperty(QDesignerPropertySheetExtension *sheet, const QString &name, const QVariant &value)
+static void setInitialProperty(QExtDesignerPropertySheetExtension *sheet, const QString &name, const QVariant &value)
 {
     const int index = sheet->indexOf(name);
     Q_ASSERT(index != -1);
@@ -452,7 +452,7 @@ void ActionEditor::slotNewAction()
         formWindow()->ensureUniqueObjectName(action);
         action->setText(actionData.text);
 
-        QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core()->extensionManager(), action);
+        QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core()->extensionManager(), action);
         if (!actionData.toolTip.isEmpty())
             setInitialProperty(sheet, QLatin1String(toolTipPropertyC), actionData.toolTip);
 
@@ -473,7 +473,7 @@ void ActionEditor::slotNewAction()
 // return a FormWindow command to apply an icon or a reset command in case it
 //  is empty.
 
-static QDesignerFormWindowCommand *setIconPropertyCommand(const PropertySheetIconValue &newIcon, QAction *action, QDesignerFormWindowInterface *fw)
+static QDesignerFormWindowCommand *setIconPropertyCommand(const PropertySheetIconValue &newIcon, QAction *action, QExtDesignerAbstractFormWindow *fw)
 {
     const QString iconProperty = QLatin1String(iconPropertyC);
     if (newIcon.isEmpty()) {
@@ -489,7 +489,7 @@ static QDesignerFormWindowCommand *setIconPropertyCommand(const PropertySheetIco
 // return a FormWindow command to apply a QKeySequence or a reset command
 // in case it is empty.
 
-static QDesignerFormWindowCommand *setKeySequencePropertyCommand(const PropertySheetKeySequenceValue &ks, QAction *action, QDesignerFormWindowInterface *fw)
+static QDesignerFormWindowCommand *setKeySequencePropertyCommand(const PropertySheetKeySequenceValue &ks, QAction *action, QExtDesignerAbstractFormWindow *fw)
 {
     const QString shortcutProperty = QLatin1String(shortcutPropertyC);
     if (ks.value().isEmpty()) {
@@ -507,7 +507,7 @@ static QDesignerFormWindowCommand *setKeySequencePropertyCommand(const PropertyS
 
 template <class T>
 QDesignerFormWindowCommand *setPropertyCommand(const QString &name, T value, T defaultValue,
-                                               QObject *o, QDesignerFormWindowInterface *fw)
+                                               QObject *o, QExtDesignerAbstractFormWindow *fw)
 {
     if (value == defaultValue) {
         ResetPropertyCommand *cmd = new ResetPropertyCommand(fw);
@@ -520,7 +520,7 @@ QDesignerFormWindowCommand *setPropertyCommand(const QString &name, T value, T d
 }
 
 // Return the text value of a string property via PropertySheetStringValue
-static inline QString textPropertyValue(const QDesignerPropertySheetExtension *sheet, const QString &name)
+static inline QString textPropertyValue(const QExtDesignerPropertySheetExtension *sheet, const QString &name)
 {
     const int index = sheet->indexOf(name);
     Q_ASSERT(index != -1);
@@ -537,7 +537,7 @@ void ActionEditor::editAction(QAction *action, int column)
     dlg.setWindowTitle(tr("Edit action"));
 
     ActionData oldActionData;
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core()->extensionManager(), action);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core()->extensionManager(), action);
     oldActionData.name = action->objectName();
     oldActionData.text = action->text();
     oldActionData.toolTip = textPropertyValue(sheet, QLatin1String(toolTipPropertyC));
@@ -577,7 +577,7 @@ void ActionEditor::editAction(QAction *action, int column)
                              && (changeMask != ActionData::ToolTipChanged)   && (changeMask != ActionData::IconChanged)
                              && (changeMask != ActionData::CheckableChanged) && (changeMask != ActionData::KeysequenceChanged);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     QUndoStack *undoStack = fw->commandHistory();
     if (severalChanges)
         fw->beginCommand(QStringLiteral("Edit action"));
@@ -616,7 +616,7 @@ void ActionEditor::navigateToSlotCurrentAction()
         QDesignerTaskMenu::navigateToSlot(m_core, a, QStringLiteral("triggered()"));
 }
 
-void ActionEditor::deleteActions(QDesignerFormWindowInterface *fw, const ActionList &actions)
+void ActionEditor::deleteActions(QExtDesignerAbstractFormWindow *fw, const ActionList &actions)
 {
     // We need a macro even in the case of single action because the commands might cause the
     // scheduling of other commands (signal slots connections)
@@ -633,7 +633,7 @@ void ActionEditor::deleteActions(QDesignerFormWindowInterface *fw, const ActionL
 }
 
 #if QT_CONFIG(clipboard)
-void ActionEditor::copyActions(QDesignerFormWindowInterface *fwi, const ActionList &actions)
+void ActionEditor::copyActions(QExtDesignerAbstractFormWindow *fwi, const ActionList &actions)
 {
     FormWindowBase *fw = qobject_cast<FormWindowBase *>(fwi);
     if (!fw )
@@ -658,7 +658,7 @@ void ActionEditor::copyActions(QDesignerFormWindowInterface *fwi, const ActionLi
 
 void ActionEditor::slotDelete()
 {
-    QDesignerFormWindowInterface *fw =  formWindow();
+    QExtDesignerAbstractFormWindow *fw =  formWindow();
     if (!fw)
         return;
 
@@ -728,11 +728,11 @@ QString ActionEditor::actionTextToName(const QString &text, const QString &prefi
 
 void  ActionEditor::resourceImageDropped(const QString &path, QAction *action)
 {
-    QDesignerFormWindowInterface *fw =  formWindow();
+    QExtDesignerAbstractFormWindow *fw =  formWindow();
     if (!fw)
         return;
 
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core()->extensionManager(), action);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core()->extensionManager(), action);
     const PropertySheetIconValue oldIcon =
             qvariant_cast<PropertySheetIconValue>(sheet->property(sheet->indexOf(QLatin1String(iconPropertyC))));
     PropertySheetIconValue newIcon;
@@ -758,7 +758,7 @@ void ActionEditor::slotViewMode(QAction *a)
 
 void ActionEditor::slotSelectAssociatedWidget(QWidget *w)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw )
         return;
 
@@ -772,14 +772,14 @@ void ActionEditor::slotSelectAssociatedWidget(QWidget *w)
 
 void ActionEditor::restoreSettings()
 {
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     m_actionView->setViewMode(settings->value(QLatin1String(actionEditorViewModeKey), 0).toInt());
     updateViewModeActions();
 }
 
 void ActionEditor::saveSettings()
 {
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     settings->setValue(QLatin1String(actionEditorViewModeKey), m_actionView->viewMode());
 }
 
@@ -798,7 +798,7 @@ void ActionEditor::updateViewModeActions()
 #if QT_CONFIG(clipboard)
 void ActionEditor::slotCopy()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw )
         return;
 
@@ -811,7 +811,7 @@ void ActionEditor::slotCopy()
 
 void ActionEditor::slotCut()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw )
         return;
 

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,7 +29,7 @@
 
 #include "connectionedit_p.h"
 
-#include <../sdk/abstractformwindow.h>
+#include <qextDesignerAbstractFormWindow.h>
 
 #include <QtGui/qpainter.h>
 #include <QtGui/qevent.h>
@@ -43,6 +43,8 @@
 #include <QtCore/qmap.h>
 
 QT_BEGIN_NAMESPACE
+
+using namespace qdesigner_internal;
 
 static const int BG_ALPHA =              32;
 static const int LINE_PROXIMITY_RADIUS =  3;
@@ -94,12 +96,12 @@ static void paintEndPoint(QPainter *p, const QPoint &pos)
     p->fillRect(fixRect(r), p->pen().color());
 }
 
-static qdesigner_internal::CETypes::LineDir classifyLine(const QPoint &p1, const QPoint &p2)
+static CETypes::LineDir classifyLine(const QPoint &p1, const QPoint &p2)
 {
     if (p1.x() == p2.x())
-        return p1.y() < p2.y() ? qdesigner_internal::CETypes::DownDir : qdesigner_internal::CETypes::UpDir;
+        return p1.y() < p2.y() ? CETypes::DownDir : CETypes::UpDir;
     Q_ASSERT(p1.y() == p2.y());
-    return p1.x() < p2.x() ? qdesigner_internal::CETypes::RightDir : qdesigner_internal::CETypes::LeftDir;
+    return p1.x() < p2.x() ? CETypes::RightDir : CETypes::LeftDir;
 }
 
 static QPoint pointInsideRect(const QRect &r, QPoint p)
@@ -925,7 +927,7 @@ void Connection::checkWidgets()
 ** ConnectionEdit
 */
 
-ConnectionEdit::ConnectionEdit(QWidget *parent, QDesignerFormWindowInterface *form) :
+ConnectionEdit::ConnectionEdit(QWidget *parent, QExtDesignerAbstractFormWindow *form) :
     QWidget(parent),
     m_bg_widget(nullptr),
     m_undo_stack(form->commandHistory()),
@@ -939,8 +941,8 @@ ConnectionEdit::ConnectionEdit(QWidget *parent, QDesignerFormWindowInterface *fo
     setAttribute(Qt::WA_MouseTracking, true);
     setFocusPolicy(Qt::ClickFocus);
 
-    connect(form, &QDesignerFormWindowInterface::widgetRemoved, this, &ConnectionEdit::widgetRemoved);
-    connect(form, &QDesignerFormWindowInterface::objectRemoved, this, &ConnectionEdit::objectRemoved);
+    connect(form, &QExtDesignerAbstractFormWindow::widgetRemoved, this, &ConnectionEdit::widgetRemoved);
+    connect(form, &QExtDesignerAbstractFormWindow::objectRemoved, this, &ConnectionEdit::objectRemoved);
 }
 
 ConnectionEdit::~ConnectionEdit()

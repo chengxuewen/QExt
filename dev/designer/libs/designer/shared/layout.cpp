@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,17 +30,17 @@
 #include "qdesigner_utils_p.h"
 #include "qlayout_widget_p.h"
 #include "spacer_widget_p.h"
-#include "layoutdecoration.h"
 #include "widgetfactory_p.h"
 #include "qdesigner_widgetitem_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/container.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractwidgetdatabase.h>
-#include <../sdk/abstractmetadatabase.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerLayoutDecorationExtension.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
+#include <qextDesignerAbstractMetaDataBase.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerContainerExtension.h>
 
 #include <QtCore/qdebug.h>
 #include <QtCore/qvector.h>
@@ -107,7 +107,7 @@ void updateWizardLayout(QWidget *layoutBase)
   widget is found later by Layout.)
  */
 
-Layout::Layout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb, LayoutInfo::Type layoutType) :
+Layout::Layout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb, LayoutInfo::Type layoutType) :
     m_widgets(wl),
     m_parentWidget(p),
     m_layoutBase(lb),
@@ -215,8 +215,8 @@ bool Layout::prepareLayout(bool &needMove, bool &needReparent)
     needMove = !m_layoutBase;
     needReparent = needMove || (m_reparentLayoutWidget && qobject_cast<QLayoutWidget*>(m_layoutBase)) || qobject_cast<QSplitter*>(m_layoutBase);
 
-    QDesignerWidgetFactoryInterface *widgetFactory = m_formWindow->core()->widgetFactory();
-    QDesignerMetaDataBaseInterface *metaDataBase = m_formWindow->core()->metaDataBase();
+    QExtDesignerAbstractWidgetFactory *widgetFactory = m_formWindow->core()->widgetFactory();
+    QExtDesignerAbstractMetaDataBase *metaDataBase = m_formWindow->core()->metaDataBase();
 
     if (m_layoutBase == nullptr) {
         const bool useSplitter = m_layoutType == LayoutInfo::HSplitter || m_layoutType == LayoutInfo::VSplitter;
@@ -237,14 +237,14 @@ bool Layout::prepareLayout(bool &needMove, bool &needReparent)
     return true;
 }
 
-static bool isMainContainer(QDesignerFormWindowInterface *fw, const QWidget *w)
+static bool isMainContainer(QExtDesignerAbstractFormWindow *fw, const QWidget *w)
 {
     return w && (w == fw || w == fw->mainContainer());
 }
 
-static bool isPageOfContainerWidget(QDesignerFormWindowInterface *fw, QWidget *widget)
+static bool isPageOfContainerWidget(QExtDesignerAbstractFormWindow *fw, QWidget *widget)
 {
-    QDesignerContainerExtension *c = qt_extension<QDesignerContainerExtension*>(
+    QExtDesignerContainerExtension *c = qt_extension<QExtDesignerContainerExtension*>(
             fw->core()->extensionManager(), widget->parentWidget());
 
     if (c != nullptr) {
@@ -324,7 +324,7 @@ void Layout::undoLayout()
 
     m_formWindow->selectWidget(m_layoutBase, false);
 
-    QDesignerWidgetFactoryInterface *widgetFactory = m_formWindow->core()->widgetFactory();
+    QExtDesignerAbstractWidgetFactory *widgetFactory = m_formWindow->core()->widgetFactory();
     for (auto it = m_geometries.cbegin(), end = m_geometries.cend(); it != end; ++it) {
         if (!it.key())
             continue;
@@ -337,8 +337,8 @@ void Layout::undoLayout()
 
         // ### remove widget here
         QWidget *parentWidget = w->parentWidget();
-        QDesignerFormEditorInterface *core = m_formWindow->core();
-        QDesignerLayoutDecorationExtension *deco = qt_extension<QDesignerLayoutDecorationExtension*>(core->extensionManager(), parentWidget);
+        QExtDesignerAbstractFormEditor *core = m_formWindow->core();
+        QExtDesignerLayoutDecorationExtension *deco = qt_extension<QExtDesignerLayoutDecorationExtension*>(core->extensionManager(), parentWidget);
 
         if (deco)
             deco->removeWidget(w);
@@ -443,7 +443,7 @@ QLayout *Layout::createLayout(int type)
     layout->setObjectName(suggestLayoutName(layout->metaObject()->className()));
     m_formWindow->ensureUniqueObjectName(layout);
     // QLayoutWidget
-    QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(m_formWindow->core()->extensionManager(), layout);
+    QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(m_formWindow->core()->extensionManager(), layout);
     if (sheet && qobject_cast<QLayoutWidget*>(m_layoutBase)) {
         sheet->setProperty(sheet->indexOf(QStringLiteral("leftMargin")), 0);
         sheet->setProperty(sheet->indexOf(QStringLiteral("topMargin")), 0);
@@ -478,7 +478,7 @@ public:
 class BoxLayout : public Layout
 {
 public:
-    BoxLayout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb,
+    BoxLayout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb,
               Qt::Orientation orientation);
 
     void doLayout() override;
@@ -488,7 +488,7 @@ private:
     const Qt::Orientation m_orientation;
 };
 
-BoxLayout::BoxLayout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb,
+BoxLayout::BoxLayout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb,
                      Qt::Orientation orientation)  :
     Layout(wl, p, fw, lb, orientation == Qt::Horizontal ? LayoutInfo::HBox : LayoutInfo::VBox),
     m_orientation(orientation)
@@ -531,7 +531,7 @@ void BoxLayout::doLayout()
 class SplitterLayout : public Layout
 {
 public:
-    SplitterLayout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb,
+    SplitterLayout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb,
                    Qt::Orientation orientation);
 
     void doLayout() override;
@@ -541,7 +541,7 @@ private:
     const Qt::Orientation m_orientation;
 };
 
-SplitterLayout::SplitterLayout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb,
+SplitterLayout::SplitterLayout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb,
                                Qt::Orientation orientation) :
     Layout(wl, p, fw, lb, orientation == Qt::Horizontal ? LayoutInfo::HSplitter : LayoutInfo::VSplitter),
     m_orientation(orientation)
@@ -1064,7 +1064,7 @@ template <class GridLikeLayout, int LayoutType, int GridMode>
 class GridLayout : public Layout
 {
 public:
-    GridLayout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb);
+    GridLayout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb);
 
     void doLayout() override;
     void sort() override { setWidgets(buildGrid(widgets())); }
@@ -1075,7 +1075,7 @@ protected:
 };
 
 template <class GridLikeLayout, int LayoutType, int GridMode>
-GridLayout<GridLikeLayout, LayoutType, GridMode>::GridLayout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb) :
+GridLayout<GridLikeLayout, LayoutType, GridMode>::GridLayout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb) :
     Layout(wl, p, fw, lb, LayoutInfo::Grid),
     m_grid(static_cast<Grid::Mode>(GridMode))
 {
@@ -1223,7 +1223,7 @@ QWidgetList GridLayout<GridLikeLayout, LayoutType, GridMode>::buildGrid(const QW
 } // anonymous
 
 Layout* Layout::createLayout(const QWidgetList &widgets,  QWidget *parentWidget,
-                             QDesignerFormWindowInterface *fw,
+                             QExtDesignerAbstractFormWindow *fw,
                              QWidget *layoutBase, LayoutInfo::Type layoutType)
 {
     switch (layoutType) {

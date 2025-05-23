@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -44,21 +44,22 @@
 #include <QtCore/qstringlist.h>
 #include <QtWidgets/qdialog.h>
 #include <QtGui/qstandarditemmodel.h>
+#include "ui_signalslotdialog.h"
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerFormWindowInterface;
-class QDesignerDialogGuiInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerAbstractDialogGui;
 class QDesignerMemberSheet;
 class QListView;
 class QToolButton;
 class QItemSelection;
 
-namespace Ui {
-    class SignalSlotDialogClass;
-}
 
+namespace Ui {
+class SignalSlotDialogClass;
+}
 namespace qdesigner_internal {
 
 // Dialog data
@@ -84,7 +85,7 @@ signals:
 // Internal helper class: Panel for editing method signatures. List view with validator,
 // add and remove button
 class SignaturePanel  : public QObject {
-     Q_OBJECT
+    Q_OBJECT
 
 public:
     SignaturePanel(QObject *parent, QListView *listView, QToolButton *addButton, QToolButton *removeButton, const QString &newPrefix);
@@ -127,29 +128,29 @@ class QDESIGNER_SHARED_EXPORT SignalSlotDialog : public QDialog {
 public:
     enum FocusMode { FocusSlots, FocusSignals };
 
-    explicit SignalSlotDialog(QDesignerDialogGuiInterface *dialogGui, QWidget *parent = nullptr, FocusMode m = FocusSlots);
+    explicit SignalSlotDialog(QExtDesignerAbstractDialogGui *dialogGui, QWidget *parent = nullptr, FocusMode m = FocusSlots);
     ~SignalSlotDialog() override;
 
     DialogCode showDialog(SignalSlotDialogData &slotData, SignalSlotDialogData &signalData);
 
     // Edit fake methods stored in MetaDataBase (per instance, used for main containers)
-    static bool editMetaDataBase(QDesignerFormWindowInterface *fw, QObject *object, QWidget *parent = nullptr, FocusMode m = FocusSlots);
+    static bool editMetaDataBase(QExtDesignerAbstractFormWindow *fw, QObject *object, QWidget *parent = nullptr, FocusMode m = FocusSlots);
 
     // Edit fake methods of a promoted class stored in WidgetDataBase (synthesizes a widget to obtain existing members).
-    static bool editPromotedClass(QDesignerFormEditorInterface *core, const QString &promotedClassName, QWidget *parent = nullptr, FocusMode m = FocusSlots);
+    static bool editPromotedClass(QExtDesignerAbstractFormEditor *core, const QString &promotedClassName, QWidget *parent = nullptr, FocusMode m = FocusSlots);
     // Edit fake methods of a promoted class stored in WidgetDataBase on a base class instance.
-    static bool editPromotedClass(QDesignerFormEditorInterface *core, QObject *baseObject, QWidget *parent = nullptr, FocusMode m = FocusSlots);
+    static bool editPromotedClass(QExtDesignerAbstractFormEditor *core, QObject *baseObject, QWidget *parent = nullptr, FocusMode m = FocusSlots);
 
 private slots:
     void slotCheckSignature(const QString &signature, bool *ok);
 
 private:
     // Edit fake methods of a promoted class stored in WidgetDataBase using an instance of the base class.
-    static bool editPromotedClass(QDesignerFormEditorInterface *core, const QString &promotedClassName, QObject *baseObject, QWidget *parent, FocusMode m);
+    static bool editPromotedClass(QExtDesignerAbstractFormEditor *core, const QString &promotedClassName, QObject *baseObject, QWidget *parent, FocusMode m);
 
     const FocusMode m_focusMode;
-    Ui::SignalSlotDialogClass *m_ui;
-    QDesignerDialogGuiInterface *m_dialogGui;
+    Ui_SignalSlotDialogClass *m_ui;
+    QExtDesignerAbstractDialogGui *m_dialogGui;
     SignaturePanel *m_slotPanel;
     SignaturePanel *m_signalPanel;
 };

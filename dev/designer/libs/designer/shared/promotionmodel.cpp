@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,9 +29,9 @@
 #include "promotionmodel_p.h"
 #include "widgetdatabase_p.h"
 
-#include <../sdk/abstractwidgetdatabase.h>
-#include <../sdk/abstractpromotioninterface.h>
-#include <../sdk/abstractformeditor.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractPromotion.h>
 
 #include <QtGui/qstandarditemmodel.h>
 #include <QtCore/qcoreapplication.h>
@@ -54,7 +54,7 @@ namespace {
     }
 
     // Create a model row for a base class (read-only, cannot be selected).
-    StandardItemList baseModelRow(const QDesignerWidgetDataBaseItemInterface *dbItem) {
+    StandardItemList baseModelRow(const QExtDesignerWidgetDataBaseItemInterface *dbItem) {
         StandardItemList rc =  modelRow();
 
         rc[ClassNameColumn]->setText(dbItem->name());
@@ -65,8 +65,8 @@ namespace {
     }
 
     // Create an editable model row for a promoted class.
-    StandardItemList promotedModelRow(QDesignerWidgetDataBaseItemInterface *baseItem,
-                                      QDesignerWidgetDataBaseItemInterface *dbItem,
+    StandardItemList promotedModelRow(QExtDesignerWidgetDataBaseItemInterface *baseItem,
+                                      QExtDesignerWidgetDataBaseItemInterface *dbItem,
                                       bool referenced)
     {
         qdesigner_internal::PromotionModel::ModelData data;
@@ -104,7 +104,7 @@ namespace {
 
 namespace qdesigner_internal {
 
-    PromotionModel::PromotionModel(QDesignerFormEditorInterface *core) :
+    PromotionModel::PromotionModel(QExtDesignerAbstractFormEditor *core) :
         m_core(core)
     {
         connect(this, &QStandardItemModel::itemChanged, this, &PromotionModel::slotItemChanged);
@@ -120,7 +120,7 @@ namespace qdesigner_internal {
     }
 
     void PromotionModel::updateFromWidgetDatabase() {
-        using PromotedClasses = QDesignerPromotionInterface::PromotedClasses;
+        using PromotedClasses = QExtDesignerPromotionInterface::PromotedClasses;
 
         clear();
         initializeHeaders();
@@ -134,7 +134,7 @@ namespace qdesigner_internal {
 
         const QSet<QString> usedPromotedClasses = m_core->promotion()->referencedPromotedClassNames();
 
-        QDesignerWidgetDataBaseItemInterface *baseClass = nullptr;
+        QExtDesignerWidgetDataBaseItemInterface *baseClass = nullptr;
         QStandardItem *baseItem = nullptr;
 
         const PromotedClasses::const_iterator bcend = promotedClasses.constEnd();
@@ -156,7 +156,7 @@ namespace qdesigner_internal {
         // Retrieve DB item
         const ModelData data = modelData(changedItem);
         Q_ASSERT(data.isValid());
-        QDesignerWidgetDataBaseItemInterface *dbItem = data.promotedItem;
+        QExtDesignerWidgetDataBaseItemInterface *dbItem = data.promotedItem;
         // Change header or type
         switch (changedItem->column()) {
         case ClassNameColumn:

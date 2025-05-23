@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,14 +42,14 @@
 
 #include "shared_global_p.h"
 
-#include "../sdk/abstractformwindow.h"
+#include <qextDesignerAbstractFormWindow.h>
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qlist.h>
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerDnDItemInterface;
+class QExtDesignerDnDItemInterface;
 class QMenu;
 class QtResourceSet;
 class QDesignerPropertySheet;
@@ -64,13 +64,13 @@ class DesignerPixmapCache;
 class DesignerIconCache;
 class FormWindowBasePrivate;
 
-class QDESIGNER_SHARED_EXPORT FormWindowBase: public QDesignerFormWindowInterface
+class QDESIGNER_SHARED_EXPORT FormWindowBase: public QExtDesignerAbstractFormWindow
 {
     Q_OBJECT
 public:
     enum HighlightMode  { Restore, Highlight };
 
-    explicit FormWindowBase(QDesignerFormEditorInterface *core, QWidget *parent = nullptr,
+    explicit FormWindowBase(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr,
                             Qt::WindowFlags flags = {});
     ~FormWindowBase() override;
 
@@ -106,9 +106,9 @@ public:
     // Overwrite to initialize and return a full popup menu for a managed widget
     virtual QMenu *initializePopupMenu(QWidget *managedWidget);
     // Helper to create a basic popup menu from task menu extensions (internal/public)
-    static QMenu *createExtensionTaskMenu(QDesignerFormWindowInterface *fw, QObject *o, bool trailingSeparator = true);
+    static QMenu *createExtensionTaskMenu(QExtDesignerAbstractFormWindow *fw, QObject *o, bool trailingSeparator = true);
 
-    virtual bool dropWidgets(const QList<QDesignerDnDItemInterface*> &item_list, QWidget *target,
+    virtual bool dropWidgets(const QList<QExtDesignerDnDItemInterface*> &item_list, QWidget *target,
                              const QPoint &global_mouse_pos) = 0;
 
     // Helper to find the widget at the mouse position with some flags.

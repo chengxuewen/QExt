@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -32,7 +32,7 @@
 #include "promotiontaskmenu_p.h"
 #include "formwindowbase_p.h"
 
-#include <../sdk/abstractformwindow.h>
+#include <qextDesignerAbstractFormWindow.h>
 
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qtabbar.h>
@@ -154,7 +154,7 @@ bool QTabWidgetEventFilter::eventFilter(QObject *o, QEvent *e)
     if (o != tabBar())
         return false;
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!fw)
         return false;
 
@@ -164,7 +164,7 @@ bool QTabWidgetEventFilter::eventFilter(QObject *o, QEvent *e)
         break;
     case QEvent::MouseButtonPress: {
         QMouseEvent *mev = static_cast<QMouseEvent*>(e);
-        if (QDesignerFormWindowInterface *fw = formWindow()) {
+        if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
             fw->clearSelection();
             fw->selectWidget(m_tabWidget, true);
         }
@@ -297,7 +297,7 @@ void QTabWidgetEventFilter::removeCurrentPage()
     if (!m_tabWidget->currentWidget())
         return;
 
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         qdesigner_internal::DeleteTabPageCommand *cmd = new qdesigner_internal::DeleteTabPageCommand(fw);
         cmd->init(m_tabWidget);
         fw->commandHistory()->push(cmd);
@@ -306,7 +306,7 @@ void QTabWidgetEventFilter::removeCurrentPage()
 
 void QTabWidgetEventFilter::addPage()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         qdesigner_internal::AddTabPageCommand *cmd = new qdesigner_internal::AddTabPageCommand(fw);
         cmd->init(m_tabWidget, qdesigner_internal::AddTabPageCommand::InsertBefore);
         fw->commandHistory()->push(cmd);
@@ -315,16 +315,16 @@ void QTabWidgetEventFilter::addPage()
 
 void QTabWidgetEventFilter::addPageAfter()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
         qdesigner_internal::AddTabPageCommand *cmd = new qdesigner_internal::AddTabPageCommand(fw);
         cmd->init(m_tabWidget, qdesigner_internal::AddTabPageCommand::InsertAfter);
         fw->commandHistory()->push(cmd);
     }
 }
 
-QDesignerFormWindowInterface *QTabWidgetEventFilter::formWindow() const
+QExtDesignerAbstractFormWindow *QTabWidgetEventFilter::formWindow() const
 {
-    return QDesignerFormWindowInterface::findFormWindow(const_cast<QTabWidget*>(m_tabWidget));
+    return QExtDesignerAbstractFormWindow::findFormWindow(const_cast<QTabWidget*>(m_tabWidget));
 }
 
 // Get page from mouse position. Default to new page if in right half of last page?
@@ -363,7 +363,7 @@ QMenu *QTabWidgetEventFilter::addContextMenuActions(QMenu *popup)
         // Set up promotion menu for current widget.
         if (QWidget *page =  m_tabWidget->currentWidget ()) {
             m_pagePromotionTaskMenu->setWidget(page);
-            m_pagePromotionTaskMenu->addActions(QDesignerFormWindowInterface::findFormWindow(m_tabWidget),
+            m_pagePromotionTaskMenu->addActions(QExtDesignerAbstractFormWindow::findFormWindow(m_tabWidget),
                                                 qdesigner_internal::PromotionTaskMenu::SuppressGlobalEdit,
                                                 pageMenu);
         }

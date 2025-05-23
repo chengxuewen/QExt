@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -56,7 +56,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QUndoStack;
 class QMenu;
 
@@ -155,7 +155,7 @@ class QDESIGNER_SHARED_EXPORT ConnectionEdit : public QWidget, public CETypes
 {
     Q_OBJECT
 public:
-    ConnectionEdit(QWidget *parent, QDesignerFormWindowInterface *form);
+    ConnectionEdit(QWidget *parent, QExtDesignerAbstractFormWindow *form);
     ~ConnectionEdit() override;
 
     inline const QPointer<QWidget> &background() const { return m_bg_widget; }

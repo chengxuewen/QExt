@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,18 +42,18 @@
 
 #include "shared_global_p.h"
 
-#include <../sdk/abstractpromotioninterface.h>
+#include <qextDesignerAbstractPromotion.h>
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
-    class  QDESIGNER_SHARED_EXPORT  QDesignerPromotion : public QDesignerPromotionInterface
+    class  QDESIGNER_SHARED_EXPORT  QDesignerPromotion : public QExtDesignerPromotionInterface
     {
     public:
-        explicit QDesignerPromotion(QDesignerFormEditorInterface *core);
+        explicit QDesignerPromotion(QExtDesignerAbstractFormEditor *core);
 
         PromotedClasses promotedClasses() const override;
 
@@ -70,13 +70,13 @@ namespace qdesigner_internal {
 
         bool setPromotedClassIncludeFile(const QString &className, const QString &includeFile, QString *errorMessage) override;
 
-        QList<QDesignerWidgetDataBaseItemInterface *> promotionBaseClasses() const override;
+        QList<QExtDesignerWidgetDataBaseItemInterface *> promotionBaseClasses() const override;
 
     private:
-        bool canBePromoted(const QDesignerWidgetDataBaseItemInterface *) const;
+        bool canBePromoted(const QExtDesignerWidgetDataBaseItemInterface *) const;
         void refreshObjectInspector();
 
-        QDesignerFormEditorInterface *m_core;
+        QExtDesignerAbstractFormEditor *m_core;
     };
 }
 

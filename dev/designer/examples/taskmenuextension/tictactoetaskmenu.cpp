@@ -52,7 +52,7 @@
 #include "tictactoedialog.h"
 #include "tictactoetaskmenu.h"
 
-#include <QtDesigner/QDesignerFormEditorInterface>
+#include <QtDesigner/QExtDesignerAbstractFormEditor>
 #include <QAction>
 
 //! [0]
@@ -99,7 +99,7 @@ QObject *TicTacToeTaskMenuFactory::createExtension(QObject *object,
                                                    const QString &iid,
                                                    QObject *parent) const
 {
-    if (iid != Q_TYPEID(QDesignerTaskMenuExtension))
+    if (iid != Q_TYPEID(QExtDesignerTaskMenuExtension))
         return nullptr;
 
     if (TicTacToe *tic = qobject_cast<TicTacToe*>(object))

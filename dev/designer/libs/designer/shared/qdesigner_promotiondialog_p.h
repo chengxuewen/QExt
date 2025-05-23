@@ -45,10 +45,10 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerFormWindowInterface;
-class QDesignerPromotionInterface;
-class QDesignerWidgetDataBaseItemInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerPromotionInterface;
+class QExtDesignerWidgetDataBaseItemInterface;
 
 class QTreeView;
 class QPushButton;
@@ -110,12 +110,12 @@ namespace qdesigner_internal {
     public:
         enum Mode { ModeEdit, ModeEditChooseClass };
 
-        explicit QDesignerPromotionDialog(QDesignerFormEditorInterface *core,
+        explicit QDesignerPromotionDialog(QExtDesignerAbstractFormEditor *core,
                                           QWidget *parent = nullptr,
                                           const QString &promotableWidgetClassName = QString(),
                                           QString *promoteTo = nullptr);
         // Return an alphabetically ordered list of base class names for adding new classes.
-        static const QStringList &baseClassNames(const QDesignerPromotionInterface *promotion);
+        static const QStringList &baseClassNames(const QExtDesignerPromotionInterface *promotion);
 
         signals:
         void selectedBaseClassChanged(const QString &);
@@ -125,8 +125,8 @@ namespace qdesigner_internal {
         void slotSelectionChanged(const QItemSelection &, const QItemSelection &);
         void slotNewPromotedClass(const PromotionParameters &, bool *ok);
 
-        void slotIncludeFileChanged(QDesignerWidgetDataBaseItemInterface *, const QString &includeFile);
-        void slotClassNameChanged(QDesignerWidgetDataBaseItemInterface *, const QString &newName);
+        void slotIncludeFileChanged(QExtDesignerWidgetDataBaseItemInterface *, const QString &includeFile);
+        void slotClassNameChanged(QExtDesignerWidgetDataBaseItemInterface *, const QString &newName);
         void slotUpdateFromWidgetDatabase();
         void slotTreeViewContextMenu(const QPoint &);
         void slotEditSignalsSlots();
@@ -136,14 +136,14 @@ namespace qdesigner_internal {
         void delayedUpdateFromWidgetDatabase();
         // Return item at model index and a combination of flags or 0.
         enum { Referenced = 1, CanPromote = 2 };
-        QDesignerWidgetDataBaseItemInterface *databaseItemAt(const QItemSelection &, unsigned &flags) const;
+        QExtDesignerWidgetDataBaseItemInterface *databaseItemAt(const QItemSelection &, unsigned &flags) const;
         void displayError(const QString &message);
 
         const Mode m_mode;
         const QString m_promotableWidgetClassName;
-        QDesignerFormEditorInterface *m_core;
+        QExtDesignerAbstractFormEditor *m_core;
         QString *m_promoteTo;
-        QDesignerPromotionInterface *m_promotion;
+        QExtDesignerPromotionInterface *m_promotion;
         PromotionModel *m_model;
         QTreeView *m_treeView;
         QDialogButtonBox *m_buttonBox;

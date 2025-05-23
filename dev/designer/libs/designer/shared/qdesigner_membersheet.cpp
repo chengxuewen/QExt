@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,8 +28,8 @@
 
 #include "qdesigner_membersheet_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <abstractintrospection_p.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <private/qextDesignerAbstractIntrospection_p.h>
 
 #include <QtWidgets/qwidget.h>
 QT_BEGIN_NAMESPACE
@@ -49,9 +49,9 @@ static QList<QByteArray> stringListToByteArray(const QStringList &l)
 // We know that the parent of the sheet is the extension manager
 // whose parent is the core.
 
-static QDesignerFormEditorInterface *formEditorForObject(QObject *o) {
+static QExtDesignerAbstractFormEditor *formEditorForObject(QObject *o) {
     do {
-        if (QDesignerFormEditorInterface* core = qobject_cast<QDesignerFormEditorInterface*>(o))
+        if (QExtDesignerAbstractFormEditor* core = qobject_cast<QExtDesignerAbstractFormEditor*>(o))
             return core;
         o = o->parent();
     } while(o);
@@ -64,8 +64,8 @@ class QDesignerMemberSheetPrivate {
 public:
     explicit QDesignerMemberSheetPrivate(QObject *object, QObject *sheetParent);
 
-    QDesignerFormEditorInterface *m_core;
-    const QDesignerMetaObjectInterface *m_meta;
+    QExtDesignerAbstractFormEditor *m_core;
+    const QExtDesignerMetaObjectInterface *m_meta;
 
     class Info {
     public:
@@ -128,10 +128,10 @@ QString QDesignerMemberSheet::declaredInClass(int index) const
     const QString member = d->m_meta->method(index)->signature();
 
     // Find class whose superclass does not contain the method.
-    const QDesignerMetaObjectInterface *meta_obj = d->m_meta;
+    const QExtDesignerMetaObjectInterface *meta_obj = d->m_meta;
 
     for (;;) {
-        const QDesignerMetaObjectInterface *tmp = meta_obj->superClass();
+        const QExtDesignerMetaObjectInterface *tmp = meta_obj->superClass();
         if (tmp == nullptr)
             break;
         if (tmp->indexOfMethod(member) == -1)
@@ -162,8 +162,8 @@ bool QDesignerMemberSheet::isVisible(int index) const
     if (it != d->m_info.constEnd())
         return it.value().visible;
 
-   return d->m_meta->method(index)->methodType() == QDesignerMetaMethodInterface::Signal
-           || d->m_meta->method(index)->access() == QDesignerMetaMethodInterface::Public;
+   return d->m_meta->method(index)->methodType() == QExtDesignerMetaMethodInterface::Signal
+           || d->m_meta->method(index)->access() == QExtDesignerMetaMethodInterface::Public;
 }
 
 void QDesignerMemberSheet::setVisible(int index, bool visible)
@@ -173,12 +173,12 @@ void QDesignerMemberSheet::setVisible(int index, bool visible)
 
 bool QDesignerMemberSheet::isSignal(int index) const
 {
-    return d->m_meta->method(index)->methodType() == QDesignerMetaMethodInterface::Signal;
+    return d->m_meta->method(index)->methodType() == QExtDesignerMetaMethodInterface::Signal;
 }
 
 bool QDesignerMemberSheet::isSlot(int index) const
 {
-    return d->m_meta->method(index)->methodType() == QDesignerMetaMethodInterface::Slot;
+    return d->m_meta->method(index)->methodType() == QExtDesignerMetaMethodInterface::Slot;
 }
 
 bool QDesignerMemberSheet::inheritedFromWidget(int index) const
@@ -243,7 +243,7 @@ QDesignerMemberSheetFactory::QDesignerMemberSheetFactory(QExtensionManager *pare
 
 QObject *QDesignerMemberSheetFactory::createExtension(QObject *object, const QString &iid, QObject *parent) const
 {
-    if (iid == Q_TYPEID(QDesignerMemberSheetExtension)) {
+    if (iid == Q_TYPEID(QExtDesignerMemberSheetExtension)) {
         return new QDesignerMemberSheet(object, parent);
     }
 

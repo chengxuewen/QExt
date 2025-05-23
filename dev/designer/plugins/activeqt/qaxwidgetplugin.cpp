@@ -85,7 +85,7 @@ QWidget *QAxWidgetPlugin::createWidget(QWidget *parent)
 {
     // Construction from Widget box or on a form?
     const bool isFormEditor = parent != nullptr
-        && QDesignerFormWindowInterface::findFormWindow(parent) != nullptr;
+        && QExtDesignerAbstractFormWindow::findFormWindow(parent) != nullptr;
     auto rc = new QDesignerAxPluginWidget(parent);
     if (!isFormEditor)
         rc->setDrawFlags(QDesignerAxWidget::DrawFrame|QDesignerAxWidget::DrawControl);
@@ -97,7 +97,7 @@ bool QAxWidgetPlugin::isInitialized() const
     return m_core != nullptr;
 }
 
-void QAxWidgetPlugin::initialize(QDesignerFormEditorInterface *core)
+void QAxWidgetPlugin::initialize(QExtDesignerAbstractFormEditor *core)
 {
     if (m_core != nullptr)
         return;
@@ -106,9 +106,9 @@ void QAxWidgetPlugin::initialize(QDesignerFormEditorInterface *core)
 
     QExtensionManager *mgr = core->extensionManager();
     ActiveXPropertySheetFactory::registerExtension(mgr);
-    ActiveXTaskMenuFactory::registerExtension(mgr, Q_TYPEID(QDesignerTaskMenuExtension));
+    ActiveXTaskMenuFactory::registerExtension(mgr, Q_TYPEID(QExtDesignerTaskMenuExtension));
     QAxWidgetExtraInfoFactory *extraInfoFactory = new QAxWidgetExtraInfoFactory(core, mgr);
-    mgr->registerExtensions(extraInfoFactory, Q_TYPEID(QDesignerExtraInfoExtension));
+    mgr->registerExtensions(extraInfoFactory, Q_TYPEID(QExtDesignerExtraInfoExtension));
 }
 
 QString QAxWidgetPlugin::domXml() const

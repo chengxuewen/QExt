@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,12 +33,12 @@
 #include "iconloader_p.h"
 #include "formwindowbase_p.h"
 
-#include <abstractdialoggui_p.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractresourcebrowser.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/abstractintegration.h>
-#include <../extension/qextensionmanager.h>
+#include <private/qextdesignerabstractdialoggui_p.h>
+#include <qextDesignerAbstractResourceBrowser.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtWidgets/qtoolbutton.h>
 #include <QtWidgets/qcombobox.h>
@@ -68,7 +68,7 @@ class LanguageResourceDialogPrivate {
     Q_DECLARE_PUBLIC(LanguageResourceDialog)
 
 public:
-    LanguageResourceDialogPrivate(QDesignerResourceBrowserInterface *rb);
+    LanguageResourceDialogPrivate(QExtDesignerAbstractResourceBrowser *rb);
     void init(LanguageResourceDialog *p);
 
     void setCurrentPath(const QString &filePath);
@@ -81,11 +81,11 @@ private:
     void setOkButtonEnabled(bool v)         { m_dialogButtonBox->button(QDialogButtonBox::Ok)->setEnabled(v); }
     static bool checkPath(const QString &p);
 
-    QDesignerResourceBrowserInterface *m_browser;
+    QExtDesignerAbstractResourceBrowser *m_browser;
     QDialogButtonBox *m_dialogButtonBox;
 };
 
-LanguageResourceDialogPrivate::LanguageResourceDialogPrivate(QDesignerResourceBrowserInterface *rb) :
+LanguageResourceDialogPrivate::LanguageResourceDialogPrivate(QExtDesignerAbstractResourceBrowser *rb) :
     q_ptr(nullptr),
     m_browser(rb),
     m_dialogButtonBox(new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel))
@@ -137,7 +137,7 @@ void LanguageResourceDialogPrivate::slotPathChanged(const QString &p)
 }
 
 // ------------ LanguageResourceDialog
-LanguageResourceDialog::LanguageResourceDialog(QDesignerResourceBrowserInterface *rb, QWidget *parent) :
+LanguageResourceDialog::LanguageResourceDialog(QExtDesignerAbstractResourceBrowser *rb, QWidget *parent) :
     QDialog(parent),
     d_ptr(new LanguageResourceDialogPrivate(rb))
 {
@@ -156,12 +156,12 @@ QString LanguageResourceDialog::currentPath() const
     return d_ptr->currentPath();
 }
 
-LanguageResourceDialog* LanguageResourceDialog::create(QDesignerFormEditorInterface *core, QWidget *parent)
+LanguageResourceDialog* LanguageResourceDialog::create(QExtDesignerAbstractFormEditor *core, QWidget *parent)
 {
-    if (QDesignerLanguageExtension *lang = qt_extension<QDesignerLanguageExtension *>(core->extensionManager(), core))
-        if (QDesignerResourceBrowserInterface *rb = lang->createResourceBrowser(nullptr))
+    if (QExtDesignerLanguageExtension *lang = qt_extension<QExtDesignerLanguageExtension *>(core->extensionManager(), core))
+        if (QExtDesignerAbstractResourceBrowser *rb = lang->createResourceBrowser(nullptr))
             return new LanguageResourceDialog(rb, parent);
-    if (QDesignerResourceBrowserInterface *rb = core->integration()->createResourceBrowser(nullptr))
+    if (QExtDesignerAbstractResourceBrowser *rb = core->integration()->createResourceBrowser(nullptr))
         return new LanguageResourceDialog(rb, parent);
     return nullptr;
 }
@@ -204,7 +204,7 @@ public:
     DesignerIconCache *m_iconCache = nullptr;
     DesignerPixmapCache *m_pixmapCache = nullptr;
     QtResourceModel *m_resourceModel = nullptr;
-    QDesignerFormEditorInterface *m_core = nullptr;
+    QExtDesignerAbstractFormEditor *m_core = nullptr;
 };
 
 void IconSelectorPrivate::slotUpdate()
@@ -259,7 +259,7 @@ void IconSelectorPrivate::slotSetActivated()
 }
 
 // Choose a pixmap from resource; use language-dependent resource browser if present
-QString IconSelector::choosePixmapResource(QDesignerFormEditorInterface *core, QtResourceModel *resourceModel, const QString &oldPath, QWidget *parent)
+QString IconSelector::choosePixmapResource(QExtDesignerAbstractFormEditor *core, QtResourceModel *resourceModel, const QString &oldPath, QWidget *parent)
 {
     Q_UNUSED(resourceModel);
     QString rc;
@@ -271,7 +271,7 @@ QString IconSelector::choosePixmapResource(QDesignerFormEditorInterface *core, Q
         delete ldlg;
     } else {
         QtResourceViewDialog dlg(core, parent);
-        dlg.setResourceEditingEnabled(core->integration()->hasFeature(QDesignerIntegration::ResourceEditorFeature));
+        dlg.setResourceEditingEnabled(core->integration()->hasFeature(QExtDesignerIntegration::ResourceEditorFeature));
 
         dlg.selectResource(oldPath);
         if (dlg.exec() == QDialog::Accepted)
@@ -348,7 +348,7 @@ static QString imageFilter()
 }
 
 // Helpers for choosing image files: Choose a file
-QString IconSelector::choosePixmapFile(const QString &directory, QDesignerDialogGuiInterface *dlgGui,QWidget *parent)
+QString IconSelector::choosePixmapFile(const QString &directory, QExtDesignerAbstractDialogGui *dlgGui,QWidget *parent)
 {
     QString errorMessage;
     QString newPath;
@@ -360,7 +360,7 @@ QString IconSelector::choosePixmapFile(const QString &directory, QDesignerDialog
             break;
         if (checkPixmap(newPath, CheckFully, &errorMessage))
             break;
-        dlgGui->message(parent, QDesignerDialogGuiInterface::ResourceEditorMessage, QMessageBox::Warning, tr("Pixmap Read Error"), errorMessage);
+        dlgGui->message(parent, QExtDesignerAbstractDialogGui::ResourceEditorMessage, QMessageBox::Warning, tr("Pixmap Read Error"), errorMessage);
     } while(true);
     return  newPath;
 }
@@ -486,7 +486,7 @@ PropertySheetIconValue IconSelector::icon() const
     return d_ptr->m_icon;
 }
 
-void IconSelector::setFormEditor(QDesignerFormEditorInterface *core)
+void IconSelector::setFormEditor(QExtDesignerAbstractFormEditor *core)
 {
     d_ptr->m_core = core;
     d_ptr->m_resourceModel = core->resourceModel();

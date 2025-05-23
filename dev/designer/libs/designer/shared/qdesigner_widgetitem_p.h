@@ -47,7 +47,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -94,7 +94,7 @@ public:
     static void deinstall();
 
     // Check for a non-container extension container
-    static bool isContainer(const QDesignerFormEditorInterface *core, QWidget *w);
+    static bool isContainer(const QExtDesignerAbstractFormEditor *core, QWidget *w);
 
     static bool subjectToStretch(const QLayout *layout, QWidget *w);
 

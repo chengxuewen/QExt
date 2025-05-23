@@ -141,22 +141,22 @@ void QAxWidgetPropertySheet::updatePropertySheet()
     // refresh the property sheet (we are deleting m_currentProperties)
     struct SavedProperties tmp = m_currentProperties;
     QDesignerAxWidget *axw = axWidget();
-    QDesignerFormWindowInterface *formWin = QDesignerFormWindowInterface::findFormWindow(axw);
+    QExtDesignerAbstractFormWindow *formWin = QExtDesignerAbstractFormWindow::findFormWindow(axw);
     Q_ASSERT(formWin != nullptr);
     tmp.widget = axw;
     tmp.clsid = axw->control();
     // Delete the sheets as they cache the meta object and other information
     delete this;
-    delete qt_extension<QDesignerMemberSheetExtension *>(formWin->core()->extensionManager(), axw);
+    delete qt_extension<QExtDesignerMemberSheetExtension *>(formWin->core()->extensionManager(), axw);
     reloadPropertySheet(tmp, formWin);
 }
 
 void QAxWidgetPropertySheet::reloadPropertySheet(const struct SavedProperties &properties,
-                                                 QDesignerFormWindowInterface *formWin)
+                                                 QExtDesignerAbstractFormWindow *formWin)
 {
-    QDesignerFormEditorInterface *core = formWin->core();
+    QExtDesignerAbstractFormEditor *core = formWin->core();
     //Recreation of the property sheet
-    auto sheet = qt_extension<QDesignerPropertySheetExtension *>(core->extensionManager(),
+    auto sheet = qt_extension<QExtDesignerPropertySheetExtension *>(core->extensionManager(),
                                                                  properties.widget);
 
     bool foundGeometry = false;

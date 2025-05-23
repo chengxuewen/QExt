@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,8 +33,8 @@
 
 #include "iconloader_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtCore/qlist.h>
 #include <QtCore/qmap.h>
@@ -165,7 +165,7 @@ public:
     explicit RichTextEditor(QWidget *parent = nullptr);
     void setDefaultFont(QFont font);
 
-    QToolBar *createToolBar(QDesignerFormEditorInterface *core, QWidget *parent = nullptr);
+    QToolBar *createToolBar(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr);
 
     bool simplifyRichText() const      { return m_simplifyRichText; }
 
@@ -360,7 +360,7 @@ class RichTextEditorToolBar : public QToolBar
 {
     Q_OBJECT
 public:
-    RichTextEditorToolBar(QDesignerFormEditorInterface *core,
+    RichTextEditorToolBar(QExtDesignerAbstractFormEditor *core,
                           RichTextEditor *editor,
                           QWidget *parent = nullptr);
 
@@ -394,7 +394,7 @@ private:
     ColorAction *m_color_action;
     QComboBox *m_font_size_input;
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     QPointer<RichTextEditor> m_editor;
 };
 
@@ -412,7 +412,7 @@ static QAction *createCheckableAction(const QIcon &icon, const QString &text,
     return result;
 }
 
-RichTextEditorToolBar::RichTextEditorToolBar(QDesignerFormEditorInterface *core,
+RichTextEditorToolBar::RichTextEditorToolBar(QExtDesignerAbstractFormEditor *core,
                                              RichTextEditor *editor,
                                              QWidget *parent) :
     QToolBar(parent),
@@ -678,7 +678,7 @@ RichTextEditor::RichTextEditor(QWidget *parent)
             this, &RichTextEditor::stateChanged);
 }
 
-QToolBar *RichTextEditor::createToolBar(QDesignerFormEditorInterface *core, QWidget *parent)
+QToolBar *RichTextEditor::createToolBar(QExtDesignerAbstractFormEditor *core, QWidget *parent)
 {
     return new RichTextEditorToolBar(core, this, parent);
 }
@@ -749,7 +749,7 @@ QString RichTextEditor::text(Qt::TextFormat format) const
     return m_simplifyRichText ? simplifiedHtml : html;
 }
 
-RichTextEditorDialog::RichTextEditorDialog(QDesignerFormEditorInterface *core, QWidget *parent)  :
+RichTextEditorDialog::RichTextEditorDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent)  :
     QDialog(parent),
     m_editor(new RichTextEditor()),
     m_text_edit(new HtmlTextEdit),
@@ -762,7 +762,7 @@ RichTextEditorDialog::RichTextEditorDialog(QDesignerFormEditorInterface *core, Q
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     // Read settings
-    const QDesignerSettingsInterface *settings = core->settingsManager();
+    const QExtDesignerSettingsInterface *settings = core->settingsManager();
     const QString rootKey = QLatin1String(RichTextDialogGroupC) + QLatin1Char('/');
     const QByteArray lastGeometry = settings->value(rootKey + QLatin1String(GeometryKeyC)).toByteArray();
     const int initialTab = settings->value(rootKey + QLatin1String(TabKeyC), QVariant(m_initialTab)).toInt();
@@ -814,7 +814,7 @@ RichTextEditorDialog::RichTextEditorDialog(QDesignerFormEditorInterface *core, Q
 
 RichTextEditorDialog::~RichTextEditorDialog()
 {
-    QDesignerSettingsInterface *settings = m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = m_core->settingsManager();
     settings->beginGroup(QLatin1String(RichTextDialogGroupC));
 
     settings->setValue(QLatin1String(GeometryKeyC), saveGeometry());

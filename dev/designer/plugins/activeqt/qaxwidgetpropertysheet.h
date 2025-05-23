@@ -34,7 +34,7 @@
 QT_BEGIN_NAMESPACE
 
 class QDesignerAxWidget;
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 /* The propertysheet has a method to delete itself and repopulate
  * if the "control" property changes. Pre 4.5, the control property
@@ -48,7 +48,7 @@ class QDesignerFormWindowInterface;
 class QAxWidgetPropertySheet: public QDesignerPropertySheet
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerPropertySheetExtension)
+    Q_INTERFACES(QExtDesignerPropertySheetExtension)
 public:
     explicit QAxWidgetPropertySheet(QDesignerAxWidget *object, QObject *parent = 0);
 
@@ -77,7 +77,7 @@ private:
         QString clsid;
     } m_currentProperties;
 
-    static void reloadPropertySheet(const struct SavedProperties &properties, QDesignerFormWindowInterface *formWin);
+    static void reloadPropertySheet(const struct SavedProperties &properties, QExtDesignerAbstractFormWindow *formWin);
 };
 
 typedef QDesignerPropertySheetFactory<QDesignerAxWidget, QAxWidgetPropertySheet> ActiveXPropertySheetFactory;

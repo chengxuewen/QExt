@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -55,6 +55,8 @@
 #include <QtGui/QFont>
 #include <QtGui/QFontDatabase>
 
+#include <qextDesignerGlobal.h>
+
 QT_BEGIN_NAMESPACE
 
 class QComboBox;
@@ -62,7 +64,7 @@ class QFontComboBox;
 class QTimer;
 class QLineEdit;
 
-class FontPanel: public QGroupBox
+class QEXT_DESIGNER_API FontPanel: public QGroupBox
 {
     Q_OBJECT
 public:

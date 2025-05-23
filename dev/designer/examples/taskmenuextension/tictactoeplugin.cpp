@@ -52,7 +52,7 @@
 #include "tictactoeplugin.h"
 #include "tictactoetaskmenu.h"
 
-#include <QtDesigner/QDesignerFormEditorInterface>
+#include <QtDesigner/QExtDesignerAbstractFormEditor>
 #include <QtDesigner/QExtensionManager>
 #include <QtPlugin>
 
@@ -110,7 +110,7 @@ bool TicTacToePlugin::isInitialized() const
 }
 
 //! [0] //! [1]
-void TicTacToePlugin::initialize(QDesignerFormEditorInterface *formEditor)
+void TicTacToePlugin::initialize(QExtDesignerAbstractFormEditor *formEditor)
 {
 //! [1] //! [2]
     if (initialized)
@@ -122,7 +122,7 @@ void TicTacToePlugin::initialize(QDesignerFormEditorInterface *formEditor)
 
 //! [3]
     manager->registerExtensions(new TicTacToeTaskMenuFactory(manager),
-                                Q_TYPEID(QDesignerTaskMenuExtension));
+                                Q_TYPEID(QExtDesignerTaskMenuExtension));
 
     initialized = true;
 }

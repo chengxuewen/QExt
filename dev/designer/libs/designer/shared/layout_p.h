@@ -54,7 +54,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 namespace qdesigner_internal {
 class QDESIGNER_SHARED_EXPORT Layout : public QObject
@@ -62,11 +62,11 @@ class QDESIGNER_SHARED_EXPORT Layout : public QObject
     Q_OBJECT
     Q_DISABLE_COPY_MOVE(Layout)
 protected:
-    Layout(const QWidgetList &wl, QWidget *p, QDesignerFormWindowInterface *fw, QWidget *lb, LayoutInfo::Type layoutType);
+    Layout(const QWidgetList &wl, QWidget *p, QExtDesignerAbstractFormWindow *fw, QWidget *lb, LayoutInfo::Type layoutType);
 
 public:
     static  Layout* createLayout(const QWidgetList &widgets,  QWidget *parentWidget,
-                                 QDesignerFormWindowInterface *fw,
+                                 QExtDesignerAbstractFormWindow *fw,
                                  QWidget *layoutBase, LayoutInfo::Type layoutType);
 
     ~Layout() override;
@@ -105,7 +105,7 @@ private:
     typedef QHash<QWidget *, QRect> WidgetGeometryHash;
     WidgetGeometryHash m_geometries;
     QWidget *m_layoutBase;
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     const LayoutInfo::Type m_layoutType;
     QPoint m_startPoint;
     QRect m_oldGeometry;

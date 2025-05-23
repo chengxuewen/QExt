@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,10 +31,9 @@
 #include "qtresourcemodel_p.h"
 #include "iconloader_p.h"
 
-#include <abstractdialoggui_p.h>
-
-#include <../sdk/abstractsettings.h>
-#include <../sdk/abstractformeditor.h>
+#include <private/qextDesignerAbstractDialogGui_p.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdir.h>
@@ -853,9 +852,9 @@ public:
     QString qrcStartDirectory() const;
 
     Ui::QtResourceEditorDialog m_ui;
-    QDesignerFormEditorInterface *m_core = nullptr;
+    QExtDesignerAbstractFormEditor *m_core = nullptr;
     QtResourceModel *m_resourceModel = nullptr;
-    QDesignerDialogGuiInterface *m_dlgGui = nullptr;
+    QExtDesignerAbstractDialogGui *m_dlgGui = nullptr;
     QtQrcManager *m_qrcManager = nullptr;
     QList<QtQrcFileData> m_initialState;
 
@@ -897,7 +896,7 @@ public:
 QMessageBox::StandardButton QtResourceEditorDialogPrivate::warning(const QString &title, const QString &text, QMessageBox::StandardButtons buttons,
                                                                    QMessageBox::StandardButton defaultButton) const
 {
-    return m_dlgGui->message(q_ptr, QDesignerDialogGuiInterface::ResourceEditorMessage, QMessageBox::Warning, title, text, buttons, defaultButton);
+    return m_dlgGui->message(q_ptr, QExtDesignerAbstractDialogGui::ResourceEditorMessage, QMessageBox::Warning, title, text, buttons, defaultButton);
 }
 
 QString QtResourceEditorDialogPrivate::qrcFileText(QtQrcFile *qrcFile) const
@@ -1872,7 +1871,7 @@ bool QtResourceEditorDialogPrivate::saveQrcFile(const QtQrcFileData &qrcFileData
     return true;
 }
 
-QtResourceEditorDialog::QtResourceEditorDialog(QDesignerFormEditorInterface *core, QDesignerDialogGuiInterface *dlgGui, QWidget *parent)
+QtResourceEditorDialog::QtResourceEditorDialog(QExtDesignerAbstractFormEditor *core, QExtDesignerAbstractDialogGui *dlgGui, QWidget *parent)
     : QDialog(parent), d_ptr(new QtResourceEditorDialogPrivate())
 {
     d_ptr->q_ptr = this;
@@ -1991,7 +1990,7 @@ QtResourceEditorDialog::QtResourceEditorDialog(QDesignerFormEditorInterface *cor
     d_ptr->m_moveUpQrcFileAction->setEnabled(false);
     d_ptr->m_moveDownQrcFileAction->setEnabled(false);
 
-    QDesignerSettingsInterface *settings = core->settingsManager();
+    QExtDesignerSettingsInterface *settings = core->settingsManager();
     settings->beginGroup(QLatin1String(QrcDialogC));
 
     d_ptr->m_ui.splitter->restoreState(settings->value(QLatin1String(SplitterPosition)).toByteArray());
@@ -2004,7 +2003,7 @@ QtResourceEditorDialog::QtResourceEditorDialog(QDesignerFormEditorInterface *cor
 
 QtResourceEditorDialog::~QtResourceEditorDialog()
 {
-    QDesignerSettingsInterface *settings = d_ptr->m_core->settingsManager();
+    QExtDesignerSettingsInterface *settings = d_ptr->m_core->settingsManager();
     settings->beginGroup(QLatin1String(QrcDialogC));
 
     settings->setValue(QLatin1String(SplitterPosition), d_ptr->m_ui.splitter->saveState());
@@ -2084,10 +2083,10 @@ QString QtResourceEditorDialog::selectedResource() const
     return resource;
 }
 
-void QtResourceEditorDialog::displayResourceFailures(const QString &logOutput, QDesignerDialogGuiInterface *dlgGui, QWidget *parent)
+void QtResourceEditorDialog::displayResourceFailures(const QString &logOutput, QExtDesignerAbstractDialogGui *dlgGui, QWidget *parent)
 {
     const QString msg = tr("<html><p><b>Warning:</b> There have been problems while reloading the resources:</p><pre>%1</pre></html>").arg(logOutput);
-    dlgGui->message(parent, QDesignerDialogGuiInterface::ResourceEditorMessage, QMessageBox::Warning,
+    dlgGui->message(parent, QExtDesignerAbstractDialogGui::ResourceEditorMessage, QMessageBox::Warning,
                     tr("Resource Warning"), msg);
 }
 
@@ -2127,9 +2126,9 @@ void QtResourceEditorDialog::accept()
     QDialog::accept();
 }
 
-QString QtResourceEditorDialog::editResources(QDesignerFormEditorInterface *core,
+QString QtResourceEditorDialog::editResources(QExtDesignerAbstractFormEditor *core,
                                               QtResourceModel *model,
-                                              QDesignerDialogGuiInterface *dlgGui,
+                                              QExtDesignerAbstractDialogGui *dlgGui,
                                               QWidget *parent)
 {
     QtResourceEditorDialog dialog(core, dlgGui, parent);

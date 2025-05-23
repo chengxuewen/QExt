@@ -1,4 +1,4 @@
-#include <qextConcurrent.h>
+﻿#include <qextConcurrent.h>
 
 #include <QtTest>
 #include <QtEndian>
@@ -52,10 +52,10 @@ class MultiThreadRunnable : public QRunnable
 {
 public:
     MultiThreadRunnable(bool sub, int loopNum, QSemaphore &semaphore, MultiThreadData &multiThreadData)
-        : m_sub(sub),
-          m_loopNum(loopNum),
-          m_semaphore(semaphore),
-          m_multiThreadData(multiThreadData)
+        : mSub(sub),
+          mLoopNum(loopNum),
+          mSemaphore(semaphore),
+          mMultiThreadData(multiThreadData)
     {
     }
     ~MultiThreadRunnable() {}
@@ -63,19 +63,19 @@ public:
 protected:
     void run()
     {
-        m_semaphore.acquire();
-        for (int i = 0; i < m_loopNum; ++i)
+        mSemaphore.acquire();
+        for (int i = 0; i < mLoopNum; ++i)
         {
-            m_multiThreadData.concurrentInt64.fetch_set(m_sub ? int64_sub_func : int64_add_func);
-            if (m_sub)
+            mMultiThreadData.concurrentInt64.fetchSet(mSub ? int64_sub_func : int64_add_func);
+            if (mSub)
             {
-                m_multiThreadData.concurrentInt.fetch_sub(1);
-                m_multiThreadData.concurrentDouble.fetch_sub(0.001);
+                mMultiThreadData.concurrentInt.fetchSub(1);
+                mMultiThreadData.concurrentDouble.fetchSub(0.001);
             }
             else
             {
-                m_multiThreadData.concurrentInt.fetch_add(1);
-                m_multiThreadData.concurrentDouble.fetch_add(0.001);
+                mMultiThreadData.concurrentInt.fetchAdd(1);
+                mMultiThreadData.concurrentDouble.fetchAdd(0.001);
             }
         }
     }
@@ -84,14 +84,14 @@ protected:
     static qint64 int64_sub_func(const qint64 &i) { return i - 1; }
 
 private:
-    const bool m_sub;
-    const int m_loopNum;
-    QSemaphore &m_semaphore;
-    MultiThreadData &m_multiThreadData;
+    const bool mSub;
+    const int mLoopNum;
+    QSemaphore &mSemaphore;
+    MultiThreadData &mMultiThreadData;
 };
 void QExtConcurrentTest::multithread()
 {
-#define NUMTHREADS 10
+#   define NUMTHREADS 10
     QSemaphore semaphore(NUMTHREADS);
     semaphore.acquire(NUMTHREADS);
     MultiThreadData multiThreadData;

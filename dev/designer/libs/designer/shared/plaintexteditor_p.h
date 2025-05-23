@@ -46,7 +46,7 @@
 QT_BEGIN_NAMESPACE
 
 class QPlainTextEdit;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -54,7 +54,7 @@ class QDESIGNER_SHARED_EXPORT PlainTextEditorDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit PlainTextEditorDialog(QDesignerFormEditorInterface *core, QWidget *parent = nullptr);
+    explicit PlainTextEditorDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr);
     ~PlainTextEditorDialog();
 
     int showDialog();
@@ -66,7 +66,7 @@ public:
 
 private:
     QPlainTextEdit *m_editor;
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
 };
 
 } // namespace qdesigner_internal

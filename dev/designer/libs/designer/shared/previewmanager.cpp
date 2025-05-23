@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -34,12 +34,12 @@
 #include "formwindowbase_p.h"
 #include "widgetfactory_p.h"
 
-#include <deviceskin.h>
+#include "../../deviceskin/deviceskin.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindowmanager.h>
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerAbstractSettings.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindowManager.h>
 
 #include <QtWidgets/qwidget.h>
 #include <QtGui/qevent.h>
@@ -77,14 +77,14 @@ static inline int compare(const qdesigner_internal::PreviewConfiguration &pc1, c
 namespace {
     // ------ PreviewData (data associated with a preview window)
     struct PreviewData {
-        PreviewData(const QPointer<QWidget> &widget, const  QDesignerFormWindowInterface *formWindow, const qdesigner_internal::PreviewConfiguration &pc);
+        PreviewData(const QPointer<QWidget> &widget, const  QExtDesignerAbstractFormWindow *formWindow, const qdesigner_internal::PreviewConfiguration &pc);
         QPointer<QWidget> m_widget;
-        const QDesignerFormWindowInterface *m_formWindow;
+        const QExtDesignerAbstractFormWindow *m_formWindow;
         qdesigner_internal::PreviewConfiguration m_configuration;
     };
 
     PreviewData::PreviewData(const QPointer<QWidget>& widget,
-                             const QDesignerFormWindowInterface *formWindow,
+                             const QExtDesignerAbstractFormWindow *formWindow,
                              const qdesigner_internal::PreviewConfiguration &pc) :
         m_widget(widget),
         m_formWindow(formWindow),
@@ -500,7 +500,7 @@ void PreviewConfiguration::setDeviceSkin(const QString &s)
      m_d->m_deviceSkin = s;
 }
 
-void PreviewConfiguration::toSettings(const QString &prefix, QDesignerSettingsInterface *settings) const
+void PreviewConfiguration::toSettings(const QString &prefix, QExtDesignerSettingsInterface *settings) const
 {
     const PreviewConfigurationData &d = *m_d;
     settings->beginGroup(prefix);
@@ -510,7 +510,7 @@ void PreviewConfiguration::toSettings(const QString &prefix, QDesignerSettingsIn
     settings->endGroup();
 }
 
-void PreviewConfiguration::fromSettings(const QString &prefix, const QDesignerSettingsInterface *settings)
+void PreviewConfiguration::fromSettings(const QString &prefix, const QExtDesignerSettingsInterface *settings)
 {
     clear();
     QString key = prefix;
@@ -563,7 +563,7 @@ public:
     typedef QMap<QString, DeviceSkinParameters> DeviceSkinConfigCache;
     DeviceSkinConfigCache m_deviceSkinConfigCache;
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     bool m_updateBlocked;
 };
 
@@ -604,7 +604,7 @@ Qt::WindowFlags PreviewManager::previewWindowFlags(const QWidget *widget) const
     return windowFlags;
 }
 
-QWidget *PreviewManager::createDeviceSkinContainer(const QDesignerFormWindowInterface *fw) const
+QWidget *PreviewManager::createDeviceSkinContainer(const QExtDesignerAbstractFormWindow *fw) const
 {
     return new QDialog(fw->window());
 }
@@ -631,7 +631,7 @@ static QWidget *fakeContainer(QWidget *w)
     return w;
 }
 
-static PreviewConfiguration configurationFromSettings(QDesignerFormEditorInterface *core, const QString &style)
+static PreviewConfiguration configurationFromSettings(QExtDesignerAbstractFormEditor *core, const QString &style)
 {
     qdesigner_internal::PreviewConfiguration pc;
     const QDesignerSharedSettings settings(core);
@@ -642,17 +642,17 @@ static PreviewConfiguration configurationFromSettings(QDesignerFormEditorInterfa
     return pc;
 }
 
-QWidget *PreviewManager::showPreview(const QDesignerFormWindowInterface *fw, const QString &style, int deviceProfileIndex, QString *errorMessage)
+QWidget *PreviewManager::showPreview(const QExtDesignerAbstractFormWindow *fw, const QString &style, int deviceProfileIndex, QString *errorMessage)
 {
     return showPreview(fw, configurationFromSettings(fw->core(), style), deviceProfileIndex, errorMessage);
 }
 
-QWidget *PreviewManager::showPreview(const QDesignerFormWindowInterface *fw, const QString &style, QString *errorMessage)
+QWidget *PreviewManager::showPreview(const QExtDesignerAbstractFormWindow *fw, const QString &style, QString *errorMessage)
 {
     return showPreview(fw, style, -1, errorMessage);
 }
 
-QWidget *PreviewManager::createPreview(const QDesignerFormWindowInterface *fw,
+QWidget *PreviewManager::createPreview(const QExtDesignerAbstractFormWindow *fw,
                                        const PreviewConfiguration &pc,
                                        int deviceProfileIndex,
                                        QString *errorMessage,
@@ -734,7 +734,7 @@ QWidget *PreviewManager::createPreview(const QDesignerFormWindowInterface *fw,
     return skinContainer;
 }
 
-QWidget *PreviewManager::showPreview(const QDesignerFormWindowInterface *fw,
+QWidget *PreviewManager::showPreview(const QExtDesignerAbstractFormWindow *fw,
                                      const PreviewConfiguration &pc,
                                      int deviceProfileIndex,
                                      QString *errorMessage)
@@ -761,10 +761,10 @@ QWidget *PreviewManager::showPreview(const QDesignerFormWindowInterface *fw,
     case SingleFormNonModalPreview:
     case MultipleFormNonModalPreview:
         widget->setWindowModality(Qt::NonModal);
-        connect(fw, &QDesignerFormWindowInterface::changed, widget, &QWidget::close);
+        connect(fw, &QExtDesignerAbstractFormWindow::changed, widget, &QWidget::close);
         connect(fw, &QObject::destroyed, widget, &QWidget::close);
         if (d->m_mode == SingleFormNonModalPreview) {
-            connect(fw->core()->formWindowManager(), &QDesignerFormWindowManagerInterface::activeFormWindowChanged,
+            connect(fw->core()->formWindowManager(), &QExtDesignerAbstractFormWindowManager::activeFormWindowChanged,
                     widget, &QWidget::close);
         }
         break;
@@ -796,7 +796,7 @@ QWidget *PreviewManager::showPreview(const QDesignerFormWindowInterface *fw,
     return widget;
 }
 
-QWidget *PreviewManager::raise(const QDesignerFormWindowInterface *fw, const PreviewConfiguration &pc)
+QWidget *PreviewManager::raise(const QExtDesignerAbstractFormWindow *fw, const PreviewConfiguration &pc)
 {
     using PreviewDataList = PreviewManagerPrivate::PreviewDataList;
     if (d->m_previews.isEmpty())
@@ -895,17 +895,17 @@ int PreviewManager::previewCount() const
     return  d->m_previews.size();
 }
 
-QPixmap PreviewManager::createPreviewPixmap(const QDesignerFormWindowInterface *fw, const QString &style, int deviceProfileIndex, QString *errorMessage)
+QPixmap PreviewManager::createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const QString &style, int deviceProfileIndex, QString *errorMessage)
 {
     return createPreviewPixmap(fw, configurationFromSettings(fw->core(), style), deviceProfileIndex, errorMessage);
 }
 
-QPixmap PreviewManager::createPreviewPixmap(const QDesignerFormWindowInterface *fw, const QString &style, QString *errorMessage)
+QPixmap PreviewManager::createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const QString &style, QString *errorMessage)
 {
     return createPreviewPixmap(fw, style, -1, errorMessage);
 }
 
-QPixmap PreviewManager::createPreviewPixmap(const QDesignerFormWindowInterface *fw,
+QPixmap PreviewManager::createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw,
                                             const PreviewConfiguration &pc,
                                             int deviceProfileIndex,
                                             QString *errorMessage)

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,9 +30,9 @@
 #include "qdesigner_utils_p.h"
 #include "qdesigner_qsettings_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractlanguage.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerLanguageExtension.h>
 
 #include <../uiplugin/customwidget.h>
 
@@ -117,11 +117,11 @@ QStringList QDesignerPluginManager::defaultPluginPaths()
 }
 
 // Figure out the language designer is running. ToDo: Introduce some
-// Language name API to QDesignerLanguageExtension?
+// Language name API to QExtDesignerLanguageExtension?
 
-static inline QString getDesignerLanguage(QDesignerFormEditorInterface *core)
+static inline QString getDesignerLanguage(QExtDesignerAbstractFormEditor *core)
 {
-    if (QDesignerLanguageExtension *lang = qt_extension<QDesignerLanguageExtension *>(core->extensionManager(), core)) {
+    if (QExtDesignerLanguageExtension *lang = qt_extension<QExtDesignerLanguageExtension *>(core->extensionManager(), core)) {
         if (lang->uiExtension() == QStringLiteral("jui"))
             return QLatin1String(jambiLanguageC);
         return QStringLiteral("unknown");
@@ -455,7 +455,7 @@ class QDesignerPluginManagerPrivate {
     public:
     using ClassNamePropertyNameKey = QPair<QString, QString>;
 
-    QDesignerPluginManagerPrivate(QDesignerFormEditorInterface *core);
+    QDesignerPluginManagerPrivate(QExtDesignerAbstractFormEditor *core);
 
     void clearCustomWidgets();
     bool addCustomWidget(QDesignerCustomWidgetInterface *c,
@@ -465,7 +465,7 @@ class QDesignerPluginManagerPrivate {
                           const QString &pluginPath,
                           const QString &designerLanguage);
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     QStringList m_pluginPaths;
     QStringList m_registeredPlugins;
     // TODO: QPluginLoader also caches invalid plugins -> This seems to be dead code
@@ -484,7 +484,7 @@ class QDesignerPluginManagerPrivate {
     bool m_initialized;
 };
 
-QDesignerPluginManagerPrivate::QDesignerPluginManagerPrivate(QDesignerFormEditorInterface *core) :
+QDesignerPluginManagerPrivate::QDesignerPluginManagerPrivate(QExtDesignerAbstractFormEditor *core) :
    m_core(core),
    m_initialized(false)
 {
@@ -554,7 +554,7 @@ void QDesignerPluginManagerPrivate::addCustomWidgets(const QObject *o,
 // ---------------- QDesignerPluginManager
 // As of 4.4, the header will be distributed with the Eclipse plugin.
 
-QDesignerPluginManager::QDesignerPluginManager(QDesignerFormEditorInterface *core) :
+QDesignerPluginManager::QDesignerPluginManager(QExtDesignerAbstractFormEditor *core) :
     QObject(core),
     m_d(new QDesignerPluginManagerPrivate(core))
 {
@@ -575,7 +575,7 @@ QDesignerPluginManager::~QDesignerPluginManager()
     delete m_d;
 }
 
-QDesignerFormEditorInterface *QDesignerPluginManager::core() const
+QExtDesignerAbstractFormEditor *QDesignerPluginManager::core() const
 {
     return m_d->m_core;
 }

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,12 +41,13 @@
 #define DESIGNEROBJECTINSPECTOR_H
 
 #include "shared_global_p.h"
-#include <../sdk/abstractobjectinspector.h>
+#include <qextDesignerAbstractObjectInspector.h>
+
 #include <QtCore/qlist.h>
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerDnDItemInterface;
+class QExtDesignerDnDItemInterface;
 
 namespace qdesigner_internal {
 
@@ -65,10 +66,10 @@ struct QDESIGNER_SHARED_EXPORT Selection {
     QObjectList objects;
 };
 
-// Extends the QDesignerObjectInspectorInterface by functionality
+// Extends the QExtDesignerAbstractObjectInspector by functionality
 // to access the selection
 
-class QDESIGNER_SHARED_EXPORT QDesignerObjectInspector: public QDesignerObjectInspectorInterface
+class QDESIGNER_SHARED_EXPORT QDesignerObjectInspector: public QExtDesignerAbstractObjectInspector
 {
     Q_OBJECT
 public:

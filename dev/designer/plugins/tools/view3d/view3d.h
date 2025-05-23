@@ -36,7 +36,7 @@ QT_BEGIN_NAMESPACE
 
 class QScrollBar;
 class QGLWidget;
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 class QView3DWidget;
 
@@ -45,14 +45,14 @@ class QView3D : public QWidget
     Q_OBJECT
 
 public:
-    QView3D(QDesignerFormWindowInterface *form_window, QWidget *parent);
+    QView3D(QExtDesignerAbstractFormWindow *form_window, QWidget *parent);
 
 public slots:
     void updateForm();
 
 private:
     QView3DWidget *m_3d_widget;
-    QDesignerFormWindowInterface *m_form_window;
+    QExtDesignerAbstractFormWindow *m_form_window;
 
     void addWidget(int depth, QWidget *w);
     void addTexture(QWidget *w);

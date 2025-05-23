@@ -46,7 +46,7 @@ bool QView3DPlugin::isInitialized() const
     return m_core != 0;
 }
 
-void QView3DPlugin::initialize(QDesignerFormEditorInterface *core)
+void QView3DPlugin::initialize(QExtDesignerAbstractFormEditor *core)
 {
     Q_ASSERT(!isInitialized());
 
@@ -54,14 +54,14 @@ void QView3DPlugin::initialize(QDesignerFormEditorInterface *core)
     m_core = core;
     setParent(core);
 
-    connect(core->formWindowManager(), SIGNAL(formWindowAdded(QDesignerFormWindowInterface*)),
-            this, SLOT(addFormWindow(QDesignerFormWindowInterface*)));
+    connect(core->formWindowManager(), SIGNAL(formWindowAdded(QExtDesignerAbstractFormWindow*)),
+            this, SLOT(addFormWindow(QExtDesignerAbstractFormWindow*)));
 
-    connect(core->formWindowManager(), SIGNAL(formWindowRemoved(QDesignerFormWindowInterface*)),
-            this, SLOT(removeFormWindow(QDesignerFormWindowInterface*)));
+    connect(core->formWindowManager(), SIGNAL(formWindowRemoved(QExtDesignerAbstractFormWindow*)),
+            this, SLOT(removeFormWindow(QExtDesignerAbstractFormWindow*)));
 
-    connect(core->formWindowManager(), SIGNAL(activeFormWindowChanged(QDesignerFormWindowInterface*)),
-                this, SLOT(activeFormWindowChanged(QDesignerFormWindowInterface*)));
+    connect(core->formWindowManager(), SIGNAL(activeFormWindowChanged(QExtDesignerAbstractFormWindow*)),
+                this, SLOT(activeFormWindowChanged(QExtDesignerAbstractFormWindow*)));
 }
 
 QAction *QView3DPlugin::action() const
@@ -69,17 +69,17 @@ QAction *QView3DPlugin::action() const
     return m_action;
 }
 
-QDesignerFormEditorInterface *QView3DPlugin::core() const
+QExtDesignerAbstractFormEditor *QView3DPlugin::core() const
 {
     return m_core;
 }
 
-void QView3DPlugin::activeFormWindowChanged(QDesignerFormWindowInterface *formWindow)
+void QView3DPlugin::activeFormWindowChanged(QExtDesignerAbstractFormWindow *formWindow)
 {
     m_action->setEnabled(formWindow != 0);
 }
 
-void QView3DPlugin::addFormWindow(QDesignerFormWindowInterface *formWindow)
+void QView3DPlugin::addFormWindow(QExtDesignerAbstractFormWindow *formWindow)
 {
     Q_ASSERT(formWindow != 0);
     Q_ASSERT(m_tool_list.contains(formWindow) == false);
@@ -90,7 +90,7 @@ void QView3DPlugin::addFormWindow(QDesignerFormWindowInterface *formWindow)
     formWindow->registerTool(tool);
 }
 
-void QView3DPlugin::removeFormWindow(QDesignerFormWindowInterface *formWindow)
+void QView3DPlugin::removeFormWindow(QExtDesignerAbstractFormWindow *formWindow)
 {
     Q_ASSERT(formWindow != 0);
     Q_ASSERT(m_tool_list.contains(formWindow));

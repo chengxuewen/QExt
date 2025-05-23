@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -32,12 +32,12 @@
 #include "widgetdatabase_p.h"
 #include "signalslotdialog_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractpromotioninterface.h>
-#include <../sdk/abstractwidgetdatabase.h>
-#include <../sdk/abstractintegration.h>
-#include <abstractdialoggui_p.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractPromotion.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <private/qextDesignerAbstractDialogGui_p.h>
 
 #include <QtCore/qtimer.h>
 #include <QtWidgets/qboxlayout.h>
@@ -182,7 +182,7 @@ namespace qdesigner_internal {
     }
 
     // --------------- QDesignerPromotionDialog
-    QDesignerPromotionDialog::QDesignerPromotionDialog(QDesignerFormEditorInterface *core,
+    QDesignerPromotionDialog::QDesignerPromotionDialog(QExtDesignerAbstractFormEditor *core,
                                                        QWidget *parent,
                                                        const QString &promotableWidgetClassName,
                                                        QString *promoteTo) :
@@ -287,8 +287,8 @@ namespace qdesigner_internal {
         QTimer::singleShot(0, this, &QDesignerPromotionDialog::slotUpdateFromWidgetDatabase);
     }
 
-    const QStringList &QDesignerPromotionDialog::baseClassNames(const QDesignerPromotionInterface *promotion) {
-        using WidgetDataBaseItemList = QList<QDesignerWidgetDataBaseItemInterface *>;
+    const QStringList &QDesignerPromotionDialog::baseClassNames(const QExtDesignerPromotionInterface *promotion) {
+        using WidgetDataBaseItemList = QList<QExtDesignerWidgetDataBaseItemInterface *>;
         static QStringList rc;
         if (rc.isEmpty()) {
             // Convert the item list into a string list.
@@ -305,7 +305,7 @@ namespace qdesigner_internal {
         Q_ASSERT(m_mode == ModeEditChooseClass);
         unsigned flags;
         // Ok pressed: Promote to selected class
-        if (QDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags)) {
+        if (QExtDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags)) {
             if (flags & CanPromote) {
                 *m_promoteTo = dbItem ->name();
                 accept();
@@ -315,7 +315,7 @@ namespace qdesigner_internal {
 
     void QDesignerPromotionDialog::slotRemove() {
         unsigned flags;
-        QDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags);
+        QExtDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags);
         if (!dbItem || (flags & Referenced))
             return;
 
@@ -330,7 +330,7 @@ namespace qdesigner_internal {
     void QDesignerPromotionDialog::slotSelectionChanged(const QItemSelection &selected, const QItemSelection &) {
         // Enable deleting non-referenced items
         unsigned flags;
-        const QDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(selected, flags);
+        const QExtDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(selected, flags);
         m_removeButton->setEnabled(dbItem && !(flags & Referenced));
         // In choose mode, can we promote to the class?
         if (m_mode == ModeEditChooseClass) {
@@ -348,13 +348,13 @@ namespace qdesigner_internal {
         }
     }
 
-    QDesignerWidgetDataBaseItemInterface *QDesignerPromotionDialog::databaseItemAt(const QItemSelection &selected, unsigned &flags) const {
+    QExtDesignerWidgetDataBaseItemInterface *QDesignerPromotionDialog::databaseItemAt(const QItemSelection &selected, unsigned &flags) const {
         flags = 0;
         const QModelIndexList indexes = selected.indexes();
         if (indexes.isEmpty())
             return nullptr;
         const PromotionModel::ModelData data = m_model->modelData(indexes.constFirst());
-        QDesignerWidgetDataBaseItemInterface *dbItem = data.promotedItem;
+        QExtDesignerWidgetDataBaseItemInterface *dbItem = data.promotedItem;
 
         if (dbItem) {
             if (data.referenced)
@@ -382,7 +382,7 @@ namespace qdesigner_internal {
         }
     }
 
-    void QDesignerPromotionDialog::slotIncludeFileChanged(QDesignerWidgetDataBaseItemInterface *dbItem, const QString &includeFile) {
+    void QDesignerPromotionDialog::slotIncludeFileChanged(QExtDesignerWidgetDataBaseItemInterface *dbItem, const QString &includeFile) {
         if (includeFile.isEmpty()) {
             delayedUpdateFromWidgetDatabase();
             return;
@@ -398,7 +398,7 @@ namespace qdesigner_internal {
         }
     }
 
-    void  QDesignerPromotionDialog::slotClassNameChanged(QDesignerWidgetDataBaseItemInterface *dbItem, const QString &newName) {
+    void  QDesignerPromotionDialog::slotClassNameChanged(QExtDesignerWidgetDataBaseItemInterface *dbItem, const QString &newName) {
         if (newName.isEmpty()) {
             delayedUpdateFromWidgetDatabase();
             return;
@@ -416,7 +416,7 @@ namespace qdesigner_internal {
 
     void QDesignerPromotionDialog::slotTreeViewContextMenu(const QPoint &pos) {
         unsigned flags;
-        const QDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags);
+        const QExtDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags);
         if (!dbItem)
             return;
 
@@ -430,7 +430,7 @@ namespace qdesigner_internal {
 
     void  QDesignerPromotionDialog::slotEditSignalsSlots() {
         unsigned flags;
-        const QDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags);
+        const QExtDesignerWidgetDataBaseItemInterface *dbItem = databaseItemAt(m_treeView->selectionModel()->selection(), flags);
         if (!dbItem)
             return;
 
@@ -438,7 +438,7 @@ namespace qdesigner_internal {
     }
 
     void QDesignerPromotionDialog::displayError(const QString &message) {
-        m_core->dialogGui()->message(this, QDesignerDialogGuiInterface::PromotionErrorMessage, QMessageBox::Warning,
+        m_core->dialogGui()->message(this, QExtDesignerAbstractDialogGui::PromotionErrorMessage, QMessageBox::Warning,
                                      tr("%1 - Error").arg(windowTitle()), message,  QMessageBox::Close);
     }
 } // namespace qdesigner_internal

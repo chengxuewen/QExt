@@ -34,7 +34,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 class QAxWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
@@ -53,11 +53,11 @@ public:
     bool isContainer() const override;
     QWidget *createWidget(QWidget *parent) override;
     bool isInitialized() const override;
-    void initialize(QDesignerFormEditorInterface *core) override;
+    void initialize(QExtDesignerAbstractFormEditor *core) override;
     QString domXml() const override;
 
 private:
-    QDesignerFormEditorInterface *m_core = nullptr;
+    QExtDesignerAbstractFormEditor *m_core = nullptr;
 };
 
 QT_END_NAMESPACE

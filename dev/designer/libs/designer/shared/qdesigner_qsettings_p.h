@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,14 +42,14 @@
 
 #include "shared_global_p.h"
 
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtCore/qsettings.h>
 
 QT_BEGIN_NAMESPACE
 
-//  Implements QDesignerSettingsInterface by calls to QSettings
-class QDESIGNER_SHARED_EXPORT QDesignerQSettings : public QDesignerSettingsInterface
+//  Implements QExtDesignerSettingsInterface by calls to QSettings
+class QDESIGNER_SHARED_EXPORT QDesignerQSettings : public QExtDesignerSettingsInterface
 {
 public:
     QDesignerQSettings();

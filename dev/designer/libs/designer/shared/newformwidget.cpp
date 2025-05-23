@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,11 +33,11 @@
 #include "widgetdatabase_p.h"
 #include "shared_settings_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractlanguage.h>
-#include <../sdk/abstractwidgetdatabase.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
 #include <QtCore/qdir.h>
 #include <QtCore/qfile.h>
@@ -122,8 +122,8 @@ static const struct TemplateSize templateSizes[] =
  * (TemplateNameRole = file name 1,2, ClassNameRole = class name 3,4)
  */
 
-NewFormWidget::NewFormWidget(QDesignerFormEditorInterface *core, QWidget *parentWidget) :
-    QDesignerNewFormWidgetInterface(parentWidget),
+NewFormWidget::NewFormWidget(QExtDesignerAbstractFormEditor *core, QWidget *parentWidget) :
+    QExtDesignerAbstractNewFormWidget(parentWidget),
     m_core(core),
     m_ui(new Ui::NewFormWidget),
     m_currentItem(nullptr),
@@ -139,7 +139,7 @@ NewFormWidget::NewFormWidget(QDesignerFormEditorInterface *core, QWidget *parent
     QString uiExtension = QStringLiteral("ui");
     QString templatePath = QStringLiteral(":/qt-project.org/designer/templates/forms");
 
-    QDesignerLanguageExtension *lang = qt_extension<QDesignerLanguageExtension *>(core->extensionManager(), core);
+    QExtDesignerLanguageExtension *lang = qt_extension<QExtDesignerLanguageExtension *>(core->extensionManager(), core);
     if (lang) {
         templatePath = QStringLiteral(":/templates/forms");
         uiExtension = lang->uiExtension();
@@ -290,7 +290,7 @@ QPixmap NewFormWidget::formPreviewPixmap(const QString &fileName) const
     return QPixmap();
 }
 
-QImage NewFormWidget::grabForm(QDesignerFormEditorInterface *core,
+QImage NewFormWidget::grabForm(QExtDesignerAbstractFormEditor *core,
                          QIODevice &file,
                          const QString &workingDir,
                          const qdesigner_internal::DeviceProfile &dp)

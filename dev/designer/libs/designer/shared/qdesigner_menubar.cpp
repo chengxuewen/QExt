@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -37,10 +37,10 @@
 #include "promotiontaskmenu_p.h"
 #include "qdesigner_objectinspector_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractwidgetfactory.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractWidgetFactory.h>
 
 #include <QtCore/qmimedata.h>
 
@@ -293,7 +293,7 @@ void QDesignerMenuBar::startDrag(const QPoint &pos)
 
     QAction *action = safeActionAt(index);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     RemoveActionFromCommand *cmd = new RemoveActionFromCommand(fw);
     cmd->init(this, action, actions().at(index + 1));
     fw->commandHistory()->push(cmd);
@@ -423,7 +423,7 @@ void QDesignerMenuBar::slotRemoveMenuBar()
 {
     Q_ASSERT(formWindow() != nullptr);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
 
     DeleteMenuBarCommand *cmd = new DeleteMenuBarCommand(fw);
     cmd->init(this);
@@ -454,7 +454,7 @@ void QDesignerMenuBar::leaveEditMode(LeaveEditMode mode)
 
     QAction *action = nullptr;
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     Q_ASSERT(fw);
 
     if (m_currentIndex >= 0 && m_currentIndex < realActionCount()) {
@@ -669,7 +669,7 @@ void QDesignerMenuBar::dropEvent(QDropEvent *event)
             int index = findAction(event->pos());
             index = qMin(index, actions().count() - 1);
 
-            QDesignerFormWindowInterface *fw = formWindow();
+            QExtDesignerAbstractFormWindow *fw = formWindow();
             InsertActionIntoCommand *cmd = new InsertActionIntoCommand(fw);
             cmd->init(this, action, safeActionAt(index));
             fw->commandHistory()->push(cmd);
@@ -688,15 +688,15 @@ void QDesignerMenuBar::actionEvent(QActionEvent *event)
     QMenuBar::actionEvent(event);
 }
 
-QDesignerFormWindowInterface *QDesignerMenuBar::formWindow() const
+QExtDesignerAbstractFormWindow *QDesignerMenuBar::formWindow() const
 {
-    return QDesignerFormWindowInterface::findFormWindow(const_cast<QDesignerMenuBar*>(this));
+    return QExtDesignerAbstractFormWindow::findFormWindow(const_cast<QDesignerMenuBar*>(this));
 }
 
 QDesignerActionProviderExtension *QDesignerMenuBar::actionProvider()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
-        QDesignerFormEditorInterface *core = fw->core();
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
+        QExtDesignerAbstractFormEditor *core = fw->core();
         return qt_extension<QDesignerActionProviderExtension*>(core->extensionManager(), this);
     }
 
@@ -808,7 +808,7 @@ void QDesignerMenuBar::deleteMenuAction(QAction *action)
         if (pos != -1)
             action_before = safeActionAt(pos + 1);
 
-        QDesignerFormWindowInterface *fw = formWindow();
+        QExtDesignerAbstractFormWindow *fw = formWindow();
         RemoveMenuActionCommand *cmd = new RemoveMenuActionCommand(fw);
         cmd->init(action, action_before, this, this);
         fw->commandHistory()->push(cmd);
@@ -887,7 +887,7 @@ bool QDesignerMenuBar::swapActions(int a, int b)
 
     QAction *action_b_before = safeActionAt(right + 1);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     RemoveActionFromCommand *cmd1 = new RemoveActionFromCommand(fw);
     cmd1->init(this, action_b, action_b_before, false);
     fw->commandHistory()->push(cmd1);
@@ -937,7 +937,7 @@ void QDesignerMenuBar::updateCurrentAction(bool selectAction)
         return;
 
     QDesignerObjectInspector *oi = nullptr;
-    if (QDesignerFormWindowInterface *fw = formWindow())
+    if (QExtDesignerAbstractFormWindow *fw = formWindow())
         oi = qobject_cast<QDesignerObjectInspector *>(fw->core()->objectInspector());
 
     if (!oi)

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -27,19 +27,18 @@
 ****************************************************************************/
 
 #include "signalslotdialog_p.h"
-#include "ui_signalslotdialog.h"
 #include "metadatabase_p.h"
 #include "widgetdatabase_p.h"
 
 #include "qdesigner_formwindowcommand_p.h"
 #include "iconloader_p.h"
 
-#include <../sdk/membersheet.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractwidgetfactory.h>
-#include <abstractdialoggui_p.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerMemberSheetExtension.h>
+#include <qextDesignerAbstractWidgetFactory.h>
+#include <private/qextDesignerAbstractDialogGui_p.h>
 
 #include <QtGui/qstandarditemmodel.h>
 #include <QtGui/qvalidator.h>
@@ -52,6 +51,8 @@
 #include <QtCore/qdebug.h>
 
 QT_BEGIN_NAMESPACE
+
+using namespace qdesigner_internal;
 
 // Regexp to match a function signature, arguments potentially
 // with namespace colons.
@@ -73,7 +74,7 @@ static  QStandardItem *createDisabledItem(const QString &text)
     return rc;
 }
 
-static void fakeMethodsFromMetaDataBase(QDesignerFormEditorInterface *core, QObject *o, QStringList &slotList, QStringList &signalList)
+static void fakeMethodsFromMetaDataBase(QExtDesignerAbstractFormEditor *core, QObject *o, QStringList &slotList, QStringList &signalList)
 {
     slotList.clear();
     signalList.clear();
@@ -84,7 +85,7 @@ static void fakeMethodsFromMetaDataBase(QDesignerFormEditorInterface *core, QObj
         }
 }
 
-static void fakeMethodsToMetaDataBase(QDesignerFormEditorInterface *core, QObject *o, const QStringList &slotList, const QStringList &signalList)
+static void fakeMethodsToMetaDataBase(QExtDesignerAbstractFormEditor *core, QObject *o, const QStringList &slotList, const QStringList &signalList)
 {
     if (qdesigner_internal::MetaDataBase *metaDataBase = qobject_cast<qdesigner_internal::MetaDataBase *>(core->metaDataBase())) {
         qdesigner_internal::MetaDataBaseItem *item = metaDataBase->metaDataBaseItem(o);
@@ -94,14 +95,14 @@ static void fakeMethodsToMetaDataBase(QDesignerFormEditorInterface *core, QObjec
     }
 }
 
-static void existingMethodsFromMemberSheet(QDesignerFormEditorInterface *core,
+static void existingMethodsFromMemberSheet(QExtDesignerAbstractFormEditor *core,
                                            QObject *o,
                                            QStringList &slotList, QStringList &signalList)
 {
     slotList.clear();
     signalList.clear();
 
-    QDesignerMemberSheetExtension *msheet = qt_extension<QDesignerMemberSheetExtension*>(core->extensionManager(), o);
+    QExtDesignerMemberSheetExtension *msheet = qt_extension<QExtDesignerMemberSheetExtension*>(core->extensionManager(), o);
     if (!msheet)
         return;
 
@@ -168,7 +169,7 @@ namespace {
     class FakeMethodMetaDBCommand : public qdesigner_internal::QDesignerFormWindowCommand {
 
     public:
-        explicit FakeMethodMetaDBCommand(QDesignerFormWindowInterface *formWindow);
+        explicit FakeMethodMetaDBCommand(QExtDesignerAbstractFormWindow *formWindow);
 
         void init(QObject *o,
                   const QStringList &oldFakeSlots, const QStringList &oldFakeSignals,
@@ -187,7 +188,7 @@ namespace {
         QStringList m_newFakeSignals;
     };
 
-    FakeMethodMetaDBCommand::FakeMethodMetaDBCommand(QDesignerFormWindowInterface *formWindow) :
+    FakeMethodMetaDBCommand::FakeMethodMetaDBCommand(QExtDesignerAbstractFormWindow *formWindow) :
         qdesigner_internal::QDesignerFormWindowCommand(QApplication::translate("Command", "Change signals/slots"), formWindow),
         m_object(nullptr)
      {
@@ -343,7 +344,7 @@ void SignaturePanel::closeEditor()
 
 // ------ SignalSlotDialog
 
-SignalSlotDialog::SignalSlotDialog(QDesignerDialogGuiInterface *dialogGui, QWidget *parent, FocusMode mode) :
+SignalSlotDialog::SignalSlotDialog(QExtDesignerAbstractDialogGui *dialogGui, QWidget *parent, FocusMode mode) :
     QDialog(parent),
     m_focusMode(mode),
     m_ui(new Ui::SignalSlotDialogClass),
@@ -400,7 +401,7 @@ void SignalSlotDialog::slotCheckSignature(const QString &signature, bool *ok)
         }
     } while (false);
     if (!*ok)
-        m_dialogGui->message(this, QDesignerDialogGuiInterface::SignalSlotDialogMessage,
+        m_dialogGui->message(this, QExtDesignerAbstractDialogGui::SignalSlotDialogMessage,
                              QMessageBox::Warning, tr("%1 - Duplicate Signature").arg(windowTitle()), errorMessage, QMessageBox::Close);
 }
 
@@ -418,9 +419,9 @@ QDialog::DialogCode SignalSlotDialog::showDialog(SignalSlotDialogData &slotData,
     return rc;
 }
 
-bool SignalSlotDialog::editMetaDataBase(QDesignerFormWindowInterface *fw, QObject *object, QWidget *parent, FocusMode mode)
+bool SignalSlotDialog::editMetaDataBase(QExtDesignerAbstractFormWindow *fw, QObject *object, QWidget *parent, FocusMode mode)
 {
-    QDesignerFormEditorInterface *core = fw->core();
+    QExtDesignerAbstractFormEditor *core = fw->core();
     SignalSlotDialog dlg(core->dialogGui(), parent, mode);
     dlg.setWindowTitle(tr("Signals/Slots of %1").arg(object->objectName()));
 
@@ -445,7 +446,7 @@ bool SignalSlotDialog::editMetaDataBase(QDesignerFormWindowInterface *fw, QObjec
     return true;
 }
 
-bool SignalSlotDialog::editPromotedClass(QDesignerFormEditorInterface *core, const QString &promotedClassName, QWidget *parent, FocusMode mode)
+bool SignalSlotDialog::editPromotedClass(QExtDesignerAbstractFormEditor *core, const QString &promotedClassName, QWidget *parent, FocusMode mode)
 {
     const int index = core->widgetDataBase()->indexOfClassName(promotedClassName);
     if (index == -1)
@@ -463,7 +464,7 @@ bool SignalSlotDialog::editPromotedClass(QDesignerFormEditorInterface *core, con
     return rc;
 }
 
-bool SignalSlotDialog::editPromotedClass(QDesignerFormEditorInterface *core, QObject *baseObject, QWidget *parent, FocusMode mode)
+bool SignalSlotDialog::editPromotedClass(QExtDesignerAbstractFormEditor *core, QObject *baseObject, QWidget *parent, FocusMode mode)
 {
     if (!baseObject->isWidgetType())
         return false;
@@ -475,7 +476,7 @@ bool SignalSlotDialog::editPromotedClass(QDesignerFormEditorInterface *core, QOb
 }
 
 
-bool SignalSlotDialog::editPromotedClass(QDesignerFormEditorInterface *core, const QString &promotedClassName, QObject *object, QWidget *parent, FocusMode mode)
+bool SignalSlotDialog::editPromotedClass(QExtDesignerAbstractFormEditor *core, const QString &promotedClassName, QObject *object, QWidget *parent, FocusMode mode)
 {
     WidgetDataBase *db = qobject_cast<WidgetDataBase *>(core->widgetDataBase());
     if (!db)

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -42,14 +42,14 @@
 
 #include "shared_global_p.h"
 #include "shared_enums_p.h"
-#include "../sdk/abstractactioneditor.h"
+#include <qextDesignerAbstractActionEditor.h>
 
 #include <QtCore/qpointer.h>
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerPropertyEditorInterface;
-class QDesignerSettingsInterface;
+class QExtDesignerAbstractPropertyEditor;
+class QExtDesignerSettingsInterface;
 class QMenu;
 class QActionGroup;
 class QItemSelection;
@@ -63,18 +63,18 @@ namespace qdesigner_internal {
 class ActionView;
 class ResourceMimeData;
 
-class QDESIGNER_SHARED_EXPORT ActionEditor: public QDesignerActionEditorInterface
+class QDESIGNER_SHARED_EXPORT ActionEditor: public QExtDesignerAbstractActionEditor
 {
     Q_OBJECT
 public:
-    explicit ActionEditor(QDesignerFormEditorInterface *core, QWidget *parent = nullptr,
+    explicit ActionEditor(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr,
                           Qt::WindowFlags flags = {});
     ~ActionEditor() override;
 
-    QDesignerFormWindowInterface *formWindow() const;
-    void setFormWindow(QDesignerFormWindowInterface *formWindow) override;
+    QExtDesignerAbstractFormWindow *formWindow() const;
+    void setFormWindow(QExtDesignerAbstractFormWindow *formWindow) override;
 
-    QDesignerFormEditorInterface *core() const override;
+    QExtDesignerAbstractFormEditor *core() const override;
 
     QAction *actionNew() const;
     QAction *actionDelete() const;
@@ -123,9 +123,9 @@ signals:
 
 private:
     using ActionList = QList<QAction *>;
-    void deleteActions(QDesignerFormWindowInterface *formWindow, const ActionList &);
+    void deleteActions(QExtDesignerAbstractFormWindow *formWindow, const ActionList &);
 #if QT_CONFIG(clipboard)
-    void copyActions(QDesignerFormWindowInterface *formWindow, const ActionList &);
+    void copyActions(QExtDesignerAbstractFormWindow *formWindow, const ActionList &);
 #endif
 
     void restoreSettings();
@@ -135,8 +135,8 @@ private:
 
     static ObjectNamingMode m_objectNamingMode;
 
-    QDesignerFormEditorInterface *m_core;
-    QPointer<QDesignerFormWindowInterface> m_formWindow;
+    QExtDesignerAbstractFormEditor *m_core;
+    QPointer<QExtDesignerAbstractFormWindow> m_formWindow;
     QListWidget *m_actionGroups;
 
     ActionView *m_actionView;

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -40,10 +40,10 @@
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractwidgetfactory.h>
-#include <../sdk/abstractmetadatabase.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractMetaDataBase.h>
+#include <qextDesignerAbstractWidgetFactory.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qapplication.h>
@@ -157,7 +157,7 @@ void QDesignerMenu::startDrag(const QPoint &pos, Qt::KeyboardModifiers modifiers
 
     QAction *action = safeActionAt(index);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     const Qt::DropAction dropAction = (modifiers & Qt::ControlModifier) ? Qt::CopyAction : Qt::MoveAction;
     if (dropAction == Qt::MoveAction) {
         RemoveActionFromCommand *cmd = new RemoveActionFromCommand(fw);
@@ -497,7 +497,7 @@ void QDesignerMenu::slotAddSeparator()
     if (pos != -1)
         action_before = safeActionAt(pos);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     fw->beginCommand(tr("Add separator"));
     QAction *sep = createAction(QString(), true);
 
@@ -531,7 +531,7 @@ void QDesignerMenu::deleteAction(QAction *a)
     if (pos != -1)
         action_before = safeActionAt(pos + 1);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     RemoveActionFromCommand *cmd = new RemoveActionFromCommand(fw);
     cmd->init(this, a, action_before);
     fw->commandHistory()->push(cmd);
@@ -783,7 +783,7 @@ void QDesignerMenu::dropEvent(QDropEvent *event)
     hideSubMenu();
     m_dragging = false;
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     const ActionRepositoryMimeData *d = qobject_cast<const ActionRepositoryMimeData*>(event->mimeData());
     if (!d || d->actionList().isEmpty()) {
         event->ignore();
@@ -824,18 +824,18 @@ void QDesignerMenu::actionEvent(QActionEvent *event)
     m_adjustSizeTimer->start(0);
 }
 
-QDesignerFormWindowInterface *QDesignerMenu::formWindow() const
+QExtDesignerAbstractFormWindow *QDesignerMenu::formWindow() const
 {
     if (parentMenu())
         return parentMenu()->formWindow();
 
-    return QDesignerFormWindowInterface::findFormWindow(parentWidget());
+    return QExtDesignerAbstractFormWindow::findFormWindow(parentWidget());
 }
 
 QDesignerActionProviderExtension *QDesignerMenu::actionProvider()
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
-        QDesignerFormEditorInterface *core = fw->core();
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
+        QExtDesignerAbstractFormEditor *core = fw->core();
         return qt_extension<QDesignerActionProviderExtension*>(core->extensionManager(), this);
     }
 
@@ -957,7 +957,7 @@ void QDesignerMenu::selectCurrentAction()
         return;
 
     QDesignerObjectInspector *oi = nullptr;
-    if (QDesignerFormWindowInterface *fw = formWindow())
+    if (QExtDesignerAbstractFormWindow *fw = formWindow())
         oi = qobject_cast<QDesignerObjectInspector *>(fw->core()->objectInspector());
 
     if (!oi)
@@ -975,8 +975,8 @@ void QDesignerMenu::createRealMenuAction(QAction *action)
     if (action->menu())
         return; // nothing to do
 
-    QDesignerFormWindowInterface *fw = formWindow();
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
 
     QDesignerMenu *menu = findOrCreateSubMenu(action);
     m_subMenus.remove(action);
@@ -1005,7 +1005,7 @@ void QDesignerMenu::removeRealMenu(QAction *action)
         return;
     action->setMenu(nullptr);
     m_subMenus.insert(action, menu);
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
     core->metaDataBase()->remove(menu);
 }
 
@@ -1134,7 +1134,7 @@ void QDesignerMenu::enterEditMode()
         showLineEdit();
     } else {
         hideSubMenu();
-        QDesignerFormWindowInterface *fw = formWindow();
+        QExtDesignerAbstractFormWindow *fw = formWindow();
         fw->beginCommand(tr("Add separator"));
         QAction *sep = createAction(QString(), true);
 
@@ -1165,7 +1165,7 @@ void QDesignerMenu::leaveEditMode(LeaveEditMode mode)
 
     QAction *action = nullptr;
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (m_currentIndex < realActionCount()) {
         action = safeActionAt(m_currentIndex);
         fw->beginCommand(QApplication::translate("Command", "Set action text"));
@@ -1234,7 +1234,7 @@ void QDesignerMenu::showLineEdit()
 
 QAction *QDesignerMenu::createAction(const QString &objectName, bool separator)
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     Q_ASSERT(fw);
     return ToolBarEventFilter::createAction(fw, objectName, separator);
 }
@@ -1259,7 +1259,7 @@ bool QDesignerMenu::swap(int a, int b)
     if (right < 0)
         return false; // nothing to do
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     fw->beginCommand(QApplication::translate("Command", "Move action"));
 
     QAction *action_b_before = safeActionAt(right + 1);
@@ -1311,7 +1311,7 @@ void QDesignerMenu::deleteAction()
     if (pos != -1)
         action_before = safeActionAt(pos + 1);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     RemoveActionFromCommand *cmd = new RemoveActionFromCommand(fw);
     cmd->init(this, action, action_before);
     fw->commandHistory()->push(cmd);

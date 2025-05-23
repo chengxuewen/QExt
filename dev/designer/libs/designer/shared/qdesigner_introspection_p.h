@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,9 @@
 #define DESIGNERINTROSPECTION
 
 #include "shared_global_p.h"
-#include <abstractintrospection_p.h>
+
+#include <private/qextDesignerAbstractIntrospection_p.h>
+
 #include <QtCore/qmap.h>
 
 QT_BEGIN_NAMESPACE
@@ -51,16 +53,16 @@ class QWidget;
 
 namespace qdesigner_internal {
     // Qt C++ introspection with helpers to find core and meta object for an object
-    class QDESIGNER_SHARED_EXPORT QDesignerIntrospection : public QDesignerIntrospectionInterface {
+    class QDESIGNER_SHARED_EXPORT QDesignerIntrospection : public QExtDesignerIntrospectionInterface {
     public:
         QDesignerIntrospection();
         ~QDesignerIntrospection() override;
 
-        const QDesignerMetaObjectInterface* metaObject(const QObject *object) const override;
+        const QExtDesignerMetaObjectInterface* metaObject(const QObject *object) const override;
 
-        const QDesignerMetaObjectInterface* metaObjectForQMetaObject(const QMetaObject *metaObject) const;
+        const QExtDesignerMetaObjectInterface* metaObjectForQMetaObject(const QMetaObject *metaObject) const;
     private:
-        using MetaObjectMap = QMap<const QMetaObject*, QDesignerMetaObjectInterface*>;
+        using MetaObjectMap = QMap<const QMetaObject*, QExtDesignerMetaObjectInterface*>;
         mutable MetaObjectMap m_metaObjectMap;
 
     };

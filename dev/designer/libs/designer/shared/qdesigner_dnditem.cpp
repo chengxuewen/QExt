@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,7 +28,7 @@
 
 #include "qdesigner_dnditem_p.h"
 #include "formwindowbase_p.h"
-#include <../uilib/ui4_p.h>
+#include <private/qextDesignerDomUI_p.h>
 
 #include <QtGui/qpainter.h>
 #include <QtGui/qbitmap.h>
@@ -201,7 +201,7 @@ QDesignerMimeData::~QDesignerMimeData()
 
 Qt::DropAction QDesignerMimeData::proposedDropAction() const
 {
-   return m_items.first()->type() == QDesignerDnDItemInterface::CopyDrop ? Qt::CopyAction : Qt::MoveAction;
+   return m_items.first()->type() == QExtDesignerDnDItemInterface::CopyDrop ? Qt::CopyAction : Qt::MoveAction;
 }
 
 Qt::DropAction QDesignerMimeData::execDrag(const QDesignerDnDItems &items, QWidget * dragSource)
@@ -217,7 +217,7 @@ Qt::DropAction QDesignerMimeData::execDrag(const QDesignerDnDItems &items, QWidg
     const QDesignerDnDItems::const_iterator cend = items.constEnd();
     for (QDesignerDnDItems::const_iterator it = items.constBegin(); it != cend; ++it )
         if (QWidget *w = (*it)->widget())
-            if ((*it)->type() ==  QDesignerDnDItemInterface::MoveDrop)
+            if ((*it)->type() ==  QExtDesignerDnDItemInterface::MoveDrop)
                 reshowWidgets.push_back(w);
 
     const Qt::DropAction executedAction = drag->exec(Qt::CopyAction|Qt::MoveAction, mimeData->proposedDropAction());
@@ -248,7 +248,7 @@ void QDesignerMimeData::removeMovedWidgetsFromSourceForm(const QDesignerDnDItems
     // Find moved widgets per form
     const QDesignerDnDItems::const_iterator cend = items.constEnd();
     for (QDesignerDnDItems::const_iterator it = items.constBegin(); it != cend; ++it )
-        if ((*it)->type() ==  QDesignerDnDItemInterface::MoveDrop)
+        if ((*it)->type() ==  QExtDesignerDnDItemInterface::MoveDrop)
             if (QWidget *w = (*it)->widget())
                 if (FormWindowBase *fb = qobject_cast<FormWindowBase *>((*it)->source()))
                     formWidgetMap.insert(fb, w);

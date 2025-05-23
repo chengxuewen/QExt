@@ -47,7 +47,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 class QAction;
 class QWidget;
@@ -66,10 +66,10 @@ public:
     explicit FormLayoutMenu(QObject *parent);
 
     // Populate a list of actions with the form layout actions.
-    void populate(QWidget *w, QDesignerFormWindowInterface *fw, ActionList &actions);
-    // For implementing QDesignerTaskMenuExtension::preferredEditAction():
+    void populate(QWidget *w, QExtDesignerAbstractFormWindow *fw, ActionList &actions);
+    // For implementing QExtDesignerTaskMenuExtension::preferredEditAction():
     // Return appropriate action for double clicking.
-    QAction *preferredEditAction(QWidget *w, QDesignerFormWindowInterface *fw);
+    QAction *preferredEditAction(QWidget *w, QExtDesignerAbstractFormWindow *fw);
 
 private slots:
     void slotAddRow();

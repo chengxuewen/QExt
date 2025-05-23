@@ -45,7 +45,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 namespace qdesigner_internal {
 
@@ -59,12 +59,12 @@ class QDESIGNER_SHARED_EXPORT CodeDialog : public QDialog
 public:
     ~CodeDialog() override;
 
-    static bool generateCode(const QDesignerFormWindowInterface *fw,
+    static bool generateCode(const QExtDesignerAbstractFormWindow *fw,
                              UicLanguage language,
                              QString *code,
                              QString *errorMessage);
 
-    static bool showCodeDialog(const QDesignerFormWindowInterface *fw,
+    static bool showCodeDialog(const QExtDesignerAbstractFormWindow *fw,
                                UicLanguage language,
                                QWidget *parent,
                                QString *errorMessage);

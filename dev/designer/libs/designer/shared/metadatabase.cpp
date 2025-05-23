@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #include "widgetdatabase_p.h"
 
 // sdk
-#include <../sdk/abstractformeditor.h>
+#include <qextDesignerAbstractFormEditor.h>
 
 // Qt
 #include <QtWidgets/qwidget.h>
@@ -116,8 +116,8 @@ void MetaDataBaseItem::setFakeSignals(const QStringList &fs)
 }
 
 // -----------------------------------------------------
-MetaDataBase::MetaDataBase(QDesignerFormEditorInterface *core, QObject *parent)
-    : QDesignerMetaDataBaseInterface(parent),
+MetaDataBase::MetaDataBase(QExtDesignerAbstractFormEditor *core, QObject *parent)
+    : QExtDesignerAbstractMetaDataBase(parent),
       m_core(core)
 {
 }
@@ -179,7 +179,7 @@ QObjectList MetaDataBase::objects() const
     return result;
 }
 
-QDesignerFormEditorInterface *MetaDataBase::core() const
+QExtDesignerAbstractFormEditor *MetaDataBase::core() const
 {
     return m_core;
 }
@@ -194,7 +194,7 @@ void MetaDataBase::slotDestroyed(QObject *object)
 }
 
 // promotion convenience
-QDESIGNER_SHARED_EXPORT bool promoteWidget(QDesignerFormEditorInterface *core,QWidget *widget,const QString &customClassName)
+QDESIGNER_SHARED_EXPORT bool promoteWidget(QExtDesignerAbstractFormEditor *core,QWidget *widget,const QString &customClassName)
 {
 
     MetaDataBase *db = qobject_cast<MetaDataBase *>(core->metaDataBase());
@@ -218,7 +218,7 @@ QDESIGNER_SHARED_EXPORT bool promoteWidget(QDesignerFormEditorInterface *core,QW
     return true;
 }
 
-QDESIGNER_SHARED_EXPORT void demoteWidget(QDesignerFormEditorInterface *core,QWidget *widget)
+QDESIGNER_SHARED_EXPORT void demoteWidget(QExtDesignerAbstractFormEditor *core,QWidget *widget)
 {
     MetaDataBase *db = qobject_cast<MetaDataBase *>(core->metaDataBase());
     if (!db)
@@ -230,7 +230,7 @@ QDESIGNER_SHARED_EXPORT void demoteWidget(QDesignerFormEditorInterface *core,QWi
     }
 }
 
-QDESIGNER_SHARED_EXPORT bool isPromoted(QDesignerFormEditorInterface *core, QWidget* widget)
+QDESIGNER_SHARED_EXPORT bool isPromoted(QExtDesignerAbstractFormEditor *core, QWidget* widget)
 {
     const MetaDataBase *db = qobject_cast<const MetaDataBase *>(core->metaDataBase());
     if (!db)
@@ -241,7 +241,7 @@ QDESIGNER_SHARED_EXPORT bool isPromoted(QDesignerFormEditorInterface *core, QWid
     return !item->customClassName().isEmpty();
 }
 
-QDESIGNER_SHARED_EXPORT QString promotedCustomClassName(QDesignerFormEditorInterface *core, QWidget* widget)
+QDESIGNER_SHARED_EXPORT QString promotedCustomClassName(QExtDesignerAbstractFormEditor *core, QWidget* widget)
 {
     const MetaDataBase *db = qobject_cast<const MetaDataBase *>(core->metaDataBase());
     if (!db)
@@ -252,7 +252,7 @@ QDESIGNER_SHARED_EXPORT QString promotedCustomClassName(QDesignerFormEditorInter
     return item->customClassName();
 }
 
-QDESIGNER_SHARED_EXPORT QString promotedExtends(QDesignerFormEditorInterface *core, QWidget* widget)
+QDESIGNER_SHARED_EXPORT QString promotedExtends(QExtDesignerAbstractFormEditor *core, QWidget* widget)
 {
     const QString customClassName = promotedCustomClassName(core,widget);
     if (customClassName.isEmpty())

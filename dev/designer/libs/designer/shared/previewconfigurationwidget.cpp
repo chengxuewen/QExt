@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,12 +31,12 @@
 #include "previewmanager_p.h"
 #include "shared_settings_p.h"
 
-#include <iconloader_p.h>
-#include <stylesheeteditor_p.h>
+#include "../shared/iconloader_p.h"
+#include "../shared/stylesheeteditor_p.h"
 
-#include <deviceskin.h>
+#include "../../deviceskin/deviceskin.h"
 
-#include <../sdk/abstractsettings.h>
+#include <qextDesignerAbstractSettings.h>
 
 #include <QtWidgets/qfiledialog.h>
 #include <QtWidgets/qstylefactory.h>
@@ -83,7 +83,7 @@ namespace qdesigner_internal {
 // ------------- PreviewConfigurationWidgetPrivate
 class PreviewConfigurationWidget::PreviewConfigurationWidgetPrivate {
 public:
-    PreviewConfigurationWidgetPrivate(QDesignerFormEditorInterface *core, QGroupBox *g);
+    PreviewConfigurationWidgetPrivate(QExtDesignerAbstractFormEditor *core, QGroupBox *g);
 
     void slotEditAppStyleSheet();
     void slotDeleteSkinEntry();
@@ -96,7 +96,7 @@ public:
     QAbstractButton *skinRemoveButton() const { return m_ui.m_skinRemoveButton; }
     QComboBox *skinCombo() const { return m_ui.m_skinCombo; }
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
 
 private:
     PreviewConfiguration previewConfiguration() const;
@@ -117,7 +117,7 @@ private:
 };
 
 PreviewConfigurationWidget::PreviewConfigurationWidgetPrivate::PreviewConfigurationWidgetPrivate(
-        QDesignerFormEditorInterface *core, QGroupBox *g) :
+        QExtDesignerAbstractFormEditor *core, QGroupBox *g) :
     m_core(core),
     m_defaultStyle(PreviewConfigurationWidget::tr("Default")),
     m_parent(g),
@@ -308,7 +308,7 @@ int  PreviewConfigurationWidget::PreviewConfigurationWidgetPrivate::browseSkin()
 }
 
 // ------------- PreviewConfigurationWidget
-PreviewConfigurationWidget::PreviewConfigurationWidget(QDesignerFormEditorInterface *core,
+PreviewConfigurationWidget::PreviewConfigurationWidget(QExtDesignerAbstractFormEditor *core,
                                                        QWidget *parent) :
     QGroupBox(parent),
     m_impl(new PreviewConfigurationWidgetPrivate(core, this))

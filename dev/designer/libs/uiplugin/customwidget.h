@@ -36,7 +36,7 @@
 QT_BEGIN_NAMESPACE
 
 class QWidget;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 class QDesignerCustomWidgetInterface
 {
@@ -55,7 +55,7 @@ public:
     virtual QWidget *createWidget(QWidget *parent) = 0;
 
     virtual bool isInitialized() const { return false; }
-    virtual void initialize(QDesignerFormEditorInterface *core) { Q_UNUSED(core); }
+    virtual void initialize(QExtDesignerAbstractFormEditor *core) { Q_UNUSED(core); }
 
     virtual QString domXml() const
     {

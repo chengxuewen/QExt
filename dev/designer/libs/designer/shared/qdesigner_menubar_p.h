@@ -50,7 +50,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QDesignerActionProviderExtension;
 
 class QLineEdit;
@@ -78,7 +78,7 @@ public:
 
     bool eventFilter(QObject *object, QEvent *event) override;
 
-    QDesignerFormWindowInterface *formWindow() const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
     QDesignerActionProviderExtension *actionProvider();
 
     void adjustSpecialActions();

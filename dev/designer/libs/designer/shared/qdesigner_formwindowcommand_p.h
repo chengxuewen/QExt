@@ -47,9 +47,9 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerFormWindowInterface;
-class QDesignerPropertySheetExtension;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerPropertySheetExtension;
 
 namespace qdesigner_internal {
 
@@ -58,24 +58,24 @@ class QDESIGNER_SHARED_EXPORT QDesignerFormWindowCommand: public QUndoCommand
 
 public:
     QDesignerFormWindowCommand(const QString &description,
-                               QDesignerFormWindowInterface *formWindow,
+                               QExtDesignerAbstractFormWindow *formWindow,
                                QUndoCommand *parent = nullptr);
 
     void undo() override;
     void redo() override;
 
-    static void updateBuddies(QDesignerFormWindowInterface *form,
+    static void updateBuddies(QExtDesignerAbstractFormWindow *form,
                               const QString &old_name, const QString &new_name);
 protected:
-    QDesignerFormWindowInterface *formWindow() const;
-    QDesignerFormEditorInterface *core() const;
-    QDesignerPropertySheetExtension* propertySheet(QObject *object) const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
+    QExtDesignerAbstractFormEditor *core() const;
+    QExtDesignerPropertySheetExtension* propertySheet(QObject *object) const;
 
     void cheapUpdate();
 
     void selectUnmanagedObject(QObject *unmanagedObject);
 private:
-    QPointer<QDesignerFormWindowInterface> m_formWindow;
+    QPointer<QExtDesignerAbstractFormWindow> m_formWindow;
 };
 
 } // namespace qdesigner_internal

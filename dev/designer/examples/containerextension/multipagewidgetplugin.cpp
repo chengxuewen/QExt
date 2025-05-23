@@ -50,10 +50,10 @@
 
 #include <QtDesigner/QExtensionFactory>
 #include <QtDesigner/QExtensionManager>
-#include <QtDesigner/QDesignerFormEditorInterface>
-#include <QtDesigner/QDesignerFormWindowInterface>
-#include <QtDesigner/QDesignerContainerExtension>
-#include <QtDesigner/QDesignerPropertySheetExtension>
+#include <QtDesigner/QExtDesignerAbstractFormEditor>
+#include <QtDesigner/QExtDesignerAbstractFormWindow>
+#include <QtDesigner/QExtDesignerContainerExtension>
+#include <QtDesigner/QExtDesignerPropertySheetExtension>
 
 #include <QIcon>
 #include <QtPlugin>
@@ -123,7 +123,7 @@ bool MultiPageWidgetPlugin::isInitialized() const
 //! [3]
 
 //! [4]
-void MultiPageWidgetPlugin::initialize(QDesignerFormEditorInterface *formEditor)
+void MultiPageWidgetPlugin::initialize(QExtDesignerAbstractFormEditor *formEditor)
 {
     if (initialized)
         return;
@@ -135,7 +135,7 @@ void MultiPageWidgetPlugin::initialize(QDesignerFormEditorInterface *formEditor)
     QExtensionFactory *factory = new MultiPageWidgetExtensionFactory(manager);
 
     Q_ASSERT(manager != 0);
-    manager->registerExtensions(factory, Q_TYPEID(QDesignerContainerExtension));
+    manager->registerExtensions(factory, Q_TYPEID(QExtDesignerContainerExtension));
 
     initialized = true;
 }
@@ -167,7 +167,7 @@ void MultiPageWidgetPlugin::currentIndexChanged(int index)
     MultiPageWidget *widget = qobject_cast<MultiPageWidget*>(sender());
 //! [8] //! [9]
     if (widget) {
-        QDesignerFormWindowInterface *form = QDesignerFormWindowInterface::findFormWindow(widget);
+        QExtDesignerAbstractFormWindow *form = QExtDesignerAbstractFormWindow::findFormWindow(widget);
         if (form)
             form->emitSelectionChanged();
     }
@@ -182,16 +182,16 @@ void MultiPageWidgetPlugin::pageTitleChanged(const QString &title)
 //! [10] //! [11]
     if (widget) {
         QWidget *page = widget->widget(widget->currentIndex());
-        QDesignerFormWindowInterface *form;
-        form = QDesignerFormWindowInterface::findFormWindow(widget);
+        QExtDesignerAbstractFormWindow *form;
+        form = QExtDesignerAbstractFormWindow::findFormWindow(widget);
 //! [11]
         if (form) {
 //! [12]
-            QDesignerFormEditorInterface *editor = form->core();
+            QExtDesignerAbstractFormEditor *editor = form->core();
             QExtensionManager *manager = editor->extensionManager();
 //! [12] //! [13]
-            QDesignerPropertySheetExtension *sheet;
-            sheet = qt_extension<QDesignerPropertySheetExtension*>(manager, page);
+            QExtDesignerPropertySheetExtension *sheet;
+            sheet = qt_extension<QExtDesignerPropertySheetExtension*>(manager, page);
             const int propertyIndex = sheet->indexOf(QLatin1String("windowTitle"));
             sheet->setChanged(propertyIndex, true);
         }

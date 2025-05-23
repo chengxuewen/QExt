@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QTabWidget;
 class QToolBar;
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 
@@ -59,7 +59,7 @@ class QDESIGNER_SHARED_EXPORT RichTextEditorDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit RichTextEditorDialog(QDesignerFormEditorInterface *core, QWidget *parent = nullptr);
+    explicit RichTextEditorDialog(QExtDesignerAbstractFormEditor *core, QWidget *parent = nullptr);
     ~RichTextEditorDialog();
 
     int showDialog();
@@ -79,7 +79,7 @@ private:
     QTextEdit      *m_text_edit;
     QTabWidget     *m_tab_widget;
     State m_state;
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     int m_initialTab;
 };
 

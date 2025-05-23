@@ -46,8 +46,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerWidgetDataBaseItemInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerWidgetDataBaseItemInterface;
 
 namespace qdesigner_internal {
 
@@ -59,12 +59,12 @@ namespace qdesigner_internal {
         struct ModelData {
             bool isValid() const { return promotedItem != nullptr; }
 
-            QDesignerWidgetDataBaseItemInterface *baseItem{nullptr};
-            QDesignerWidgetDataBaseItemInterface *promotedItem{nullptr};
+            QExtDesignerWidgetDataBaseItemInterface *baseItem{nullptr};
+            QExtDesignerWidgetDataBaseItemInterface *promotedItem{nullptr};
             bool referenced{false};
         };
 
-        explicit PromotionModel(QDesignerFormEditorInterface *core);
+        explicit PromotionModel(QExtDesignerAbstractFormEditor *core);
 
         void updateFromWidgetDatabase();
 
@@ -74,8 +74,8 @@ namespace qdesigner_internal {
         QModelIndex indexOfClass(const QString &className) const;
 
    signals:
-        void includeFileChanged(QDesignerWidgetDataBaseItemInterface *, const QString &includeFile);
-        void classNameChanged(QDesignerWidgetDataBaseItemInterface *, const QString &newName);
+        void includeFileChanged(QExtDesignerWidgetDataBaseItemInterface *, const QString &includeFile);
+        void classNameChanged(QExtDesignerWidgetDataBaseItemInterface *, const QString &newName);
 
     private slots:
         void slotItemChanged(QStandardItem * item);
@@ -83,7 +83,7 @@ namespace qdesigner_internal {
     private:
         void initializeHeaders();
 
-        QDesignerFormEditorInterface *m_core;
+        QExtDesignerAbstractFormEditor *m_core;
     };
 } // namespace qdesigner_internal
 

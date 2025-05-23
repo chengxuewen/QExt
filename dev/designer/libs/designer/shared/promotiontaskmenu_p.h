@@ -49,8 +49,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerAbstractFormEditor;
 
 class QAction;
 class QMenu;
@@ -88,15 +88,15 @@ public:
     enum AddFlags { LeadingSeparator = 1, TrailingSeparator = 2, SuppressGlobalEdit = 4};
 
     // Adds a list of promotion actions according to the current promotion state of the widget.
-    void addActions(QDesignerFormWindowInterface *fw, unsigned flags, ActionList &actionList);
+    void addActions(QExtDesignerAbstractFormWindow *fw, unsigned flags, ActionList &actionList);
     // Convenience that finds the form window.
     void addActions(unsigned flags, ActionList &actionList);
 
-    void addActions(QDesignerFormWindowInterface *fw, unsigned flags, QMenu *menu);
+    void addActions(QExtDesignerAbstractFormWindow *fw, unsigned flags, QMenu *menu);
     void addActions(unsigned flags, QMenu *menu);
 
     // Pop up the editor in a global context.
-    static void editPromotedWidgets(QDesignerFormEditorInterface *core, QWidget* parent);
+    static void editPromotedWidgets(QExtDesignerAbstractFormEditor *core, QWidget* parent);
 
 private slots:
     void slotPromoteToCustomWidget(const QString &customClassName);
@@ -106,14 +106,14 @@ private slots:
     void slotEditSignalsSlots();
 
 private:
-    void promoteTo(QDesignerFormWindowInterface *fw, const QString &customClassName);
+    void promoteTo(QExtDesignerAbstractFormWindow *fw, const QString &customClassName);
 
     enum PromotionState { NotApplicable, NoHomogenousSelection, CanPromote, CanDemote };
-    PromotionState createPromotionActions(QDesignerFormWindowInterface *formWindow);
-    QDesignerFormWindowInterface *formWindow() const;
+    PromotionState createPromotionActions(QExtDesignerAbstractFormWindow *formWindow);
+    QExtDesignerAbstractFormWindow *formWindow() const;
 
     using PromotionSelectionList = QVector<QPointer<QWidget> >;
-    PromotionSelectionList promotionSelectionList(QDesignerFormWindowInterface *formWindow) const;
+    PromotionSelectionList promotionSelectionList(QExtDesignerAbstractFormWindow *formWindow) const;
 
     Mode m_mode;
 

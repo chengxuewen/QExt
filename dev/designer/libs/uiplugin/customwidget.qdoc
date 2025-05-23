@@ -58,7 +58,7 @@
 
     After \QD loads a custom widget plugin, it calls the interface's
     initialize() function to enable it to set up any resources that it
-    may need. This function is called with a QDesignerFormEditorInterface
+    may need. This function is called with a QExtDesignerAbstractFormEditor
     parameter that provides the plugin with a gateway to all of \QD's API.
 
     \QD constructs instances of the custom widget by calling the plugin's
@@ -190,7 +190,7 @@
 */
 
 /*!
-    \fn void QDesignerCustomWidgetInterface::initialize(QDesignerFormEditorInterface *formEditor)
+    \fn void QDesignerCustomWidgetInterface::initialize(QExtDesignerAbstractFormEditor *formEditor)
 
     Initializes the widget for use with the specified \a formEditor
     interface.

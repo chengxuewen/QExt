@@ -59,19 +59,19 @@ public:
 
     explicit MorphMenu(QObject *parent = nullptr);
 
-    void populate(QWidget *w, QDesignerFormWindowInterface *fw, ActionList& al);
-    void populate(QWidget *w, QDesignerFormWindowInterface *fw, QMenu& m);
+    void populate(QWidget *w, QExtDesignerAbstractFormWindow *fw, ActionList& al);
+    void populate(QWidget *w, QExtDesignerAbstractFormWindow *fw, QMenu& m);
 
 private slots:
     void slotMorph(const QString &newClassName);
 
 private:
-    bool populateMenu(QWidget *w, QDesignerFormWindowInterface *fw);
+    bool populateMenu(QWidget *w, QExtDesignerAbstractFormWindow *fw);
 
     QAction *m_subMenuAction = nullptr;
     QMenu *m_menu = nullptr;
     QWidget *m_widget = nullptr;
-    QDesignerFormWindowInterface *m_formWindow = nullptr;
+    QExtDesignerAbstractFormWindow *m_formWindow = nullptr;
 };
 
 } // namespace qdesigner_internal

@@ -90,7 +90,7 @@ bool QQuickWidgetPlugin::isInitialized() const
     return m_initialized;
 }
 
-void QQuickWidgetPlugin::initialize(QDesignerFormEditorInterface * /*core*/)
+void QQuickWidgetPlugin::initialize(QExtDesignerAbstractFormEditor * /*core*/)
 {
     if (m_initialized)
         return;

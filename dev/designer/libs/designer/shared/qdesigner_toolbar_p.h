@@ -50,7 +50,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QToolBar;
 class QRect;
 class QAction;
@@ -80,7 +80,7 @@ public:
     static QRect freeArea(const QToolBar *tb);
 
     // Utility to create an action
-    static QAction *createAction(QDesignerFormWindowInterface *fw, const QString &objectName, bool separator);
+    static QAction *createAction(QExtDesignerAbstractFormWindow *fw, const QString &objectName, bool separator);
 
     bool eventFilter (QObject *watched, QEvent *event) override;
 
@@ -105,7 +105,7 @@ private:
     bool handleMouseReleaseEvent(QMouseEvent *event);
     bool handleMouseMoveEvent(QMouseEvent *event);
 
-    QDesignerFormWindowInterface *formWindow() const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
     void adjustDragIndicator(const QPoint &pos);
     void hideDragIndicator();
     void startDrag(const QPoint &pos, Qt::KeyboardModifiers modifiers);

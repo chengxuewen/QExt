@@ -47,8 +47,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
-class QDesignerSettingsInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerSettingsInterface;
 
 namespace qdesigner_internal {
 
@@ -58,7 +58,7 @@ class QDESIGNER_SHARED_EXPORT PreviewConfigurationWidget : public QGroupBox
 {
     Q_OBJECT
 public:
-    explicit PreviewConfigurationWidget(QDesignerFormEditorInterface *core,
+    explicit PreviewConfigurationWidget(QExtDesignerAbstractFormEditor *core,
                                         QWidget *parent = nullptr);
     ~PreviewConfigurationWidget() override;
     void saveState();

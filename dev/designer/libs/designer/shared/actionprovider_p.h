@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -40,7 +40,8 @@
 // We mean it.
 //
 
-#include <../extension/extension.h>
+#include <qextDesignerExtension.h>
+
 #include <QtCore/qpoint.h>
 #include <QtCore/qrect.h>
 #include <QtWidgets/qapplication.h>

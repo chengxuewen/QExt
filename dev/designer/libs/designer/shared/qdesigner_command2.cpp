@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,8 +33,8 @@
 #include "widgetfactory_p.h"
 #include "qlayout_widget_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractmetadatabase.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractMetaDataBase.h>
 
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qlayout.h>
@@ -43,7 +43,7 @@ QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
-MorphLayoutCommand::MorphLayoutCommand(QDesignerFormWindowInterface *formWindow) :
+MorphLayoutCommand::MorphLayoutCommand(QExtDesignerAbstractFormWindow *formWindow) :
     QDesignerFormWindowCommand(QString(), formWindow),
     m_breakLayoutCommand(new BreakLayoutCommand(formWindow)),
     m_layoutCommand(new LayoutCommand(formWindow)),
@@ -61,7 +61,7 @@ MorphLayoutCommand::~MorphLayoutCommand()
 bool MorphLayoutCommand::init(QWidget *w, int newType)
 {
     int oldType;
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     if (!canMorph(fw, w, &oldType) || oldType == newType)
         return false;
     m_layoutBase = w;
@@ -82,13 +82,13 @@ bool MorphLayoutCommand::init(QWidget *w, int newType)
     return true;
 }
 
-bool MorphLayoutCommand::canMorph(const QDesignerFormWindowInterface *formWindow, QWidget *w, int *ptrToCurrentType)
+bool MorphLayoutCommand::canMorph(const QExtDesignerAbstractFormWindow *formWindow, QWidget *w, int *ptrToCurrentType)
 {
     if (ptrToCurrentType)
         *ptrToCurrentType = LayoutInfo::NoLayout;
     // We want a managed widget or a container page
     // with a level-0 managed layout
-    QDesignerFormEditorInterface *core = formWindow->core();
+    QExtDesignerAbstractFormEditor *core = formWindow->core();
     QLayout *layout = LayoutInfo::managedLayout(core, w);
     if (!layout)
         return false;
@@ -133,7 +133,7 @@ void MorphLayoutCommand::undo()
     m_breakLayoutCommand->undo();
 }
 
-QString MorphLayoutCommand::formatDescription(QDesignerFormEditorInterface * /* core*/, const QWidget *w, int oldType, int newType)
+QString MorphLayoutCommand::formatDescription(QExtDesignerAbstractFormEditor * /* core*/, const QWidget *w, int oldType, int newType)
 {
     const QString oldName = LayoutInfo::layoutName(static_cast<LayoutInfo::Type>(oldType));
     const QString newName = LayoutInfo::layoutName(static_cast<LayoutInfo::Type>(newType));
@@ -141,7 +141,7 @@ QString MorphLayoutCommand::formatDescription(QDesignerFormEditorInterface * /* 
     return QApplication::translate("Command", "Change layout of '%1' from %2 to %3").arg(widgetName, oldName, newName);
 }
 
-LayoutAlignmentCommand::LayoutAlignmentCommand(QDesignerFormWindowInterface *formWindow) :
+LayoutAlignmentCommand::LayoutAlignmentCommand(QExtDesignerAbstractFormWindow *formWindow) :
     QDesignerFormWindowCommand(QApplication::translate("Command", "Change layout alignment"), formWindow),
     m_widget(nullptr)
 {
@@ -167,7 +167,7 @@ void LayoutAlignmentCommand::undo()
 }
 
 // Find out alignment and return whether command is enabled.
-Qt::Alignment LayoutAlignmentCommand::alignmentOf(const QDesignerFormEditorInterface *core, QWidget *w, bool *enabledIn)
+Qt::Alignment LayoutAlignmentCommand::alignmentOf(const QExtDesignerAbstractFormEditor *core, QWidget *w, bool *enabledIn)
 {
     bool managed;
     QLayout *layout;
@@ -189,7 +189,7 @@ Qt::Alignment LayoutAlignmentCommand::alignmentOf(const QDesignerFormEditorInter
     return layout->itemAt(index)->alignment();
 }
 
-void LayoutAlignmentCommand::applyAlignment(const QDesignerFormEditorInterface *core, QWidget *w, Qt::Alignment a)
+void LayoutAlignmentCommand::applyAlignment(const QExtDesignerAbstractFormEditor *core, QWidget *w, Qt::Alignment a)
 {
     // Find layout and apply to item
     QLayout *layout;

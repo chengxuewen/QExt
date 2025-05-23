@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,10 +41,12 @@
 #define QDESIGNER_PROPERTYSHEET_H
 
 #include "shared_global_p.h"
-#include "../sdk/dynamicpropertysheet.h"
-#include "../sdk/propertysheet.h"
-#include "../extension/default_extensionfactory.h"
-#include "../extension/qextensionmanager.h"
+
+#include <qextDesignerDynamicPropertySheetExtension.h>
+#include <qextDesignerPropertySheetExtension.h>
+
+#include <qextDesignerExtensionFactory.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qpair.h>
@@ -54,7 +56,7 @@
 QT_BEGIN_NAMESPACE
 
 class QLayout;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QDesignerPropertySheetPrivate;
 
 namespace qdesigner_internal
@@ -64,10 +66,10 @@ namespace qdesigner_internal
     class FormWindowBase;
 }
 
-class QDESIGNER_SHARED_EXPORT QDesignerPropertySheet: public QObject, public QDesignerPropertySheetExtension, public QDesignerDynamicPropertySheetExtension
+class QDESIGNER_SHARED_EXPORT QDesignerPropertySheet: public QObject, public QExtDesignerPropertySheetExtension, public QExtDesignerDynamicPropertySheetExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerPropertySheetExtension QDesignerDynamicPropertySheetExtension)
+    Q_INTERFACES(QExtDesignerPropertySheetExtension QExtDesignerDynamicPropertySheetExtension)
 public:
     explicit QDesignerPropertySheet(QObject *object, QObject *parent = nullptr);
     ~QDesignerPropertySheet() override;
@@ -130,7 +132,7 @@ protected:
     bool isFakeLayoutProperty(int index) const;
     bool isDynamic(int index) const;
     qdesigner_internal::FormWindowBase *formWindowBase() const;
-    QDesignerFormEditorInterface *core() const;
+    QExtDesignerAbstractFormEditor *core() const;
 
 public:
     enum PropertyType { PropertyNone,
@@ -189,7 +191,7 @@ private:
 };
 
 /* Abstract base class for factories that register a property sheet that implements
- * both QDesignerPropertySheetExtension and QDesignerDynamicPropertySheetExtension
+ * both QExtDesignerPropertySheetExtension and QExtDesignerDynamicPropertySheetExtension
  * by multiple inheritance. The factory maintains ownership of
  * the extension and returns it for both id's. */
 
@@ -214,7 +216,7 @@ private:
 };
 
 /* Convenience factory template for property sheets that implement
- * QDesignerPropertySheetExtension and QDesignerDynamicPropertySheetExtension
+ * QExtDesignerPropertySheetExtension and QExtDesignerDynamicPropertySheetExtension
  * by multiple inheritance. */
 
 template <class Object, class PropertySheet>
@@ -248,8 +250,8 @@ template <class Object, class PropertySheet>
 void QDesignerPropertySheetFactory<Object, PropertySheet>::registerExtension(QExtensionManager *mgr)
 {
     QDesignerPropertySheetFactory *factory = new QDesignerPropertySheetFactory(mgr);
-    mgr->registerExtensions(factory, Q_TYPEID(QDesignerPropertySheetExtension));
-    mgr->registerExtensions(factory, Q_TYPEID(QDesignerDynamicPropertySheetExtension));
+    mgr->registerExtensions(factory, Q_TYPEID(QExtDesignerPropertySheetExtension));
+    mgr->registerExtensions(factory, Q_TYPEID(QExtDesignerDynamicPropertySheetExtension));
 }
 
 

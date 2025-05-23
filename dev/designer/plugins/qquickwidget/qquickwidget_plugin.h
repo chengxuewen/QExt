@@ -51,7 +51,7 @@ public:
     bool isContainer() const override;
     QWidget *createWidget(QWidget *parent) override;
     bool isInitialized() const override;
-    void initialize(QDesignerFormEditorInterface *core) override;
+    void initialize(QExtDesignerAbstractFormEditor *core) override;
     QString domXml() const override;
 
 private slots:

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,11 +30,11 @@
 #include "qdesigner_widget_p.h"
 #include "widgetfactory_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/container.h>
-#include <../sdk/abstractwidgetdatabase.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qgridlayout.h>
@@ -203,7 +203,7 @@ static Qt::Orientations layoutOrientation(const QLayout *layout)
 }
 
 // Check for a non-container extension container
-bool  QDesignerWidgetItem::isContainer(const QDesignerFormEditorInterface *core, QWidget *w)
+bool  QDesignerWidgetItem::isContainer(const QExtDesignerAbstractFormEditor *core, QWidget *w)
 {
     if (!WidgetFactory::isFormEditorObject(w))
         return false;
@@ -211,7 +211,7 @@ bool  QDesignerWidgetItem::isContainer(const QDesignerFormEditorInterface *core,
     const int widx = wdb->indexOfObject(w);
     if (widx == -1 || !wdb->item(widx)->isContainer())
         return false;
-    if (qt_extension<QDesignerContainerExtension*>(core->extensionManager(), w))
+    if (qt_extension<QExtDesignerContainerExtension*>(core->extensionManager(), w))
         return false;
     return true;
 }
@@ -230,7 +230,7 @@ bool QDesignerWidgetItem::check(const QLayout *layout, QWidget *w, Qt::Orientati
     if (!layoutParent || !layoutParent->isWidgetType() || !WidgetFactory::isFormEditorObject(layoutParent))
         return false;
 
-    QDesignerFormWindowInterface *fw = QDesignerFormWindowInterface::findFormWindow(w);
+    QExtDesignerAbstractFormWindow *fw = QExtDesignerAbstractFormWindow::findFormWindow(w);
     if (!fw || !isContainer(fw->core(), w))
         return false;
 
@@ -267,6 +267,7 @@ void QDesignerWidgetItem::setNonLaidOutSizeHint(const QSize &s)
 
 void QDesignerWidgetItem::install()
 {
+    // QLayout
     QLayoutPrivate::widgetItemFactoryMethod = createDesignerWidgetItem;
 }
 

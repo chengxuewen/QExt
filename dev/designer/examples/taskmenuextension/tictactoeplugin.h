@@ -79,7 +79,7 @@ public:
     bool isContainer() const override;
     QWidget *createWidget(QWidget *parent) override;
     bool isInitialized() const override;
-    void initialize(QDesignerFormEditorInterface *formEditor) override;
+    void initialize(QExtDesignerAbstractFormEditor *formEditor) override;
     QString domXml() const override;
 
 private:

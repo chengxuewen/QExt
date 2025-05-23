@@ -47,7 +47,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormEditor;
 class QWidget;
 class QStyle;
 
@@ -113,7 +113,7 @@ public:
          * sub properties. */
         ApplyPreview
     };
-    void apply(const QDesignerFormEditorInterface *core, QWidget *widget, ApplyMode am) const;
+    void apply(const QExtDesignerAbstractFormEditor *core, QWidget *widget, ApplyMode am) const;
 
     static void applyDPI(int dpiX, int dpiY, QWidget *widget);
 

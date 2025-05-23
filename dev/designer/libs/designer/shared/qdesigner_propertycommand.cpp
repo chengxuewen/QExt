@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,22 +28,21 @@
 
 #include "qdesigner_propertycommand_p.h"
 #include "qdesigner_utils_p.h"
-#include "dynamicpropertysheet.h"
 #include "qdesigner_propertyeditor_p.h"
 #include "spacer_widget_p.h"
 #include "qdesigner_propertysheet_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractintegration.h>
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractformwindowcursor.h>
-#include <../sdk/dynamicpropertysheet.h>
-#include <../sdk/propertysheet.h>
-#include <../sdk/abstractpropertyeditor.h>
-#include <../sdk/abstractobjectinspector.h>
-#include <../sdk/abstractintegration.h>
-#include <../sdk/abstractwidgetdatabase.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractFormWindowCursor.h>
+#include <qextDesignerDynamicPropertySheetExtension.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractPropertyEditor.h>
+#include <qextDesignerAbstractObjectInspector.h>
+#include <qextDesignerAbstractIntegration.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
+#include <qextDesignerExtensionManager.h>
 
 #include <QtCore/qsize.h>
 #include <QtCore/qtextstream.h>
@@ -111,7 +110,7 @@ QSize checkSize(const QSize &size)
     return size.boundedTo(QSize(0xFFFFFF, 0xFFFFFF));
 }
 
-QSize diffSize(QDesignerFormWindowInterface *fw)
+QSize diffSize(QExtDesignerAbstractFormWindow *fw)
 {
     const QWidget *container = fw->core()->integration()->containerWindow(fw);
     if (!container)
@@ -121,7 +120,7 @@ QSize diffSize(QDesignerFormWindowInterface *fw)
     return diff;
 }
 
-void checkSizes(QDesignerFormWindowInterface *fw, const QSize &size, QSize *formSize, QSize *containerSize)
+void checkSizes(QExtDesignerAbstractFormWindow *fw, const QSize &size, QSize *formSize, QSize *containerSize)
 {
     const QWidget *container = fw->core()->integration()->containerWindow(fw);
     if (!container)
@@ -633,7 +632,7 @@ enum SpecialProperty getSpecialProperty(const QString& propertyName)
 
 PropertyHelper::PropertyHelper(QObject* object,
                                SpecialProperty specialProperty,
-                               QDesignerPropertySheetExtension *sheet,
+                               QExtDesignerPropertySheetExtension *sheet,
                                int index) :
     m_specialProperty(specialProperty),
     m_object(object),
@@ -653,18 +652,18 @@ PropertyHelper::PropertyHelper(QObject* object,
         qDebug() << "PropertyHelper on " << m_object->objectName() << " index= " << m_index << " type = " << m_objectType;
 }
 
-QDesignerIntegration *PropertyHelper::integration(QDesignerFormWindowInterface *fw) const
+QExtDesignerIntegration *PropertyHelper::integration(QExtDesignerAbstractFormWindow *fw) const
 {
-    return qobject_cast<QDesignerIntegration *>(fw->core()->integration());
+    return qobject_cast<QExtDesignerIntegration *>(fw->core()->integration());
 }
 
 // Set widget value, apply corrections and checks in case of main window.
-void PropertyHelper::checkApplyWidgetValue(QDesignerFormWindowInterface *fw, QWidget* w,
+void PropertyHelper::checkApplyWidgetValue(QExtDesignerAbstractFormWindow *fw, QWidget* w,
                                       SpecialProperty specialProperty, QVariant &value)
 {
 
     bool isMainContainer = false;
-    if (QDesignerFormWindowCursorInterface *cursor = fw->cursor()) {
+    if (QExtDesignerFormWindowCursorInterface *cursor = fw->cursor()) {
         if (cursor->isWidgetSelected(w)) {
             if (cursor->isWidgetSelected(fw->mainContainer())) {
                 isMainContainer = true;
@@ -749,7 +748,7 @@ void PropertyHelper::triggerActionChanged(QAction *a)
 }
 
 // Update the object to reflect the changes
-void PropertyHelper::updateObject(QDesignerFormWindowInterface *fw, const QVariant &oldValue, const QVariant &newValue)
+void PropertyHelper::updateObject(QExtDesignerAbstractFormWindow *fw, const QVariant &oldValue, const QVariant &newValue)
 {
     if(debugPropertyCommands){
          qDebug() << "PropertyHelper::updateObject(" << m_object->objectName() << ") " << oldValue << " -> " << newValue;
@@ -781,7 +780,7 @@ void PropertyHelper::updateObject(QDesignerFormWindowInterface *fw, const QVaria
     case SP_ObjectName:
     case SP_LayoutName:
     case SP_SpacerName:
-        if (QDesignerIntegration *integr = integration(fw)) {
+        if (QExtDesignerIntegration *integr = integration(fw)) {
             const QString oldName = qvariant_cast<PropertySheetStringValue>(oldValue).value();
             const QString newName = qvariant_cast<PropertySheetStringValue>(newValue).value();
             integr->emitObjectNameChanged(fw, m_object, newName, oldName);
@@ -792,7 +791,7 @@ void PropertyHelper::updateObject(QDesignerFormWindowInterface *fw, const QVaria
     }
 }
 
-void PropertyHelper::ensureUniqueObjectName(QDesignerFormWindowInterface *fw, QObject *object) const
+void PropertyHelper::ensureUniqueObjectName(QExtDesignerAbstractFormWindow *fw, QObject *object) const
 {
     switch (m_specialProperty) {
     case SP_SpacerName:
@@ -822,7 +821,7 @@ void PropertyHelper::ensureUniqueObjectName(QDesignerFormWindowInterface *fw, QO
     }
 }
 
-PropertyHelper::Value PropertyHelper::setValue(QDesignerFormWindowInterface *fw, const QVariant &value, bool changed, unsigned subPropertyMask)
+PropertyHelper::Value PropertyHelper::setValue(QExtDesignerAbstractFormWindow *fw, const QVariant &value, bool changed, unsigned subPropertyMask)
 {
     // Set new whole value
     if (subPropertyMask == SubPropertyAll)
@@ -834,7 +833,7 @@ PropertyHelper::Value PropertyHelper::setValue(QDesignerFormWindowInterface *fw,
 }
 
 // Apply the value and update. Returns corrected value
-PropertyHelper::Value PropertyHelper::applyValue(QDesignerFormWindowInterface *fw, const QVariant &oldValue, Value newValue)
+PropertyHelper::Value PropertyHelper::applyValue(QExtDesignerAbstractFormWindow *fw, const QVariant &oldValue, Value newValue)
 {
      if(debugPropertyCommands){
          qDebug() << "PropertyHelper::applyValue(" << m_object << ") " << oldValue << " -> " << newValue.first << " changed=" << newValue.second;
@@ -862,13 +861,13 @@ PropertyHelper::Value PropertyHelper::applyValue(QDesignerFormWindowInterface *f
     return newValue;
 }
 
-PropertyHelper::Value PropertyHelper::restoreOldValue(QDesignerFormWindowInterface *fw)
+PropertyHelper::Value PropertyHelper::restoreOldValue(QExtDesignerAbstractFormWindow *fw)
 {
     return applyValue(fw, m_propertySheet->property(m_index), m_oldValue);
 }
 
 // find the default value in widget DB in case PropertySheet::reset fails
-QVariant PropertyHelper::findDefaultValue(QDesignerFormWindowInterface *fw) const
+QVariant PropertyHelper::findDefaultValue(QExtDesignerAbstractFormWindow *fw) const
 {
     if (m_specialProperty == SP_AutoDefault && qobject_cast<const QPushButton*>(m_object)) {
         // AutoDefault defaults to true on dialogs
@@ -880,7 +879,7 @@ QVariant PropertyHelper::findDefaultValue(QDesignerFormWindowInterface *fw) cons
     if (item_idx == -1)
         return  m_oldValue.first; // We simply don't know the value in this case
 
-    const QDesignerWidgetDataBaseItemInterface *item = fw->core()->widgetDataBase()->item(item_idx);
+    const QExtDesignerWidgetDataBaseItemInterface *item = fw->core()->widgetDataBase()->item(item_idx);
     const auto default_prop_values = item->defaultPropertyValues();
     if (m_index < default_prop_values.size())
         return default_prop_values.at(m_index);
@@ -891,7 +890,7 @@ QVariant PropertyHelper::findDefaultValue(QDesignerFormWindowInterface *fw) cons
     return m_oldValue.first; // Again, we just don't know
 }
 
-PropertyHelper::Value PropertyHelper::restoreDefaultValue(QDesignerFormWindowInterface *fw)
+PropertyHelper::Value PropertyHelper::restoreDefaultValue(QExtDesignerAbstractFormWindow *fw)
 {
 
     Value defaultValue = qMakePair(QVariant(), false);
@@ -929,7 +928,7 @@ PropertyHelper::Value PropertyHelper::restoreDefaultValue(QDesignerFormWindowInt
 
 
 PropertyListCommand::PropertyDescription::PropertyDescription(const QString &propertyName,
-                                                              QDesignerPropertySheetExtension *propertySheet,
+                                                              QExtDesignerPropertySheetExtension *propertySheet,
                                                               int index) :
     m_propertyName(propertyName),
     m_propertyGroup(propertySheet->propertyGroup(index)),
@@ -951,7 +950,7 @@ bool PropertyListCommand::PropertyDescription::equals(const PropertyDescription 
 
 
 // ---- PropertyListCommand
-PropertyListCommand::PropertyListCommand(QDesignerFormWindowInterface *formWindow,
+PropertyListCommand::PropertyListCommand(QExtDesignerAbstractFormWindow *formWindow,
                                          QUndoCommand *parent) :
     QDesignerFormWindowCommand(QString(), formWindow, parent)
 {
@@ -970,7 +969,7 @@ SpecialProperty PropertyListCommand::specialProperty() const
 // add an object
 bool PropertyListCommand::add(QObject *object, const QString &propertyName)
 {
-    QDesignerPropertySheetExtension* sheet = propertySheet(object);
+    QExtDesignerPropertySheetExtension* sheet = propertySheet(object);
     Q_ASSERT(sheet);
 
     const int index = sheet->indexOf(propertyName);
@@ -998,7 +997,7 @@ bool PropertyListCommand::add(QObject *object, const QString &propertyName)
 }
 
 PropertyHelper *PropertyListCommand::createPropertyHelper(QObject *object, SpecialProperty sp,
-                                                          QDesignerPropertySheetExtension *sheet, int sheetIndex) const
+                                                          QExtDesignerPropertySheetExtension *sheet, int sheetIndex) const
 {
     return new PropertyHelper(object, sp, sheet, sheetIndex);
 }
@@ -1042,17 +1041,17 @@ void PropertyListCommand::setOldValue(const QVariant &oldValue, int index)
 // ----- SetValueFunction: Set a new value when applied to a PropertyHelper.
 class SetValueFunction {
 public:
-    SetValueFunction(QDesignerFormWindowInterface *formWindow, const PropertyHelper::Value &newValue, unsigned subPropertyMask);
+    SetValueFunction(QExtDesignerAbstractFormWindow *formWindow, const PropertyHelper::Value &newValue, unsigned subPropertyMask);
 
     PropertyHelper::Value operator()(PropertyHelper&);
 private:
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     const PropertyHelper::Value m_newValue;
     const unsigned m_subPropertyMask;
 };
 
 
-SetValueFunction::SetValueFunction(QDesignerFormWindowInterface *formWindow, const PropertyHelper::Value &newValue, unsigned subPropertyMask) :
+SetValueFunction::SetValueFunction(QExtDesignerAbstractFormWindow *formWindow, const PropertyHelper::Value &newValue, unsigned subPropertyMask) :
     m_formWindow(formWindow),
     m_newValue(newValue),
     m_subPropertyMask(subPropertyMask)
@@ -1066,19 +1065,19 @@ PropertyHelper::Value SetValueFunction::operator()(PropertyHelper &ph) {
 // ----- UndoSetValueFunction: Restore old value when applied to a PropertyHelper.
 class UndoSetValueFunction {
 public:
-    UndoSetValueFunction(QDesignerFormWindowInterface *formWindow) : m_formWindow(formWindow) {}
+    UndoSetValueFunction(QExtDesignerAbstractFormWindow *formWindow) : m_formWindow(formWindow) {}
     PropertyHelper::Value operator()(PropertyHelper& ph) { return ph.restoreOldValue(m_formWindow); }
 private:
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
 };
 
 // ----- RestoreDefaultFunction: Restore default value when applied to a PropertyHelper.
 class RestoreDefaultFunction {
 public:
-    RestoreDefaultFunction(QDesignerFormWindowInterface *formWindow) : m_formWindow(formWindow) {}
+    RestoreDefaultFunction(QExtDesignerAbstractFormWindow *formWindow) : m_formWindow(formWindow) {}
     PropertyHelper::Value operator()(PropertyHelper& ph) { return ph.restoreDefaultValue(m_formWindow); }
 private:
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
 };
 
 // ----- changePropertyList: Iterates over a sequence of PropertyHelpers and
@@ -1086,14 +1085,14 @@ private:
 // The function returns the  corrected value which is then set in  the property editor.
 // Returns a combination of update flags.
 template <class PropertyListIterator, class Function>
-        unsigned changePropertyList(QDesignerFormEditorInterface *core,
+        unsigned changePropertyList(QExtDesignerAbstractFormEditor *core,
                                     const QString &propertyName,
                                     PropertyListIterator begin,
                                     PropertyListIterator end,
                                     Function function)
 {
     unsigned updateMask = 0;
-    QDesignerPropertyEditorInterface *propertyEditor = core->propertyEditor();
+    QExtDesignerAbstractPropertyEditor *propertyEditor = core->propertyEditor();
     bool updatedPropertyEditor = false;
 
     for (PropertyListIterator it = begin; it != end; ++it) {
@@ -1153,7 +1152,7 @@ void PropertyListCommand::update(unsigned updateMask)
         qDebug() << "PropertyListCommand::update(" << updateMask << ')';
 
     if (updateMask & PropertyHelper::UpdateObjectInspector) {
-        if (QDesignerObjectInspectorInterface *oi = formWindow()->core()->objectInspector())
+        if (QExtDesignerAbstractObjectInspector *oi = formWindow()->core()->objectInspector())
             oi->setFormWindow(formWindow());
     }
 
@@ -1161,7 +1160,7 @@ void PropertyListCommand::update(unsigned updateMask)
         // this is needed when f.ex. undo, changes parent's palette, but
         // the child is the active widget,
         // TODO: current object?
-        if (QDesignerPropertyEditorInterface *propertyEditor = formWindow()->core()->propertyEditor()) {
+        if (QExtDesignerAbstractPropertyEditor *propertyEditor = formWindow()->core()->propertyEditor()) {
             propertyEditor->setObject(propertyEditor->object());
         }
     }
@@ -1188,7 +1187,7 @@ bool PropertyListCommand::canMergeLists(const PropertyHelperList& other) const
 }
 
 // ---- SetPropertyCommand ----
-SetPropertyCommand::SetPropertyCommand(QDesignerFormWindowInterface *formWindow,
+SetPropertyCommand::SetPropertyCommand(QExtDesignerAbstractFormWindow *formWindow,
                                        QUndoCommand *parent)
     :  PropertyListCommand(formWindow, parent),
        m_subPropertyMask(SubPropertyAll)
@@ -1233,7 +1232,7 @@ unsigned SetPropertyCommand::subPropertyMask(const QVariant &newValue, QObject *
     if (!referenceObject)
         return SubPropertyAll;
 
-    QDesignerPropertySheetExtension* sheet = propertySheet(referenceObject);
+    QExtDesignerPropertySheetExtension* sheet = propertySheet(referenceObject);
     Q_ASSERT(sheet);
 
     const int index = sheet->indexOf(propertyName());
@@ -1302,7 +1301,7 @@ bool SetPropertyCommand::mergeWith(const QUndoCommand *other)
 }
 
 // ---- ResetPropertyCommand ----
-ResetPropertyCommand::ResetPropertyCommand(QDesignerFormWindowInterface *formWindow)
+ResetPropertyCommand::ResetPropertyCommand(QExtDesignerAbstractFormWindow *formWindow)
     : PropertyListCommand(formWindow)
 {
 }
@@ -1323,7 +1322,7 @@ bool ResetPropertyCommand::init(const QObjectList &list, const QString &apropert
 {
     QObjectList modifiedList = list; // filter out modified properties
     for (auto it = modifiedList.begin(); it != modifiedList.end() ; ) {
-        QDesignerPropertySheetExtension* sheet = propertySheet(*it);
+        QExtDesignerPropertySheetExtension* sheet = propertySheet(*it);
         Q_ASSERT(sheet);
         const int index = sheet->indexOf(apropertyName);
         if (index == -1 || !sheet->isChanged(index))
@@ -1362,7 +1361,7 @@ void ResetPropertyCommand::redo()
         designerPropertyEditor->updatePropertySheet();
 }
 
-AddDynamicPropertyCommand::AddDynamicPropertyCommand(QDesignerFormWindowInterface *formWindow)
+AddDynamicPropertyCommand::AddDynamicPropertyCommand(QExtDesignerAbstractFormWindow *formWindow)
     : QDesignerFormWindowCommand(QString(), formWindow)
 {
 
@@ -1374,8 +1373,8 @@ bool AddDynamicPropertyCommand::init(const QObjectList &selection, QObject *curr
     Q_ASSERT(current);
     m_propertyName = propertyName;
 
-    QDesignerFormEditorInterface *core = formWindow()->core();
-    QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), current);
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
+    QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), current);
     Q_ASSERT(dynamicSheet);
 
     m_selection.clear();
@@ -1393,7 +1392,7 @@ bool AddDynamicPropertyCommand::init(const QObjectList &selection, QObject *curr
     for (QObject *obj : selection) {
         if (m_selection.contains(obj))
             continue;
-        dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
+        dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
         Q_ASSERT(dynamicSheet);
         if (dynamicSheet->canAddDynamicProperty(m_propertyName))
             m_selection.append(obj);
@@ -1405,11 +1404,11 @@ bool AddDynamicPropertyCommand::init(const QObjectList &selection, QObject *curr
 
 void AddDynamicPropertyCommand::redo()
 {
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
     for (QObject *obj : qAsConst(m_selection)) {
-        QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
         dynamicSheet->addDynamicProperty(m_propertyName, m_value);
-        if (QDesignerPropertyEditorInterface *propertyEditor = formWindow()->core()->propertyEditor()) {
+        if (QExtDesignerAbstractPropertyEditor *propertyEditor = formWindow()->core()->propertyEditor()) {
             if (propertyEditor->object() == obj)
                 propertyEditor->setObject(obj);
         }
@@ -1418,12 +1417,12 @@ void AddDynamicPropertyCommand::redo()
 
 void AddDynamicPropertyCommand::undo()
 {
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
     for (QObject *obj : qAsConst(m_selection)) {
-        QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), obj);
-        QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
         dynamicSheet->removeDynamicProperty(sheet->indexOf(m_propertyName));
-        if (QDesignerPropertyEditorInterface *propertyEditor = formWindow()->core()->propertyEditor()) {
+        if (QExtDesignerAbstractPropertyEditor *propertyEditor = formWindow()->core()->propertyEditor()) {
             if (propertyEditor->object() == obj)
                 propertyEditor->setObject(obj);
         }
@@ -1443,7 +1442,7 @@ void AddDynamicPropertyCommand::setDescription()
 }
 
 
-RemoveDynamicPropertyCommand::RemoveDynamicPropertyCommand(QDesignerFormWindowInterface *formWindow)
+RemoveDynamicPropertyCommand::RemoveDynamicPropertyCommand(QExtDesignerAbstractFormWindow *formWindow)
     : QDesignerFormWindowCommand(QString(), formWindow)
 {
 
@@ -1455,10 +1454,10 @@ bool RemoveDynamicPropertyCommand::init(const QObjectList &selection, QObject *c
     Q_ASSERT(current);
     m_propertyName = propertyName;
 
-    QDesignerFormEditorInterface *core = formWindow()->core();
-    QDesignerPropertySheetExtension *propertySheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), current);
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
+    QExtDesignerPropertySheetExtension *propertySheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), current);
     Q_ASSERT(propertySheet);
-    QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), current);
+    QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), current);
     Q_ASSERT(dynamicSheet);
 
     m_objectToValueAndChanged.clear();
@@ -1473,8 +1472,8 @@ bool RemoveDynamicPropertyCommand::init(const QObjectList &selection, QObject *c
         if (m_objectToValueAndChanged.contains(obj))
             continue;
 
-        propertySheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), obj);
-        dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
+        propertySheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), obj);
+        dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
         const int idx = propertySheet->indexOf(m_propertyName);
         if (dynamicSheet->isDynamicProperty(idx))
             m_objectToValueAndChanged[obj] = qMakePair(propertySheet->property(idx), propertySheet->isChanged(idx));
@@ -1486,14 +1485,14 @@ bool RemoveDynamicPropertyCommand::init(const QObjectList &selection, QObject *c
 
 void RemoveDynamicPropertyCommand::redo()
 {
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
     QMap<QObject *, QPair<QVariant, bool> >::ConstIterator it = m_objectToValueAndChanged.constBegin();
     while (it != m_objectToValueAndChanged.constEnd()) {
         QObject *obj = it.key();
-        QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
-        QDesignerPropertySheetExtension *sheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerPropertySheetExtension *sheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), obj);
         dynamicSheet->removeDynamicProperty(sheet->indexOf(m_propertyName));
-        if (QDesignerPropertyEditorInterface *propertyEditor = formWindow()->core()->propertyEditor()) {
+        if (QExtDesignerAbstractPropertyEditor *propertyEditor = formWindow()->core()->propertyEditor()) {
             if (propertyEditor->object() == obj)
                 propertyEditor->setObject(obj);
         }
@@ -1503,15 +1502,15 @@ void RemoveDynamicPropertyCommand::redo()
 
 void RemoveDynamicPropertyCommand::undo()
 {
-    QDesignerFormEditorInterface *core = formWindow()->core();
+    QExtDesignerAbstractFormEditor *core = formWindow()->core();
     QMap<QObject *, QPair<QVariant, bool> >::ConstIterator it = m_objectToValueAndChanged.constBegin();
     while (it != m_objectToValueAndChanged.constEnd()) {
         QObject *obj = it.key();
-        QDesignerPropertySheetExtension *propertySheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), obj);
-        QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerPropertySheetExtension *propertySheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), obj);
+        QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), obj);
         const int index = dynamicSheet->addDynamicProperty(m_propertyName, it.value().first);
         propertySheet->setChanged(index, it.value().second);
-        if (QDesignerPropertyEditorInterface *propertyEditor = formWindow()->core()->propertyEditor()) {
+        if (QExtDesignerAbstractPropertyEditor *propertyEditor = formWindow()->core()->propertyEditor()) {
             if (propertyEditor->object() == obj)
                 propertyEditor->setObject(obj);
         }

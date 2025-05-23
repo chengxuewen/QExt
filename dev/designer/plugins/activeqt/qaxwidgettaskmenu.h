@@ -36,10 +36,10 @@ QT_BEGIN_NAMESPACE
 
 class QDesignerAxWidget;
 
-class QAxWidgetTaskMenu: public QObject, public QDesignerTaskMenuExtension
+class QAxWidgetTaskMenu: public QObject, public QExtDesignerTaskMenuExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerTaskMenuExtension)
+    Q_INTERFACES(QExtDesignerTaskMenuExtension)
 public:
     explicit QAxWidgetTaskMenu(QDesignerAxWidget *object, QObject *parent = nullptr);
     virtual ~QAxWidgetTaskMenu();
@@ -56,7 +56,7 @@ private:
     QList<QAction*> m_taskActions;
 };
 
-typedef qdesigner_internal::ExtensionFactory<QDesignerTaskMenuExtension, QDesignerAxWidget, QAxWidgetTaskMenu>  ActiveXTaskMenuFactory;
+typedef qdesigner_internal::ExtensionFactory<QExtDesignerTaskMenuExtension, QDesignerAxWidget, QAxWidgetTaskMenu>  ActiveXTaskMenuFactory;
 
 QT_END_NAMESPACE
 

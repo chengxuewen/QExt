@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,8 @@
 #define QDESIGNER_FORMWINDOMANAGER_H
 
 #include "shared_global_p.h"
-#include <../sdk/abstractformwindowmanager.h>
+
+#include <qextDesignerAbstractFormWindowManager.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -53,7 +54,7 @@ class PreviewManager;
 // Convenience methods to manage form previews (ultimately forwarded to PreviewManager).
 //
 class QDESIGNER_SHARED_EXPORT QDesignerFormWindowManager
-    : public QDesignerFormWindowManagerInterface
+    : public QExtDesignerAbstractFormWindowManager
 {
     Q_OBJECT
 public:

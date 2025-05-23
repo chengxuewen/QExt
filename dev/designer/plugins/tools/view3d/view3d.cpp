@@ -356,9 +356,9 @@ public:
     virtual void operator () (int depth, QWidget *widget) const = 0;
 };
 
-static bool skipWidget(QDesignerFormEditorInterface *core, QWidget *widget)
+static bool skipWidget(QExtDesignerAbstractFormEditor *core, QWidget *widget)
 {
-    QDesignerMetaDataBaseItemInterface *item = core->metaDataBase()->item(widget);
+    QExtDesignerMetaDataBaseItemInterface *item = core->metaDataBase()->item(widget);
     if (item == 0)
         return true;
     QString name = widget->metaObject()->className();
@@ -368,7 +368,7 @@ static bool skipWidget(QDesignerFormEditorInterface *core, QWidget *widget)
     return false;
 }
 
-static void walkWidgetTree(QDesignerFormEditorInterface *core, int depth, QWidget *widget, const WalkWidgetTreeFunction &func)
+static void walkWidgetTree(QExtDesignerAbstractFormEditor *core, int depth, QWidget *widget, const WalkWidgetTreeFunction &func)
 {
     if (widget == 0)
         return;
@@ -387,7 +387,7 @@ static void walkWidgetTree(QDesignerFormEditorInterface *core, int depth, QWidge
 }
 
 static void grabWidget_helper(QWidget *widget, QPixmap &res, QPixmap &buf,
-                              const QRect &r, const QPoint &offset, QDesignerFormEditorInterface *core)
+                              const QRect &r, const QPoint &offset, QExtDesignerAbstractFormEditor *core)
 {
     buf.fill(widget, r.topLeft());
     QPainter::setRedirected(widget, &buf, r.topLeft());
@@ -414,7 +414,7 @@ static void grabWidget_helper(QWidget *widget, QPixmap &res, QPixmap &buf,
     }
 }
 
-static QPixmap grabWidget(QWidget * widget, QDesignerFormEditorInterface *core)
+static QPixmap grabWidget(QWidget * widget, QExtDesignerAbstractFormEditor *core)
 {
     if (!widget)
         return QPixmap();
@@ -436,11 +436,11 @@ static QPixmap grabWidget(QWidget * widget, QDesignerFormEditorInterface *core)
 class AddTexture : public WalkWidgetTreeFunction
 {
 public:
-    inline AddTexture(QDesignerFormEditorInterface *core, QView3DWidget *w)
+    inline AddTexture(QExtDesignerAbstractFormEditor *core, QView3DWidget *w)
         : m_core(core), m_3d_widget(w) {}
     inline virtual void operator ()(int, QWidget *w) const
         { m_3d_widget->addTexture(w, ::grabWidget(w, m_core)); }
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
     QView3DWidget *m_3d_widget;
 };
 
@@ -453,7 +453,7 @@ public:
     QView3DWidget *m_3d_widget;
 };
 
-QView3D::QView3D(QDesignerFormWindowInterface *form_window, QWidget *parent)
+QView3D::QView3D(QExtDesignerAbstractFormWindow *form_window, QWidget *parent)
     : QWidget(parent)
 {
     m_form_window = form_window;

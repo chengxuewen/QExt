@@ -39,15 +39,15 @@ QT_BEGIN_NAMESPACE
 
 class QDesignerAxWidget;
 
-class QAxWidgetExtraInfo: public QObject, public QDesignerExtraInfoExtension
+class QAxWidgetExtraInfo: public QObject, public QExtDesignerExtraInfoExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerExtraInfoExtension)
+    Q_INTERFACES(QExtDesignerExtraInfoExtension)
 public:
-    QAxWidgetExtraInfo(QDesignerAxWidget *widget, QDesignerFormEditorInterface *core, QObject *parent);
+    QAxWidgetExtraInfo(QDesignerAxWidget *widget, QExtDesignerAbstractFormEditor *core, QObject *parent);
 
     QWidget *widget() const override;
-    QDesignerFormEditorInterface *core() const override;
+    QExtDesignerAbstractFormEditor *core() const override;
 
     bool saveUiExtraInfo(DomUI *ui) override;
     bool loadUiExtraInfo(DomUI *ui) override;
@@ -57,20 +57,20 @@ public:
 
 private:
     QPointer<QDesignerAxWidget> m_widget;
-    QPointer<QDesignerFormEditorInterface> m_core;
+    QPointer<QExtDesignerAbstractFormEditor> m_core;
 };
 
 class QAxWidgetExtraInfoFactory: public QExtensionFactory
 {
     Q_OBJECT
 public:
-    explicit QAxWidgetExtraInfoFactory(QDesignerFormEditorInterface *core, QExtensionManager *parent = 0);
+    explicit QAxWidgetExtraInfoFactory(QExtDesignerAbstractFormEditor *core, QExtensionManager *parent = 0);
 
 protected:
     QObject *createExtension(QObject *object, const QString &iid, QObject *parent) const override;
 
 private:
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
 };
 
 QT_END_NAMESPACE

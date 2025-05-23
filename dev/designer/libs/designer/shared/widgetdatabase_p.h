@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -43,7 +43,7 @@
 
 #include "shared_global_p.h"
 
-#include <../sdk/abstractwidgetdatabase.h>
+#include <qextDesignerAbstractWidgetDataBase.h>
 
 #include <QtGui/qicon.h>
 #include <QtCore/qstring.h>
@@ -58,7 +58,7 @@ class QDesignerCustomWidgetInterface;
 
 namespace qdesigner_internal {
 
-class QDESIGNER_SHARED_EXPORT WidgetDataBaseItem: public QDesignerWidgetDataBaseItemInterface
+class QDESIGNER_SHARED_EXPORT WidgetDataBaseItem: public QExtDesignerWidgetDataBaseItemInterface
 {
 public:
     explicit WidgetDataBaseItem(const QString &name = QString(),
@@ -104,7 +104,7 @@ public:
     void setDefaultPropertyValues(const QList<QVariant> &list) override;
     QList<QVariant> defaultPropertyValues() const override;
 
-    static WidgetDataBaseItem *clone(const QDesignerWidgetDataBaseItemInterface *item);
+    static WidgetDataBaseItem *clone(const QExtDesignerWidgetDataBaseItemInterface *item);
 
     QStringList fakeSlots() const;
     void setFakeSlots(const QStringList &);
@@ -145,10 +145,10 @@ class QDESIGNER_SHARED_EXPORT WidgetDataBase: public QDesignerWidgetDataBaseInte
 {
     Q_OBJECT
 public:
-    explicit WidgetDataBase(QDesignerFormEditorInterface *core, QObject *parent = nullptr);
+    explicit WidgetDataBase(QExtDesignerAbstractFormEditor *core, QObject *parent = nullptr);
     ~WidgetDataBase() override;
 
-    QDesignerFormEditorInterface *core() const override;
+    QExtDesignerAbstractFormEditor *core() const override;
 
     int indexOfObject(QObject *o, bool resolveName = true) const override;
 
@@ -159,9 +159,9 @@ public:
     void grabStandardWidgetBoxIcons();
 
     // Helpers for 'New Form' wizards in integrations. Obtain a list of suitable classes and generate XML for them.
-    static QStringList formWidgetClasses(const QDesignerFormEditorInterface *core);
-    static QStringList customFormWidgetClasses(const QDesignerFormEditorInterface *core);
-    static QString formTemplate(const QDesignerFormEditorInterface *core, const QString &className, const QString &objectName);
+    static QStringList formWidgetClasses(const QExtDesignerAbstractFormEditor *core);
+    static QStringList customFormWidgetClasses(const QExtDesignerAbstractFormEditor *core);
+    static QString formTemplate(const QExtDesignerAbstractFormEditor *core, const QString &className, const QString &objectName);
 
     // Helpers for 'New Form' wizards: Set a fixed size on a XML form template
     static QString scaleFormTemplate(const QString &xml, const QSize &size, bool fixed);
@@ -172,10 +172,10 @@ public slots:
 private:
     QList<QVariant> defaultPropertyValues(const QString &name);
 
-    QDesignerFormEditorInterface *m_core;
+    QExtDesignerAbstractFormEditor *m_core;
 };
 
-QDESIGNER_SHARED_EXPORT QDesignerWidgetDataBaseItemInterface
+QDESIGNER_SHARED_EXPORT QExtDesignerWidgetDataBaseItemInterface
         *appendDerived(QDesignerWidgetDataBaseInterface *db,
                        const QString &className,
                        const QString &group,
@@ -184,7 +184,7 @@ QDESIGNER_SHARED_EXPORT QDesignerWidgetDataBaseItemInterface
                        bool promoted,
                        bool custom);
 
-using WidgetDataBaseItemList = QList<QDesignerWidgetDataBaseItemInterface *>;
+using WidgetDataBaseItemList = QList<QExtDesignerWidgetDataBaseItemInterface *>;
 
 QDESIGNER_SHARED_EXPORT WidgetDataBaseItemList
         promotionCandidates(const QDesignerWidgetDataBaseInterface *db,
@@ -192,5 +192,7 @@ QDESIGNER_SHARED_EXPORT WidgetDataBaseItemList
 } // namespace qdesigner_internal
 
 QT_END_NAMESPACE
+
+using namespace qdesigner_internal;
 
 #endif // WIDGETDATABASE_H

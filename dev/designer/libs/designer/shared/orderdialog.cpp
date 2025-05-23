@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,9 +30,9 @@
 #include "iconloader_p.h"
 #include "ui_orderdialog.h"
 
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/container.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerContainerExtension.h>
 #include <QtCore/qabstractitemmodel.h>
 #include <QtWidgets/qpushbutton.h>
 
@@ -160,10 +160,10 @@ void OrderDialog::enableButtons(int r)
     m_ui->downButton->setEnabled(r >= 0 && r < m_ui->pageList->count() - 1);
 }
 
-QWidgetList OrderDialog::pagesOfContainer(const QDesignerFormEditorInterface *core, QWidget *container)
+QWidgetList OrderDialog::pagesOfContainer(const QExtDesignerAbstractFormEditor *core, QWidget *container)
 {
     QWidgetList rc;
-    if (QDesignerContainerExtension* ce = qt_extension<QDesignerContainerExtension*>(core->extensionManager(), container)) {
+    if (QExtDesignerContainerExtension* ce = qt_extension<QExtDesignerContainerExtension*>(core->extensionManager(), container)) {
         const int count = ce->count();
         for (int i = 0; i < count ;i ++)
             rc.push_back(ce->widget(i));

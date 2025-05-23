@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -53,6 +53,8 @@
 
 #include <QtWidgets/QDialog>
 
+#include <qextDesignerGlobal.h>
+
 QT_BEGIN_NAMESPACE
 
 class QMainWindow;
@@ -61,7 +63,7 @@ class QToolBar;
 
 class QtToolBarManagerPrivate;
 
-class QtToolBarManager : public QObject
+class QEXT_DESIGNER_API QtToolBarManager : public QObject
 {
     Q_OBJECT
 public:
@@ -93,7 +95,7 @@ private:
 
 class QtToolBarDialogPrivate;
 
-class QtToolBarDialog : public QDialog
+class QEXT_DESIGNER_API QtToolBarDialog : public QDialog
 {
     Q_OBJECT
 public:

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,13 +30,13 @@
 #include "widgetfactory_p.h"
 #include "widgetdatabase_p.h"
 
-#include <../uilib/properties_p.h>
-#include <../uilib/ui4_p.h>
+#include <private/qextDesignerFormBuilderUtils_p.h>
+#include <private/qextDesignerDomUI_p.h>
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/abstractlanguage.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/extrainfo.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerLanguageExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerExtraInfoExtension.h>
 
 #include <../uiplugin/customwidget.h>
 
@@ -53,7 +53,7 @@ namespace qdesigner_internal {
 
 bool QSimpleResource::m_warningsEnabled = true;
 
-QSimpleResource::QSimpleResource(QDesignerFormEditorInterface *core) :
+QSimpleResource::QSimpleResource(QExtDesignerAbstractFormEditor *core) :
     QAbstractFormBuilder(),
     m_core(core)
 {
@@ -76,36 +76,36 @@ DomBrush *QSimpleResource::saveBrush(const QBrush &brush)
 }
 
 void QSimpleResource::addExtensionDataToDOM(QAbstractFormBuilder * /* afb */,
-                                            QDesignerFormEditorInterface *core,
+                                            QExtDesignerAbstractFormEditor *core,
                                             DomWidget *ui_widget, QWidget *widget)
 {
     QExtensionManager *emgr = core->extensionManager();
-    if (QDesignerExtraInfoExtension *extra = qt_extension<QDesignerExtraInfoExtension*>(emgr, widget)) {
+    if (QExtDesignerExtraInfoExtension *extra = qt_extension<QExtDesignerExtraInfoExtension*>(emgr, widget)) {
         extra->saveWidgetExtraInfo(ui_widget);
     }
 }
 
 void QSimpleResource::applyExtensionDataFromDOM(QAbstractFormBuilder * /* afb */,
-                                                QDesignerFormEditorInterface *core,
+                                                QExtDesignerAbstractFormEditor *core,
                                                 DomWidget *ui_widget, QWidget *widget)
 {
     QExtensionManager *emgr = core->extensionManager();
-    if (QDesignerExtraInfoExtension *extra = qt_extension<QDesignerExtraInfoExtension*>(emgr, widget)) {
+    if (QExtDesignerExtraInfoExtension *extra = qt_extension<QExtDesignerExtraInfoExtension*>(emgr, widget)) {
         extra->loadWidgetExtraInfo(ui_widget);
     }
 }
 
-QString QSimpleResource::customWidgetScript(QDesignerFormEditorInterface *core, QObject *object)
+QString QSimpleResource::customWidgetScript(QExtDesignerAbstractFormEditor *core, QObject *object)
 {
     return customWidgetScript(core, qdesigner_internal::WidgetFactory::classNameOf(core, object));
 }
 
-bool QSimpleResource::hasCustomWidgetScript(QDesignerFormEditorInterface *, QObject *)
+bool QSimpleResource::hasCustomWidgetScript(QExtDesignerAbstractFormEditor *, QObject *)
 {
     return false;
 }
 
-QString QSimpleResource::customWidgetScript(QDesignerFormEditorInterface *, const QString &)
+QString QSimpleResource::customWidgetScript(QExtDesignerAbstractFormEditor *, const QString &)
 {
     return QString();
 }
@@ -155,7 +155,7 @@ void QSimpleResource::addFakeMethodsToWidgetDataBase(const DomCustomWidget *domC
 // Remove the succeeded custom widgets from the list.
 // Classes whose base class could not be found are left in the list.
 
-void QSimpleResource::addCustomWidgetsToWidgetDatabase(const QDesignerFormEditorInterface *core,
+void QSimpleResource::addCustomWidgetsToWidgetDatabase(const QExtDesignerAbstractFormEditor *core,
                                                        QVector<DomCustomWidget *> &custom_widget_list)
 {
     QDesignerWidgetDataBaseInterface *db = core->widgetDataBase();
@@ -187,7 +187,7 @@ void QSimpleResource::addCustomWidgetsToWidgetDatabase(const QDesignerFormEditor
         } else {
             // Create a new entry cloned from base class. Note that this will ignore existing
             // classes, eg, plugin custom widgets.
-            QDesignerWidgetDataBaseItemInterface *item =
+            QExtDesignerWidgetDataBaseItemInterface *item =
                 appendDerived(db, customClassName, QCoreApplication::translate("Designer", "Promoted Widgets"),
                               base_class,
                               buildIncludeFile(includeFile, includeType),
@@ -213,7 +213,7 @@ void QSimpleResource::addCustomWidgetsToWidgetDatabase(const QDesignerFormEditor
 
 }
 
-void QSimpleResource::handleDomCustomWidgets(const QDesignerFormEditorInterface *core,
+void QSimpleResource::handleDomCustomWidgets(const QExtDesignerAbstractFormEditor *core,
                                              const DomCustomWidgets *dom_custom_widgets)
 {
     if (dom_custom_widgets == nullptr)

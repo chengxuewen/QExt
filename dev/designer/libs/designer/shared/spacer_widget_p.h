@@ -48,7 +48,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 
 class QDESIGNER_SHARED_EXPORT Spacer: public QWidget
 {
@@ -89,7 +89,7 @@ private:
     void updateToolTip();
 
     const QSize m_SizeOffset = QSize(3, 3); // A small offset to ensure the spacer is still visible when reset to size 0,0
-    QDesignerFormWindowInterface *m_formWindow;
+    QExtDesignerAbstractFormWindow *m_formWindow;
     Qt::Orientation m_orientation = Qt::Vertical;
     bool m_interactive = true;
     // Cache information about 'being in layout' which is expensive to calculate.

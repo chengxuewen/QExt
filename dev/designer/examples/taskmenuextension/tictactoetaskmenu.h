@@ -51,7 +51,7 @@
 #ifndef TICTACTOETASKMENU_H
 #define TICTACTOETASKMENU_H
 
-#include <QDesignerTaskMenuExtension>
+#include <QExtDesignerTaskMenuExtension>
 #include <QExtensionFactory>
 
 QT_BEGIN_NAMESPACE
@@ -61,10 +61,10 @@ QT_END_NAMESPACE
 class TicTacToe;
 
 //! [0]
-class TicTacToeTaskMenu : public QObject, public QDesignerTaskMenuExtension
+class TicTacToeTaskMenu : public QObject, public QExtDesignerTaskMenuExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerTaskMenuExtension)
+    Q_INTERFACES(QExtDesignerTaskMenuExtension)
 
 public:
     explicit TicTacToeTaskMenu(TicTacToe *tic, QObject *parent);

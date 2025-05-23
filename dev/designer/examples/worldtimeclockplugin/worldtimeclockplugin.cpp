@@ -58,7 +58,7 @@ WorldTimeClockPlugin::WorldTimeClockPlugin(QObject *parent)
 {
 }
 
-void WorldTimeClockPlugin::initialize(QDesignerFormEditorInterface * /* core */)
+void WorldTimeClockPlugin::initialize(QExtDesignerAbstractFormEditor * /* core */)
 {
     if (initialized)
         return;

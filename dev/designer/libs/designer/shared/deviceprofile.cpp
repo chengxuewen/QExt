@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,9 +28,9 @@
 
 #include "deviceprofile_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <widgetfactory_p.h>
-#include <qdesigner_utils_p.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include "widgetfactory_p.h"
+#include "qdesigner_utils_p.h"
 
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qfont.h>
@@ -267,7 +267,7 @@ void DeviceProfile::applyDPI(int dpiX, int dpiY, QWidget *widget)
     }
 }
 
-void DeviceProfile::apply(const QDesignerFormEditorInterface *core, QWidget *widget, ApplyMode am) const
+void DeviceProfile::apply(const QExtDesignerAbstractFormEditor *core, QWidget *widget, ApplyMode am) const
 {
     if (isEmpty())
         return;

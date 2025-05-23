@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -34,12 +34,12 @@
 #include "qdesigner_objectinspector_p.h"
 #include "promotiontaskmenu_p.h"
 
-#include <../sdk/abstractformwindow.h>
-#include <../sdk/abstractpropertyeditor.h>
-#include <../sdk/abstractformeditor.h>
 #include <actionprovider_p.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/abstractwidgetfactory.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerAbstractFormWindow.h>
+#include <qextDesignerAbstractPropertyEditor.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerAbstractWidgetFactory.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qapplication.h>
@@ -188,7 +188,7 @@ void ToolBarEventFilter::slotRemoveSelectedAction()
     QAction *a = qvariant_cast<QAction*>(action->data());
     Q_ASSERT(a != nullptr);
 
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     Q_ASSERT(fw);
 
     const ActionList actions = m_toolBar->actions();
@@ -204,7 +204,7 @@ void ToolBarEventFilter::slotRemoveSelectedAction()
 
 void ToolBarEventFilter::slotRemoveToolBar()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     Q_ASSERT(fw);
     DeleteToolBarCommand *cmd = new DeleteToolBarCommand(fw);
     cmd->init(m_toolBar);
@@ -213,7 +213,7 @@ void ToolBarEventFilter::slotRemoveToolBar()
 
 void ToolBarEventFilter::slotInsertSeparator()
 {
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     QAction *theSender = qobject_cast<QAction*>(sender());
     QAction *previous = qvariant_cast<QAction *>(theSender->data());
     fw->beginCommand(tr("Insert Separator"));
@@ -224,12 +224,12 @@ void ToolBarEventFilter::slotInsertSeparator()
     fw->endCommand();
 }
 
-QDesignerFormWindowInterface *ToolBarEventFilter::formWindow() const
+QExtDesignerAbstractFormWindow *ToolBarEventFilter::formWindow() const
 {
-    return QDesignerFormWindowInterface::findFormWindow(m_toolBar);
+    return QExtDesignerAbstractFormWindow::findFormWindow(m_toolBar);
 }
 
-QAction *ToolBarEventFilter::createAction(QDesignerFormWindowInterface *fw, const QString &objectName, bool separator)
+QAction *ToolBarEventFilter::createAction(QExtDesignerAbstractFormWindow *fw, const QString &objectName, bool separator)
 {
     QAction *action = new QAction(fw);
     fw->core()->widgetFactory()->initialize(action);
@@ -248,8 +248,8 @@ QAction *ToolBarEventFilter::createAction(QDesignerFormWindowInterface *fw, cons
 
 void ToolBarEventFilter::adjustDragIndicator(const QPoint &pos)
 {
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
-        QDesignerFormEditorInterface *core = fw->core();
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
+        QExtDesignerAbstractFormEditor *core = fw->core();
         if (QDesignerActionProviderExtension *a = qt_extension<QDesignerActionProviderExtension*>(core->extensionManager(), m_toolBar))
             a->adjustIndicator(pos);
     }
@@ -265,8 +265,8 @@ bool ToolBarEventFilter::handleMousePressEvent(QMouseEvent *event)
     if (event->button() != Qt::LeftButton || withinHandleArea(m_toolBar, event->pos()))
         return false;
 
-    if (QDesignerFormWindowInterface *fw = formWindow()) {
-        QDesignerFormEditorInterface *core = fw->core();
+    if (QExtDesignerAbstractFormWindow *fw = formWindow()) {
+        QExtDesignerAbstractFormEditor *core = fw->core();
         // Keep selection in sync
         fw->clearSelection(false);
         if (QDesignerObjectInspector *oi = qobject_cast<QDesignerObjectInspector *>(core->objectInspector())) {
@@ -372,7 +372,7 @@ bool ToolBarEventFilter::handleDropEvent(QDropEvent *event)
     }
 
     event->acceptProposedAction();
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
     InsertActionIntoCommand *cmd = new InsertActionIntoCommand(fw);
     cmd->init(m_toolBar, action, beforeAction);
     fw->commandHistory()->push(cmd);
@@ -388,7 +388,7 @@ void ToolBarEventFilter::startDrag(const QPoint &pos, Qt::KeyboardModifiers modi
 
     const ActionList actions = m_toolBar->actions();
     QAction *action = actions.at(index);
-    QDesignerFormWindowInterface *fw = formWindow();
+    QExtDesignerAbstractFormWindow *fw = formWindow();
 
     const Qt::DropAction dropAction = (modifiers & Qt::ControlModifier) ? Qt::CopyAction : Qt::MoveAction;
     if (dropAction == Qt::MoveAction) {

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,8 @@
 #define QDESIGNER_TASKMENU_H
 
 #include "shared_global_p.h"
-#include "../sdk/taskmenu.h"
+#include <qextDesignerTaskMenuExtension.h>
+
 #include "extensionfactory_p.h"
 
 #include <QtGui/qwindowdefs.h>
@@ -52,16 +53,16 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractFormWindow;
+class QExtDesignerAbstractFormEditor;
 
 namespace qdesigner_internal {
 class QDesignerTaskMenuPrivate;
 
-class QDESIGNER_SHARED_EXPORT QDesignerTaskMenu: public QObject, public QDesignerTaskMenuExtension
+class QDESIGNER_SHARED_EXPORT QDesignerTaskMenu: public QObject, public QExtDesignerTaskMenuExtension
 {
     Q_OBJECT
-    Q_INTERFACES(QDesignerTaskMenuExtension)
+    Q_INTERFACES(QExtDesignerTaskMenuExtension)
 public:
     QDesignerTaskMenu(QWidget *widget, QObject *parent);
     ~QDesignerTaskMenu() override;
@@ -72,13 +73,13 @@ public:
 
     enum PropertyMode { CurrentWidgetMode, MultiSelectionMode };
 
-    static bool isSlotNavigationEnabled(const QDesignerFormEditorInterface *core);
-    static void navigateToSlot(QDesignerFormEditorInterface *core, QObject *o,
+    static bool isSlotNavigationEnabled(const QExtDesignerAbstractFormEditor *core);
+    static void navigateToSlot(QExtDesignerAbstractFormEditor *core, QObject *o,
                                const QString &defaultSignal = QString());
 
 protected:
 
-    QDesignerFormWindowInterface *formWindow() const;
+    QExtDesignerAbstractFormWindow *formWindow() const;
     void changeTextProperty(const QString &propertyName, const QString &windowTitle, PropertyMode pm, Qt::TextFormat desiredFormat);
 
     QAction *createSeparator();
@@ -86,10 +87,10 @@ protected:
     /* Retrieve the list of objects the task menu is supposed to act on. Note that a task menu can be invoked for
      * an unmanaged widget [as of 4.5], in which case it must not use the cursor selection,
      * but the unmanaged selection of the object inspector. */
-    QObjectList applicableObjects(const QDesignerFormWindowInterface *fw, PropertyMode pm) const;
-    QWidgetList applicableWidgets(const QDesignerFormWindowInterface *fw, PropertyMode pm) const;
+    QObjectList applicableObjects(const QExtDesignerAbstractFormWindow *fw, PropertyMode pm) const;
+    QWidgetList applicableWidgets(const QExtDesignerAbstractFormWindow *fw, PropertyMode pm) const;
 
-    void setProperty(QDesignerFormWindowInterface *fw, PropertyMode pm, const QString &name, const QVariant &newValue);
+    void setProperty(QExtDesignerAbstractFormWindow *fw, PropertyMode pm, const QString &name, const QVariant &newValue);
 
 private slots:
     void changeObjectName();
@@ -109,7 +110,7 @@ private:
     QDesignerTaskMenuPrivate *d;
 };
 
-using QDesignerTaskMenuFactory = ExtensionFactory<QDesignerTaskMenuExtension, QWidget, QDesignerTaskMenu>;
+using QDesignerTaskMenuFactory = ExtensionFactory<QExtDesignerTaskMenuExtension, QWidget, QDesignerTaskMenu>;
 
 } // namespace qdesigner_internal
 

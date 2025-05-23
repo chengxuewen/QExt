@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,20 +28,21 @@
 
 
 #include "qdesigner_formeditorcommand_p.h"
-#include <../sdk/abstractformeditor.h>
+
+#include <qextDesignerAbstractFormEditor.h>
 
 QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
 // ---- QDesignerFormEditorCommand ----
-QDesignerFormEditorCommand::QDesignerFormEditorCommand(const QString &description, QDesignerFormEditorInterface *core)
+QDesignerFormEditorCommand::QDesignerFormEditorCommand(const QString &description, QExtDesignerAbstractFormEditor *core)
     : QUndoCommand(description),
       m_core(core)
 {
 }
 
-QDesignerFormEditorInterface *QDesignerFormEditorCommand::core() const
+QExtDesignerAbstractFormEditor *QDesignerFormEditorCommand::core() const
 {
     return m_core;
 }

@@ -46,8 +46,8 @@
 QT_BEGIN_NAMESPACE
 
 class QtResourceModel;
-class QDesignerDialogGuiInterface;
-class QDesignerFormEditorInterface;
+class QExtDesignerAbstractDialogGui;
+class QExtDesignerAbstractFormEditor;
 
 class QtResourceEditorDialog : public QDialog
 {
@@ -58,17 +58,17 @@ public:
 
     QString selectedResource() const;
 
-    static QString editResources(QDesignerFormEditorInterface *core, QtResourceModel *model,
-                                 QDesignerDialogGuiInterface *dlgGui, QWidget *parent = nullptr);
+    static QString editResources(QExtDesignerAbstractFormEditor *core, QtResourceModel *model,
+                                 QExtDesignerAbstractDialogGui *dlgGui, QWidget *parent = nullptr);
 
     // Helper to display a message box with rcc logs in case of errors.
-    static void displayResourceFailures(const QString &logOutput, QDesignerDialogGuiInterface *dlgGui, QWidget *parent = nullptr);
+    static void displayResourceFailures(const QString &logOutput, QExtDesignerAbstractDialogGui *dlgGui, QWidget *parent = nullptr);
 
 public slots:
     void accept() override;
 
 private:
-    QtResourceEditorDialog(QDesignerFormEditorInterface *core, QDesignerDialogGuiInterface *dlgGui, QWidget *parent = nullptr);
+    QtResourceEditorDialog(QExtDesignerAbstractFormEditor *core, QExtDesignerAbstractDialogGui *dlgGui, QWidget *parent = nullptr);
     ~QtResourceEditorDialog() override;
 
     QScopedPointer<class QtResourceEditorDialogPrivate> d_ptr;

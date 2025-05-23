@@ -48,14 +48,14 @@
 
 QT_BEGIN_NAMESPACE
 
-class QDesignerFormWindowInterface;
+class QExtDesignerAbstractFormWindow;
 class QWidget;
 class QPixmap;
 class QAction;
 class QActionGroup;
 class QMenu;
 class QWidget;
-class QDesignerSettingsInterface;
+class QExtDesignerSettingsInterface;
 
 namespace qdesigner_internal {
 
@@ -85,8 +85,8 @@ public:
     void setDeviceSkin(const QString &);
 
     void clear();
-    void toSettings(const QString &prefix, QDesignerSettingsInterface *settings) const;
-    void fromSettings(const QString &prefix, const QDesignerSettingsInterface *settings);
+    void toSettings(const QString &prefix, QExtDesignerSettingsInterface *settings) const;
+    void fromSettings(const QString &prefix, const QExtDesignerSettingsInterface *settings);
 
 private:
     QSharedDataPointer<PreviewConfigurationData> m_d;
@@ -119,18 +119,18 @@ public:
 
     // Show preview. Raise existing preview window if there is one with a matching
     // configuration, else create a new preview.
-    QWidget *showPreview(const QDesignerFormWindowInterface *, const PreviewConfiguration &pc, int deviceProfileIndex /*=-1*/, QString *errorMessage);
+    QWidget *showPreview(const QExtDesignerAbstractFormWindow *, const PreviewConfiguration &pc, int deviceProfileIndex /*=-1*/, QString *errorMessage);
     // Convenience that creates a preview using a configuration taken from the settings.
-    QWidget *showPreview(const QDesignerFormWindowInterface *, const QString &style, int deviceProfileIndex /*=-1*/, QString *errorMessage);
-    QWidget *showPreview(const QDesignerFormWindowInterface *, const QString &style, QString *errorMessage);
+    QWidget *showPreview(const QExtDesignerAbstractFormWindow *, const QString &style, int deviceProfileIndex /*=-1*/, QString *errorMessage);
+    QWidget *showPreview(const QExtDesignerAbstractFormWindow *, const QString &style, QString *errorMessage);
 
     int previewCount() const;
 
     // Create a pixmap for printing.
-    QPixmap createPreviewPixmap(const QDesignerFormWindowInterface *fw, const PreviewConfiguration &pc, int deviceProfileIndex /*=-1*/, QString *errorMessage);
+    QPixmap createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const PreviewConfiguration &pc, int deviceProfileIndex /*=-1*/, QString *errorMessage);
     // Convenience that creates a pixmap using a configuration taken from the settings.
-    QPixmap createPreviewPixmap(const QDesignerFormWindowInterface *fw, const QString &style, int deviceProfileIndex /*=-1*/, QString *errorMessage);
-    QPixmap createPreviewPixmap(const QDesignerFormWindowInterface *fw, const QString &style, QString *errorMessage);
+    QPixmap createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const QString &style, int deviceProfileIndex /*=-1*/, QString *errorMessage);
+    QPixmap createPreviewPixmap(const QExtDesignerAbstractFormWindow *fw, const QString &style, QString *errorMessage);
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -147,10 +147,10 @@ private slots:
 private:
 
     virtual Qt::WindowFlags previewWindowFlags(const QWidget *widget) const;
-    virtual QWidget *createDeviceSkinContainer(const QDesignerFormWindowInterface *) const;
+    virtual QWidget *createDeviceSkinContainer(const QExtDesignerAbstractFormWindow *) const;
 
-    QWidget *raise(const QDesignerFormWindowInterface *, const PreviewConfiguration &pc);
-    QWidget *createPreview(const QDesignerFormWindowInterface *,
+    QWidget *raise(const QExtDesignerAbstractFormWindow *, const PreviewConfiguration &pc);
+    QWidget *createPreview(const QExtDesignerAbstractFormWindow *,
                            const PreviewConfiguration &pc,
                            int deviceProfileIndex /* = -1 */,
                            QString *errorMessage,

@@ -308,7 +308,7 @@
         <xsl:variable name="name" select="concat('Dom', $node/@name)"/>
         <xsl:variable name="hasText" select="$node[@mixed='true']"/>
 
-        <xsl:text>class QDESIGNER_UILIB_EXPORT </xsl:text>
+        <xsl:text>class QEXT_DESIGNER_API </xsl:text>
         <xsl:value-of select="$name"/>
         <xsl:text> {&endl;    Q_DISABLE_COPY_MOVE(</xsl:text>
         <xsl:value-of select="$name"/>
@@ -431,15 +431,15 @@ QT_BEGIN_NAMESPACE
 #define QDESIGNER_UILIB_IMPORT Q_DECL_IMPORT
 
 #if defined(QT_DESIGNER_STATIC) || defined(QT_UIC) || defined(QT_UIC3)
-#  define QDESIGNER_UILIB_EXPORT
+#  define QEXT_DESIGNER_API
 #elif defined(QDESIGNER_UILIB_LIBRARY)
-#  define QDESIGNER_UILIB_EXPORT QDESIGNER_UILIB_EXTERN
+#  define QEXT_DESIGNER_API QDESIGNER_UILIB_EXTERN
 #else
-#  define QDESIGNER_UILIB_EXPORT QDESIGNER_UILIB_IMPORT
+#  define QEXT_DESIGNER_API QDESIGNER_UILIB_IMPORT
 #endif
 
-#ifndef QDESIGNER_UILIB_EXPORT
-#    define QDESIGNER_UILIB_EXPORT
+#ifndef QEXT_DESIGNER_API
+#    define QEXT_DESIGNER_API
 #endif
 
 #ifdef QFORMINTERNAL_NAMESPACE

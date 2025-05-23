@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -41,7 +41,7 @@
 #define QDESIGNER_DNDITEM_H
 
 #include "shared_global_p.h"
-#include <../sdk/abstractdnditem.h>
+#include <qextDesignerAbstractDndItem.h>
 
 #include <QtCore/qpoint.h>
 #include <QtCore/qlist.h>
@@ -55,7 +55,7 @@ class QDropEvent;
 
 namespace qdesigner_internal {
 
-class QDESIGNER_SHARED_EXPORT QDesignerDnDItem: public QDesignerDnDItemInterface
+class QDESIGNER_SHARED_EXPORT QDesignerDnDItem: public QExtDesignerDnDItemInterface
 {
 public:
     explicit QDesignerDnDItem(DropType type, QWidget *source = nullptr);
@@ -91,7 +91,7 @@ class  QDESIGNER_SHARED_EXPORT QDesignerMimeData : public QMimeData {
     Q_OBJECT
 
 public:
-    using QDesignerDnDItems = QList<QDesignerDnDItemInterface *>;
+    using QDesignerDnDItems = QList<QExtDesignerDnDItemInterface *>;
 
     ~QDesignerMimeData() override;
 

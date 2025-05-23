@@ -51,8 +51,8 @@
 #include "tictactoe.h"
 #include "tictactoedialog.h"
 
-#include <QtDesigner/QDesignerFormWindowInterface>
-#include <QtDesigner/QDesignerFormWindowCursorInterface>
+#include <QtDesigner/QExtDesignerAbstractFormWindow>
+#include <QtDesigner/QExtDesignerFormWindowCursorInterface>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -101,8 +101,8 @@ void TicTacToeDialog::resetState()
 void TicTacToeDialog::saveState()
 {
 //! [3] //! [4]
-    if (QDesignerFormWindowInterface *formWindow
-            = QDesignerFormWindowInterface::findFormWindow(ticTacToe)) {
+    if (QExtDesignerAbstractFormWindow *formWindow
+            = QExtDesignerAbstractFormWindow::findFormWindow(ticTacToe)) {
         formWindow->cursor()->setProperty("state", editor->state());
     }
 //! [4] //! [5]

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -40,8 +40,8 @@
 #ifndef SHARED_EXTENSIONFACTORY_H
 #define SHARED_EXTENSIONFACTORY_H
 
-#include "../extension/default_extensionfactory.h"
-#include "../extension/qextensionmanager.h"
+#include <qextDesignerExtensionFactory.h>
+#include <qextDesignerExtensionManager.h>
 
 QT_BEGIN_NAMESPACE
 

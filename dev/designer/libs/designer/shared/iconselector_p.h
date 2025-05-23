@@ -51,9 +51,9 @@
 QT_BEGIN_NAMESPACE
 
 class QtResourceModel;
-class QDesignerFormEditorInterface;
-class QDesignerDialogGuiInterface;
-class QDesignerResourceBrowserInterface;
+class QExtDesignerAbstractFormEditor;
+class QExtDesignerAbstractDialogGui;
+class QExtDesignerAbstractResourceBrowser;
 
 namespace qdesigner_internal {
 
@@ -67,12 +67,12 @@ class QDESIGNER_SHARED_EXPORT LanguageResourceDialog : public QDialog
 {
     Q_OBJECT
 
-    explicit LanguageResourceDialog(QDesignerResourceBrowserInterface *rb, QWidget *parent = nullptr);
+    explicit LanguageResourceDialog(QExtDesignerAbstractResourceBrowser *rb, QWidget *parent = nullptr);
 
 public:
     ~LanguageResourceDialog() override;
     // Factory: Returns 0 if the language extension does not provide a resource browser.
-    static LanguageResourceDialog* create(QDesignerFormEditorInterface *core, QWidget *parent);
+    static LanguageResourceDialog* create(QExtDesignerAbstractFormEditor *core, QWidget *parent);
 
     void setCurrentPath(const QString &filePath);
     QString currentPath() const;
@@ -93,7 +93,7 @@ public:
     IconSelector(QWidget *parent = nullptr);
     ~IconSelector() override;
 
-    void setFormEditor(QDesignerFormEditorInterface *core); // required for dialog gui.
+    void setFormEditor(QExtDesignerAbstractFormEditor *core); // required for dialog gui.
     void setIconCache(DesignerIconCache *iconCache);
     void setPixmapCache(DesignerPixmapCache *pixmapCache);
 
@@ -104,9 +104,9 @@ public:
     enum CheckMode { CheckFast, CheckFully };
     static bool checkPixmap(const QString &fileName, CheckMode cm = CheckFully, QString *errorMessage = nullptr);
     // Choose a pixmap from file
-    static QString choosePixmapFile(const QString &directory, QDesignerDialogGuiInterface *dlgGui, QWidget *parent);
+    static QString choosePixmapFile(const QString &directory, QExtDesignerAbstractDialogGui *dlgGui, QWidget *parent);
     // Choose a pixmap from resource; use language-dependent resource browser if present
-    static QString choosePixmapResource(QDesignerFormEditorInterface *core, QtResourceModel *resourceModel, const QString &oldPath, QWidget *parent);
+    static QString choosePixmapResource(QExtDesignerAbstractFormEditor *core, QtResourceModel *resourceModel, const QString &oldPath, QWidget *parent);
 
 signals:
     void iconChanged(const PropertySheetIconValue &icon);

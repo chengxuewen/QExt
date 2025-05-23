@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -39,11 +39,11 @@
 #include "qdesigner_utils_p.h"
 #include "spacer_widget_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/container.h>
-#include <../extension/qextensionmanager.h>
-#include <../sdk/taskmenu.h>
-#include <../sdk/abstractintegration.h>
+#include <qextDesignerExtensionManager.h>
+#include <qextDesignerTaskMenuExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerContainerExtension.h>
+#include <qextDesignerAbstractIntegration.h>
 
 #include <QtCore/qdebug.h>
 #include <QtCore/qlist.h>
@@ -68,11 +68,11 @@ namespace qdesigner_internal {
 
 class FormWindowBasePrivate {
 public:
-    explicit FormWindowBasePrivate(QDesignerFormEditorInterface *core);
+    explicit FormWindowBasePrivate(QExtDesignerAbstractFormEditor *core);
 
     static Grid m_defaultGrid;
 
-    QDesignerFormWindowInterface::Feature m_feature;
+    QExtDesignerAbstractFormWindow::Feature m_feature;
     Grid m_grid;
     bool m_hasFormGrid;
     DesignerPixmapCache *m_pixmapCache;
@@ -87,8 +87,8 @@ public:
     bool m_connectSlotsByName;
 };
 
-FormWindowBasePrivate::FormWindowBasePrivate(QDesignerFormEditorInterface *core) :
-    m_feature(QDesignerFormWindowInterface::DefaultFeature),
+FormWindowBasePrivate::FormWindowBasePrivate(QExtDesignerAbstractFormEditor *core) :
+    m_feature(QExtDesignerAbstractFormWindow::DefaultFeature),
     m_grid(m_defaultGrid),
     m_hasFormGrid(false),
     m_pixmapCache(nullptr),
@@ -104,15 +104,15 @@ FormWindowBasePrivate::FormWindowBasePrivate(QDesignerFormEditorInterface *core)
 
 Grid FormWindowBasePrivate::m_defaultGrid;
 
-FormWindowBase::FormWindowBase(QDesignerFormEditorInterface *core, QWidget *parent, Qt::WindowFlags flags) :
-    QDesignerFormWindowInterface(parent, flags),
+FormWindowBase::FormWindowBase(QExtDesignerAbstractFormEditor *core, QWidget *parent, Qt::WindowFlags flags) :
+    QExtDesignerAbstractFormWindow(parent, flags),
     m_d(new FormWindowBasePrivate(core))
 {
     syncGridFeature();
     m_d->m_pixmapCache = new DesignerPixmapCache(this);
     m_d->m_iconCache = new DesignerIconCache(m_d->m_pixmapCache, this);
-    if (core->integration()->hasFeature(QDesignerIntegrationInterface::DefaultWidgetActionFeature))
-        connect(this, &QDesignerFormWindowInterface::activated, this, &FormWindowBase::triggerDefaultAction);
+    if (core->integration()->hasFeature(QExtDesignerAbstractIntegration::DefaultWidgetActionFeature))
+        connect(this, &QExtDesignerAbstractFormWindow::activated, this, &FormWindowBase::triggerDefaultAction);
 }
 
 FormWindowBase::~FormWindowBase()
@@ -415,7 +415,7 @@ QWidget *FormWindowBase::widgetUnderMouse(const QPoint &formPos, WidgetUnderMous
     if (rc == mainContainer()) {
         // Refuse main container areas if the main container has a container extension,
         // for example when hitting QToolBox/QTabWidget empty areas.
-        if (qt_extension<QDesignerContainerExtension*>(core()->extensionManager(), rc))
+        if (qt_extension<QExtDesignerContainerExtension*>(core()->extensionManager(), rc))
             return nullptr;
         return rc;
     }
@@ -423,7 +423,7 @@ QWidget *FormWindowBase::widgetUnderMouse(const QPoint &formPos, WidgetUnderMous
     // If we hit on container extension type container, make sure
     // we use the top-most current page
     if (QWidget *container = findContainer(rc, false))
-        if (QDesignerContainerExtension *c = qt_extension<QDesignerContainerExtension*>(core()->extensionManager(), container)) {
+        if (QExtDesignerContainerExtension *c = qt_extension<QExtDesignerContainerExtension*>(core()->extensionManager(), container)) {
             // For container that do not have a "stacked" nature (QToolBox, QMdiArea),
             // make sure the position is within the current page
             const int ci = c->currentIndex();
@@ -458,15 +458,15 @@ void FormWindowBase::deleteWidgetList(const QWidgetList &widget_list)
     commandHistory()->endMacro();
 }
 
-QMenu *FormWindowBase::createExtensionTaskMenu(QDesignerFormWindowInterface *fw, QObject *o, bool trailingSeparator)
+QMenu *FormWindowBase::createExtensionTaskMenu(QExtDesignerAbstractFormWindow *fw, QObject *o, bool trailingSeparator)
 {
     using ActionList = QList<QAction *>;
     ActionList actions;
     // 1) Standard public extension
     QExtensionManager *em = fw->core()->extensionManager();
-    if (const QDesignerTaskMenuExtension *extTaskMenu = qt_extension<QDesignerTaskMenuExtension*>(em, o))
+    if (const QExtDesignerTaskMenuExtension *extTaskMenu = qt_extension<QExtDesignerTaskMenuExtension*>(em, o))
         actions += extTaskMenu->taskActions();
-    if (const QDesignerTaskMenuExtension *intTaskMenu = qobject_cast<QDesignerTaskMenuExtension *>(em->extension(o, QStringLiteral("QDesignerInternalTaskMenuExtension")))) {
+    if (const QExtDesignerTaskMenuExtension *intTaskMenu = qobject_cast<QExtDesignerTaskMenuExtension *>(em->extension(o, QStringLiteral("QDesignerInternalTaskMenuExtension")))) {
         if (!actions.isEmpty()) {
             QAction *a = new QAction(fw);
             a->setSeparator(true);

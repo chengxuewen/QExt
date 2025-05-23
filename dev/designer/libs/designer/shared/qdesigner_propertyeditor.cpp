@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,10 +29,10 @@
 #include "qdesigner_propertyeditor_p.h"
 #include "pluginmanager_p.h"
 
-#include <../sdk/abstractformeditor.h>
-#include <../sdk/dynamicpropertysheet.h>
-#include <../sdk/propertysheet.h>
-#include <../extension/qextensionmanager.h>
+#include <qextDesignerDynamicPropertySheetExtension.h>
+#include <qextDesignerPropertySheetExtension.h>
+#include <qextDesignerAbstractFormEditor.h>
+#include <qextDesignerExtensionManager.h>
 #include <widgetfactory_p.h>
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qlineedit.h>
@@ -82,19 +82,19 @@ static const PropertyNameTypeMap &stringPropertyTypes()
 }
 
 QDesignerPropertyEditor::QDesignerPropertyEditor(QWidget *parent, Qt::WindowFlags flags) :
-    QDesignerPropertyEditorInterface(parent, flags)
+    QExtDesignerAbstractPropertyEditor(parent, flags)
 {
     // Make old signal work for  compatibility
-    connect(this, &QDesignerPropertyEditorInterface::propertyChanged,
+    connect(this, &QExtDesignerAbstractPropertyEditor::propertyChanged,
             this, &QDesignerPropertyEditor::slotPropertyChanged);
 }
 
-static inline bool isDynamicProperty(QDesignerFormEditorInterface *core, QObject *object,
+static inline bool isDynamicProperty(QExtDesignerAbstractFormEditor *core, QObject *object,
                                      const QString &propertyName)
 {
-    if (const QDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QDesignerDynamicPropertySheetExtension*>(core->extensionManager(), object)) {
+    if (const QExtDesignerDynamicPropertySheetExtension *dynamicSheet = qt_extension<QExtDesignerDynamicPropertySheetExtension*>(core->extensionManager(), object)) {
         if (dynamicSheet->dynamicPropertiesAllowed()) {
-            if (QDesignerPropertySheetExtension *propertySheet = qt_extension<QDesignerPropertySheetExtension*>(core->extensionManager(), object)) {
+            if (QExtDesignerPropertySheetExtension *propertySheet = qt_extension<QExtDesignerPropertySheetExtension*>(core->extensionManager(), object)) {
                 const int index = propertySheet->indexOf(propertyName);
                 return index >= 0 && dynamicSheet->isDynamicProperty(index);
             }
@@ -104,7 +104,7 @@ static inline bool isDynamicProperty(QDesignerFormEditorInterface *core, QObject
 }
 
 QDesignerPropertyEditor::StringPropertyParameters QDesignerPropertyEditor::textPropertyValidationMode(
-        QDesignerFormEditorInterface *core, const QObject *object,
+        QExtDesignerAbstractFormEditor *core, const QObject *object,
         const QString &propertyName, bool isMainContainer)
 {
     // object name - no comment
