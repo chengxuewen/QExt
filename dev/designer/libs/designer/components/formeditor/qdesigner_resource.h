@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,8 +29,8 @@
 #ifndef QDESIGNER_RESOURCE_H
 #define QDESIGNER_RESOURCE_H
 
-#include "formeditor_global.h"
-#include "qsimpleresource_p.h"
+#include <qextDesignerGlobal.h>
+#include <private/qextDesignerSimpleResource_p.h>
 
 #include <QtCore/qhash.h>
 #include <QtCore/qstack.h>
@@ -59,7 +59,7 @@ namespace qdesigner_internal {
 
 class FormWindow;
 
-class QT_FORMEDITOR_EXPORT QDesignerResource : public QEditorFormBuilder
+class QEXT_DESIGNER_API QDesignerResource : public QEditorFormBuilder
 {
 public:
     explicit QDesignerResource(FormWindow *fw);

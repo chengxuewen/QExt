@@ -28,8 +28,8 @@
 
 #include "itemlisteditor.h"
 #include <qextDesignerAbstractFormBuilder.h>
-#include <iconloader_p.h>
-#include <formwindowbase_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
 #include "../propertyeditor/designerpropertymanager.h"
 
 #include <qextDesignerAbstractFormWindow.h>

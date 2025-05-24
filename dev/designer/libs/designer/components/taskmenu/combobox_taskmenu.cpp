@@ -28,8 +28,8 @@
 
 #include "combobox_taskmenu.h"
 #include "listwidgeteditor.h"
-#include "qdesigner_utils_p.h"
-#include <qdesigner_command_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerCommand_p.h>
 
 #include <qextDesignerAbstractFormWindow.h>
 

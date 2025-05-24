@@ -31,7 +31,7 @@
 
 #include "signalsloteditor_global.h"
 
-#include "../../shared/connectionedit_p.h"
+#include <private/qextDesignerConnectionEdit_p.h>
 
 QT_BEGIN_NAMESPACE
 

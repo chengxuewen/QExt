@@ -29,7 +29,7 @@
 #ifndef FORMWINDOWCURSOR_H
 #define FORMWINDOWCURSOR_H
 
-#include "formeditor_global.h"
+#include <qextDesignerGlobal.h>
 #include "formwindow.h"
 #include <qextDesignerAbstractFormWindowCursor.h>
 
@@ -39,7 +39,7 @@ QT_BEGIN_NAMESPACE
 
 namespace qdesigner_internal {
 
-class QT_FORMEDITOR_EXPORT FormWindowCursor: public QObject, public QExtDesignerFormWindowCursorInterface
+class QEXT_DESIGNER_API FormWindowCursor: public QObject, public QExtDesignerFormWindowCursorInterface
 {
     Q_OBJECT
 public:

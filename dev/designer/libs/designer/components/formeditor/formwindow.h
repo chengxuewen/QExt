@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,8 +29,8 @@
 #ifndef FORMWINDOW_H
 #define FORMWINDOW_H
 
-#include "formeditor_global.h"
-#include <formwindowbase_p.h>
+#include <qextDesignerGlobal.h>
+#include <private/qextDesignerFormWindowBase_p.h>
 
 // Qt
 #include <QtWidgets/qundostack.h>
@@ -65,7 +65,7 @@ class FormWindowManager;
 class FormWindowDnDItem;
 class SetPropertyCommand;
 
-class QT_FORMEDITOR_EXPORT FormWindow: public FormWindowBase
+class QEXT_DESIGNER_API FormWindow: public FormWindowBase
 {
     Q_OBJECT
 

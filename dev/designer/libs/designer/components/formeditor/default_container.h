@@ -29,10 +29,9 @@
 #ifndef DEFAULT_CONTAINER_H
 #define DEFAULT_CONTAINER_H
 
-#include <qextDesignerContainerExtension.h>
-
 #include <qextDesignerExtension.h>
-#include "../../shared/extensionfactory_p.h"
+#include <qextDesignerContainerExtension.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 #include <QtWidgets/qstackedwidget.h>
 #include <QtWidgets/qtabwidget.h>

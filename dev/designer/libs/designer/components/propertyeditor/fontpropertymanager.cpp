@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -31,7 +31,7 @@
 #include "designerpropertymanager.h"
 #include "qtpropertybrowserutils_p.h"
 
-#include <qdesigner_utils_p.h>
+#include <private/qextDesignerUtils_p.h>
 
 #include <QtCore/qcoreapplication.h>
 #include <QtCore/qvariant.h>

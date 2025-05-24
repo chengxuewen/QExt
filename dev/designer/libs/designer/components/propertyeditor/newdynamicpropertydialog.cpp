@@ -29,7 +29,7 @@
 #include "newdynamicpropertydialog.h"
 #include "ui_newdynamicpropertydialog.h"
 #include <private/qextDesignerAbstractDialogGui_p.h>
-#include <qdesigner_propertysheet_p.h>
+#include <private/qextDesignerPropertySheet_p.h>
 
 #include <QtWidgets/qpushbutton.h>
 

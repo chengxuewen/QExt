@@ -29,8 +29,8 @@
 #include "templateoptionspage.h"
 #include "ui_templateoptionspage.h"
 
-#include <shared_settings_p.h>
-#include <iconloader_p.h>
+#include <private/qextDesignerSharedSettings_p.h>
+#include <private/qextDesignerIconLoader_p.h>
 
 #include <qextDesignerAbstractFormEditor.h>
 #include <private/qextDesignerAbstractDialogGui_p.h>

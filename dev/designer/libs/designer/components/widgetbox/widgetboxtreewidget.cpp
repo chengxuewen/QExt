@@ -30,11 +30,11 @@
 #include "widgetboxcategorylistview.h"
 
 // shared
-#include <iconloader_p.h>
-#include <sheet_delegate_p.h>
 #include <private/qextDesignerDomUI_p.h>
-#include <qdesigner_utils_p.h>
-#include <pluginmanager_p.h>
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerSheetDelegate_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerUtils_p.h>
 
 // sdk
 #include <qextDesignerAbstractFormEditor.h>

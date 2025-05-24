@@ -33,12 +33,12 @@
 #include <qextDesignerPropertySheetExtension.h>
 #include <qextDesignerExtensionManager.h>
 
-#include <qdesigner_command_p.h>
-#include <qdesigner_propertycommand_p.h>
-#include <qdesigner_utils_p.h>
-#include <qlayout_widget_p.h>
-#include <connectionedit_p.h>
-#include <metadatabase_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
+#include <private/qextDesignerMetaDataBase_p.h>
+#include <private/qextDesignerConnectionEdit_p.h>
+#include <private/qextDesignerPropertyCommand_p.h>
 
 #include <QtCore/qdebug.h>
 #include <QtCore/qvector.h>

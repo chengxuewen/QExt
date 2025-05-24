@@ -45,22 +45,22 @@
 #include <qextDesignerAbstractFormWindowManager.h>
 #include <qextDesignerAbstractPromotion.h>
 
-#include "../shared/actioneditor_p.h"
-#include "../shared/pluginmanager_p.h"
-#include "../shared/qtresourcemodel_p.h"
 #include "../../qtgradienteditor/qtgradientmanager.h"
-#include "../shared/widgetfactory_p.h"
-#include "../shared/shared_settings_p.h"
-#include "../shared/formwindowbase_p.h"
-#include "../shared/grid_p.h"
-#include "../shared/iconloader_p.h"
+#include <private/qextDesignerActionEditor_p.h>
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerResourceModel_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerSharedSettings_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerGrid_p.h>
 
 #include <QtGui/qicon.h>
 
 // Must be done outside of the Qt namespace
 static void initResources()
 {
-    Q_INIT_RESOURCE(shared);
+    Q_INIT_RESOURCE(qextDesigner);
     Q_INIT_RESOURCE(ClamshellPhone);
     Q_INIT_RESOURCE(PortableMedia);
     Q_INIT_RESOURCE(S60_nHD_Touchscreen);

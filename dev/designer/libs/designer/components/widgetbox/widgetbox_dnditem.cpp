@@ -28,14 +28,14 @@
 
 #include "widgetbox_dnditem.h"
 
-#include <widgetfactory_p.h>
-#include <spacer_widget_p.h>
-#include <qdesigner_formbuilder_p.h>
-#include <qtresourcemodel_p.h>
-#include <formwindowbase_p.h>
-#include <qdesigner_utils_p.h>
-#include <qdesigner_dockwidget_p.h>
-#include <qsimpleresource_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerSpacerWidget_p.h>
+#include <private/qextDesignerFormBuilder_p.h>
+#include <private/qextDesignerResourceModel_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerDockWidget_p.h>
+#include <private/qextDesignerSimpleResource_p.h>
 
 #include <qextDesignerAbstractFormEditor.h>
 #include <qextDesignerAbstractFormWindowManager.h>

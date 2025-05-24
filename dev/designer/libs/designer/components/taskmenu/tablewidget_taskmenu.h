@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,8 +29,8 @@
 #ifndef TABLEWIDGET_TASKMENU_H
 #define TABLEWIDGET_TASKMENU_H
 
-#include <qdesigner_taskmenu_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerTaskMenu_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 #include <QtWidgets/qtablewidget.h>
 #include <QtCore/qpointer.h>

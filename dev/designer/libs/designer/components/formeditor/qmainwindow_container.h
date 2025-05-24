@@ -31,8 +31,7 @@
 
 #include <qextDesignerContainerExtension.h>
 #include <qextDesignerExtensionFactory.h>
-
-#include <extensionfactory_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 #include <QtWidgets/qmainwindow.h>
 

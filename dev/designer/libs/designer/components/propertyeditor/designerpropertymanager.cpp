@@ -31,22 +31,22 @@
 #include "paletteeditorbutton.h"
 #include "qlonglongvalidator.h"
 #include "stringlisteditorbutton.h"
-#include "qtresourceview_p.h"
+#include <private/qextDesignerResourceView_p.h>
 #include "qtpropertybrowserutils_p.h"
 
-#include <formwindowbase_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
 #include "../formeditor/formwindowmanager.h"
 #include "../formeditor/formwindow.h"
 #include <private/qextDesignerAbstractDialogGui_p.h>
 #include <qextDesignerPropertySheetExtension.h>
 #include <qextDesignerExtensionManager.h>
 #include "../formeditor/formwindowcursor.h"
-#include <textpropertyeditor_p.h>
-#include <stylesheeteditor_p.h>
-#include <richtexteditor_p.h>
-#include <plaintexteditor_p.h>
-#include <iconloader_p.h>
-#include <iconselector_p.h>
+#include <private/qextDesignerTextPropertyEditor_p.h>
+#include <private/qextDesignerStyleSheetEditor_p.h>
+#include <private/qextDesignerPlainTextEditor_p.h>
+#include <private/qextDesignerRichTextEditor_p.h>
+#include <private/qextDesignerIconSelector_p.h>
+#include <private/qextDesignerIconLoader_p.h>
 
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qtoolbutton.h>

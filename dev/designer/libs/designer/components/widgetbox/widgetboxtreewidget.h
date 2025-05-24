@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,7 +29,7 @@
 #ifndef WIDGETBOXTREEWIDGET_H
 #define WIDGETBOXTREEWIDGET_H
 
-#include <qdesigner_widgetbox_p.h>
+#include <private/qextDesignerWidgetBox_p.h>
 
 #include <QtWidgets/qtreewidget.h>
 #include <QtGui/qicon.h>

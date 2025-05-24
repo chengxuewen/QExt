@@ -44,9 +44,9 @@
 #include <qextDesignerAbstractFormWindowManager.h>
 
 #include "../../libs/designer/components/qdesigner_components.h"
-#include "../../libs/designer/shared/pluginmanager_p.h"
-#include "../../libs/designer/shared/formwindowbase_p.h"
-#include "../../libs/designer/shared/actioneditor_p.h"
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerActionEditor_p.h>
 
 #include <QtCore/qdir.h>
 #include <QtCore/qfile.h>

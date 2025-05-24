@@ -31,7 +31,7 @@
 
 #include <private/qextDesignerDomUI_p.h>
 #include "../formeditor/qdesigner_resource.h"
-#include "../../shared/qtresourcemodel_p.h"
+#include <private/qextDesignerResourceModel_p.h>
 #include <qextDesignerAbstractFormEditor.h>
 
 #include <QtWidgets/qlabel.h>

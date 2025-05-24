@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,8 +30,8 @@
 #define BUDDYEDITOR_H
 
 #include "buddyeditor_global.h"
+#include <private/qextDesignerConnectionEdit_p.h>
 
-#include <connectionedit_p.h>
 #include <QtCore/qpointer.h>
 #include <QtCore/qset.h>
 

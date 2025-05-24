@@ -32,11 +32,11 @@
 #include "qtbuttonpropertybrowser.h"
 #include "qtvariantproperty.h"
 #include "designerpropertymanager.h"
-#include "qdesigner_propertysheet_p.h"
-#include "formwindowbase_p.h"
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerPropertySheet_p.h>
+#include <private/qextDesignerEnums_p.h>
 
 #include "newdynamicpropertydialog.h"
-#include "shared_enums_p.h"
 
 // sdk
 #include <qextDesignerExtensionManager.h>
@@ -47,11 +47,11 @@
 #include <qextDesignerAbstractFormEditor.h>
 #include <qextDesignerAbstractSettings.h>
 // shared
-#include <qdesigner_utils_p.h>
-#include <qdesigner_propertycommand_p.h>
-#include <metadatabase_p.h>
-#include <iconloader_p.h>
-#include <widgetfactory_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerMetaDataBase_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerPropertyCommand_p.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qlineedit.h>

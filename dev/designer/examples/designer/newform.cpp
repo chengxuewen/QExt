@@ -32,7 +32,7 @@
 #include "qdesigner_formwindow.h"
 #include "qdesigner_settings.h"
 
-#include "../../libs/designer/shared/newformwidget_p.h"
+#include <private/qextDesignerNewFormWidget_p.h>
 
 #include <qextDesignerAbstractFormEditor.h>
 

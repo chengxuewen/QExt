@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,8 +28,8 @@
 
 #include "previewactiongroup.h"
 
-#include <deviceprofile_p.h>
-#include <shared_settings_p.h>
+#include <private/qextDesignerDeviceProfile_p.h>
+#include <private/qextDesignerSharedSettings_p.h>
 
 #include <QtWidgets/qstylefactory.h>
 #include <QtCore/qvariant.h>

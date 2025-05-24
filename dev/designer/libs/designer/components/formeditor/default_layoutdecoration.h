@@ -29,7 +29,7 @@
 #ifndef DEFAULT_LAYOUTDECORATION_H
 #define DEFAULT_LAYOUTDECORATION_H
 
-#include "formeditor_global.h"
+#include <qextDesignerGlobal.h>
 #include <qextDesignerLayoutDecorationExtension.h>
 #include <qextDesignerExtensionFactory.h>
 

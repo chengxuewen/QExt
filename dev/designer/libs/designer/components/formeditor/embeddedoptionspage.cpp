@@ -28,13 +28,13 @@
 
 #include "embeddedoptionspage.h"
 #include "deviceprofiledialog.h"
-#include "widgetfactory_p.h"
+#include <private/qextDesignerWidgetFactory_p.h>
 #include "formwindowmanager.h"
 
-#include <deviceprofile_p.h>
-#include <iconloader_p.h>
-#include <shared_settings_p.h>
-#include <formwindowbase_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerSharedSettings_p.h>
+#include <private/qextDesignerDeviceProfile_p.h>
+#include <private/qextDesignerIconLoader_p.h>
 
 
 // SDK

@@ -28,16 +28,16 @@
 
 #include "qdesigner_components.h"
 
-#include <actioneditor_p.h>
-#include <widgetdatabase_p.h>
-#include <widgetfactory_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerActionEditor_p.h>
+#include <private/qextDesignerResourceView_p.h>
 
 #include <formeditor/formeditor.h>
 #include <widgetbox/widgetbox.h>
 #include <propertyeditor/propertyeditor.h>
 #include <objectinspector/objectinspector.h>
 #include <taskmenu/taskmenu_component.h>
-#include "qtresourceview_p.h"
 #include <signalsloteditor/signalsloteditorwindow.h>
 
 // #include <buddyeditor/buddyeditor_plugin.h>

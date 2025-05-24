@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,8 +29,8 @@
 #ifndef WIDGETSELECTION_H
 #define WIDGETSELECTION_H
 
-#include "formeditor_global.h"
-#include <invisible_widget_p.h>
+#include <qextDesignerGlobal.h>
+#include <private/qextDesignerInvisibleWidget_p.h>
 
 #include <QtCore/qhash.h>
 #include <QtCore/qpointer.h>
@@ -46,7 +46,7 @@ namespace qdesigner_internal {
 class FormWindow;
 class WidgetSelection;
 
-class QT_FORMEDITOR_EXPORT WidgetHandle: public InvisibleWidget
+class QEXT_DESIGNER_API WidgetHandle: public InvisibleWidget
 {
     Q_OBJECT
 public:
@@ -95,7 +95,7 @@ private:
     bool m_active;
 };
 
-class QT_FORMEDITOR_EXPORT WidgetSelection: public QObject
+class QEXT_DESIGNER_API WidgetSelection: public QObject
 {
     Q_OBJECT
 public:

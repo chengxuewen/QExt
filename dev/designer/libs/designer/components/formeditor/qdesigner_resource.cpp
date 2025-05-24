@@ -28,15 +28,15 @@
 
 #include "qdesigner_resource.h"
 #include "formwindow.h"
-#include "qdesigner_tabwidget_p.h"
-#include "qdesigner_toolbox_p.h"
-#include "qdesigner_stackedbox_p.h"
-#include "qdesigner_toolbar_p.h"
-#include "qdesigner_dockwidget_p.h"
-#include "qdesigner_menu_p.h"
-#include "qdesigner_menubar_p.h"
-#include "qdesigner_membersheet_p.h"
-#include "qtresourcemodel_p.h"
+#include <private/qextDesignerTabWidget_p.h>
+#include <private/qextDesignerToolBox_p.h>
+#include <private/qextDesignerStackedBox_p.h>
+#include <private/qextDesignerToolBar_p.h>
+#include <private/qextDesignerDockWidget_p.h>
+#include <private/qextDesignerMenu_p.h>
+#include <private/qextDesignerMenuBar_p.h>
+#include <private/qextDesignerMemberSheet_p.h>
+#include <private/qextDesignerResourceModel_p.h>
 #include "qmdiarea_container.h"
 #include "qwizard_container.h"
 #include "layout_propertysheet.h"
@@ -45,19 +45,19 @@
 #include <private/qextDesignerFormBuilderExtra_p.h>
 #include <private/qextDesignerResourceBuilder_p.h>
 #include <private/qextDesignerTextBuilder_p.h>
-#include <qdesigner_widgetitem_p.h>
+#include <private/qextDesignerWidgetItem_p.h>
 
 // shared
-#include <widgetdatabase_p.h>
-#include <metadatabase_p.h>
-#include <layout_p.h>
-#include <layoutinfo_p.h>
-#include <spacer_widget_p.h>
-#include <pluginmanager_p.h>
-#include <widgetfactory_p.h>
+#include <private/qextDesignerLayout_p.h>
+#include <private/qextDesignerLayoutInfo_p.h>
+#include <private/qextDesignerSpacerWidget_p.h>
+#include <private/qextDesignerMetaDataBase_p.h>
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
 
-#include <qlayout_widget_p.h>
-#include <qdesigner_utils_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
+#include <private/qextDesignerUtils_p.h>
 #include <private/qextDesignerDomUI_p.h>
 
 // sdk

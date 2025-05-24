@@ -27,9 +27,9 @@
 ****************************************************************************/
 
 #include "spacer_propertysheet.h"
-#include "qdesigner_widget_p.h"
 #include "formwindow.h"
-#include "spacer_widget_p.h"
+#include <private/qextDesignerWidget_p.h>
+#include <private/qextDesignerSpacerWidget_p.h>
 
 #include <qextDesignerExtensionManager.h>
 

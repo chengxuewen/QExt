@@ -39,17 +39,17 @@
 #include <qextDesignerPropertySheetExtension.h>
 
 #include <qextDesignerExtensionManager.h>
-#include "../shared/qtresourcemodel_p.h"
-#include "../shared/qdesigner_propertycommand_p.h"
-#include "../shared/qdesigner_propertyeditor_p.h"
-#include "../shared/qdesigner_objectinspector_p.h"
-#include "../shared/widgetdatabase_p.h"
-#include "../shared/pluginmanager_p.h"
-#include "../shared/widgetfactory_p.h"
-#include "../shared/qdesigner_widgetbox_p.h"
+#include <private/qextDesignerResourceModel_p.h>
+#include <private/qextDesignerPropertyCommand_p.h>
+#include <private/qextDesignerPropertyEditor_p.h>
+#include <private/qextDesignerObjectInspector_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerResourceModel_p.h>
+#include <private/qextDesignerWidgetBox_p.h>
 #include "../qtgradienteditor/qtgradientmanager.h"
 #include "../qtgradienteditor/qtgradientutils.h"
-#include "../shared/qtresourcemodel_p.h"
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qfile.h>
@@ -371,7 +371,7 @@ void QExtDesignerIntegrationPrivate::initialize()
         QtGradientUtils::restoreState(m_gradientManager, QString::fromLatin1(f.readAll()));
         f.close();
     } else {
-        QFile defaultGradients(QStringLiteral(":/qt-project.org/designer/defaultgradients.xml"));
+        QFile defaultGradients(QStringLiteral(":/qextDesigner/defaultgradients.xml"));
         if (defaultGradients.open(QIODevice::ReadOnly)) {
             QtGradientUtils::restoreState(m_gradientManager, QString::fromLatin1(defaultGradients.readAll()));
             defaultGradients.close();

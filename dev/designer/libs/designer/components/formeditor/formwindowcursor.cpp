@@ -30,9 +30,9 @@
 #include "formwindow.h"
 
 // sdk
+#include <private/qextDesignerPropertyCommand_p.h>
 #include <qextDesignerPropertySheetExtension.h>
 #include <qextDesignerExtensionManager.h>
-#include "qdesigner_propertycommand_p.h"
 
 #include <QtCore/qdebug.h>
 

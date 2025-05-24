@@ -27,9 +27,8 @@
 ****************************************************************************/
 
 #include "default_layoutdecoration.h"
-#include "qlayout_widget_p.h"
-
-#include <layoutinfo_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
+#include <private/qextDesignerLayoutInfo_p.h>
 
 #include <qextDesignerAbstractMetaDataBase.h>
 #include <qextDesignerAbstractFormWindow.h>

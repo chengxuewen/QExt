@@ -29,11 +29,10 @@
 #ifndef QMDIAREA_CONTAINER_H
 #define QMDIAREA_CONTAINER_H
 
+#include <private/qextDesignerExtensionFactory_p.h>
+#include <private/qextDesignerpropertysheet_p.h>
+#include <qextDesignerPropertySheetExtension.h>
 #include <qextDesignerContainerExtension.h>
-
-
-#include <qdesigner_propertysheet_p.h>
-#include <extensionfactory_p.h>
 
 #include <QtWidgets/qmdiarea.h>
 

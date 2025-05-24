@@ -29,8 +29,8 @@
 #include "connectdialog_p.h"
 #include "signalslot_utils_p.h"
 
-#include <signalslotdialog_p.h>
-#include <metadatabase_p.h>
+#include <private/qextDesignerSignalSlotDialog_p.h>
+#include <private/qextDesignerMetaDataBase_p.h>
 
 #include <qextDesignerAbstractFormWindow.h>
 #include <qextDesignerAbstractFormEditor.h>

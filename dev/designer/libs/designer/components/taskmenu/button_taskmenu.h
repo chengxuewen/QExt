@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,8 +33,8 @@
 #include <QtWidgets/qcommandlinkbutton.h>
 #include <QtWidgets/qbuttongroup.h>
 
-#include <qdesigner_taskmenu_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerTaskMenu_p.h>
+#include <qextDesignerMemberSheetExtension.h>
 
 QT_BEGIN_NAMESPACE
 

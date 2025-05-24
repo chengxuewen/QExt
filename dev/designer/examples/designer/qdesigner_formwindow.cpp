@@ -28,7 +28,7 @@
 
 #include "qdesigner_formwindow.h"
 #include "qdesigner_workbench.h"
-#include "../../libs/designer/shared/formwindowbase_p.h"
+#include <private/qextDesignerFormWindowBase_p.h>
 
 // sdk
 #include <qextDesignerTaskMenuExtension.h>

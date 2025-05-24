@@ -30,8 +30,7 @@
 #include "ui_deviceprofiledialog.h"
 
 #include <private/qextDesignerAbstractDialogGui_p.h>
-
-#include <deviceprofile_p.h>
+#include <private/qextDesignerDeviceProfile_p.h>
 
 #include <QtWidgets/qdialogbuttonbox.h>
 #include <QtWidgets/qboxlayout.h>

@@ -33,8 +33,8 @@
 
 #include <qextDesignerAbstractSettings.h>
 #include <qextDesignerAbstractFormEditor.h>
-#include "../../libs/designer/shared/qdesigner_utils_p.h"
-#include "../../libs/designer/shared/previewmanager_p.h"
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerPreviewManager_p.h>
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qdir.h>

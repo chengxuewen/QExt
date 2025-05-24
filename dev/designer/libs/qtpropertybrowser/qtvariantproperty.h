@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -96,11 +96,11 @@ public:
 public Q_SLOTS:
     virtual void setValue(QtProperty *property, const QVariant &val);
     virtual void setAttribute(QtProperty *property,
-                const QString &attribute, const QVariant &value);
+                              const QString &attribute, const QVariant &value);
 Q_SIGNALS:
     void valueChanged(QtProperty *property, const QVariant &val);
     void attributeChanged(QtProperty *property,
-                const QString &attribute, const QVariant &val);
+                          const QString &attribute, const QVariant &val);
 protected:
     virtual bool hasValue(const QtProperty *property) const;
     QString valueText(const QtProperty *property) const;
@@ -160,7 +160,7 @@ public:
 protected:
     void connectPropertyManager(QtVariantPropertyManager *manager);
     QWidget *createEditor(QtVariantPropertyManager *manager, QtProperty *property,
-                QWidget *parent);
+                          QWidget *parent);
     void disconnectPropertyManager(QtVariantPropertyManager *manager);
 private:
     QScopedPointer<class QtVariantEditorFactoryPrivate> d_ptr;

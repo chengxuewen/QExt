@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -33,8 +33,8 @@
 #include "brushpropertymanager.h"
 #include "fontpropertymanager.h"
 
-#include <qdesigner_utils_p.h>
-#include <shared_enums_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerEnums_p.h>
 
 #include <QtCore/qurl.h>
 #include <QtCore/qmap.h>

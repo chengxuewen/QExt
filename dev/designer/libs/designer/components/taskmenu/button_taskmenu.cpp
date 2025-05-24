@@ -28,8 +28,8 @@
 
 #include "button_taskmenu.h"
 #include "inplace_editor.h"
-#include <qdesigner_formwindowcommand_p.h>
-#include <formwindowbase_p.h>
+#include <private/qextDesignerFormWindowCommand_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
 
 #include <qextDesignerAbstractFormWindow.h>
 #include <qextDesignerAbstractFormEditor.h>

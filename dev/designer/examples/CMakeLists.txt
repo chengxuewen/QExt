@@ -40,7 +40,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Designer)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::DesignerPrivate)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

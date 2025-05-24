@@ -48,25 +48,6 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 qext_add_library(Designer
     EXCEPTIONS
     SOURCES
-    libs/deviceskin/skins/ClamshellPhone.qrc
-    libs/deviceskin/skins/PortableMedia.qrc
-    libs/deviceskin/skins/S60-nHD-Touchscreen.qrc
-    libs/deviceskin/skins/S60-QVGA-Candybar.qrc
-    libs/deviceskin/skins/SmartPhone.qrc
-    libs/deviceskin/skins/SmartPhone2.qrc
-    libs/deviceskin/skins/SmartPhoneWithButtons.qrc
-    libs/deviceskin/skins/TouchscreenPhone.qrc
-    libs/deviceskin/deviceskin.cpp
-    libs/deviceskin/deviceskin.h
-    libs/findwidget/abstractfindwidget.cpp
-    libs/findwidget/abstractfindwidget.h
-    libs/findwidget/findwidget.qrc
-    libs/findwidget/itemviewfindwidget.cpp
-    libs/findwidget/itemviewfindwidget.h
-    libs/findwidget/texteditfindwidget.cpp
-    libs/findwidget/texteditfindwidget.h
-    libs/fontpanel/fontpanel.cpp
-    libs/fontpanel/fontpanel.h
     libs/qtgradienteditor/qtcolorbutton.cpp
     libs/qtgradienteditor/qtcolorbutton.h
     libs/qtgradienteditor/qtcolorline.cpp
@@ -314,258 +295,6 @@ qext_add_library(Designer
     libs/designer/components/qdesigner_components.cpp
     libs/designer/components/qdesigner_components.h
     libs/designer/components/qdesigner_components_global.h
-    # libs/designer/extension/default_extensionfactory.cpp
-    # libs/designer/extension/default_extensionfactory.h
-    # libs/designer/extension/extension.cpp
-    # libs/designer/extension/extension.h
-    # libs/designer/extension/extension_global.h
-    # libs/designer/extension/qextensionmanager.cpp
-    # libs/designer/extension/qextensionmanager.h
-    # libs/designer/sdk/abstractactioneditor.cpp
-    # libs/designer/sdk/abstractactioneditor.h
-    # libs/designer/sdk/abstractdialoggui.cpp
-    # libs/designer/sdk/abstractdialoggui_p.h
-    # libs/designer/sdk/abstractdnditem.h
-    # libs/designer/sdk/abstractformeditor.cpp
-    # libs/designer/sdk/abstractformeditor.h
-    # libs/designer/sdk/abstractformeditorplugin.cpp
-    # libs/designer/sdk/abstractformeditorplugin.h
-    # libs/designer/sdk/abstractformwindow.cpp
-    # libs/designer/sdk/abstractformwindow.h
-    # libs/designer/sdk/abstractformwindowcursor.cpp
-    # libs/designer/sdk/abstractformwindowcursor.h
-    # libs/designer/sdk/abstractformwindowmanager.cpp
-    # libs/designer/sdk/abstractformwindowmanager.h
-    # libs/designer/sdk/abstractformwindowtool.cpp
-    # libs/designer/sdk/abstractformwindowtool.h
-    # libs/designer/sdk/abstractintegration.cpp
-    # libs/designer/sdk/abstractintegration.h
-    # libs/designer/sdk/abstractintrospection.cpp
-    # libs/designer/sdk/abstractintrospection_p.h
-    # libs/designer/sdk/abstractlanguage.h
-    # libs/designer/sdk/abstractmetadatabase.cpp
-    # libs/designer/sdk/abstractmetadatabase.h
-    # libs/designer/sdk/abstractnewformwidget.cpp
-    # libs/designer/sdk/abstractnewformwidget.h
-    # libs/designer/sdk/abstractobjectinspector.cpp
-    # libs/designer/sdk/abstractobjectinspector.h
-    # libs/designer/sdk/abstractoptionspage.h
-    # libs/designer/sdk/abstractpromotioninterface.cpp
-    # libs/designer/sdk/abstractpromotioninterface.h
-    # libs/designer/sdk/abstractpropertyeditor.cpp
-    # libs/designer/sdk/abstractpropertyeditor.h
-    # libs/designer/sdk/abstractresourcebrowser.cpp
-    # libs/designer/sdk/abstractresourcebrowser.h
-    # libs/designer/sdk/abstractsettings.h
-    # libs/designer/sdk/abstractwidgetbox.cpp
-    # libs/designer/sdk/abstractwidgetbox.h
-    # libs/designer/sdk/abstractwidgetdatabase.cpp
-    # libs/designer/sdk/abstractwidgetdatabase.h
-    # libs/designer/sdk/abstractwidgetfactory.cpp
-    # libs/designer/sdk/abstractwidgetfactory.h
-    # libs/designer/sdk/container.h
-    # libs/designer/sdk/dynamicpropertysheet.h
-    # libs/designer/sdk/extrainfo.cpp
-    # libs/designer/sdk/extrainfo.h
-    # libs/designer/sdk/layoutdecoration.h
-    # libs/designer/sdk/membersheet.h
-    # libs/designer/sdk/propertysheet.h
-    # libs/designer/sdk/sdk_global.h
-    # libs/designer/sdk/taskmenu.h
-    libs/designer/shared/templates/forms/240x320/Dialog_with_Buttons_Bottom.ui
-    libs/designer/shared/templates/forms/240x320/Dialog_with_Buttons_Right.ui
-    libs/designer/shared/templates/forms/320x240/Dialog_with_Buttons_Bottom.ui
-    libs/designer/shared/templates/forms/320x240/Dialog_with_Buttons_Right.ui
-    libs/designer/shared/templates/forms/480x640/Dialog_with_Buttons_Bottom.ui
-    libs/designer/shared/templates/forms/480x640/Dialog_with_Buttons_Right.ui
-    libs/designer/shared/templates/forms/640x480/Dialog_with_Buttons_Bottom.ui
-    libs/designer/shared/templates/forms/640x480/Dialog_with_Buttons_Right.ui
-    libs/designer/shared/templates/forms/Dialog_with_Buttons_Bottom.ui
-    libs/designer/shared/templates/forms/Dialog_with_Buttons_Right.ui
-    libs/designer/shared/templates/forms/Dialog_without_Buttons.ui
-    libs/designer/shared/templates/forms/Main_Window.ui
-    libs/designer/shared/templates/forms/Widget.ui
-    libs/designer/shared/actioneditor.cpp
-    libs/designer/shared/actioneditor_p.h
-    libs/designer/shared/actionprovider_p.h
-    libs/designer/shared/actionrepository.cpp
-    libs/designer/shared/actionrepository_p.h
-    libs/designer/shared/addlinkdialog.ui
-    libs/designer/shared/codedialog.cpp
-    libs/designer/shared/codedialog_p.h
-    libs/designer/shared/connectionedit.cpp
-    libs/designer/shared/connectionedit_p.h
-    libs/designer/shared/csshighlighter.cpp
-    libs/designer/shared/csshighlighter_p.h
-    libs/designer/shared/deviceprofile.cpp
-    libs/designer/shared/deviceprofile_p.h
-    libs/designer/shared/dialoggui.cpp
-    libs/designer/shared/dialoggui_p.h
-    libs/designer/shared/extensionfactory_p.h
-    libs/designer/shared/formlayoutmenu.cpp
-    libs/designer/shared/formlayoutmenu_p.h
-    libs/designer/shared/formlayoutrowdialog.ui
-    libs/designer/shared/formwindowbase.cpp
-    libs/designer/shared/formwindowbase_p.h
-    libs/designer/shared/grid.cpp
-    libs/designer/shared/grid_p.h
-    libs/designer/shared/gridpanel.cpp
-    libs/designer/shared/gridpanel.ui
-    libs/designer/shared/gridpanel_p.h
-    libs/designer/shared/htmlhighlighter.cpp
-    libs/designer/shared/htmlhighlighter_p.h
-    libs/designer/shared/iconloader.cpp
-    libs/designer/shared/iconloader_p.h
-    libs/designer/shared/iconselector.cpp
-    libs/designer/shared/iconselector_p.h
-    libs/designer/shared/invisible_widget.cpp
-    libs/designer/shared/invisible_widget_p.h
-    libs/designer/shared/layout.cpp
-    libs/designer/shared/layout_p.h
-    libs/designer/shared/layoutinfo.cpp
-    libs/designer/shared/layoutinfo_p.h
-    libs/designer/shared/metadatabase.cpp
-    libs/designer/shared/metadatabase_p.h
-    libs/designer/shared/morphmenu.cpp
-    libs/designer/shared/morphmenu_p.h
-    libs/designer/shared/newactiondialog.cpp
-    libs/designer/shared/newactiondialog.ui
-    libs/designer/shared/newactiondialog_p.h
-    libs/designer/shared/newformwidget.cpp
-    libs/designer/shared/newformwidget.ui
-    libs/designer/shared/newformwidget_p.h
-    libs/designer/shared/orderdialog.cpp
-    libs/designer/shared/orderdialog.ui
-    libs/designer/shared/orderdialog_p.h
-    libs/designer/shared/plaintexteditor.cpp
-    libs/designer/shared/plaintexteditor_p.h
-    libs/designer/shared/plugindialog.cpp
-    libs/designer/shared/plugindialog.ui
-    libs/designer/shared/plugindialog_p.h
-    libs/designer/shared/pluginmanager.cpp
-    libs/designer/shared/pluginmanager_p.h
-    libs/designer/shared/previewconfigurationwidget.cpp
-    libs/designer/shared/previewconfigurationwidget.ui
-    libs/designer/shared/previewconfigurationwidget_p.h
-    libs/designer/shared/previewmanager.cpp
-    libs/designer/shared/previewmanager_p.h
-    libs/designer/shared/promotionmodel.cpp
-    libs/designer/shared/promotionmodel_p.h
-    libs/designer/shared/promotiontaskmenu.cpp
-    libs/designer/shared/promotiontaskmenu_p.h
-    libs/designer/shared/propertylineedit.cpp
-    libs/designer/shared/propertylineedit_p.h
-    libs/designer/shared/qdesigner_command.cpp
-    libs/designer/shared/qdesigner_command2.cpp
-    libs/designer/shared/qdesigner_command2_p.h
-    libs/designer/shared/qdesigner_command_p.h
-    libs/designer/shared/qdesigner_dnditem.cpp
-    libs/designer/shared/qdesigner_dnditem_p.h
-    libs/designer/shared/qdesigner_dockwidget.cpp
-    libs/designer/shared/qdesigner_dockwidget_p.h
-    libs/designer/shared/qdesigner_formbuilder.cpp
-    libs/designer/shared/qdesigner_formbuilder_p.h
-    libs/designer/shared/qdesigner_formeditorcommand.cpp
-    libs/designer/shared/qdesigner_formeditorcommand_p.h
-    libs/designer/shared/qdesigner_formwindowcommand.cpp
-    libs/designer/shared/qdesigner_formwindowcommand_p.h
-    libs/designer/shared/qdesigner_formwindowmanager.cpp
-    libs/designer/shared/qdesigner_formwindowmanager_p.h
-    libs/designer/shared/qdesigner_introspection.cpp
-    libs/designer/shared/qdesigner_introspection_p.h
-    libs/designer/shared/qdesigner_membersheet.cpp
-    libs/designer/shared/qdesigner_membersheet_p.h
-    libs/designer/shared/qdesigner_menu.cpp
-    libs/designer/shared/qdesigner_menu_p.h
-    libs/designer/shared/qdesigner_menubar.cpp
-    libs/designer/shared/qdesigner_menubar_p.h
-    libs/designer/shared/qdesigner_objectinspector.cpp
-    libs/designer/shared/qdesigner_objectinspector_p.h
-    libs/designer/shared/qdesigner_promotion.cpp
-    libs/designer/shared/qdesigner_promotion_p.h
-    libs/designer/shared/qdesigner_promotiondialog.cpp
-    libs/designer/shared/qdesigner_promotiondialog_p.h
-    libs/designer/shared/qdesigner_propertycommand.cpp
-    libs/designer/shared/qdesigner_propertycommand_p.h
-    libs/designer/shared/qdesigner_propertyeditor.cpp
-    libs/designer/shared/qdesigner_propertyeditor_p.h
-    libs/designer/shared/qdesigner_propertysheet.cpp
-    libs/designer/shared/qdesigner_propertysheet_p.h
-    libs/designer/shared/qdesigner_qsettings.cpp
-    libs/designer/shared/qdesigner_qsettings_p.h
-    libs/designer/shared/qdesigner_stackedbox.cpp
-    libs/designer/shared/qdesigner_stackedbox_p.h
-    libs/designer/shared/qdesigner_tabwidget.cpp
-    libs/designer/shared/qdesigner_tabwidget_p.h
-    libs/designer/shared/qdesigner_taskmenu.cpp
-    libs/designer/shared/qdesigner_taskmenu_p.h
-    libs/designer/shared/qdesigner_toolbar.cpp
-    libs/designer/shared/qdesigner_toolbar_p.h
-    libs/designer/shared/qdesigner_toolbox.cpp
-    libs/designer/shared/qdesigner_toolbox_p.h
-    libs/designer/shared/qdesigner_utils.cpp
-    libs/designer/shared/qdesigner_utils_p.h
-    libs/designer/shared/qdesigner_widget.cpp
-    libs/designer/shared/qdesigner_widget_p.h
-    libs/designer/shared/qdesigner_widgetbox.cpp
-    libs/designer/shared/qdesigner_widgetbox_p.h
-    libs/designer/shared/qdesigner_widgetitem.cpp
-    libs/designer/shared/qdesigner_widgetitem_p.h
-    libs/designer/shared/qlayout_widget.cpp
-    libs/designer/shared/qlayout_widget_p.h
-    libs/designer/shared/qsimpleresource.cpp
-    libs/designer/shared/qsimpleresource_p.h
-    libs/designer/shared/qtresourceeditordialog.cpp
-    libs/designer/shared/qtresourceeditordialog.ui
-    libs/designer/shared/qtresourceeditordialog_p.h
-    libs/designer/shared/qtresourcemodel.cpp
-    libs/designer/shared/qtresourcemodel_p.h
-    libs/designer/shared/qtresourceview.cpp
-    libs/designer/shared/qtresourceview_p.h
-    libs/designer/shared/rcc.cpp
-    libs/designer/shared/rcc_p.h
-    libs/designer/shared/richtexteditor.cpp
-    libs/designer/shared/richtexteditor_p.h
-    libs/designer/shared/selectsignaldialog.cpp
-    libs/designer/shared/selectsignaldialog.ui
-    libs/designer/shared/selectsignaldialog_p.h
-    libs/designer/shared/shared.qrc
-    libs/designer/shared/shared_enums_p.h
-    libs/designer/shared/shared_global_p.h
-    libs/designer/shared/shared_settings.cpp
-    libs/designer/shared/shared_settings_p.h
-    libs/designer/shared/sheet_delegate.cpp
-    libs/designer/shared/sheet_delegate_p.h
-    libs/designer/shared/signalslotdialog.cpp
-    libs/designer/shared/signalslotdialog.ui
-    libs/designer/shared/signalslotdialog_p.h
-    libs/designer/shared/spacer_widget.cpp
-    libs/designer/shared/spacer_widget_p.h
-    libs/designer/shared/stylesheeteditor.cpp
-    libs/designer/shared/stylesheeteditor_p.h
-    libs/designer/shared/textpropertyeditor.cpp
-    libs/designer/shared/textpropertyeditor_p.h
-    libs/designer/shared/widgetdatabase.cpp
-    libs/designer/shared/widgetdatabase_p.h
-    libs/designer/shared/widgetfactory.cpp
-    libs/designer/shared/widgetfactory_p.h
-    libs/designer/shared/zoomwidget.cpp
-    libs/designer/shared/zoomwidget_p.h
-    # libs/designer/uilib/abstractformbuilder.cpp
-    # libs/designer/uilib/abstractformbuilder.h
-    # libs/designer/uilib/formbuilder.cpp
-    # libs/designer/uilib/formbuilder.h
-    # libs/designer/uilib/formbuilderextra.cpp
-    # libs/designer/uilib/formbuilderextra_p.h
-    # libs/designer/uilib/properties.cpp
-    # libs/designer/uilib/properties_p.h
-    # libs/designer/uilib/resourcebuilder.cpp
-    # libs/designer/uilib/resourcebuilder_p.h
-    # libs/designer/uilib/textbuilder.cpp
-    # libs/designer/uilib/textbuilder_p.h
-    # libs/designer/uilib/ui4.cpp
-    # libs/designer/uilib/ui4_p.h
-    # libs/designer/uilib/uilib_global.h
     source/base/qextDesignerAbstractActionEditor.cpp
     source/base/qextDesignerAbstractActionEditor.h
     source/base/qextDesignerAbstractDialogGui.cpp
@@ -622,6 +351,25 @@ qext_add_library(Designer
     source/builder/qextDesignerTextBuilder.cpp
     source/builder/qextDesignerTextBuilder_p.h
     source/builder/qextDesignerWidgetsTable.h
+    source/device/skins/ClamshellPhone.qrc
+    source/device/skins/PortableMedia.qrc
+    source/device/skins/S60-nHD-Touchscreen.qrc
+    source/device/skins/S60-QVGA-Candybar.qrc
+    source/device/skins/SmartPhone.qrc
+    source/device/skins/SmartPhone2.qrc
+    source/device/skins/SmartPhoneWithButtons.qrc
+    source/device/skins/TouchscreenPhone.qrc
+    source/device/qextDesignerDeviceSkin.cpp
+    source/device/qextDesignerDeviceSkin.h
+    source/panel/qextDesignerFontPanel.cpp
+    source/panel/qextDesignerFontPanel.h
+    source/widget/qextDesignerAbstractFindWidget.cpp
+    source/widget/qextDesignerAbstractFindWidget.h
+    source/widget/qextDesignerFindWidget.qrc
+    source/widget/qextDesignerItemViewFindWidget.cpp
+    source/widget/qextDesignerItemViewFindWidget.h
+    source/widget/qextDesignerTextEditFindWidget.cpp
+    source/widget/qextDesignerTextEditFindWidget.h
     source/extension/qextDesignerContainerExtension.h
     source/extension/qextDesignerDynamicPropertySheetExtension.h
     source/extension/qextDesignerExtension.cpp
@@ -637,9 +385,174 @@ qext_add_library(Designer
     source/extension/qextDesignerMemberSheetExtension.h
     source/extension/qextDesignerPropertySheetExtension.h
     source/extension/qextDesignerTaskMenuExtension.h
+    source/qextDesignerActionEditor.cpp
+    source/qextDesignerActionEditor_p.h
+    source/qextDesignerActionProvider_p.h
+    source/qextDesignerActionRepository.cpp
+    source/qextDesignerActionRepository_p.h
+    source/qextDesignerAddLinkDialog.ui
+    source/qextDesignerCodeDialog.cpp
+    source/qextDesignerCodeDialog_p.h
+    source/qextDesignerCommand.cpp
+    source/qextDesignerCommand2.cpp
+    source/qextDesignerCommand2_p.h
+    source/qextDesignerCommand_p.h
+    source/qextDesignerConnectionEdit.cpp
+    source/qextDesignerConnectionEdit_p.h
+    source/qextDesignerCssHighLighter.cpp
+    source/qextDesignerCssHighLighter_p.h
+    source/qextDesignerDeviceProfile.cpp
+    source/qextDesignerDeviceProfile_p.h
+    source/qextDesignerDialogGui.cpp
+    source/qextDesignerDialogGui_p.h
+    source/qextDesignerDnDItem.cpp
+    source/qextDesignerDnDItem_p.h
+    source/qextDesignerDockWidget.cpp
+    source/qextDesignerDockWidget_p.h
+    source/qextDesignerEnums_p.h
+    source/qextDesignerExtensionFactory_p.h
+    source/qextDesignerFormBuilder.cpp
+    source/qextDesignerFormBuilder_p.h
+    source/qextDesignerFormEditorCommand.cpp
+    source/qextDesignerFormEditorCommand_p.h
+    source/qextDesignerFormLayoutMenu.cpp
+    source/qextDesignerFormLayoutMenu_p.h
+    source/qextDesignerFormLayoutRowDialog.ui
+    source/qextDesignerFormWindowBase.cpp
+    source/qextDesignerFormWindowBase_p.h
+    source/qextDesignerFormWindowCommand.cpp
+    source/qextDesignerFormWindowCommand_p.h
+    source/qextDesignerFormWindowManager.cpp
+    source/qextDesignerFormWindowManager_p.h
+    source/qextDesignerGrid.cpp
+    source/qextDesignerGrid_p.h
+    source/qextDesignerGridPanel.cpp
+    source/qextDesignerGridPanel.ui
+    source/qextDesignerGridPanel_p.h
+    source/qextDesignerHtmlHighLighter.cpp
+    source/qextDesignerHtmlHighLighter_p.h
+    source/qextDesignerIconLoader.cpp
+    source/qextDesignerIconLoader_p.h
+    source/qextDesignerIconSelector.cpp
+    source/qextDesignerIconSelector_p.h
+    source/qextDesignerIntrospection.cpp
+    source/qextDesignerIntrospection_p.h
+    source/qextDesignerInvisibleWidget.cpp
+    source/qextDesignerInvisibleWidget_p.h
+    source/qextDesignerLayout.cpp
+    source/qextDesignerLayout_p.h
+    source/qextDesignerLayoutInfo.cpp
+    source/qextDesignerLayoutInfo_p.h
+    source/qextDesignerLayoutWidget.cpp
+    source/qextDesignerLayoutWidget_p.h
+    source/qextDesignerMemberSheet.cpp
+    source/qextDesignerMemberSheet_p.h
+    source/qextDesignerMenu.cpp
+    source/qextDesignerMenu_p.h
+    source/qextDesignerMenuBar.cpp
+    source/qextDesignerMenuBar_p.h
+    source/qextDesignerMetaDataBase.cpp
+    source/qextDesignerMetaDataBase_p.h
+    source/qextDesignerMorphMenu.cpp
+    source/qextDesignerMorphMenu_p.h
+    source/qextDesignerNewActionDialog.cpp
+    source/qextDesignerNewActionDialog.ui
+    source/qextDesignerNewActionDialog_p.h
+    source/qextDesignerNewFormWidget.cpp
+    source/qextDesignerNewFormWidget.ui
+    source/qextDesignerNewFormWidget_p.h
+    source/qextDesignerObjectInspector.cpp
+    source/qextDesignerObjectInspector_p.h
+    source/qextDesignerOrderDialog.cpp
+    source/qextDesignerOrderDialog.ui
+    source/qextDesignerOrderDialog_p.h
+    source/qextDesignerPlainTextEditor.cpp
+    source/qextDesignerPlainTextEditor_p.h
+    source/qextDesignerPluginDialog.cpp
+    source/qextDesignerPluginDialog.ui
+    source/qextDesignerPluginDialog_p.h
+    source/qextDesignerPluginManager.cpp
+    source/qextDesignerPluginManager_p.h
+    source/qextDesignerPreviewConfigurationWidget.cpp
+    source/qextDesignerPreviewConfigurationWidget.ui
+    source/qextDesignerPreviewConfigurationWidget_p.h
+    source/qextDesignerPreviewManager.cpp
+    source/qextDesignerPreviewManager_p.h
+    source/qextDesignerPromotion.cpp
+    source/qextDesignerPromotion_p.h
+    source/qextDesignerPromotionDialog.cpp
+    source/qextDesignerPromotionDialog_p.h
+    source/qextDesignerPromotionModel.cpp
+    source/qextDesignerPromotionModel_p.h
+    source/qextDesignerPromotionTaskMenu.cpp
+    source/qextDesignerPromotionTaskMenu_p.h
+    source/qextDesignerPropertyCommand.cpp
+    source/qextDesignerPropertyCommand_p.h
+    source/qextDesignerPropertyEditor.cpp
+    source/qextDesignerPropertyEditor_p.h
+    source/qextDesignerPropertyLineEdit.cpp
+    source/qextDesignerPropertyLineEdit_p.h
+    source/qextDesignerPropertySheet.cpp
+    source/qextDesignerPropertySheet_p.h
+    source/qextDesignerRCC.cpp
+    source/qextDesignerRCC_p.h
+    source/qextDesignerResourceEditorDialog.cpp
+    source/qextDesignerResourceEditorDialog.ui
+    source/qextDesignerResourceEditorDialog_p.h
+    source/qextDesignerResourceModel.cpp
+    source/qextDesignerResourceModel_p.h
+    source/qextDesignerResourceView.cpp
+    source/qextDesignerResourceView_p.h
+    source/qextDesignerRichTextEditor.cpp
+    source/qextDesignerRichTextEditor_p.h
+    source/qextDesignerSelectSignalDialog.cpp
+    source/qextDesignerSelectSignalDialog.ui
+    source/qextDesignerSelectSignalDialog_p.h
+    source/qextDesignerSettings.cpp
+    source/qextDesignerSettings_p.h
+    source/qextDesignerSharedSettings.cpp
+    source/qextDesignerSharedSettings_p.h
+    source/qextDesignerSheetDelegate.cpp
+    source/qextDesignerSheetDelegate_p.h
+    source/qextDesignerSignalSlotDialog.cpp
+    source/qextDesignerSignalSlotDialog.ui
+    source/qextDesignerSignalSlotDialog_p.h
+    source/qextDesignerSimpleResource.cpp
+    source/qextDesignerSimpleResource_p.h
+    source/qextDesignerSpacerWidget.cpp
+    source/qextDesignerSpacerWidget_p.h
+    source/qextDesignerStackedBox.cpp
+    source/qextDesignerStackedBox_p.h
+    source/qextDesignerStyleSheetEditor.cpp
+    source/qextDesignerStyleSheetEditor_p.h
+    source/qextDesignerTabWidget.cpp
+    source/qextDesignerTabWidget_p.h
+    source/qextDesignerTaskMenu.cpp
+    source/qextDesignerTaskMenu_p.h
+    source/qextDesignerTextPropertyEditor.cpp
+    source/qextDesignerTextPropertyEditor_p.h
+    source/qextDesignerToolBar.cpp
+    source/qextDesignerToolBar_p.h
+    source/qextDesignerToolBox.cpp
+    source/qextDesignerToolBox_p.h
+    source/qextDesignerUtils.cpp
+    source/qextDesignerUtils_p.h
+    source/qextDesignerWidget.cpp
+    source/qextDesignerWidget_p.h
+    source/qextDesignerWidgetBox.cpp
+    source/qextDesignerWidgetBox_p.h
+    source/qextDesignerWidgetDataBase.cpp
+    source/qextDesignerWidgetDataBase_p.h
+    source/qextDesignerWidgetFactory.cpp
+    source/qextDesignerWidgetFactory_p.h
+    source/qextDesignerWidgetItem.cpp
+    source/qextDesignerWidgetItem_p.h
+    source/qextDesignerZoomWidget.cpp
+    source/qextDesignerZoomWidget_p.h
     source/qextDesignerConstant.h
     source/qextDesignerGlobal.h
     source/qextDesignerPch.h
+    source/qextDesigner.qrc
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${PROJECT_SOURCE_DIR}/dev/designer/

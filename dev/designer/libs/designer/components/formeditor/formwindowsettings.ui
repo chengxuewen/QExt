@@ -360,7 +360,7 @@
   <customwidget>
    <class>qdesigner_internal::GridPanel</class>
    <extends>QGroupBox</extends>
-   <header location="global">gridpanel_p.h</header>
+   <header location="global">private/qextDesignerGridPanel_p.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

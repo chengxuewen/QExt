@@ -29,7 +29,7 @@
 #ifndef FORMWINDOW_WIDGETSTACK_H
 #define FORMWINDOW_WIDGETSTACK_H
 
-#include "formeditor_global.h"
+#include <qextDesignerGlobal.h>
 
 #include <QtWidgets/qwidget.h>
 
@@ -42,7 +42,7 @@ class QWidget;
 
 namespace qdesigner_internal {
 
-class QT_FORMEDITOR_EXPORT FormWindowWidgetStack: public QObject
+class QEXT_DESIGNER_API FormWindowWidgetStack: public QObject
 {
     Q_OBJECT
 public:

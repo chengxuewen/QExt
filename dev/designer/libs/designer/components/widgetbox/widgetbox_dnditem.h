@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,7 +29,7 @@
 #ifndef WIDGETBOX_DNDITEM_H
 #define WIDGETBOX_DNDITEM_H
 
-#include <qdesigner_dnditem_p.h>
+#include <private/qextDesignerDnDItem_p.h>
 #include "widgetbox_global.h"
 
 QT_BEGIN_NAMESPACE

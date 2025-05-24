@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -46,7 +46,7 @@
 #include <QtCore/qpointer.h>
 #include <QtCore/qabstractitemmodel.h>
 
-#include <connectionedit_p.h>
+#include <private/qextDesignerConnectionEdit_p.h>
 
 QT_BEGIN_NAMESPACE
 

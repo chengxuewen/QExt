@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,11 +29,11 @@
 #ifndef INPLACE_EDITOR_H
 #define INPLACE_EDITOR_H
 
-#include <textpropertyeditor_p.h>
-#include <shared_enums_p.h>
+#include <private/qextDesignerTextPropertyEditor_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerEnums_p.h>
 
 #include "inplace_widget_helper.h"
-#include <qdesigner_utils_p.h>
 
 #include <QtCore/qpointer.h>
 

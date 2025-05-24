@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,9 +29,9 @@
 #ifndef LINE_PROPERTYSHEET_H
 #define LINE_PROPERTYSHEET_H
 
-#include <qdesigner_propertysheet_p.h>
-#include <qdesigner_widget_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerPropertySheet_p.h>
+#include <private/qextDesignerWidget_p.h>
+#include <qextDesignerPropertySheetExtension.h>
 
 QT_BEGIN_NAMESPACE
 

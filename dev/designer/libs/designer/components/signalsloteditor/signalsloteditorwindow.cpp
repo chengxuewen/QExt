@@ -31,9 +31,9 @@
 #include "signalsloteditor.h"
 #include "signalslot_utils_p.h"
 
-#include <iconloader_p.h>
-#include <spacer_widget_p.h>
-#include <qlayout_widget_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerSpacerWidget_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
 
 #include <qextDesignerExtensionManager.h>
 #include <private/qextDesignerAbstractDialogGui_p.h>

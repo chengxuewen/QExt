@@ -29,7 +29,7 @@
 #ifndef FORMEDITOR_H
 #define FORMEDITOR_H
 
-#include "formeditor_global.h"
+#include <qextDesignerGlobal.h>
 
 #include <qextDesignerAbstractFormEditor.h>
 
@@ -39,7 +39,7 @@ class QObject;
 
 namespace qdesigner_internal {
 
-class QT_FORMEDITOR_EXPORT FormEditor: public QExtDesignerAbstractFormEditor
+class QEXT_DESIGNER_API FormEditor: public QExtDesignerAbstractFormEditor
 {
     Q_OBJECT
 public:

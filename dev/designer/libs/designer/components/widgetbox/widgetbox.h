@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #define WIDGETBOX_H
 
 #include "widgetbox_global.h"
-#include <qdesigner_widgetbox_p.h>
+#include <private/qextDesignerWidgetBox_p.h>
 
 QT_BEGIN_NAMESPACE
 

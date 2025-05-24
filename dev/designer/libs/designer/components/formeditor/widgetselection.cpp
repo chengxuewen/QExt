@@ -35,12 +35,12 @@
 #include <qextDesignerExtensionManager.h>
 
 // shared
-#include <qdesigner_command_p.h>
-#include <qdesigner_propertycommand_p.h>
-#include <layout_p.h>
-#include <layoutinfo_p.h>
-#include <formwindowbase_p.h>
-#include <grid_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerPropertyCommand_p.h>
+#include <private/qextDesignerLayout_p.h>
+#include <private/qextDesignerLayoutInfo_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerGrid_p.h>
 
 #include <QtWidgets/qmenu.h>
 #include <QtWidgets/qwidget.h>

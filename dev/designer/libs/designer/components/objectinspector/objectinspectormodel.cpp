@@ -28,11 +28,11 @@
 
 #include "objectinspectormodel_p.h"
 
-#include <qlayout_widget_p.h>
-#include <layout_p.h>
-#include <qdesigner_propertycommand_p.h>
-#include <qdesigner_utils_p.h>
-#include <iconloader_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
+#include <private/qextDesignerLayout_p.h>
+#include <private/qextDesignerPropertyCommand_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerIconLoader_p.h>
 
 #include <qextDesignerAbstractFormEditor.h>
 #include <qextDesignerAbstractFormWindow.h>

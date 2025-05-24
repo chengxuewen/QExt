@@ -38,13 +38,13 @@
 #include "preferencesdialog.h"
 #include "appfontdialog.h"
 
-#include "../../libs/designer/shared/pluginmanager_p.h"
-#include "../../libs/designer/shared/qdesigner_formbuilder_p.h"
-#include "../../libs/designer/shared/qdesigner_utils_p.h"
-#include "../../libs/designer/shared/iconloader_p.h"
-#include "../../libs/designer/shared/previewmanager_p.h"
-#include "../../libs/designer/shared/codedialog_p.h"
-#include "../../libs/designer/shared/qdesigner_formwindowmanager_p.h"
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerFormBuilder_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerPreviewManager_p.h>
+#include <private/qextDesignerCodeDialog_p.h>
+#include <private/qextDesignerFormWindowManager_p.h>
 
 // sdk
 #include <qextDesignerLanguageExtension.h>
@@ -57,8 +57,8 @@
 #include <qextDesignerAbstractFormWindowManager.h>
 #include <qextDesignerExtensionManager.h>
 
-#include "../../libs/designer/shared/shared_settings_p.h"
-#include "../../libs/designer/shared/formwindowbase_p.h"
+#include <private/qextDesignerSharedSettings_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qactiongroup.h>

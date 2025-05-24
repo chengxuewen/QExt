@@ -27,7 +27,7 @@
 ****************************************************************************/
 
 #include "qlayoutwidget_propertysheet.h"
-#include "qlayout_widget_p.h"
+#include <private/qextDesignerLayoutWidget_p.h>
 #include "formwindow.h"
 #include "formeditor.h"
 

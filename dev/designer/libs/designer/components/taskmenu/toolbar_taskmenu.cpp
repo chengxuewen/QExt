@@ -27,12 +27,11 @@
 ****************************************************************************/
 
 #include "toolbar_taskmenu.h"
-#include "qdesigner_toolbar_p.h"
+#include <private/qextDesignerToolBar_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerPromotionTaskMenu_p.h>
 
 #include <qextDesignerAbstractFormWindow.h>
-
-#include <promotiontaskmenu_p.h>
-#include <qdesigner_command_p.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qundostack.h>

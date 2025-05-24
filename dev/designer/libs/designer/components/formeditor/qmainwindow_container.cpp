@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -27,7 +27,7 @@
 ****************************************************************************/
 
 #include "qmainwindow_container.h"
-#include "qdesigner_toolbar_p.h"
+#include <private/qextDesignerToolBar_p.h>
 #include "formwindow.h"
 
 #include <QtCore/qdebug.h>

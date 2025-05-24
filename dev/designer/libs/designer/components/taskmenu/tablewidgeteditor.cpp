@@ -28,10 +28,10 @@
 
 #include "tablewidgeteditor.h"
 #include <qextDesignerAbstractFormBuilder.h>
-#include <iconloader_p.h>
-#include <qdesigner_command_p.h>
-#include "formwindowbase_p.h"
-#include "qdesigner_utils_p.h"
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerUtils_p.h>
 #include "../propertyeditor/designerpropertymanager.h"
 #include <qttreepropertybrowser.h>
 

@@ -32,10 +32,8 @@
 #include <qextDesignerExtensionManager.h>
 #include <qextDesignerAbstractFormEditor.h>
 // shared
-
-#include <qlayout_widget_p.h>
-
 #include <private/qextDesignerDomUI_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
 #include <private/qextDesignerFormBuilderExtra_p.h>
 
 #include <QtWidgets/qformlayout.h>

@@ -29,9 +29,9 @@
 #ifndef FORMWINDOWMANAGER_H
 #define FORMWINDOWMANAGER_H
 
-#include "formeditor_global.h"
+#include <qextDesignerGlobal.h>
 
-#include "../../shared/qdesigner_formwindowmanager_p.h"
+#include <private/qextDesignerFormWindowManager_p.h>
 
 #include <QtCore/qobject.h>
 #include <QtCore/qlist.h>
@@ -53,7 +53,7 @@ class FormWindow;
 class PreviewManager;
 class PreviewActionGroup;
 
-class QT_FORMEDITOR_EXPORT FormWindowManager
+class QEXT_DESIGNER_API FormWindowManager
     : public QDesignerFormWindowManager
 {
     Q_OBJECT

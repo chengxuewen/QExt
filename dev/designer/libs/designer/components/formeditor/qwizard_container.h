@@ -31,8 +31,8 @@
 
 #include <qextDesignerContainerExtension.h>
 
-#include <qdesigner_propertysheet_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerPropertySheet_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 #include <QtWidgets/qwizard.h>
 

@@ -28,9 +28,9 @@
 
 #include "signalslot_utils_p.h"
 
-#include <qdesigner_membersheet_p.h>
-#include <widgetdatabase_p.h>
-#include <metadatabase_p.h>
+#include <private/qextDesignerMemberSheet_p.h>
+#include <private/qextDesignerMetaDataBase_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
 
 #include <qextDesignerExtensionManager.h>
 #include <qextDesignerAbstractMetaDataBase.h>

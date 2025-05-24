@@ -28,8 +28,8 @@
 
 #include <qextDesignerAbstractFormWindow.h>
 
-#include "../shared/qtresourcemodel_p.h"
-#include "../shared/widgetfactory_p.h"
+#include <private/qextDesignerResourceModel_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
 
 #include <QtWidgets/qtabbar.h>
 #include <QtWidgets/qsizegrip.h>

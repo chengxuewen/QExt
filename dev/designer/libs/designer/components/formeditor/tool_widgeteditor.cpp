@@ -34,8 +34,8 @@
 #include <qextDesignerAbstractFormEditor.h>
 #include <qextDesignerAbstractWidgetBox.h>
 
-#include <layoutinfo_p.h>
-#include <qdesigner_dnditem_p.h>
+#include <private/qextDesignerLayoutInfo_p.h>
+#include <private/qextDesignerDnDItem_p.h>
 #include "qdesigner_resource.h"
 
 #include <QtGui/qevent.h>

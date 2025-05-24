@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,8 +29,8 @@
 #include "formwindowsettings.h"
 #include "ui_formwindowsettings.h"
 
-#include <formwindowbase_p.h>
-#include <grid_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerGrid_p.h>
 
 #include <QtWidgets/qstyle.h>
 

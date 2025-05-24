@@ -31,7 +31,7 @@
 
 #include <qextDesignerTaskMenuExtension.h>
 
-#include <extensionfactory_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 #include <QtWidgets/qtoolbar.h>
 #include <QtWidgets/qstatusbar.h>

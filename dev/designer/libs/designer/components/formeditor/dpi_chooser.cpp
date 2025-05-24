@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,7 +28,7 @@
 
 #include "dpi_chooser.h"
 
-#include <deviceprofile_p.h>
+#include <private/qextDesignerDeviceProfile_p.h>
 
 #include <QtWidgets/qcombobox.h>
 #include <QtWidgets/qspinbox.h>

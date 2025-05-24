@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -107,7 +107,7 @@ public:
 Q_SIGNALS:
 
     void propertyInserted(QtProperty *property,
-                QtProperty *parent, QtProperty *after);
+                          QtProperty *parent, QtProperty *after);
     void propertyChanged(QtProperty *property);
     void propertyRemoved(QtProperty *property, QtProperty *parent);
     void propertyDestroyed(QtProperty *property);
@@ -162,14 +162,14 @@ public:
         m_managers.insert(manager);
         connectPropertyManager(manager);
         connect(manager, SIGNAL(destroyed(QObject *)),
-                    this, SLOT(managerDestroyed(QObject *)));
+                this, SLOT(managerDestroyed(QObject *)));
     }
     void removePropertyManager(PropertyManager *manager)
     {
         if (!m_managers.contains(manager))
             return;
         disconnect(manager, SIGNAL(destroyed(QObject *)),
-                    this, SLOT(managerDestroyed(QObject *)));
+                   this, SLOT(managerDestroyed(QObject *)));
         disconnectPropertyManager(manager);
         m_managers.remove(manager);
     }
@@ -190,7 +190,7 @@ public:
 protected:
     virtual void connectPropertyManager(PropertyManager *manager) = 0;
     virtual QWidget *createEditor(PropertyManager *manager, QtProperty *property,
-                QWidget *parent) = 0;
+                                  QWidget *parent) = 0;
     virtual void disconnectPropertyManager(PropertyManager *manager) = 0;
     void managerDestroyed(QObject *manager)
     {
@@ -251,7 +251,7 @@ public:
 
     template <class PropertyManager>
     void setFactoryForManager(PropertyManager *manager,
-                    QtAbstractEditorFactory<PropertyManager> *factory) {
+                              QtAbstractEditorFactory<PropertyManager> *factory) {
         QtAbstractPropertyManager *abstractManager = manager;
         QtAbstractEditorFactoryBase *abstractFactory = factory;
 
@@ -284,15 +284,15 @@ protected:
 private:
 
     bool addFactory(QtAbstractPropertyManager *abstractManager,
-                QtAbstractEditorFactoryBase *abstractFactory);
+                    QtAbstractEditorFactoryBase *abstractFactory);
 
     QScopedPointer<QtAbstractPropertyBrowserPrivate> d_ptr;
     Q_DECLARE_PRIVATE(QtAbstractPropertyBrowser)
     Q_DISABLE_COPY_MOVE(QtAbstractPropertyBrowser)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QtProperty *,
-                            QtProperty *, QtProperty *))
+                                                       QtProperty *, QtProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QtProperty *,
-                            QtProperty *))
+                                                      QtProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDataChanged(QtProperty *))
 

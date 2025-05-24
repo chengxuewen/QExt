@@ -28,7 +28,7 @@
 
 #include <qextDesignerAbstractNewFormWidget.h>
 
-#include "../shared/newformwidget_p.h"
+#include <private/qextDesignerNewFormWidget_p.h>
 
 QT_BEGIN_NAMESPACE
 

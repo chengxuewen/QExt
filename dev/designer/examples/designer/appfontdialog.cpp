@@ -28,7 +28,7 @@
 
 #include "appfontdialog.h"
 
-#include "../../libs/designer/shared/iconloader_p.h"
+#include <private/qextDesignerIconLoader_p.h>
 
 #include <qextDesignerAbstractSettings.h>
 

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -27,8 +27,8 @@
 ****************************************************************************/
 
 #include "default_actionprovider.h"
-#include "invisible_widget_p.h"
-#include "qdesigner_toolbar_p.h"
+#include <private/qextDesignerInvisibleWidget_p.h>
+#include <private/qextDesignerToolBar_p.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qapplication.h>

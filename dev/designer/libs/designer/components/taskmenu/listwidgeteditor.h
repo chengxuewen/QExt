@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #define LISTWIDGETEDITOR_H
 
 #include "itemlisteditor.h"
-#include <qdesigner_command_p.h>
+#include <private/qextDesignerCommand_p.h>
 
 #include <QtWidgets/qwidget.h>
 

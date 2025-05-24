@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #define PROPERTYEDITOR_H
 
 #include "propertyeditor_global.h"
-#include <qdesigner_propertyeditor_p.h>
+#include <private/qextDesignerPropertyEditor_p.h>
 
 #include <QtCore/qpointer.h>
 #include <QtCore/qmap.h>

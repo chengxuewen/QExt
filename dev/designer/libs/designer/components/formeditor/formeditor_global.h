@@ -33,12 +33,12 @@
 
 #ifdef Q_OS_WIN
 #ifdef QT_FORMEDITOR_LIBRARY
-# define QT_FORMEDITOR_EXPORT
+# define QEXT_DESIGNER_API
 #else
-# define QT_FORMEDITOR_EXPORT
+# define QEXT_DESIGNER_API
 #endif
 #else
-#define QT_FORMEDITOR_EXPORT
+#define QEXT_DESIGNER_API
 #endif
 
 #endif // FORMEDITOR_GLOBAL_H

@@ -30,9 +30,9 @@
 #include "formeditor_optionspage.h"
 #include "embeddedoptionspage.h"
 #include "templateoptionspage.h"
-#include "metadatabase_p.h"
-#include "widgetdatabase_p.h"
-#include "widgetfactory_p.h"
+#include <private/qextDesignerMetaDataBase_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
 #include "formwindowmanager.h"
 #include "qmainwindow_container.h"
 #include "qmdiarea_container.h"
@@ -44,24 +44,24 @@
 #include "spacer_propertysheet.h"
 #include "line_propertysheet.h"
 #include "layout_propertysheet.h"
-#include "qdesigner_dockwidget_p.h"
-#include "qdesigner_stackedbox_p.h"
-#include "qdesigner_toolbox_p.h"
-#include "qdesigner_tabwidget_p.h"
-#include "qtresourcemodel_p.h"
+#include <private/qextDesignerDockWidget_p.h>
+#include <private/qextDesignerStackedBox_p.h>
+#include <private/qextDesignerToolBox_p.h>
+#include <private/qextDesignerTabWidget_p.h>
+#include <private/qextDesignerResourceModel_p.h>
 #include "itemview_propertysheet.h"
 
 // sdk
 #include <qextDesignerExtensionManager.h>
 #include <qextDesignerAbstractIntegration.h>
 // shared
-#include <pluginmanager_p.h>
-#include <qdesigner_taskmenu_p.h>
-#include <qdesigner_membersheet_p.h>
-#include <qdesigner_promotion_p.h>
-#include <dialoggui_p.h>
-#include <qdesigner_introspection_p.h>
-#include <qdesigner_qsettings_p.h>
+#include <private/qextDesignerPluginManager_p.h>
+#include <private/qextDesignerTaskMenu_p.h>
+#include <private/qextDesignerMemberSheet_p.h>
+#include <private/qextDesignerPromotion_p.h>
+#include <private/qextDesignerDialogGui_p.h>
+#include <private/qextDesignerIntrospection_p.h>
+#include <private/qextDesignerSettings_p.h>
 
 QT_BEGIN_NAMESPACE
 

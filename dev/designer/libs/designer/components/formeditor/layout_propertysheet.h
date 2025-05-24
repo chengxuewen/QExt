@@ -29,8 +29,8 @@
 #ifndef LAYOUT_PROPERTYSHEET_H
 #define LAYOUT_PROPERTYSHEET_H
 
-#include <qdesigner_propertysheet_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerPropertySheet_p.h>
+#include <qextDesignerPropertySheetExtension.h>
 
 #include <QtWidgets/qlayout.h>
 

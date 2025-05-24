@@ -34,7 +34,7 @@
 #include "qdesigner_workbench.h"
 #include "mainwindow.h"
 
-#include "../../libs/designer/shared/qdesigner_propertysheet_p.h"
+#include <private/qextDesignerPropertySheet_p.h>
 #include "../../libs/designer/components/qdesigner_components.h"
 
 #include <QtGui/qevent.h>
@@ -83,7 +83,7 @@ QDesigner::QDesigner(int &argc, char **argv)
     QDesignerComponents::initializeResources();
 
 #if !defined(Q_OS_OSX) && !defined(Q_OS_WIN)
-    setWindowIcon(QIcon(QStringLiteral(":/qt-project.org/designer/images/designer.png")));
+    setWindowIcon(QIcon(QStringLiteral(":/qextDesigner/images/designer.png")));
 #endif
 }
 

@@ -31,9 +31,9 @@
 
 #include <qextDesignerTaskMenuExtension.h>
 
-#include <qlayout_widget_p.h>
-#include <spacer_widget_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
+#include <private/qextDesignerSpacerWidget_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 QT_BEGIN_NAMESPACE
 

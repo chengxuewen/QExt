@@ -28,7 +28,7 @@
 
 #include "paletteeditor.h"
 
-#include <iconloader_p.h>
+#include <private/qextDesignerIconLoader_p.h>
 #include <qtcolorbutton.h>
 
 #include <private/qextDesignerFormBuilderExtra_p.h>

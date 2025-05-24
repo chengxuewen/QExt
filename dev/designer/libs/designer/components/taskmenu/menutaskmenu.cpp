@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -28,7 +28,7 @@
 
 #include "menutaskmenu.h"
 
-#include <promotiontaskmenu_p.h>
+#include <private/qextDesignerPromotionTaskMenu_p.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtCore/qdebug.h>

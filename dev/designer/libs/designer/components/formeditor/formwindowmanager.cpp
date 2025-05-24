@@ -36,21 +36,21 @@
 #include "formwindowsettings.h"
 
 // shared
-#include <widgetdatabase_p.h>
-#include <iconloader_p.h>
-#include <connectionedit_p.h>
-#include <qtresourcemodel_p.h>
-#include <qdesigner_dnditem_p.h>
-#include <qdesigner_command_p.h>
-#include <qdesigner_command2_p.h>
-#include <layoutinfo_p.h>
-#include <qlayout_widget_p.h>
-#include <qdesigner_objectinspector_p.h>
-#include <actioneditor_p.h>
-#include <shared_settings_p.h>
-#include <previewmanager_p.h>
-#include <widgetfactory_p.h>
-#include <spacer_widget_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerConnectionEdit_p.h>
+#include <private/qextDesignerResourceModel_p.h>
+#include <private/qextDesignerDnDItem_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerCommand2_p.h>
+#include <private/qextDesignerLayoutInfo_p.h>
+#include <private/qextDesignerLayoutWidget_p.h>
+#include <private/qextDesignerObjectInspector_p.h>
+#include <private/qextDesignerActionEditor_p.h>
+#include <private/qextDesignerSharedSettings_p.h>
+#include <private/qextDesignerPreviewManager_p.h>
+#include <private/qextDesignerWidgetFactory_p.h>
+#include <private/qextDesignerSpacerWidget_p.h>
 
 // SDK
 #include <private/qextDesignerAbstractDialogGui_p.h>

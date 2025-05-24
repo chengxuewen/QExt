@@ -41,12 +41,12 @@
 #include <qextDesignerTaskMenuExtension.h>
 
 // shared
-#include <qdesigner_utils_p.h>
-#include <formwindowbase_p.h>
-#include <qdesigner_dnditem_p.h>
-#include <textpropertyeditor_p.h>
-#include <qdesigner_command_p.h>
-#include <grid_p.h>
+#include <private/qextDesignerUtils_p.h>
+#include <private/qextDesignerFormWindowBase_p.h>
+#include <private/qextDesignerDnDItem_p.h>
+#include <private/qextDesignerTextPropertyEditor_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerGrid_p.h>
 
 // Qt
 #include <QtWidgets/qapplication.h>

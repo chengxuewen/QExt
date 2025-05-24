@@ -1,5 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
-    <qresource prefix="/qt-project.org/designer">
+    <qresource prefix="/qextDesigner">
         <file>images/designer.png</file>
     </qresource>
 </RCC>

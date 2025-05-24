@@ -30,7 +30,7 @@
 #define QDESIGNER_SETTINGS_H
 
 #include "designer_enums.h"
-#include "../../libs/designer/shared/shared_settings_p.h"
+#include <private/qextDesignerSharedSettings_p.h>
 
 #include <QtCore/qmap.h>
 #include <QtCore/qrect.h>

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -30,7 +30,7 @@
 #define OBJECTINSPECTOR_H
 
 #include "objectinspector_global.h"
-#include "qdesigner_objectinspector_p.h"
+#include <private/qextDesignerObjectInspector_p.h>
 
 QT_BEGIN_NAMESPACE
 

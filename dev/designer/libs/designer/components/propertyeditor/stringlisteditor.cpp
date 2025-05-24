@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -27,7 +27,8 @@
 ****************************************************************************/
 
 #include "stringlisteditor.h"
-#include <iconloader_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+
 #include <QtCore/qstringlistmodel.h>
 
 QT_BEGIN_NAMESPACE

@@ -27,8 +27,8 @@
 ****************************************************************************/
 
 #include "layouttaskmenu.h"
-#include <formlayoutmenu_p.h>
-#include <morphmenu_p.h>
+#include <private/qextDesignerFormLayoutMenu_p.h>
+#include <private/qextDesignerMorphMenu_p.h>
 
 #include <qextDesignerAbstractFormWindow.h>
 

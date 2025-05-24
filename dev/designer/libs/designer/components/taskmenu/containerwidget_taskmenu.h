@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,10 +29,9 @@
 #ifndef CONTAINERWIDGER_TASKMENU_H
 #define CONTAINERWIDGER_TASKMENU_H
 
-#include <qdesigner_taskmenu_p.h>
-#include <shared_enums_p.h>
-
-#include <extensionfactory_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
+#include <private/qextDesignerTaskMenu_p.h>
+#include <private/qextDesignerEnums_p.h>
 
 #include <QtCore/qpointer.h>
 

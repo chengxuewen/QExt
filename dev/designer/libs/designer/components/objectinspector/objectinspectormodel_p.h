@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -40,7 +40,7 @@
 #ifndef OBJECTINSPECTORMODEL_H
 #define OBJECTINSPECTORMODEL_H
 
-#include <layoutinfo_p.h>
+#include <private/qextDesignerLayoutInfo_p.h>
 
 #include <QtGui/qstandarditemmodel.h>
 #include <QtGui/qicon.h>

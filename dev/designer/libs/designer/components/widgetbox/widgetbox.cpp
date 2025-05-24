@@ -33,8 +33,8 @@
 #include <qextDesignerAbstractFormEditor.h>
 #include <qextDesignerAbstractFormWindowManager.h>
 
-#include <iconloader_p.h>
-#include <qdesigner_utils_p.h>
+#include <private/qextDesignerIconLoader_p.h>
+#include <private/qextDesignerUtils_p.h>
 
 #include <QtGui/qevent.h>
 #include <QtWidgets/qboxlayout.h>

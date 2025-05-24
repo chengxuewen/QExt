@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,8 +29,8 @@
 #ifndef ITEMVIEW_PROPERTYSHEET_H
 #define ITEMVIEW_PROPERTYSHEET_H
 
-#include <qdesigner_propertysheet_p.h>
-#include <extensionfactory_p.h>
+#include <private/qextDesignerpropertysheet_p.h>
+#include <qextDesignerPropertySheetExtension.h>
 
 #include <QtWidgets/qtreeview.h>
 #include <QtWidgets/qtableview.h>

@@ -33,10 +33,10 @@
 #include <qextDesignerAbstractFormWindow.h>
 #include <qextDesignerContainerExtension.h>
 
-#include <qdesigner_command_p.h>
-#include <qdesigner_dockwidget_p.h>
-#include <promotiontaskmenu_p.h>
-#include <widgetdatabase_p.h>
+#include <private/qextDesignerCommand_p.h>
+#include <private/qextDesignerDockWidget_p.h>
+#include <private/qextDesignerWidgetDataBase_p.h>
+#include <private/qextDesignerPromotionTaskMenu_p.h>
 
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qmainwindow.h>

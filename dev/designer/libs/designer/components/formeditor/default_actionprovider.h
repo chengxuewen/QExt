@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2016 The Qt Company Ltd.
 ** Contact: https://www.qt.io/licensing/
@@ -29,9 +29,9 @@
 #ifndef DEFAULT_ACTIONPROVIDER_H
 #define DEFAULT_ACTIONPROVIDER_H
 
-#include "formeditor_global.h"
-#include "actionprovider_p.h"
-#include <extensionfactory_p.h>
+#include <qextDesignerGlobal.h>
+#include <private/qextDesignerActionProvider_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 #include <QtWidgets/qmenu.h>
 #include <QtWidgets/qmenubar.h>
@@ -43,7 +43,7 @@ namespace qdesigner_internal {
 
 class FormWindow;
 
-class QT_FORMEDITOR_EXPORT ActionProviderBase: public QDesignerActionProviderExtension
+class QEXT_DESIGNER_API ActionProviderBase: public QDesignerActionProviderExtension
 {
 protected:
     explicit ActionProviderBase(QWidget *widget);
@@ -59,7 +59,7 @@ private:
     QWidget *m_indicator;
 };
 
-class QT_FORMEDITOR_EXPORT QToolBarActionProvider: public QObject, public ActionProviderBase
+class QEXT_DESIGNER_API QToolBarActionProvider: public QObject, public ActionProviderBase
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerActionProviderExtension)
@@ -77,7 +77,7 @@ private:
     QToolBar *m_widget;
 };
 
-class QT_FORMEDITOR_EXPORT QMenuBarActionProvider: public QObject, public ActionProviderBase
+class QEXT_DESIGNER_API QMenuBarActionProvider: public QObject, public ActionProviderBase
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerActionProviderExtension)
@@ -92,7 +92,7 @@ private:
     QMenuBar *m_widget;
 };
 
-class QT_FORMEDITOR_EXPORT QMenuActionProvider: public QObject, public ActionProviderBase
+class QEXT_DESIGNER_API QMenuActionProvider: public QObject, public ActionProviderBase
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerActionProviderExtension)

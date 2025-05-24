@@ -31,10 +31,9 @@
 
 #include <qextDesignerTaskMenuExtension.h>
 
-#include <qdesigner_menu_p.h>
-#include <qdesigner_menubar_p.h>
-
-#include "../../shared/extensionfactory_p.h"
+#include <private/qextDesignerMenu_p.h>
+#include <private/qextDesignerMenuBar_p.h>
+#include <private/qextDesignerExtensionFactory_p.h>
 
 QT_BEGIN_NAMESPACE
 
