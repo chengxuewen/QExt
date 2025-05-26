@@ -13,7 +13,7 @@ public:
 
     QExtStyleSheetHooker * const q_ptr;
 
-    QPointer<QWidget> m_target;
+    QPointer<QWidget> mTarget;
 
 private:
     QEXT_DECL_PUBLIC(QExtStyleSheetHooker)

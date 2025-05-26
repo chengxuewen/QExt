@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -39,48 +39,48 @@ public:
 
     QExtNavigationBar * const q_ptr;
 
-    QColor m_backgroundStartColor;
-    QColor m_backgroundEndColor;
+    QColor mBackgroundStartColor;
+    QColor mBackgroundEndColor;
 
-    QColor m_barStartColor;
-    QColor m_barEndColor;
+    QColor mBarStartColor;
+    QColor mBarEndColor;
 
-    QColor m_textNormalColor;
-    QColor m_textSelectColor;
+    QColor mTextNormalColor;
+    QColor mTextSelectColor;
 
-    QColor m_oldBackgroundEndColor;
-    QColor m_oldBarEndColor;
+    QColor mOldBackgroundEndColor;
+    QColor mOldBarEndColor;
 
-    QString m_items;
-    int m_currentIndex;
-    QString m_currentItem;
+    QString mItems;
+    int mCurrentIndex;
+    QString mCurrentItem;
 
-    int m_backgroundRadius;
-    int m_barRadius;
-    int m_space;
+    int mBackgroundRadius;
+    int mBarRadius;
+    int mSpace;
 
-    int m_lineWidth;
-    QColor m_lineColor;
+    int mLineWidth;
+    QColor mLineColor;
 
-    QExtNavigationBar::BarStyleType m_barStyle;
+    QExtNavigationBar::BarStyleType mBarStyle;
 
-    bool m_keyMoveEnable;
-    bool m_horizontal;
-    bool m_flat;
+    bool mKeyMoveEnable;
+    bool mHorizontal;
+    bool mFlat;
 
-    QVector<QPair<QString, QRectF> > m_listItem;
+    QVector<QPair<QString, QRectF> > mListItem;
 
-    QRectF m_barRect;
-    QRectF m_targetRect;
-    double m_barLen;
-    double m_targetLen;
+    QRectF mBarRect;
+    QRectF mTargetRect;
+    double mBarLen;
+    double mTargetLen;
 
-    double m_initLen;
-    int m_step;
+    double mInitLen;
+    int mStep;
 
-    bool m_isForward;
-    bool m_isVirgin;
-    QTimer *m_timer;
+    bool mIsForward;
+    bool mIsVirgin;
+    QTimer *mTimer;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtNavigationBarPrivate)

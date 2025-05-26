@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -105,43 +105,43 @@ public:
     static QString colorGroupString(QPalette::ColorGroup colorGroup);
 
     template<class Key, class T>
-    static void insertIntoMap(QMap<Key, T> &Map, const QMap<Key, T> &map)
+    static void insertIntoMap(QMap<Key, T> &dstMap, const QMap<Key, T> &map)
     {
 #if QT_VERSION >= 0x050F00
-        Map.insert(map);
+        dstMap.insert(map);
 #else
         for (auto itc = map.constBegin(); itc != map.constEnd(); ++itc)
         {
-            Map.insert(itc.key(), itc.value());
+            dstMap.insert(itc.key(), itc.value());
         }
 #endif
     }
 
     QExtStyleThemes * const q_ptr;
 
-    QString m_stylesDir;
-    QString m_outputDir;
-    QMap<QString, QString> m_themeColors;
-    QMap<QString, QString> m_styleVariables;
-    QMap<QString, QString> m_themeVariables;// theme variables contains StyleVariables and ThemeColors
-    QString m_stylesheet;
-    QString m_currentStyle;
-    QString m_currentTheme;
-    QString m_defaultTheme;
-    QString m_styleName;
-    QString m_iconFile;
-    QVector<QExtStyleThemes::StringPair> ResourceReplaceList;
-    QVector<PaletteColorEntry> m_paletteColors;
-    QString m_paletteBaseColor;
-    QJsonObject m_jsonStyleParam;
-    QString m_errorString;
-    QExtStyleThemes::ErrorEnum m_error;
-    mutable QIcon m_icon;
-    QStringList m_styles;
-    QStringList m_themes;
-    bool m_isDarkTheme;
-    QString m_iconDefaultColor;
-    mutable QExtStyleThemes::ColorReplaceVector m_iconColorReplaceList;
+    QString mStylesDir;
+    QString mOutputDir;
+    QMap<QString, QString> mThemeColors;
+    QMap<QString, QString> mStyleVariables;
+    QMap<QString, QString> mThemeVariables;// theme variables contains StyleVariables and ThemeColors
+    QString mStylesheet;
+    QString mCurrentStyle;
+    QString mCurrentTheme;
+    QString mDefaultTheme;
+    QString mStyleName;
+    QString mIconFile;
+    QVector<QExtStyleThemes::StringPair> mResourceReplaceList;
+    QVector<PaletteColorEntry> mPaletteColors;
+    QString mPaletteBaseColor;
+    QJsonObject mJsonStyleParam;
+    QString mErrorString;
+    QExtStyleThemes::ErrorEnum mError;
+    mutable QIcon mIcon;
+    QStringList mStyles;
+    QStringList mThemes;
+    bool mIsDarkTheme;
+    QString mIconDefaultColor;
+    mutable QExtStyleThemes::ColorReplaceVector mIconColorReplaceList;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)

@@ -24,7 +24,7 @@
 class QExtStyleThemesSvgIconEngine;
 
 typedef QSet<QExtStyleThemesSvgIconEngine *> QExtStyleThemesSvgIconEngineSet;
-Q_GLOBAL_STATIC(QExtStyleThemesSvgIconEngineSet, sg_iconEngineInstances)
+Q_GLOBAL_STATIC(QExtStyleThemesSvgIconEngineSet, sgIconEngineInstances)
 
 /**
  * SvgIcon engine that supports loading from memory buffer
@@ -36,10 +36,10 @@ public:
      * Creates an icon engine with the given SVG content an assigned AndvancedStylesheet object
      */
     explicit QExtStyleThemesSvgIconEngine(const QByteArray &svgContent, QExtStyleThemes *styleThemes, const QString &mark = "")
-        : m_svgTemplate(svgContent), m_styleTheme(styleThemes), m_styleVariable(mark)
+        : mSvgTemplate(svgContent), mStyleTheme(styleThemes), mStyleVariable(mark)
     {
         this->update();
-        sg_iconEngineInstances->insert(this);
+        sgIconEngineInstances->insert(this);
     }
 
     /**
@@ -47,9 +47,9 @@ public:
      */
     ~QExtStyleThemesSvgIconEngine() QEXT_OVERRIDE
     {
-        if (!sg_iconEngineInstances.isDestroyed())
+        if (!sgIconEngineInstances.isDestroyed())
         {
-            sg_iconEngineInstances->remove(this);
+            sgIconEngineInstances->remove(this);
         }
     }
 
@@ -58,8 +58,8 @@ public:
      */
     void update()
     {
-        m_svgContent = m_svgTemplate;
-        m_styleTheme->replaceSvgColors(m_svgContent, m_styleVariable);
+        mSvgContent = mSvgTemplate;
+        mStyleTheme->replaceSvgColors(mSvgContent, mStyleVariable);
     }
 
     /**
@@ -67,8 +67,8 @@ public:
      */
     static void updateAllIcons()
     {
-        QExtStyleThemesSvgIconEngineSet::Iterator iter = sg_iconEngineInstances->begin();
-        while (iter != sg_iconEngineInstances->end())
+        QExtStyleThemesSvgIconEngineSet::Iterator iter = sgIconEngineInstances->begin();
+        while (iter != sgIconEngineInstances->end())
         {
             (*iter)->update();
             iter++;
@@ -80,7 +80,7 @@ public:
         Q_UNUSED(mode);
         Q_UNUSED(state);
 
-        QSvgRenderer renderer(m_svgContent);
+        QSvgRenderer renderer(mSvgContent);
         renderer.render(painter, rect);
     }
 
@@ -104,14 +104,14 @@ public:
     }
 
 private:
-    QByteArray m_svgContent; ///< memory buffer with SVG data load from file
-    QByteArray m_svgTemplate;
-    QExtStyleThemes *m_styleTheme;
-    QString m_styleVariable;
+    QString mStyleVariable;
+    QByteArray mSvgContent; ///< memory buffer with SVG data load from file
+    QByteArray mSvgTemplate;
+    QExtStyleThemes *mStyleTheme;
 };
 
 QExtStyleThemesPrivate::QExtStyleThemesPrivate(QExtStyleThemes *q)
-    : q_ptr(q), m_isDarkTheme(false)
+    : q_ptr(q), mIsDarkTheme(false)
 {
 }
 
@@ -122,7 +122,7 @@ QExtStyleThemesPrivate::~QExtStyleThemesPrivate()
 bool QExtStyleThemesPrivate::generateStylesheet()
 {
     Q_Q(QExtStyleThemes);
-    QString cssTemplateFileName = m_jsonStyleParam.value("css_template").toString();
+    QString cssTemplateFileName = mJsonStyleParam.value("css_template").toString();
     if (cssTemplateFileName.isEmpty())
     {
         return false;
@@ -140,14 +140,14 @@ bool QExtStyleThemesPrivate::generateStylesheet()
     templateFile.open(QIODevice::ReadOnly);
     QString content(templateFile.readAll());
     this->replaceStylesheetVariables(content);
-    m_stylesheet = content;
+    mStylesheet = content;
     this->exportInternalStylesheet(QFileInfo(templateFilePath).baseName() + ".css");
     return true;
 }
 
 bool QExtStyleThemesPrivate::exportInternalStylesheet(const QString &filename)
 {
-    return this->storeStylesheet(m_stylesheet, filename);
+    return this->storeStylesheet(mStylesheet, filename);
 }
 
 bool QExtStyleThemesPrivate::storeStylesheet(const QString &stylesheet, const QString &filename)
@@ -217,12 +217,12 @@ bool QExtStyleThemesPrivate::parseThemeFile(const QString &fileName)
         return false;
     }
 
-    m_isDarkTheme = (reader.attributes().value("dark").toInt() == 1);
+    mIsDarkTheme = (reader.attributes().value("dark").toInt() == 1);
     QMap<QString, QString> colorVariables;
     this->parseVariablesFromXml(reader, "color", colorVariables);
-    m_themeVariables = m_styleVariables;
-    insertIntoMap(m_themeVariables, colorVariables);
-    m_themeColors = colorVariables;
+    mThemeVariables = mStyleVariables;
+    insertIntoMap(mThemeVariables, colorVariables);
+    mThemeColors = colorVariables;
     return true;
 }
 
@@ -258,9 +258,9 @@ bool QExtStyleThemesPrivate::parseStyleJsonFile()
         return false;
     }
 
-    QJsonObject json = m_jsonStyleParam = jsonDocument.object();
-    m_styleName = json.value("name").toString();
-    if (m_styleName.isEmpty())
+    QJsonObject json = mJsonStyleParam = jsonDocument.object();
+    mStyleName = json.value("name").toString();
+    if (mStyleName.isEmpty())
     {
         this->setError(QExtStyleThemes::Error_StyleJson, "No key \"name\" found in style json file");
         return false;
@@ -273,12 +273,12 @@ bool QExtStyleThemesPrivate::parseStyleJsonFile()
         variables.insert(iter.key(), jvariables.value(iter.key()).toString());
     }
 
-    m_styleVariables = variables;
-    m_iconFile = json.value("icon").toString();
+    mStyleVariables = variables;
+    mIconFile = json.value("icon").toString();
     this->parsePaletteFromJson();
 
-    m_defaultTheme = json.value("default_theme").toString();
-    if (m_defaultTheme.isEmpty())
+    mDefaultTheme = json.value("default_theme").toString();
+    if (mDefaultTheme.isEmpty())
     {
         this->setError(QExtStyleThemes::Error_StyleJson, "No key \"default_theme\" found in style json file");
         return false;
@@ -461,25 +461,25 @@ void QExtStyleThemesPrivate::setDomAttribute(QDomElement &element, const QString
 
 void QExtStyleThemesPrivate::setError(QExtStyleThemes::ErrorEnum error, const QString &errorString)
 {
-    m_error = error;
-    m_errorString = errorString;
-    if (m_error != QExtStyleThemes::Error_None)
+    mError = error;
+    mErrorString = errorString;
+    if (mError != QExtStyleThemes::Error_None)
     {
-        qDebug() << "QExtStyleThemes error: " << m_error << " " << m_errorString;
+        qDebug() << "QExtStyleThemes error: " << mError << " " << mErrorString;
     }
 }
 
 void QExtStyleThemesPrivate::parsePaletteFromJson()
 {
-    m_paletteBaseColor = QString();
-    m_paletteColors.clear();
-    QJsonObject jPalette = m_jsonStyleParam.value("palette").toObject();
+    mPaletteBaseColor = QString();
+    mPaletteColors.clear();
+    QJsonObject jPalette = mJsonStyleParam.value("palette").toObject();
     if (jPalette.isEmpty())
     {
         return;
     }
 
-    m_paletteBaseColor = jPalette.value("base_color").toString();
+    mPaletteBaseColor = jPalette.value("base_color").toString();
     this->parsePaletteColorGroup(jPalette, QPalette::Active);
     this->parsePaletteColorGroup(jPalette, QPalette::Disabled);
     this->parsePaletteColorGroup(jPalette, QPalette::Inactive);
@@ -500,7 +500,7 @@ void QExtStyleThemesPrivate::parsePaletteColorGroup(QJsonObject &jPalette, QPale
         {
             continue;
         }
-        this->m_paletteColors.append(PaletteColorEntry(colorGroup, colorRole, iter.value().toString()));
+        this->mPaletteColors.append(PaletteColorEntry(colorGroup, colorRole, iter.value().toString()));
         if (QPalette::Active != colorGroup)
         {
             continue;
@@ -511,42 +511,42 @@ void QExtStyleThemesPrivate::parsePaletteColorGroup(QJsonObject &jPalette, QPale
 const QString &QExtStyleThemesPrivate::iconDefaultColor()
 {
     Q_Q(const QExtStyleThemes);
-    if (!m_iconDefaultColor.isEmpty())
+    if (!mIconDefaultColor.isEmpty())
     {
-        return m_iconDefaultColor;
+        return mIconDefaultColor;
     }
 
-    QJsonValue jsonIconDefaultColor = m_jsonStyleParam.value("icon_default_color");
+    QJsonValue jsonIconDefaultColor = mJsonStyleParam.value("icon_default_color");
     if (!jsonIconDefaultColor.isString())
     {
-        return m_iconDefaultColor;
+        return mIconDefaultColor;
     }
 
-    m_iconDefaultColor = jsonIconDefaultColor.toString();
+    mIconDefaultColor = jsonIconDefaultColor.toString();
     // If the color starts with an hashtag, then we have a real color value
     // If it does not start with # then it is a theme variable
-    if (!m_iconDefaultColor.startsWith('#'))
+    if (!mIconDefaultColor.startsWith('#'))
     {
-        m_iconDefaultColor = q->themeVariableValue(m_iconDefaultColor);
+        mIconDefaultColor = q->themeVariableValue(mIconDefaultColor);
     }
-    return m_iconDefaultColor;
+    return mIconDefaultColor;
 }
 
 const QExtStyleThemes::ColorReplaceVector &QExtStyleThemesPrivate::iconColorReplaceList() const
 {
-    if (m_iconColorReplaceList.count() > 0)
+    if (mIconColorReplaceList.count() > 0)
     {
-        return m_iconColorReplaceList;
+        return mIconColorReplaceList;
     }
 
-    QJsonObject jsonIconColors = m_jsonStyleParam.value("icon_colors").toObject();
+    QJsonObject jsonIconColors = mJsonStyleParam.value("icon_colors").toObject();
     if (jsonIconColors.isEmpty())
     {
-        return m_iconColorReplaceList;
+        return mIconColorReplaceList;
     }
 
-    m_iconColorReplaceList = this->parseColorReplaceList(jsonIconColors);
-    return m_iconColorReplaceList;
+    mIconColorReplaceList = this->parseColorReplaceList(jsonIconColors);
+    return mIconColorReplaceList;
 }
 
 QExtStyleThemes::ColorReplaceVector QExtStyleThemesPrivate::parseColorReplaceList(const QJsonObject &jsonObject) const
@@ -629,45 +629,45 @@ QExtStyleThemes::~QExtStyleThemes()
 void QExtStyleThemes::setStylesDirPath(const QString &path)
 {
     Q_D(QExtStyleThemes);
-    d->m_stylesDir = path.isEmpty() ? ":/QExtWidgets/stylethemes" : path;
-    QDir Dir(d->m_stylesDir);
-    d->m_styles = Dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    d->mStylesDir = path.isEmpty() ? ":/QExtWidgets/stylethemes" : path;
+    QDir Dir(d->mStylesDir);
+    d->mStyles = Dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 }
 
 QString QExtStyleThemes::stylesDirPath() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_stylesDir;
+    return d->mStylesDir;
 }
 
 QString QExtStyleThemes::currentStyle() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_currentStyle;
+    return d->mCurrentStyle;
 }
 
 QString QExtStyleThemes::currentStylePath() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_stylesDir + "/" + d->m_currentStyle;
+    return d->mStylesDir + "/" + d->mCurrentStyle;
 }
 
 const QStringList &QExtStyleThemes::styles() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_styles;
+    return d->mStyles;
 }
 
 const QStringList &QExtStyleThemes::themes() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_themes;
+    return d->mThemes;
 }
 
 QStringList QExtStyleThemes::themes(const QString &style) const
 {
     Q_D(const QExtStyleThemes);
-    QString stylePath = d->m_stylesDir + "/" + style;
+    QString stylePath = d->mStylesDir + "/" + style;
     QDir dir(this->styleLocationPath(stylePath, Location_Themes));
     QStringList themes = dir.entryList(QStringList() << "*.xml", QDir::Files);
     for (QStringList::Iterator iter = themes.begin(); iter != themes.end(); ++iter)
@@ -710,7 +710,7 @@ QStringList QExtStyleThemes::styleThemes(const QString &style) const
 const QMap<QString, QString> &QExtStyleThemes::themeColorVariables() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_themeColors;
+    return d->mThemeColors;
 }
 
 QString QExtStyleThemes::styleLocationPath(const QString &stylePath, QExtStyleThemes::LocationEnum location) const
@@ -735,34 +735,34 @@ QString QExtStyleThemes::currentStyleLocationPath(QExtStyleThemes::LocationEnum 
 QString QExtStyleThemes::outputDirPath() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_outputDir;
+    return d->mOutputDir;
 }
 
 void QExtStyleThemes::setOutputDirPath(const QString &path)
 {
     Q_D(QExtStyleThemes);
-    d->m_outputDir = path;
+    d->mOutputDir = path;
     QDir::addSearchPath("icon", path);
 }
 
 QString QExtStyleThemes::currentStyleOutputPath() const
 {
     Q_D(const QExtStyleThemes);
-    return this->outputDirPath() + "/" + d->m_currentStyle;
+    return this->outputDirPath() + "/" + d->mCurrentStyle;
 }
 
 QString QExtStyleThemes::themeVariableValue(const QString &variableId) const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_themeVariables.value(variableId, QString());
+    return d->mThemeVariables.value(variableId, QString());
 }
 
 void QExtStyleThemes::setThemeVariableValue(const QString &variableId, const QString &value)
 {
     Q_D(QExtStyleThemes);
-    d->m_themeVariables.insert(variableId, value);
-    QMap<QString, QString>::Iterator iter = d->m_themeColors.find(variableId);
-    if (iter != d->m_themeColors.end())
+    d->mThemeVariables.insert(variableId, value);
+    QMap<QString, QString>::Iterator iter = d->mThemeColors.find(variableId);
+    if (iter != d->mThemeColors.end())
     {
         iter.value() = value;
     }
@@ -771,26 +771,26 @@ void QExtStyleThemes::setThemeVariableValue(const QString &variableId, const QSt
 QColor QExtStyleThemes::themeColor(const QString &variableId) const
 {
     Q_D(const QExtStyleThemes);
-    QString colorString = d->m_themeColors.value(variableId, QString());
+    QString colorString = d->mThemeColors.value(variableId, QString());
     return colorString.isEmpty() ? QColor() : QColor(colorString);
 }
 
 QString QExtStyleThemes::currentTheme() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_currentTheme;
+    return d->mCurrentTheme;
 }
 
 QString QExtStyleThemes::currentStyleTheme() const
 {
     Q_D(const QExtStyleThemes);
-    return QString("%1 %2").arg(d->m_currentStyle).arg(d->m_currentTheme);
+    return QString("%1 %2").arg(d->mCurrentStyle).arg(d->mCurrentTheme);
 }
 
 QString QExtStyleThemes::styleSheet() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_stylesheet;
+    return d->mStylesheet;
 }
 
 QString QExtStyleThemes::processStylesheetTemplate(const QString &templateText, const QString &outputFile)
@@ -808,40 +808,40 @@ QString QExtStyleThemes::processStylesheetTemplate(const QString &templateText, 
 const QIcon &QExtStyleThemes::styleIcon() const
 {
     Q_D(const QExtStyleThemes);
-    if (d->m_icon.isNull() && !d->m_iconFile.isEmpty())
+    if (d->mIcon.isNull() && !d->mIconFile.isEmpty())
     {
-        d->m_icon = QIcon(currentStylePath() + "/" + d->m_iconFile);
+        d->mIcon = QIcon(currentStylePath() + "/" + d->mIconFile);
     }
-    return d->m_icon;
+    return d->mIcon;
 }
 
 QExtStyleThemes::ErrorEnum QExtStyleThemes::error() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_error;
+    return d->mError;
 }
 
 QString QExtStyleThemes::errorString() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_errorString;
+    return d->mErrorString;
 }
 
 QPalette QExtStyleThemes::generateThemePalette() const
 {
     Q_D(const QExtStyleThemes);
     QPalette palette = qApp->palette();
-    if (!d->m_paletteBaseColor.isEmpty())
+    if (!d->mPaletteBaseColor.isEmpty())
     {
-        QColor color = themeColor(d->m_paletteBaseColor);
+        QColor color = themeColor(d->mPaletteBaseColor);
         if (color.isValid())
         {
             palette = QPalette(color);
         }
     }
 
-    QVector<QExtStyleThemesPrivate::PaletteColorEntry>::ConstIterator iter = d->m_paletteColors.constBegin();
-    while (iter != d->m_paletteColors.constEnd())
+    QVector<QExtStyleThemesPrivate::PaletteColorEntry>::ConstIterator iter = d->mPaletteColors.constBegin();
+    while (iter != d->mPaletteColors.constEnd())
     {
         QColor color = this->themeColor(iter->colorVariable);
         if (color.isValid())
@@ -865,13 +865,13 @@ QPalette QExtStyleThemes::generateThemePalette() const
 const QJsonObject &QExtStyleThemes::styleParameters() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_jsonStyleParam;
+    return d->mJsonStyleParam;
 }
 
 bool QExtStyleThemes::isCurrentThemeDark() const
 {
     Q_D(const QExtStyleThemes);
-    return d->m_isDarkTheme;
+    return d->mIsDarkTheme;
 }
 
 void QExtStyleThemes::replaceSvgColors(QByteArray &svgContent, const ColorReplaceVector &colorReplaceVector)
@@ -901,9 +901,9 @@ void QExtStyleThemes::replaceSvgColors(QByteArray &svgContent, const ColorReplac
 void QExtStyleThemes::replaceSvgColors(QByteArray &svgContent, const QString &variable)
 {
     Q_D(QExtStyleThemes);
-    if (d->m_styleVariables.contains(variable))
+    if (d->mStyleVariables.contains(variable))
     {
-        const QString color = d->m_styleVariables.value(variable);
+        const QString color = d->mStyleVariables.value(variable);
         QDomDocument domDocument;
         domDocument.setContent(svgContent);
         QDomElement domElement = domDocument.documentElement();
@@ -928,7 +928,7 @@ bool QExtStyleThemes::setCurrentTheme(const QString &theme)
 {
     Q_D(QExtStyleThemes);
     d->clearError();
-    if (d->m_jsonStyleParam.isEmpty())
+    if (d->mJsonStyleParam.isEmpty())
     {
         return false;
     }
@@ -936,31 +936,31 @@ bool QExtStyleThemes::setCurrentTheme(const QString &theme)
     {
         return false;
     }
-    d->m_currentTheme = theme;
-    emit this->currentThemeChanged(d->m_currentTheme);
+    d->mCurrentTheme = theme;
+    emit this->currentThemeChanged(d->mCurrentTheme);
     return true;
 }
 
 void QExtStyleThemes::setDefaultTheme()
 {
     Q_D(QExtStyleThemes);
-    this->setCurrentTheme(d->m_defaultTheme);
+    this->setCurrentTheme(d->mDefaultTheme);
 }
 
 bool QExtStyleThemes::setCurrentStyle(const QString &style)
 {
     Q_D(QExtStyleThemes);
     d->clearError();
-    d->m_currentStyle = style;
+    d->mCurrentStyle = style;
     QDir dir(this->currentStyleLocationPath(Location_Themes));
-    d->m_themes = dir.entryList(QStringList() << "*.xml", QDir::Files);
-    for (QStringList::Iterator iter = d->m_themes.begin(); iter != d->m_themes.end(); ++iter)
+    d->mThemes = dir.entryList(QStringList() << "*.xml", QDir::Files);
+    for (QStringList::Iterator iter = d->mThemes.begin(); iter != d->mThemes.end(); ++iter)
     {
         iter->replace(".xml", "");
     }
     bool result = d->parseStyleJsonFile();
     d->addFonts();
-    emit this->currentStyleChanged(d->m_currentStyle);
+    emit this->currentStyleChanged(d->mCurrentStyle);
     emit this->stylesheetChanged();
     return result;
 }
@@ -987,8 +987,8 @@ bool QExtStyleThemes::updateStylesheet()
         return false;
     }
 
-    d->m_iconDefaultColor.clear();
-    d->m_iconColorReplaceList.clear();
+    d->mIconDefaultColor.clear();
+    d->mIconColorReplaceList.clear();
     QExtStyleThemesSvgIconEngine::updateAllIcons();
     if (!d->generateStylesheet() && (error() != QExtStyleThemes::Error_None))
     {
@@ -1011,7 +1011,7 @@ bool QExtStyleThemes::generateResources()
     QDir resourceDir(this->currentStyleLocationPath(QExtStyleThemes::Location_SvgsTemplates));
     QFileInfoList entries = resourceDir.entryInfoList({"*.svg"}, QDir::Files);
 
-    QJsonObject jsonResources = d->m_jsonStyleParam.value("resources").toObject();
+    QJsonObject jsonResources = d->mJsonStyleParam.value("resources").toObject();
     if (jsonResources.isEmpty())
     {
         d->setError(QExtStyleThemes::Error_StyleJson, "Key resources missing in style json file");
