@@ -75,7 +75,9 @@ public:
 Q_SIGNALS:
     void readyRead();
     void readyWrite();
-    void dataReaded(const QByteArray &data);
+
+    void dataReaded(const QByteArray &data, qint64 timestamp);
+    void dataWrited(const QByteArray &data, qint64 timestamp);
 
     void aliasChanged(const QString &alias);
     void openStateChanged(bool opened);

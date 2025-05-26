@@ -381,7 +381,7 @@ void QExtDAIODevice::onIOReadyRead()
     }
     else
     {
-        Q_EMIT this->dataReaded(bytes);
+        Q_EMIT this->dataReaded(bytes, QExtDateTimeUtils::msecsTimeSinceEpoch());
     }
     d->updateRxdBps(bytes.size());
 }
@@ -394,7 +394,12 @@ void QExtDAIODevice::onIOReadyWrite()
     {
         auto bytes = d->mWriteDataQueue.dequeue();
         locker.unlock();
-        if (bytes.size() != this->ioWrite(bytes.data(), bytes.size()))
+        const qint64 size = this->ioWrite(bytes.data(), bytes.size());
+        if (size > 0)
+        {
+            Q_EMIT this->dataWrited(QByteArray(bytes.data(), size), QExtDateTimeUtils::msecsTimeSinceEpoch());
+        }
+        if (bytes.size() != size)
         {
             this->onIOWriteFailed();
         }
