@@ -99,8 +99,8 @@ qext_add_library(Core
     source/tools/qextObject.h
     source/tools/qextObject.cpp
     source/tools/qextVariant.h
-    source/utils/qextCRCUtils.cpp
-    source/utils/qextCRCUtils.h
+    source/utils/qextCheckUtils.cpp
+    source/utils/qextCheckUtils.h
     source/utils/qextCodecUtils.cpp
     source/utils/qextCodecUtils.h
     source/utils/qextCommonUtils.cpp
