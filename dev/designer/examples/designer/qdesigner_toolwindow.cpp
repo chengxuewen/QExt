@@ -36,7 +36,7 @@
 #include <qextDesignerAbstractActionEditor.h>
 #include <qextDesignerAbstractPropertyEditor.h>
 #include <qextDesignerAbstractObjectInspector.h>
-#include "../../libs/designer/components/qdesigner_components.h"
+#include "../../libs/components/qdesigner_components.h"
 
 #include <QtCore/qdebug.h>
 #include <QtWidgets/qaction.h>

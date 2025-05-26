@@ -35,7 +35,7 @@
 #include "mainwindow.h"
 
 #include <private/qextDesignerPropertySheet_p.h>
-#include "../../libs/designer/components/qdesigner_components.h"
+#include "../../libs/components/qdesigner_components.h"
 
 #include <QtGui/qevent.h>
 #include <QtWidgets/qmessagebox.h>

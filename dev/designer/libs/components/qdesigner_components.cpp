@@ -33,12 +33,12 @@
 #include <private/qextDesignerActionEditor_p.h>
 #include <private/qextDesignerResourceView_p.h>
 
-#include <formeditor/formeditor.h>
-#include <widgetbox/widgetbox.h>
-#include <propertyeditor/propertyeditor.h>
-#include <objectinspector/objectinspector.h>
-#include <taskmenu/taskmenu_component.h>
-#include <signalsloteditor/signalsloteditorwindow.h>
+#include <components/formeditor/formeditor.h>
+#include <components/widgetbox/widgetbox.h>
+#include <components/propertyeditor/propertyeditor.h>
+#include <components/objectinspector/objectinspector.h>
+#include <components/taskmenu/taskmenu_component.h>
+#include <components/signalsloteditor/signalsloteditorwindow.h>
 
 // #include <buddyeditor/buddyeditor_plugin.h>
 // #include <signalsloteditor/signalsloteditor_plugin.h>

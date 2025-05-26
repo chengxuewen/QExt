@@ -43,7 +43,7 @@
 #include <qextDesignerAbstractFormEditorPlugin.h>
 #include <qextDesignerAbstractFormWindowManager.h>
 
-#include "../../libs/designer/components/qdesigner_components.h"
+#include "../../libs/components/qdesigner_components.h"
 #include <private/qextDesignerFormWindowBase_p.h>
 #include <private/qextDesignerPluginManager_p.h>
 #include <private/qextDesignerActionEditor_p.h>
