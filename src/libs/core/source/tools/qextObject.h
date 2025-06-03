@@ -1,4 +1,4 @@
-#ifndef _QEXTOBJECT_H
+﻿#ifndef _QEXTOBJECT_H
 #define _QEXTOBJECT_H
 
 #include <qextGlobal.h>
@@ -20,6 +20,9 @@ Q_SIGNALS:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+
+private:
+    QEXT_DISABLE_COPY_MOVE(QExtObject)
 };
 
 #endif // _QEXTOBJECT_H

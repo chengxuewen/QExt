@@ -260,12 +260,9 @@ function(qext_internal_sort_module_dependencies modules out_all_ordered)
 endfunction()
 
 
-
-
-
-
-
+#-----------------------------------------------------------------------------------------------------------------------
 # Generate a module description file based on the template in ModuleDescription.json.in
+#-----------------------------------------------------------------------------------------------------------------------
 function(qext_describe_module target)
     set(path_suffix "${QEXT_INSTALL_DESCRIPTIONSDIR}")
     qext_path_join(build_dir ${QEXT_BUILD_DIR} ${path_suffix})
@@ -282,8 +279,6 @@ function(qext_describe_module target)
 
     qext_install(FILES "${descfile_out}" DESTINATION "${install_dir}")
 endfunction()
-
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------

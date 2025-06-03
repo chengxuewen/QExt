@@ -1,4 +1,4 @@
-#include <qextNetworkUtils.h>
+﻿#include <qextNetworkUtils.h>
 
 #include <QDebug>
 #include <QtEndian>
@@ -225,6 +225,11 @@ qint64 QExtNetworkUtils::qint64NetToHost(char *src)
 quint64 QExtNetworkUtils::quint64NetToHost(char *src)
 {
     return netToHost<quint64>(src);
+}
+
+qint16 QExtNetworkUtils::qint16NetToHost(qint16 val)
+{
+    return qFromBigEndian<qint16>(val);
 }
 
 void QExtNetworkUtils::qint16NetToHost(const char *src, qint16 *des)

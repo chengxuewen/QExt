@@ -1,4 +1,4 @@
-#include <private/qextStyleSheetHooker_p.h>
+﻿#include <private/qextStyleSheetHooker_p.h>
 
 #include <QDebug>
 #include <QEvent>
@@ -28,23 +28,23 @@ QExtStyleSheetHooker::~QExtStyleSheetHooker()
 QWidget *QExtStyleSheetHooker::hookTarget() const
 {
     Q_D(const QExtStyleSheetHooker);
-    return d->m_target.data();
+    return d->mTarget.data();
 }
 
 void QExtStyleSheetHooker::setHookTarget(QWidget *target)
 {
     Q_D(QExtStyleSheetHooker);
-    if (target != d->m_target)
+    if (target != d->mTarget)
     {
-        if (!d->m_target.isNull())
+        if (!d->mTarget.isNull())
         {
-            d->m_target->removeEventFilter(this);
+            d->mTarget->removeEventFilter(this);
         }
-        d->m_target = target;
+        d->mTarget = target;
         Q_EMIT this->hookTargetChanged(target);
-        if (!d->m_target.isNull())
+        if (!d->mTarget.isNull())
         {
-            d->m_target->installEventFilter(this);
+            d->mTarget->installEventFilter(this);
         }
     }
 }
@@ -54,7 +54,7 @@ bool QExtStyleSheetHooker::eventFilter(QObject *watched, QEvent *event)
     Q_D(QExtStyleSheetHooker);
     if (event->type() == QEvent::MouseButtonPress)
     {
-        if (d->m_target.data() == watched)
+        if (d->mTarget.data() == watched)
         {
             // label->setStyleSheet("background-color: lightblue; color: red; font-size: 16px;");
         }

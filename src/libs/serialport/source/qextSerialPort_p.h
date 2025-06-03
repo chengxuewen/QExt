@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 ** Copyright (c) 2000-2003 Wayne Roth
 ** Copyright (c) 2004-2007 Stefan Sander
 ** Copyright (c) 2007 Michal Policht
@@ -62,33 +62,42 @@ class QEXT_SERIALPORT_API QExtReadBuffer
 {
 public:
     inline QExtReadBuffer(size_t growth=4096)
-        : len(0), first(0), buf(0), capacity(0), basicBlockSize(growth) {
+        : len(0), first(0), buf(0), capacity(0), basicBlockSize(growth)
+    {
     }
 
-    ~QExtReadBuffer() {
+    ~QExtReadBuffer()
+    {
         delete [] buf;
     }
 
-    inline void clear() {
+    inline void clear()
+    {
         first = buf;
         len = 0;
     }
 
-    inline int size() const {
+    inline int size() const
+    {
         return len;
     }
 
-    inline bool isEmpty() const {
+    inline bool isEmpty() const
+    {
         return len == 0;
     }
 
-    inline int read(char *target, int size) {
+    inline int read(char *target, int size)
+    {
         int r = qMin(size, len);
-        if (r == 1) {
+        if (r == 1)
+        {
             *target = *first;
             --len;
             ++first;
-        } else {
+        }
+        else
+        {
             memcpy(target, first, r);
             len -= r;
             first += r;
@@ -96,19 +105,26 @@ public:
         return r;
     }
 
-    inline char *reserve(size_t size) {
-        if ((first - buf) + len + size > capacity) {
+    inline char *reserve(size_t size)
+    {
+        if ((first - buf) + len + size > capacity)
+        {
             size_t newCapacity = qMax(capacity, basicBlockSize);
             while (newCapacity < len + size)
+            {
                 newCapacity *= 2;
-            if (newCapacity > capacity) {
+            }
+            if (newCapacity > capacity)
+            {
                 // allocate more space
                 char *newBuf = new char[newCapacity];
                 memmove(newBuf, first, len);
                 delete [] buf;
                 buf = newBuf;
                 capacity = newCapacity;
-            } else {
+            }
+            else
+            {
                 // shift any existing data to make space
                 memmove(buf, first, len);
             }
@@ -119,50 +135,65 @@ public:
         return writePtr;
     }
 
-    inline void chop(int size) {
-        if (size >= len) {
+    inline void chop(int size)
+    {
+        if (size >= len)
+        {
             clear();
-        } else {
+        }
+        else
+        {
             len -= size;
         }
     }
 
-    inline void squeeze() {
-        if (first != buf) {
+    inline void squeeze()
+    {
+        if (first != buf)
+        {
             memmove(buf, first, len);
             first = buf;
         }
         size_t newCapacity = basicBlockSize;
         while (newCapacity < size_t(len))
+        {
             newCapacity *= 2;
-        if (newCapacity < capacity) {
+        }
+        if (newCapacity < capacity)
+        {
             char *tmp = static_cast<char *>(realloc(buf, newCapacity));
-            if (tmp) {
+            if (tmp)
+            {
                 buf = tmp;
                 capacity = newCapacity;
             }
         }
     }
 
-    inline QByteArray readAll() {
+    inline QByteArray readAll()
+    {
         char *f = first;
         int l = len;
         clear();
         return QByteArray(f, l);
     }
 
-    inline int readLine(char *target, int size) {
+    inline int readLine(char *target, int size)
+    {
         int r = qMin(size, len);
         char *eol = static_cast<char *>(memchr(first, '\n', r));
         if (eol)
+        {
             r = 1+(eol-first);
+        }
         memcpy(target, first, r);
         len -= r;
         first += r;
         return int(r);
     }
 
-    inline bool canReadLine() const {
+    inline bool canReadLine() const
+    {
         return memchr(first, '\n', len);
     }
 
@@ -203,7 +234,7 @@ public:
     ulong lastErr;
     QExtSerialPort::QueryMode queryMode;
 
-    // platform specific members
+// platform specific members
 #ifdef Q_OS_UNIX
     int fd;
     QSocketNotifier *readNotifier;

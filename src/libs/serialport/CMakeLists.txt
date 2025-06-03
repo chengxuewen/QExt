@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -26,30 +26,14 @@
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
-if(UNIX)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
-endif()
-
-if(WIN32)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib setupapi.lib advapi32.lib user32.lib)
-endif()
-
-if(APPLE)
-    find_library(COREFOUNDATION_LIB CoreFoundation)
-    find_library(IOKIT_LIB IOKit)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${COREFOUNDATION_LIB} ${IOKIT_LIB})
-endif()
-
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        )
+        Qt${QEXT_QT_VERSION_MAJOR}::Core)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
-
 list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 
 
@@ -69,19 +53,41 @@ qext_add_library(SerialPort
     source/qextSerialEnumerator.cpp
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
-if(UNIX)
-    qext_internal_extend_target(SerialPort SOURCES source/qextSerialPort_unix.cpp)
-    if(QEXT_SYSTEM_LINUX)
-        qext_internal_extend_target(SerialPort SOURCES source/qextSerialEnumerator_linux.cpp)
-    elseif(QEXT_SYSTEM_MACOS)
-        qext_internal_extend_target(SerialPort SOURCES source/qextSerialEnumerator_osx.cpp)
-    else()
-        qext_internal_extend_target(SerialPort SOURCES source/qextSerialEnumerator_unix.cpp)
+if(QEXT_FEATURE_SERIALPORT_USE_QT_BACKEND)
+    qext_internal_extend_target(SerialPort SOURCES
+        source/qextSerialEnumerator_qt.cpp
+        source/qextSerialPort_qt.cpp
+        LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::SerialPort)
+else()
+    if(UNIX)
+        qext_internal_extend_target(SerialPort SOURCES source/qextSerialPort_unix.cpp)
+        if(QEXT_SYSTEM_LINUX)
+            qext_internal_extend_target(SerialPort
+                SOURCES
+                source/qextSerialEnumerator_linux.cpp
+                LIBRARIES
+                ${CMAKE_DL_LIBS})
+        elseif(QEXT_SYSTEM_MACOS)
+            find_library(IOKIT_LIB IOKit)
+            find_library(COREFOUNDATION_LIB CoreFoundation)
+            qext_internal_extend_target(SerialPort
+                SOURCES
+                source/qextSerialEnumerator_osx.cpp
+                LIBRARIES
+                ${IOKIT_LIB} ${COREFOUNDATION_LIB})
+        else()
+            qext_internal_extend_target(SerialPort SOURCES source/qextSerialEnumerator_unix.cpp)
+        endif()
     endif()
-endif()
-if(WIN32)
-    qext_internal_extend_target(SerialPort SOURCES source/qextSerialEnumerator_win.cpp)
-    qext_internal_extend_target(SerialPort SOURCES source/qextSerialPort_win.cpp)
+    if(WIN32)
+        qext_internal_extend_target(SerialPort
+            SOURCES
+            source/qextSerialEnumerator_win.cpp
+            source/qextSerialPort_win.cpp
+            LIBRARIES
+            shlwapi.lib setupapi.lib advapi32.lib user32.lib)
+    endif()
 endif()
 
 

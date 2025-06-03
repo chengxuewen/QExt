@@ -43,9 +43,9 @@ void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 {
 }
 
-QList <QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
+QList <QExtPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
-    QList <QEXTPortInfo> infoList;
+    QList <QExtPortInfo> infoList;
     qWarning("Enumeration for POSIX systems (except Linux) is not implemented yet.");
     return infoList;
 }

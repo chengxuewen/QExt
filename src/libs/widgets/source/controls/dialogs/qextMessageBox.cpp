@@ -1,4 +1,4 @@
-#include <qextMessageBox.h>
+﻿#include <qextMessageBox.h>
 #include <qextSpinlock.h>
 
 #include <QHash>
@@ -9,29 +9,29 @@
 typedef QVector<QIcon> IconVector;
 namespace detail
 {
-Q_GLOBAL_STATIC_WITH_ARGS(QSize, sg_customIconSize, (50, 50));
-Q_GLOBAL_STATIC(QExtSpinLock, sg_customIconSizeSpinlock);
-Q_GLOBAL_STATIC_WITH_ARGS(IconVector, sg_customIcons, (8));
-Q_GLOBAL_STATIC(QExtSpinLock, sg_customIconsSpinlock);
+Q_GLOBAL_STATIC_WITH_ARGS(QSize, sgCustomIconSize, (50, 50))
+Q_GLOBAL_STATIC(QExtSpinLock, sgCustomIconSizeSpinlock)
+Q_GLOBAL_STATIC_WITH_ARGS(IconVector, sgCustomIcons, (8))
+Q_GLOBAL_STATIC(QExtSpinLock, sgCustomIconsSpinlock)
 static const QSize &customIconSize()
 {
-    QExtSpinLock::Locker locker(*sg_customIconSizeSpinlock);
-    return *sg_customIconSize;
+    QExtSpinLock::Locker locker(*sgCustomIconSizeSpinlock);
+    return *sgCustomIconSize;
 }
 static void setCustomIconSize(const QSize &size)
 {
-    QExtSpinLock::Locker locker(*sg_customIconSizeSpinlock);
-    *sg_customIconSize = size;
+    QExtSpinLock::Locker locker(*sgCustomIconSizeSpinlock);
+    *sgCustomIconSize = size;
 }
 static const QIcon &customIcon(int index)
 {
-    QExtSpinLock::Locker locker(*sg_customIconsSpinlock);
-    return sg_customIcons->at(index);
+    QExtSpinLock::Locker locker(*sgCustomIconsSpinlock);
+    return sgCustomIcons->at(index);
 }
 static void setCustomIcon(int index, const QIcon &icon)
 {
-    QExtSpinLock::Locker locker(*sg_customIconsSpinlock);
-    sg_customIcons->replace(index, icon);
+    QExtSpinLock::Locker locker(*sgCustomIconsSpinlock);
+    sgCustomIcons->replace(index, icon);
 }
 static QMessageBox::StandardButton showMessageBox(QWidget *parent,
                                                   QMessageBox::Icon icon,

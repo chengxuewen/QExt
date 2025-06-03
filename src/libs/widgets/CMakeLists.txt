@@ -74,6 +74,8 @@ qext_add_library(${QEXT_LIB_NAME}
     source/controls/containers/qextCollapseTabWidget.cpp
     source/controls/containers/qextCollapseTabWidget.h
     source/controls/containers/qextCollapseTabWidget_p.h
+    source/controls/dialogs/qextInputDialog.cpp
+    source/controls/dialogs/qextInputDialog.h
     source/controls/dialogs/qextMessageBox.cpp
     source/controls/dialogs/qextMessageBox.h
     source/controls/displays/qextCircleGauge.cpp

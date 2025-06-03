@@ -1,4 +1,4 @@
-#ifndef _QEXTDATETIMEUTILS_H
+﻿#ifndef _QEXTDATETIMEUTILS_H
 #define _QEXTDATETIMEUTILS_H
 
 #include <qextGlobal.h>
@@ -16,8 +16,8 @@ public:
     static qint64 msecsTimeSinceEpoch();
     static qint64 usecsTimeSinceEpoch();
     static qint64 nsecsTimeSinceEpoch();
-    static QString secsTimeSinceEpochString(qint64 secs = -1);
-    static QString msecsTimeSinceEpochString(qint64 msecs = -1);
+    static QString localTimeStringFromSecsSinceEpoch(qint64 secs = -1);
+    static QString localTimeStringFromMSecsSinceEpoch(qint64 msecs = -1);
 };
 
 #endif // _QEXTDATETIMEUTILS_H

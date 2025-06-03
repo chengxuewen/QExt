@@ -47,9 +47,9 @@ void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 }
 
 // static
-QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
+QList<QExtPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
-    QList<QEXTPortInfo> infoList;
+    QList<QExtPortInfo> infoList;
     io_iterator_t serialPortIterator = 0;
     kern_return_t kernResult = KERN_FAILURE;
     CFMutableDictionaryRef matchingDictionary;
@@ -89,13 +89,13 @@ QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
     return infoList;
 }
 
-void QExtSerialEnumeratorPrivate::iterateServicesOSX(io_object_t service, QList<QEXTPortInfo> &infoList)
+void QExtSerialEnumeratorPrivate::iterateServicesOSX(io_object_t service, QList<QExtPortInfo> &infoList)
 {
     // Iterate through all modems found.
     io_object_t usbService;
     while ((usbService = IOIteratorNext(service)))
     {
-        QEXTPortInfo info;
+        QExtPortInfo info;
         info.vendorID = 0;
         info.productID = 0;
         getServiceDetailsOSX(usbService, &info);
@@ -103,7 +103,7 @@ void QExtSerialEnumeratorPrivate::iterateServicesOSX(io_object_t service, QList<
     }
 }
 
-bool QExtSerialEnumeratorPrivate::getServiceDetailsOSX(io_object_t service, QEXTPortInfo *portInfo)
+bool QExtSerialEnumeratorPrivate::getServiceDetailsOSX(io_object_t service, QExtPortInfo *portInfo)
 {
     bool retval = true;
     CFTypeRef bsdPathAsCFString = NULL;
@@ -210,12 +210,12 @@ void deviceTerminatedCallbackOSX(void *ctxt, io_iterator_t serialPortIterator)
 
 /*
   A device has been discovered via IOKit.
-  Create a QEXTPortInfo if possible, and emit the signal indicating that we've found it.
+  Create a QExtPortInfo if possible, and emit the signal indicating that we've found it.
 */
 void QExtSerialEnumeratorPrivate::onDeviceDiscoveredOSX(io_object_t service)
 {
     Q_Q(QExtSerialEnumerator);
-    QEXTPortInfo info;
+    QExtPortInfo info;
     info.vendorID = 0;
     info.productID = 0;
     if (getServiceDetailsOSX(service, &info)) Q_EMIT q->deviceDiscovered(info);
@@ -223,12 +223,12 @@ void QExtSerialEnumeratorPrivate::onDeviceDiscoveredOSX(io_object_t service)
 
 /*
   Notification via IOKit that a device has been removed.
-  Create a QEXTPortInfo if possible, and emit the signal indicating that it's gone.
+  Create a QExtPortInfo if possible, and emit the signal indicating that it's gone.
 */
 void QExtSerialEnumeratorPrivate::onDeviceTerminatedOSX(io_object_t service)
 {
     Q_Q(QExtSerialEnumerator);
-    QEXTPortInfo info;
+    QExtPortInfo info;
     info.vendorID = 0;
     info.productID = 0;
     if (getServiceDetailsOSX(service, &info))

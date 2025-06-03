@@ -1,4 +1,4 @@
-#ifndef _QEXTLINEARBUFFER_H
+﻿#ifndef _QEXTLINEARBUFFER_H
 #define _QEXTLINEARBUFFER_H
 
 #include <qextGlobal.h>
@@ -11,168 +11,172 @@
 class QEXT_CORE_API QExtLinearBuffer
 {
 public:
-    QExtLinearBuffer() : m_buf(QEXT_NULLPTR), m_len(0), m_first(QEXT_NULLPTR), m_capacity(0) { }
+    QExtLinearBuffer() : mBuf(QEXT_NULLPTR), mLen(0), mFirst(QEXT_NULLPTR), mCapacity(0) { }
     virtual ~QExtLinearBuffer()
     {
-        delete [] m_buf;
+        delete [] mBuf;
     }
 
     void clear()
     {
-        m_len = 0;
-        delete [] m_buf;
-        m_buf = QEXT_NULLPTR;
-        m_first = m_buf;
-        m_capacity = 0;
+        mLen = 0;
+        delete [] mBuf;
+        mBuf = QEXT_NULLPTR;
+        mFirst = mBuf;
+        mCapacity = 0;
     }
-    qint64 size() const { return m_len; }
-    bool isEmpty() const { return m_len == 0; }
+    qint64 size() const { return mLen; }
+    bool isEmpty() const { return mLen == 0; }
     void skip(qint64 n)
     {
-        if (n >= m_len)
+        if (n >= mLen)
         {
             this->clear();
         }
         else
         {
-            m_len -= n;
-            m_first += n;
+            mLen -= n;
+            mFirst += n;
         }
     }
-    int getChar()
+    char getChar(bool *ok = QEXT_NULLPTR)
     {
-        if (m_len == 0)
+        if (ok)
         {
-            return -1;
+            *ok = 0 != mLen;
         }
-        int ch = uchar(*m_first);
-        m_len--;
-        m_first++;
+        if (mLen == 0)
+        {
+            return 0;
+        }
+        char ch = *mFirst;
+        mLen--;
+        mFirst++;
         return ch;
     }
     qint64 read(char *target, qint64 size)
     {
-        qint64 r = qMin(size, m_len);
+        qint64 r = qMin(size, mLen);
         if (r)
         {
-            memcpy(target, m_first, r);
-            m_len -= r;
-            m_first += r;
+            memcpy(target, mFirst, r);
+            mLen -= r;
+            mFirst += r;
         }
         return r;
     }
     qint64 peek(char *target, qint64 size)
     {
-        qint64 r = qMin(size, m_len);
+        qint64 r = qMin(size, mLen);
         if (r)
         {
-            memcpy(target, m_first, r);
+            memcpy(target, mFirst, r);
         }
         return r;
     }
     char *reserve(qint64 size)
     {
-        this->makeSpace(size + m_len, freeSpaceAtEnd);
-        char *writePtr = m_first + m_len;
-        m_len += size;
+        this->makeSpace(size + mLen, freeSpaceAtEnd);
+        char *writePtr = mFirst + mLen;
+        mLen += size;
         return writePtr;
     }
     void chop(qint64 size)
     {
-        if (size >= m_len)
+        if (size >= mLen)
         {
             this->clear();
         }
         else
         {
-            m_len -= size;
+            mLen -= size;
         }
     }
     QByteArray readAll()
     {
-        QByteArray retVal(m_first, m_len);
+        QByteArray bytes(mFirst, mLen);
         this->clear();
-        return retVal;
+        return bytes;
     }
     qint64 readLine(char *target, qint64 size)
     {
-        qint64 r = qMin(size, m_len);
-        char *eol = static_cast<char *>(memchr(m_first, '\n', r));
+        qint64 r = qMin(size, mLen);
+        char *eol = static_cast<char *>(memchr(mFirst, '\n', r));
         if (eol)
         {
-            r = 1 + (eol - m_first);
+            r = 1 + (eol - mFirst);
         }
-        memcpy(target, m_first, r);
-        m_len -= r;
-        m_first += r;
+        memcpy(target, mFirst, r);
+        mLen -= r;
+        mFirst += r;
         return r;
     }
     bool canReadLine() const
     {
-        return m_first && memchr(m_first, '\n', m_len);
+        return mFirst && memchr(mFirst, '\n', mLen);
     }
     void ungetChar(char c)
     {
-        if (m_first == m_buf)
+        if (mFirst == mBuf)
         {
             // underflow, the existing valid data needs to move to the end of the (potentially bigger) buffer
-            this->makeSpace(m_len+1, freeSpaceAtStart);
+            this->makeSpace(mLen+1, freeSpaceAtStart);
         }
-        m_first--;
-        m_len++;
-        *m_first = c;
+        mFirst--;
+        mLen++;
+        *mFirst = c;
     }
     void ungetBlock(const char *block, qint64 size)
     {
-        if ((m_first - m_buf) < size)
+        if ((mFirst - mBuf) < size)
         {
             // underflow, the existing valid data needs to move to the end of the (potentially bigger) buffer
-            this->makeSpace(m_len + size, freeSpaceAtStart);
+            this->makeSpace(mLen + size, freeSpaceAtStart);
         }
-        m_first -= size;
-        m_len += size;
-        memcpy(m_first, block, size);
+        mFirst -= size;
+        mLen += size;
+        memcpy(mFirst, block, size);
     }
 
 private:
     enum FreeSpacePos {freeSpaceAtStart, freeSpaceAtEnd};
     void makeSpace(size_t required, FreeSpacePos where)
     {
-        size_t newCapacity = qMax(m_capacity, size_t(QEXT_LINEAR_BUFFER_SIZE));
+        size_t newCapacity = qMax(mCapacity, size_t(QEXT_LINEAR_BUFFER_SIZE));
         while (newCapacity < required)
         {
             newCapacity *= 2;
         }
-        const size_t moveOffset = (where == freeSpaceAtEnd) ? 0 : newCapacity - size_t(m_len);
-        if (newCapacity > m_capacity)
+        const size_t moveOffset = (where == freeSpaceAtEnd) ? 0 : newCapacity - size_t(mLen);
+        if (newCapacity > mCapacity)
         {
             // allocate more space
             char *newBuf = new char[newCapacity];
-            if (m_first)
+            if (mFirst)
             {
-                memmove(newBuf + moveOffset, m_first, m_len);
+                memmove(newBuf + moveOffset, mFirst, mLen);
             }
-            delete [] m_buf;
-            m_buf = newBuf;
-            m_capacity = newCapacity;
+            delete [] mBuf;
+            mBuf = newBuf;
+            mCapacity = newCapacity;
         }
         else
         {
             // shift any existing data to make space
-            memmove(m_buf + moveOffset, m_first, m_len);
+            memmove(mBuf + moveOffset, mFirst, mLen);
         }
-        m_first = m_buf + moveOffset;
+        mFirst = mBuf + moveOffset;
     }
 
 private:
     // the allocated buffer
-    char *m_buf;
+    char *mBuf;
     // length of the unread data
-    qint64 m_len;
+    qint64 mLen;
     // start of the unread data
-    char* m_first;
+    char* mFirst;
     // allocated buffer size
-    size_t m_capacity;
+    size_t mCapacity;
 };
 
 #endif // _QEXTLINEARBUFFER_H

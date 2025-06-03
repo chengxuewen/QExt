@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -37,12 +37,12 @@ public:
 
     QExtNavigationButton * const q_ptr;
 
-    int m_padding;
-    bool m_hovered;
-    int m_iconSpace;
-    bool m_iconVisible;
-    int m_textPixelSize;
-    QExtNavigationButton::PositionEnum m_navigationPosition;
+    int mPadding;
+    bool mHovered;
+    int mIconSpace;
+    bool mIconVisible;
+    int mTextPixelSize;
+    QExtNavigationButton::PositionEnum mNavigationPosition;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtNavigationButtonPrivate)

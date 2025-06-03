@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -63,6 +63,7 @@ qext_add_executable(QExtExpToou2DGallery
     OUTPUT_DIRECTORY
     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
+    QT_QML_MODULES_PATH="${QEXT_QT_KIT_DIR}/qml"
     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
 if(QEXT_BUILD_STATIC)
     qext_internal_extend_target(QExtExpToou2DGallery DEFINES STATICLIB)
@@ -78,4 +79,5 @@ qext_add_executable(QExtExpToou2DMusicPlayer
     OUTPUT_DIRECTORY
     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
+    QT_QML_MODULES_PATH="${QEXT_QT_KIT_DIR}/qml"
     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")

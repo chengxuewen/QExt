@@ -13,7 +13,7 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
 
     //! [0]
-    foreach (QEXTPortInfo info, QExtSerialEnumerator::portInfoList())
+    foreach (QExtPortInfo info, QExtSerialEnumerator::portInfoList())
         ui->portBox->addItem(info.portName);
     //make sure user can input their own port name!
     ui->portBox->setEditable(true);
@@ -66,8 +66,8 @@ Dialog::Dialog(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), SLOT(onReadyRead()));
     connect(port, SIGNAL(readyRead()), SLOT(onReadyRead()));
 
-    connect(enumerator, SIGNAL(deviceDiscovered(QEXTPortInfo)), SLOT(onPortAddedOrRemoved()));
-    connect(enumerator, SIGNAL(deviceRemoved(QEXTPortInfo)), SLOT(onPortAddedOrRemoved()));
+    connect(enumerator, SIGNAL(deviceDiscovered(QExtPortInfo)), SLOT(onPortAddedOrRemoved()));
+    connect(enumerator, SIGNAL(deviceRemoved(QExtPortInfo)), SLOT(onPortAddedOrRemoved()));
 
     setWindowTitle(tr("QExtSerialPort Demo"));
 }
@@ -170,7 +170,7 @@ void Dialog::onPortAddedOrRemoved()
 
     ui->portBox->blockSignals(true);
     ui->portBox->clear();
-    foreach (QEXTPortInfo info, QExtSerialEnumerator::portInfoList())
+    foreach (QExtPortInfo info, QExtSerialEnumerator::portInfoList())
         ui->portBox->addItem(info.portName);
 
     ui->portBox->setCurrentIndex(ui->portBox->findText(current));

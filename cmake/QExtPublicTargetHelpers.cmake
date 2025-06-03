@@ -291,7 +291,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-function(__qext_internal_promote_target_to_global target)
+function(qext_internal_promote_target_to_global target)
     get_property(is_global TARGET ${target} PROPERTY IMPORTED_GLOBAL)
     if(NOT is_global)
         message(DEBUG "Promoting target to global: '${target}'")
@@ -302,11 +302,11 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-function(__qext_internal_promote_target_to_global_checked target)
+function(qext_internal_promote_target_to_global_checked target)
     # With CMake version 3.21 we use a different mechanism that allows us to promote all targets
     # within a scope.
     if(QEXT_PROMOTE_TO_GLOBAL_TARGETS AND CMAKE_VERSION VERSION_LESS 3.21)
-        __qext_internal_promote_target_to_global(${target})
+        qext_internal_promote_target_to_global(${target})
     endif()
 endfunction()
 
@@ -321,7 +321,7 @@ function(__qext_internal_promote_targets_in_dir_scope_to_global)
 
     get_directory_property(targets IMPORTED_TARGETS)
     foreach(target IN LISTS targets)
-        __qext_internal_promote_target_to_global(${target})
+        qext_internal_promote_target_to_global(${target})
     endforeach()
 endfunction()
 
