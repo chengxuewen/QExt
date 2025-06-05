@@ -59,7 +59,7 @@ private:
     ObjectControllerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(ObjectController)
     Q_DISABLE_COPY(ObjectController)
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QVariant &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtPEProperty *, const QVariant &))
 };
 
 #endif

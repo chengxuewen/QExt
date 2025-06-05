@@ -296,19 +296,19 @@ void QtGradientEditor::clicked()
 }
 
 QtPenPropertyManager::QtPenPropertyManager(QObject *parent)
-    :QExtAbstractPropertyManager(parent)
+    :QExtPEAbstractPropertyManager(parent)
 {
-    m_intPropertyManager = new QExtIntPropertyManager(this);
-    connect(m_intPropertyManager, SIGNAL(valueChanged(QExtProperty *, int)),
-                this, SLOT(slotIntChanged(QExtProperty *, int)));
-    m_enumPropertyManager = new QExtEnumPropertyManager(this);
-    connect(m_enumPropertyManager, SIGNAL(valueChanged(QExtProperty *, int)),
-                this, SLOT(slotEnumChanged(QExtProperty *, int)));
+    m_intPropertyManager = new QExtPEIntPropertyManager(this);
+    connect(m_intPropertyManager, SIGNAL(valueChanged(QExtPEProperty *, int)),
+                this, SLOT(slotIntChanged(QExtPEProperty *, int)));
+    m_enumPropertyManager = new QExtPEEnumPropertyManager(this);
+    connect(m_enumPropertyManager, SIGNAL(valueChanged(QExtPEProperty *, int)),
+                this, SLOT(slotEnumChanged(QExtPEProperty *, int)));
 
-    connect(m_intPropertyManager, SIGNAL(propertyDestroyed(QExtProperty *)),
-                this, SLOT(slotPropertyDestroyed(QExtProperty *)));
-    connect(m_enumPropertyManager, SIGNAL(propertyDestroyed(QExtProperty *)),
-                this, SLOT(slotPropertyDestroyed(QExtProperty *)));
+    connect(m_intPropertyManager, SIGNAL(propertyDestroyed(QExtPEProperty *)),
+                this, SLOT(slotPropertyDestroyed(QExtPEProperty *)));
+    connect(m_enumPropertyManager, SIGNAL(propertyDestroyed(QExtPEProperty *)),
+                this, SLOT(slotPropertyDestroyed(QExtPEProperty *)));
 }
 
 QtPenPropertyManager::~QtPenPropertyManager()
@@ -318,17 +318,17 @@ QtPenPropertyManager::~QtPenPropertyManager()
     delete m_enumPropertyManager;
 }
 
-QExtIntPropertyManager *QtPenPropertyManager::subIntPropertyManager() const
+QExtPEIntPropertyManager *QtPenPropertyManager::subIntPropertyManager() const
 {
     return m_intPropertyManager;
 }
 
-QExtEnumPropertyManager *QtPenPropertyManager::subEnumPropertyManager() const
+QExtPEEnumPropertyManager *QtPenPropertyManager::subEnumPropertyManager() const
 {
     return m_enumPropertyManager;
 }
 
-QPen QtPenPropertyManager::value(const QExtProperty *property) const
+QPen QtPenPropertyManager::value(const QExtPEProperty *property) const
 {
     return m_values.value(property,QPen());
 }
@@ -386,7 +386,7 @@ static int enumToJoinStyle( int val ){
     return 0;
 }
 
-void QtPenPropertyManager::setValue(QExtProperty *property, const QPen &val)
+void QtPenPropertyManager::setValue(QExtPEProperty *property, const QPen &val)
 {
     const PropertyValueMap::iterator it = m_values.find(property);
     if (it == m_values.end())
@@ -407,50 +407,50 @@ void QtPenPropertyManager::setValue(QExtProperty *property, const QPen &val)
     emit valueChanged(property, val);
 }
 
-void QtPenPropertyManager::slotIntChanged(QExtProperty * property, int value)
+void QtPenPropertyManager::slotIntChanged(QExtPEProperty * property, int value)
 {
-    if (QExtProperty *prop = m_widthToProperty.value(property,0)){
+    if (QExtPEProperty *prop = m_widthToProperty.value(property,0)){
         QPen p = m_values[prop];
         p.setWidth(value);
         setValue(prop,p);
     }
 }
 
-void QtPenPropertyManager::slotEnumChanged(QExtProperty * property, int value)
+void QtPenPropertyManager::slotEnumChanged(QExtPEProperty * property, int value)
 {
-    if ( QExtProperty * prop = m_styleToProperty.value(property,0)){
+    if ( QExtPEProperty * prop = m_styleToProperty.value(property,0)){
         QPen p = m_values[prop];
         p.setStyle((Qt::PenStyle)value);
         setValue(prop,p);
-    }else if ( QExtProperty * prop = m_capStyleToProperty.value(property,0)){
+    }else if ( QExtPEProperty * prop = m_capStyleToProperty.value(property,0)){
         QPen p = m_values[prop];
         p.setCapStyle((Qt::PenCapStyle)enumToCapStyle(value));
         setValue(prop,p);
-    }else if ( QExtProperty * prop = m_joinStyleToProperty.value(property,0)){
+    }else if ( QExtPEProperty * prop = m_joinStyleToProperty.value(property,0)){
         QPen p = m_values[prop];
         p.setJoinStyle((Qt::PenJoinStyle)enumToJoinStyle(value));
         setValue(prop,p);
     }
 }
 
-void QtPenPropertyManager::slotPropertyDestroyed(QExtProperty * property)
+void QtPenPropertyManager::slotPropertyDestroyed(QExtPEProperty * property)
 {
-    if (QExtProperty * prop = m_widthToProperty.value(property,0)){
+    if (QExtPEProperty * prop = m_widthToProperty.value(property,0)){
         m_propertyToWidth[prop] = 0;
         m_widthToProperty.remove(property);
-    }else if ( QExtProperty * prop = m_styleToProperty.value(property,0)){
+    }else if ( QExtPEProperty * prop = m_styleToProperty.value(property,0)){
         m_propertyToStyle[prop] = 0;
         m_styleToProperty.remove(property);
-    }else if ( QExtProperty * prop = m_capStyleToProperty.value(property,0)){
+    }else if ( QExtPEProperty * prop = m_capStyleToProperty.value(property,0)){
         m_propertyToCapStyle[prop] = 0;
         m_capStyleToProperty.remove(property);
-    }else if ( QExtProperty * prop = m_joinStyleToProperty.value(property,0)){
+    }else if ( QExtPEProperty * prop = m_joinStyleToProperty.value(property,0)){
         m_propertyToJoinStyle[prop] = 0;
         m_joinStyleToProperty.remove(property);
     }
 }
 
-QString QtPenPropertyManager::valueText(const QExtProperty *property) const
+QString QtPenPropertyManager::valueText(const QExtPEProperty *property) const
 {
     const PropertyValueMap::const_iterator it = m_values.constFind(property);
     if ( it == m_values.constEnd() )
@@ -474,17 +474,17 @@ QString QtPenPropertyManager::valueText(const QExtProperty *property) const
     return QString();
 }
 
-QIcon QtPenPropertyManager::valueIcon(const QExtProperty *property) const
+QIcon QtPenPropertyManager::valueIcon(const QExtPEProperty *property) const
 {
     return QIcon();
 }
 
-void QtPenPropertyManager::initializeProperty(QExtProperty *property)
+void QtPenPropertyManager::initializeProperty(QExtPEProperty *property)
 {
     QPen val;
     m_values[property] = val;
 
-    QExtProperty * widthProp = m_intPropertyManager->addProperty();
+    QExtPEProperty * widthProp = m_intPropertyManager->addProperty();
     widthProp->setPropertyName(tr("Width"));
     m_intPropertyManager->setValue(widthProp,val.width());
     m_intPropertyManager->setMinimum(widthProp,1);
@@ -494,7 +494,7 @@ void QtPenPropertyManager::initializeProperty(QExtProperty *property)
 
     property->addSubProperty(widthProp);
 
-    QExtProperty *styleProp = m_enumPropertyManager->addProperty();
+    QExtPEProperty *styleProp = m_enumPropertyManager->addProperty();
     styleProp->setPropertyName(tr("Style"));
     QStringList styleNames;
     styleNames<<tr("NoPen")<<tr("SolidLine")<<tr("DashLine")<<tr("DotLine")
@@ -507,7 +507,7 @@ void QtPenPropertyManager::initializeProperty(QExtProperty *property)
 
     property->addSubProperty(styleProp);
 
-    QExtProperty *capStyleProp = m_enumPropertyManager->addProperty();
+    QExtPEProperty *capStyleProp = m_enumPropertyManager->addProperty();
     capStyleProp->setPropertyName(tr("CapStyle"));
     QStringList capStyleNames;
     capStyleNames<<tr("FlatCap")<<tr("SquareCap")<<tr("RoundCap");
@@ -518,7 +518,7 @@ void QtPenPropertyManager::initializeProperty(QExtProperty *property)
     m_capStyleToProperty[capStyleProp] = property;
     property->addSubProperty(capStyleProp);
 
-    QExtProperty *joinStyleProp = m_enumPropertyManager->addProperty();
+    QExtPEProperty *joinStyleProp = m_enumPropertyManager->addProperty();
     joinStyleProp->setPropertyName(tr("JoinStyle"));
     QStringList joinStyleNames;
     joinStyleNames<<tr("MiterJoin")<<tr("BevelJoin")<<tr("RoundJoin")<<tr("SvgMiterJoin");
@@ -530,9 +530,9 @@ void QtPenPropertyManager::initializeProperty(QExtProperty *property)
     property->addSubProperty(joinStyleProp);
 }
 
-void QtPenPropertyManager::uninitializeProperty(QExtProperty *property)
+void QtPenPropertyManager::uninitializeProperty(QExtPEProperty *property)
 {
-    QExtProperty *Prop = m_propertyToWidth[property];
+    QExtPEProperty *Prop = m_propertyToWidth[property];
     if (Prop) {
         m_widthToProperty.remove(Prop);
         delete Prop;

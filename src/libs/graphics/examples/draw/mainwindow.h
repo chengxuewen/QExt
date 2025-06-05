@@ -35,8 +35,8 @@ class QUndoStack;
 class QUndoView;
 QT_END_NAMESPACE
 
-class QExtVariantProperty;
-class QExtProperty;
+class QExtPEVariantProperty;
+class QExtPEProperty;
 
 class MainWindow : public QMainWindow
 {
