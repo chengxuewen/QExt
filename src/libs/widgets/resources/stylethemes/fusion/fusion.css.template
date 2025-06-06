@@ -398,7 +398,8 @@ QTabBar::close-button:hover {
 /*  QTabWidget  */
 
 QTabWidget::pane {
-    border: none;
+    border: 1px solid {{secondaryColor}};
+    border-radius: 1px;
 }
 
 QTabWidget::tab-bar {

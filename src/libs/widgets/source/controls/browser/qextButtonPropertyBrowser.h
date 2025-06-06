@@ -1,6 +1,0 @@
-#ifndef _QEXTBUTTONPROPERTYBROWSER_H
-#define _QEXTBUTTONPROPERTYBROWSER_H
-
-#include <qextPropertyBrowser.h>
-
-#endif // _QEXTBUTTONPROPERTYBROWSER_H

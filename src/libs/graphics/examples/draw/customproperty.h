@@ -1,7 +1,7 @@
-#ifndef CUSTOMPROPERTY
+﻿#ifndef CUSTOMPROPERTY
 #define CUSTOMPROPERTY
 
-#include <qextPropertyBrowser.h>
+#include <qextPEPropertyEditor.h>
 
 #include <QAbstractItemDelegate>
 #include <QPushButton>
@@ -63,46 +63,46 @@ private:
     ShadeWidget * m_shadewidget;
 };
 
-class QtPenPropertyManager : public QExtAbstractPropertyManager
+class QtPenPropertyManager : public QExtPEAbstractPropertyManager
 {
     Q_OBJECT
 public:
     QtPenPropertyManager(QObject * parent = 0);
     ~QtPenPropertyManager();
 
-    QExtIntPropertyManager *subIntPropertyManager() const;
-    QExtEnumPropertyManager *subEnumPropertyManager() const;
-    QPen value(const QExtProperty *property) const;
+    QExtPEIntPropertyManager *subIntPropertyManager() const;
+    QExtPEEnumPropertyManager *subEnumPropertyManager() const;
+    QPen value(const QExtPEProperty *property) const;
 public Q_SLOTS:
-    void setValue(QExtProperty *property, const QPen &val);
-    void slotIntChanged(QExtProperty *, int);
-    void slotEnumChanged(QExtProperty *, int);
-    void slotPropertyDestroyed(QExtProperty *);
+    void setValue(QExtPEProperty *property, const QPen &val);
+    void slotIntChanged(QExtPEProperty *, int);
+    void slotEnumChanged(QExtPEProperty *, int);
+    void slotPropertyDestroyed(QExtPEProperty *);
 
 Q_SIGNALS:
-    void valueChanged(QExtProperty *property, const QPen &val);
+    void valueChanged(QExtPEProperty *property, const QPen &val);
 protected:
-    QString valueText(const QExtProperty *property) const;
-    QIcon valueIcon(const QExtProperty *property) const;
-    virtual void initializeProperty(QExtProperty *property);
-    virtual void uninitializeProperty(QExtProperty *property);
+    QString valueText(const QExtPEProperty *property) const;
+    QIcon valueIcon(const QExtPEProperty *property) const;
+    virtual void initializeProperty(QExtPEProperty *property);
+    virtual void uninitializeProperty(QExtPEProperty *property);
 
 private:
-    typedef QMap<const QExtProperty *, QPen> PropertyValueMap;
+    typedef QMap<const QExtPEProperty *, QPen> PropertyValueMap;
     PropertyValueMap m_values;
 
-    QExtIntPropertyManager *m_intPropertyManager;
-    QExtEnumPropertyManager *m_enumPropertyManager;
+    QExtPEIntPropertyManager *m_intPropertyManager;
+    QExtPEEnumPropertyManager *m_enumPropertyManager;
 
-    QMap<const QExtProperty *, QExtProperty *> m_propertyToWidth;
-    QMap<const QExtProperty *, QExtProperty *> m_propertyToStyle;
-    QMap<const QExtProperty *, QExtProperty *> m_propertyToCapStyle;
-    QMap<const QExtProperty *, QExtProperty *> m_propertyToJoinStyle;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_propertyToWidth;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_propertyToStyle;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_propertyToCapStyle;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_propertyToJoinStyle;
 
-    QMap<const QExtProperty *, QExtProperty *> m_widthToProperty;
-    QMap<const QExtProperty *, QExtProperty *> m_styleToProperty;
-    QMap<const QExtProperty *, QExtProperty *> m_capStyleToProperty;
-    QMap<const QExtProperty *, QExtProperty *> m_joinStyleToProperty;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_widthToProperty;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_styleToProperty;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_capStyleToProperty;
+    QMap<const QExtPEProperty *, QExtPEProperty *> m_joinStyleToProperty;
 
     Q_DISABLE_COPY(QtPenPropertyManager)
 

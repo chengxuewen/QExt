@@ -1,9 +1,9 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "customproperty.h"
 
 #include <qextGraphicsItems.h>
 #include <qextGraphicsCommands.h>
-#include <qextPropertyBrowser.h>
+#include <qextPEPropertyEditor.h>
 
 #include <QtWidgets>
 #include <QDockWidget>
@@ -849,11 +849,11 @@ void MainWindow::on_func_test_triggered()
 {
 
     QtPenPropertyManager *penPropertyManager = new QtPenPropertyManager();
-    QExtProperty * property = penPropertyManager->addProperty("pen");
+    QExtPEProperty * property = penPropertyManager->addProperty("pen");
 
-    QExtTreePropertyBrowser *editor = new QExtTreePropertyBrowser();
-    editor->setFactoryForManager(penPropertyManager->subIntPropertyManager(),new QExtSpinBoxFactory());
-    editor->setFactoryForManager(penPropertyManager->subEnumPropertyManager(),new QExtEnumEditorFactory());
+    QExtPEPropertyTreeEditor *editor = new QExtPEPropertyTreeEditor();
+    editor->setFactoryForManager(penPropertyManager->subIntPropertyManager(),new QExtPESpinBoxFactory());
+    editor->setFactoryForManager(penPropertyManager->subEnumPropertyManager(),new QExtPEEnumEditorFactory());
     editor->addProperty(property);
 
     QPen pen;

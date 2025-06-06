@@ -50,12 +50,6 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Gui QExt::GuiPrivate)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
-    source/controls/browser/qextButtonPropertyBrowser.h
-    source/controls/browser/qextGroupBoxPropertyBrowser.h
-    source/controls/browser/qextPropertyBrowser.cpp
-    source/controls/browser/qextPropertyBrowser.h
-    source/controls/browser/qextPropertyBrowser_p.h
-    source/controls/browser/qextTreePropertyBrowser.h
     source/controls/buttons/qextNavigationBar.cpp
     source/controls/buttons/qextNavigationBar.h
     source/controls/buttons/qextNavigationBar_p.h
@@ -178,6 +172,29 @@ qext_add_library(${QEXT_LIB_NAME}
     source/controls/qextTumbler.cpp
     source/controls/qextTumbler.h
     source/controls/qextTumbler_p.h
+    source/editors/property/qextPEAbstractPropertyEditor.cpp
+    source/editors/property/qextPEAbstractPropertyEditor.h
+    source/editors/property/qextPEAbstractPropertyEditor_p.h
+    source/editors/property/qextPEProperty.cpp
+    source/editors/property/qextPEProperty.h
+    source/editors/property/qextPEProperty_p.h
+    source/editors/property/qextPEPropertyButtonEditor.cpp
+    source/editors/property/qextPEPropertyButtonEditor.h
+    source/editors/property/qextPEPropertyEditor.h
+    source/editors/property/qextPEPropertyGroupBoxEditor.cpp
+    source/editors/property/qextPEPropertyGroupBoxEditor.h
+    source/editors/property/qextPEPropertyManager.cpp
+    source/editors/property/qextPEPropertyManager.h
+    source/editors/property/qextPEPropertyManager_p.h
+    source/editors/property/qextPEPropertyTreeEditor.cpp
+    source/editors/property/qextPEPropertyTreeEditor.h
+    source/editors/property/qextPEPropertyTreeEditor_p.h
+    source/editors/property/qextPEVariantProperty.cpp
+    source/editors/property/qextPEVariantProperty.h
+    source/editors/property/qextPEVariantProperty_p.h
+    source/editors/property/qextPEWidgetFactory.cpp
+    source/editors/property/qextPEWidgetFactory.h
+    source/editors/property/qextPEWidgetFactory_p.h
     source/tools/qextPropertyModel.h
     source/tools/qextPropertyModel.cpp
     source/tools/qextScroller.cpp

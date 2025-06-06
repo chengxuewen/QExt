@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -559,92 +559,92 @@ qext_add_executable(QExtExpWidgetsStyleThemes
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserSimple
+qext_add_executable(QExtExpWidgetsPropertyEditorSimple
     SOURCES
-    propertybrowser/simple/main.cpp
+    propertyeditor/simple/main.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/simple
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/simple
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserDemo
+qext_add_executable(QExtExpWidgetsPropertyEditorDemo
     SOURCES
-    propertybrowser/demo/main.cpp
-    propertybrowser/demo/demo.qrc
+    propertyeditor/demo/main.cpp
+    propertyeditor/demo/demo.qrc
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/demo
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/demo
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserExtension
+qext_add_executable(QExtExpWidgetsPropertyEditorExtension
     SOURCES
-    propertybrowser/extension/main.cpp
+    propertyeditor/extension/main.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/extension
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/extension
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserDecoration
+qext_add_executable(QExtExpWidgetsPropertyEditorDecoration
     SOURCES
-    propertybrowser/decoration/main.cpp
+    propertyeditor/decoration/main.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/decoration
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/decoration
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserCanvasTyped
+qext_add_executable(QExtExpWidgetsPropertyEditorCanvasTyped
     SOURCES
-    propertybrowser/canvas_typed/main.cpp
-    propertybrowser/canvas_typed/mainwindow.cpp
-    propertybrowser/canvas_typed/mainwindow.h
-    propertybrowser/canvas_typed/qtcanvas.cpp
-    propertybrowser/canvas_typed/qtcanvas.h
+    propertyeditor/canvas_typed/main.cpp
+    propertyeditor/canvas_typed/mainwindow.cpp
+    propertyeditor/canvas_typed/mainwindow.h
+    propertyeditor/canvas_typed/qtcanvas.cpp
+    propertyeditor/canvas_typed/qtcanvas.h
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/canvas_typed
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/canvas_typed
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserCanvasVariant
+qext_add_executable(QExtExpWidgetsPropertyEditorCanvasVariant
     SOURCES
-    propertybrowser/canvas_variant/main.cpp
-    propertybrowser/canvas_variant/mainwindow.cpp
-    propertybrowser/canvas_variant/mainwindow.h
-    propertybrowser/canvas_variant/qtcanvas.cpp
-    propertybrowser/canvas_variant/qtcanvas.h
+    propertyeditor/canvas_variant/main.cpp
+    propertyeditor/canvas_variant/mainwindow.cpp
+    propertyeditor/canvas_variant/mainwindow.h
+    propertyeditor/canvas_variant/qtcanvas.cpp
+    propertyeditor/canvas_variant/qtcanvas.h
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/canvas_variant
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/canvas_variant
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsPropertyBrowserObjController
+qext_add_executable(QExtExpWidgetsPropertyEditorObjController
    SOURCES
-   propertybrowser/object_controller/main.cpp
-   propertybrowser/object_controller/mycontroller.cpp
-   propertybrowser/object_controller/mycontroller.h
-   propertybrowser/object_controller/objectcontroller.cpp
-   propertybrowser/object_controller/objectcontroller.h
+   propertyeditor/object_controller/main.cpp
+   propertyeditor/object_controller/mycontroller.cpp
+   propertyeditor/object_controller/mycontroller.h
+   propertyeditor/object_controller/objectcontroller.cpp
+   propertyeditor/object_controller/objectcontroller.h
    LIBRARIES
    ${QEXT_EXAMPLE_LINK_LIBRARIES}
    INCLUDE_DIRECTORIES
-   ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/object_controller
+   ${CMAKE_CURRENT_SOURCE_DIR}/propertyeditor/object_controller
    OUTPUT_DIRECTORY
    ${QEXT_INSTALL_EXAMPLESDIR}
    DEFINES
