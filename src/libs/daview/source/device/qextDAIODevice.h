@@ -9,14 +9,14 @@
 
 #include <qextDAViewGlobal.h>
 #include <qextPropertyModel.h>
-#include <qextDASerializable.h>
+#include <qextSerializable.h>
 
 class QExtDAIODevicePrivate;
-class QEXT_DAVIEW_API QExtDAIODevice : public QObject, public QExtDASerializable
+class QEXT_DAVIEW_API QExtDAIODevice : public QObject, public QExtSerializable
 {
     Q_OBJECT
 public:
-    typedef QSharedPointer<QExtDAIODevice> SharedPointer;
+    typedef QSharedPointer<QExtDAIODevice> SharedPtr;
 
     explicit QExtDAIODevice(QObject *parent = QEXT_NULLPTR);
     QExtDAIODevice(QExtDAIODevicePrivate *d, QObject *parent = QEXT_NULLPTR);
@@ -53,8 +53,8 @@ public:
     virtual void open();
     virtual void close();
 
-    Items save() const QEXT_OVERRIDE;
-    void load(const Items &items) QEXT_OVERRIDE;
+    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
 
     QByteArray readAll();
     bool canReadLine() const;
@@ -65,12 +65,11 @@ public:
     qint64 readLine(char *target, qint64 size);
     void write(const char *data, qint64 size);
 
-    static qint64 loadId(const Items &items);
-    static QString loadType(const Items &items);
+    static qint64 loadId(const SerializedItems &items);
+    static QString loadType(const SerializedItems &items);
 
     static QString nameFromId(qint64 id);
     static qint64 idFromName(const QString &name);
-
 
 Q_SIGNALS:
     void readyRead();
@@ -80,7 +79,7 @@ Q_SIGNALS:
     void dataWrited(const QByteArray &data, qint64 timestamp);
 
     void aliasChanged(const QString &alias);
-    void openStateChanged(bool opened);
+    void stateChanged(bool opened);
     void rxdBpsChanged(int bps);
     void txdBpsChanged(int bps);
 
@@ -97,7 +96,7 @@ protected Q_SLOTS:
     virtual void onIOOpenFailed();
     virtual void onIOOpenSuccessed();
 
-    virtual void onOpenStateChanged(bool opened) { Q_UNUSED(opened); }
+    virtual void onStateChanged(bool opened) { Q_UNUSED(opened); }
     virtual void onIOPathChanged(const QString &path) { Q_UNUSED(path); }
     virtual void onIOStateChanged(const QString &state) { Q_UNUSED(state); }
     virtual void onIOErrorChanged(const QString &error) { Q_UNUSED(error); }

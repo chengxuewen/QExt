@@ -1059,36 +1059,104 @@ QToolBar::separator:vertical {
     height: 1px;
 }
 
+QToolBar QToolButton {
+    background: {{secondaryDarkColor}};
+    border: 0px;
+    margin: 3px;
+    height: 40px;
+    padding: 3px;
+    border-right: 5px solid {{secondaryDarkColor}};
+}
+
+QToolBar QToolButton:hover {
+    background: {{secondaryLightColor}};
+    border-right: 5px solid {{secondaryLightColor}};
+}
+
+QToolBar QToolButton:pressed {
+    background: {{secondaryColor}};
+    border-right: 5px solid {{secondaryColor}};
+}
+
+QToolBar QToolButton:checked{
+    border-right: 5px solid {{primaryColor}};
+}
+
+QToolBar QToolButton:disabled {
+    color: {{secondaryLightColor|opacity(0.75)}};
+    background-color: transparent;
+}
+
+QToolBar QToolButton:checked:disabled {
+    color: {{secondaryLightColor|opacity(0.75)}};
+    background-color: transparent;
+    border-right: 5px solid {{secondaryLightColor}};
+}
+
 
 /*  ------------------------------------------------------------------------  */
 /*  QToolButton  */
+/*  margin: 3px; */
 
 QToolButton {
     background: {{secondaryDarkColor}};
     border: 0px;
     height: 40px;
-    margin: 3px;
     padding: 3px;
-    border-right: 5px solid {{secondaryDarkColor}};
-    border-left: 5px solid {{secondaryDarkColor}};
 }
 
 QToolButton:hover {
     background: {{secondaryLightColor}};
-    border-right: 5px solid {{secondaryLightColor}};
-    border-left: 5px solid {{secondaryLightColor}};
 }
 
 QToolButton:pressed {
     background: {{secondaryColor}};
-    border-right: 5px solid {{secondaryColor}};
-    border-left: 5px solid {{secondaryColor}};
 }
 
 QToolButton:checked {
     background: {{secondaryLightColor}};
-    border-left: 5px solid {{secondaryLightColor}};
+}
+
+QToolButton:disabled {
+    color: {{secondaryLightColor|opacity(0.75)}};
+    background-color: transparent;
+}
+
+QToolButton:checked:disabled {
+    color: {{secondaryLightColor|opacity(0.75)}};
+    background-color: transparent;
+}
+
+QToolButton[checkedline=top]:checked{
+    border-top: 5px solid {{primaryColor}};
+}
+
+QToolButton[checkedline=top]:checked:disabled{
+    border-top: 5px solid {{secondaryLightColor}};
+}
+
+QToolButton[checkedline=right]:checked{
     border-right: 5px solid {{primaryColor}};
+}
+
+QToolButton[checkedline=right]:checked:disabled{
+    border-right: 5px solid {{secondaryLightColor}};
+}
+
+QToolButton[checkedline=bottom]:checked{
+    border-bottom: 5px solid {{primaryColor}};
+}
+
+QToolButton[checkedline=bottom]:checked:disabled{
+    border-bottom: 5px solid {{secondaryLightColor}};
+}
+
+QToolButton[checkedline=left]:checked{
+    border-left: 5px solid {{primaryColor}};
+}
+
+QToolButton[checkedline=left]:checked:disabled{
+    border-left: 5px solid {{secondaryLightColor}};
 }
 
 

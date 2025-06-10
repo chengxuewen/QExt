@@ -42,6 +42,13 @@ public:
         sgIconEngineInstances->insert(this);
     }
 
+    explicit QExtStyleThemesSvgIconEngine(const QExtStyleThemesSvgIconEngine &other)
+        : mSvgTemplate(other.mSvgTemplate), mStyleTheme(other.mStyleTheme), mStyleVariable(other.mStyleVariable)
+    {
+        this->update();
+        sgIconEngineInstances->insert(this);
+    }
+
     /**
      * Removes itself from the set of instances
      */
@@ -79,7 +86,11 @@ public:
     {
         Q_UNUSED(mode);
         Q_UNUSED(state);
-
+\
+        if (QIcon::Disabled == mode)
+        {
+            painter->setOpacity(0.1);
+        }
         QSvgRenderer renderer(mSvgContent);
         renderer.render(painter, rect);
     }

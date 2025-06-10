@@ -53,7 +53,7 @@ QStringList QExtDAIODeviceFactory::ioDeviceTypes() const
     return d->mIODeviceCreaterMaps.keys();
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceFactory::createIODevice(const QString &type) const
+QExtDAIODevice::SharedPtr QExtDAIODeviceFactory::createIODevice(const QString &type) const
 {
     Q_D(const QExtDAIODeviceFactory);
     QMutexLocker locker(&d->mMutex);
@@ -87,7 +87,7 @@ QStandardItemModel *QExtDAIODeviceFactory::makeIODeviceTypeListModel(QObject *pa
     return model;
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceFactory::selectCreateIODevice(QWidget *parent) const
+QExtDAIODevice::SharedPtr QExtDAIODeviceFactory::selectCreateIODevice(QWidget *parent) const
 {
     bool ok = false;
     const QStringList types = this->ioDeviceTypes();

@@ -8,12 +8,12 @@
 #include <qextDAIODevice.h>
 #include <qextDAViewGlobal.h>
 
-typedef QExtDAIODevice::SharedPointer(*QExtDAIODeviceCreaterFunc)();
+typedef QExtDAIODevice::SharedPtr(*QExtDAIODeviceCreaterFunc)();
 
 template <typename T>
 QExtDAIODeviceCreaterFunc qextDAIODeviceCreaterFunction()
 {
-    return []() { return QExtDAIODevice::SharedPointer(new T); };
+    return []() { return QExtDAIODevice::SharedPtr(new T); };
 }
 
 template <typename T>
@@ -41,11 +41,11 @@ public:
     }
 
     virtual QStringList ioDeviceTypes() const;
-    virtual QExtDAIODevice::SharedPointer createIODevice(const QString &type) const;
+    virtual QExtDAIODevice::SharedPtr createIODevice(const QString &type) const;
     virtual void registerIODevice(const QString &type, QExtDAIODeviceCreaterFunc func);
 
     virtual QStandardItemModel *makeIODeviceTypeListModel(QObject *parent = QEXT_NULLPTR) const;
-    virtual QExtDAIODevice::SharedPointer selectCreateIODevice(QWidget *parent = QEXT_NULLPTR) const;
+    virtual QExtDAIODevice::SharedPtr selectCreateIODevice(QWidget *parent = QEXT_NULLPTR) const;
 
 protected:
     QScopedPointer<QExtDAIODeviceFactoryPrivate> dd_ptr;

@@ -227,9 +227,9 @@ void QExtOptionalTest::construction()
         QVERIFY( !a );
     }
 
-    //( "QExtOptional: Allows to explicitly construct a disengaged, empty QExtOptional via QExtNullopt (1b)" )
+    //( "QExtOptional: Allows to explicitly construct a disengaged, empty QExtOptional via qextMakeNullopt() (1b)" )
     {
-        QExtOptional<int> a( QExtNullopt );
+        QExtOptional<int> a( qextMakeNullopt() );
 
         QVERIFY( !a );
     }
@@ -631,11 +631,11 @@ void QExtOptionalTest::assignment()
 
     // assignment:
 
-    //( "QExtOptional: Allows to assign QExtNullopt to disengage (1)" )
+    //( "QExtOptional: Allows to assign qextMakeNullopt() to disengage (1)" )
     {
         QExtOptional<int>  a( 7 );
 
-        a = QExtNullopt;
+        a = qextMakeNullopt();
 
         QVERIFY( !a );
     }
@@ -648,9 +648,9 @@ void QExtOptionalTest::assignment()
             QExtOptional<int> e1( 123 );
             QExtOptional<int> e2( 987 );
 
-            //( "a disengaged QExtOptional assigned QExtNullopt remains empty" )
+            //( "a disengaged QExtOptional assigned qextMakeNullopt() remains empty" )
             {
-                d1 = QExtNullopt;
+                d1 = qextMakeNullopt();
                 QVERIFY( !d1 );
             }
             //( "a disengaged QExtOptional assigned an engaged QExtOptional obtains its value" )
@@ -665,9 +665,9 @@ void QExtOptionalTest::assignment()
                 QVERIFY(  e1 );
                 QVERIFY( *e1 == 987 );
             }
-            //( "an engaged QExtOptional assigned QExtNullopt becomes empty" )
+            //( "an engaged QExtOptional assigned qextMakeNullopt() becomes empty" )
             {
-                e1 = QExtNullopt;
+                e1 = qextMakeNullopt();
                 QVERIFY( !e1 );
             }
             //( "a disengaged QExtOptional assigned a disengaged QExtOptional remains empty" )
@@ -687,9 +687,9 @@ void QExtOptionalTest::assignment()
             QExtOptional<int> e1( 123 );
             QExtOptional<int> e2( 987 );
 
-            //( "a disengaged QExtOptional assigned QExtNullopt remains empty" )
+            //( "a disengaged QExtOptional assigned qextMakeNullopt() remains empty" )
             {
-                d1 = std::move( QExtNullopt );
+                d1 = std::move( qextMakeNullopt() );
                 QVERIFY( !d1 );
             }
             //( "a disengaged QExtOptional assigned an engaged QExtOptional obtains its value" )
@@ -704,9 +704,9 @@ void QExtOptionalTest::assignment()
                 QVERIFY(  e1 );
                 QVERIFY( *e1 == 987 );
             }
-            //( "an engaged QExtOptional assigned QExtNullopt becomes empty" )
+            //( "an engaged QExtOptional assigned qextMakeNullopt() becomes empty" )
             {
-                e1 = std::move( QExtNullopt );
+                e1 = std::move( qextMakeNullopt() );
                 QVERIFY( !e1 );
             }
             //( "a disengaged QExtOptional assigned a disengaged QExtOptional remains empty" )
@@ -1673,7 +1673,7 @@ void QExtOptionalTest::Issues()
 //        nonstd_lite_in_place_type_t(int),
         static_cast< nonstd::in_place_t >( qextOptionalInPlace ),
 #endif
-        QExtNullopt
+        qextMakeNullopt()
     );
 
     QVERIFY(       a );

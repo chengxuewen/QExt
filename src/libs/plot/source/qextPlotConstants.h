@@ -1,0 +1,12 @@
+﻿#ifndef _QEXTPLOTCONSTANTS_H
+#define _QEXTPLOTCONSTANTS_H
+
+#include <qextPlotGlobal.h>
+
+struct QExtPlotConstants
+{
+QEXT_STATIC_CONSTANT_STRING(PLOT_PROPERTY_VISIBLE, "Visible")
+QEXT_STATIC_CONSTANT_STRING(PLOT_PROPERTY_TITLE, "Title")
+};
+
+#endif // _QEXTPLOTCONSTANTS_H

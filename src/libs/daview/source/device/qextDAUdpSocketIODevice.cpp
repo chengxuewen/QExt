@@ -115,17 +115,17 @@ QThread *QExtDAUdpSocketIODevice::initDevice(qint64 id)
     return QExtDAIODevice::initDevice(id);
 }
 
-void QExtDAUdpSocketIODevice::load(const Items &items)
+void QExtDAUdpSocketIODevice::serializeLoad(const SerializedItems &items)
 {
-    QExtDAIODevice::load(items);
+    QExtDAIODevice::serializeLoad(items);
     this->setRemoteIP(items.value(QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_IP, "").toString());
     this->setRemotePort(items.value(QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT, 8089).value<quint16>());
     this->setLocalPort(items.value(QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_LOCAL_PORT, 8089).value<quint16>());
 }
 
-QExtDASerializable::Items QExtDAUdpSocketIODevice::save() const
+QExtSerializable::SerializedItems QExtDAUdpSocketIODevice::serializeSave() const
 {
-    QExtDASerializable::Items items = QExtDAIODevice::save();
+    QExtSerializable::SerializedItems items = QExtDAIODevice::serializeSave();
     items[QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_IP] = this->remoteIP();
     items[QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT] = this->remotePort();
     items[QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_LOCAL_PORT] = this->localPort();
@@ -180,7 +180,7 @@ void QExtDAUdpSocketIODevice::initPropertyModel(QExtPropertyModel *propertyModel
 QExtDAUdpSocketRemoteIPPropertyItem::QExtDAUdpSocketRemoteIPPropertyItem(QExtDAUdpSocketIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDAUdpSocketIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDAUdpSocketIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDAUdpSocketIODevice::remoteIPChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -241,7 +241,7 @@ bool QExtDAUdpSocketRemoteIPPropertyItem::setData(const QVariant &value, int rol
 QExtDAUdpSocketRemotePortPropertyItem::QExtDAUdpSocketRemotePortPropertyItem(QExtDAUdpSocketIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDAUdpSocketIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDAUdpSocketIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDAUdpSocketIODevice::remotePortChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -327,7 +327,7 @@ bool QExtDAUdpSocketRemotePortPropertyItem::setData(const QVariant &value, int r
 QExtDAUdpSocketLocalPortPropertyItem::QExtDAUdpSocketLocalPortPropertyItem(QExtDAUdpSocketIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDAUdpSocketIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDAUdpSocketIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDAUdpSocketIODevice::localPortChanged, this, &QExtPropertyModelItem::updateItem);
 }
 

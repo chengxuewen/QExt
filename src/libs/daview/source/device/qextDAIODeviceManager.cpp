@@ -18,10 +18,10 @@ public:
 
     QExtIdRegistry mIdRegistry;
     QExtDAIODeviceFactory mIODeviceFactory;
-    QList<QExtDAIODevice::SharedPointer> mIODeviceList;
-    QMap<qint64, QExtDAIODevice::SharedPointer> mIdToIODeviceMap;
-    QMap<QString, QExtDAIODevice::SharedPointer> mNameToIODeviceMap;
-    QMap<QExtDAIODevice::SharedPointer, QThread *> mIODeviceThreadMap;
+    QList<QExtDAIODevice::SharedPtr> mIODeviceList;
+    QMap<qint64, QExtDAIODevice::SharedPtr> mIdToIODeviceMap;
+    QMap<QString, QExtDAIODevice::SharedPtr> mNameToIODeviceMap;
+    QMap<QExtDAIODevice::SharedPtr, QThread *> mIODeviceThreadMap;
 
     QScopedPointer<QExtDAIODeviceModel> mIODeviceModel;
 
@@ -65,7 +65,7 @@ int QExtDAIODeviceManager::ioDeviceCount() const
     return d->mIODeviceList.size();
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceManager::ioDevice(int index) const
+QExtDAIODevice::SharedPtr QExtDAIODeviceManager::ioDevice(int index) const
 {
     Q_D(const QExtDAIODeviceManager);
     if (index < 0 || index >= d->mIODeviceList.size())
@@ -76,13 +76,19 @@ QExtDAIODevice::SharedPointer QExtDAIODeviceManager::ioDevice(int index) const
     return d->mIODeviceList.at(index);
 }
 
-QList<QExtDAIODevice::SharedPointer> QExtDAIODeviceManager::ioDeviceList() const
+QExtDAIODevice::SharedPtr QExtDAIODeviceManager::ioDevice(const QString &name) const
+{
+    Q_D(const QExtDAIODeviceManager);
+    return d->mNameToIODeviceMap.value(name);
+}
+
+QList<QExtDAIODevice::SharedPtr> QExtDAIODeviceManager::ioDeviceList() const
 {
     Q_D(const QExtDAIODeviceManager);
     return d->mIODeviceList;
 }
 
-int QExtDAIODeviceManager::ioDeviceIndex(const QExtDAIODevice::SharedPointer &ioDevice) const
+int QExtDAIODeviceManager::ioDeviceIndex(const QExtDAIODevice::SharedPtr &ioDevice) const
 {
     Q_D(const QExtDAIODeviceManager);
     return d->mIODeviceList.indexOf(ioDevice);
@@ -91,14 +97,14 @@ int QExtDAIODeviceManager::ioDeviceIndex(const QExtDAIODevice::SharedPointer &io
 void QExtDAIODeviceManager::deleteAllIODevices()
 {
     Q_D(QExtDAIODeviceManager);
-    QList<QExtDAIODevice::SharedPointer> ioDeviceList = d->mIODeviceList;
+    QList<QExtDAIODevice::SharedPtr> ioDeviceList = d->mIODeviceList;
     for (int i = 0; i < ioDeviceList.size(); ++i)
     {
         this->deleteIODevice(ioDeviceList[i]);
     }
 }
 
-void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice::SharedPointer &ioDevice)
+void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice::SharedPtr &ioDevice)
 {
     Q_D(QExtDAIODeviceManager);
     if (ioDevice)
@@ -116,12 +122,13 @@ void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice::SharedPointer &ioDevi
         d->mIdRegistry.unregisterId(id);
         d->mIdToIODeviceMap.remove(id);
         emit this->ioDeviceDeleted(id);
+        emit this->ioDeviceListChanged(d->mIODeviceList);
         ioDevice->destroyDevice();
     }
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceManager::registerIODevice(const QExtDAIODevice::SharedPointer &ioDevice,
-                                                                      qint64 id)
+QExtDAIODevice::SharedPtr QExtDAIODeviceManager::registerIODevice(const QExtDAIODevice::SharedPtr &ioDevice,
+                                                                  qint64 id)
 {
     Q_D(QExtDAIODeviceManager);
     Q_ASSERT(!ioDevice.isNull());
@@ -167,12 +174,13 @@ QExtDAIODevice::SharedPointer QExtDAIODeviceManager::registerIODevice(const QExt
             {
                 emit this->ioDevicePropertyChanged(ioDevice, QExtDAConstants::IODEVICE_PROPERTY_BPS);
             });
-    qSort(d->mIODeviceList.begin(), d->mIODeviceList.end(), [=](const QExtDAIODevice::SharedPointer &lhs,
-                                                                const QExtDAIODevice::SharedPointer &rhs)
+    qSort(d->mIODeviceList.begin(), d->mIODeviceList.end(), [=](const QExtDAIODevice::SharedPtr &lhs,
+                                                                const QExtDAIODevice::SharedPtr &rhs)
           {
               return lhs->id() < rhs->id();
           });
     emit this->ioDeviceCreated(ioDevice, id);
+    emit this->ioDeviceListChanged(d->mIODeviceList);
     return ioDevice;
 }
 
@@ -181,43 +189,43 @@ QExtDAIODeviceModel *QExtDAIODeviceManager::makeIODeviceModel(QObject *parent)
     return new QExtDAIODeviceModel(this, parent ? parent : this);
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceManager::selectCreateIODevice(QWidget *parent)
+QExtDAIODevice::SharedPtr QExtDAIODeviceManager::selectCreateIODevice(QWidget *parent)
 {
     Q_D(QExtDAIODeviceManager);
-    QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceFactory.selectCreateIODevice(parent);
+    QExtDAIODevice::SharedPtr ioDevice = d->mIODeviceFactory.selectCreateIODevice(parent);
     return !ioDevice.isNull() ? this->registerIODevice(ioDevice) : ioDevice;
 }
 
-void QExtDAIODeviceManager::load(const Items &items)
+void QExtDAIODeviceManager::serializeLoad(const SerializedItems &items)
 {
     Q_D(QExtDAIODeviceManager);
-    QExtDASerializable::Items::ConstIterator iter(items.constBegin());
+    QExtSerializable::SerializedItems::ConstIterator iter(items.constBegin());
     while (items.constEnd() != iter)
     {
-        const QExtDASerializable::Items childItems = iter.value().toHash();
+        const QExtSerializable::SerializedItems childItems = iter.value().toHash();
         const QString type = QExtDAIODevice::loadType(childItems);
         const qint64 id = QExtDAIODevice::loadId(childItems);
         if (id >= 0 && !type.isEmpty())
         {
-            QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceFactory.createIODevice(type);
+            QExtDAIODevice::SharedPtr ioDevice = d->mIODeviceFactory.createIODevice(type);
             ioDevice = this->registerIODevice(ioDevice, id);
             if (!ioDevice.isNull())
             {
-                ioDevice->load(childItems);
+                ioDevice->serializeLoad(childItems);
             }
         }
         iter++;
     }
 }
 
-QExtDASerializable::Items QExtDAIODeviceManager::save() const
+QExtSerializable::SerializedItems QExtDAIODeviceManager::serializeSave() const
 {
     Q_D(const QExtDAIODeviceManager);
-    QExtDASerializable::Items items;
-    QList<QExtDAIODevice::SharedPointer>::ConstIterator iter(d->mIODeviceList.constBegin());
+    QExtSerializable::SerializedItems items;
+    QList<QExtDAIODevice::SharedPtr>::ConstIterator iter(d->mIODeviceList.constBegin());
     while (d->mIODeviceList.constEnd() != iter)
     {
-        items.insert((*iter)->name() ,(*iter)->save());
+        items.insert((*iter)->name() ,(*iter)->serializeSave());
         iter++;
     }
     return items;

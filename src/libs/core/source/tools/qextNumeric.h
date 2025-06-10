@@ -71,7 +71,7 @@ public:
         QEXT_WARNING_POP
     }
 
-    static bool isValueEqual(double val1, double val2)
+    static bool isDoubleEqual(double val1, double val2)
     {
         return std::abs(val1 - val2) < std::numeric_limits<double>::epsilon();
     }

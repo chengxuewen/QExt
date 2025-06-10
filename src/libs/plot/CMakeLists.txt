@@ -49,9 +49,21 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
-    source/qextPlotGlobal.h
     source/qextPlot.cpp
     source/qextPlot.h
+    source/qextPlot_p.h
+    source/qextPlotConstants.h
+    source/qextPlotCurve.cpp
+    source/qextPlotCurve.h
+    source/qextPlotCurve_p.h
+    source/qextPlotDataBuffer.cpp
+    source/qextPlotDataBuffer.h
+    source/qextPlotGlobal.h
+    source/qextPlotManager.cpp
+    source/qextPlotManager.h
+    source/qextPlotSeriesData.cpp
+    source/qextPlotSeriesData.h
+    source/qextPlotSeriesData_p.h
     resources/qextPlot.qrc
     PRECOMPILED_HEADER
     source/qextPlotPch.h

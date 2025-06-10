@@ -27,9 +27,11 @@
 
 #include <nonstd/optional.hpp>
 
+
 #define qextSwapOptional std::swap
 #define qextInPlaceOptional nonstd::in_place
 #define qextMakeOptional nonstd::make_optional
+#define qextMakeNullopt() nonstd::nullopt
 
 #define qextOptionalSwap qextSwapOptional
 #define qextOptionalMake qextMakeOptional
@@ -62,9 +64,8 @@
 
 #define QEXT_OPTIONAL_USES_STD_OPTIONAL optional_USES_STD_OPTIONAL
 
-#define QExtNullopt nonstd::nullopt
-#define QExtNulloptT nonstd::nullopt_t
 #define QExtOptional nonstd::optional
+#define QExtNulloptT nonstd::nullopt_t
 #define QExtBadOptionalAccess nonstd::bad_optional_access
 
 #endif // _QEXTOPTIONAL_H
