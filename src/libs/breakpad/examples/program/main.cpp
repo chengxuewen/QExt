@@ -1,0 +1,30 @@
+﻿#include <QApplication>
+#include <QTimer>
+#include <QDateTime>
+
+#include <TestThread.h>
+
+#include <qextBreakpadHandler.h>
+
+int main(int argc, char* argv[])
+{
+    // QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
+
+    QCoreApplication::setApplicationName("AppName");
+    QCoreApplication::setApplicationVersion("1.0");
+    QCoreApplication::setOrganizationName("OrgName");
+    QCoreApplication::setOrganizationDomain("name.org");
+
+    qextBreakpadHandler->setDumpPath("crashes");
+
+    qsrand(QDateTime::currentDateTime().toTime_t());
+    TestThread t1(false, qrand());
+    TestThread t2(true, qrand());
+
+    t1.start();
+    t2.start();
+
+    QTimer::singleShot(3000, qApp, SLOT(quit()));
+    return app.exec();
+}

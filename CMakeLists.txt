@@ -36,7 +36,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.3.2 LANGUAGES CXX C)
+project(QExt VERSION 1.3.4.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -406,6 +406,9 @@ qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_BREAKPAD "Enable this to build the breakpad lib" OFF
+    DEPENDS WIN32 OR UNIX OR APPLE
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
     DEPENDS QEXT_ENABLE_LIB_GUI
     OR_CONDITION QEXT_BUILD_ALL)
@@ -713,11 +716,12 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_OPTIONAL_ARGS
     DELAY_TARGET_INFO
     QEXT_APP)
 set(QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS
+    VERSION
+    OUTPUT_NAME
     CORE_LIBRARY
     OUTPUT_SUBDIR
     OUTPUT_DIRECTORY
     INSTALL_DIRECTORY
-    VERSION
     ${QEXT_DEFAULT_TARGET_INFO_ARGS})
 set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
     ${QEXT_DEFAULT_PRIVATE_ARGS}
