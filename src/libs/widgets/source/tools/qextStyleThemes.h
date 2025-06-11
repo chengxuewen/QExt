@@ -26,6 +26,7 @@
 #define _QEXTSTYLETHEMES_H
 
 #include <qextWidgetGlobal.h>
+#include <qextSingleton.h>
 
 #include <QApplication>
 #include <QObject>
@@ -60,7 +61,7 @@ public:
     QEXT_STATIC_CONSTANT_NUMBER(LocationNum, Location_SvgsTemplates + 1)
 
     explicit QExtStyleThemes(QObject *parent = QEXT_NULLPTR);
-
+    QExtStyleThemes(const QString &outputDir, QObject *parent = QEXT_NULLPTR);
     ~QExtStyleThemes() QEXT_OVERRIDE;
 
     /**
@@ -280,7 +281,9 @@ public:
      */
     QIcon loadThemeAwareSvgIcon(const QString &fileName, const QString &variable = "");
 
-public slots:
+    static void initDefaultOutputDirPath(QExtStyleThemes *styleThemes);
+
+public Q_SLOTS:
     /**
      * @brief Sets the theme to use.
      * Use the theme name without the file extension. That means, if your theme file id dark_cyan.xml then set the theme
@@ -380,5 +383,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(QExtStyleThemes)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleThemes)
 };
+
+#define qextStyleThemes QExtSingleton<QExtStyleThemes>::instance<QExtStyleThemes::initDefaultOutputDirPath>()
 
 #endif // _QEXTSTYLETHEMES_H

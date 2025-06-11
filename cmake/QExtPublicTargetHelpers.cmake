@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -444,6 +444,13 @@ function(qext_copy_target_internal_dependent_libraries)
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${child}> ${arg_DESTINATION}
                 COMMENT "copy the depends internal lib ${child} to the ${arg_DESTINATION} folder"
                 ${HAPPENS})
+            if(WIN32)
+                add_custom_command(
+                    TARGET ${arg_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_PDB_FILE:${child}> ${arg_DESTINATION}
+                    COMMENT "copy the depends internal lib ${child} pdb to the ${arg_DESTINATION} folder"
+                    ${HAPPENS})
+            endif()
         endif()
         if(arg_VERBOSE)
             message(STATUS "Add command to copy internal dependency ${child} to ${arg_DESTINATION} with ${HAPPENS} happen")

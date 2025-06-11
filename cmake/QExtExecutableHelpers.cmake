@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -50,6 +50,11 @@ function(qext_add_executable name)
     if(ANDROID)
         qext_internal_android_executable_finalizer(${name})
     endif()
+
+    if("x${arg_OUTPUT_NAME}" STREQUAL "x")
+        set(arg_OUTPUT_NAME "${name}")
+    endif()
+    set_target_properties(${name} PROPERTIES OUTPUT_NAME "${arg_OUTPUT_NAME}")
 
     if(arg_QEXT_APP AND QEXT_FEATURE_DEBUG_AND_RELEASE AND CMAKE_VERSION VERSION_GREATER_EQUAL "3.19.0")
         set_property(TARGET "${name}"

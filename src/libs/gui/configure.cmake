@@ -1,8 +1,8 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
-# Copyright (C) 2023 ChengXueWen.
+# Copyright (C) 2023~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -20,6 +20,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+
 
 qext_configure_feature("X11EXTRAS" PUBLIC
     LABEL "Enable this to build enable X11Extras"

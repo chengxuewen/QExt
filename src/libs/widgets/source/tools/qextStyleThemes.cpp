@@ -1,4 +1,5 @@
 ﻿#include <private/qextStyleThemes_p.h>
+#include <qextCommonUtils.h>
 
 #include <QMap>
 #include <QXmlStreamReader>
@@ -631,6 +632,14 @@ QString QExtStyleThemesPrivate::colorGroupString(QPalette::ColorGroup colorGroup
 QExtStyleThemes::QExtStyleThemes(QObject *parent)
     : QObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
 {
+    this->setStylesDirPath();
+}
+
+QExtStyleThemes::QExtStyleThemes(const QString &outputDir, QObject *parent)
+    : QObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
+{
+    this->setStylesDirPath();
+    this->setOutputDirPath(outputDir);
 }
 
 QExtStyleThemes::~QExtStyleThemes()
@@ -933,6 +942,11 @@ QIcon QExtStyleThemes::loadThemeAwareSvgIcon(const QString &fileName, const QStr
     svgFile.open(QIODevice::ReadOnly);
     QByteArray content = svgFile.readAll();
     return QIcon(new QExtStyleThemesSvgIconEngine(content, this, variable));
+}
+
+void QExtStyleThemes::initDefaultOutputDirPath(QExtStyleThemes *styleThemes)
+{
+    styleThemes->setOutputDirPath(QExtCommonUtils::appDataLocation() + "/stylethemes");
 }
 
 bool QExtStyleThemes::setCurrentTheme(const QString &theme)
