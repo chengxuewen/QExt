@@ -8,7 +8,7 @@
 
 #include "mainwindow.h"
 
-#define OPTION_STYLE "style"
+#define OPTION_STYLETHEME "styletheme"
 #define OPTION_TITLE "title"
 #define OPTION_TIME "time"
 #define OPTION_PATH "path"
@@ -37,18 +37,27 @@ int main(int argc, char *argv[])
 
     QStringList styleThemes = qextStyleThemes->styleThemes();
     QString styleThemesOptions = styleThemes.join(", ");
-    QCommandLineOption styleValueLongOption(OPTION_STYLE, QString("QExt breakpad crash reporter styletheme name.\noptions[%1]").
-                                                          arg(styleThemesOptions),
-                                            "NAME", "fusion White");
-    QCommandLineOption titleValueLongOption(OPTION_TITLE, "QExt breakpad crash reporter title name.",
-                                            "NAME", "QExt Breakpad Crash Reporter");
-    QCommandLineOption timeValueLongOption(OPTION_TIME, "QExt breakpad crash reporter auto close time.",
-                                           "NUMBER", "0");
-    QCommandLineOption pathValueLongOption(OPTION_PATH, "QExt breakpad crash dump file path.",
-                                           "PATH", "");
-    QCommandLineOption appValueLongOption(OPTION_APP, "QExt crashed app path.",
-                                          "PATH", "");
-    parser.addOption(styleValueLongOption);
+    QCommandLineOption styleThemeValueLongOption(OPTION_STYLETHEME,
+                                                 QString("QExt breakpad crash reporter styletheme name.\noptions[%1]").
+                                                 arg(styleThemesOptions),
+                                                 "NAME", "fusion White");
+    QCommandLineOption titleValueLongOption(OPTION_TITLE,
+                                            "QExt breakpad crash reporter title name.",
+                                            "NAME",
+                                            "QExt Breakpad Crash Reporter");
+    QCommandLineOption timeValueLongOption(OPTION_TIME,
+                                           "QExt breakpad crash reporter auto close time.",
+                                           "NUMBER",
+                                           "0");
+    QCommandLineOption pathValueLongOption(OPTION_PATH,
+                                           "QExt breakpad crash dump file path.",
+                                           "PATH",
+                                           "");
+    QCommandLineOption appValueLongOption(OPTION_APP,
+                                          "QExt crashed app path.",
+                                          "NAME",
+                                          "");
+    parser.addOption(styleThemeValueLongOption);
     parser.addOption(titleValueLongOption);
     parser.addOption(timeValueLongOption);
     parser.addOption(pathValueLongOption);
@@ -57,7 +66,7 @@ int main(int argc, char *argv[])
     parser.process(app);
 
     MainWindow mainWindow;
-    QString styleTheme = parser.value(OPTION_STYLE);
+    QString styleTheme = parser.value(OPTION_STYLETHEME);
     qDebug() << "styleTheme=" << styleTheme;
     if (!styleTheme.isEmpty())
     {

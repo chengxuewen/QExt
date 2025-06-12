@@ -16,9 +16,18 @@ public:
     static QString executableDir();
     static QString executablePath();
 
+
     static QString writableLocation(QStandardPaths::StandardLocation location);
-    static QString appDataLocation() { return QExtCommonUtils::writableLocation(QStandardPaths::AppDataLocation); }
-    static QString appConfigLocation() { return QExtCommonUtils::writableLocation(QStandardPaths::AppConfigLocation); }
+
+    static QString writableUniqueLocation(QStandardPaths::StandardLocation location);
+    static QString appUniqueDataLocation()
+    {
+        return QExtCommonUtils::writableUniqueLocation(QStandardPaths::AppDataLocation);
+    }
+    static QString appUniqueConfigLocation()
+    {
+        return QExtCommonUtils::writableUniqueLocation(QStandardPaths::AppConfigLocation);
+    }
 };
 
 #endif // _QEXTCOMMONUTILS_H

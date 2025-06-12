@@ -16,11 +16,11 @@ public:
     explicit QExtBreakpadHandler(QObject *parent = QEXT_NULLPTR);
     ~QExtBreakpadHandler() QEXT_OVERRIDE;
 
-    QString dumpPath() const;
     QString uploadUrl() const;
+    void setUploadUrl(const QUrl &url);
     QStringList dumpFileList() const;
 
-    void setUploadUrl(const QUrl &url);
+    QString dumpPath() const;
     void setDumpPath(const QString &path);
 
     bool isReporterEnable() const;

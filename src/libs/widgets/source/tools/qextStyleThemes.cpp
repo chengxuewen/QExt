@@ -87,8 +87,8 @@ public:
     {
         Q_UNUSED(mode);
         Q_UNUSED(state);
-\
-        if (QIcon::Disabled == mode)
+        \
+            if (QIcon::Disabled == mode)
         {
             painter->setOpacity(0.1);
         }
@@ -946,7 +946,7 @@ QIcon QExtStyleThemes::loadThemeAwareSvgIcon(const QString &fileName, const QStr
 
 void QExtStyleThemes::initDefaultOutputDirPath(QExtStyleThemes *styleThemes)
 {
-    styleThemes->setOutputDirPath(QExtCommonUtils::appDataLocation() + "/stylethemes");
+    styleThemes->setOutputDirPath(QExtCommonUtils::appUniqueDataLocation() + "/stylethemes");
 }
 
 bool QExtStyleThemes::setCurrentTheme(const QString &theme)
@@ -992,13 +992,26 @@ bool QExtStyleThemes::setCurrentStyle(const QString &style)
 
 bool QExtStyleThemes::setCurrentStyleTheme(const QString &styleTheme)
 {
-    QStringList split = styleTheme.split(" ");
-    if (2 == split.size())
+    static QStringList sepList;
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
     {
-        if (this->setCurrentStyle(split.first()))
+        sepList << " " << "-" << "_" << "/" << "," << "." << "|" << ":";
+        onceFlag.leave();
+    }
+    foreach (const QString &sep, sepList)
+    {
+        if (styleTheme.contains(sep))
         {
-            this->setDefaultTheme();
-            return this->setCurrentTheme(split.last());
+            QStringList split = styleTheme.split(sep);
+            if (2 == split.size())
+            {
+                if (this->setCurrentStyle(split.first()))
+                {
+                    this->setDefaultTheme();
+                    return this->setCurrentTheme(split.last());
+                }
+            }
         }
     }
     return false;

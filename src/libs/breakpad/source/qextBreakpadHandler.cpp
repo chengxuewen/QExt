@@ -88,12 +88,10 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
     reporterPath.append(".exe");
 #endif
 
-    QExtBreakpadHandlerPrivate *data = static_cast<QExtBreakpadHandlerPrivate *>(context);
     /*
         NO STACK USE, NO HEAP USE THERE !!!
         Creating QString's, using qDebug, etc. - everything is crash-unfriendly.
     */
-
 #if defined(Q_OS_WIN32)
     QString path = QString::fromWCharArray(dump_dir) + QLatin1String("/") + QString::fromWCharArray(minidump_id) + ".dmp";
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", qPrintable(path));
@@ -101,20 +99,22 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
     QString path = QString::fromUtf8(dump_dir) + QLatin1String("/") + QString::fromUtf8(minidump_id);
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", qPrintable(path));
 #else
+
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", descriptor.path());
 #endif
 
     QFile reporterFile(reporterPath);
     if (reporterFile.exists())
     {
+        QExtBreakpadHandlerPrivate *data = static_cast<QExtBreakpadHandlerPrivate *>(context);
         fprintf(stderr, "Start run %s!\n", reporterPath.toLatin1().data());
         QProcess process;
         process.setProgram(reporterPath);
         QStringList arguments;
-        arguments.append(QString("--app=%1").arg(QCoreApplication::applicationName()));
-        arguments.append(QString("--time=%1").arg(data->mReporterAutoCloseTime));
-        arguments.append(QString("--style=%1").arg(data->mReporterStyleTheme));
         arguments.append(QString("--title=%1").arg(QCoreApplication::applicationName() + " crash reporter"));
+        arguments.append(QString("--app=%1").arg(QCoreApplication::applicationName()));
+        arguments.append(QString("--styletheme=%1").arg(data->mReporterStyleTheme));
+        arguments.append(QString("--time=%1").arg(data->mReporterAutoCloseTime));
         arguments.append(QString("--path=%1").arg(path));
         process.setArguments(arguments);
         process.startDetached();
@@ -131,7 +131,7 @@ void QExtBreakpadHandler::setDumpPath(const QString &path)
     QString absPath = path;
     if(!QDir::isAbsolutePath(absPath))
     {
-        absPath = QDir::cleanPath(QExtCommonUtils::appDataLocation() + "/" + path);
+        absPath = QDir::cleanPath(QExtCommonUtils::appUniqueDataLocation() + "/" + path);
     }
     Q_ASSERT(QDir::isAbsolutePath(absPath));
 
@@ -198,6 +198,7 @@ void QExtBreakpadHandler::setReporterStyleTheme(const QString &name)
 {
     Q_D(QExtBreakpadHandler);
     d->mReporterStyleTheme = name;
+    d->mReporterStyleTheme.replace(" ", "/");
 }
 
 QString QExtBreakpadHandler::uploadUrl() const

@@ -56,4 +56,4 @@ qext_add_executable(${QEXT_BREAKPAD_REPORTER_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/reporter
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_BINDIR})
-qext_hide_executable_console(${QEXT_BREAKPAD_REPORTER_NAME})
+# qext_hide_executable_console(${QEXT_BREAKPAD_REPORTER_NAME})

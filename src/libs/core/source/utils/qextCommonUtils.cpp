@@ -1,4 +1,4 @@
-#include <qextCommonUtils.h>
+﻿#include <qextCommonUtils.h>
 #include <qextOnceFlag.h>
 
 #include <QDir>
@@ -31,7 +31,6 @@
 
 QExtCommonUtils::QExtCommonUtils()
 {
-
 }
 
 qint64 QExtCommonUtils::applicationPid()
@@ -130,6 +129,11 @@ QString QExtCommonUtils::executablePath()
 }
 
 QString QExtCommonUtils::writableLocation(QStandardPaths::StandardLocation location)
+{
+    return QStandardPaths::writableLocation(location);
+}
+
+QString QExtCommonUtils::writableUniqueLocation(QStandardPaths::StandardLocation location)
 {
     QString locationPath;
     QString rootPath = QStandardPaths::writableLocation(location);
