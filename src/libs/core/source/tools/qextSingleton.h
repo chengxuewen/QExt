@@ -35,7 +35,7 @@ public:
     }
 
 protected:
-    QExtSingleton() : mInstance(QEXT_NULLPTR) {}
+    QExtSingleton() {}
     virtual ~QExtSingleton() {}
 
 private:
