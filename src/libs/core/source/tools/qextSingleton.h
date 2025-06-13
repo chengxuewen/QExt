@@ -5,6 +5,8 @@
 
 #include <QScopedPointer>
 
+#define QEXT_DECL_SINGLETON(CLASS) friend class QExtSingleton<CLASS>;
+
 template <typename T>
 class QExtSingleton
 {
@@ -14,7 +16,7 @@ public:
     static T *instance()
     {
         qextCallOnce(mOnceFlag, initSingleton);
-        return mInstance.data();
+        return mInstance;
     }
 
     template <InitFunc func = QEXT_NULLPTR>
@@ -23,29 +25,35 @@ public:
         if (mOnceFlag.enter())
         {
             initSingleton();
-            if (func) func(mInstance.data());
+            if (func) func(mInstance);
             mOnceFlag.leave();
         }
-        return mInstance.data();
+        return mInstance;
     }
 
     static void initSingleton()
     {
-        mInstance.reset(new T);
+        mScoped.reset(new T);
+        mInstance = mScoped.data();
     }
+
+    void destroy() { delete this->detachScoped(); }
 
 protected:
     QExtSingleton() {}
     virtual ~QExtSingleton() {}
 
+    T *detachScoped() { mScoped.take(); return mInstance; }
+
 private:
+    static T *mInstance;
     static QExtOnceFlag mOnceFlag;
-    static QScopedPointer<T> mInstance;
+    static QScopedPointer<T> mScoped;
     QEXT_DISABLE_COPY_MOVE(QExtSingleton)
 };
 
-
 template <typename T> QExtOnceFlag QExtSingleton<T>::mOnceFlag;
-template <typename T> QScopedPointer<T> QExtSingleton<T>::mInstance(QEXT_NULLPTR);
+template <typename T> T* QExtSingleton<T>::mInstance = QEXT_NULLPTR;
+template <typename T> QScopedPointer<T> QExtSingleton<T>::mScoped(QEXT_NULLPTR);
 
 #endif // _QEXTSINGLETON_H
