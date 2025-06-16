@@ -78,14 +78,14 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
                   bool succeeded)
 #endif
 {
-    QString reporterPath(QCoreApplication::applicationDirPath() + "/" + QEXT_BREAKPAD_REPORTER_NAME);
+    QString execSuffix;
 #ifdef Q_OS_LINUX
     Q_UNUSED(descriptor);
 #endif
 #if defined(Q_OS_WIN32)
+    execSuffix = ".exe";
     Q_UNUSED(assertion);
     Q_UNUSED(exinfo);
-    reporterPath.append(".exe");
 #endif
 
     /*
@@ -96,15 +96,27 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
     QString path = QString::fromWCharArray(dump_dir) + QLatin1String("/") + QString::fromWCharArray(minidump_id) + ".dmp";
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", qPrintable(path));
 #elif defined(Q_OS_MAC)
-    QString path = QString::fromUtf8(dump_dir) + QLatin1String("/") + QString::fromUtf8(minidump_id);
+    QString path = QString::fromUtf8(dump_dir) + QLatin1String("/") + QString::fromUtf8(minidump_id) + ".dmp";
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", qPrintable(path));
 #else
 
     qDebug("%s, dump path: %s\n", succeeded ? "Succeed to write minidump" : "Failed to write minidump", descriptor.path());
 #endif
 
-    QFile reporterFile(reporterPath);
-    if (reporterFile.exists())
+    QStringList reporterPathList;
+    reporterPathList.append(QCoreApplication::applicationDirPath() + "/" + QEXT_BREAKPAD_REPORTER_NAME + execSuffix);
+    reporterPathList.append(QCoreApplication::applicationDirPath() + "/../bin/" + QEXT_BREAKPAD_REPORTER_NAME + execSuffix);
+    QString reporterPath;
+    foreach (const QString &path, reporterPathList)
+    {
+        const QString cleanedPath = QDir::cleanPath(path);
+        if (QFile::exists(cleanedPath))
+        {
+            reporterPath = cleanedPath;
+            break;
+        }
+    }
+    if (!reporterPath.isEmpty())
     {
         QExtBreakpadHandlerPrivate *data = static_cast<QExtBreakpadHandlerPrivate *>(context);
         fprintf(stderr, "Start run %s!\n", reporterPath.toLatin1().data());
@@ -121,7 +133,7 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
     }
     else
     {
-        fprintf(stderr, "%s file %s not exist!\n", QEXT_BREAKPAD_REPORTER_NAME, reporterPath.toLatin1().data());
+        fprintf(stderr, "%s file not exist!\n", QEXT_BREAKPAD_REPORTER_NAME);
     }
     return succeeded;
 }
@@ -131,7 +143,7 @@ void QExtBreakpadHandler::setDumpPath(const QString &path)
     QString absPath = path;
     if(!QDir::isAbsolutePath(absPath))
     {
-        absPath = QDir::cleanPath(QExtCommonUtils::appUniqueDataLocation() + "/" + path);
+        absPath = QDir::cleanPath(QExtCommonUtils::defaultDataLocation() + "/" + path);
     }
     Q_ASSERT(QDir::isAbsolutePath(absPath));
 

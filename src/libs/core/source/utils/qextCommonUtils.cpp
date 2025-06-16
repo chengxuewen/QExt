@@ -1,4 +1,5 @@
 ﻿#include <qextCommonUtils.h>
+#include <qextConcurrent.h>
 #include <qextOnceFlag.h>
 
 #include <QDir>
@@ -126,6 +127,40 @@ QString QExtCommonUtils::executablePath()
     }
     return buf.data();
 #endif
+}
+
+namespace detail
+{
+QExtConcurrent<QString> &defaultDataLocationPath()
+{
+    static QExtConcurrent<QString> path = QExtCommonUtils::appUniqueDataLocation();
+    return path;
+}
+QExtConcurrent<QString> &defaultConfigLocationPath()
+{
+    static QExtConcurrent<QString> path = QExtCommonUtils::appUniqueConfigLocation();
+    return path;
+}
+}
+
+QString QExtCommonUtils::defaultDataLocation()
+{
+    return detail::defaultDataLocationPath().get();
+}
+
+void QExtCommonUtils::setDefaultDataLocation(const QString &path)
+{
+    detail::defaultDataLocationPath().reset(path);
+}
+
+QString QExtCommonUtils::defaultConfigLocation()
+{
+    return detail::defaultConfigLocationPath().get();
+}
+
+void QExtCommonUtils::setDefaultConfigLocation(const QString &path)
+{
+    detail::defaultConfigLocationPath().reset(path);
 }
 
 QString QExtCommonUtils::writableLocation(QStandardPaths::StandardLocation location)

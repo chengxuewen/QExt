@@ -31,7 +31,7 @@ public:
     int childIndexOf(QExtPropertyModelItem *child) const;
     QExtPropertyModelItem *child(int index) const;
     QList<QExtPropertyModelItem *> childrenList() const;
-    void appendChild(QExtPropertyModelItem *child);
+    QExtPropertyModelItem *appendChild(QExtPropertyModelItem *child);
     void appendChildren(const QList<QExtPropertyModelItem *> &children);
     void removeChild(QExtPropertyModelItem *child);
 
@@ -74,7 +74,17 @@ Q_SIGNALS:
     void childRemoveed(QExtPropertyModelItem *child);
 
 public Q_SLOTS:
-    void updateItem() { emit this->itemDataChanged(this); }
+    void updateItem()
+    {
+        emit this->itemDataChanged(this);
+    }
+    void updateChildrenItems()
+    {
+        foreach (QExtPropertyModelItem *child, mChildrenList)
+        {
+            emit this->itemDataChanged(child);
+        }
+    }
 
 protected:
     bool mEnable;

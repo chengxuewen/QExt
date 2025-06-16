@@ -16,6 +16,11 @@ public:
     static QString executableDir();
     static QString executablePath();
 
+    static QString defaultDataLocation();
+    static void setDefaultDataLocation(const QString &path);
+
+    static QString defaultConfigLocation();
+    static void setDefaultConfigLocation(const QString &path);
 
     static QString writableLocation(QStandardPaths::StandardLocation location);
 

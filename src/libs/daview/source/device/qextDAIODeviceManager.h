@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include <qextSingleton.h>
 #include <qextDAViewGlobal.h>
 #include <qextSerializable.h>
 #include <qextDAIODeviceFactory.h>
@@ -10,11 +11,11 @@
 class QExtDAIODevice;
 class QExtDAIODeviceModel;
 class QExtDAIODeviceManagerPrivate;
-class QEXT_DAVIEW_API QExtDAIODeviceManager : public QObject, public QExtSerializable
+class QEXT_DAVIEW_API QExtDAIODeviceManager : public QExtSerializableObject, public QExtSingleton<QExtDAIODeviceManager>
 {
     Q_OBJECT
+    QEXT_DECL_SINGLETON(QExtDAIODeviceManager)
 public:
-    static QExtDAIODeviceManager *instance();
     ~QExtDAIODeviceManager() QEXT_OVERRIDE;
 
     QExtDAIODeviceFactory &ioDeviceFactory();
@@ -25,8 +26,8 @@ public:
     QList<QExtDAIODevice::SharedPtr> ioDeviceList() const;
     int ioDeviceIndex(const QExtDAIODevice::SharedPtr &ioDevice) const;
 
-    void deleteAllIODevices();
-    void deleteIODevice(QExtDAIODevice::SharedPtr &ioDevice);
+    void clearAllIODevices();
+    void clearIODevice(QExtDAIODevice::SharedPtr &ioDevice);
     QExtDAIODevice::SharedPtr registerIODevice(const QExtDAIODevice::SharedPtr &ioDevice, qint64 id = 0);
 
     QExtDAIODeviceModel *makeIODeviceModel(QObject *parent = QEXT_NULLPTR);
@@ -54,5 +55,7 @@ private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDAIODeviceManager)
     QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceManager)
 };
+
+#define qextDAIODeviceManager QExtDAIODeviceManager::instance();
 
 #endif // _QEXTDAIODEVICEMANAGER_H

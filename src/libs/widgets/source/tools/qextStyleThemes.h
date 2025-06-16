@@ -26,6 +26,7 @@
 #define _QEXTSTYLETHEMES_H
 
 #include <qextWidgetGlobal.h>
+#include <qextSerializable.h>
 #include <qextSingleton.h>
 
 #include <QApplication>
@@ -34,12 +35,13 @@
 #include <QIcon>
 
 class QExtStyleThemesPrivate;
-class QEXT_WIDGETS_API QExtStyleThemes : public QObject
+class QEXT_WIDGETS_API QExtStyleThemes : public QExtSerializableObject
 {
     Q_OBJECT
 public:
     typedef QPair<QString, QString> StringPair;
     typedef QVector<StringPair> ColorReplaceVector;
+    typedef void(*StyleSheetCallback)(const QString &styleSheet);
 
     enum ErrorEnum
     {
@@ -63,6 +65,14 @@ public:
     explicit QExtStyleThemes(QObject *parent = QEXT_NULLPTR);
     QExtStyleThemes(const QString &outputDir, QObject *parent = QEXT_NULLPTR);
     ~QExtStyleThemes() QEXT_OVERRIDE;
+
+    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
+
+    void unbindStyleSheet(void *user);
+    void bindStyleSheet(QWidget *widget);
+    void bindStyleSheet(QApplication *app);
+    void bindStyleSheet(StyleSheetCallback callback);
 
     /**
      * @brief Set the directory path that contains all styles.
@@ -281,6 +291,7 @@ public:
      */
     QIcon loadThemeAwareSvgIcon(const QString &fileName, const QString &variable = "");
 
+
     static void initDefaultOutputDirPath(QExtStyleThemes *styleThemes);
 
 public Q_SLOTS:
@@ -292,9 +303,10 @@ public Q_SLOTS:
      * theme variables via setThemeVariableValue() To trigger processing of the style template, you need to call explicitely
      * updateStylesheet().
      * @param theme The theme name.
+     * @param updateQSS Weather call #updateStylesheet to update qss.
      * @return Set theme success returns true, otherwise returns false
      */
-    bool setCurrentTheme(const QString &theme);
+    bool setCurrentTheme(const QString &theme, bool updateQSS = false);
 
     /**
      * @brief Sets the default theme that is given in the style Json file
@@ -311,9 +323,10 @@ public Q_SLOTS:
     /**
      * @brief
      * @param styleTheme
+     * @param updateQSS Weather call #updateStylesheet to update qss.
      * @return
      */
-    bool setCurrentStyleTheme(const QString &styleTheme);
+    bool setCurrentStyleTheme(const QString &styleTheme, bool updateQSS = true);
 
     /**
      * @brief Call this function if you would like to reprocess the style template.
@@ -355,7 +368,7 @@ public Q_SLOTS:
      */
     void updateApplicationPaletteColors();
 
-signals:
+Q_SIGNALS:
     /**
      * @brief This signal is emitted if the selected style changed
      * @param style The Style name.
@@ -373,7 +386,7 @@ signals:
      * The stylesheed changes if the style changes, the theme changes or if a style variable changed an the user
      * requested a styleheet update
      */
-    void stylesheetChanged();
+    void styleSheetChanged(const QString &styleSheet);
 
 protected:
     QScopedPointer<QExtStyleThemesPrivate> dd_ptr;

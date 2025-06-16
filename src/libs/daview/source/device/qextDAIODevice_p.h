@@ -44,7 +44,7 @@ public:
     QPointer<QIODevice> mIO;
     QAtomicInt mBufferEnable;
     QExtOnceFlag mThreadOnceFlag;
-    QExtOnceFlag mDestroyOnceFlag;
+    QExtOnceFlag mClearOnceFlag;
     QExtConcurrentInt64 mBufferSize;
     QScopedPointer<QThread> mThread;
 

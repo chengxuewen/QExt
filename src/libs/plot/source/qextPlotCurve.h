@@ -5,7 +5,7 @@
 
 #include <qwt_plot_curve.h>
 
-class QExtPlotCurve : public QwtPlotCurve
+class QEXT_PLOT_API QExtPlotCurve : public QwtPlotCurve
 {
 public:
     explicit QExtPlotCurve(const QString &title = QString());

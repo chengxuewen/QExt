@@ -40,17 +40,9 @@ QExtDAIODeviceManagerPrivate::~QExtDAIODeviceManagerPrivate()
 {
 }
 
-QExtDAIODeviceManager *QExtDAIODeviceManager::instance()
-{
-    static QExtOnceFlag onceFlag;
-    static QExtDAIODeviceManager *instance = QEXT_NULLPTR;
-    qextCallOnce(onceFlag, [=](){ instance = new QExtDAIODeviceManager; });
-    return instance;
-}
-
 QExtDAIODeviceManager::~QExtDAIODeviceManager()
 {
-    this->deleteAllIODevices();
+    this->clearAllIODevices();
 }
 
 QExtDAIODeviceFactory &QExtDAIODeviceManager::ioDeviceFactory()
@@ -94,17 +86,17 @@ int QExtDAIODeviceManager::ioDeviceIndex(const QExtDAIODevice::SharedPtr &ioDevi
     return d->mIODeviceList.indexOf(ioDevice);
 }
 
-void QExtDAIODeviceManager::deleteAllIODevices()
+void QExtDAIODeviceManager::clearAllIODevices()
 {
     Q_D(QExtDAIODeviceManager);
     QList<QExtDAIODevice::SharedPtr> ioDeviceList = d->mIODeviceList;
     for (int i = 0; i < ioDeviceList.size(); ++i)
     {
-        this->deleteIODevice(ioDeviceList[i]);
+        this->clearIODevice(ioDeviceList[i]);
     }
 }
 
-void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice::SharedPtr &ioDevice)
+void QExtDAIODeviceManager::clearIODevice(QExtDAIODevice::SharedPtr &ioDevice)
 {
     Q_D(QExtDAIODeviceManager);
     if (ioDevice)
@@ -123,7 +115,7 @@ void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice::SharedPtr &ioDevice)
         d->mIdToIODeviceMap.remove(id);
         emit this->ioDeviceDeleted(id);
         emit this->ioDeviceListChanged(d->mIODeviceList);
-        ioDevice->destroyDevice();
+        ioDevice->clearDevice();
     }
 }
 
@@ -232,7 +224,7 @@ QExtSerializable::SerializedItems QExtDAIODeviceManager::serializeSave() const
 }
 
 QExtDAIODeviceManager::QExtDAIODeviceManager(QObject *parent)
-    : QObject(parent)
+    : QExtSerializableObject(parent)
     , dd_ptr(new QExtDAIODeviceManagerPrivate(this))
 {
 }

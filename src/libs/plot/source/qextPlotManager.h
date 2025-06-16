@@ -1,23 +1,64 @@
 ﻿#ifndef _QEXTPLOTMANAGER_H
 #define _QEXTPLOTMANAGER_H
 
-#include <qextPlotGlobal.h>
+#include <qextSingleton.h>
+#include <qextPlotModel.h>
+#include <qextPlotGroup.h>
+#include <qextPlotFactory.h>
 #include <qextSerializable.h>
+#include <qextPlotConstants.h>
 
 #include <QObject>
 
-class QExtPlotManager : public QObject, public QExtSerializable
+class QExtPlotManagerPrivate;
+class QEXT_PLOT_API QExtPlotManager : public QExtSerializableObject, public QExtSingleton<QExtPlotManager>
 {
     Q_OBJECT
+    QEXT_DECL_SINGLETON(QExtPlotManager)
 public:
-    static QExtPlotManager *instance();
     ~QExtPlotManager() QEXT_OVERRIDE;
+
+    QExtPlotFactory &plotFactory();
+
+    int plotCount() const;
+    QExtPlot::SharedPtr plot(int index) const;
+    QList<QExtPlot::SharedPtr> plotList() const;
+    int plotIndex(const QExtPlot::SharedPtr &plot) const;
+
+    QExtPlotGroup::SharedPtr plotGroup(const QString &name = "") const;
+
+    void unregisterPlot(const QExtPlot::SharedPtr &plot);
+    QExtPlot::SharedPtr createRegisterPlot(const QString &type, const QString &groupName = "");
+    QExtPlotGroup::SharedPtr registerPlot(QExtPlot::SharedPtr &plot, const QString &groupName = "");
+
+    QExtPlotModel *makePlotModel(QObject *parent = QEXT_NULLPTR);
+
+    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
+    SerializedItems serializeSave() const QEXT_OVERRIDE;
+
+Q_SIGNALS:
+    void plotAboutToBeRegistered(const QExtPlot::SharedPtr &plot);
+    void plotRegistered(const QExtPlot::SharedPtr &plot);
+    void plotAboutToBeUnregistered(const QExtPlot::SharedPtr &plot);
+    void plotUnregistered(const QExtPlot::SharedPtr &plot);
+
+    void plotGroupAboutToBeCreated(const QExtPlotGroup::SharedPtr &plotGroup);
+    void plotGroupCreated(const QExtPlotGroup::SharedPtr &plotGroup);
+    void plotGroupAboutToBeDestroyed(const QExtPlotGroup::SharedPtr &plotGroup);
+    void plotGroupDestroyed(const QExtPlotGroup::SharedPtr &plotGroup);
+
+    void plotListChanged(const QList<QExtPlot::SharedPtr> &plotList);
+    void plotPropertyChanged(const QExtPlot::SharedPtr &plot, const QString &name);
 
 protected:
     explicit QExtPlotManager(QObject *parent = QEXT_NULLPTR);
 
 private:
+    QScopedPointer<QExtPlotManagerPrivate> dd_ptr;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotManager)
     QEXT_DISABLE_COPY_MOVE(QExtPlotManager)
 };
+
+#define qextPlotManager QExtPlotManager::instance();
 
 #endif // _QEXTPLOTMANAGER_H

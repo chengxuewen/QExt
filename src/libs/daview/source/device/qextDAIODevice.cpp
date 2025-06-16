@@ -197,20 +197,20 @@ QThread *QExtDAIODevice::initDevice(qint64 id)
     return d->mThread.data();
 }
 
-bool QExtDAIODevice::destroyDevice()
+bool QExtDAIODevice::clearDevice()
 {
     Q_D(QExtDAIODevice);
-    const bool flag = d->mDestroyOnceFlag.enter();
-    if (flag)
+    if (d->mClearOnceFlag.enter())
     {
         d->mThread->quit();
         d->mThread->wait();
         d->mThread.reset();
         d->mIO->disconnect();
         delete d->mIO.data();
-        d->mDestroyOnceFlag.leave();
+        d->mClearOnceFlag.leave();
+        return true;
     }
-    return flag;
+    return false;
 }
 
 bool QExtDAIODevice::isOpened() const

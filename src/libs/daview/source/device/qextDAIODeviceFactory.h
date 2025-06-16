@@ -1,12 +1,12 @@
 ﻿#ifndef _QEXTDAIODEVICEFACTORY_H
 #define _QEXTDAIODEVICEFACTORY_H
 
-#include <QObject>
-#include <QStandardItemModel>
-
 #include <qextTypeTrait.h>
 #include <qextDAIODevice.h>
 #include <qextDAViewGlobal.h>
+
+#include <QObject>
+#include <QStandardItemModel>
 
 typedef QExtDAIODevice::SharedPtr(*QExtDAIODeviceCreaterFunc)();
 
@@ -19,10 +19,7 @@ QExtDAIODeviceCreaterFunc qextDAIODeviceCreaterFunction()
 template <typename T>
 struct QExtDAIODeviceCreaterFunctor
 {
-    QExtDAIODeviceCreaterFunc operator ()()
-    {
-        return new T;
-    }
+    QExtDAIODeviceCreaterFunc operator ()() { return new T; }
 };
 
 class QExtDAIODeviceFactoryPrivate;

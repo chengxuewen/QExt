@@ -53,7 +53,7 @@ QList<QExtPropertyModelItem *> QExtPropertyModelItem::childrenList() const
     return mChildrenList;
 }
 
-void QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
+QExtPropertyModelItem *QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
 {
     if (!mChildrenList.contains(child))
     {
@@ -69,6 +69,7 @@ void QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
         connect(child, SIGNAL(childRemoveed(QExtPropertyModelItem*)), this, SIGNAL(childRemoveed(QExtPropertyModelItem*)));
         emit this->childAppended(child);
     }
+    return child;
 }
 
 void QExtPropertyModelItem::appendChildren(const QList<QExtPropertyModelItem *> &children)

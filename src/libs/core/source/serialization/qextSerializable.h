@@ -6,6 +6,8 @@
 #include <QVariant>
 #include <QSharedData>
 
+#include <qextGlobal.h>
+
 struct QExtSerializable
 {
     typedef QHash<QString, QVariant> SerializedItems;
@@ -30,6 +32,13 @@ protected:
 
 private:
     bool mModified;
+};
+
+class QExtSerializableObject : public QObject, public QExtSerializable
+{
+public:
+    explicit QExtSerializableObject(QObject *parent = QEXT_NULLPTR) : QObject(parent) {}
+    ~QExtSerializableObject() QEXT_OVERRIDE {}
 };
 
 struct QExtSerializeFile

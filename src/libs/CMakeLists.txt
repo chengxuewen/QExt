@@ -23,8 +23,8 @@
 
 add_subdirectory(core)
 qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
-qext_add_subdirectory(plot QEXT_ENABLE_LIB_PLOT)
 qext_add_subdirectory(widgets QEXT_ENABLE_LIB_WIDGETS)
+qext_add_subdirectory(plot QEXT_ENABLE_LIB_PLOT)
 qext_add_subdirectory(serialport QEXT_ENABLE_LIB_SERIALPORT)
 qext_add_subdirectory(daview QEXT_ENABLE_LIB_DAVIEW)
 qext_add_subdirectory(patterns QEXT_ENABLE_LIB_PATTERNS)

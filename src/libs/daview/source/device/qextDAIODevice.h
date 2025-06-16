@@ -48,7 +48,7 @@ public:
     virtual QExtPropertyDelegate *propertyDelegate(QObject *parent = QEXT_NULLPTR);
 
     virtual QThread *initDevice(qint64 id);
-    virtual bool destroyDevice();
+    virtual bool clearDevice();
 
     virtual void open();
     virtual void close();

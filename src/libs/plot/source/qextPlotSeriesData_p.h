@@ -3,7 +3,7 @@
 
 #include <qextPlotSeriesData.h>
 
-class QExtPlotSeriesDataPrivate
+class QEXT_PLOT_API QExtPlotSeriesDataPrivate
 {
     QExtPlotSeriesData * const q_ptr;
     QEXT_DECL_PUBLIC(QExtPlotSeriesData)
