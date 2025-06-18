@@ -86,7 +86,7 @@ QExtPlot::SharedPtr QExtPlotFactory::selectCreatePlot(QWidget *parent) const
     const QStringList types = this->plotTypes();
     const QString type = QExtInputDialog::getItem(parent, tr("Select Create Plot"),
                                                   tr("Types:"), types, 0, false, &ok,
-                                                  !Qt::WindowContextHelpButtonHint);
+                                                  Qt::Dialog);
     if (ok && !type.isEmpty())
     {
         return this->createPlot(type);

@@ -101,11 +101,13 @@ function(qext_internal_extend_target target)
                     string(FIND "${library}" "Private" suffix_pos)
                     math(EXPR suffix_start "${len} - ${private_len}")
                     if(NOT suffix_pos EQUAL suffix_start)
-                        #                        message(library="${library}")
-                        if(UNIX)
-                            set(library_files "$<TARGET_SONAME_FILE:${library}>*")
-                        else()
+                        # message(library="${library}")
+                        if(APPLE)
                             set(library_files "$<TARGET_FILE:${library}>")
+                        elseif(WIN32)
+                            set(library_files "$<TARGET_FILE:${library}>")
+                        else() # UNIX
+                            set(library_files "$<TARGET_SONAME_FILE:${library}>")
                         endif()
                         add_custom_command(TARGET ${target} PRE_BUILD
                             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${library_files}

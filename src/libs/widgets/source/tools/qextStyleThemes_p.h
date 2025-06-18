@@ -146,9 +146,9 @@ public:
     QString mIconDefaultColor;
     mutable QExtStyleThemes::ColorReplaceVector mIconColorReplaceList;
 
-    QSet<QWidget *> mUserWidgets;
-    QSet<QApplication *> mUserApps;
-    QSet<StyleSheetCallback> mUserCallbacks;
+    QList<QWidget *> mUserWidgets;
+    QList<QApplication *> mUserApps;
+    QList<StyleSheetCallback> mUserCallbacks;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)

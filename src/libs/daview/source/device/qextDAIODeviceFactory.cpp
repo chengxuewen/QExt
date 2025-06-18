@@ -93,7 +93,7 @@ QExtDAIODevice::SharedPtr QExtDAIODeviceFactory::selectCreateIODevice(QWidget *p
     const QStringList types = this->ioDeviceTypes();
     const QString type = QExtInputDialog::getItem(parent, tr("Select Create IODevice"),
                                                   tr("Types:"), types, 0, false, &ok,
-                                                  !Qt::WindowContextHelpButtonHint);
+                                                  Qt::Dialog);
     if (ok && !type.isEmpty())
     {
         return this->createIODevice(type);

@@ -34,6 +34,10 @@ elseif(WIN32)
     set(QExtWrapBreakpad_PKG_SOURCE FALSE)
     set(QExtWrapBreakpad_DIR_NAME "breakpad-windows-x64")
     set(QExtWrapBreakpad_PKG_NAME "breakpad-windows-x64.7z")
+elseif(EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/breakpad-${QEXT_PLATFORM_NAME}.7z")
+    set(QExtWrapBreakpad_PKG_SOURCE FALSE)
+    set(QExtWrapBreakpad_DIR_NAME "breakpad-${QEXT_PLATFORM_NAME}")
+    set(QExtWrapBreakpad_PKG_NAME "breakpad-${QEXT_PLATFORM_NAME}.7z")
 else()
     set(QExtWrapBreakpad_PKG_SOURCE TRUE)
 endif()
@@ -62,16 +66,34 @@ if(QExtWrapBreakpad_PKG_SOURCE)
     target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE ${QExtWrapBreakpad_SOURCE_DIR})
 else()
     add_library(QExt3rdparty::WrapBreakpad STATIC IMPORTED)
-    if(CMAKE_BUILD_TYPE MATCHES "Debug")
-        set(QExtWrapBreakpad_LIBRARY "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/libbreakpadd.lib")
-        list(APPEND QExtWrapBreakpad_DEPENDS
-            "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/libbreakpad_clientd.lib"
-            "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/libdisasmd.lib")
+    if(WIN32)
+        if(CMAKE_BUILD_TYPE MATCHES "Debug")
+            set(QExtWrapBreakpad_LIBRARY "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/libbreakpadd.lib")
+            list(APPEND QExtWrapBreakpad_DEPENDS
+                "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/libbreakpad_clientd.lib"
+                "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/libdisasmd.lib")
+        else()
+            set(QExtWrapBreakpad_LIBRARY "${QExtWrapBreakpad_INSTALL_DIR}/lib/libbreakpad.lib")
+            list(APPEND QExtWrapBreakpad_DEPENDS
+                "${QExtWrapBreakpad_INSTALL_DIR}/lib/libbreakpad_client.lib"
+                "${QExtWrapBreakpad_INSTALL_DIR}/lib/libdisasm.lib")
+        endif()
     else()
-        set(QExtWrapBreakpad_LIBRARY "${QExtWrapBreakpad_INSTALL_DIR}/lib/libbreakpad.lib")
-        list(APPEND QExtWrapBreakpad_DEPENDS
-            "${QExtWrapBreakpad_INSTALL_DIR}/lib/libbreakpad_client.lib"
-            "${QExtWrapBreakpad_INSTALL_DIR}/lib/libdisasm.lib")
+        if(CMAKE_BUILD_TYPE MATCHES "Debug")
+            set(QExtWrapBreakpad_LIBRARY "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/liblibbreakpadd.a")
+            list(APPEND QExtWrapBreakpad_DEPENDS
+                "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/liblibbreakpad_clientd.a"
+                "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib/liblibdisasmd.a")
+        else()
+            set(QExtWrapBreakpad_LIBRARY "${QExtWrapBreakpad_INSTALL_DIR}/lib/liblibbreakpad.a")
+            list(APPEND QExtWrapBreakpad_DEPENDS
+                "${QExtWrapBreakpad_INSTALL_DIR}/lib/liblibbreakpad_client.a"
+                "${QExtWrapBreakpad_INSTALL_DIR}/lib/liblibdisasm.a")
+        endif()
+        if(EXISTS "${QExtWrapBreakpad_INSTALL_DIR}/bin")
+            execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory "${QExtWrapBreakpad_INSTALL_DIR}/bin"
+                "${QEXT_BUILD_DIR}/${QEXT_DEFAULT_LIBEXEC}")
+        endif()
     endif()
     set_target_properties(QExt3rdparty::WrapBreakpad PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES

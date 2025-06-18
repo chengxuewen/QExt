@@ -45,6 +45,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Breakpad)
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_executable(QExtExpBreakpadDuplicates
+    EXCEPTIONS
     SOURCES
     duplicates/main.cpp
     LIBRARIES
@@ -57,6 +58,7 @@ qext_add_executable(QExtExpBreakpadDuplicates
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBreakpadProgram
+    EXCEPTIONS
     SOURCES
     program/main.cpp
     TestThread.cpp
@@ -71,6 +73,7 @@ qext_add_executable(QExtExpBreakpadProgram
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBreakpadReporter
+    EXCEPTIONS
     SOURCES
     reporter/reporter.cpp
     reporter/reporter.h

@@ -64,6 +64,7 @@ bool QExtDeviceWatcherPrivate::stop()
     //DAUnregisterApprovalCallback
     DAUnregisterCallback(mSession, (void*)onDiskAppear, this);
     DAUnregisterCallback(mSession, (void*)onDiskDisappear, this);
+    return true;
 }
 
 
@@ -80,7 +81,7 @@ bool QExtDeviceWatcherPrivate::init()
 
     DARegisterDiskAppearedCallback(mSession, NULL, onDiskAppear, this);
     DARegisterDiskDisappearedCallback(mSession, NULL, onDiskDisappear, this);
-
+    return true;
 }
 
 void QExtDeviceWatcherPrivate::run()

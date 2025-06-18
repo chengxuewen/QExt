@@ -75,46 +75,46 @@ if(QExtWrapBreakpad_USE_SOURCE)
         CONDITION UNIX)
     qext_internal_extend_target(${QEXT_LIB_NAME}
         SOURCES
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/mac/crash_generation/crash_generation_client.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/mac/handler/breakpad_nlist_64.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/mac/handler/dynamic_images.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/mac/handler/exception_handler.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/mac/handler/minidump_generator.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/MachIPC.mm
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/bootstrap_compat.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/file_id.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/macho_id.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/macho_utilities.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/macho_walker.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/mac/string_utilities.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/mac/crash_generation/crash_generation_client.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/mac/handler/breakpad_nlist_64.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/mac/handler/dynamic_images.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/mac/handler/exception_handler.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/mac/handler/minidump_generator.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/MachIPC.mm
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/bootstrap_compat.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/file_id.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/macho_id.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/macho_utilities.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/macho_walker.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/mac/string_utilities.cc
         CONDITION APPLE)
     qext_internal_extend_target(${QEXT_LIB_NAME}
         SOURCES
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/ios/handler/ios_exception_minidump_generator.mm
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/ios/Breakpad.mm
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/ios/BreakpadController.mm
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/ios/exception_handler_no_mach.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/ios/handler/ios_exception_minidump_generator.mm
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/ios/Breakpad.mm
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/ios/BreakpadController.mm
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/ios/exception_handler_no_mach.cc
         CONDITION IOS)
     qext_internal_extend_target(${QEXT_LIB_NAME}
         SOURCES
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/crash_generation/crash_generation_client.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/dump_writer_common/thread_info.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/dump_writer_common/ucontext_reader.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/handler/exception_handler.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/handler/minidump_descriptor.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/log/log.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/microdump_writer/microdump_writer.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/minidump_writer/linux_core_dumper.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/minidump_writer/linux_dumper.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/minidump_writer/linux_ptrace_dumper.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/client/linux/minidump_writer/minidump_writer.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/breakpad_getcontext.S
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/elfutils.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/file_id.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/guid_creator.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/linux_libc_support.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/memory_mapped_file.cc
-        ${QExtWrapBreakpad_SOURCE_DIR}/common/linux/safe_readlink.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/crash_generation/crash_generation_client.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/dump_writer_common/thread_info.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/dump_writer_common/ucontext_reader.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/handler/exception_handler.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/handler/minidump_descriptor.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/log/log.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/microdump_writer/microdump_writer.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/minidump_writer/linux_core_dumper.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/minidump_writer/linux_dumper.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/minidump_writer/linux_ptrace_dumper.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/client/linux/minidump_writer/minidump_writer.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/breakpad_getcontext.S
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/elfutils.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/file_id.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/guid_creator.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/linux_libc_support.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/memory_mapped_file.cc
+        ${QExtWrapBreakpad_SOURCE_DIR}/src/common/linux/safe_readlink.cc
         CONDITION UNIX AND NOT APPLE)
     qext_internal_extend_target(${QEXT_LIB_NAME}
         SOURCES

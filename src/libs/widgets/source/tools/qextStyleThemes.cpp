@@ -611,30 +611,31 @@ void QExtStyleThemesPrivate::updateStyleSheetUsers()
 QPalette::ColorRole QExtStyleThemesPrivate::colorRoleFromString(const QString &text)
 {
     static QMap<QString, QPalette::ColorRole> colorRoleMap =
-    {{"WindowText", QPalette::WindowText},
-      {"Button", QPalette::Button},
-      {"Light", QPalette::Light},
-      {"Midlight", QPalette::Midlight},
-      {"Dark", QPalette::Dark},
-      {"Mid", QPalette::Mid},
-      {"Text", QPalette::Text},
-      {"BrightText", QPalette::BrightText},
-      {"ButtonTextd", QPalette::ButtonText},
-      {"Base", QPalette::Base},
-      {"Window", QPalette::Window},
-      {"Shadow", QPalette::Shadow},
-      {"Highlight", QPalette::Highlight},
-      {"HighlightedText", QPalette::HighlightedText},
-      {"Link", QPalette::Link},
-      {"LinkVisited", QPalette::LinkVisited},
-      {"AlternateBase", QPalette::AlternateBase},
-      {"NoRole", QPalette::NoRole},
-      {"ToolTipBase", QPalette::ToolTipBase},
-      {"ToolTipText", QPalette::ToolTipText},
+        {
+            {"WindowText", QPalette::WindowText},
+            {"Button", QPalette::Button},
+            {"Light", QPalette::Light},
+            {"Midlight", QPalette::Midlight},
+            {"Dark", QPalette::Dark},
+            {"Mid", QPalette::Mid},
+            {"Text", QPalette::Text},
+            {"BrightText", QPalette::BrightText},
+            {"ButtonTextd", QPalette::ButtonText},
+            {"Base", QPalette::Base},
+            {"Window", QPalette::Window},
+            {"Shadow", QPalette::Shadow},
+            {"Highlight", QPalette::Highlight},
+            {"HighlightedText", QPalette::HighlightedText},
+            {"Link", QPalette::Link},
+            {"LinkVisited", QPalette::LinkVisited},
+            {"AlternateBase", QPalette::AlternateBase},
+            {"NoRole", QPalette::NoRole},
+            {"ToolTipBase", QPalette::ToolTipBase},
+            {"ToolTipText", QPalette::ToolTipText},
 #if QT_VERSION >= 0x050C00
-      {"PlaceholderText", QPalette::PlaceholderText}
+            {"PlaceholderText", QPalette::PlaceholderText}
 #endif
-    };
+        };
 
     return colorRoleMap.value(text, QPalette::NoRole);
 }
@@ -687,27 +688,36 @@ void QExtStyleThemes::serializeLoad(const SerializedItems &items)
 void QExtStyleThemes::unbindStyleSheet(void *user)
 {
     Q_D(QExtStyleThemes);
-    d->mUserWidgets.remove(reinterpret_cast<QWidget *>(user));
-    d->mUserApps.remove(reinterpret_cast<QApplication *>(user));
-    d->mUserCallbacks.remove(reinterpret_cast<StyleSheetCallback>(user));
+    d->mUserWidgets.removeOne(reinterpret_cast<QWidget *>(user));
+    d->mUserApps.removeOne(reinterpret_cast<QApplication *>(user));
+    d->mUserCallbacks.removeOne(reinterpret_cast<StyleSheetCallback>(user));
 }
 
 void QExtStyleThemes::bindStyleSheet(QWidget *widget)
 {
     Q_D(QExtStyleThemes);
-    d->mUserWidgets.insert(widget);
+    if (!d->mUserWidgets.contains(widget))
+    {
+        d->mUserWidgets.append(widget);
+    }
 }
 
 void QExtStyleThemes::bindStyleSheet(QApplication *app)
 {
     Q_D(QExtStyleThemes);
-    d->mUserApps.insert(app);
+    if (!d->mUserApps.contains(app))
+    {
+        d->mUserApps.append(app);
+    }
 }
 
 void QExtStyleThemes::bindStyleSheet(StyleSheetCallback callback)
 {
     Q_D(QExtStyleThemes);
-    d->mUserCallbacks.insert(callback);
+    if (!d->mUserCallbacks.contains(callback))
+    {
+        d->mUserCallbacks.append(callback);
+    }
 }
 
 void QExtStyleThemes::setStylesDirPath(const QString &path)

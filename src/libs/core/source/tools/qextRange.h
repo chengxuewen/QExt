@@ -30,11 +30,11 @@ public:
         return mStart <= other.end() && mEnd >= other.start();
     }
 
-    QEXT_CONSTEXPR inline bool contains(const QExtRange &other)
+    QEXT_CONSTEXPR inline bool contains(const QExtRange &other) const
     {
         return mStart <= other.start() && mEnd >= other.end();
     }
-    QEXT_CONSTEXPR inline QExtRange intersect(const QExtRange &other)
+    QEXT_CONSTEXPR inline QExtRange intersect(const QExtRange &other) const
     {
         return this->isIntersected(other) ? QExtRange(qMax(mStart, other.start()), qMin(mEnd, other.end())) : QExtRange();
     }
@@ -42,27 +42,27 @@ public:
     QEXT_CONSTEXPR inline int length() const { return this->isValid() ? mEnd - mStart : 0; }
     QEXT_CONSTEXPR inline int start() const { return mStart; }
     QEXT_CONSTEXPR inline int end() const { return mEnd; }
-    QEXT_RELAXED_CONSTEXPR inline void setStart(int start) { mStart = start; }
-    QEXT_RELAXED_CONSTEXPR inline void setEnd(int end) { mEnd = end; }
+    inline void setStart(int start) { mStart = start; }
+    inline void setEnd(int end) { mEnd = end; }
 
-    QEXT_RELAXED_CONSTEXPR inline QExtRange &operator+=(int offset)
+    inline QExtRange &operator+=(int offset)
     {
         mStart = mStart+offset; mEnd = mEnd+offset; return *this;
     }
-    QEXT_RELAXED_CONSTEXPR inline QExtRange &operator-=(int offset)
+    inline QExtRange &operator-=(int offset)
     {
         mStart = mStart-offset; mEnd = mEnd-offset; return *this;
     }
 
-    QEXT_RELAXED_CONSTEXPR inline QExtRange &operator*=(float factor)
+    inline QExtRange &operator*=(float factor)
     {
         mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
     }
-    QEXT_RELAXED_CONSTEXPR inline QExtRange &operator*=(double factor)
+    inline QExtRange &operator*=(double factor)
     {
         mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
     }
-    QEXT_RELAXED_CONSTEXPR inline QExtRange &operator*=(int factor)
+    inline QExtRange &operator*=(int factor)
     {
         mStart = mStart*factor; mEnd = mEnd*factor; return *this;
     }
@@ -118,7 +118,7 @@ public:
     {
         return std::isless(mStart, other.start()) && std::isgreater(mEnd, other.end());
     }
-    QEXT_CONSTEXPR inline QExtRangeF intersect(const QExtRangeF &other)
+    QEXT_CONSTEXPR inline QExtRangeF intersect(const QExtRangeF &other) const
     {
         return this->isIntersected(other) ? QExtRangeF(qMax(mStart, other.start()), qMin(mEnd, other.end())) : QExtRangeF();
     }
@@ -126,29 +126,29 @@ public:
 
     QEXT_CONSTEXPR inline double start() const { return mStart; }
     QEXT_CONSTEXPR inline double end() const { return mEnd; }
-    QEXT_RELAXED_CONSTEXPR inline void reset(double start, double end) { mStart = start; mEnd = end; }
-    QEXT_RELAXED_CONSTEXPR inline void clear() { mStart = QEXT_DOUBLE_NAN; mEnd = QEXT_DOUBLE_NAN; }
-    QEXT_RELAXED_CONSTEXPR inline void setStart(double start) { mStart = start; }
-    QEXT_RELAXED_CONSTEXPR inline void setEnd(double end) { mEnd = end; }
+    inline void reset(double start, double end) { mStart = start; mEnd = end; }
+    inline void clear() { mStart = QEXT_DOUBLE_NAN; mEnd = QEXT_DOUBLE_NAN; }
+    inline void setStart(double start) { mStart = start; }
+    inline void setEnd(double end) { mEnd = end; }
 
-    QEXT_RELAXED_CONSTEXPR inline QExtRangeF &operator+=(double offset)
+    inline QExtRangeF &operator+=(double offset)
     {
         mStart = mStart+offset; mEnd = mEnd+offset; return *this;
     }
-    QEXT_RELAXED_CONSTEXPR inline QExtRangeF &operator-=(double offset)
+    inline QExtRangeF &operator-=(double offset)
     {
         mStart = mStart-offset; mEnd = mEnd-offset; return *this;
     }
 
-    QEXT_RELAXED_CONSTEXPR inline QExtRangeF &operator*=(float factor)
+    inline QExtRangeF &operator*=(float factor)
     {
         mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
     }
-    QEXT_RELAXED_CONSTEXPR inline QExtRangeF &operator*=(double factor)
+    inline QExtRangeF &operator*=(double factor)
     {
         mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
     }
-    QEXT_RELAXED_CONSTEXPR inline QExtRangeF &operator*=(int factor)
+    inline QExtRangeF &operator*=(int factor)
     {
         mStart = mStart*factor; mEnd = mEnd*factor; return *this;
     }

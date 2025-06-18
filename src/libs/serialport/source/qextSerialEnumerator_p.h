@@ -86,7 +86,7 @@ public:
     bool setUpNotifications_sys(bool setup);
 
 #if QEXT_FEATURE_SERIALPORT_USE_QT_BACKEND
-#else defined(Q_OS_WIN)
+#elif defined(Q_OS_WIN)
     LRESULT onDeviceChanged(WPARAM wParam, LPARAM lParam);
     bool matchAndDispatchChangedDevice(const QString &deviceID, const GUID &guid, WPARAM wParam);
 #  ifdef QT_GUI_LIB
