@@ -13,6 +13,7 @@ public:
     QEXT_CONSTEXPR QExtRange() : mStart(QEXT_INT_MAX), mEnd(QEXT_INT_MIN) {}
     QEXT_CONSTEXPR QExtRange(int start, int end) : mStart(start), mEnd(end) {}
     QEXT_CONSTEXPR QExtRange(const QExtRange &other) : mStart(other.start()), mEnd(other.end()) {}
+    virtual ~QExtRange() {}
 
     QExtRange &operator=(const QExtRange &other)
     {
@@ -34,7 +35,7 @@ public:
     {
         return mStart <= other.start() && mEnd >= other.end();
     }
-    QEXT_CONSTEXPR inline QExtRange intersect(const QExtRange &other) const
+    inline QExtRange intersect(const QExtRange &other) const
     {
         return this->isIntersected(other) ? QExtRange(qMax(mStart, other.start()), qMin(mEnd, other.end())) : QExtRange();
     }
@@ -97,6 +98,7 @@ public:
     QEXT_CONSTEXPR QExtRangeF() : mStart(QEXT_DOUBLE_NAN), mEnd(QEXT_DOUBLE_NAN) {}
     QEXT_CONSTEXPR QExtRangeF(double start, double end) : mStart(start), mEnd(end) {}
     QEXT_CONSTEXPR QExtRangeF(const QExtRangeF &other) : mStart(other.start()), mEnd(other.end()) {}
+    virtual ~QExtRangeF() {}
 
     QExtRangeF &operator=(const QExtRangeF &other)
     {
@@ -118,7 +120,7 @@ public:
     {
         return std::isless(mStart, other.start()) && std::isgreater(mEnd, other.end());
     }
-    QEXT_CONSTEXPR inline QExtRangeF intersect(const QExtRangeF &other) const
+    inline QExtRangeF intersect(const QExtRangeF &other) const
     {
         return this->isIntersected(other) ? QExtRangeF(qMax(mStart, other.start()), qMin(mEnd, other.end())) : QExtRangeF();
     }

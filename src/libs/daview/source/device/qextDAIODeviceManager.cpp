@@ -126,7 +126,7 @@ QExtDAIODevice::SharedPtr QExtDAIODeviceManager::registerIODevice(const QExtDAIO
     Q_ASSERT(!ioDevice.isNull());
     if (this->ioDeviceCount() >= QExtDAConstants::IODEVICE_MAX_COUNT)
     {
-        qCritical() << QString("QExtDAIODeviceManager::createIODevice():io device max number is %1").
+        qCritical() << QString("QExtDAIODeviceManager::registerIODevice():io device max number is %1").
                        arg(QExtDAConstants::IODEVICE_MAX_COUNT);
         ioDevice->deleteLater();
         return QEXT_NULLPTR;
@@ -140,7 +140,7 @@ QExtDAIODevice::SharedPtr QExtDAIODeviceManager::registerIODevice(const QExtDAIO
     QThread *thread = ioDevice->initDevice(id);
     if (!thread)
     {
-        qCritical() << QString("QExtDAIODeviceManager::createIODevice():io device init failed!");
+        qCritical() << QString("QExtDAIODeviceManager::registerIODevice():io device init failed!");
         d->mIdRegistry.unregisterId(id);
         ioDevice->deleteLater();
         return QEXT_NULLPTR;

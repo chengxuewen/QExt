@@ -1,9 +1,59 @@
 ﻿#include <private/qextPlot_p.h>
 #include <qextPlotConstants.h>
+#include <qextDoubleSpinBox.h>
 #include <qextStringUtils.h>
 #include <qextNumeric.h>
 
 #include <QDebug>
+
+class QExtPlotXAxisAutoRangeUpdater : public QExtPlotAutoRangeUpdater
+{
+public:
+    QExtPlotXAxisAutoRangeUpdater(QExtPlot *plot) : QExtPlotAutoRangeUpdater(true), mPlot(plot) {}
+    ~QExtPlotXAxisAutoRangeUpdater() QEXT_OVERRIDE {}
+
+protected:
+    void onEnableChanged(bool enable) QEXT_OVERRIDE
+    {
+        if (enable)
+        {
+            mPlot->setAxisAutoScale(QwtPlot::xBottom);
+        }
+        else
+        {
+            mPlot->setAxisScale(QwtPlot::xBottom, mPlot->xAxisMin(), mPlot->xAxisMax());
+        }
+    }
+
+private:
+    QExtPlot *mPlot;
+    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisAutoRangeUpdater)
+};
+
+class QExtPlotYAxisAutoRangeUpdater : public QExtPlotAutoRangeUpdater
+{
+public:
+    QExtPlotYAxisAutoRangeUpdater(QExtPlot *plot) : QExtPlotAutoRangeUpdater(true), mPlot(plot) {}
+    ~QExtPlotYAxisAutoRangeUpdater() QEXT_OVERRIDE {}
+
+protected:
+    void onEnableChanged(bool enable) QEXT_OVERRIDE
+    {
+        if (enable)
+        {
+            mPlot->setAxisAutoScale(QwtPlot::yLeft);
+        }
+        else
+        {
+            mPlot->setAxisScale(QwtPlot::yLeft, mPlot->yAxisMin(), mPlot->yAxisMax());
+        }
+    }
+
+private:
+    QExtPlot *mPlot;
+    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisAutoRangeUpdater)
+};
+
 
 QExtPlotPrivate::QExtPlotPrivate(QExtPlot *q)
     : q_ptr(q), mId(-1)
@@ -14,6 +64,8 @@ QExtPlotPrivate::QExtPlotPrivate(QExtPlot *q)
     , mPlotWidth(1000)
     , mPlotVisible(true)
 {
+    mXAxisAutoRangeUpdater.reset(new QExtPlotXAxisAutoRangeUpdater(q));
+    mYAxisAutoRangeUpdater.reset(new QExtPlotYAxisAutoRangeUpdater(q));
 }
 
 QExtPlotPrivate::~QExtPlotPrivate()
@@ -46,6 +98,18 @@ qint64 QExtPlot::id() const
 {
     Q_D(const QExtPlot);
     return d->mId;
+}
+
+QString QExtPlot::name() const
+{
+    Q_D(const QExtPlot);
+    return d->mName;
+}
+
+QString QExtPlot::groupName() const
+{
+    Q_D(const QExtPlot);
+    return d->mGroupName;
 }
 
 double QExtPlot::plotWidth() const
@@ -187,6 +251,7 @@ QString QExtPlot::xAxisRangeText() const
 void QExtPlot::setXAxisRange(double min, double max)
 {
     Q_D(QExtPlot);
+    Q_ASSERT(min <= max);
     if (!QExtNumeric::isDoubleEqual(min, d->mXMin) || !QExtNumeric::isDoubleEqual(max, d->mXMax))
     {
         d->mXMin = min;
@@ -194,6 +259,7 @@ void QExtPlot::setXAxisRange(double min, double max)
 
         d->mZoomer->zoom(0); // unzoom
         d->mZoomer->setXLimits(min, max);
+
         this->resetAxes();
 
         emit this->xAxisRangeChanged();
@@ -241,6 +307,7 @@ QString QExtPlot::yAxisRangeText() const
 void QExtPlot::setYAxisRange(double min, double max)
 {
     Q_D(QExtPlot);
+    Q_ASSERT(min <= max);
     if (!QExtNumeric::isDoubleEqual(min, d->mYMin) || !QExtNumeric::isDoubleEqual(max, d->mYMax))
     {
         d->mYMin = min;
@@ -335,18 +402,22 @@ void QExtPlot::setYAxisAutoRangeUpdater(QExtPlotAutoRangeUpdater *updater)
     }
 }
 
-bool QExtPlot::initPlot(qint64 id)
+bool QExtPlot::initPlot(qint64 id, const QString &name, const QString &groupName)
 {
     Q_D(QExtPlot);
     if (d->mInitOnceFlag.enter())
     {
         d->mId = id;
+        d->mGroupName = groupName;
+        d->mName = name.isEmpty() ? QString("%1-%2").arg(this->typeString()).arg(id) : name;
 
         d->mZoomer = new QExtPlotZoomer(this);
         d->mScaleZoomer = new QExtPlotScaleZoomer(this, d->mZoomer);
         d->mScaleZoomer->setBottomPickerValueResolution(0);
         connect(d->mZoomer, SIGNAL(unzoomed()), this, SLOT(unzoom()));
         d->mZoomer->setZoomBase();
+
+        d->mGrid.setPen(QPen(Qt::DotLine));
         d->mGrid.attach(this);
 
         this->setXAxisRange(0, 1);
@@ -400,39 +471,62 @@ void QExtPlot::serializeLoad(const SerializedItems &items)
     this->setXAxisMax(items.value(QExtPlotConstants::PLOT_PROPERTY_XAXIS_RANGE_MAX, 1).toDouble());
     this->setYAxisMin(items.value(QExtPlotConstants::PLOT_PROPERTY_YAXIS_RANGE_MIN, 0).toDouble());
     this->setYAxisMax(items.value(QExtPlotConstants::PLOT_PROPERTY_YAXIS_RANGE_MAX, 1).toDouble());
+    this->setXAxisAutoScaled(items.value(QExtPlotConstants::PLOT_PROPERTY_XAXIS_AUTO_SCALE, true).toBool());
+    this->setYAxisAutoScaled(items.value(QExtPlotConstants::PLOT_PROPERTY_YAXIS_AUTO_SCALE, true).toBool());
+    this->setXAxisGridVisible(items.value(QExtPlotConstants::PLOT_PROPERTY_XAXIS_GRID_VISIBLE, true).toBool());
+    this->setYAxisGridVisible(items.value(QExtPlotConstants::PLOT_PROPERTY_YAXIS_GRID_VISIBLE, true).toBool());
+    this->setXAxisMinorGridVisible(items.value(QExtPlotConstants::PLOT_PROPERTY_XAXIS_MINOR_GRID_VISIBLE, false).toBool());
+    this->setYAxisMinorGridVisible(items.value(QExtPlotConstants::PLOT_PROPERTY_YAXIS_MINOR_GRID_VISIBLE, false).toBool());
     this->setTitle(QEXT_FROM_UNICODES_STRING(items.value(QExtPlotConstants::PLOT_PROPERTY_TITLE, "").toString()));
 }
 
 QExtSerializable::SerializedItems QExtPlot::serializeSave() const
 {
     QExtSerializable::SerializedItems items;
+    items[QExtPlotConstants::PLOT_PROPERTY_ID] = this->id();
+    items[QExtPlotConstants::PLOT_PROPERTY_TYPE] = this->typeString();
+    items[QExtPlotConstants::PLOT_PROPERTY_GROUP] = this->groupName();
     items[QExtPlotConstants::PLOT_PROPERTY_VISIBLE] = this->isVisible();
     items[QExtPlotConstants::PLOT_PROPERTY_XAXIS_RANGE_MIN] = this->xAxisMin();
     items[QExtPlotConstants::PLOT_PROPERTY_XAXIS_RANGE_MAX] = this->xAxisMax();
     items[QExtPlotConstants::PLOT_PROPERTY_YAXIS_RANGE_MIN] = this->yAxisMin();
     items[QExtPlotConstants::PLOT_PROPERTY_YAXIS_RANGE_MAX] = this->yAxisMax();
+    items[QExtPlotConstants::PLOT_PROPERTY_XAXIS_AUTO_SCALE] = this->isXAxisAutoScaled();
+    items[QExtPlotConstants::PLOT_PROPERTY_YAXIS_AUTO_SCALE] = this->isYAxisAutoScaled();
+    items[QExtPlotConstants::PLOT_PROPERTY_XAXIS_GRID_VISIBLE] = this->isXAxisGridVisible();
+    items[QExtPlotConstants::PLOT_PROPERTY_YAXIS_GRID_VISIBLE] = this->isYAxisGridVisible();
+    items[QExtPlotConstants::PLOT_PROPERTY_XAXIS_MINOR_GRID_VISIBLE] = this->isXAxisMinorGridVisible();
+    items[QExtPlotConstants::PLOT_PROPERTY_YAXIS_MINOR_GRID_VISIBLE] = this->isYAxisMinorGridVisible();
     items[QExtPlotConstants::PLOT_PROPERTY_TITLE] = QEXT_TO_UNICODES_STRING(this->title().text());
     return items;
+}
+
+qint64 QExtPlot::loadId(const SerializedItems &items)
+{
+    return items.value(QExtPlotConstants::PLOT_PROPERTY_ID, -1).toLongLong();
+}
+
+QString QExtPlot::loadType(const SerializedItems &items)
+{
+    return items.value(QExtPlotConstants::PLOT_PROPERTY_TYPE, "").toString();
+}
+
+QString QExtPlot::loadGroup(const SerializedItems &items)
+{
+    return items.value(QExtPlotConstants::PLOT_PROPERTY_GROUP, "").toString();
 }
 
 void QExtPlot::resetAxes()
 {
     Q_D(QExtPlot);
     d->mZoomer->setZoomBase();
-}
-
-void QExtPlot::updateAutoRange()
-{
-    Q_D(QExtPlot);
-    bool resetAxis = false;
-    // if (d->mXAxisAutoScaled || d->mYAxisAutoScaled)
-    // {
-    //     resetAxis = true;
-    // }
-    if (resetAxis)
+    if (!d->mXAxisAutoRangeUpdater.isNull())
     {
-        d->mZoomer->zoom(0);
-        this->resetAxes();
+        d->mXAxisAutoRangeUpdater->updateRange();
+    }
+    if (!d->mYAxisAutoRangeUpdater.isNull())
+    {
+        d->mYAxisAutoRangeUpdater->updateRange();
     }
 }
 
@@ -488,7 +582,7 @@ QVariant QExtPlotXAxisGridVisibleItem::data(int role) const
 {
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        return mPlot->isXAxisGridVisible() ? tr("Visible") : tr("Invisible");
+        return mPlot->isXAxisGridVisible() ? tr("visible") : tr("invisible");
     }
     else if (role == Qt::CheckStateRole)
     {
@@ -511,6 +605,7 @@ bool QExtPlotXAxisGridVisibleItem::setData(const QVariant &value, int role)
 QExtPlotXAxisMinorGridVisibleItem::QExtPlotXAxisMinorGridVisibleItem(QExtPlot *plot)
     : mPlot(plot)
 {
+    connect(plot, SIGNAL(xAxisGridVisibleChanged(bool)), this, SLOT(updateItem()));
     connect(plot, SIGNAL(xAxisMinorGridVisibleChanged(bool)), this, SLOT(updateItem()));
 }
 
@@ -521,7 +616,12 @@ QString QExtPlotXAxisMinorGridVisibleItem::name() const
 
 Qt::ItemFlags QExtPlotXAxisMinorGridVisibleItem::flags() const
 {
-    return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+    Qt::ItemFlags flags = Qt::NoItemFlags;
+    if (mPlot->isXAxisGridVisible())
+    {
+        flags |= Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    }
+    return flags;
 }
 
 QVariant QExtPlotXAxisMinorGridVisibleItem::data(int role) const
@@ -591,6 +691,7 @@ bool QExtPlotYAxisGridVisibleItem::setData(const QVariant &value, int role)
 QExtPlotYAxisMinorGridVisibleItem::QExtPlotYAxisMinorGridVisibleItem(QExtPlot *plot)
     : mPlot(plot)
 {
+    connect(plot, SIGNAL(yAxisGridVisibleChanged(bool)), this, SLOT(updateItem()));
     connect(plot, SIGNAL(yAxisMinorGridVisibleChanged(bool)), this, SLOT(updateItem()));
 }
 
@@ -601,7 +702,12 @@ QString QExtPlotYAxisMinorGridVisibleItem::name() const
 
 Qt::ItemFlags QExtPlotYAxisMinorGridVisibleItem::flags() const
 {
-    return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+    Qt::ItemFlags flags = Qt::NoItemFlags;
+    if (mPlot->isYAxisGridVisible())
+    {
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+    }
+    return flags;
 }
 
 QVariant QExtPlotYAxisMinorGridVisibleItem::data(int role) const
@@ -697,20 +803,30 @@ QString QExtPlotXAxisMinItem::name() const
 
 Qt::ItemFlags QExtPlotXAxisMinItem::flags() const
 {
-    Qt::ItemFlags flags =  Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
+    Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isXAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEditable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
     }
     return flags;
+}
+
+QWidget *QExtPlotXAxisMinItem::initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                                  const QModelIndex &index) const
+{
+    QExtDoubleSpinBox *widget = dynamic_cast<QExtDoubleSpinBox *>(editor);
+    if (widget)
+    {
+        widget->setRange(QEXT_INT_MIN, mPlot->xAxisMax());
+    }
+    return QExtPropertyModelItem::initEditorProperty(editor, option, index);
 }
 
 QVariant QExtPlotXAxisMinItem::data(int role) const
 {
     if (Qt::DisplayRole == role)
     {
-        return mPlot->isXAxisAutoScaled() ? QString::number(0)
-                                          : QExtNumeric::doubleTrimmedText(mPlot->xAxisMin());
+        return QExtNumeric::doubleTrimmedText(mPlot->xAxisMin());
     }
     else if (Qt::EditRole == role)
     {
@@ -743,20 +859,30 @@ QString QExtPlotXAxisMaxItem::name() const
 
 Qt::ItemFlags QExtPlotXAxisMaxItem::flags() const
 {
-    Qt::ItemFlags flags =  Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
+    Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isXAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEditable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
     }
     return flags;
+}
+
+QWidget *QExtPlotXAxisMaxItem::initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                                  const QModelIndex &index) const
+{
+    QExtDoubleSpinBox *widget = dynamic_cast<QExtDoubleSpinBox *>(editor);
+    if (widget)
+    {
+        widget->setRange(mPlot->xAxisMin(), QEXT_INT_MAX);
+    }
+    return QExtPropertyModelItem::initEditorProperty(editor, option, index);
 }
 
 QVariant QExtPlotXAxisMaxItem::data(int role) const
 {
     if (Qt::DisplayRole == role)
     {
-        return mPlot->isXAxisAutoScaled() ? QString::number(0)
-                                          : QExtNumeric::doubleTrimmedText(mPlot->xAxisMax());
+        return QExtNumeric::doubleTrimmedText(mPlot->xAxisMax());
     }
     else if (Qt::EditRole == role)
     {
@@ -844,20 +970,30 @@ QString QExtPlotYAxisMinItem::name() const
 
 Qt::ItemFlags QExtPlotYAxisMinItem::flags() const
 {
-    Qt::ItemFlags flags =  Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
+    Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isYAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEditable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
     }
     return flags;
+}
+
+QWidget *QExtPlotYAxisMinItem::initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                                  const QModelIndex &index) const
+{
+    QExtDoubleSpinBox *widget = dynamic_cast<QExtDoubleSpinBox *>(editor);
+    if (widget)
+    {
+        widget->setRange(QEXT_INT_MIN, mPlot->yAxisMax());
+    }
+    return QExtPropertyModelItem::initEditorProperty(editor, option, index);
 }
 
 QVariant QExtPlotYAxisMinItem::data(int role) const
 {
     if (Qt::DisplayRole == role)
     {
-        return mPlot->isYAxisAutoScaled() ? QString::number(0)
-                                          : QExtNumeric::doubleTrimmedText(mPlot->yAxisMin());
+        return QExtNumeric::doubleTrimmedText(mPlot->yAxisMin());
     }
     else if (Qt::EditRole == role)
     {
@@ -890,20 +1026,30 @@ QString QExtPlotYAxisMaxItem::name() const
 
 Qt::ItemFlags QExtPlotYAxisMaxItem::flags() const
 {
-    Qt::ItemFlags flags =  Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
+    Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isYAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEditable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
     }
     return flags;
+}
+
+QWidget *QExtPlotYAxisMaxItem::initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                                  const QModelIndex &index) const
+{
+    QExtDoubleSpinBox *widget = dynamic_cast<QExtDoubleSpinBox *>(editor);
+    if (widget)
+    {
+        widget->setRange(mPlot->yAxisMin(), QEXT_INT_MAX);
+    }
+    return QExtPropertyModelItem::initEditorProperty(editor, option, index);
 }
 
 QVariant QExtPlotYAxisMaxItem::data(int role) const
 {
     if (Qt::DisplayRole == role)
     {
-        return mPlot->isYAxisAutoScaled() ? QString::number(0)
-                                          : QExtNumeric::doubleTrimmedText(mPlot->yAxisMax());
+        return QExtNumeric::doubleTrimmedText(mPlot->yAxisMax());
     }
     else if (Qt::EditRole == role)
     {

@@ -56,6 +56,6 @@ private:
     QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceManager)
 };
 
-#define qextDAIODeviceManager QExtDAIODeviceManager::instance();
+#define qextDAIODeviceManager QExtDAIODeviceManager::instance()
 
 #endif // _QEXTDAIODEVICEMANAGER_H

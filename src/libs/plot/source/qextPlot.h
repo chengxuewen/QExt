@@ -14,7 +14,7 @@ class QExtPlotAutoRangeUpdater : public QObject
 {
     Q_OBJECT
 public:
-    QExtPlotAutoRangeUpdater() : mEnable(false) {}
+    QExtPlotAutoRangeUpdater(bool enable = false) : mEnable(enable) {}
     virtual ~QExtPlotAutoRangeUpdater() {}
 
     bool isEnabled() const { return mEnable; }
@@ -23,14 +23,23 @@ public:
         if (enable != mEnable)
         {
             mEnable = enable;
+            this->onEnableChanged(enable);
             Q_EMIT this->enableChanged(enable);
         }
     }
 
     virtual QString labelText() const { return tr("Auto Scale"); }
 
+    virtual void updateRange()
+    {
+        this->onEnableChanged(mEnable);
+    }
+
 Q_SIGNALS:
     void enableChanged(bool enable);
+
+protected:
+    virtual void onEnableChanged(bool enable) { Q_UNUSED(enable); }
 
 private:
     bool mEnable;
@@ -49,6 +58,8 @@ public:
     ~QExtPlot() QEXT_OVERRIDE;
 
     qint64 id() const;
+    QString name() const;
+    QString groupName() const;
 
     double plotWidth() const;
     void setPlotWidth(double width);
@@ -96,15 +107,19 @@ public:
     QExtPlotAutoRangeUpdater *yAxisAutoRangeUpdater() const;
     void setYAxisAutoRangeUpdater(QExtPlotAutoRangeUpdater *updater);
 
-    virtual bool initPlot(qint64 id);
+    virtual bool initPlot(qint64 id, const QString &name = "", const QString &groupName = "");
+
     virtual QExtPropertyModel *propertyModel();
     virtual QExtPropertyDelegate *propertyDelegate(QObject *parent = QEXT_NULLPTR);
 
     virtual QString typeString() const;
-    virtual QString name() const { return QString("%1-%2").arg(this->typeString()).arg(this->id()); }
 
     void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
     SerializedItems serializeSave() const QEXT_OVERRIDE;
+
+    static qint64 loadId(const SerializedItems &items);
+    static QString loadType(const SerializedItems &items);
+    static QString loadGroup(const SerializedItems &items);
 
 Q_SIGNALS:
     void plotPropertyChanged(const QString &propertyName);
@@ -124,9 +139,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     virtual void resetAxes();
-
-    void updateAutoRange();
-    void unzoom();
+    virtual void unzoom();
 
 protected:
     virtual void initPropertyModel(QExtPropertyModel *propertyModel);
@@ -249,6 +262,10 @@ public:
     QString name() const QEXT_OVERRIDE;
     Qt::ItemFlags flags() const QEXT_OVERRIDE;
 
+    EditorEnum editorType() const QEXT_OVERRIDE { return Editor_DoubleSpinBox; }
+    QWidget *initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                const QModelIndex &index) const QEXT_OVERRIDE;
+
     QVariant data(int role = Qt::DisplayRole) const QEXT_OVERRIDE;
     bool setData(const QVariant &value, int role = Qt::EditRole) QEXT_OVERRIDE;
 
@@ -265,6 +282,10 @@ public:
 
     QString name() const QEXT_OVERRIDE;
     Qt::ItemFlags flags() const QEXT_OVERRIDE;
+
+    EditorEnum editorType() const QEXT_OVERRIDE { return Editor_DoubleSpinBox; }
+    QWidget *initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                const QModelIndex &index) const QEXT_OVERRIDE;
 
     QVariant data(int role = Qt::DisplayRole) const QEXT_OVERRIDE;
     bool setData(const QVariant &value, int role = Qt::EditRole) QEXT_OVERRIDE;
@@ -302,6 +323,10 @@ public:
     QString name() const QEXT_OVERRIDE;
     Qt::ItemFlags flags() const QEXT_OVERRIDE;
 
+    EditorEnum editorType() const QEXT_OVERRIDE { return Editor_DoubleSpinBox; }
+    QWidget *initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                const QModelIndex &index) const QEXT_OVERRIDE;
+
     QVariant data(int role = Qt::DisplayRole) const QEXT_OVERRIDE;
     bool setData(const QVariant &value, int role = Qt::EditRole) QEXT_OVERRIDE;
 
@@ -318,6 +343,10 @@ public:
 
     QString name() const QEXT_OVERRIDE;
     Qt::ItemFlags flags() const QEXT_OVERRIDE;
+
+    EditorEnum editorType() const QEXT_OVERRIDE { return Editor_DoubleSpinBox; }
+    QWidget *initEditorProperty(QWidget *editor, const QStyleOptionViewItem &option,
+                                const QModelIndex &index) const QEXT_OVERRIDE;
 
     QVariant data(int role = Qt::DisplayRole) const QEXT_OVERRIDE;
     bool setData(const QVariant &value, int role = Qt::EditRole) QEXT_OVERRIDE;

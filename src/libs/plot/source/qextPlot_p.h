@@ -140,11 +140,13 @@ private:
 class QExtPlotPrivate
 {
     qint64 mId;
+    QString mName;
+    QString mGroupName;
     QExtPlot * const q_ptr;
     QEXT_DECL_PUBLIC(QExtPlot)
     QEXT_DISABLE_COPY_MOVE(QExtPlotPrivate)
 public:
-    QExtPlotPrivate(QExtPlot *q);
+    explicit QExtPlotPrivate(QExtPlot *q);
     virtual ~QExtPlotPrivate();
 
     double mXMin;

@@ -27,11 +27,25 @@ public:
 
     QExtPlotGroup::SharedPtr plotGroup(const QString &name = "") const;
 
+    bool isPlotSerializationConstructEnabled(const QExtPlot::SharedPtr &plot);
+    void setPlotSerializationConstructEnable(const QExtPlot::SharedPtr &plot, bool enable);
+
     void unregisterPlot(const QExtPlot::SharedPtr &plot);
-    QExtPlot::SharedPtr createRegisterPlot(const QString &type, const QString &groupName = "");
-    QExtPlotGroup::SharedPtr registerPlot(QExtPlot::SharedPtr &plot, const QString &groupName = "");
+    QExtPlot::SharedPtr createRegisterPlot(const QString &type, qint64 id = 0, const QString &groupName = "");
+    QExtPlot::SharedPtr createRegisterPlot(const QString &type, const QString &name, const QString &groupName = "");
+    QExtPlotGroup::SharedPtr registerPlot(QExtPlot::SharedPtr &plot, qint64 id = 0, const QString &groupName = "")
+    {
+        return this->registerPlot(plot, id, "", groupName);
+    }
+    QExtPlotGroup::SharedPtr registerPlot(QExtPlot::SharedPtr &plot, const QString &name, const QString &groupName = "")
+    {
+        return this->registerPlot(plot, 0, name, groupName);
+    }
+    QExtPlotGroup::SharedPtr registerPlot(QExtPlot::SharedPtr &plot, qint64 id, const QString &name, const QString &groupName);
 
     QExtPlotModel *makePlotModel(QObject *parent = QEXT_NULLPTR);
+
+    SerializedItems plotSerializedItems(const QString &tag) const;
 
     void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
     SerializedItems serializeSave() const QEXT_OVERRIDE;

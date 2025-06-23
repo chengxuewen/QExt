@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "widgetform.h"
 
@@ -39,7 +39,7 @@ struct MainWindowPrivate
     Ui::MainWindow *ui;
 
     CMainWindow *q_ptr;
-    QExtStyleThemes *m_styleThemes;
+    QExtStyleThemes *mStyleThemes;
     QVector<QPushButton *> m_themeColorButtons;
 
     WidgetForm *m_widgetForm;
@@ -57,7 +57,7 @@ void MainWindowPrivate::createThemeColorDockWidget()
     q_ptr->addDockWidget(Qt::LeftDockWidgetArea, dock);
     dock->setFloating(true);
 
-    const QMap<QString, QString> &themeColors = m_styleThemes->themeColorVariables();
+    const QMap<QString, QString> &themeColors = mStyleThemes->themeColorVariables();
     for (QMap<QString, QString>::ConstIterator iter = themeColors.constBegin(); iter != themeColors.constEnd(); ++iter)
     {
         QPushButton *button = new QPushButton(iter.key());
@@ -73,7 +73,7 @@ void MainWindowPrivate::updateThemeColorButtons()
 {
     for (QVector<QPushButton *>::Iterator iter = m_themeColorButtons.begin(); iter != m_themeColorButtons.end(); ++iter)
     {
-        QColor color = m_styleThemes->themeColor((*iter)->text());
+        QColor color = mStyleThemes->themeColor((*iter)->text());
         QString textColor = (color.value() < 128) ? "#ffffff" : "#000000";
         QString buttonStylesheet = QString("background-color: %1; color: %2;"
                                            "border: none;").arg(color.name()).arg(textColor);
@@ -88,9 +88,9 @@ void MainWindowPrivate::fillThemeMenu()
     // Add actions for theme selection
     QMenu *menu = ui->menuThemes;
 #if USE_STYLE_THEME_LIST
-    QStringList themes = m_styleThemes->styleThemes(true);
+    QStringList themes = mStyleThemes->styleThemes(true);
 #else
-    QStringList themes = m_styleThemes->themes();
+    QStringList themes = mStyleThemes->themes();
 #endif
     for (QStringList::ConstIterator iter = themes.constBegin(); iter != themes.constEnd(); ++iter)
     {
@@ -99,15 +99,15 @@ void MainWindowPrivate::fillThemeMenu()
         menu->addAction(action);
     }
 #if USE_STYLE_THEME_LIST
-    m_styleThemes->setCurrentStyleTheme(themes.first());
-    m_styleThemes->updateStylesheet();
+    mStyleThemes->setCurrentStyleTheme(themes.first());
+    mStyleThemes->updateStylesheet();
 #endif
     qDebug() << "themes=" << themes;
 }
 
 void MainWindowPrivate::setSomeIcons()
 {
-    ui->actionToolbar->setIcon(m_styleThemes->styleIcon());
+    ui->actionToolbar->setIcon(mStyleThemes->styleIcon());
     QIcon Icon(":/full_features/images/logo_frame.svg");
     for (int i = 0; i < ui->listWidget_2->count(); ++i)
     {
@@ -117,10 +117,10 @@ void MainWindowPrivate::setSomeIcons()
 
 void MainWindowPrivate::loadThemeAwareToolbarActionIcons()
 {
-    ui->actionSelected->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/edit.svg"));
-    ui->actionaction->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/folder_open.svg"));
-    ui->actionaction2->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/save.svg"));
-    ui->actionaction3->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/help_outline.svg"));
+    ui->actionSelected->setIcon(mStyleThemes->loadThemeAwareSvgIcon(":/full_features/images/edit.svg"));
+    ui->actionaction->setIcon(mStyleThemes->loadThemeAwareSvgIcon(":/full_features/images/folder_open.svg"));
+    ui->actionaction2->setIcon(mStyleThemes->loadThemeAwareSvgIcon(":/full_features/images/save.svg"));
+    ui->actionaction3->setIcon(mStyleThemes->loadThemeAwareSvgIcon(":/full_features/images/help_outline.svg"));
 }
 
 void MainWindowPrivate::initPaletteColorTableWidget(const QPalette &palette)
@@ -180,18 +180,18 @@ CMainWindow::CMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     d->ui = ui;
-    d->m_styleThemes = new QExtStyleThemes(this);
-    d->m_styleThemes->setStylesDirPath();
-    d->m_styleThemes->setOutputDirPath(qApp->applicationDirPath() + "/output");
+    d->mStyleThemes = new QExtStyleThemes(this);
+    d->mStyleThemes->setStylesDirPath();
+    d->mStyleThemes->setOutputDirPath(qApp->applicationDirPath() + "/output");
 #if !USE_STYLE_THEME_LIST
-    d->m_styleThemes->setCurrentStyle("material");
+    d->mStyleThemes->setCurrentStyle("material");
     //    QApplication::setStyle(QStyleFactory::create("Fusion"));
-    d->m_styleThemes->setDefaultTheme();
-    d->m_styleThemes->updateStylesheet();
-    this->setWindowIcon(d->m_styleThemes->styleIcon());
-    qApp->setStyleSheet(d->m_styleThemes->styleSheet());
+    d->mStyleThemes->setDefaultTheme();
+    d->mStyleThemes->updateStylesheet();
+    this->setWindowIcon(d->mStyleThemes->styleIcon());
+    qApp->setStyleSheet(d->mStyleThemes->styleSheet());
 #endif
-    connect(d->m_styleThemes, SIGNAL(stylesheetChanged()), this, SLOT(onStyleManagerStylesheetChanged()));
+    connect(d->mStyleThemes, SIGNAL(styleSheetChanged(QString)), this, SLOT(onStyleManagerStylesheetChanged()));
 
     d->createThemeColorDockWidget();
     d->fillThemeMenu();
@@ -222,16 +222,16 @@ void CMainWindow::onThemeActionTriggered()
 {
     QAction *action = qobject_cast<QAction *>(sender());
 #if USE_STYLE_THEME_LIST
-    d->m_styleThemes->setCurrentStyleTheme(action->text());
+    d->mStyleThemes->setCurrentStyleTheme(action->text());
 #else
-    d->m_styleThemes->setCurrentTheme(action->text());
+    d->mStyleThemes->setCurrentTheme(action->text());
 #endif
-    d->m_styleThemes->updateStylesheet();
+    d->mStyleThemes->updateStylesheet();
 }
 
 void CMainWindow::onStyleManagerStylesheetChanged()
 {
-    qApp->setStyleSheet(d->m_styleThemes->styleSheet());
+    qApp->setStyleSheet(d->mStyleThemes->styleSheet());
     d->updateThemeColorButtons();
 }
 
@@ -239,15 +239,15 @@ void CMainWindow::onThemeColorButtonClicked()
 {
     QColorDialog colorDialog;
     QPushButton *button = qobject_cast<QPushButton *>(sender());
-    QColor color = d->m_styleThemes->themeColor(button->text());
+    QColor color = d->mStyleThemes->themeColor(button->text());
     colorDialog.setCurrentColor(color);
     if (colorDialog.exec() != QDialog::Accepted)
     {
         return;
     }
     color = colorDialog.currentColor();
-    d->m_styleThemes->setThemeVariableValue(button->text(), color.name());
-    d->m_styleThemes->updateStylesheet();
+    d->mStyleThemes->setThemeVariableValue(button->text(), color.name());
+    d->mStyleThemes->updateStylesheet();
 }
 
 void CMainWindow::onWidgetButtonClicked()
