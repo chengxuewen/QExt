@@ -400,7 +400,11 @@ qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ${QEXTT_DEFA
 
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_AUTH "Enable this to build the auth lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_LOGGING "Enable this to build the logging lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
