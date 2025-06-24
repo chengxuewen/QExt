@@ -93,7 +93,7 @@ QThread *QExtDATcpSocketIODevice::initDevice(qint64 id)
     d->mTcpSocket = static_cast<QTcpSocket *>(d->mIO.data());
     this->updateIOState(QExtDAIODeviceUtils::socketStateString(QAbstractSocket::UnconnectedState));
     connect(d->mTcpSocket.data(), &QTcpSocket::stateChanged, this, &QExtDATcpSocketIODevice::onTcpSocketStateChanged);
-    connect(d->mTcpSocket.data(), &QTcpSocket::errorOccurred, this, &QExtDATcpSocketIODevice::onTcpSocketErrorOccurred);
+    connect(d->mTcpSocket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onTcpSocketErrorOccurred(QAbstractSocket::SocketError)));
     return QExtDAIODevice::initDevice(id);
 }
 

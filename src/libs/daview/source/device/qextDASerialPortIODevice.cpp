@@ -289,8 +289,8 @@ bool QExtDASerialPortIODevice::ioOpen()
 {
     Q_D(QExtDASerialPortIODevice);
     this->updateOpenState(d->mSerialPort->open(QIODevice::ReadWrite));
-    this->updateIOState(d->mIsOpened.loadRelaxed() ? tr("Opened") : tr("Closed"));
-    return d->mIsOpened.loadRelaxed();
+    this->updateIOState(d->mIsOpened.loadAcquire() ? tr("Opened") : tr("Closed"));
+    return d->mIsOpened.loadAcquire();
 }
 
 void QExtDASerialPortIODevice::ioClose()

@@ -7,12 +7,14 @@
 #include <QDebug>
 #include <QDataStream>
 
+#include <cmath>
+
 class QEXT_CORE_API QExtRange
 {
 public:
     QEXT_CONSTEXPR QExtRange() : mStart(QEXT_INT_MAX), mEnd(QEXT_INT_MIN) {}
     QEXT_CONSTEXPR QExtRange(int start, int end) : mStart(start), mEnd(end) {}
-    QEXT_CONSTEXPR QExtRange(const QExtRange &other) : mStart(other.start()), mEnd(other.end()) {}
+    QExtRange(const QExtRange &other) : mStart(other.start()), mEnd(other.end()) {}
     virtual ~QExtRange() {}
 
     QExtRange &operator=(const QExtRange &other)
@@ -97,7 +99,7 @@ class QEXT_CORE_API QExtRangeF
 public:
     QEXT_CONSTEXPR QExtRangeF() : mStart(QEXT_DOUBLE_NAN), mEnd(QEXT_DOUBLE_NAN) {}
     QEXT_CONSTEXPR QExtRangeF(double start, double end) : mStart(start), mEnd(end) {}
-    QEXT_CONSTEXPR QExtRangeF(const QExtRangeF &other) : mStart(other.start()), mEnd(other.end()) {}
+    QExtRangeF(const QExtRangeF &other) : mStart(other.start()), mEnd(other.end()) {}
     virtual ~QExtRangeF() {}
 
     QExtRangeF &operator=(const QExtRangeF &other)

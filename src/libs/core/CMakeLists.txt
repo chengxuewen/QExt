@@ -101,7 +101,7 @@ qext_add_library(Core
     source/tools/qextSingleton.h
     source/tools/qextSpinlock.h
     source/tools/qextTSValue.h
-    source/tools/qextOnceFlag.CPP
+    source/tools/qextOnceFlag.cpp
     source/tools/qextOnceFlag.h
     source/tools/qextOptional.h
     source/tools/qextTypeInfo.h

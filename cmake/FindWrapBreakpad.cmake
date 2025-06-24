@@ -38,8 +38,12 @@ elseif(EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/breakpad-${QEXT_PLATFORM_NAME}.7z"
     set(QExtWrapBreakpad_PKG_SOURCE FALSE)
     set(QExtWrapBreakpad_DIR_NAME "breakpad-${QEXT_PLATFORM_NAME}")
     set(QExtWrapBreakpad_PKG_NAME "breakpad-${QEXT_PLATFORM_NAME}.7z")
+elseif(UNIX)
+    set(QExtWrapBreakpad_PKG_SOURCE TRUE)
+    set(QExtWrapBreakpad_USE_SOURCE "OFF" CACHE INTERNAL "" FORCE)
 else()
     set(QExtWrapBreakpad_PKG_SOURCE TRUE)
+    set(QExtWrapBreakpad_USE_SOURCE "ON" CACHE INTERNAL "" FORCE)
 endif()
 if(QExtWrapBreakpad_PKG_SOURCE)
     set(QExtWrapBreakpad_DIR_NAME "breakpad-v2024.02.16")
@@ -50,8 +54,7 @@ set(QExtWrapBreakpad_PKG_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapBreakpad
 set(QExtWrapBreakpad_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapBreakpad_DIR_NAME}")
 set(QExtWrapBreakpad_SOURCE_DIR "${QExtWrapBreakpad_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
 set(QExtWrapBreakpad_BUILD_DIR "${QExtWrapBreakpad_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
-set(QExtWrapBreakpad_INSTALL_DIR "${QExtWrapBreakpad_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
-set(QExtWrapBreakpad_USE_SOURCE "${QExtWrapBreakpad_PKG_SOURCE}" CACHE INTERNAL "" FORCE)
+set(QExtWrapBreakpad_INSTALL_DIR "${QExtWrapBreakpad_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
 qext_stamp_file_info(QExtWrapBreakpad OUTPUT_DIR "${QExtWrapBreakpad_ROOT_DIR}")
 qext_fetch_3rdparty(QExtWrapBreakpad URL "${QExtWrapBreakpad_PKG_PATH}")
 if(NOT EXISTS ${QExtWrapBreakpad_STAMP_FILE_PATH})
@@ -63,7 +66,55 @@ endif()
 # wrap lib
 if(QExtWrapBreakpad_PKG_SOURCE)
     add_library(QExt3rdparty::WrapBreakpad INTERFACE IMPORTED)
-    target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE ${QExtWrapBreakpad_SOURCE_DIR})
+    if(WIN32)
+        target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE ${QExtWrapBreakpad_SOURCE_DIR})
+    else()
+        if(NOT EXISTS ${QExtWrapBreakpad_SOURCE_DIR})
+            message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} FetchContent failed.")
+        endif()
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapBreakpad_BUILD_DIR}
+            WORKING_DIRECTORY "${QExtWrapBreakpad_ROOT_DIR}"
+            RESULT_VARIABLE MKDIR_RESULT)
+        if(NOT (MKDIR_RESULT MATCHES 0))
+            message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} lib build directory make failed.")
+        endif()
+        execute_process(
+            COMMAND ./configure --prefix=${QExtWrapBreakpad_INSTALL_DIR}
+            WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
+            RESULT_VARIABLE CONFIGURE_RESULT)
+        if(CONFIGURE_RESULT MATCHES 0)
+            message(STATUS "${QExtWrapBreakpad_DIR_NAME} configure success")
+            execute_process(
+                COMMAND make -j${QEXT_NUMBER_OF_ASYNC_JOBS}
+                WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
+                RESULT_VARIABLE BUILD_RESULT)
+            if(BUILD_RESULT MATCHES 0)
+                message(STATUS "${QExtWrapBreakpad_DIR_NAME} build success")
+                execute_process(
+                    COMMAND make install
+                    WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
+                    RESULT_VARIABLE INSTALL_RESULT)
+                if(BUILD_RESULT MATCHES 0)
+                    message(STATUS "${QExtWrapBreakpad_DIR_NAME} install success")
+                else()
+                    message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} install failed.")
+                endif()
+            else()
+                message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} build failed.")
+            endif()
+        else()
+            message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} configure failed.")
+        endif()
+        find_package(PkgConfig REQUIRED)
+        set(_cache_CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH})
+        set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${QExtWrapBreakpad_INSTALL_DIR})
+        pkg_search_module(WrapBreakpad breakpad REQUIRED IMPORTED_TARGET)
+        pkg_search_module(WrapBreakpadClient breakpad-client REQUIRED IMPORTED_TARGET)
+        set(CMAKE_PREFIX_PATH ${_cache_CMAKE_PREFIX_PATH})
+        target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE
+            PkgConfig::WrapBreakpad PkgConfig::WrapBreakpadClient pthread)
+    endif()
 else()
     add_library(QExt3rdparty::WrapBreakpad STATIC IMPORTED)
     if(WIN32)

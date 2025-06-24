@@ -1,11 +1,12 @@
 ﻿#ifndef _QEXTSERIALIZABLE_H
 #define _QEXTSERIALIZABLE_H
 
+#include <QMap>
 #include <QHash>
 #include <QString>
 #include <QVariant>
 #include <QSharedData>
-// #include <QMutableHash>
+#include <QMutableHashIterator>
 
 #include <qextGlobal.h>
 
@@ -16,25 +17,25 @@ struct QExtSerializable
 
     virtual ~QExtSerializable()
     {
-        // QMultiHash<DestroyedNotifyFunction, QVariant>::ConstIterator iter(mDestroyedNotifyFunctionMap);
-        // while (mDestroyedNotifyFunctionMap.constEnd() != iter)
-        // {
-        //     DestroyedNotifyFunction func = iter.key();
-        //     if (func)
-        //     {
-        //         func(this, iter.value());
-        //     }
-        //     iter++;
-        // }
+        QMutableHashIterator<qulonglong, QVariant> iter(mDestroyedNotifyFunctionMap);
+        while (iter.hasNext())
+        {
+            iter.next();
+            DestroyedNotifyFunction func = reinterpret_cast<DestroyedNotifyFunction>(iter.key());
+            if (func)
+            {
+                func(this, iter.value());
+            }
+        }
     }
 
     void removeDestroyedNotifyFunction(DestroyedNotifyFunction func)
     {
-        mDestroyedNotifyFunctionMap.remove(func);
+        mDestroyedNotifyFunctionMap.remove(reinterpret_cast<qulonglong>(func));
     }
     void appendDestroyedNotifyFunction(DestroyedNotifyFunction func, const QVariant &usrdata = QVariant())
     {
-        mDestroyedNotifyFunctionMap.insert(func, usrdata);
+        mDestroyedNotifyFunctionMap.insert(reinterpret_cast<qulonglong>(func), usrdata);
     }
 
     virtual void serializeLoad(const SerializedItems &items) { Q_UNUSED(items); }
@@ -55,7 +56,7 @@ protected:
 
 private:
     bool mModified;
-    QMultiHash<DestroyedNotifyFunction, QVariant> mDestroyedNotifyFunctionMap;
+    QMultiHash<qulonglong, QVariant> mDestroyedNotifyFunctionMap;
 };
 
 

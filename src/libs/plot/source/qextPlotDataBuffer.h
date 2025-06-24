@@ -13,7 +13,7 @@ public:
     {
         for (auto &&sink : mFollowerList)
         {
-            sink->mConnected.storeRelaxed(false);
+            sink->mConnected.storeRelease(false);
         }
         mFollowerList.clear();
     }
@@ -42,7 +42,7 @@ public:
     void disconnectFollower(QExtPlotBufferSink *sink)
     {
         mFollowerList.removeOne(sink);
-        sink->mConnected.storeRelaxed(false);
+        sink->mConnected.storeRelease(false);
     }
 
 protected:

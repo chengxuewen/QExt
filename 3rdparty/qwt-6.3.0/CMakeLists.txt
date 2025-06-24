@@ -440,31 +440,31 @@ if(UNIX)
     set(QWT_INSTALL_DLLDIR lib)
 else()
     set(QWT_INSTALL_DLLDIR bin)
-endif()
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}")
-foreach(library ${QWT_QT_DEP_LIBRARIES})
-    if (TARGET ${library})
-        string(FIND "${library}" "Qt" prefix_pos)
-        if (prefix_pos EQUAL 0)
-            string(LENGTH "${library}" len)
-            string(LENGTH "Private" private_len)
-            string(FIND "${library}" "Private" suffix_pos)
-            math(EXPR suffix_start "${len} - ${private_len}")
-            if(NOT suffix_pos EQUAL suffix_start)
-                if(UNIX)
-                    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_SONAME_FILE:${library}>*"
-                        "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}/")
-                else()
-                    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${library}>"
-                        "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}/")
+    add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}")
+    foreach(library ${QWT_QT_DEP_LIBRARIES})
+        if (TARGET ${library})
+            string(FIND "${library}" "Qt" prefix_pos)
+            if (prefix_pos EQUAL 0)
+                string(LENGTH "${library}" len)
+                string(LENGTH "Private" private_len)
+                string(FIND "${library}" "Private" suffix_pos)
+                math(EXPR suffix_start "${len} - ${private_len}")
+                if(NOT suffix_pos EQUAL suffix_start)
+                    if(UNIX)
+                        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_SONAME_FILE:${library}>*"
+                            "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}/")
+                    else()
+                        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${library}>"
+                            "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}/")
+                    endif()
                 endif()
             endif()
         endif()
-    endif()
-endforeach()
+    endforeach()
+endif()
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
     INSTALL_RPATH "\$ORIGIN"
@@ -472,8 +472,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 if(QWT_BUILD_INSTALL)
     include(GNUInstallDirs)
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}
-        DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+    if(EXISTS "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}")
+        install(DIRECTORY ${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}
+            DESTINATION ${CMAKE_INSTALL_PREFIX})
+    endif()
 
     install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}-target

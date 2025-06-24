@@ -111,7 +111,7 @@ QThread *QExtDAUdpSocketIODevice::initDevice(qint64 id)
     d->mUdpSocket = static_cast<QUdpSocket *>(d->mIO.data());
     this->updateIOState(QExtDAIODeviceUtils::socketStateString(QAbstractSocket::UnconnectedState));
     connect(d->mUdpSocket.data(), &QUdpSocket::stateChanged, this, &QExtDAUdpSocketIODevice::onUdpSocketStateChanged);
-    connect(d->mUdpSocket.data(), &QUdpSocket::errorOccurred, this, &QExtDAUdpSocketIODevice::onUdpSocketErrorOccurred);
+    connect(d->mUdpSocket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onUdpSocketErrorOccurred(QAbstractSocket::SocketError)));
     return QExtDAIODevice::initDevice(id);
 }
 

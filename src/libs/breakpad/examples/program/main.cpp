@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationName("OrgName");
     QCoreApplication::setOrganizationDomain("name.org");
 
-    qextBreakpadHandler->setDumpPath("crashes");
+    qextBreakpadHandler->setDumpPath(QApplication::applicationDirPath() + "/crashes");
 
     qsrand(QDateTime::currentDateTime().toTime_t());
     TestThread t1(false, qrand());

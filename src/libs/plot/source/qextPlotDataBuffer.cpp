@@ -1,6 +1,7 @@
 ﻿#include <qextPlotDataBuffer.h>
 
 #include <memory>
+#include <cstring>
 
 class QExtPlotRingBufferPrivate
 {
