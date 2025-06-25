@@ -29,6 +29,9 @@ public:
     int reporterAutoCloseTime() const;
     void setReporterAutoCloseTime(int time);
 
+    QString applicationName() const;
+    void setApplicationName(const QString &name);
+
     QString reporterStyleTheme() const;
     void setReporterStyleTheme(const QString &name);
 

@@ -30,6 +30,7 @@ public:
     google_breakpad::ExceptionHandler* mExceptionHandler;
     QString mReporterStyleTheme;
     int mReporterAutoCloseTime;
+    QString mApplicationName;
     bool mReporterEnable;
     QString mDumpPath;
     QUrl mUploadUrl;
@@ -123,10 +124,12 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
         QProcess process;
         process.setProgram(reporterPath);
         QStringList arguments;
-        arguments.append(QString("--title=%1").arg(QCoreApplication::applicationName() + " crash reporter"));
-        arguments.append(QString("--app=%1").arg(QCoreApplication::applicationName()));
+        const QString applicationName = data->mApplicationName.isEmpty() ? QCoreApplication::applicationName()
+                                                                         : data->mApplicationName;
+        arguments.append(QString("--title=%1").arg(applicationName + " crash reporter"));
         arguments.append(QString("--styletheme=%1").arg(data->mReporterStyleTheme));
         arguments.append(QString("--time=%1").arg(data->mReporterAutoCloseTime));
+        arguments.append(QString("--app=%1").arg(applicationName));
         arguments.append(QString("--path=%1").arg(path));
         process.setArguments(arguments);
         process.startDetached();
@@ -198,6 +201,18 @@ void QExtBreakpadHandler::setReporterAutoCloseTime(int time)
 {
     Q_D(QExtBreakpadHandler);
     d->mReporterAutoCloseTime = time;
+}
+
+QString QExtBreakpadHandler::applicationName() const
+{
+    Q_D(const QExtBreakpadHandler);
+    return d->mApplicationName;
+}
+
+void QExtBreakpadHandler::setApplicationName(const QString &name)
+{
+    Q_D(QExtBreakpadHandler);
+    d->mApplicationName = name;
 }
 
 QString QExtBreakpadHandler::reporterStyleTheme() const
