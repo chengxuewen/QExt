@@ -360,6 +360,7 @@ include(QExtSeparateDebugInfo)
 include(QExtConfigureHelpers)
 include(QExtFrameworkHelpers)
 include(QExtPkgConfigHelpers)
+include(QExtDeployQtHelpers)
 include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
 include(QExtQtToolsHelpers)
@@ -462,6 +463,7 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qw
 # Install locations:
 qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
 qext_configure_process_path(QEXT_INSTALL_BINDIR "bin" "Executables [PREFIX/bin]")
+qext_configure_process_path(QEXT_INSTALL_TOOLDIR "tool" "Executables [PREFIX/tool]")
 qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
 qext_configure_process_path(QEXT_INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
 qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR
