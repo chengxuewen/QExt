@@ -25,8 +25,9 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
 #-----------------------------------------------------------------------------------------------------------------------
-set(QEXT_TEST_LINK_LIBRARIES)
+set(EXECUTABLE_OUTPUT_PATH "${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}")
 
+set(QEXT_TEST_LINK_LIBRARIES)
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtTest)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
@@ -43,3 +44,45 @@ list(APPEND QEXT_TEST_LINK_LIBRARIES QExt::Logging)
 #-----------------------------------------------------------------------------------------------------------------------
 # add tests
 #-----------------------------------------------------------------------------------------------------------------------
+qext_internal_add_test(QExtTstLoggingBinaryLogger
+    SOURCES
+    binarylogger/atscopeexit.h
+    binarylogger/binaryloggertest.cpp
+    binarylogger/elementsinarray.h
+    binarylogger/logging.cpp
+    binarylogger/logging.h
+    binarylogger/testappender.cpp
+    binarylogger/testappender.h
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/binarylogger
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(QExtTstLoggingDailyFileAppender
+    SOURCES
+    tst_DailyFileAppender.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(QExtTstLoggingFileWatcher
+    SOURCES
+    tst_FileWatcher.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(QExtTstLogging
+    SOURCES
+    tst_Logging.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH})

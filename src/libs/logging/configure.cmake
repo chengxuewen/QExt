@@ -20,3 +20,10 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+
+qext_configure_feature("USE_LOGGING_DATABASE" PUBLIC
+    LABEL "Enable this to build use database logging support."
+    CONDITION ON)
+qext_configure_feature("USE_LOGGING_TELNET" PUBLIC
+    LABEL "Enable this to build use telnet logging support."
+    CONDITION ON)

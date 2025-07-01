@@ -1,4 +1,4 @@
-﻿########################################################################################################################
+########################################################################################################################
 #
 # Library: QExt
 #
@@ -25,15 +25,17 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Set example link libraries
 #-----------------------------------------------------------------------------------------------------------------------
-set(QEXT_EXAMPLE_LINK_LIBRARIES)
+set(EXECUTABLE_OUTPUT_PATH "${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}")
 
+set(QEXT_EXAMPLE_LINK_LIBRARIES)
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
-            Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+    )
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -44,3 +46,42 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Logging)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
+qext_add_executable(QExtExpLoggingBasic
+    SOURCES
+    basic/loggerobject.cpp
+    basic/loggerobject.h
+    basic/loggerobjectprio.cpp
+    basic/loggerobjectprio.h
+    basic/loggerstatic.cpp
+    basic/loggerstatic.h
+    basic/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/basic
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+set(PROPERTIES_FILE_NAME propertyconfigurator.properties)
+qext_add_executable(QExtExpLoggingConfigurator
+    SOURCES
+    propertyconfigurator/loggerobject.cpp
+    propertyconfigurator/loggerobject.h
+    propertyconfigurator/loggerobjectprio.cpp
+    propertyconfigurator/loggerobjectprio.h
+    propertyconfigurator/loggerstatic.cpp
+    propertyconfigurator/loggerstatic.h
+    propertyconfigurator/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertyconfigurator
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH}
+    DEFINES
+    PROPERTIES_FILE_NAME="${PROPERTIES_FILE_NAME}")
+add_custom_command(TARGET QExtExpLoggingConfigurator POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/propertyconfigurator/${PROPERTIES_FILE_NAME}"
+    "${EXECUTABLE_OUTPUT_PATH}/")
