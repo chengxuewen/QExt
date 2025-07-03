@@ -1,56 +1,56 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QTDISPATCHER_H
-#define LOG4QTDISPATCHER_H
+#ifndef _QEXTLOGDISPATCHER_H
+#define _QEXTLOGDISPATCHER_H
 
 #include <QObject>
 
-namespace Log4Qt
-{
-
-class AsyncAppender;
+class QExtLogAsyncAppender;
 
 /*!
- * \brief The class Dispatcher does the actual logging to the attached appanders.
+ * \brief The class QExtLogDispatcher does the actual logging to the attached appanders.
  *
- * The Dispatcher is the worker object which class the attached apperders in the
+ * The QExtLogDispatcher is the worker object which class the attached apperders in the
  * the context of the DispatcherThread.
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class Dispatcher : public QObject
+class QExtLogDispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit Dispatcher(QObject *parent = nullptr);
+    explicit QExtLogDispatcher(QObject *parent = nullptr);
 
-    void setAsyncAppender(AsyncAppender *asyncAppender);
+    void setAsyncAppender(QExtLogAsyncAppender *asyncAppender);
 
 protected:
     void customEvent(QEvent *event) override;
 
 private:
-    AsyncAppender *mAsyncAppender;
+    QExtLogAsyncAppender *mAsyncAppender;
 };
 
-} // namespace Log4Qt
-
-#endif // DISPATCHER_H
+#endif // _QEXTLOGDISPATCHER_H

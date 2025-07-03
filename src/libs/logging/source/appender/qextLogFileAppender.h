@@ -1,43 +1,45 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_FILEAPPENDER_H
-#define LOG4QT_FILEAPPENDER_H
+#ifndef _QEXTLOGFILEAPPENDER_H
+#define _QEXTLOGFILEAPPENDER_H
 
-#include "writerappender.h"
+#include <qextLogWriterAppender.h>
 
 class QFile;
 class QTextStream;
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class FileAppender appends log events to a file.
+ * \brief The class QExtLogFileAppender appends log events to a file.
  *
  * \note All the functions declared in this class are thread-safe.
  *
  * \note The ownership and lifetime of objects of this class are managed. See
  *       \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API FileAppender : public WriterAppender
+class QEXT_LOGGING_API QExtLogFileAppender : public QExtLogWriterAppender
 {
     Q_OBJECT
 
@@ -67,23 +69,23 @@ class QEXT_LOGGING_API FileAppender : public WriterAppender
     Q_PROPERTY(QString file READ file WRITE setFile)
 
 public:
-    explicit FileAppender(QObject *parent = nullptr);
-    FileAppender(const LayoutSharedPtr &layout,
+    explicit QExtLogFileAppender(QObject *parent = nullptr);
+    QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                  const QString &fileName,
                  QObject *parent = nullptr);
-    FileAppender(const LayoutSharedPtr &layout,
+    QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                  const QString &fileName,
                  bool append,
                  QObject *parent = nullptr);
-    FileAppender(const LayoutSharedPtr &layout,
+    QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                  const QString &fileName,
                  bool append,
                  bool buffered,
                  QObject *parent = nullptr);
-    ~FileAppender() override;
+    ~QExtLogFileAppender() override;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(FileAppender)
+    QEXT_DISABLE_COPY_MOVE(QExtLogFileAppender)
 
 public:
     bool appendFile() const;
@@ -101,16 +103,16 @@ protected:
      * Tests if all entry conditions for using append() in this class are met.
      *
      * If a conditions is not met, an error is logged and the function returns
-     * false. Otherwise the result of WriterAppender::checkEntryConditions()
+     * false. Otherwise the result of QExtLogWriterAppender::checkEntryConditions()
      * is returned.
      *
      * The checked conditions are:
      * - That a file is set and open (QExtLogError::Error_AppenderNoOpenFile)
      *
      * The function is called as part of the checkEntryConditions() chain
-     * started by AppenderSkeleton::doAppend().
+     * started by QExtLogAppenderSkeleton::doAppend().
      *
-     * \sa AppenderSkeleton::doAppend(), AppenderSkeleton::checkEntryConditions()
+     * \sa QExtLogAppenderSkeleton::doAppend(), QExtLogAppenderSkeleton::checkEntryConditions()
      */
     bool checkEntryConditions() const override;
 
@@ -125,7 +127,7 @@ protected:
     /*!
      * Opens the file for the appender based on the specified file name and
      * mode. A text stream is created and passed on to the super class
-     * WriterAppender.
+     * QExtLogWriterAppender.
      *
      * If the parent directory of the specified file does not exists,
      * it is created.
@@ -156,39 +158,36 @@ private:
     void closeInternal();
 };
 
-inline bool FileAppender::appendFile() const
+inline bool QExtLogFileAppender::appendFile() const
 {
     return mAppendFile;
 }
 
-inline QString FileAppender::file() const
+inline QString QExtLogFileAppender::file() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mFileName;
 }
 
-inline bool FileAppender::bufferedIo() const
+inline bool QExtLogFileAppender::bufferedIo() const
 {
     return mBufferedIo;
 }
 
-inline void FileAppender::setAppendFile(bool append)
+inline void QExtLogFileAppender::setAppendFile(bool append)
 {
     mAppendFile = append;
 }
 
-inline void FileAppender::setBufferedIo(bool buffered)
+inline void QExtLogFileAppender::setBufferedIo(bool buffered)
 {
     mBufferedIo = buffered;
 }
 
-inline void FileAppender::setFile(const QString &fileName)
+inline void QExtLogFileAppender::setFile(const QString &fileName)
 {
     QMutexLocker locker(&mObjectGuard);
     mFileName = fileName;
 }
 
-
-} // namespace Log4Qt
-
-#endif // LOG4QT_FILEAPPENDER_H
+#endif // _QEXTLOGFILEAPPENDER_H

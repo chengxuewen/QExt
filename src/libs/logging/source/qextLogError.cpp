@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogError.h>
 #include <qextLogInitialisationHelper.h>
@@ -28,37 +33,34 @@
 #include <QThreadStorage>
 
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
-// namespace Log4Qt
-// {
+typedef QThreadStorage<QExtLogError *> QExtThreadLogError;
 
-typedef QThreadStorage<QExtLogError *> ThreadError;
+Q_GLOBAL_STATIC(QExtThreadLogError, qextThreadLogError)
 
-Q_GLOBAL_STATIC(ThreadError, thread_error)
-
-QExtLogError::QExtLogError() :
-    mCode(0)
+QExtLogError::QExtLogError()
+    : mCode(0)
 {
 }
 
 QExtLogError::QExtLogError(const QString &message,
-                   int code,
-                   const QString &symbol,
-                   const QString &context) :
-    mCode(code),
-    mContext(context),
-    mMessage(cleanMessage(message)),
-    mSymbol(symbol)
+                           int code,
+                           const QString &symbol,
+                           const QString &context)
+    : mCode(code)
+    , mContext(context)
+    , mMessage(cleanMessage(message))
+    , mSymbol(symbol)
 {
 }
 
 QExtLogError::QExtLogError(const char *message,
-                   int code,
-                   const char *symbol,
-                   const char *context,
-                   EncodingEnum encoding) :
+                           int code,
+                           const char *symbol,
+                           const char *context,
+                           EncodingEnum encoding) :
     mCode(code),
     mContext(QString::fromLatin1(context)),
     mSymbol(QString::fromLatin1(symbol))
@@ -78,7 +80,9 @@ QExtLogError::QExtLogError(const char *message,
     mMessage = cleanMessage(mMessage);
 
     if (mSymbol == QString::number(mCode))
+    {
         mSymbol.clear();
+    }
 }
 
 QString QExtLogError::translatedMessage() const
@@ -88,38 +92,50 @@ QString QExtLogError::translatedMessage() const
 
 QExtLogError QExtLogError::lastError()
 {
-    if (!thread_error()->hasLocalData())
+    if (!qextThreadLogError()->hasLocalData())
+    {
         return QExtLogError();
+    }
 
-    return *thread_error()->localData();
+    return *qextThreadLogError()->localData();
 }
 
 void QExtLogError::setLastError(const QExtLogError &logError)
 {
-    if (!thread_error()->hasLocalData())
-        thread_error()->setLocalData(new QExtLogError);
+    if (!qextThreadLogError()->hasLocalData())
+    {
+        qextThreadLogError()->setLocalData(new QExtLogError);
+    }
 
-    *thread_error()->localData() = logError;
+    *qextThreadLogError()->localData() = logError;
 }
 
 QString QExtLogError::toString() const
 {
     QString result = messageWithArgs();
 
-    QString context_symbol = mContext;
-    if (!context_symbol.isEmpty() && !mSymbol.isEmpty())
-        context_symbol.append(QStringLiteral("::"));
-    context_symbol.append(mSymbol);
+    QString contextSymbol = mContext;
+    if (!contextSymbol.isEmpty() && !mSymbol.isEmpty())
+    {
+        contextSymbol.append(QStringLiteral("::"));
+    }
+    contextSymbol.append(mSymbol);
 
-    if (!context_symbol.isEmpty() || mCode)
+    if (!contextSymbol.isEmpty() || mCode)
     {
         result.append(QStringLiteral(" ("));
-        if (!context_symbol.isEmpty())
-            result.append(context_symbol);
-        if (!context_symbol.isEmpty() && mCode)
+        if (!contextSymbol.isEmpty())
+        {
+            result.append(contextSymbol);
+        }
+        if (!contextSymbol.isEmpty() && mCode)
+        {
             result.append(QStringLiteral(", "));
+        }
         if (mCode)
+        {
             result.append(QString::number(mCode));
+        }
         result.append(QStringLiteral(")"));
     }
 
@@ -140,63 +156,64 @@ QString QExtLogError::toString() const
 
 QString QExtLogError::insertArgs(const QString &message) const
 {
-    QString result;
-
-    result = message;
+    QString result = message;
 #if (__cplusplus >= 201703L)
     for (const auto &arg : std::as_const(mArgs))
 #else
     for (const auto &arg : qAsConst(mArgs))
 #endif
+    {
         result = result.arg(arg.toString());
+    }
     return result;
 }
 
 QString QExtLogError::cleanMessage(const QString &message)
 {
     if (message.isEmpty())
+    {
         return message;
+    }
 
     QString result = message;
     if (message.at(message.size() - 1) == QLatin1Char('.'))
+    {
         result = message.left(message.size() - 1);
+    }
     return result;
 }
 
 #ifndef QT_NO_DATASTREAM
-QDataStream &operator<<(QDataStream &out,
-                        const QExtLogError &logError)
+QDataStream &operator<<(QDataStream &out, const QExtLogError &logError)
 {
     // version
     quint16 version = 0;
     out << version;
     // version 0 data
     out << logError.mCode
-           << logError.mContext
-           << logError.mMessage
-           << logError.mSymbol
-           << logError.mArgs
-           << logError.mCausingErrors;
+        << logError.mContext
+        << logError.mMessage
+        << logError.mSymbol
+        << logError.mArgs
+        << logError.mCausingErrors;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in,
-                        QExtLogError &logError)
+QDataStream &operator>>(QDataStream &in, QExtLogError &logError)
 {
     // version
     quint16 version;
     in >> version;
     // Version 0 data
     in >> logError.mCode
-           >> logError.mContext
-           >> logError.mMessage
-           >> logError.mSymbol
-           >> logError.mArgs
-           >> logError.mCausingErrors;
+        >> logError.mContext
+        >> logError.mMessage
+        >> logError.mSymbol
+        >> logError.mArgs
+        >> logError.mCausingErrors;
 
     return in;
 }
 #endif // QT_NO_DATASTREAM
 
-// } // namespace Log4Qt

@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogRollingBinaryFileAppender.h>
 #include <qextLogDatetime.h>
@@ -25,11 +30,8 @@
 #include <QMetaEnum>
 #include <QFile>
 
-namespace Log4Qt
-{
-
-RollingBinaryFileAppender::RollingBinaryFileAppender(QObject *parent)
-    : BinaryFileAppender(parent)
+QExtLogRollingBinaryFileAppender::QExtLogRollingBinaryFileAppender(QObject *parent)
+    : QExtLogBinaryFileAppender(parent)
     , mMaxBackupIndex(1)
     , mMaximumFileSize(10 * 1024 * 1024)
     , mFrequency(DAILY_ROLLOVER)
@@ -37,7 +39,7 @@ RollingBinaryFileAppender::RollingBinaryFileAppender(QObject *parent)
     setDatePattern(DAILY_ROLLOVER);
 }
 
-void RollingBinaryFileAppender::activateOptions()
+void QExtLogRollingBinaryFileAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -45,10 +47,10 @@ void RollingBinaryFileAppender::activateOptions()
     if (!mActiveDatePattern.isEmpty())
         computeRollOvetime();
 
-    BinaryFileAppender::activateOptions();
+    QExtLogBinaryFileAppender::activateOptions();
 }
 
-void RollingBinaryFileAppender::computeFrequency()
+void QExtLogRollingBinaryFileAppender::computeFrequency()
 {
     const QExtLogDateTime start_time(QDate(1999, 1, 1), QTime(0, 0));
     const QString start_string = start_time.toString(mDatePattern);
@@ -79,28 +81,28 @@ void RollingBinaryFileAppender::computeFrequency()
     logger()->trace(QStringLiteral("Frequency set to %2 using date pattern %1"), mActiveDatePattern, frequencyToString());
 }
 
-void RollingBinaryFileAppender::append(const LoggingEvent &event)
+void QExtLogRollingBinaryFileAppender::append(const QExtLoggingEvent &event)
 {
     if (checkFotimeRollOver())
         rollOvetime();
 
-    BinaryFileAppender::append(event);
+    QExtLogBinaryFileAppender::append(event);
 
     if (checkForSizeRollOver())
         rollOverSize();
 }
 
-bool RollingBinaryFileAppender::checkFotimeRollOver() const
+bool QExtLogRollingBinaryFileAppender::checkFotimeRollOver() const
 {
     return QDateTime::currentDateTime() > mRollOvetime;
 }
 
-bool RollingBinaryFileAppender::checkForSizeRollOver() const
+bool QExtLogRollingBinaryFileAppender::checkForSizeRollOver() const
 {
     return writer()->device()->size() > mMaximumFileSize;
 }
 
-void RollingBinaryFileAppender::rollOverSize()
+void QExtLogRollingBinaryFileAppender::rollOverSize()
 {
     logger()->debug(QStringLiteral("Rolling over with maxBackupIndex = %1"), mMaxBackupIndex);
 
@@ -137,9 +139,9 @@ void RollingBinaryFileAppender::rollOverSize()
     openFile();
 }
 
-void RollingBinaryFileAppender::rollOvetime()
+void QExtLogRollingBinaryFileAppender::rollOvetime()
 {
-    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "DailyRollingFileAppender::rollOver()", "No active date pattern");
+    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "QExtLogDailyRollingFileAppender::rollOver()", "No active date pattern");
 
     QString roll_over_suffix = mRollOverSuffix;
     computeRollOvetime();
@@ -158,7 +160,7 @@ void RollingBinaryFileAppender::rollOvetime()
     openFile();
 }
 
-void RollingBinaryFileAppender::setDatePattern(DatePattern datePattern)
+void QExtLogRollingBinaryFileAppender::setDatePattern(DatePattern datePattern)
 {
     switch (datePattern)
     {
@@ -181,15 +183,15 @@ void RollingBinaryFileAppender::setDatePattern(DatePattern datePattern)
         setDatePattern(QStringLiteral("'.'yyyy-MM"));
         break;
     default:
-        Q_ASSERT_X(false, "BinaryFileAppender::setDatePattern()", "Invalid datePattern constant");
+        Q_ASSERT_X(false, "QExtLogBinaryFileAppender::setDatePattern()", "Invalid datePattern constant");
         setDatePattern(DAILY_ROLLOVER);
         break;
     };
 }
 
-void RollingBinaryFileAppender::computeRollOvetime()
+void QExtLogRollingBinaryFileAppender::computeRollOvetime()
 {
-    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "BinaryFileAppender::computeRollOvetime()", "No active date pattern");
+    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "QExtLogBinaryFileAppender::computeRollOvetime()", "No active date pattern");
 
     QDateTime now = QDateTime::currentDateTime();
     QDate now_date = now.date();
@@ -237,16 +239,16 @@ void RollingBinaryFileAppender::computeRollOvetime()
         mRollOvetime = start.addMonths(1);
         break;
     default:
-        Q_ASSERT_X(false, "BinaryFileAppender::computeInterval()", "Invalid datePattern constant");
+        Q_ASSERT_X(false, "QExtLogBinaryFileAppender::computeInterval()", "Invalid datePattern constant");
         mRollOvetime = QDateTime::fromSecsSinceEpoch(0);
         break;
     }
 
     mRollOverSuffix = static_cast<QExtLogDateTime>(start).toString(mActiveDatePattern);
     Q_ASSERT_X(static_cast<QExtLogDateTime>(now).toString(mActiveDatePattern) == mRollOverSuffix,
-               "BinaryFileAppender::computeRollOvetime()", "File name changes within interval");
+               "QExtLogBinaryFileAppender::computeRollOvetime()", "File name changes within interval");
     Q_ASSERT_X(mRollOverSuffix != static_cast<QExtLogDateTime>(mRollOvetime).toString(mActiveDatePattern),
-               "BinaryFileAppender::computeRollOvetime()", "File name does not change with rollover");
+               "QExtLogBinaryFileAppender::computeRollOvetime()", "File name does not change with rollover");
 
     logger()->trace(QStringLiteral("Computing roll over time from %1: The interval start time is %2. The roll over time is %3"),
                     now.toString(),
@@ -254,12 +256,10 @@ void RollingBinaryFileAppender::computeRollOvetime()
                     mRollOvetime.toString());
 }
 
-QString RollingBinaryFileAppender::frequencyToString() const
+QString QExtLogRollingBinaryFileAppender::frequencyToString() const
 {
     QMetaEnum meta_enum = metaObject()->enumerator(metaObject()->indexOfEnumerator("DatePattern"));
     return QLatin1String(meta_enum.valueToKey(mFrequency));
-}
-
 }
 
 // #include "moc_rollingbinaryfileappender.cpp"

@@ -1,52 +1,53 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogPatternLayout.h>
 #include <qextLogPatternFormatter.h>
 #include <qextLoggingEvent.h>
 
-namespace Log4Qt
-{
-
-
-PatternLayout::PatternLayout(QObject *parent) :
-    Layout(parent)
+QExtLogPatternLayout::QExtLogPatternLayout(QObject *parent) :
+    QExtLogLayout(parent)
 {
     setConversionPattern(DEFAULT_CONVERSION_PATTERN);
 }
 
-PatternLayout::PatternLayout(const QString &pattern,
+QExtLogPatternLayout::QExtLogPatternLayout(const QString &pattern,
                              QObject *parent) :
-    Layout(parent)
+    QExtLogLayout(parent)
 {
     setConversionPattern(pattern);
 }
 
-PatternLayout::PatternLayout(ConversionPattern conversionPattern,
+QExtLogPatternLayout::QExtLogPatternLayout(ConversionPattern conversionPattern,
                              QObject *parent) :
-    Layout(parent)
+    QExtLogLayout(parent)
 {
     setConversionPattern(conversionPattern);
 }
 
-void PatternLayout::setConversionPattern(ConversionPattern conversionPattern)
+void QExtLogPatternLayout::setConversionPattern(ConversionPattern conversionPattern)
 {
     switch (conversionPattern)
     {
@@ -57,24 +58,22 @@ void PatternLayout::setConversionPattern(ConversionPattern conversionPattern)
         setConversionPattern(QStringLiteral("%r [%t] %p %c %x - %m%n"));
         break;
     default:
-        Q_ASSERT_X(false, "PatternLayout::setConversionFormat", "Unknown ConversionFormat");
+        Q_ASSERT_X(false, "QExtLogPatternLayout::setConversionFormat", "Unknown ConversionFormat");
         setConversionPattern(QString());
     }
 }
 
-QString PatternLayout::format(const LoggingEvent &event)
+QString QExtLogPatternLayout::format(const QExtLoggingEvent &event)
 {
-    Q_ASSERT_X(mPatternFormatter, "PatternLayout::format()", "mpPatternConverter must not be null");
+    Q_ASSERT_X(mPatternFormatter, "QExtLogPatternLayout::format()", "mpPatternConverter must not be null");
 
     return mPatternFormatter->format(event);
 }
 
-void PatternLayout::updatePatternFormatter()
+void QExtLogPatternLayout::updatePatternFormatter()
 {
-    mPatternFormatter.reset(new PatternFormatter(mPattern));
+    mPatternFormatter.reset(new QExtLogPatternFormatter(mPattern));
 }
-
-} // namespace Log4Qt
 
 // #include "moc_patternlayout.cpp"
 

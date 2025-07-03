@@ -1,46 +1,48 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_FILTER_H
-#define LOG4QT_FILTER_H
+#ifndef _QEXTLOGFILTER_H
+#define _QEXTLOGFILTER_H
 
 #include <qextLoggingGlobal.h>
 #include <qextObjectSharedPointer.h>
 
 #include <QObject>
 
-namespace Log4Qt
-{
+class QExtLoggingEvent;
+class QExtLogFilter;
 
-class LoggingEvent;
-class Filter;
-
-using FilterSharedPtr = QExtObjectSharedPointer<Filter>;
+using QExtLogFilterSharedPtr = QExtObjectSharedPointer<QExtLogFilter>;
 
 /*!
- * \brief The class Filter is the base class for all filters.
+ * \brief The class QExtLogFilter is the base class for all filters.
  *
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API Filter : public QObject
+class QEXT_LOGGING_API QExtLogFilter : public QObject
 {
     Q_OBJECT
 
@@ -53,7 +55,7 @@ class QEXT_LOGGING_API Filter : public QObject
      *
      * \sa next(), setNext()
      */
-    Q_PROPERTY(FilterSharedPtr next READ next WRITE setNext)
+    Q_PROPERTY(QExtLogFilterSharedPtr next READ next WRITE setNext)
 
 public:
     enum Decision
@@ -68,21 +70,17 @@ public:
     Q_ENUM(Decision)
 
 public:
-    Filter(QObject *parent = nullptr);
-    virtual ~Filter();
+    QExtLogFilter(QObject *parent = nullptr);
+    virtual ~QExtLogFilter();
 
-    FilterSharedPtr next() const;
-    void setNext(const FilterSharedPtr &filter);
+    QExtLogFilterSharedPtr next() const;
+    void setNext(const QExtLogFilterSharedPtr &filter);
 
     virtual void activateOptions();
-    virtual Decision decide(const LoggingEvent &event) const = 0;
+    virtual Decision decide(const QExtLoggingEvent &event) const = 0;
 
 private:
-    FilterSharedPtr mNext;
+    QExtLogFilterSharedPtr mNext;
 };
 
-
-} // namespace Log4Qt
-
-
-#endif // LOG4QT_FILTER_H
+#endif // _QEXTLOGFILTER_H

@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_CLASSLOGGER_H
-#define LOG4QT_CLASSLOGGER_H
+#ifndef _QEXTLOGCLASSLOGGER_H
+#define _QEXTLOGCLASSLOGGER_H
 
 #include <qextLoggingGlobal.h>
 
@@ -27,46 +32,42 @@
 
 class QObject;
 
-namespace Log4Qt
-{
-class Logger;
+class QExtLogger;
 
 /*!
- * \brief The class ClassLogger provides logging for a QObject derived
+ * \brief The class QExtClassLogger provides logging for a QObject derived
  *        class.
  *
- * The class ClassLogger provides a logger for a specified QObject derived
- * object. It is used by \ref LOG4QT_DECLARE_QCLASS_LOGGER to implement the
+ * The class QExtClassLogger provides a logger for a specified QObject derived
+ * object. It is used by \ref QEXT_DECLARE_QCLASS_LOGGER to implement the
  * member functions provided by the macro.
  *
  * \note All the functions declared in this class are thread-safe.
  *
- * \sa LOG4QT_DECLARE_QCLASS_LOGGER
+ * \sa QEXT_DECLARE_QCLASS_LOGGER
  */
-class QEXT_LOGGING_API ClassLogger
+class QEXT_LOGGING_API QExtClassLogger
 {
 public:
     /*!
-     * Creates a ClassLogger object.
+     * Creates a QExtClassLogger object.
      */
-    ClassLogger();
+    QExtClassLogger();
 
     /*!
-     * Returns a pointer to a Logger named after the class of the object
+     * Returns a pointer to a QExtLogger named after the class of the object
      * \a pObject.
      *
-     * On the first invocation the Logger is requested by a call to
-     * LogManager::logger(const char *pName). The pointer is stored to be
+     * On the first invocation the QExtLogger is requested by a call to
+     * QExtLogManager::logger(const char *pName). The pointer is stored to be
      * returned on subsequent invocations.
      *
-     * \sa LogManager::logger(const char *pName)
+     * \sa QExtLogManager::logger(const char *pName)
      */
-    Logger *logger(const QObject *object);
+    QExtLogger *logger(const QObject *object);
 
 private:
-    mutable QAtomicPointer<Logger> mLogger;
+    mutable QAtomicPointer<QExtLogger> mLogger;
 };
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_CLASSLOGGER_H
+#endif // _QEXTLOGCLASSLOGGER_H

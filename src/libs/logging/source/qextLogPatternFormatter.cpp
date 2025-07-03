@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogPatternFormatter.h>
 
@@ -34,19 +39,16 @@
 #include <utility>
 #endif
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class FormattingInfo stores the formatting modifier for a
+ * \brief The class QExtLogFormattingInfo stores the formatting modifier for a
  * pattern converter.
  *
- * \sa PatternConverter
+ * \sa QExtLogPatternConverter
  */
-class FormattingInfo
+class QExtLogFormattingInfo
 {
 public:
-    FormattingInfo()
+    QExtLogFormattingInfo()
     {
         clear();
     }
@@ -61,50 +63,50 @@ public:
 };
 
 /*!
- * \brief The class PatternConverter is the abstract base class for all
+ * \brief The class QExtLogPatternConverter is the abstract base class for all
  * pattern converters.
  *
- * PatternConverter handles the minimum and maximum modifier for a
+ * QExtLogPatternConverter handles the minimum and maximum modifier for a
  * conversion character. The actual conversion is by calling the
  * convert() member function of the derived class.
  *
- * \sa PatternLayout::format()
+ * \sa QExtLogPatternLayout::format()
  */
-class PatternConverter
+class QExtLogPatternConverter
 {
 public:
-    PatternConverter(Log4Qt::FormattingInfo formattingInfo = FormattingInfo()) :
+    QExtLogPatternConverter(QExtLogFormattingInfo formattingInfo = QExtLogFormattingInfo()) :
         mFormattingInfo(formattingInfo)
     {}
-    virtual ~PatternConverter() = default;
+    virtual ~QExtLogPatternConverter() = default;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(PatternConverter)
+    QEXT_DISABLE_COPY_MOVE(QExtLogPatternConverter)
 
 public:
-    void format(QString &format, const LoggingEvent &loggingEvent) const;
+    void format(QString &format, const QExtLoggingEvent &loggingEvent) const;
 
 protected:
-    virtual QString convert(const LoggingEvent &loggingEvent) const = 0;
+    virtual QString convert(const QExtLoggingEvent &loggingEvent) const = 0;
 
 protected:
-    FormattingInfo mFormattingInfo;
+    QExtLogFormattingInfo mFormattingInfo;
 };
 
 
 /*!
  * \brief The class BasicPatternConverter converts several members of a
- *        LoggingEvent to a string.
+ *        QExtLoggingEvent to a string.
  *
- * BasicPatternConverter is used by PatternLayout to convert members that
+ * BasicPatternConverter is used by QExtLogPatternLayout to convert members that
  * do not reuquire additional formatting to a string as part of formatting
- * the LoggingEvent. It handles the following conversion characters:
+ * the QExtLoggingEvent. It handles the following conversion characters:
  * 'm', 'p', 't', 'x'
  *
- * \sa PatternLayout::format()
- * \sa PatternConverter::format()
+ * \sa QExtLogPatternLayout::format()
+ * \sa QExtLogPatternConverter::format()
  */
-class BasicPatternConverter : public PatternConverter
+class BasicPatternConverter : public QExtLogPatternConverter
 {
 public:
     enum Type
@@ -121,9 +123,9 @@ public:
     };
 
 public:
-    BasicPatternConverter(Log4Qt::FormattingInfo formattingInfo,
+    BasicPatternConverter(QExtLogFormattingInfo formattingInfo,
                           Type type) :
-        PatternConverter(formattingInfo),
+        QExtLogPatternConverter(formattingInfo),
         mType(type)
     {}
 
@@ -131,7 +133,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(BasicPatternConverter)
 
 protected:
-    QString convert(const LoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const override;
 
 private:
     Type mType;
@@ -140,21 +142,21 @@ private:
 
 /*!
  * \brief The class DatePatternConverter converts the time stamp of a
- *        LoggingEvent to a string.
+ *        QExtLoggingEvent to a string.
  *
- * DatePatternConverter is used by PatternLayout to convert the time stamp
- * of a LoggingEvent to a string as part of formatting the LoggingEvent.
+ * DatePatternConverter is used by QExtLogPatternLayout to convert the time stamp
+ * of a QExtLoggingEvent to a string as part of formatting the QExtLoggingEvent.
  * It handles the 'd' and 'r' conversion character.
  *
- * \sa PatternLayout::format()
- * \sa PatternConverter::format()
+ * \sa QExtLogPatternLayout::format()
+ * \sa QExtLogPatternConverter::format()
  */
-class DatePatternConverter : public PatternConverter
+class DatePatternConverter : public QExtLogPatternConverter
 {
 public:
-    DatePatternConverter(Log4Qt::FormattingInfo formattingInfo,
+    DatePatternConverter(QExtLogFormattingInfo formattingInfo,
                          const QString &format) :
-        PatternConverter(formattingInfo),
+        QExtLogPatternConverter(formattingInfo),
         mFormat(format)
     {}
 
@@ -162,7 +164,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(DatePatternConverter)
 
 protected:
-    QString convert(const LoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const override;
 
 private:
     QString mFormat;
@@ -172,14 +174,14 @@ private:
 /*!
  * \brief The class LiteralPatternConverter provides string literals.
  *
- * LiteralPatternConverter is used by PatternLayout to embed string
- * literals as part of formatting the LoggingEvent. It handles string
+ * LiteralPatternConverter is used by QExtLogPatternLayout to embed string
+ * literals as part of formatting the QExtLoggingEvent. It handles string
  * literals and the 'n' conversion character.
  *
- * \sa PatternLayout::format()
- * \sa PatternConverter::format()
+ * \sa QExtLogPatternLayout::format()
+ * \sa QExtLogPatternConverter::format()
  */
-class LiteralPatternConverter : public PatternConverter
+class LiteralPatternConverter : public QExtLogPatternConverter
 {
 public:
     LiteralPatternConverter(const QString &literal) :
@@ -190,7 +192,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(LiteralPatternConverter)
 
 protected:
-    QString convert(const LoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const override;
 
 private:
     QString mLiteral;
@@ -198,22 +200,22 @@ private:
 
 
 /*!
- * \brief The class LoggepatternConverter converts the Logger name of a
- *        LoggingEvent to a string.
+ * \brief The class LoggepatternConverter converts the QExtLogger name of a
+ *        QExtLoggingEvent to a string.
  *
- * LoggepatternConverter is used by PatternLayout to convert the Logger
- * name of a LoggingEvent to a string as part of formatting the
- * LoggingEvent. It handles the 'c' conversion character.
+ * LoggepatternConverter is used by QExtLogPatternLayout to convert the QExtLogger
+ * name of a QExtLoggingEvent to a string as part of formatting the
+ * QExtLoggingEvent. It handles the 'c' conversion character.
  *
- * \sa PatternLayout::format()
- * \sa PatternConverter::format()
+ * \sa QExtLogPatternLayout::format()
+ * \sa QExtLogPatternConverter::format()
  */
-class LoggepatternConverter : public PatternConverter
+class LoggepatternConverter : public QExtLogPatternConverter
 {
 public:
-    LoggepatternConverter(Log4Qt::FormattingInfo formattingInfo,
+    LoggepatternConverter(QExtLogFormattingInfo formattingInfo,
                            int precision) :
-        PatternConverter(formattingInfo),
+        QExtLogPatternConverter(formattingInfo),
         mPrecision(precision)
     {}
 
@@ -221,7 +223,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(LoggepatternConverter)
 
 protected:
-    QString convert(const LoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const override;
 
 private:
     int mPrecision;
@@ -230,22 +232,22 @@ private:
 
 
 /*!
- * \brief The class MDCPatternConverter converts the MDC data of a
- *        LoggingEvent to a string.
+ * \brief The class MDCPatternConverter converts the QExtLogMDC data of a
+ *        QExtLoggingEvent to a string.
  *
- * MDCPatternConverter is used by PatternLayout to convert the MDC data of
- * a LoggingEvent to a string as part of formatting the LoggingEvent. It
+ * MDCPatternConverter is used by QExtLogPatternLayout to convert the QExtLogMDC data of
+ * a QExtLoggingEvent to a string as part of formatting the QExtLoggingEvent. It
  * handles the 'X' conversion character.
  *
- * \sa PatternLayout::format()
- * \sa PatternConverter::format()
+ * \sa QExtLogPatternLayout::format()
+ * \sa QExtLogPatternConverter::format()
  */
-class MDCPatternConverter : public PatternConverter
+class MDCPatternConverter : public QExtLogPatternConverter
 {
 public:
-    MDCPatternConverter(Log4Qt::FormattingInfo formattingInfo,
+    MDCPatternConverter(QExtLogFormattingInfo formattingInfo,
                         const QString &key) :
-        PatternConverter(formattingInfo),
+        QExtLogPatternConverter(formattingInfo),
         mKey(key)
     {}
 
@@ -253,15 +255,15 @@ private:
     QEXT_DISABLE_COPY_MOVE(MDCPatternConverter)
 
 protected:
-    QString convert(const LoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const override;
 
 private:
     QString mKey;
 };
 
-LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::PatternFormatter)
+QEXT_DECLARE_STATIC_LOGGER(logger, QExtLogPatternFormatter)
 
-PatternFormatter::PatternFormatter(const QString &pattern) :
+QExtLogPatternFormatter::QExtLogPatternFormatter(const QString &pattern) :
     mIgnoreCharacters(QStringLiteral("C")),
     mConversionCharacters(QStringLiteral("cdmprtxXFMLl")),
     mOptionCharacters(QStringLiteral("cd")),
@@ -271,13 +273,13 @@ PatternFormatter::PatternFormatter(const QString &pattern) :
 }
 
 
-PatternFormatter::~PatternFormatter()
+QExtLogPatternFormatter::~QExtLogPatternFormatter()
 {
     qDeleteAll(mPatternConverters);
 }
 
 
-QString PatternFormatter::format(const LoggingEvent &loggingEvent) const
+QString QExtLogPatternFormatter::format(const QExtLoggingEvent &loggingEvent) const
 {
     QString result;
 #if (__cplusplus >= 201703L)
@@ -290,7 +292,7 @@ QString PatternFormatter::format(const LoggingEvent &loggingEvent) const
 }
 
 
-bool PatternFormatter::addDigit(QChar digit,
+bool QExtLogPatternFormatter::addDigit(QChar digit,
                                 int &value)
 {
     if (!digit.isDigit())
@@ -305,16 +307,16 @@ bool PatternFormatter::addDigit(QChar digit,
 }
 
 
-void PatternFormatter::createConverter(QChar character,
-                                       Log4Qt::FormattingInfo formattingInfo,
+void QExtLogPatternFormatter::createConverter(QChar character,
+                                       QExtLogFormattingInfo formattingInfo,
                                        const QString &option)
 {
-    Q_ASSERT_X(mConversionCharacters.indexOf(character) >= 0, "PatternFormatter::createConverter", "Unknown conversion character" );
+    Q_ASSERT_X(mConversionCharacters.indexOf(character) >= 0, "QExtLogPatternFormatter::createConverter", "Unknown conversion character" );
 
     QExtLogError e("Creating Converter for character '%1' min %2, max %3, left %4 and option '%5'");
     e << QString(character)
-      << FormattingInfo::intToString(formattingInfo.mMinLength)
-      << FormattingInfo::intToString(formattingInfo.mMaxLength)
+      << QExtLogFormattingInfo::intToString(formattingInfo.mMinLength)
+      << QExtLogFormattingInfo::intToString(formattingInfo.mMaxLength)
       << formattingInfo.mLeftAligned
       << option;
     logger()->trace(e);
@@ -383,12 +385,12 @@ void PatternFormatter::createConverter(QChar character,
                                                         BasicPatternConverter::LOCATION_CONVERTER);
         break;
     default:
-        Q_ASSERT_X(false, "PatternFormatter::createConverter", "Unknown pattern character");
+        Q_ASSERT_X(false, "QExtLogPatternFormatter::createConverter", "Unknown pattern character");
     }
 }
 
 
-void PatternFormatter::createLiteralConverter(const QString &literal)
+void QExtLogPatternFormatter::createLiteralConverter(const QString &literal)
 {
     logger()->trace(QStringLiteral("Creating literal LiteralConverter with Literal '%1'"),
                     literal);
@@ -396,7 +398,7 @@ void PatternFormatter::createLiteralConverter(const QString &literal)
 }
 
 
-void PatternFormatter::parse()
+void QExtLogPatternFormatter::parse()
 {
     enum State
     {
@@ -414,7 +416,7 @@ void PatternFormatter::parse()
     QChar c;
     char ch;
     State state = LITERAL_STATE;
-    FormattingInfo formatting_info;
+    QExtLogFormattingInfo formatting_info;
     QString literal;
     int converter_start = 0;
     int option_start = 0;
@@ -448,7 +450,7 @@ void PatternFormatter::parse()
             }
             else if (ch == 'n')
             {
-                literal += Layout::endOfLine();
+                literal += QExtLogLayout::endOfLine();
                 state = LITERAL_STATE;
             }
             else
@@ -496,7 +498,7 @@ void PatternFormatter::parse()
             {
                 QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Found character '%1' where digit was expected."),
                                           QExtLogError::Error_LayoutExpectedDigitFailed,
-                                          "Log4Qt::PatternFormatter");
+                                          "QExtLogPatternFormatter");
                 e << QString(c);
                 logger()->error(e);
             }
@@ -550,7 +552,7 @@ void PatternFormatter::parse()
             }
             break;
         default:
-            Q_ASSERT_X(false, "PatternFormatter::parse()", "Unknown parsing state constant");
+            Q_ASSERT_X(false, "QExtLogPatternFormatter::parse()", "Unknown parsing state constant");
             state = LITERAL_STATE;
         }
         i++;
@@ -570,7 +572,7 @@ void PatternFormatter::parse()
 }
 
 
-int PatternFormatter::parseIntegeoption(const QString &option)
+int QExtLogPatternFormatter::parseIntegeoption(const QString &option)
 {
     if (option.isEmpty())
         return 0;
@@ -581,7 +583,7 @@ int PatternFormatter::parseIntegeoption(const QString &option)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Option '%1' cannot be converted into an integer"),
                                   QExtLogError::Error_LayoutOptionIsNotPositive,
-                                  "Log4Qt::Patteformatter");
+                                  "Patteformatter");
         e << option;
         logger()->error(e);
     }
@@ -589,7 +591,7 @@ int PatternFormatter::parseIntegeoption(const QString &option)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Option %1 isn't a positive integer"),
                                   QExtLogError::Error_LayoutIntegerIsNotPositive,
-                                  "Log4Qt::Patteformatter");
+                                  "Patteformatter");
         e << result;
         logger()->error(e);
         result = 0;
@@ -597,7 +599,7 @@ int PatternFormatter::parseIntegeoption(const QString &option)
     return result;
 }
 
-void FormattingInfo::clear()
+void QExtLogFormattingInfo::clear()
 {
     mMinLength = 0;
     mMaxLength = INT_MAX;
@@ -605,14 +607,14 @@ void FormattingInfo::clear()
 }
 
 
-QString FormattingInfo::intToString(int i)
+QString QExtLogFormattingInfo::intToString(int i)
 {
     if (i == INT_MAX)
         return QStringLiteral("INT_MAX");
     return QString::number(i);
 }
 
-void PatternConverter::format(QString &format, const LoggingEvent &loggingEvent) const
+void QExtLogPatternConverter::format(QString &format, const QExtLoggingEvent &loggingEvent) const
 {
     Q_DECL_CONSTEXPR const QLatin1Char space(' ');
     const QString s = convert(loggingEvent);
@@ -627,7 +629,7 @@ void PatternConverter::format(QString &format, const LoggingEvent &loggingEvent)
         format += s.rightJustified(mFormattingInfo.mMinLength, space, false);
 }
 
-QString BasicPatternConverter::convert(const LoggingEvent &loggingEvent) const
+QString BasicPatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
 {
     switch (mType)
     {
@@ -655,26 +657,26 @@ QString BasicPatternConverter::convert(const LoggingEvent &loggingEvent) const
     }
 }
 
-QString DatePatternConverter::convert(const LoggingEvent &loggingEvent) const
+QString DatePatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
 {
     return QExtLogDateTime::fromMSecsSinceEpoch(loggingEvent.timeStamp()).toString(mFormat);
 }
 
-QString LiteralPatternConverter::convert(const LoggingEvent &loggingEvent) const
+QString LiteralPatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
 {
     Q_UNUSED(loggingEvent);
     return mLiteral;
 }
 
-QString LoggepatternConverter::convert(const LoggingEvent &loggingEvent) const
+QString LoggepatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
 {
     if (!loggingEvent.logger())
         return QString();
     QString name;
 
-    if (loggingEvent.logger() == LogManager::instance()->qtLogger())   // is qt logger
+    if (loggingEvent.logger() == QExtLogManager::instance()->qtLogger())   // is qt logger
         if (loggingEvent.categoryName().isEmpty())
-            name = LogManager::instance()->qtLogger()->name();
+            name = QExtLogManager::instance()->qtLogger()->name();
         else
             name = loggingEvent.categoryName();
     else
@@ -699,9 +701,7 @@ QString LoggepatternConverter::convert(const LoggingEvent &loggingEvent) const
     return name.mid(begin);
 }
 
-QString MDCPatternConverter::convert(const LoggingEvent &loggingEvent) const
+QString MDCPatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
 {
     return loggingEvent.mdc().value(mKey);
 }
-
-} // namespace Log4Qt

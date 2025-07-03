@@ -1,54 +1,55 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_PROPERTIES_H
-#define LOG4QT_PROPERTIES_H
+#ifndef _QEXTLOGPROPERTIES_H
+#define _QEXTLOGPROPERTIES_H
 
 #include <qextLoggingGlobal.h>
 
-#include <QHash>
 #include <QStringList>
+#include <QHash>
 
 class QIODevice;
 class QSettings;
 
-namespace Log4Qt
-{
 /*!
- * \brief The class Properties implements a JAVA property hash.
+ * \brief The class QExtLogProperties implements a JAVA property hash.
  */
-class QEXT_LOGGING_API Properties : public QHash<QString, QString>
+class QEXT_LOGGING_API QExtLogProperties : public QHash<QString, QString>
 {
 public:
-    explicit Properties(Properties *pDefaultProperties = nullptr);
+    explicit QExtLogProperties(QExtLogProperties *pDefaultProperties = QEXT_NULLPTR);
 
 public:
-    Properties *defaultProperties() const;
+    QExtLogProperties *defaultProperties() const;
     QString property(const QString &key) const;
-    QString property(const QString &key,
-                     const QString &defaultValue) const;
-    void setDefaultProperties(Properties *defaultProperties);
-    void setProperty(const QString &key,
-                     const QString &value);
+    QString property(const QString &key, const QString &defaultValue) const;
+    void setDefaultProperties(QExtLogProperties *defaultProperties);
+    void setProperty(const QString &key, const QString &value);
 
-    void load(QIODevice *pDevice);
+    void load(QIODevice *device);
 
     /*!
      * Reads all child keys from the QSettings object \a settings and
@@ -63,7 +64,7 @@ public:
      * settings.setValue("Support", true);
      * settings.setValue("Help/Language", "en_UK");
      *
-     * Properties properties
+     * QExtLogProperties properties
      * properties.load(&settings)
      *
      * // properties (("Package", "Full"), ("Background", ""), ("Support", "true"))
@@ -74,13 +75,12 @@ public:
     QStringList propertyNames() const;
 
 private:
-    void parseProperty(const QString &property,
-                       int line);
+    void parseProperty(const QString &property, int line);
     static int hexDigitValue(QChar digit);
     static QString trimLeft(const QString &line);
 
 private:
-    Properties *mpDefaultProperties;
+    QExtLogProperties *mpDefaultProperties;
     static const char msEscapeChar;
     static const char *msValueEscapeCodes;
     static const char *msValueEscapeChars;
@@ -88,30 +88,27 @@ private:
     static const char *msKeyEscapeChars;
 };
 
-inline Properties::Properties(Properties *pDefaultProperties) :
+inline QExtLogProperties::QExtLogProperties(QExtLogProperties *pDefaultProperties) :
     mpDefaultProperties(pDefaultProperties)
 {}
 
-inline Properties *Properties::defaultProperties() const
+inline QExtLogProperties *QExtLogProperties::defaultProperties() const
 {
     return mpDefaultProperties;
 }
 
-inline void Properties::setDefaultProperties(Properties *defaultProperties)
+inline void QExtLogProperties::setDefaultProperties(QExtLogProperties *defaultProperties)
 {
     mpDefaultProperties = defaultProperties;
 }
 
-inline void Properties::setProperty(const QString &key,
-                                    const QString &value)
+inline void QExtLogProperties::setProperty(const QString &key,
+                                           const QString &value)
 {
     insert(key, value);
 }
 
-} // namespace Log4Qt
+Q_DECLARE_TYPEINFO(QExtLogProperties, Q_MOVABLE_TYPE);
 
 
-Q_DECLARE_TYPEINFO(Log4Qt::Properties, Q_MOVABLE_TYPE);
-
-
-#endif // LOG4QT_PROPERTIES_H
+#endif // _QEXTLOGPROPERTIES_H

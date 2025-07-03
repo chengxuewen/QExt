@@ -4,7 +4,7 @@
 #include <qextLogLayout.h>
 
 TestAppender::TestAppender(QObject *parent)
-    : Log4Qt::AppenderSkeleton(parent)
+    : QExtLogAppenderSkeleton(parent)
 {
 }
 
@@ -27,9 +27,9 @@ bool TestAppender::requiresLayout() const
     return true;
 }
 
-void TestAppender::append(const Log4Qt::LoggingEvent &event)
+void TestAppender::append(const QExtLoggingEvent &event)
 {
-    Q_ASSERT_X(layout(), "TestAppender::append()", "Layout must not be null");
+    Q_ASSERT_X(layout(), "TestAppender::append()", "QExtLogLayout must not be null");
     mMessages << layout()->format(event);
 }
 

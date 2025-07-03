@@ -1,42 +1,44 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_CONSOLEAPPENDER_H
-#define LOG4QT_CONSOLEAPPENDER_H
+#ifndef _QEXTLOGCONSOLEAPPENDER_H
+#define _QEXTLOGCONSOLEAPPENDER_H
 
-#include "writerappender.h"
+#include <qextLogWriterAppender.h>
 
 class QTextStream;
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class ConsoleAppender appends to stdout or stderr.
+ * \brief The class QExtLogConsoleAppender appends to stdout or stderr.
  *
  * \note All the functions declared in this class are thread-safe.
  *
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API ConsoleAppender : public WriterAppender
+class QEXT_LOGGING_API QExtLogConsoleAppender : public QExtLogWriterAppender
 {
     Q_OBJECT
 
@@ -65,25 +67,25 @@ public:
     Q_ENUM(Target)
 
 
-    ConsoleAppender(QObject *parent = nullptr);
-    ConsoleAppender(const LayoutSharedPtr &pLayout,
+    QExtLogConsoleAppender(QObject *parent = nullptr);
+    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
                     QObject *parent = nullptr);
-    ConsoleAppender(const LayoutSharedPtr &pLayout,
+    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
                     const QString &target,
                     QObject *parent = nullptr);
 
     /*!
-     * Creates a ConsoleAppender with the layout \a pLayout, the target
+     * Creates a QExtLogConsoleAppender with the layout \a pLayout, the target
      * value specified by the \a target constant and the parent
      * \a parent.
      */
-    ConsoleAppender(const LayoutSharedPtr &pLayout,
+    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
                     Target target,
                     QObject *parent = nullptr);
 
-    ~ConsoleAppender() override;
+    ~QExtLogConsoleAppender() override;
 private:
-    QEXT_DISABLE_COPY_MOVE(ConsoleAppender)
+    QEXT_DISABLE_COPY_MOVE(QExtLogConsoleAppender)
 
 public:
     QString target() const;
@@ -99,7 +101,7 @@ public:
 
 protected:
     void closeStream();
-    void append(const LoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) override;
 
 private:
     volatile Target mTarget;
@@ -107,11 +109,9 @@ private:
     void closeInternal();
 };
 
-inline void ConsoleAppender::setTarget(Target target)
+inline void QExtLogConsoleAppender::setTarget(Target target)
 {
     mTarget = target;
 }
 
-} // namespace Log4Qt
-
-#endif // _CONSOLEAPPENDER_H
+#endif // _QEXTLOGCONSOLEAPPENDER_H

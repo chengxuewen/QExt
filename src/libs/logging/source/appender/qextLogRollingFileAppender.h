@@ -1,33 +1,35 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_ROLINGFILEAPPENDER_H
-#define LOG4QT_ROLINGFILEAPPENDER_H
+#ifndef _QEXTLOGROLINGFILEAPPENDER_H
+#define _QEXTLOGROLINGFILEAPPENDER_H
 
 #include <qextLogFileAppender.h>
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class RollingFileAppender extends FileAppender to backup
+ * \brief The class QExtLogRollingFileAppender extends QExtLogFileAppender to backup
  *        the log files when they reach a certain size.
  *        On application restart the existing log files are rolled
  *        if appendFile is set to false to avoid data loss.
@@ -37,7 +39,7 @@ namespace Log4Qt
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API RollingFileAppender : public FileAppender
+class QEXT_LOGGING_API QExtLogRollingFileAppender : public QExtLogFileAppender
 {
     Q_OBJECT
 
@@ -67,17 +69,17 @@ class QEXT_LOGGING_API RollingFileAppender : public FileAppender
     Q_PROPERTY(QString maxFileSize READ maxFileSize WRITE setMaxFileSize)
 
 public:
-    RollingFileAppender(QObject *parent = nullptr);
-    RollingFileAppender(const LayoutSharedPtr &layout,
+    QExtLogRollingFileAppender(QObject *parent = nullptr);
+    QExtLogRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
                         const QString &fileName,
                         QObject *parent = nullptr);
-    RollingFileAppender(const LayoutSharedPtr &layout,
+    QExtLogRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
                         const QString &fileName,
                         bool append,
                         QObject *parent = nullptr);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(RollingFileAppender)
+    QEXT_DISABLE_COPY_MOVE(QExtLogRollingFileAppender)
 
 public:
     int maxBackupIndex() const;
@@ -88,7 +90,7 @@ public:
     void setMaxFileSize(const QString &maxFileSize);
 
 protected:
-    void append(const LoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) override;
     void openFile() override;
 
 private:
@@ -99,36 +101,34 @@ private:
     qint64 mMaximumFileSize;
 };
 
-inline int RollingFileAppender::maxBackupIndex() const
+inline int QExtLogRollingFileAppender::maxBackupIndex() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mMaxBackupIndex;
 }
 
-inline qint64 RollingFileAppender::maximumFileSize() const
+inline qint64 QExtLogRollingFileAppender::maximumFileSize() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mMaximumFileSize;
 }
 
-inline QString RollingFileAppender::maxFileSize() const
+inline QString QExtLogRollingFileAppender::maxFileSize() const
 {
     QMutexLocker locker(&mObjectGuard);
     return QString::number(mMaximumFileSize);
 }
 
-inline void RollingFileAppender::setMaxBackupIndex(int maxBackupIndex)
+inline void QExtLogRollingFileAppender::setMaxBackupIndex(int maxBackupIndex)
 {
     QMutexLocker locker(&mObjectGuard);
     mMaxBackupIndex = maxBackupIndex;
 }
 
-inline void RollingFileAppender::setMaximumFileSize(qint64 maximumFileSize)
+inline void QExtLogRollingFileAppender::setMaximumFileSize(qint64 maximumFileSize)
 {
     QMutexLocker locker(&mObjectGuard);
     mMaximumFileSize = maximumFileSize;
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_ROLINGFILEAPPENDER_H
+#endif // _QEXTLOGROLINGFILEAPPENDER_H

@@ -1,47 +1,49 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_BINARYLAYOUT_H
-#define LOG4QT_BINARYLAYOUT_H
+#ifndef _QEXTLOGBINARYLAYOUT_H
+#define _QEXTLOGBINARYLAYOUT_H
 
 #include <qextLogLayout.h>
 
 #include <QByteArray>
 
-namespace Log4Qt
-{
+class QExtLoggingEvent;
+class QExtBinaryLoggingEvent;
 
-class LoggingEvent;
-class BinaryLoggingEvent;
-
-class QEXT_LOGGING_API BinaryLayout : public Layout
+class QEXT_LOGGING_API QExtLogBinaryLayout : public QExtLogLayout
 {
     Q_OBJECT
     Q_PROPERTY(QByteArray binaryFooter READ binaryFooter WRITE setBinaryFooter)
     Q_PROPERTY(QByteArray binaryHeader READ binaryHeader WRITE setBinaryHeader)
 
 public:
-    explicit BinaryLayout(QObject *parent = nullptr);
+    explicit QExtLogBinaryLayout(QObject *parent = nullptr);
 
-    virtual QByteArray binaryFormat(const BinaryLoggingEvent &event) const;
-    virtual QString format(const LoggingEvent &event) override;
+    virtual QByteArray binaryFormat(const QExtBinaryLoggingEvent &event) const;
+    virtual QString format(const QExtLoggingEvent &event) override;
 
     virtual QString contentType() const override;
 
@@ -52,32 +54,30 @@ public:
     void setBinaryHeader(const QByteArray &header);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(BinaryLayout)
+    QEXT_DISABLE_COPY_MOVE(QExtLogBinaryLayout)
 
     QByteArray mFooter;
     QByteArray mHeader;
 };
 
-inline QByteArray BinaryLayout::binaryFooter() const
+inline QByteArray QExtLogBinaryLayout::binaryFooter() const
 {
     return mFooter;
 }
 
-inline void BinaryLayout::setBinaryFooter(const QByteArray &footer)
+inline void QExtLogBinaryLayout::setBinaryFooter(const QByteArray &footer)
 {
     mFooter = footer;
 }
 
-inline QByteArray BinaryLayout::binaryHeader() const
+inline QByteArray QExtLogBinaryLayout::binaryHeader() const
 {
     return mHeader;
 }
 
-inline void BinaryLayout::setBinaryHeader(const QByteArray &header)
+inline void QExtLogBinaryLayout::setBinaryHeader(const QByteArray &header)
 {
     mHeader = header;
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_BINARYLAYOUT_H
+#endif // _QEXTLOGBINARYLAYOUT_H

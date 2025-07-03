@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_HELPERS_FACTORY_H
-#define LOG4QT_HELPERS_FACTORY_H
+#ifndef _QEXTLOGFACTORY_H
+#define _QEXTLOGFACTORY_H
 
 #include <qextLoggingGlobal.h>
 
@@ -30,22 +35,19 @@
 class QObject;
 class QMetaProperty;
 
-namespace Log4Qt
-{
-
-class Appender;
-class Filter;
-class Layout;
+class QExtLogAppender;
+class QExtLogFilter;
+class QExtLogLayout;
 
 /*!
- * \brief The class Factory provides factories for Appender, Filter and
- *        Layout objects.
+ * \brief The class QExtLogFactory provides factories for QExtLogAppender, QExtLogFilter and
+ *        QExtLogLayout objects.
  *
  * The functions createAppender(), createFilter() and createLayout()
  * allow to create objects by specifying their class names. By default
  * all classes of the package are recognised with their Log4j and Log4Qt
- * classanmes. For example an object of the class FileAppender can be
- * craeted using "org.apache.log4j.FileAppender" or "Log4Qt::FileAppender".
+ * classanmes. For example an object of the class QExtLogFileAppender can be
+ * craeted using "org.apache.log4j.QExtLogFileAppender" or "QExtLogFileAppender".
  * Additional classes can be registered using registerAppender(),
  * registerFilter() and registerLayout().
  *
@@ -55,38 +57,38 @@ class Layout;
  *
  * \note All the functions declared in this class are thread-safe.
  *
- * \sa PropertyConfigurator
+ * \sa QExtLogPropertyConfigurator
  */
-class QEXT_LOGGING_API Factory
+class QEXT_LOGGING_API QExtLogFactory
 {
 public:
     /*!
-         * Prototype for an Appender factory function. The function creates
-         * an Appender object on the heap and returns a pointer to it.
+         * Prototype for an QExtLogAppender factory function. The function creates
+         * an QExtLogAppender object on the heap and returns a pointer to it.
          *
          * \sa registerAppender(), createAppender()
      */
-    typedef Appender *(*AppenderFactoryFunc)();
+    typedef QExtLogAppender *(*AppenderFactoryFunc)();
 
     /*!
-         * Prototype for a Filter factory function. The function creates
-         * a Filter object on the heap and returns a pointer to it.
+         * Prototype for a QExtLogFilter factory function. The function creates
+         * a QExtLogFilter object on the heap and returns a pointer to it.
          *
          * \sa registerFilter(), createFilter()
      */
-    typedef Filter *(*FilterFactoryFunc)();
+    typedef QExtLogFilter *(*FilterFactoryFunc)();
 
     /*!
-         * Prototype for a Layout factory function. The function creates
-         * a Layout object on the heap and returns a pointer to it.
+         * Prototype for a QExtLogLayout factory function. The function creates
+         * a QExtLogLayout object on the heap and returns a pointer to it.
          *
          * \sa registerLayout(), createLayout()
      */
-    typedef Layout *(*LayoutFactoryFunc)();
+    typedef QExtLogLayout *(*LayoutFactoryFunc)();
 
 private:
-    Factory();
-    QEXT_DISABLE_COPY_MOVE(Factory)
+    QExtLogFactory();
+    QEXT_DISABLE_COPY_MOVE(QExtLogFactory)
 
 public:
     /*!
@@ -96,12 +98,12 @@ public:
      *
      * \sa registerAppender(), unregisterAppender(), registeredAppenders()
      */
-    static Appender *createAppender(const QString &appenderClassName);
+    static QExtLogAppender *createAppender(const QString &appenderClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static Appender *createAppender(const char *appenderClassName);
+    static QExtLogAppender *createAppender(const char *appenderClassName);
 
     /*!
      * Creates an object for the class \a filterClassName on the heap
@@ -110,12 +112,12 @@ public:
      *
      * \sa registerFilter(), unregisterFilter(), registeredFilters()
      */
-    static Filter *createFilter(const QString &filterClassName);
+    static QExtLogFilter *createFilter(const QString &filterClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static Filter *createFilter(const char *filterClassName);
+    static QExtLogFilter *createFilter(const char *filterClassName);
 
     /*!
      * Creates an object for the class \a layoutClassName on the heap
@@ -124,20 +126,20 @@ public:
      *
      * \sa registerLayout(), unregisterLayout(), registeredLayouts()
      */
-    static Layout *createLayout(const QString &layoutClassName);
+    static QExtLogLayout *createLayout(const QString &layoutClassName);
 
     /*!
      * This is an overloaded member function, provided for convenience.
      */
-    static Layout *createLayout(const char *layoutClassName);
+    static QExtLogLayout *createLayout(const char *layoutClassName);
 
     /*!
-     * Returns the Factory instance.
+     * Returns the QExtLogFactory instance.
      */
-    static Factory *instance();
+    static QExtLogFactory *instance();
 
     /*!
-    * Registers the Appender factory function \a appenderFactoryFunc
+    * Registers the QExtLogAppender factory function \a appenderFactoryFunc
     * for the class \a appenderClassName. If a registered factory
     * function exists for the class, it is replaced with
     * \a appenderFactoryFunc.
@@ -154,7 +156,7 @@ public:
                                  AppenderFactoryFunc appenderFactoryFunc);
 
     /*!
-     * Registers the Filter factory function \a filterFactoryFunc
+     * Registers the QExtLogFilter factory function \a filterFactoryFunc
      * for the class \a filterClassName. If a registered factory
      * function exists for the class, it is replaced with
      * \a filterFactoryFunc.
@@ -171,7 +173,7 @@ public:
                                FilterFactoryFunc filterFactoryFunc);
 
     /*!
-     * Registers the Layout factory function \a layoutFactoryFunc
+     * Registers the QExtLogLayout factory function \a layoutFactoryFunc
      * for the class \a filterClassName. If a registered factory
      * function exists for the class, it is replaced with
      * \a layoutFactoryFunc.
@@ -188,7 +190,7 @@ public:
                                LayoutFactoryFunc layoutFactoryFunc);
 
     /*!
-    * Returns a list of the class names for registered Appender factory
+    * Returns a list of the class names for registered QExtLogAppender factory
     * functions.
     *
     * \sa registerAppender(), unregisterAppender()
@@ -196,7 +198,7 @@ public:
     static QStringList registeredAppenders();
 
     /*!
-     * Returns a list of the class names for registered Filter factory
+     * Returns a list of the class names for registered QExtLogFilter factory
      * functions.
      *
      * \sa registerFilter(), unregisterFilter()
@@ -204,7 +206,7 @@ public:
     static QStringList registeredFilters();
 
     /*!
-     * Returns a list of the class names for registered Layout factory
+     * Returns a list of the class names for registered QExtLogLayout factory
      * functions.
      *
      * \sa registerLayout(), unregisterLayout()
@@ -217,7 +219,7 @@ public:
      * \a rProperty is writeable and of a type the function can convert to.
      * The types bool, int, QExtLogLevel and QString are supported.
      *
-     * \sa OptionConverter
+     * \sa QExtLogOptionConverter
      */
     static void setObjectProperty(QObject *object,
                                   const QString &property,
@@ -231,7 +233,7 @@ public:
                                   const QString &value);
 
     /*!
-    * Unregisters the Appender factory function for the class
+    * Unregisters the QExtLogAppender factory function for the class
     * \a rAppenderClassName.
     *
     * \sa registerAppender(), registeredAppenders()
@@ -244,7 +246,7 @@ public:
     static void unregisterAppender(const char *appenderClassName);
 
     /*!
-     * Unregisters the Filter factory function for the class
+     * Unregisters the QExtLogFilter factory function for the class
      * \a filterClassName.
      *
      * \sa registerFilter(), registeredFilters()
@@ -257,7 +259,7 @@ public:
     static void unregisterFilter(const char *filterClassName);
 
     /*!
-     * Unregisters the Layout factory function for the class
+     * Unregisters the QExtLogLayout factory function for the class
      * \a filterClassName.
      *
      * \sa registerLayout(), registeredLayouts()
@@ -270,9 +272,9 @@ public:
     static void unregisterLayout(const char *layoutClassName);
 
 private:
-    Appender *doCreateAppender(const QString &appenderClassName);
-    Filter *doCreateFilter(const QString &filterClassName);
-    Layout *doCreateLayout(const QString &layoutClassName);
+    QExtLogAppender *doCreateAppender(const QString &appenderClassName);
+    QExtLogFilter *doCreateFilter(const QString &filterClassName);
+    QExtLogLayout *doCreateLayout(const QString &layoutClassName);
     void doRegisterAppender(const QString &appenderClassName,
                             AppenderFactoryFunc appenderFactoryFunc);
     void doRegisterFilter(const QString &filterClassName,
@@ -299,134 +301,132 @@ private:
     QHash<QString, LayoutFactoryFunc> mLayoutRegistry;
 };
 
-inline Appender *Factory::createAppender(const QString &appenderClassName)
+inline QExtLogAppender *QExtLogFactory::createAppender(const QString &appenderClassName)
 {
     return instance()->doCreateAppender(appenderClassName);
 }
 
-inline Appender *Factory::createAppender(const char *appenderClassName)
+inline QExtLogAppender *QExtLogFactory::createAppender(const char *appenderClassName)
 {
     return instance()->doCreateAppender(QLatin1String(appenderClassName));
 }
 
-inline Filter *Factory::createFilter(const QString &filterClassName)
+inline QExtLogFilter *QExtLogFactory::createFilter(const QString &filterClassName)
 {
     return instance()->doCreateFilter(filterClassName);
 }
 
-inline Filter *Factory::createFilter(const char *layoutClassName)
+inline QExtLogFilter *QExtLogFactory::createFilter(const char *layoutClassName)
 {
     return instance()->doCreateFilter(QLatin1String(layoutClassName));
 }
 
-inline Layout *Factory::createLayout(const QString &layoutClassName)
+inline QExtLogLayout *QExtLogFactory::createLayout(const QString &layoutClassName)
 {
     return instance()->doCreateLayout(layoutClassName);
 }
 
-inline Layout *Factory::createLayout(const char *layoutClassName)
+inline QExtLogLayout *QExtLogFactory::createLayout(const char *layoutClassName)
 {
     return instance()->doCreateLayout(QLatin1String(layoutClassName));
 }
 
-inline void Factory::registerAppender(const QString &appenderClassName,
+inline void QExtLogFactory::registerAppender(const QString &appenderClassName,
                                       AppenderFactoryFunc appenderFactoryFunc)
 {
     instance()->doRegisterAppender(appenderClassName, appenderFactoryFunc);
 }
 
-inline void Factory::registerAppender(const char *appenderClassName,
+inline void QExtLogFactory::registerAppender(const char *appenderClassName,
                                       AppenderFactoryFunc appenderFactoryFunc)
 {
     instance()->doRegisterAppender(QLatin1String(appenderClassName), appenderFactoryFunc);
 }
 
-inline void Factory::registerFilter(const QString &filterClassName,
+inline void QExtLogFactory::registerFilter(const QString &filterClassName,
                                     FilterFactoryFunc filterFactoryFunc)
 {
     instance()->doRegisterFilter(filterClassName, filterFactoryFunc);
 }
 
-inline void Factory::registerFilter(const char *filterClassName,
+inline void QExtLogFactory::registerFilter(const char *filterClassName,
                                     FilterFactoryFunc filterFactoryFunc)
 {
     instance()->doRegisterFilter(QLatin1String(filterClassName), filterFactoryFunc);
 }
 
-inline void Factory::registerLayout(const QString &filterClassName,
+inline void QExtLogFactory::registerLayout(const QString &filterClassName,
                                     LayoutFactoryFunc layoutFactoryFunc)
 {
     instance()->doRegisterLayout(filterClassName, layoutFactoryFunc);
 }
 
-inline void Factory::registerLayout(const char *layoutClassName,
+inline void QExtLogFactory::registerLayout(const char *layoutClassName,
                                     LayoutFactoryFunc layoutFactoryFunc)
 {
     instance()->doRegisterLayout(QLatin1String(layoutClassName), layoutFactoryFunc);
 }
 
-inline QStringList Factory::registeredAppenders()
+inline QStringList QExtLogFactory::registeredAppenders()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
     return instance()->mAppenderRegistry.keys();
 }
 
-inline QStringList Factory::registeredFilters()
+inline QStringList QExtLogFactory::registeredFilters()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
     return instance()->mFilterRegistry.keys();
 }
 
-inline QStringList Factory::registeredLayouts()
+inline QStringList QExtLogFactory::registeredLayouts()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
     return instance()->mLayoutRegistry.keys();
 }
 
-inline void Factory::setObjectProperty(QObject *object,
+inline void QExtLogFactory::setObjectProperty(QObject *object,
                                        const QString &property,
                                        const QString &value)
 {
     instance()->doSetObjectProperty(object, property, value);
 }
 
-inline void Factory::setObjectProperty(QObject *object,
+inline void QExtLogFactory::setObjectProperty(QObject *object,
                                        const char *property,
                                        const QString &value)
 {
     instance()->doSetObjectProperty(object, QLatin1String(property), value);
 }
 
-inline void Factory::unregisterAppender(const QString &appenderClassName)
+inline void QExtLogFactory::unregisterAppender(const QString &appenderClassName)
 {
     instance()->doUnregisterAppender(appenderClassName);
 }
 
-inline void Factory::unregisterAppender(const char *appenderClassName)
+inline void QExtLogFactory::unregisterAppender(const char *appenderClassName)
 {
     instance()->doUnregisterAppender(QLatin1String(appenderClassName));
 }
 
-inline void Factory::unregisterFilter(const QString &filterClassName)
+inline void QExtLogFactory::unregisterFilter(const QString &filterClassName)
 {
     instance()->doUnregisterFilter(filterClassName);
 }
 
-inline void Factory::unregisterFilter(const char *filterClassName)
+inline void QExtLogFactory::unregisterFilter(const char *filterClassName)
 {
     instance()->doUnregisterFilter(QLatin1String(filterClassName));
 }
 
-inline void Factory::unregisterLayout(const QString &filterClassName)
+inline void QExtLogFactory::unregisterLayout(const QString &filterClassName)
 {
     instance()->doUnregisterLayout(filterClassName);
 }
 
-inline void Factory::unregisterLayout(const char *layoutClassName)
+inline void QExtLogFactory::unregisterLayout(const char *layoutClassName)
 {
     instance()->doUnregisterLayout(QLatin1String(layoutClassName));
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_HELPERS_FACTORY_H
+#endif // _QEXTLOGFACTORY_H

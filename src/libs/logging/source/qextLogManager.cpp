@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogManager.h>
 
@@ -42,65 +47,62 @@
 
 #include <cstdlib>
 
-namespace Log4Qt
-{
-
 static void qt_message_fatal(QtMsgType, const QMessageLogContext &context, const QString &message);
 static bool isFatal(QtMsgType msgType);
 
-LOG4QT_DECLARE_STATIC_LOGGER(static_logger, Log4Qt::LogManager)
+QEXT_DECLARE_STATIC_LOGGER(static_logger, QExtLogManager)
 Q_GLOBAL_STATIC(QMutex, singleton_guard)
 
-LogManager::LogManager() :
+QExtLogManager::QExtLogManager() :
 #if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doStartup() to call doConfigureLogLogger()
 #endif
-    mLoggerRepository(new Hierarchy()),
+    mLoggerRepository(new QExtLogHierarchy()),
     mHandleQtMessages(false),
     mWatchThisFile(false),
     mQtMsgHandler(nullptr)
 {
 }
 
-LogManager::~LogManager()
+QExtLogManager::~QExtLogManager()
 {
-    static_logger()->warn(QStringLiteral("Unexpected destruction of LogManager"));
+    static_logger()->warn(QStringLiteral("Unexpected destruction of QExtLogManager"));
 }
 
 
-Logger *LogManager::rootLogger()
+QExtLogger *QExtLogManager::rootLogger()
 {
     return instance()->mLoggerRepository->rootLogger();
 }
 
 
-QList<Logger *> LogManager::loggers()
+QList<QExtLogger *> QExtLogManager::loggers()
 {
     return instance()->mLoggerRepository->loggers();
 }
 
 
-QExtLogLevel LogManager::threshold()
+QExtLogLevel QExtLogManager::threshold()
 {
     return instance()->mLoggerRepository->threshold();
 }
 
 
-void LogManager::setThreshold(QExtLogLevel level)
+void QExtLogManager::setThreshold(QExtLogLevel level)
 {
     instance()->mLoggerRepository->setThreshold(level);
 }
 
 
-bool LogManager::exists(const char *pName)
+bool QExtLogManager::exists(const char *pName)
 {
     return instance()->mLoggerRepository->exists(QLatin1String(pName));
 }
 
 
-LogManager *LogManager::instance()
+QExtLogManager *QExtLogManager::instance()
 {
-    // Do not use Q_GLOBAL_STATIC. The LogManager is rather expensive
+    // Do not use Q_GLOBAL_STATIC. The QExtLogManager is rather expensive
     // to construct, an exit handler must be set and doStartup must be
     // called.
 
@@ -109,7 +111,7 @@ LogManager *LogManager::instance()
         QMutexLocker locker(singleton_guard());
         if (!mInstance)
         {
-            mInstance = new LogManager;
+            mInstance = new QExtLogManager;
             atexit(shutdown);
             mInstance->doConfigureLogLogger();
             mInstance->welcome();
@@ -120,13 +122,13 @@ LogManager *LogManager::instance()
 }
 
 
-Logger *LogManager::logger(const QString &name)
+QExtLogger *QExtLogManager::logger(const QString &name)
 {
     return instance()->mLoggerRepository->logger(name);
 }
 
 
-void LogManager::resetConfiguration()
+void QExtLogManager::resetConfiguration()
 {
     setHandleQtMessages(false);
     instance()->mLoggerRepository->resetConfiguration();
@@ -134,23 +136,23 @@ void LogManager::resetConfiguration()
 }
 
 
-const char *LogManager::version()
+const char *QExtLogManager::version()
 {
     return QEXT_LOGGING_VERSION_STRING;
 }
 
-QVersionNumber LogManager::versionNumber()
+QVersionNumber QExtLogManager::versionNumber()
 {
     return QVersionNumber(QEXT_LOGGING_VERSION_MAJOR, QEXT_LOGGING_VERSION_MINOR, QEXT_LOGGING_VERSION_PATCH);
 }
 
-void LogManager::shutdown()
+void QExtLogManager::shutdown()
 {
     instance()->mLoggerRepository->shutdown();
 }
 
 
-void LogManager::doSetHandleQtMessages(bool handleQtMessages)
+void QExtLogManager::doSetHandleQtMessages(bool handleQtMessages)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -170,7 +172,7 @@ void LogManager::doSetHandleQtMessages(bool handleQtMessages)
     }
 }
 
-void LogManager::doSetWatchThisFile(bool watchThisFile)
+void QExtLogManager::doSetWatchThisFile(bool watchThisFile)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -181,7 +183,7 @@ void LogManager::doSetWatchThisFile(bool watchThisFile)
     static_logger()->trace(QStringLiteral("%1able watching the current properties file"), watchThisFile ? "En" : "Dis");
 }
 
-void LogManager::doSetFilterRules(const QString &filterRules)
+void QExtLogManager::doSetFilterRules(const QString &filterRules)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -193,7 +195,7 @@ void LogManager::doSetFilterRules(const QString &filterRules)
     static_logger()->trace(QStringLiteral("Setting filter rules to: %1"), filterRules);
 }
 
-void LogManager::doSetMessagePattern(const QString &messagePattern)
+void QExtLogManager::doSetMessagePattern(const QString &messagePattern)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -205,69 +207,69 @@ void LogManager::doSetMessagePattern(const QString &messagePattern)
     static_logger()->trace(QStringLiteral("Setting message pattern to: %1"), messagePattern);
 }
 
-void LogManager::doConfigureLogLogger()
+void QExtLogManager::doConfigureLogLogger()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
 
     // QExtLogLevel
-    QString value = InitialisationHelper::setting(QStringLiteral("Debug"),
+    QString value = QExtLogInitialisationHelper::setting(QStringLiteral("Debug"),
                     QStringLiteral("ERROR"));
-    logLogger()->setLevel(OptionConverter::toLevel(value, QExtLogLevel::DEBUG_INT));
+    logLogger()->setLevel(QExtLogOptionConverter::toLevel(value, QExtLogLevel::Debug));
 
     // Common layout
-    LayoutSharedPtr p_layout(new TTCCLayout());
+    QExtLogLayoutSharedPtr p_layout(new QExtLogTTCCLayout());
     p_layout->setName(QStringLiteral("LogLog TTCC"));
-    static_cast<TTCCLayout *>(p_layout.data())->setContextPrinting(false);
+    static_cast<QExtLogTTCCLayout *>(p_layout.data())->setContextPrinting(false);
     p_layout->activateOptions();
 
     // Common deny all filter
-    FilterSharedPtr p_denyall(new DenyAllFilter());
+    QExtLogFilterSharedPtr p_denyall(new QExtLogDenyAllFilter());
     p_denyall->activateOptions();
 
-    // ConsoleAppender on stdout for all events <= INFO
-    ConsoleAppender *p_appender;
-    p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
-    auto *pFilterStdout = new LevelRangeFilter();
+    // QExtLogConsoleAppender on stdout for all events <= INFO
+    QExtLogConsoleAppender *p_appender;
+    p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    auto *pFilterStdout = new QExtLogLevelRangeFilter();
     pFilterStdout->setNext(p_denyall);
-    pFilterStdout->setLevelMin(QExtLogLevel::NULL_INT);
-    pFilterStdout->setLevelMax(QExtLogLevel::INFO_INT);
+    pFilterStdout->setLevelMin(QExtLogLevel::Null);
+    pFilterStdout->setLevelMax(QExtLogLevel::Info);
     pFilterStdout->activateOptions();
     p_appender->setName(QStringLiteral("LogLog stdout"));
-    p_appender->addFilter(FilterSharedPtr(pFilterStdout));
+    p_appender->addFilter(QExtLogFilterSharedPtr(pFilterStdout));
     p_appender->activateOptions();
-    logLogger()->addAppender(AppenderSharedPtr(p_appender));
+    logLogger()->addAppender(QExtLogAppenderSharedPtr(p_appender));
 
-    // ConsoleAppender on stderr for all events >= WARN
-    p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDERR_TARGET);
-    auto *pFilterStderr = new LevelRangeFilter();
+    // QExtLogConsoleAppender on stderr for all events >= WARN
+    p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDERR_TARGET);
+    auto *pFilterStderr = new QExtLogLevelRangeFilter();
     pFilterStderr->setNext(p_denyall);
-    pFilterStderr->setLevelMin(QExtLogLevel::WARN_INT);
-    pFilterStderr->setLevelMax(QExtLogLevel::OFF_INT);
+    pFilterStderr->setLevelMin(QExtLogLevel::Warn);
+    pFilterStderr->setLevelMax(QExtLogLevel::Off);
     pFilterStderr->activateOptions();
     p_appender->setName(QStringLiteral("LogLog stderr"));
-    p_appender->addFilter(FilterSharedPtr(pFilterStderr));
+    p_appender->addFilter(QExtLogFilterSharedPtr(pFilterStderr));
     p_appender->activateOptions();
-    logLogger()->addAppender(AppenderSharedPtr(p_appender));
+    logLogger()->addAppender(QExtLogAppenderSharedPtr(p_appender));
 }
 
 /*!
- * \brief LogManager::doStartup
+ * \brief QExtLogManager::doStartup
  *
  * 1. If "DefaultInitOverride" or LOG4QT_DEFAULTINITOVERRIDE is not "false" then the initialization is skipped.
  * 2. If the file from "Configuration" or from LOG4QT_CONFIGURATION exists this file is used
- * 3. Check Settings from [Log4Qt/Properties] exists the configdata from there is used
+ * 3. Check Settings from [Log4Qt/QExtLogProperties] exists the configdata from there is used
  * 4. Check if <application binaryname>.log4qt.properties exists this file is used
  * 5. Check if <application binaryname.exe.log4qt.properties exists this file is used
  * 6. Check if "log4qt.properties" exists in the executables path
  * 7. Check if "log4qt.properties" exists in the current working directory
  */
-void LogManager::doStartup()
+void QExtLogManager::doStartup()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
 
     // Override
     QString default_value = QStringLiteral("false");
-    QString value = InitialisationHelper::setting(QStringLiteral("DefaultInitOverride"),
+    QString value = QExtLogInitialisationHelper::setting(QStringLiteral("DefaultInitOverride"),
                     default_value);
     if (value != default_value)
     {
@@ -276,11 +278,11 @@ void LogManager::doStartup()
     }
 
     // Configuration using setting Configuration
-    value = InitialisationHelper::setting(QStringLiteral("Configuration"));
+    value = QExtLogInitialisationHelper::setting(QStringLiteral("Configuration"));
     if (!value.isEmpty() && QFile::exists(value))
     {
         static_logger()->debug(QStringLiteral("Default initialisation configures from file '%1' specified by Configure"), value);
-        PropertyConfigurator::configure(value);
+        QExtLogPropertyConfigurator::configure(value);
         return;
     }
 
@@ -292,14 +294,14 @@ void LogManager::doStartup()
     {
         Q_UNUSED(app)
         const QLatin1String log4qt_group("Log4Qt");
-        const QLatin1String properties_group("Properties");
+        const QLatin1String properties_group("QExtLogProperties");
         QSettings s;
         s.beginGroup(log4qt_group);
         if (s.childGroups().contains(properties_group))
         {
             static_logger()->debug(QStringLiteral("Default initialisation configures from setting '%1/%2'"), log4qt_group, properties_group);
             s.beginGroup(properties_group);
-            PropertyConfigurator::configure(s);
+            QExtLogPropertyConfigurator::configure(s);
             return;
         }
 
@@ -328,9 +330,9 @@ void LogManager::doStartup()
         if (QFile::exists(configFileName))
         {
             static_logger()->debug(QStringLiteral("Default initialisation configures from default file '%1'"), configFileName);
-            PropertyConfigurator::configure(configFileName);
+            QExtLogPropertyConfigurator::configure(configFileName);
             if (mWatchThisFile)
-               ConfiguratorHelper::setConfigurationFile(configFileName, PropertyConfigurator::configure);
+               QExtLogConfiguratorHelper::setConfigurationFile(configFileName, QExtLogPropertyConfigurator::configure);
             return;
         }
     }
@@ -339,7 +341,7 @@ void LogManager::doStartup()
 }
 
 
-void LogManager::welcome()
+void QExtLogManager::welcome()
 {
     static_logger()->info(QStringLiteral("Initialising Log4Qt %1"),
                           QStringLiteral(QEXT_LOGGING_VERSION_STRING));
@@ -348,7 +350,7 @@ void LogManager::welcome()
     if (static_logger()->isDebugEnabled())
     {
         // Create a nice timestamp with UTC offset
-        QExtLogDateTime start_time = QDateTime::fromMSecsSinceEpoch(InitialisationHelper::startTime());
+        QExtLogDateTime start_time = QDateTime::fromMSecsSinceEpoch(QExtLogInitialisationHelper::startTime());
         QString offset;
         {
             QDateTime utc = start_time.toUTC();
@@ -375,7 +377,7 @@ void LogManager::welcome()
     if (static_logger()->isTraceEnabled())
     {
         static_logger()->trace(QStringLiteral("Settings from the system environment:"));
-        auto settings = InitialisationHelper::environmentSettings();
+        auto settings = QExtLogInitialisationHelper::environmentSettings();
         for (auto pos = std::begin(settings);pos != std::end(settings);++pos)
             static_logger()->trace(QStringLiteral("    %1: '%2'"), pos.key(), pos.value());
 
@@ -383,7 +385,7 @@ void LogManager::welcome()
         if (QCoreApplication::instance())
         {
             const QLatin1String log4qt_group("Log4Qt");
-            const QLatin1String properties_group("Properties");
+            const QLatin1String properties_group("QExtLogProperties");
             static_logger()->trace(QStringLiteral("    %1:"), log4qt_group);
             QSettings s;
             s.beginGroup(log4qt_group);
@@ -403,33 +405,33 @@ void LogManager::welcome()
     }
 }
 
-void LogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message)
+void QExtLogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message)
 {
     QExtLogLevel level;
     switch (type)
     {
     case QtDebugMsg:
-        level = QExtLogLevel::DEBUG_INT;
+        level = QExtLogLevel::Debug;
         break;
     case QtWarningMsg:
-        level = QExtLogLevel::WARN_INT;
+        level = QExtLogLevel::Warn;
         break;
     case QtCriticalMsg:
-        level = QExtLogLevel::ERROR_INT;
+        level = QExtLogLevel::Error;
         break;
     case QtFatalMsg:
-        level = QExtLogLevel::FATAL_INT;
+        level = QExtLogLevel::Fatal;
         break;
     case QtInfoMsg:
-        level = QExtLogLevel::INFO_INT;
+        level = QExtLogLevel::Info;
         break;
     default:
-        level = QExtLogLevel::TRACE_INT;
+        level = QExtLogLevel::Trace;
     }
-    LoggingEvent loggingEvent = LoggingEvent(instance()->qtLogger(),
+    QExtLoggingEvent loggingEvent = QExtLoggingEvent(instance()->qtLogger(),
                                              level,
                                              message,
-                                             MessageContext(context.file, context.line, context.function),
+                                             QExtLogMessageContext(context.file, context.line, context.function),
                                              QStringLiteral("Qt ") % context.category);
 
     instance()->qtLogger()->log(loggingEvent);
@@ -506,6 +508,4 @@ static bool isFatal(QtMsgType msgType)
     return false;
 }
 
-LogManager *LogManager::mInstance = nullptr;
-
-}  // namespace Log4Qt
+QExtLogManager *QExtLogManager::mInstance = nullptr;

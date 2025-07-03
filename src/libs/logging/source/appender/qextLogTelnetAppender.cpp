@@ -1,26 +1,27 @@
-/******************************************************************************
- *
- * package:     Log4Qt
- * file:        telnetappender.cpp
- * created:     July 2010
- * author:      Andreas Bacher
- *
- *
- * Copyright 2010 Andreas Bacher
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright 2010 Andreas Bacher
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogTelnetAppender.h>
 #include <qextLoggingEvent.h>
@@ -34,11 +35,8 @@
 #include <utility>
 #endif
 
-namespace Log4Qt
-{
-
-TelnetAppender::TelnetAppender(QObject *parent)
-    : AppenderSkeleton(false, parent)
+QExtLogTelnetAppender::QExtLogTelnetAppender(QObject *parent)
+    : QExtLogAppenderSkeleton(false, parent)
     , mAddress(QHostAddress::Any)
     , mPort(23)
     , mTcpServer(nullptr)
@@ -46,8 +44,8 @@ TelnetAppender::TelnetAppender(QObject *parent)
 {
 }
 
-TelnetAppender::TelnetAppender(const LayoutSharedPtr &layout, QObject *parent)
-    : AppenderSkeleton(false, layout, parent)
+QExtLogTelnetAppender::QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout, QObject *parent)
+    : QExtLogAppenderSkeleton(false, layout, parent)
     , mAddress(QHostAddress::Any)
     , mPort(23)
     , mTcpServer(nullptr)
@@ -55,8 +53,8 @@ TelnetAppender::TelnetAppender(const LayoutSharedPtr &layout, QObject *parent)
 {
 }
 
-TelnetAppender::TelnetAppender(const LayoutSharedPtr &layout, int port, QObject *parent)
-    : AppenderSkeleton(false, layout, parent)
+QExtLogTelnetAppender::QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout, int port, QObject *parent)
+    : QExtLogAppenderSkeleton(false, layout, parent)
     , mAddress(QHostAddress::Any)
     , mPort(port)
     , mTcpServer(nullptr)
@@ -64,9 +62,9 @@ TelnetAppender::TelnetAppender(const LayoutSharedPtr &layout, int port, QObject 
 {
 }
 
-TelnetAppender::TelnetAppender(const LayoutSharedPtr &layout, const QHostAddress &address,
+QExtLogTelnetAppender::QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout, const QHostAddress &address,
                                int port, QObject *parent)
-    : AppenderSkeleton(false, layout, parent)
+    : QExtLogAppenderSkeleton(false, layout, parent)
     , mAddress(address)
     , mPort(port)
     , mTcpServer(nullptr)
@@ -74,65 +72,65 @@ TelnetAppender::TelnetAppender(const LayoutSharedPtr &layout, const QHostAddress
 {
 }
 
-TelnetAppender::~TelnetAppender()
+QExtLogTelnetAppender::~QExtLogTelnetAppender()
 {
     close();
 }
 
-void TelnetAppender::activateOptions()
+void QExtLogTelnetAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
     closeServer();
     openServer();
 
-    AppenderSkeleton::activateOptions();
+    QExtLogAppenderSkeleton::activateOptions();
 }
 
-void TelnetAppender::close()
+void QExtLogTelnetAppender::close()
 {
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
         return;
 
-    AppenderSkeleton::close();
+    QExtLogAppenderSkeleton::close();
     closeServer();
 }
 
-void TelnetAppender::setAddress(const QHostAddress &address)
+void QExtLogTelnetAppender::setAddress(const QHostAddress &address)
 {
     mAddress = address;
 }
 
-QHostAddress TelnetAppender::address() const
+QHostAddress QExtLogTelnetAppender::address() const
 {
     return mAddress;
 }
 
-void TelnetAppender::setPort(int port)
+void QExtLogTelnetAppender::setPort(int port)
 {
     mPort = port;
 }
 
-int TelnetAppender::port() const
+int QExtLogTelnetAppender::port() const
 {
     return mPort;
 }
 
-void TelnetAppender::setWelcomeMessage(const QString &welcomeMessage)
+void QExtLogTelnetAppender::setWelcomeMessage(const QString &welcomeMessage)
 {
     mWelcomeMessage = welcomeMessage;
 }
 
-bool TelnetAppender::requiresLayout() const
+bool QExtLogTelnetAppender::requiresLayout() const
 {
     return true;
 }
 
-void TelnetAppender::append(const LoggingEvent &event)
+void QExtLogTelnetAppender::append(const QExtLoggingEvent &event)
 {
-    Q_ASSERT_X(layout(), "TelnetAppender::append()", "Layout must not be null");
+    Q_ASSERT_X(layout(), "QExtLogTelnetAppender::append()", "QExtLogLayout must not be null");
 
     QString message(layout()->format(event));
 
@@ -148,7 +146,7 @@ void TelnetAppender::append(const LoggingEvent &event)
     }
 }
 
-bool TelnetAppender::checkEntryConditions() const
+bool QExtLogTelnetAppender::checkEntryConditions() const
 {
     if ((mTcpServer == nullptr) || !mTcpServer->isListening())
     {
@@ -159,17 +157,17 @@ bool TelnetAppender::checkEntryConditions() const
         return false;
     }
 
-    return AppenderSkeleton::checkEntryConditions();
+    return QExtLogAppenderSkeleton::checkEntryConditions();
 }
 
-void TelnetAppender::openServer()
+void QExtLogTelnetAppender::openServer()
 {
     mTcpServer = new QTcpServer(this);
-    connect(mTcpServer, &QTcpServer::newConnection, this, &TelnetAppender::onNewConnection);
+    connect(mTcpServer, &QTcpServer::newConnection, this, &QExtLogTelnetAppender::onNewConnection);
     mTcpServer->listen(mAddress, mPort);
 }
 
-void TelnetAppender::closeServer()
+void QExtLogTelnetAppender::closeServer()
 {
     if (mTcpServer != nullptr)
         mTcpServer->close();
@@ -187,12 +185,12 @@ void TelnetAppender::closeServer()
     mTcpServer = nullptr;
 }
 
-QList<QTcpSocket *> TelnetAppender::clients() const
+QList<QTcpSocket *> QExtLogTelnetAppender::clients() const
 {
     return mTcpSockets;
 }
 
-void TelnetAppender::onNewConnection()
+void QExtLogTelnetAppender::onNewConnection()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -203,13 +201,13 @@ void TelnetAppender::onNewConnection()
         {
             mTcpSockets.append(clientConnection);
             connect(clientConnection, &QTcpSocket::disconnected,
-                    this, &TelnetAppender::onClientDisconnected);
+                    this, &QExtLogTelnetAppender::onClientDisconnected);
             sendWelcomeMessage(clientConnection);
         }
     }
 }
 
-void TelnetAppender::sendWelcomeMessage(QTcpSocket *clientConnection)
+void QExtLogTelnetAppender::sendWelcomeMessage(QTcpSocket *clientConnection)
 {
     if (mWelcomeMessage.isEmpty())
         return;
@@ -217,7 +215,7 @@ void TelnetAppender::sendWelcomeMessage(QTcpSocket *clientConnection)
     clientConnection->write(mWelcomeMessage.toLocal8Bit().constData());
 }
 
-void TelnetAppender::onClientDisconnected()
+void QExtLogTelnetAppender::onClientDisconnected()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -228,7 +226,5 @@ void TelnetAppender::onClientDisconnected()
         clientConnection->deleteLater();
     }
 }
-
-} // namespace Log4Qt
 
 // #include "moc_telnetappender.cpp"

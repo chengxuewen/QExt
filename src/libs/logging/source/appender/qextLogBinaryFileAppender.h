@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_BINARYFILEAPPENDER_H
-#define LOG4QT_BINARYFILEAPPENDER_H
+#ifndef _QEXTLOGBINARYFILEAPPENDER_H
+#define _QEXTLOGBINARYFILEAPPENDER_H
 
 #include <qextLogBinaryWriterAppender.h>
 
@@ -27,10 +32,7 @@
 
 class QFile;
 
-namespace Log4Qt
-{
-
-class QEXT_LOGGING_API BinaryFileAppender : public BinaryWriterAppender
+class QEXT_LOGGING_API QExtLogBinaryFileAppender : public QExtLogBinaryWriterAppender
 {
     Q_OBJECT
     Q_PROPERTY(bool appendFile READ appendFile WRITE setAppendFile)
@@ -41,17 +43,17 @@ class QEXT_LOGGING_API BinaryFileAppender : public BinaryWriterAppender
     Q_PROPERTY(QDataStream::Version streamVersion READ streamVersion WRITE setStreamVersion)
 
 public:
-    explicit BinaryFileAppender(QObject *parent = nullptr);
-    BinaryFileAppender(const QString &fileName,
+    explicit QExtLogBinaryFileAppender(QObject *parent = nullptr);
+    QExtLogBinaryFileAppender(const QString &fileName,
                        QObject *parent = nullptr);
-    BinaryFileAppender(const QString &fileName,
+    QExtLogBinaryFileAppender(const QString &fileName,
                        bool append,
                        QObject *parent = nullptr);
-    BinaryFileAppender(const QString &fileName,
+    QExtLogBinaryFileAppender(const QString &fileName,
                        bool append,
                        bool buffered,
                        QObject *parent = nullptr);
-    virtual ~BinaryFileAppender();
+    virtual ~QExtLogBinaryFileAppender();
 
     // properties
     bool appendFile() const;
@@ -81,8 +83,8 @@ protected:
     bool renameFile(QFile &file, const QString &fileName) const;
 
 private:
-    BinaryFileAppender(const BinaryFileAppender &other); // Not implemented
-    BinaryFileAppender &operator=(const BinaryFileAppender &other); // Not implemented
+    QExtLogBinaryFileAppender(const QExtLogBinaryFileAppender &other); // Not implemented
+    QExtLogBinaryFileAppender &operator=(const QExtLogBinaryFileAppender &other); // Not implemented
     void createDataStream();
 
     volatile bool mAppendFile;
@@ -96,68 +98,66 @@ private:
     void closeInternal();
 };
 
-inline bool BinaryFileAppender::appendFile() const
+inline bool QExtLogBinaryFileAppender::appendFile() const
 {
     return mAppendFile;
 }
 
-inline QString BinaryFileAppender::file() const
+inline QString QExtLogBinaryFileAppender::file() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mFileName;
 }
 
-inline bool BinaryFileAppender::bufferedIo() const
+inline bool QExtLogBinaryFileAppender::bufferedIo() const
 {
     return mBufferedIo;
 }
 
-inline void BinaryFileAppender::setAppendFile(bool append)
+inline void QExtLogBinaryFileAppender::setAppendFile(bool append)
 {
     mAppendFile = append;
 }
 
-inline void BinaryFileAppender::setBufferedIo(bool buffered)
+inline void QExtLogBinaryFileAppender::setBufferedIo(bool buffered)
 {
     mBufferedIo = buffered;
 }
 
-inline void BinaryFileAppender::setFile(const QString &fileName)
+inline void QExtLogBinaryFileAppender::setFile(const QString &fileName)
 {
     QMutexLocker locker(&mObjectGuard);
     mFileName = fileName;
 }
 
-inline QDataStream::ByteOrder BinaryFileAppender::byteOrder() const
+inline QDataStream::ByteOrder QExtLogBinaryFileAppender::byteOrder() const
 {
     return mByteOrder;
 }
 
-inline void BinaryFileAppender::setByteOrder(QDataStream::ByteOrder byteorder)
+inline void QExtLogBinaryFileAppender::setByteOrder(QDataStream::ByteOrder byteorder)
 {
     mByteOrder = byteorder;
 }
 
-inline QDataStream::FloatingPointPrecision BinaryFileAppender::floatingPointPrecision() const
+inline QDataStream::FloatingPointPrecision QExtLogBinaryFileAppender::floatingPointPrecision() const
 {
     return mFloatingPointPrecision;
 }
 
-inline void BinaryFileAppender::setFloatingPointPrecision(QDataStream::FloatingPointPrecision floatingpointprecision)
+inline void QExtLogBinaryFileAppender::setFloatingPointPrecision(QDataStream::FloatingPointPrecision floatingpointprecision)
 {
     mFloatingPointPrecision = floatingpointprecision;
 }
 
-inline QDataStream::Version BinaryFileAppender::streamVersion() const
+inline QDataStream::Version QExtLogBinaryFileAppender::streamVersion() const
 {
     return mStreamVersion;
 }
 
-inline void BinaryFileAppender::setStreamVersion(QDataStream::Version version)
+inline void QExtLogBinaryFileAppender::setStreamVersion(QDataStream::Version version)
 {
     mStreamVersion = version;
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_BINARYFILEAPPENDER_H
+#endif // _QEXTLOGBINARYFILEAPPENDER_H

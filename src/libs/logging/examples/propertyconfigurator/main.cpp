@@ -79,7 +79,7 @@ void shutdownRootLogger()
 
 void logStartup()
 {
-    auto logger = Log4Qt::Logger::rootLogger();
+    auto logger = QExtLogger::rootLogger();
 
     logger->info(QStringLiteral("################################################################"));
     logger->info(QStringLiteral("#                          START                               #"));
@@ -88,7 +88,7 @@ void logStartup()
 
 void logShutdown()
 {
-    auto logger = Log4Qt::Logger::rootLogger();
+    auto logger = QExtLogger::rootLogger();
 
     logger->info(QStringLiteral("################################################################"));
     logger->info(QStringLiteral("#                          STOP                                #"));
@@ -100,14 +100,14 @@ void setupRootLogger(const QString &introMessage)
 
     QString configFile = QCoreApplication::applicationDirPath() + "/" + PROPERTIES_FILE_NAME;
     if (QFile::exists(configFile))
-        Log4Qt::PropertyConfigurator::configureAndWatch(configFile);
+        QExtLogPropertyConfigurator::configureAndWatch(configFile);
     if (!introMessage.isEmpty())
-        Log4Qt::Logger::rootLogger()->info(introMessage);
+        QExtLogger::rootLogger()->info(introMessage);
 }
 
 void shutDownRootLogger(const QString &extroMessage)
 {
-    auto logger = Log4Qt::Logger::rootLogger();
+    auto logger = QExtLogger::rootLogger();
 
     if (!extroMessage.isEmpty())
         logger->info(extroMessage);

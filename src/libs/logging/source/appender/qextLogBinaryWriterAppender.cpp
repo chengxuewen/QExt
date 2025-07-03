@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogBinaryWriterAppender.h>
 #include <qextBinaryLoggingEvent.h>
@@ -24,28 +29,25 @@
 
 #include <QDataStream>
 
-namespace Log4Qt
-{
-
-BinaryWriterAppender::BinaryWriterAppender(QObject *parent) :
-    AppenderSkeleton(false, parent),
+QExtLogBinaryWriterAppender::QExtLogBinaryWriterAppender(QObject *parent) :
+    QExtLogAppenderSkeleton(false, parent),
     mWriter(nullptr)
 {
 }
 
-BinaryWriterAppender::BinaryWriterAppender(QDataStream *dataStream,
+QExtLogBinaryWriterAppender::QExtLogBinaryWriterAppender(QDataStream *dataStream,
                                            QObject *parent) :
-    AppenderSkeleton(false, parent),
+    QExtLogAppenderSkeleton(false, parent),
     mWriter(dataStream)
 {
 }
 
-BinaryWriterAppender::~BinaryWriterAppender()
+QExtLogBinaryWriterAppender::~QExtLogBinaryWriterAppender()
 {
     closeInternal();
 }
 
-void BinaryWriterAppender::setWriter(QDataStream *dataStream)
+void QExtLogBinaryWriterAppender::setWriter(QDataStream *dataStream)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -56,29 +58,29 @@ void BinaryWriterAppender::setWriter(QDataStream *dataStream)
 }
 
 
-void BinaryWriterAppender::activateOptions()
+void QExtLogBinaryWriterAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
     if (writer() == nullptr)
     {
-        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of Appender '%1' that requires writer and has no writer set"),
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires writer and has no writer set"),
                                              QExtLogError::Error_AppenderActivateMissingWriter);
         e << name();
         logger()->error(e);
         return;
     }
 
-    AppenderSkeleton::activateOptions();
+    QExtLogAppenderSkeleton::activateOptions();
 }
 
-void BinaryWriterAppender::close()
+void QExtLogBinaryWriterAppender::close()
 {
     closeInternal();
-    AppenderSkeleton::close();
+    QExtLogAppenderSkeleton::close();
 }
 
-void BinaryWriterAppender::closeInternal()
+void QExtLogBinaryWriterAppender::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -88,16 +90,16 @@ void BinaryWriterAppender::closeInternal()
     closeWriter();
 }
 
-bool BinaryWriterAppender::requiresLayout() const
+bool QExtLogBinaryWriterAppender::requiresLayout() const
 {
     return false;
 }
 
-void BinaryWriterAppender::append(const LoggingEvent &event)
+void QExtLogBinaryWriterAppender::append(const QExtLoggingEvent &event)
 {
-    const auto *binEvent = dynamic_cast<const BinaryLoggingEvent *>(&event);
-    const LayoutSharedPtr l = layout();
-    const BinaryLayout *bl = qobject_cast<BinaryLayout *>(l.data());
+    const auto *binEvent = dynamic_cast<const QExtBinaryLoggingEvent *>(&event);
+    const QExtLogLayoutSharedPtr l = layout();
+    const QExtLogBinaryLayout *bl = qobject_cast<QExtLogBinaryLayout *>(l.data());
 
     if (binEvent != nullptr)
     {
@@ -111,7 +113,7 @@ void BinaryWriterAppender::append(const LoggingEvent &event)
     {
         // handle non binary events
         if ((l != nullptr) && (bl == nullptr))
-            *mWriter << l->format(event); // if the message and the layout are not binary, output it as in WriterAppender
+            *mWriter << l->format(event); // if the message and the layout are not binary, output it as in QExtLogWriterAppender
         else
             *mWriter << event.message();  // if the message is not binary and there is no layout or the layout is binary, output it without the layout
     }
@@ -119,7 +121,7 @@ void BinaryWriterAppender::append(const LoggingEvent &event)
     handleIoErrors();
 }
 
-bool BinaryWriterAppender::checkEntryConditions() const
+bool QExtLogBinaryWriterAppender::checkEntryConditions() const
 {
     if (mWriter == nullptr)
     {
@@ -130,11 +132,11 @@ bool BinaryWriterAppender::checkEntryConditions() const
         return false;
     }
 
-    return AppenderSkeleton::checkEntryConditions();
+    return QExtLogAppenderSkeleton::checkEntryConditions();
 }
 
 
-void BinaryWriterAppender::closeWriter()
+void QExtLogBinaryWriterAppender::closeWriter()
 {
     if (mWriter == nullptr)
         return;
@@ -143,24 +145,24 @@ void BinaryWriterAppender::closeWriter()
     mWriter = nullptr;
 }
 
-bool BinaryWriterAppender::handleIoErrors() const
+bool QExtLogBinaryWriterAppender::handleIoErrors() const
 {
     return false;
 }
 
-void BinaryWriterAppender::writeHeader() const
+void QExtLogBinaryWriterAppender::writeHeader() const
 {
     if ((layout() != nullptr) && (mWriter != nullptr))
         writeRawData(binaryLayout()->binaryHeader());
 }
 
-void BinaryWriterAppender::writeFooter() const
+void QExtLogBinaryWriterAppender::writeFooter() const
 {
     if ((layout() != nullptr) && (mWriter != nullptr))
         writeRawData(binaryLayout()->binaryFooter());
 }
 
-void BinaryWriterAppender::writeRawData(const QByteArray &data) const
+void QExtLogBinaryWriterAppender::writeRawData(const QByteArray &data) const
 {
     if (data.isEmpty())
         return;
@@ -171,11 +173,9 @@ void BinaryWriterAppender::writeRawData(const QByteArray &data) const
         return;
 }
 
-BinaryLayout *BinaryWriterAppender::binaryLayout() const
+QExtLogBinaryLayout *QExtLogBinaryWriterAppender::binaryLayout() const
 {
-    return qobject_cast<BinaryLayout *>(layout().data());
+    return qobject_cast<QExtLogBinaryLayout *>(layout().data());
 }
-
-} // namespace Log4Qt
 
 // #include "moc_binarywriterappender.cpp"

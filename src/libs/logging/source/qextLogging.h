@@ -1,13 +1,29 @@
-//
-// Created by cxw on 2024/1/11.
-//
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef _QEXTPAINTER_H
-#define _QEXTPAINTER_H
-
-// #include "log4qt.h"
-// #include "log4qtsharedptr.h"
-
+#ifndef _QEXTLOGGING_H
+#define _QEXTLOGGING_H
 
 /*!
  * \page Log4Qt/Log4j
@@ -43,90 +59,90 @@
  *   of environment variables and application settings. For details see
  *   \ref Env "Environment Variables".
  * - Custom levels are not supported.
- * - Multiple Logger Repositories are not supported
+ * - Multiple QExtLogger Repositories are not supported
  *
  * The following classes have been changed:
  *
- * - \ref Log4Qt::AppenderSkeleton "AppenderSkeleton"
+ * - \ref QExtLogAppenderSkeleton "QExtLogAppenderSkeleton"
  *   - The procedure of checking, if logging is possible, originally used by
- *     \ref Log4Qt::WriterAppender "WriterAppender" was generalised and is used
- *     in \ref Log4Qt::AppenderSkeleton "AppenderSkeleton" and derived classes
- *     (\ref Log4Qt::AppenderSkeleton::checkEntryConditions() "checkEntryConditions()").
- *   - The \ref Log4Qt::AppenderSkeleton::doAppend() "doAppend()" member function will
+ *     \ref QExtLogWriterAppender "QExtLogWriterAppender" was generalised and is used
+ *     in \ref QExtLogAppenderSkeleton "QExtLogAppenderSkeleton" and derived classes
+ *     (\ref QExtLogAppenderSkeleton::checkEntryConditions() "checkEntryConditions()").
+ *   - The \ref QExtLogAppenderSkeleton::doAppend() "doAppend()" member function will
  *     check the entry conditions by calling the sub-class specific
- *     \ref Log4Qt::AppenderSkeleton::checkEntryConditions() "checkEntryConditions()".
+ *     \ref QExtLogAppenderSkeleton::checkEntryConditions() "checkEntryConditions()".
  *     If successful the sub-class specific
- *     \ref Log4Qt::AppenderSkeleton::append() "append()" function is called.
+ *     \ref QExtLogAppenderSkeleton::append() "append()" function is called.
  *
  * - Configurator
  *   - Configure functions return a boolean indicating, if the configuration
  *     was successful.
  *   - Configure errors are accessible over
- *     \ref Log4Qt::ConfiguratorHelper::configureError()
- *     "ConfiguratorHelper::configureError()".
+ *     \ref QExtLogConfiguratorHelper::configureError()
+ *     "QExtLogConfiguratorHelper::configureError()".
  *   - Watching for configuration file changes is a function performed
- *     centrally by the \ref Log4Qt::ConfiguratorHelper "ConfiguratorHelper".
+ *     centrally by the \ref QExtLogConfiguratorHelper "QExtLogConfiguratorHelper".
  *     The class provides Q_SIGNALS to notify on configuration change and errors.
- *   - The class \ref Log4Qt::PropertyConfigurator "PropertyConfigurator" was
+ *   - The class \ref QExtLogPropertyConfigurator "QExtLogPropertyConfigurator" was
  *     extended to be able to read configuration data from a QSettings object.
  *
  * - \ref QExtLogLevel "QExtLogLevel"
- *   - A new value \ref QExtLogLevel::NULL_INT "QExtLogLevel::NULL_INT" was
+ *   - A new value \ref QExtLogLevel::Null "QExtLogLevel::Null" was
  *     introduced to indicate there is no level set.
  *
- * - \ref Log4Qt::Logger "Logger"
- *   - The method \ref Log4Qt::Logger::isEnabledFor() "isEnabledFor()"
+ * - \ref QExtLogger "QExtLogger"
+ *   - The method \ref QExtLogger::isEnabledFor() "isEnabledFor()"
  *     does also take the repository threshold into account.
  *   - Several overloaded convenience member function are available to log
  *     messages with arguments of different types.
- *   - Two macros, \ref Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER "LOG4QT_DECLARE_STATIC_LOGGER"
- *     and \ref Log4Qt::LOG4QT_DECLARE_QCLASS_LOGGER "LOG4QT_DECLARE_QCLASS_LOGGER",
+ *   - Two macros, \ref QEXT_DECLARE_STATIC_LOGGER "QEXT_DECLARE_STATIC_LOGGER"
+ *     and \ref QEXT_DECLARE_QCLASS_LOGGER "QEXT_DECLARE_QCLASS_LOGGER",
  *     allows retrieving and caching of a pointer to a logger object.
  *
- * - \ref Log4Qt::LogManager "LogManager"
+ * - \ref QExtLogManager "QExtLogManager"
  *   - A QtMessage handler can be installed via
- *     \ref Log4Qt::LogManager::setHandleQtMessages() "setHandleQtMessages()",
+ *     \ref QExtLogManager::setHandleQtMessages() "setHandleQtMessages()",
  *     to redirect all messages created by calls to qDebug(), qWarning(),
  *     qCritical() and qFatal() to a logger. The logger is named Qt and can be
- *     accessed using \ref Log4Qt::LogManager::qtLogger() "qtLogger()".
+ *     accessed using \ref QExtLogManager::qtLogger() "qtLogger()".
  *   - The initialisation procedure is available over a public method
- *     (\ref Log4Qt::LogManager::startup() "startup()").
- *   - The LogManager provides access to the logger used internally by the
- *     package (\ref Log4Qt::LogManager::logLogger() "logLogger()") and to
+ *     (\ref QExtLogManager::startup() "startup()").
+ *   - The QExtLogManager provides access to the logger used internally by the
+ *     package (\ref QExtLogManager::logLogger() "logLogger()") and to
  *     its default initialisation procedure
- *     (\ref Log4Qt::LogManager::configureLogLogger() "configureLogLogger()").
+ *     (\ref QExtLogManager::configureLogLogger() "configureLogLogger()").
  *
- * - \ref Log4Qt::WriterAppender "WriterAppender"
- *   - The class will call  \ref Log4Qt::WriterAppender::handleIoErrors()
+ * - \ref QExtLogWriterAppender "QExtLogWriterAppender"
+ *   - The class will call  \ref QExtLogWriterAppender::handleIoErrors()
  *     "handleIoErrors()" after all I/O operations. Sub-classes should
  *     re-implement the function to handle errors.
  *
- * - \ref Log4Qt::RollingFileAppender "RollingFileAppender"*
+ * - \ref QExtLogRollingFileAppender "QExtLogRollingFileAppender"*
  *   - The class behaves different to the log4/log4cpp implementation
  *     on application restart the existing log files are rolled if
  *     appendFile is set to false to avoid data loss.
  *
  * The following classes have been added:
  *
- * - An additional appender class, \ref Log4Qt::DebugAppender "DebugAppender",
+ * - An additional appender class, \ref QExtLogDebugAppender "QExtLogDebugAppender",
  *   was added. The class appends logging events to the platform specific debug
  *   output.
  * - Various helper class have been introduced:
- *   - \ref Log4Qt::ClassLogger "ClassLogger": The class ClassLogger provides
+ *   - \ref QExtClassLogger "QExtClassLogger": The class QExtClassLogger provides
  *     logging for a QObject derived class.
- *   - \ref Log4Qt::ConfiguratorHelper "ConfiguratorHelper": The class
- *     ConfiguratorHelper provides a configuration file watch and last error
+ *   - \ref QExtLogConfiguratorHelper "QExtLogConfiguratorHelper": The class
+ *     QExtLogConfiguratorHelper provides a configuration file watch and last error
  *     for configurator classes.
  *   - \ref QExtLogDateTime "QExtLogDateTime": The class QExtLogDateTime provides extended
  *     functionality for QDateTime.
  *   - \ref QExtLogError "QExtLogError": The class QExtLogError represents an error.
- *   - \ref Log4Qt::Factory "Factory": The class Factory provides factories
- *     for Appender, Filter and Layout objects.
- *   - \ref Log4Qt::InitialisationHelper "InitialisationHelper": The class
- *     InitialisationHelper performs static initialisation tasks.
- *   - \ref Log4Qt::PatternFormatter "PatternFormatter": The class
- *     PatternFormatter formats a logging event based on a pattern string.
- *   - \ref Log4Qt::Properties "Properties": The class Properties implements a
+ *   - \ref QExtLogFactory "QExtLogFactory": The class QExtLogFactory provides factories
+ *     for QExtLogAppender, QExtLogFilter and QExtLogLayout objects.
+ *   - \ref QExtLogInitialisationHelper "QExtLogInitialisationHelper": The class
+ *     QExtLogInitialisationHelper performs static initialisation tasks.
+ *   - \ref QExtLogPatternFormatter "QExtLogPatternFormatter": The class
+ *     QExtLogPatternFormatter formats a logging event based on a pattern string.
+ *   - \ref QExtLogProperties "QExtLogProperties": The class QExtLogProperties implements a
  *     JAVA property hash.
  */
 
@@ -140,16 +156,16 @@
  * In general an object can be created explicitly for example an application
  * may create Loggers, Appenders and Layouts during creation of a QApplication
  * object. But they can also be automatically created by the package on
- * startup using a \ref Log4Qt::PropertyConfigurator "PropertyConfigurator"
+ * startup using a \ref QExtLogPropertyConfigurator "QExtLogPropertyConfigurator"
  * configuration file. Objects may also be created the one way and then used
- * the other. Object may be used by multiple other objects. A Layout for example
+ * the other. Object may be used by multiple other objects. A QExtLogLayout for example
  * may be used by multiple Appenders. Objects are also created from multiple
  * threads. The creation may happen during static initialisation and the
  * deletion during static de-initialization.
  *
  * The parent child model used by QObject cannot be used to handle this. It
  * cannot automatically delete an object that is used by multiple others as
- * for example an Appender used by multiple Loggers. In addition to this
+ * for example an QExtLogAppender used by multiple Loggers. In addition to this
  * QObjects and their children must reside in the same thread. This would
  * either mean to impose restriction on how objects can be created or to move
  * objects to a specific thread.
@@ -162,19 +178,19 @@
  *
  * \code
  * // Create layout
- * TTCCLayout *p_layout = new TTCCLayout();
+ * QExtLogTTCCLayout *p_layout = new QExtLogTTCCLayout();
  *
  * // Create appender
- * ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
+ * QExtLogConsoleAppender *p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDOUT_TARGET);
  * p_appender->activateOptions();
  *
  * // Get logger
- * Logger *p_logger = Logger::logger("MyClass");
+ * QExtLogger *p_logger = QExtLogger::logger("MyClass");
  * p_logger->addAppender(p_appender);
  *
  * // ...
  *
- * // Remove appender from Logger
+ * // Remove appender from QExtLogger
  * p_logger->removeAllAppenders(); // p_appender and p_layout are deleted here
  * \endcode
  *
@@ -185,21 +201,21 @@
  * QObject *p_parent = new MyObject;
  *
  * // Create objects
- * ConsoleAppender *p_appender = new ConsoleAppender(p_parent);
- * TTCCLayout *p_layout = new TTCCLayout(p_appender);
+ * QExtLogConsoleAppender *p_appender = new QExtLogConsoleAppender(p_parent);
+ * QExtLogTTCCLayout *p_layout = new QExtLogTTCCLayout(p_appender);
  *
  * // Configure appender
- * p_appender->setTarget(ConsoleAppender::STDOUT_TARGET);
- * p_appender->setLayout(LayoutSharedPtr(p_layout));
+ * p_appender->setTarget(QExtLogConsoleAppender::STDOUT_TARGET);
+ * p_appender->setLayout(QExtLogLayoutSharedPtr(p_layout));
  * p_appender->activateOptions();
  *
  * // Get logger
- * Logger *p_logger = Logger::logger("MyClass");
- * p_logger->addAppender(AppenderSharedPtr(p_appender));
+ * QExtLogger *p_logger = QExtLogger::logger("MyClass");
+ * p_logger->addAppender(QExtLogAppenderSharedPtr(p_appender));
  *
  * // ...
  *
- * // Remove appender from Logger
+ * // Remove appender from QExtLogger
  * p_logger->removeAllAppenders();
  *
  * delete p_parent; // p_appender and p_layout are deleted here
@@ -218,27 +234,27 @@
  * Using this approach introduces the issue of recursion. The following example
  * explains a situation where this happens. Let's say all logger are configured
  * to be additive and only the root logger has an appender set. The appender
- * is a \ref Log4Qt::FileAppender "FileAppender". During the logging of an
- * event an I/O error occurs. The \ref Log4Qt::FileAppender "FileAppender" logs
- * an event by itself using the logger %Log4Qt::FileAppender. The event is
- * passed to the root logger, which calls then the \ref Log4Qt::FileAppender
- * "FileAppender". This causes another I/O error, which is logged by
- * the \ref Log4Qt::FileAppender "FileAppender".
+ * is a \ref QExtLogFileAppender "QExtLogFileAppender". During the logging of an
+ * event an I/O error occurs. The \ref QExtLogFileAppender "QExtLogFileAppender" logs
+ * an event by itself using the logger %QExtLogFileAppender. The event is
+ * passed to the root logger, which calls then the \ref QExtLogFileAppender
+ * "QExtLogFileAppender". This causes another I/O error, which is logged by
+ * the \ref QExtLogFileAppender "QExtLogFileAppender".
  *
  * To avoid an endless loop the appender will drop the event on a recursive
- * invocation. This check is done by \ref Log4Qt::AppenderSkeleton
- * "AppenderSkeleton" in \ref Log4Qt::AppenderSkeleton::doAppend()
+ * invocation. This check is done by \ref QExtLogAppenderSkeleton
+ * "QExtLogAppenderSkeleton" in \ref QExtLogAppenderSkeleton::doAppend()
  * "doAppend()".
  *
  * The problem only occurs, if a logger, appender, layout or filter log an
  * event while an event is appended. Neither the logger class nor any of the
  * layout or filter classes log events during appending of an event. Most of
  * the appender classes may log errors during appending. Only the
- * \ref Log4Qt::ListAppender "ListAppender" and
- * \ref Log4Qt::ListAppender "ConsoleAppender" are not logging events.
+ * \ref QExtLogListAppender "QExtLogListAppender" and
+ * \ref QExtLogListAppender "QExtLogConsoleAppender" are not logging events.
  *
- * The default configuration uses two \ref Log4Qt::ListAppender
- * "ConsoleAppender", one for stderr and one for stdout. No event will be
+ * The default configuration uses two \ref QExtLogListAppender
+ * "QExtLogConsoleAppender", one for stderr and one for stdout. No event will be
  * dropped, because no recursive invocations can occur.
  */
 
@@ -247,56 +263,56 @@
  *
  * The package is initialised in two stages. The first stage takes place during
  * static initialization. The second stage takes place when the
- * \ref Log4Qt::LogManager "LogManager" singleton is created.
+ * \ref QExtLogManager "QExtLogManager" singleton is created.
  *
- * During static initialisation the \ref Log4Qt::InitialisationHelper
- * "InitialisationHelper" singleton is created . On construction it captures
+ * During static initialisation the \ref QExtLogInitialisationHelper
+ * "QExtLogInitialisationHelper" singleton is created . On construction it captures
  * the program startup time, reads the required values from the system
  * environment and registers the package types with the Qt type system.
  *
- * The \ref Log4Qt::LogManager "LogManager" singleton is created on first use.
- * The creation is usually triggered by the request for a \ref Log4Qt::Logger
- * "Logger" object. The call to \ref Log4Qt::Logger::logger()
- * "Logger::logger()" is passed through to \ref Log4Qt::LogManager::logger()
- * "LogManager::logger()". On creation the \ref Log4Qt::LogManager "LogManager"
- * creates a \ref Log4Qt::Hierarchy "Hierarchy" object as logger repository.
+ * The \ref QExtLogManager "QExtLogManager" singleton is created on first use.
+ * The creation is usually triggered by the request for a \ref QExtLogger
+ * "QExtLogger" object. The call to \ref QExtLogger::logger()
+ * "QExtLogger::logger()" is passed through to \ref QExtLogManager::logger()
+ * "QExtLogManager::logger()". On creation the \ref QExtLogManager "QExtLogManager"
+ * creates a \ref QExtLogHierarchy "QExtLogHierarchy" object as logger repository.
  *
  * After the singleton is created the logging of the package is configured to
- * its default by a call to \ref Log4Qt::LogManager::configureLogLogger()
- * "LogManager::configureLogLogger()". The logger
- * \ref Log4Qt::LogManager::logLogger() "logLogger()" is configured to be not
- * additive. Messages with the level \ref QExtLogLevel::ERROR_INT
- * "QExtLogLevel::ERROR_INT" and \ref QExtLogLevel::FATAL_INT "QExtLogLevel::FATAL_INT" are
- * written to \c stderr using a ConsoleAppender. The remaining messages are
- * written to \c stdout using a second ConsoleAppender. The level is read from
+ * its default by a call to \ref QExtLogManager::configureLogLogger()
+ * "QExtLogManager::configureLogLogger()". The logger
+ * \ref QExtLogManager::logLogger() "logLogger()" is configured to be not
+ * additive. Messages with the level \ref QExtLogLevel::Error
+ * "QExtLogLevel::Error" and \ref QExtLogLevel::Fatal "QExtLogLevel::Fatal" are
+ * written to \c stderr using a QExtLogConsoleAppender. The remaining messages are
+ * written to \c stdout using a second QExtLogConsoleAppender. The level is read from
  * the system environment or application settings using
- * \ref Log4Qt::InitialisationHelper::setting()
- * "InitialisationHelper::setting()" with the key \c Debug. If a level value
+ * \ref QExtLogInitialisationHelper::setting()
+ * "QExtLogInitialisationHelper::setting()" with the key \c Debug. If a level value
  * is found, but it is not a valid QExtLogLevel string,
- * \ref QExtLogLevel::DEBUG_INT "QExtLogLevel::DEBUG_INT" is used. If no level string
- * is found \ref QExtLogLevel::ERROR_INT "QExtLogLevel::ERROR_INT" is used.
+ * \ref QExtLogLevel::Debug "QExtLogLevel::Debug" is used. If no level string
+ * is found \ref QExtLogLevel::Error "QExtLogLevel::Error" is used.
  *
  * Once the logging is configured the package is initialised by a call to
- * \ref Log4Qt::LogManager::startup() "LogManager::startup()". The function
+ * \ref QExtLogManager::startup() "QExtLogManager::startup()". The function
  * will test for the setting \c DefaultInitOverride in the system environment
- * and application settings using \ref Log4Qt::InitialisationHelper::setting()
- * "InitialisationHelper::setting()". If the value is present and set to
+ * and application settings using \ref QExtLogInitialisationHelper::setting()
+ * "QExtLogInitialisationHelper::setting()". If the value is present and set to
  * anything else then \c false, the initialisation is aborted.<br>
  * The system environment and application settings are tested for the setting
  * \c Configuration. If it is found and it is a valid path to a file, the
  * package is configured with the file using
- * \ref Log4Qt::PropertyConfigurator::doConfigure(const QString &, LoggerRepository *)
- * "PropertyConfigurator::doConfigure()". If the setting \c Configuration is
+ * \ref QExtLogPropertyConfigurator::doConfigure(const QString &, QExtLoggerRepository *)
+ * "QExtLogPropertyConfigurator::doConfigure()". If the setting \c Configuration is
  * not available and a QCoreApplication object is present, the application
- * settings are tested for a group \c Properties. If the group exists,
+ * settings are tested for a group \c QExtLogProperties. If the group exists,
  * the package is configured with the setting using the
- * \ref Log4Qt::PropertyConfigurator::doConfigure(const QSettings &properties, LoggerRepository *)
+ * \ref QExtLogPropertyConfigurator::doConfigure(const QSettings &properties, QExtLoggerRepository *)
  * "PropertyConfiguratordoConfigure()". If neither a configuration file nor
  * configuration settings could be found, the current working directory is
  * searched for the file \c "log4qt.properties". If it is found, the package
  * is configured with the file using
- * \ref Log4Qt::PropertyConfigurator::doConfigure(const QString &, LoggerRepository *)
- * "PropertyConfigurator::doConfigure()".
+ * \ref QExtLogPropertyConfigurator::doConfigure(const QString &, QExtLoggerRepository *)
+ * "QExtLogPropertyConfigurator::doConfigure()".
  *
  * The following example shows how to use application settings to initialise the
  * package.
@@ -330,7 +346,7 @@
  *     setOrganizationDomain("www.myorganisation.com");
  *
  *     // Log first message, which initialises Log4Qt
- *     Log4Qt::Logger::logger("MyApplication")->info("Hello World");
+ *     QExtLogger::logger("MyApplication")->info("Hello World");
  * }
  *
  * MyApplication::~MyApplication()
@@ -346,10 +362,10 @@
  *     s.setValue("Debug", "TRACE");
  *
  *     // Configure logging to log to the file C:/myapp.log using the level TRACE
- *     s.beginGroup("Properties");
- *     s.setValue("log4j.appender.A1", "org.apache.log4j.FileAppender");
+ *     s.beginGroup("QExtLogProperties");
+ *     s.setValue("log4j.appender.A1", "org.apache.log4j.QExtLogFileAppender");
  *     s.setValue("log4j.appender.A1.file", "C:/myapp.log");
- *     s.setValue("log4j.appender.A1.layout", "org.apache.log4j.TTCCLayout");
+ *     s.setValue("log4j.appender.A1.layout", "org.apache.log4j.QExtLogTTCCLayout");
  *     s.setValue("log4j.appender.A1.layout.DateFormat", "ISO8601");
  *     s.setValue("log4j.rootLogger", "TRACE, A1");
  *
@@ -371,41 +387,41 @@
  *
  * - LOG4QT_DEBUG<br>
  *   The variable controls the \ref QExtLogLevel "QExtLogLevel" value for the
- *   logger \ref Log4Qt::LogManager::logLogger() "LogManager::logLogger()".
+ *   logger \ref QExtLogManager::logLogger() "QExtLogManager::logLogger()".
  *   If the value is a valid \ref QExtLogLevel "QExtLogLevel" string, the level for
  *   the is set to the level. If the value is not a valid
- *   \ref QExtLogLevel "QExtLogLevel" string, \ref QExtLogLevel::DEBUG_INT
- *   "DEBUG_INT" is used. Otherwise \ref QExtLogLevel::ERROR_INT "ERROR_INT"
+ *   \ref QExtLogLevel "QExtLogLevel" string, \ref QExtLogLevel::Debug
+ *   "Debug" is used. Otherwise \ref QExtLogLevel::Error "Error"
  *   is used.
- *   - \ref Log4Qt::LogManager::configureLogLogger()
- *     "LogManager::configureLogLogger()"
+ *   - \ref QExtLogManager::configureLogLogger()
+ *     "QExtLogManager::configureLogLogger()"
  *
  * - LOG4QT_DEFAULTINITOVERRIDE<br>
  *   The variable controls the \ref Init "initialization procedure" performed
- *   by the \ref Log4Qt::LogManager "LogManager" on startup. If it is set to
+ *   by the \ref QExtLogManager "QExtLogManager" on startup. If it is set to
  *   any other value then \c false the \ref Init "initialization procedure"
  *   is skipped.
- *   - \ref Log4Qt::LogManager::startup() "LogManager::startup()"
+ *   - \ref QExtLogManager::startup() "QExtLogManager::startup()"
  *
  * - LOG4QT_CONFIGURATION<br>
  *   The variable specifies the configuration file used for initialising the
  *   package.
- *   - \ref Log4Qt::LogManager::startup() "LogManager::startup()"
+ *   - \ref QExtLogManager::startup() "QExtLogManager::startup()"
  *
  *
  * Environment variables are read during static initialisation on creation of
- * the \ref Log4Qt::InitialisationHelper "InitialisationHelper". They can be
- * accessed by calling \ref Log4Qt::InitialisationHelper::environmentSettings()
- * "InitialisationHelper::environmentSettings()".
+ * the \ref QExtLogInitialisationHelper "QExtLogInitialisationHelper". They can be
+ * accessed by calling \ref QExtLogInitialisationHelper::environmentSettings()
+ * "QExtLogInitialisationHelper::environmentSettings()".
  *
  * All settings can also be made in the application settings under the group
  * \c %Log4Qt. For example the environment variable \c LOG4QT_DEBUG is
  * equivalent to the setting \c Debug. If an environment variable is
  * set it takes precedence over the application setting. Settings are only
  * used, if an QApplication object is available, when the
- * \ref Log4Qt::LogManager "LogManager" is
- * initialised (see \ref Log4Qt::InitialisationHelper::setting()
- * "InitialisationHelper::setting()" for details).
+ * \ref QExtLogManager "QExtLogManager" is
+ * initialised (see \ref QExtLogInitialisationHelper::setting()
+ * "QExtLogInitialisationHelper::setting()" for details).
  */
 
 /*!
@@ -417,7 +433,7 @@
  * are used.
  *
  * - QT_WA: The macro is used to call Windows A/W functions
- *    - \ref Log4Qt::DebugAppender "DebugAppender"
+ *    - \ref QExtLogDebugAppender "QExtLogDebugAppender"
  */
 
 /*!
@@ -426,22 +442,22 @@
  * The following assumptions are used throughout the package:
  *
  * - Reading / writing of bool or int is thread-safe, if declared volatile
- *   - \ref Log4Qt::ListAppender "ListAppender"
- *   - \ref Log4Qt::AppenderSkeleton "AppenderSkeleton"
- *   - \ref Log4Qt::ConsoleAppender "ConsoleAppender"
- *   - \ref Log4Qt::FileAppender "FileAppender"
- *   - \ref Log4Qt::Hierarchy "Hierarchy"
+ *   - \ref QExtLogListAppender "QExtLogListAppender"
+ *   - \ref QExtLogAppenderSkeleton "QExtLogAppenderSkeleton"
+ *   - \ref QExtLogConsoleAppender "QExtLogConsoleAppender"
+ *   - \ref QExtLogFileAppender "QExtLogFileAppender"
+ *   - \ref QExtLogHierarchy "QExtLogHierarchy"
  *   - \ref QExtLogLevel "QExtLogLevel"
- *   - \ref Log4Qt::Logger "Logger"
- *   - \ref Log4Qt::WriterAppender "WriterAppender"
- * - \ref Log4Qt::Layout::format() "Layout::format()" is implemented reentrant
+ *   - \ref QExtLogger "QExtLogger"
+ *   - \ref QExtLogWriterAppender "QExtLogWriterAppender"
+ * - \ref QExtLogLayout::format() "QExtLogLayout::format()" is implemented reentrant
  *   in all sub-classes.
- *   - \ref Log4Qt::AppenderSkeleton "AppenderSkeleton"
+ *   - \ref QExtLogAppenderSkeleton "QExtLogAppenderSkeleton"
  * - Being able to use singleton objects during static de-initialization without
  *   order issues is more valuable then their destruction.
- *   - \ref Log4Qt::LogManager "LogManager"
- *   - \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
+ *   - \ref QExtLogManager "QExtLogManager"
+ *   - \ref LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
  */
 
 
-#endif //_QEXTPAINTER_H
+#endif //_QEXTLOGGING_H

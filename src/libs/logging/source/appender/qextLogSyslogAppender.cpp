@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogSyslogAppender.h>
 #include <qextLoggingEvent.h>
@@ -85,20 +90,19 @@ static QString encodeName(const QString &name, bool allowUpper = false)
     return n;
 }
 #endif
-namespace Log4Qt
-{
-SystemLogAppender::SystemLogAppender(QObject *parent) :
-    AppenderSkeleton(parent), ident(nullptr)
+
+QExtLogSystemLogAppender::QExtLogSystemLogAppender(QObject *parent) :
+    QExtLogAppenderSkeleton(parent), ident(nullptr)
 {
     setServiceName(QCoreApplication::applicationName());
 }
 
-SystemLogAppender::~SystemLogAppender()
+QExtLogSystemLogAppender::~QExtLogSystemLogAppender()
 {
     delete[] ident;
 }
 
-void SystemLogAppender::append(const LoggingEvent &event)
+void QExtLogSystemLogAppender::append(const QExtLoggingEvent &event)
 {
     QString message(layout()->format(event));
 
@@ -108,16 +112,16 @@ void SystemLogAppender::append(const LoggingEvent &event)
     WORD wType;
     switch (event.level().toInt())
     {
-    case QExtLogLevel::WARN_INT:
+    case QExtLogLevel::Warn:
         wType = EVENTLOG_WARNING_TYPE;
         break;
-    case QExtLogLevel::ERROR_INT:
+    case QExtLogLevel::Error:
         wType = EVENTLOG_ERROR_TYPE;
         break;
-    case QExtLogLevel::FATAL_INT:
+    case QExtLogLevel::Fatal:
         wType = EVENTLOG_ERROR_TYPE;
         break;
-    case QExtLogLevel::OFF_INT:
+    case QExtLogLevel::Off:
         wType = EVENTLOG_SUCCESS;
         break;
     default:
@@ -143,13 +147,13 @@ void SystemLogAppender::append(const LoggingEvent &event)
     int st;
     switch (event.level().toInt())
     {
-    case QExtLogLevel::WARN_INT:
+    case QExtLogLevel::Warn:
         st = LOG_WARNING;
         break;
-    case QExtLogLevel::ERROR_INT:
+    case QExtLogLevel::Error:
         st = LOG_ERR;
         break;
-    case QExtLogLevel::FATAL_INT:
+    case QExtLogLevel::Fatal:
         st = LOG_ERR;
         break;
     default:
@@ -169,12 +173,12 @@ void SystemLogAppender::append(const LoggingEvent &event)
 #endif
 }
 
-QString SystemLogAppender::serviceName() const
+QString QExtLogSystemLogAppender::serviceName() const
 {
     return mServiceName;
 }
 
-void SystemLogAppender::setServiceName(const QString &serviceName)
+void QExtLogSystemLogAppender::setServiceName(const QString &serviceName)
 {
     mServiceName = serviceName;
 
@@ -186,8 +190,6 @@ void SystemLogAppender::setServiceName(const QString &serviceName)
     ident[len] = '\0';
     ::memcpy(ident, tmp.toLocal8Bit().constData(), len);
 #endif
-}
-
 }
 
 // #include "moc_systemlogappender.cpp"

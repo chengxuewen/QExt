@@ -1,76 +1,78 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_PATTERNFORMATTER_H
-#define LOG4QT_PATTERNFORMATTER_H
+#ifndef _QEXTLOGPATTERNFORMATTER_H
+#define _QEXTLOGPATTERNFORMATTER_H
 
 #include <qextLoggingGlobal.h>
 
 #include <QList>
 #include <QString>
 
-namespace Log4Qt
-{
-
-class FormattingInfo;
-class PatternConverter;
-class LoggingEvent;
+class QExtLogFormattingInfo;
+class QExtLogPatternConverter;
+class QExtLoggingEvent;
 
 /*!
- * \brief The class PatternFormatter formats a logging event based on a
+ * \brief The class QExtLogPatternFormatter formats a logging event based on a
  *        pattern string.
  *
- * The class PatternFormatter formats a LoggingEvent base on a pattern
- * string. It is used by the patternLayout and TTCCLayout class to
+ * The class QExtLogPatternFormatter formats a QExtLoggingEvent base on a pattern
+ * string. It is used by the patternLayout and QExtLogTTCCLayout class to
  * implement the formatting.
  *
  * On object construction the provided patterns tring is parsed. Based on
- * the information found a chain of PatternConverter is created. Each
- * PatternConverter handles a certain member of a LoggingEvent.
+ * the information found a chain of QExtLogPatternConverter is created. Each
+ * QExtLogPatternConverter handles a certain member of a QExtLoggingEvent.
  *
- * \sa PatternLayout::format()
- * \sa TTCCLayout::format()
+ * \sa QExtLogPatternLayout::format()
+ * \sa QExtLogTTCCLayout::format()
  */
-class QEXT_LOGGING_API PatternFormatter
+class QEXT_LOGGING_API QExtLogPatternFormatter
 {
 public:
     /*!
-     * Creates a PatternFormatter using a the specified \a pattern.
+     * Creates a QExtLogPatternFormatter using a the specified \a pattern.
      */
-    explicit PatternFormatter(const QString &pattern);
+    explicit QExtLogPatternFormatter(const QString &pattern);
 
     /*!
-     * Destroys the PatternFormatter and all PatternConverter.
+     * Destroys the QExtLogPatternFormatter and all QExtLogPatternConverter.
      */
-    virtual ~PatternFormatter();
+    virtual ~QExtLogPatternFormatter();
 
 private:
-    QEXT_DISABLE_COPY_MOVE(PatternFormatter)
+    QEXT_DISABLE_COPY_MOVE(QExtLogPatternFormatter)
 
 public:
     /*!
      * Formats the given \a loggingEvent using the chain of
-     * PatternConverter created during construction from the specified
+     * QExtLogPatternConverter created during construction from the specified
      * pattern.
      */
-    QString format(const LoggingEvent &loggingEvent) const;
+    QString format(const QExtLoggingEvent &loggingEvent) const;
 
 private:
     /*!
@@ -87,29 +89,29 @@ private:
                   int &value);
 
     /*!
-     * Creates a PatternConverter based on the specified conversion
+     * Creates a QExtLogPatternConverter based on the specified conversion
      * character \a rChar, the formatting information
      * \a formattingInfo and the option \a option.
      *
-     * The PatternConverter converter is appended to the list of
+     * The QExtLogPatternConverter converter is appended to the list of
      * PatternConverters.
      */
     void createConverter(QChar character,
-                         Log4Qt::FormattingInfo formattingInfo,
+                         QExtLogFormattingInfo formattingInfo,
                          const QString &option = QString());
 
     /*!
      * Creates a LiteralPatternConverter with the string literal
      * \a literal.
      *
-     * The PatternConverter converter is appended to the list of
+     * The QExtLogPatternConverter converter is appended to the list of
      * PatternConverters.
      */
     void createLiteralConverter(const QString &literal);
 
     /*!
      * Parses the pattern string specified on construction and creates
-     * PatternConverter according to it.
+     * QExtLogPatternConverter according to it.
      */
     void parse();
 
@@ -126,14 +128,9 @@ private:
     const QString mConversionCharacters;
     const QString mOptionCharacters;
     QString mPattern;
-    QList<PatternConverter *> mPatternConverters;
+    QList<QExtLogPatternConverter *> mPatternConverters;
 };
 
+Q_DECLARE_TYPEINFO(QExtLogPatternFormatter, Q_COMPLEX_TYPE);
 
-} // namespace Log4Qt
-
-
-Q_DECLARE_TYPEINFO(Log4Qt::PatternFormatter, Q_COMPLEX_TYPE);
-
-
-#endif // LOG4QT_PATTERNFORMATTER_H
+#endif // _QEXTLOGPATTERNFORMATTER_H

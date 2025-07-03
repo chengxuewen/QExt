@@ -1,35 +1,37 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_DAILYROLLINGFILEAPPENDER_H
-#define LOG4QT_DAILYROLLINGFILEAPPENDER_H
+#ifndef _QEXTLOGDAILYROLLINGFILEAPPENDER_H
+#define _QEXTLOGDAILYROLLINGFILEAPPENDER_H
 
 #include <qextLogFileAppender.h>
 
 #include <QDateTime>
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class DailyRollingFileAppender extends FileAppender so that the
+ * \brief The class QExtLogDailyRollingFileAppender extends QExtLogFileAppender so that the
  *        underlying file is rolled over at a specified frequency.
  *
  * \note All the functions declared in this class are thread-safe.
@@ -37,7 +39,7 @@ namespace Log4Qt
  * \note The ownership and lifetime of objects of this class are managed. See
  *       \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API DailyRollingFileAppender : public FileAppender
+class QEXT_LOGGING_API QExtLogDailyRollingFileAppender : public QExtLogFileAppender
 {
     Q_OBJECT
 
@@ -73,14 +75,14 @@ public:
     };
     Q_ENUM(DatePattern)
 
-    DailyRollingFileAppender(QObject *parent = nullptr);
-    DailyRollingFileAppender(const LayoutSharedPtr &layout,
+    QExtLogDailyRollingFileAppender(QObject *parent = nullptr);
+    QExtLogDailyRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
                              const QString &fileName,
                              const QString &datePattern,
                              QObject *parent = nullptr);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(DailyRollingFileAppender)
+    QEXT_DISABLE_COPY_MOVE(QExtLogDailyRollingFileAppender)
 public:
     QString datePattern() const;
 
@@ -95,7 +97,7 @@ public:
     void activateOptions() override;
 
 protected:
-    void append(const LoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) override;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -103,16 +105,16 @@ protected:
      *
      * If a conditions is not met, an error is logged and the function
      * returns false. Otherwise the result of
-     * FileAppender::checkEntryConditions() is returned.
+     * QExtLogFileAppender::checkEntryConditions() is returned.
      *
      * The checked conditions are:
      * - A valid pattern has been set (QExtLogError::Error_AppenderUseInvalidPattern)
      *
      * The function is called as part of the checkEntryConditions() chain
-     * started by AppenderSkeleton::doAppend().
+     * started by QExtLogAppenderSkeleton::doAppend().
      *
-     * \sa AppenderSkeleton::doAppend(),
-     *     AppenderSkeleton::checkEntryConditions()
+     * \sa QExtLogAppenderSkeleton::doAppend(),
+     *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
     bool checkEntryConditions() const override;
 
@@ -130,19 +132,16 @@ private:
     QString mRollOverSuffix;
 };
 
-inline QString DailyRollingFileAppender::datePattern() const
+inline QString QExtLogDailyRollingFileAppender::datePattern() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mDatePattern;
 }
 
-inline void DailyRollingFileAppender::setDatePattern(const QString &datePattern)
+inline void QExtLogDailyRollingFileAppender::setDatePattern(const QString &datePattern)
 {
     QMutexLocker locker(&mObjectGuard);
     mDatePattern = datePattern;
 }
 
-
-} // namespace Log4Qt
-
-#endif // LOG4QT_DAILYROLLINGFILEAPPENDER_H
+#endif // _QEXTLOGDAILYROLLINGFILEAPPENDER_H

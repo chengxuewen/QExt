@@ -1,33 +1,34 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogAppenderSkeleton.h>
-
-#include <qextLogLayout.h>
 #include <qextLoggingEvent.h>
 #include <qextLogManager.h>
 #include <qextLogFilter.h>
+#include <qextLogLayout.h>
 #include <qextLogger.h>
-
-namespace Log4Qt
-{
 
 /*!
  * \brief The class RecursionGuardLocker controls a boolean flag.
@@ -59,35 +60,35 @@ inline RecursionGuardLocker::~RecursionGuardLocker()
     *mGuard = false;
 }
 
-AppenderSkeleton::AppenderSkeleton(QObject *parent) :
-    Appender(parent),
+QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(QObject *parent) :
+    QExtLogAppender(parent),
 #if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
 #endif
     mAppendRecursionGuard(false),
     mIsActive(true),
     mIsClosed(false),
-    mThreshold(QExtLogLevel::NULL_INT)
+    mThreshold(QExtLogLevel::Null)
 {
 }
 
-AppenderSkeleton::AppenderSkeleton(bool isActive,
+QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(bool isActive,
                                    QObject *parent) :
-    Appender(parent),
+    QExtLogAppender(parent),
 #if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
 #endif
     mAppendRecursionGuard(false),
     mIsActive(isActive),
     mIsClosed(false),
-    mThreshold(QExtLogLevel::NULL_INT)
+    mThreshold(QExtLogLevel::Null)
 {
 }
 
-AppenderSkeleton::AppenderSkeleton(bool isActive,
-                                   const LayoutSharedPtr &layout,
+QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(bool isActive,
+                                   const QExtLogLayoutSharedPtr &layout,
                                    QObject *parent) :
-    Appender(parent),
+    QExtLogAppender(parent),
 #if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
 #endif
@@ -95,16 +96,16 @@ AppenderSkeleton::AppenderSkeleton(bool isActive,
     mIsActive(isActive),
     mIsClosed(false),
     mpLayout(layout),
-    mThreshold(QExtLogLevel::NULL_INT)
+    mThreshold(QExtLogLevel::Null)
 {
 }
 
-AppenderSkeleton::~AppenderSkeleton()
+QExtLogAppenderSkeleton::~QExtLogAppenderSkeleton()
 {
     closeInternal();
 }
 
-void AppenderSkeleton::activateOptions()
+void QExtLogAppenderSkeleton::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -119,11 +120,11 @@ void AppenderSkeleton::activateOptions()
     mIsActive = true;
 }
 
-void AppenderSkeleton::addFilter(const FilterSharedPtr &filter)
+void QExtLogAppenderSkeleton::addFilter(const QExtLogFilterSharedPtr &filter)
 {
     if (!filter)
     {
-        logger()->warn(QStringLiteral("Adding null Filter to Appender '%1'"), name());
+        logger()->warn(QStringLiteral("Adding null QExtLogFilter to QExtLogAppender '%1'"), name());
         return;
     }
 
@@ -143,19 +144,19 @@ void AppenderSkeleton::addFilter(const FilterSharedPtr &filter)
     }
 }
 
-void AppenderSkeleton::clearFilters()
+void QExtLogAppenderSkeleton::clearFilters()
 {
     QMutexLocker locker(&mObjectGuard);
 
     mpHeadFilter.reset();
 }
 
-void AppenderSkeleton::close()
+void QExtLogAppenderSkeleton::close()
 {
     closeInternal();
 }
 
-void AppenderSkeleton::closeInternal()
+void QExtLogAppenderSkeleton::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -163,18 +164,18 @@ void AppenderSkeleton::closeInternal()
     mIsActive = false;
 }
 
-void AppenderSkeleton::customEvent(QEvent *event)
+void QExtLogAppenderSkeleton::customEvent(QEvent *event)
 {
-    if (event->type() == LoggingEvent::eventId)
+    if (event->type() == QExtLoggingEvent::eventId)
     {
-        const auto logEvent = static_cast<LoggingEvent *>(event);
+        const auto logEvent = static_cast<QExtLoggingEvent *>(event);
         doAppend(*logEvent);
         return ;
     }
     QObject::customEvent(event);
 }
 
-void AppenderSkeleton::doAppend(const LoggingEvent &event)
+void QExtLogAppenderSkeleton::doAppend(const QExtLoggingEvent &event)
 {
     // The mutex serialises concurrent access from multiple threads.
     // - e.g. two threads using the same logger
@@ -200,10 +201,10 @@ void AppenderSkeleton::doAppend(const LoggingEvent &event)
     const auto  *filter = mpHeadFilter.data();
     while (filter)
     {
-        Filter::Decision decision = filter->decide(event);
-        if (decision == Filter::ACCEPT)
+        QExtLogFilter::Decision decision = filter->decide(event);
+        if (decision == QExtLogFilter::ACCEPT)
             break;
-        else if (decision == Filter::DENY)
+        else if (decision == QExtLogFilter::DENY)
             return;
         else
             filter = filter->next().data();
@@ -212,7 +213,7 @@ void AppenderSkeleton::doAppend(const LoggingEvent &event)
     append(event);
 }
 
-bool AppenderSkeleton::checkEntryConditions() const
+bool QExtLogAppenderSkeleton::checkEntryConditions() const
 {
     if (!isActive())
     {
@@ -242,18 +243,16 @@ bool AppenderSkeleton::checkEntryConditions() const
     return true;
 }
 
-void Log4Qt::AppenderSkeleton::setLayout(const LayoutSharedPtr &layout)
+void QExtLogAppenderSkeleton::setLayout(const QExtLogLayoutSharedPtr &layout)
 {
     QMutexLocker locker(&mObjectGuard);
     mpLayout = layout;
 }
 
-LayoutSharedPtr Log4Qt::AppenderSkeleton::layout() const
+QExtLogLayoutSharedPtr QExtLogAppenderSkeleton::layout() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mpLayout;
 }
-
-} // namespace Log4Qt
 
 // #include "moc_appenderskeleton.cpp"

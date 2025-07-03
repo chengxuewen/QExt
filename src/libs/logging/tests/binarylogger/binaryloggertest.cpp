@@ -26,7 +26,7 @@
 #include <QDataStream>
 #include <QTemporaryFile>
 
-const auto loggingLevel = QExtLogLevel::ALL_INT; // set to OFF_INT to enable logging to the console;
+const auto loggingLevel = QExtLogLevel::All; // set to Off to enable logging to the console;
 static const char binLogger[] = "binlogger";
 
 class BinaryLoggerTest: public QObject
@@ -59,7 +59,7 @@ private:
     class AppenderData
     {
     public:
-        void setAppender(Log4Qt::BinaryWriterAppender *newAppender)
+        void setAppender(QExtLogBinaryWriterAppender *newAppender)
         {
             appender = newAppender;
         }
@@ -69,7 +69,7 @@ private:
             data.clear();
             pds.reset(new QDataStream(&data, QIODevice::WriteOnly));
             pds->setByteOrder(QDataStream::LittleEndian);
-            Q_ASSERT_X(!appender.isNull(), __FUNCTION__, "No Appender");
+            Q_ASSERT_X(!appender.isNull(), __FUNCTION__, "No QExtLogAppender");
             appender->setWriter(pds.data());
             appender->activateOptions();
         }
@@ -82,11 +82,11 @@ private:
     private:
         QByteArray data;
         QScopedPointer<QDataStream> pds;
-        QPointer<Log4Qt::BinaryWriterAppender> appender;
+        QPointer<QExtLogBinaryWriterAppender> appender;
     } mAppenderData[3];
     QMap<QString, int> mLoggenameToAppenderDataIndex;
 
-    AppenderData &getAppenderDataFromLogger(Log4Qt::Logger *plogger)
+    AppenderData &getAppenderDataFromLogger(QExtLogger *plogger)
     {
         auto loggename = plogger->name();
 
@@ -98,23 +98,23 @@ private:
 
     void log(const QByteArray &data, const QString &loggename = QString{})
     {
-        auto mylogger = Log4Qt::Logger::logger(loggename);
-        Log4Qt::BinaryLoggingEvent event(mylogger, QExtLogLevel::INFO_INT, data);
+        auto mylogger = QExtLogger::logger(loggename);
+        QExtBinaryLoggingEvent event(mylogger, QExtLogLevel::Info, data);
         mylogger->callAppenders(event);
     }
 
-    void configureLogger(Log4Qt::Logger *mylogger)
+    void configureLogger(QExtLogger *mylogger)
     {
         auto &appenderData = getAppenderDataFromLogger(mylogger);
-        auto writerAppender = new Log4Qt::BinaryWriterAppender(mylogger);
-        writerAppender->setName(QString{QStringLiteral("Appender for '%1'")} .arg(mylogger->name()));
+        auto writerAppender = new QExtLogBinaryWriterAppender(mylogger);
+        writerAppender->setName(QString{QStringLiteral("QExtLogAppender for '%1'")} .arg(mylogger->name()));
         appenderData.setAppender(writerAppender);
         mylogger->addAppender(writerAppender);
         mylogger->setAdditivity(false);
-        mylogger->setLevel(QExtLogLevel::ALL_INT);
+        mylogger->setLevel(QExtLogLevel::All);
     }
 
-    QByteArray flushLogger(Log4Qt::Logger *mylogger)
+    QByteArray flushLogger(QExtLogger *mylogger)
     {
         return getAppenderDataFromLogger(mylogger).flush();
     }
@@ -124,58 +124,58 @@ LOG4QT_DECLARE_STATIC_BINARYLOGGER(unitTestLogger, StaticBinaryLogger)
 
 void BinaryLoggerTest::initTestCase()
 {
-    Log4Qt::Logger *rootLogger = Log4Qt::Logger::rootLogger();
-    Log4Qt::LogManager::setHandleQtMessages(true);
+    QExtLogger *rootLogger = QExtLogger::rootLogger();
+    QExtLogManager::setHandleQtMessages(true);
 
-    Log4Qt::LayoutSharedPtr layout(new Log4Qt::TTCCLayout(rootLogger));
-    static_cast<Log4Qt::TTCCLayout *>(layout.data())->setDateFormat(QStringLiteral("dd.MM.yyyy hh:mm:ss.zzz"));
-    static_cast<Log4Qt::TTCCLayout *>(layout.data())->setContextPrinting(false);
+    QExtLogLayoutSharedPtr layout(new QExtLogTTCCLayout(rootLogger));
+    static_cast<QExtLogTTCCLayout *>(layout.data())->setDateFormat(QStringLiteral("dd.MM.yyyy hh:mm:ss.zzz"));
+    static_cast<QExtLogTTCCLayout *>(layout.data())->setContextPrinting(false);
 
-    Log4Qt::LayoutSharedPtr binlayout(new Log4Qt::BinaryToTextLayout(layout, rootLogger));
+    QExtLogLayoutSharedPtr binlayout(new QExtLogBinaryToTextLayout(layout, rootLogger));
 
-    auto *consoleAppender = new Log4Qt::ConsoleAppender(rootLogger);
+    auto *consoleAppender = new QExtLogConsoleAppender(rootLogger);
     consoleAppender->setLayout(binlayout);
-    consoleAppender->setTarget(Log4Qt::ConsoleAppender::STDOUT_TARGET);
+    consoleAppender->setTarget(QExtLogConsoleAppender::STDOUT_TARGET);
     consoleAppender->activateOptions();
 
-    Log4Qt::Filter *denyall = new Log4Qt::DenyAllFilter;
+    QExtLogFilter *denyall = new QExtLogDenyAllFilter;
     denyall->activateOptions();
-    auto *levelFilter = new Log4Qt::LevelRangeFilter(rootLogger);
-    levelFilter->setNext(Log4Qt::FilterSharedPtr(denyall));
-    levelFilter->setLevelMin(QExtLogLevel::NULL_INT);
+    auto *levelFilter = new QExtLogLevelRangeFilter(rootLogger);
+    levelFilter->setNext(QExtLogFilterSharedPtr(denyall));
+    levelFilter->setLevelMin(QExtLogLevel::Null);
     levelFilter->setLevelMax(loggingLevel);
     levelFilter->activateOptions();
-    consoleAppender->addFilter(Log4Qt::FilterSharedPtr(levelFilter));
+    consoleAppender->addFilter(QExtLogFilterSharedPtr(levelFilter));
     rootLogger->addAppender(consoleAppender);
 
     // add appender for tests
-    Log4Qt::LayoutSharedPtr simpleLayout(new Log4Qt::SimpleLayout(rootLogger));
-    Log4Qt::LayoutSharedPtr binlayout1(new Log4Qt::BinaryToTextLayout(simpleLayout, rootLogger));
+    QExtLogLayoutSharedPtr simpleLayout(new QExtLogSimpleLayout(rootLogger));
+    QExtLogLayoutSharedPtr binlayout1(new QExtLogBinaryToTextLayout(simpleLayout, rootLogger));
     auto *appender = new TestAppender(rootLogger);
     appender->setLayout(binlayout1);
     appender->activateOptions();
     mAppender = appender;
     rootLogger->addAppender(appender);
 
-    configureLogger(Log4Qt::Logger::logger(binLogger));
+    configureLogger(QExtLogger::logger(binLogger));
     configureLogger(unitTestLogger());
     configureLogger(logger());
 
-    QCOMPARE(rootLogger->metaObject()->className(), "Log4Qt::Logger");
-    QCOMPARE(Log4Qt::Logger::logger(binLogger)->metaObject()->className(), "Log4Qt::Logger");
-    QCOMPARE(unitTestLogger()->metaObject()->className(), "Log4Qt::BinaryLogger");
-    QCOMPARE(logger()->metaObject()->className(), "Log4Qt::BinaryLogger");
+    QCOMPARE(rootLogger->metaObject()->className(), "QExtLogger");
+    QCOMPARE(QExtLogger::logger(binLogger)->metaObject()->className(), "QExtLogger");
+    QCOMPARE(unitTestLogger()->metaObject()->className(), "QExtBinaryLogger");
+    QCOMPARE(logger()->metaObject()->className(), "QExtBinaryLogger");
 }
 
 void BinaryLoggerTest::cleanupTestCase()
 {
-    Log4Qt::Logger::logger(binLogger)->removeAllAppenders();
+    QExtLogger::logger(binLogger)->removeAllAppenders();
     unitTestLogger()->removeAllAppenders();
     logger()->removeAllAppenders();
 
-    Log4Qt::Logger::rootLogger()->info(QStringLiteral("Unit test logger was shutdown."));
-    Log4Qt::Logger::rootLogger()->removeAllAppenders();
-    Log4Qt::Logger::rootLogger()->loggerRepository()->shutdown();
+    QExtLogger::rootLogger()->info(QStringLiteral("Unit test logger was shutdown."));
+    QExtLogger::rootLogger()->removeAllAppenders();
+    QExtLogger::rootLogger()->loggerRepository()->shutdown();
 }
 
 void BinaryLoggerTest::init()
@@ -195,17 +195,17 @@ void BinaryLoggerTest::testBinaryToTextLayout()
 
 void BinaryLoggerTest::testBinaryEventFilter()
 {
-    auto blogger = Log4Qt::Logger::rootLogger();
-    Log4Qt::Filter *denyall = new Log4Qt::DenyAllFilter;
+    auto blogger = QExtLogger::rootLogger();
+    QExtLogFilter *denyall = new QExtLogDenyAllFilter;
     denyall->activateOptions();
 
-    auto *binfilter = new Log4Qt::BinaryEventFilter(blogger);
+    auto *binfilter = new QExtLogBinaryEventFilter(blogger);
 
     binfilter->setAcceptBinaryEvents(true);
-    binfilter->setNext(Log4Qt::FilterSharedPtr(denyall));
+    binfilter->setNext(QExtLogFilterSharedPtr(denyall));
     binfilter->activateOptions();
 
-    mAppender->addFilter(Log4Qt::FilterSharedPtr(binfilter));
+    mAppender->addFilter(QExtLogFilterSharedPtr(binfilter));
 
     auto _ = createScopeExitGuard([this, binfilter] {mAppender->removeEventFilter(binfilter);});
 
@@ -223,7 +223,7 @@ void BinaryLoggerTest::testBinaryEventFilter()
 
 void BinaryLoggerTest::testBinaryWriterAppender()
 {
-    auto blogger = Log4Qt::Logger::logger(binLogger);
+    auto blogger = QExtLogger::logger(binLogger);
 
     blogger->debug(QStringLiteral("Hello world!"));
     char expected[] = {0x18, 0x00, 0x00, 0x00, 0x48, 0x00, 0x65, 0x00,
@@ -233,7 +233,7 @@ void BinaryLoggerTest::testBinaryWriterAppender()
                       };
     QCOMPARE(flushLogger(blogger), QByteArray(expected, elementsInArray(expected)));
 
-    Log4Qt::BinaryLoggingEvent event(blogger, QExtLogLevel::INFO_INT, QByteArray("\0\1\2\3", 4));
+    QExtBinaryLoggingEvent event(blogger, QExtLogLevel::Info, QByteArray("\0\1\2\3", 4));
     blogger->callAppenders(event);
     char expected1[] = {0x18, 0x00, 0x00, 0x00, 0x48, 0x00, 0x65, 0x00,
                         0x6C, 0x00, 0x6C, 0x00, 0x6F, 0x00, 0x20, 0x00,
@@ -246,19 +246,19 @@ void BinaryLoggerTest::testBinaryWriterAppender()
 
 void BinaryLoggerTest::testBinaryFileAppender()
 {
-    auto blogger = Log4Qt::Logger::logger(binLogger);
+    auto blogger = QExtLogger::logger(binLogger);
 
     QTemporaryFile file;
     QVERIFY(file.open());
     file.close();
-    Log4Qt::BinaryFileAppender *bfa = new Log4Qt::BinaryFileAppender(file.fileName(), blogger);
+    QExtLogBinaryFileAppender *bfa = new QExtLogBinaryFileAppender(file.fileName(), blogger);
     bfa->activateOptions();
     blogger->addAppender(bfa);
 
     auto _ = createScopeExitGuard([blogger, bfa] {blogger->removeAppender(bfa);});
 
     blogger->debug(QStringLiteral("Hello world!"));
-    Log4Qt::BinaryLoggingEvent event(blogger, QExtLogLevel::INFO_INT, QByteArray("\0\1\2\3", 4));
+    QExtBinaryLoggingEvent event(blogger, QExtLogLevel::Info, QByteArray("\0\1\2\3", 4));
     blogger->callAppenders(event);
 
     char expected[] = {0x18, 0x00, 0x00, 0x00, 0x48, 0x00, 0x65, 0x00,
@@ -283,14 +283,14 @@ void BinaryLoggerTest::testBinaryLogStream()
                        0x00
                       };
     {
-        Log4Qt::BinaryLogStream bls{Log4Qt::Logger::logger(binLogger), QExtLogLevel::INFO_INT};
+        QExtLogBinaryStream bls{QExtLogger::logger(binLogger), QExtLogLevel::Info};
         bls << QByteArray(expected + 4, 4);
         bls << QByteArray(expected + 8, 8)
             << QByteArray(expected + 16, 4)
             << QByteArray(expected + 20, 13);
     }
 
-    auto blogger = Log4Qt::Logger::logger(binLogger);
+    auto blogger = QExtLogger::logger(binLogger);
     QCOMPARE(flushLogger(blogger), QByteArray(expected, elementsInArray(expected)));
 }
 
@@ -323,11 +323,11 @@ void BinaryLoggerTest::testBinaryClassLogger()
 void BinaryLoggerTest::testBinaryLayout()
 {
     auto clogger = logger();
-    auto appender = new Log4Qt::BinaryWriterAppender(clogger);
-    auto layout = new Log4Qt::BinaryLayout(appender);
+    auto appender = new QExtLogBinaryWriterAppender(clogger);
+    auto layout = new QExtLogBinaryLayout(appender);
     layout->setBinaryHeader("This is the header:");
     layout->setBinaryFooter(":This is the footer");
-    appender->setLayout(Log4Qt::LayoutSharedPtr(layout));
+    appender->setLayout(QExtLogLayoutSharedPtr(layout));
     clogger->addAppender(appender);
     auto _ = createScopeExitGuard([clogger, appender] {clogger->removeAppender(appender);});
     QByteArray data;

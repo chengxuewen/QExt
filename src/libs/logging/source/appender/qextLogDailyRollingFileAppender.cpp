@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogDailyRollingFileAppender.h>
 #include <qextLoggingEvent.h>
@@ -26,11 +31,8 @@
 #include <QMetaEnum>
 #include <QFile>
 
-namespace Log4Qt
-{
-
-DailyRollingFileAppender::DailyRollingFileAppender(QObject *parent) :
-    FileAppender(parent),
+QExtLogDailyRollingFileAppender::QExtLogDailyRollingFileAppender(QObject *parent) :
+    QExtLogFileAppender(parent),
     mDatePattern(),
     mFrequency(DAILY_ROLLOVER)
 {
@@ -38,18 +40,18 @@ DailyRollingFileAppender::DailyRollingFileAppender(QObject *parent) :
 }
 
 
-DailyRollingFileAppender::DailyRollingFileAppender(const LayoutSharedPtr &layout,
+QExtLogDailyRollingFileAppender::QExtLogDailyRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
         const QString &fileName,
         const QString &datePattern,
         QObject *parent) :
-    FileAppender(layout, fileName, parent),
+    QExtLogFileAppender(layout, fileName, parent),
     mDatePattern(),
     mFrequency(DAILY_ROLLOVER)
 {
     setDatePattern(datePattern);
 }
 
-void DailyRollingFileAppender::setDatePattern(DatePattern datePattern)
+void QExtLogDailyRollingFileAppender::setDatePattern(DatePattern datePattern)
 {
     switch (datePattern)
     {
@@ -72,13 +74,13 @@ void DailyRollingFileAppender::setDatePattern(DatePattern datePattern)
         setDatePattern(QStringLiteral("'.'yyyy-MM"));
         break;
     default:
-        Q_ASSERT_X(false, "DailyRollingFileAppender::setDatePattern()", "Invalid datePattern constant");
+        Q_ASSERT_X(false, "QExtLogDailyRollingFileAppender::setDatePattern()", "Invalid datePattern constant");
         setDatePattern(DAILY_ROLLOVER);
     };
 }
 
 
-void DailyRollingFileAppender::activateOptions()
+void QExtLogDailyRollingFileAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -86,20 +88,20 @@ void DailyRollingFileAppender::activateOptions()
     if (!mActiveDatePattern.isEmpty())
     {
         computeRollOvetime();
-        FileAppender::activateOptions();
+        QExtLogFileAppender::activateOptions();
     }
 }
 
 
-void DailyRollingFileAppender::append(const LoggingEvent &event)
+void QExtLogDailyRollingFileAppender::append(const QExtLoggingEvent &event)
 {
     if (QDateTime::currentDateTime() > mRollOvetime)
         rollOver();
-    FileAppender::append(event);
+    QExtLogFileAppender::append(event);
 }
 
 
-bool DailyRollingFileAppender::checkEntryConditions() const
+bool QExtLogDailyRollingFileAppender::checkEntryConditions() const
 {
     if (mActiveDatePattern.isEmpty())
     {
@@ -110,10 +112,10 @@ bool DailyRollingFileAppender::checkEntryConditions() const
         return false;
     }
 
-    return FileAppender::checkEntryConditions();
+    return QExtLogFileAppender::checkEntryConditions();
 }
 
-void DailyRollingFileAppender::computeFrequency()
+void QExtLogDailyRollingFileAppender::computeFrequency()
 {
     const QExtLogDateTime start_time(QDate(1999, 1, 1), QTime(0, 0));
     const QString start_string = start_time.toString(mDatePattern);
@@ -147,9 +149,9 @@ void DailyRollingFileAppender::computeFrequency()
 }
 
 
-void DailyRollingFileAppender::computeRollOvetime()
+void QExtLogDailyRollingFileAppender::computeRollOvetime()
 {
-    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "DailyRollingFileAppender::computeRollOvetime()", "No active date pattern");
+    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "QExtLogDailyRollingFileAppender::computeRollOvetime()", "No active date pattern");
 
     QDateTime now = QDateTime::currentDateTime();
     QDate now_date = now.date();
@@ -216,15 +218,15 @@ void DailyRollingFileAppender::computeRollOvetime()
     }
     break;
     default:
-        Q_ASSERT_X(false, "DailyRollingFileAppender::computeInterval()", "Invalid datePattern constant");
+        Q_ASSERT_X(false, "QExtLogDailyRollingFileAppender::computeInterval()", "Invalid datePattern constant");
         mRollOvetime = QDateTime::fromSecsSinceEpoch(0);
     }
 
     mRollOverSuffix = static_cast<QExtLogDateTime>(start).toString(mActiveDatePattern);
     Q_ASSERT_X(static_cast<QExtLogDateTime>(now).toString(mActiveDatePattern) == mRollOverSuffix,
-               "DailyRollingFileAppender::computeRollOvetime()", "File name changes within interval");
+               "QExtLogDailyRollingFileAppender::computeRollOvetime()", "File name changes within interval");
     Q_ASSERT_X(mRollOverSuffix != static_cast<QExtLogDateTime>(mRollOvetime).toString(mActiveDatePattern),
-               "DailyRollingFileAppender::computeRollOvetime()", "File name does not change with rollover");
+               "QExtLogDailyRollingFileAppender::computeRollOvetime()", "File name does not change with rollover");
 
     logger()->trace(QStringLiteral("Computing roll over time from %1: The interval start time is %2. The roll over time is %3"),
                     now.toString(),
@@ -232,15 +234,15 @@ void DailyRollingFileAppender::computeRollOvetime()
                     mRollOvetime.toString());
 }
 
-QString DailyRollingFileAppender::frequencyToString() const
+QString QExtLogDailyRollingFileAppender::frequencyToString() const
 {
     QMetaEnum meta_enum = metaObject()->enumerator(metaObject()->indexOfEnumerator("DatePattern"));
     return QLatin1String(meta_enum.valueToKey(mFrequency));
 }
 
-void DailyRollingFileAppender::rollOver()
+void QExtLogDailyRollingFileAppender::rollOver()
 {
-    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "DailyRollingFileAppender::rollOver()", "No active date pattern");
+    Q_ASSERT_X(!mActiveDatePattern.isEmpty(), "QExtLogDailyRollingFileAppender::rollOver()", "No active date pattern");
 
     QString roll_over_suffix = mRollOverSuffix;
     computeRollOvetime();
@@ -258,7 +260,5 @@ void DailyRollingFileAppender::rollOver()
         return;
     openFile();
 }
-
-} // namespace Log4Qt
 
 // #include "moc_dailyrollingfileappender.cpp"

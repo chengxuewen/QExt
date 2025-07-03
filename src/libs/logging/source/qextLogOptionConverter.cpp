@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogOptionConverter.h>
 #include <qextLogError.h>
@@ -24,12 +29,9 @@
 #include <qextLogger.h>
 #include <qextLogConsoleAppender.h>
 
-namespace Log4Qt
-{
+QEXT_DECLARE_STATIC_LOGGER(logger, QExtLogOptionConverter)
 
-LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::OptionConverter)
-
-QString OptionConverter::findAndSubst(const Properties &properties,
+QString QExtLogOptionConverter::findAndSubst(const QExtLogProperties &properties,
                                       const QString &key)
 {
     QString value = properties.property(key);
@@ -64,7 +66,7 @@ QString OptionConverter::findAndSubst(const Properties &properties,
             {
                 QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Missing closing bracket for opening bracket at %1. Invalid subsitution in value %2."),
                                           QExtLogError::Error_ConfiguratorInvalidSubstitution,
-                                          "Log4Qt::OptionConverter");
+                                          "QExtLogOptionConverter");
                 e << begin << value;
                 logger()->error(e);
                 return result;
@@ -80,7 +82,7 @@ QString OptionConverter::findAndSubst(const Properties &properties,
     return result;
 }
 
-QString OptionConverter::classNameJavaToCpp(const QString &className)
+QString QExtLogOptionConverter::classNameJavaToCpp(const QString &className)
 {
     const QLatin1Char java_class_delimiter('.');
     const QLatin1String cpp_class_delimiter("::");
@@ -89,7 +91,7 @@ QString OptionConverter::classNameJavaToCpp(const QString &className)
     return result.replace(java_class_delimiter, cpp_class_delimiter);
 }
 
-bool OptionConverter::toBoolean(const QString &option,
+bool QExtLogOptionConverter::toBoolean(const QString &option,
                                 bool *ok)
 {
     const QLatin1String str_true("true");
@@ -111,13 +113,13 @@ bool OptionConverter::toBoolean(const QString &option,
         *ok = false;
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a boolean"),
                               QExtLogError::Error_ConfiguratorInvalidOption,
-                              "Log4Qt::OptionConverter");
+                              "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return false;
 }
 
-bool OptionConverter::toBoolean(const QString &option,
+bool QExtLogOptionConverter::toBoolean(const QString &option,
                                 bool defaultValue)
 {
     bool ok;
@@ -128,7 +130,7 @@ bool OptionConverter::toBoolean(const QString &option,
     return defaultValue;
 }
 
-qint64 OptionConverter::toFileSize(const QString &option,
+qint64 QExtLogOptionConverter::toFileSize(const QString &option,
                                    bool *ok)
 {
     // - Search for unit
@@ -166,7 +168,7 @@ qint64 OptionConverter::toFileSize(const QString &option,
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a file size"),
                                   QExtLogError::Error_ConfiguratorInvalidOption,
-                                  "Log4Qt::OptionConverter");
+                                  "QExtLogOptionConverter");
         e << option;
         logger()->error(e);
         return 0;
@@ -176,7 +178,7 @@ qint64 OptionConverter::toFileSize(const QString &option,
     return value * f;
 }
 
-int OptionConverter::toInt(const QString &option,
+int QExtLogOptionConverter::toInt(const QString &option,
                            bool *ok)
 {
     int value = option.trimmed().toInt(ok);
@@ -185,13 +187,13 @@ int OptionConverter::toInt(const QString &option,
 
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for an integer"),
                               QExtLogError::Error_ConfiguratorInvalidOption,
-                              "Log4Qt::OptionConverter");
+                              "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return 0;
 }
 
-QExtLogLevel OptionConverter::toLevel(const QString &option,
+QExtLogLevel QExtLogOptionConverter::toLevel(const QString &option,
                                bool *ok)
 {
     bool convertOk;
@@ -203,13 +205,13 @@ QExtLogLevel OptionConverter::toLevel(const QString &option,
 
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a level"),
                               QExtLogError::Error_ConfiguratorInvalidOption,
-                              "Log4Qt::OptionConverter");
+                              "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return level;
 }
 
-QExtLogLevel OptionConverter::toLevel(const QString &option,
+QExtLogLevel QExtLogOptionConverter::toLevel(const QString &option,
                                QExtLogLevel defaultValue)
 {
     bool ok;
@@ -220,7 +222,7 @@ QExtLogLevel OptionConverter::toLevel(const QString &option,
     return defaultValue;
 }
 
-int OptionConverter::toTarget(const QString &option,
+int QExtLogOptionConverter::toTarget(const QString &option,
                               bool *ok)
 {
     const QLatin1String java_stdout("system.out");
@@ -232,22 +234,22 @@ int OptionConverter::toTarget(const QString &option,
         *ok = true;
     QString s = option.trimmed().toLower();
     if (s == java_stdout || s == cpp_stdout)
-        return ConsoleAppender::STDOUT_TARGET;
+        return QExtLogConsoleAppender::STDOUT_TARGET;
     if (s == java_stderr || s == cpp_stderr)
-        return ConsoleAppender::STDERR_TARGET;
+        return QExtLogConsoleAppender::STDERR_TARGET;
 
     if (ok)
         *ok = false;
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a target"),
                               QExtLogError::Error_ConfiguratorInvalidOption,
-                              "Log4Qt::OptionConverter");
+                              "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
-    return ConsoleAppender::STDOUT_TARGET;
+    return QExtLogConsoleAppender::STDOUT_TARGET;
 }
 
 #if QT_VERSION < 0x060000
-QTextCodec* OptionConverter::toEncoding(const QString &option,
+QTextCodec* QExtLogOptionConverter::toEncoding(const QString &option,
                               bool *ok)
 {
     QTextCodec* encoding = QTextCodec::codecForName(option.toUtf8());
@@ -260,13 +262,13 @@ QTextCodec* OptionConverter::toEncoding(const QString &option,
 
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QTextCodec"),
                               QExtLogError::Error_ConfiguratorInvalidOption,
-                              "Log4Qt::OptionConverter");
+                              "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return 0;
 }
 #else
-    QStringConverter::Encoding OptionConverter::toEncoding(const QString &option,
+    QStringConverter::Encoding QExtLogOptionConverter::toEncoding(const QString &option,
                                             bool *ok)
     {
         std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForName(option.toStdString().c_str());
@@ -279,10 +281,9 @@ QTextCodec* OptionConverter::toEncoding(const QString &option,
 
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QStringConverter::Encoding"),
                                   QExtLogError::Error_ConfiguratorInvalidOption,
-                                  "Log4Qt::OptionConverter");
+                                  "QExtLogOptionConverter");
         e << option;
         logger()->error(e);
         return QStringConverter::System;
     }
 #endif
-} // namespace Log4Qt

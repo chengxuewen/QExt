@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_OPTIONCONVERTER_H
-#define LOG4QT_OPTIONCONVERTER_H
+#ifndef _QEXTLOGOPTIONCONVERTER_H
+#define _QEXTLOGOPTIONCONVERTER_H
 
 #include <qextLoggingGlobal.h>
 #include <qextLogLevel.h>
@@ -33,21 +38,18 @@
 Q_DECLARE_METATYPE(QTextCodec*)
 #endif
 
-namespace Log4Qt
-{
-class Properties;
-
+class QExtLogProperties;
 /*!
- * \brief The class OptionConverter provides functions to convert strings
+ * \brief The class QExtLogOptionConverter provides functions to convert strings
  *        to property values.
  */
-class QEXT_LOGGING_API OptionConverter
+class QEXT_LOGGING_API QExtLogOptionConverter
 {
 private:
-    OptionConverter();
+    QExtLogOptionConverter();
 
 public:
-    static QString findAndSubst(const Properties &properties,
+    static QString findAndSubst(const QExtLogProperties &properties,
                                 const QString &key);
 
     /*!
@@ -96,7 +98,7 @@ public:
      * QExtLogLevel::fromString(). If the conversion is successful, the level
      * is returned and \a ok is set to true. Otherwise an error is
      * written to the log, \a ok is set to false and a level with
-     * the value QExtLogLevel::NULL_INT is returned.
+     * the value QExtLogLevel::Null is returned.
      *
      * \sa QExtLogLevel::fromString()
      */
@@ -107,12 +109,12 @@ public:
                          QExtLogLevel defaultValue);
 
     /*!
-     * Converts the option \a option to a ConsoleAppender::Target value.
+     * Converts the option \a option to a QExtLogConsoleAppender::Target value.
      * Valid strings for \a option are "System.out", "STDOUT_TARGET",
      * "System.err" and "STDERR_TARGET". If the conversion is successful,
      * the target is returned and \a ok is set to true. Otherwise an
      * error is written to the log, \a ok is set to false and
-     * ConsoleAppender::STDOUT_TARGET is returned.
+     * QExtLogConsoleAppender::STDOUT_TARGET is returned.
      */
     static int toTarget(const QString &option,
                         bool *ok = nullptr);
@@ -140,10 +142,6 @@ public:
 #endif
 };
 
-} // namespace Log4Qt
+Q_DECLARE_TYPEINFO(QExtLogOptionConverter, Q_COMPLEX_TYPE);
 
-
-Q_DECLARE_TYPEINFO(Log4Qt::OptionConverter, Q_COMPLEX_TYPE);
-
-
-#endif // LOG4QT_OPTIONCONVERTER_H
+#endif // _QEXTLOGOPTIONCONVERTER_H

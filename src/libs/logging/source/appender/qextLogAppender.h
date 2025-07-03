@@ -1,40 +1,41 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_APPENDER_H
-#define LOG4QT_APPENDER_H
+#ifndef _QEXTLOGAPPENDER_H
+#define _QEXTLOGAPPENDER_H
 
 #include <qextLogClassLogger.h>
 #include <qextLogLayout.h>
 #include <qextLogFilter.h>
-// #include <qextLogging.h>
 
-namespace Log4Qt
-{
-
-class LoggingEvent;
+class QExtLoggingEvent;
 
 /*!
- * \brief The class Appender is the base class for all Appenders.
+ * \brief The class QExtLogAppender is the base class for all Appenders.
  *
- * To allow the whole hirarchy to be an ascendant of QObject Appender is
+ * To allow the whole hirarchy to be an ascendant of QObject QExtLogAppender is
  * not an interface.
  *
  * \note All the functions declared in this class are thread-safe.
@@ -42,62 +43,60 @@ class LoggingEvent;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API Appender : public QObject
+class QEXT_LOGGING_API QExtLogAppender : public QObject
 {
     Q_OBJECT
 
     /*!
-     * The property holds the Layout used by the Appender.
+     * The property holds the QExtLogLayout used by the QExtLogAppender.
      *
      * \sa layout(), setLayout()
      */
-    Q_PROPERTY(LayoutSharedPtr layout READ layout WRITE setLayout)
+    Q_PROPERTY(QExtLogLayoutSharedPtr layout READ layout WRITE setLayout)
 
     /*!
-     * The property holds the name of the Appender.
+     * The property holds the name of the QExtLogAppender.
      *
      * \sa name(), setName()
      */
     Q_PROPERTY(QString name READ name WRITE setName)
 
     /*!
-     * The property holds if the Appender requires a Layout or not.
+     * The property holds if the QExtLogAppender requires a QExtLogLayout or not.
      *
      * \sa requiresLayout(), setRequiresLayout()
      */
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    Appender(QObject *parent = nullptr);
-    virtual ~Appender();
+    QExtLogAppender(QObject *parent = nullptr);
+    virtual ~QExtLogAppender();
 
-    virtual FilterSharedPtr filter() const = 0;
+    virtual QExtLogFilterSharedPtr filter() const = 0;
     virtual QString name() const = 0;
-    virtual LayoutSharedPtr layout() const = 0;
+    virtual QExtLogLayoutSharedPtr layout() const = 0;
     virtual bool requiresLayout() const = 0;
-    virtual void setLayout(const LayoutSharedPtr &layout) = 0;
+    virtual void setLayout(const QExtLogLayoutSharedPtr &layout) = 0;
     virtual void setName(const QString &name) = 0;
 
-    virtual void addFilter(const FilterSharedPtr &filter) = 0;
+    virtual void addFilter(const QExtLogFilterSharedPtr &filter) = 0;
     virtual void clearFilters() = 0;
     virtual void close() = 0;
-    virtual void doAppend(const LoggingEvent &event) = 0;
+    virtual void doAppend(const QExtLoggingEvent &event) = 0;
 
 protected:
     /*!
-     * Returns a pointer to a Logger named after of the object.
+     * Returns a pointer to a QExtLogger named after of the object.
      *
-     * \sa Logger::logger()
+     * \sa QExtLogger::logger()
      */
-    Logger *logger() const;
+    QExtLogger *logger() const;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(Appender)
-    mutable ClassLogger mLog4QtClassLogger;
+    QEXT_DISABLE_COPY_MOVE(QExtLogAppender)
+    mutable QExtClassLogger mClassLogger;
 };
 
-using AppenderSharedPtr = QExtObjectSharedPointer<Appender>;
+using QExtLogAppenderSharedPtr = QExtObjectSharedPointer<QExtLogAppender>;
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_APPENDER_H
+#endif // _QEXTLOGAPPENDER_H

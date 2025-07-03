@@ -23,13 +23,13 @@
 #include <qextLogger.h>
 #include <qextLogManager.h>
 
-LOG4QT_DECLARE_STATIC_LOGGER(logger, LoggerStatic)
+QEXT_DECLARE_STATIC_LOGGER(logger, LoggerStatic)
 
 LoggerStatic::LoggerStatic()
 {
     logger()->trace() << "ctor Debug output";
-    logger()->info() << "Log4Qt Version String: " << Log4Qt::LogManager::version();
-    logger()->info() << "Log4Qt Version Number: " << Log4Qt::LogManager::versionNumber().toString();
+    logger()->info() << "Log4Qt Version String: " << QExtLogManager::version();
+    logger()->info() << "Log4Qt Version Number: " << QExtLogManager::versionNumber().toString();
 }
 
 LoggerStatic::~LoggerStatic()

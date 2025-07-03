@@ -84,7 +84,7 @@ void shutdownRootLogger()
 
 void logStartup()
 {
-    auto logger = Log4Qt::Logger::rootLogger();
+    auto logger = QExtLogger::rootLogger();
 
     logger->info(QStringLiteral("################################################################"));
     logger->info(QStringLiteral("#                          START                               #"));
@@ -93,7 +93,7 @@ void logStartup()
 
 void logShutdown()
 {
-    auto logger = Log4Qt::Logger::rootLogger();
+    auto logger = QExtLogger::rootLogger();
 
     logger->info(QStringLiteral("################################################################"));
     logger->info(QStringLiteral("#                          STOP                                #"));
@@ -103,27 +103,27 @@ void logShutdown()
 void setupRootLogger(const QString &introMessage)
 {
     // Create a layout
-    auto logger = Log4Qt::Logger::rootLogger();
-    auto *layout = new Log4Qt::TTCCLayout();
-    layout->setName(QStringLiteral("My Layout"));
+    auto logger = QExtLogger::rootLogger();
+    auto *layout = new QExtLogTTCCLayout();
+    layout->setName(QStringLiteral("My QExtLogLayout"));
     layout->activateOptions();
     // Create a console appender
-    Log4Qt::ConsoleAppender *consoleAppender = new Log4Qt::ConsoleAppender(layout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
-    consoleAppender->setName(QStringLiteral("My Appender"));
+    QExtLogConsoleAppender *consoleAppender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    consoleAppender->setName(QStringLiteral("My QExtLogAppender"));
     consoleAppender->activateOptions();
     // Add appender on root logger
     logger->addAppender(consoleAppender);
     // Create a file appender
-    Log4Qt::FileAppender *fileAppender = new Log4Qt::FileAppender(layout, QCoreApplication::applicationDirPath() + "/basic.log", true);
+    QExtLogFileAppender *fileAppender = new QExtLogFileAppender(layout, QCoreApplication::applicationDirPath() + "/basic.log", true);
     fileAppender->setName(QStringLiteral("My file appender"));
     fileAppender->activateOptions();
     // Add appender on root logger
     logger->addAppender(fileAppender);
 
     // Set level to info
-    logger->setLevel(QExtLogLevel::INFO_INT);
+    logger->setLevel(QExtLogLevel::Info);
     // Enable handling of Qt messages
-    Log4Qt::LogManager::setHandleQtMessages(true);
+    QExtLogManager::setHandleQtMessages(true);
 
     if (!introMessage.isEmpty())
         logger->info(introMessage);
@@ -133,7 +133,7 @@ void setupRootLogger(const QString &introMessage)
 
 void shutDownRootLogger(const QString &extroMessage)
 {
-    auto logger = Log4Qt::Logger::rootLogger();
+    auto logger = QExtLogger::rootLogger();
 
     if (!extroMessage.isEmpty())
         logger->info(extroMessage);

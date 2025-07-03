@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_LOGGER_H
-#define LOG4QT_LOGGER_H
+#ifndef _QEXTLOGGER_H
+#define _QEXTLOGGER_H
 
 #include <QObject>
 
@@ -30,16 +35,13 @@
 #include <qextLogStream.h>
 #include <qextLoggingEvent.h>
 
-namespace Log4Qt
-{
-
 /*!
- * LOG4QT_DECLARE_STATIC_LOGGER declares a static function \a FUNCTION that
- * returns a pointer to a \ref Log4Qt::Logger "Logger" named after \a CLASS.
+ * QEXT_DECLARE_STATIC_LOGGER declares a static function \a FUNCTION that
+ * returns a pointer to a \ref QExtLogger "QExtLogger" named after \a CLASS.
  *
- * On the first invocation the \ref Log4Qt::Logger "Logger" is requested
- * by calling \ref Log4Qt::Logger::logger(const char *pName)
- * "Logger::logger( #CLASS )". The pointer is stored to be returned on
+ * On the first invocation the \ref QExtLogger "QExtLogger" is requested
+ * by calling \ref QExtLogger::logger(const char *pName)
+ * "QExtLogger::logger( #CLASS )". The pointer is stored to be returned on
  * subsequent invocations.
  *
  * The following example shows how to use the macro to define a logger to be
@@ -64,7 +66,7 @@ namespace Log4Qt
  *
  * #include counter.h
  *
- * LOG4QT_DECLARE_STATIC_LOGGER(logger, Counter)
+ * QEXT_DECLARE_STATIC_LOGGER(logger, Counter)
  *
  * Counter::Counter() :
  *     mCount(0)
@@ -83,22 +85,22 @@ namespace Log4Qt
  *
  * \note The function created by the macro is thread-safe.
  *
- * \sa \ref Log4Qt::Logger::logger(const char *pName) "Logger::logger(const char *pName)"
+ * \sa \ref QExtLogger::logger(const char *pName) "QExtLogger::logger(const char *pName)"
  */
-#define LOG4QT_DECLARE_STATIC_LOGGER(FUNCTION, CLASS)                     \
-        static Log4Qt::Logger *FUNCTION()                                 \
-        {                                                                 \
-            static Log4Qt::Logger * p_logger(Log4Qt::Logger::logger(#CLASS )); \
-            return p_logger;                                               \
+#define QEXT_DECLARE_STATIC_LOGGER(FUNCTION, CLASS) \
+        static QExtLogger *FUNCTION() \
+        { \
+            static QExtLogger *logger(QExtLogger::logger(#CLASS)); \
+            return logger; \
         }
 
 /*!
- * LOG4QT_DECLARE_QCLASS_LOGGER declares member functions to retrieve
- * \ref Log4Qt::Logger "Logger" for the class it is used in.
+ * QEXT_DECLARE_QCLASS_LOGGER declares member functions to retrieve
+ * \ref QExtLogger "QExtLogger" for the class it is used in.
  *
- * On the first invocation the \ref Log4Qt::Logger "Logger" is requested
- * by a call to \ref Log4Qt::Logger::logger(const char *pName)
- * "Logger::logger(const char *pName)". The pointer is stored to be
+ * On the first invocation the \ref QExtLogger "QExtLogger" is requested
+ * by a call to \ref QExtLogger::logger(const char *pName)
+ * "QExtLogger::logger(const char *pName)". The pointer is stored to be
  * returned on subsequent invocations.
  *
  * The following example shows how to use the macro to define a logger to be
@@ -113,7 +115,7 @@ namespace Log4Qt
  * class Counter : public QObject
  * {
  *     Q_OBJECT
- *     LOG4QT_DECLARE_QCLASS_LOGGER
+ *     QEXT_DECLARE_QCLASS_LOGGER
  * public:
  *     Counter();
  *     Counter(int preset);
@@ -143,25 +145,24 @@ namespace Log4Qt
  *
  * \note The function created by the macro is thread-safe.
  *
- * \sa \ref Log4Qt::Logger::logger(const char *pName) "Logger::logger(const char *pName)",
- *     \ref Log4Qt::ClassLogger "ClassLogger"
+ * \sa \ref QExtLogger::logger(const char *pName) "QExtLogger::logger(const char *pName)",
+ *     \ref QExtClassLogger "QExtClassLogger"
  */
-#define LOG4QT_DECLARE_QCLASS_LOGGER                                      \
-            private:                                                              \
-                    mutable Log4Qt::ClassLogger mLog4QtClassLogger;                   \
-            public:                                                               \
-                    inline Log4Qt::Logger *logger() const                             \
-                    {   return mLog4QtClassLogger.logger(this);    }                  \
-            private:
+#define QEXT_DECLARE_QCLASS_LOGGER \
+        private: \
+            mutable QExtClassLogger mClassLogger; \
+        public: \
+            inline QExtLogger *logger() const { return mClassLogger.logger(this); } \
+        private:
 
 
-class QEXT_LOGGING_API MessageLogger
+class QEXT_LOGGING_API QExtMessageLogger
 {
-    QEXT_DISABLE_COPY_MOVE(MessageLogger)
+    QEXT_DISABLE_COPY_MOVE(QExtMessageLogger)
 
 public:
-    explicit MessageLogger(Logger *logger, QExtLogLevel level) : mLogger(logger), mLevel(level) {}
-    explicit MessageLogger(Logger *logger, QExtLogLevel level, const char *file, int line, const char *function)
+    explicit QExtMessageLogger(QExtLogger *logger, QExtLogLevel level) : mLogger(logger), mLevel(level) {}
+    explicit QExtMessageLogger(QExtLogger *logger, QExtLogLevel level, const char *file, int line, const char *function)
         : mLogger(logger), mLevel(level), mContext(file, line, function) {}
 
     void log(const QString &message) const;
@@ -170,52 +171,52 @@ public:
     {
         log(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
-    LogStream log() const;
+    QExtLogStream log() const;
 
 private:
-    QPointer<const Logger> mLogger;
+    QPointer<const QExtLogger> mLogger;
     QExtLogLevel mLevel;
-    MessageContext mContext;
+    QExtLogMessageContext mContext;
 };
 
 // Macros to log with location information, teh logger must have the name
 #define l4qFatal(...) \
-    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::FATAL_INT); enabled; enabled = false) \
-        Log4Qt::MessageLogger(logger(), QExtLogLevel::FATAL_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
+    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::Fatal); enabled; enabled = false) \
+        QExtMessageLogger(logger(), QExtLogLevel::Fatal, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 #define l4qError(...) \
-    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::ERROR_INT); enabled; enabled = false) \
-        Log4Qt::MessageLogger(logger(), QExtLogLevel::ERROR_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
+    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::Error); enabled; enabled = false) \
+        QExtMessageLogger(logger(), QExtLogLevel::Error, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 #define l4qWarn(...) \
-    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::WARN_INT); enabled; enabled = false) \
-        Log4Qt::MessageLogger(logger(), QExtLogLevel::WARN_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
+    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::Warn); enabled; enabled = false) \
+        QExtMessageLogger(logger(), QExtLogLevel::Warn, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 #define l4qInfo(...) \
-    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::INFO_INT); enabled; enabled = false) \
-        Log4Qt::MessageLogger(logger(), QExtLogLevel::INFO_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
+    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::Info); enabled; enabled = false) \
+        QExtMessageLogger(logger(), QExtLogLevel::Info, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 #define l4qDebug(...) \
-    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::DEBUG_INT); enabled; enabled = false) \
-        Log4Qt::MessageLogger(logger(), QExtLogLevel::DEBUG_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
+    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::Debug); enabled; enabled = false) \
+        QExtMessageLogger(logger(), QExtLogLevel::Debug, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 #define l4qTrace(...) \
-    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::TRACE_INT); enabled; enabled = false) \
-        Log4Qt::MessageLogger(logger(), QExtLogLevel::TRACE_INT, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
+    for (bool enabled = logger()->isEnabledFor(QExtLogLevel::Trace); enabled; enabled = false) \
+        QExtMessageLogger(logger(), QExtLogLevel::Trace, __FILE__, __LINE__, Q_FUNC_INFO).log(__VA_ARGS__)
 
-class Appender;
-class LoggerRepository;
+class QExtLogAppender;
+class QExtLoggerRepository;
 
 /*!
- * \brief The class Logger provides logging services.
+ * \brief The class QExtLogger provides logging services.
  *
- * A pointer to a logger can be retrieved by calling Logger::logger() or
- * LogManager::logger() with the class name as argument. Because a logger
+ * A pointer to a logger can be retrieved by calling QExtLogger::logger() or
+ * QExtLogManager::logger() with the class name as argument. Because a logger
  * is never destroyed it is possible to store the pointer to the logger.
  * This way the lookup of the pointer in the repository is only required
  * on the first logging operation. The macros \ref
- * Log4Qt::LOG4QT_DECLARE_STATIC_LOGGER "LOG4QT_DECLARE_STATIC_LOGGER" and
- * \ref Log4Qt::LOG4QT_DECLARE_QCLASS_LOGGER "LOG4QT_DECLARE_QCLASS_LOGGER"
+ * QEXT_DECLARE_STATIC_LOGGER "QEXT_DECLARE_STATIC_LOGGER" and
+ * \ref QEXT_DECLARE_QCLASS_LOGGER "QEXT_DECLARE_QCLASS_LOGGER"
  * provide a thread-safe implementation to store the logger pointer.
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class QEXT_LOGGING_API Logger : public QObject, public AppenderAttachable
+class QEXT_LOGGING_API QExtLogger : public QObject, public QExtLogAppenderAttachable
 {
     Q_OBJECT
 
@@ -231,17 +232,17 @@ class QEXT_LOGGING_API Logger : public QObject, public AppenderAttachable
     /*!
      * The property holds the level used by the logger.
      *
-     * The default is QExtLogLevel::NULL_INT.
+     * The default is QExtLogLevel::Null.
      * \sa level(), setLevel()
      */
     Q_PROPERTY(QExtLogLevel level READ level WRITE setLevel)
 
     /*!
-     * The property holds the LoggerRepository of the logger.
+     * The property holds the QExtLoggerRepository of the logger.
      *
      * \sa loggerRepository()
      */
-    Q_PROPERTY(LoggerRepository *loggerRepository READ loggerRepository)
+    Q_PROPERTY(QExtLoggerRepository *loggerRepository READ loggerRepository)
 
     /*!
      * The property holds the name of the logger.
@@ -255,28 +256,28 @@ class QEXT_LOGGING_API Logger : public QObject, public AppenderAttachable
      *
      * \sa parentLogger()
      */
-    Q_PROPERTY(Logger *parentLogger READ parentLogger)
+    Q_PROPERTY(QExtLogger *parentLogger READ parentLogger)
 
-    LOG4QT_DECLARE_QCLASS_LOGGER
+    QEXT_DECLARE_QCLASS_LOGGER
 
 protected:
-    Logger(LoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, Logger *parent = nullptr);
-    ~Logger() override;
+    QExtLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, QExtLogger *parent = nullptr);
+    ~QExtLogger() override;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(Logger)
+    QEXT_DISABLE_COPY_MOVE(QExtLogger)
 
 public:
     bool additivity() const;
     QExtLogLevel level() const;
-    LoggerRepository *loggerRepository() const;
+    QExtLoggerRepository *loggerRepository() const;
     QString name() const;
-    Logger *parentLogger() const;
+    QExtLogger *parentLogger() const;
 
     void setAdditivity(bool additivity);
     virtual void setLevel(QExtLogLevel level);
 
-    void callAppenders(const LoggingEvent &event) const;
+    void callAppenders(const QExtLoggingEvent &event) const;
 
     QExtLogLevel effectiveLevel() const;
     bool isDebugEnabled() const;
@@ -290,7 +291,7 @@ public:
      * then the repository threshold and greater and equal then the loggers
      * effective level.
      *
-     * \sa LoggerRepository::isDisabled(), effectiveLevel()
+     * \sa QExtLoggerRepository::isDisabled(), effectiveLevel()
      */
     bool isEnabledFor(QExtLogLevel level) const;
 
@@ -300,7 +301,7 @@ public:
     bool isTraceEnabled() const;
     bool isWarnEnabled() const;
 
-    LogStream debug() const;
+    QExtLogStream debug() const;
     void debug(const QExtLogError &logError) const;
     void debug(const QString &message) const;
 
@@ -311,7 +312,7 @@ public:
     }
 
 
-    LogStream error() const;
+    QExtLogStream error() const;
     void error(const QExtLogError &logError) const;
     void error(const QString &message) const;
 
@@ -321,7 +322,7 @@ public:
         error(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    LogStream fatal() const;
+    QExtLogStream fatal() const;
     void fatal(const QExtLogError &logError) const;
     void fatal(const QString &message) const;
 
@@ -331,7 +332,7 @@ public:
         fatal(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    LogStream info() const;
+    QExtLogStream info() const;
     void info(const QExtLogError &logError) const;
     void info(const QString &message) const;
 
@@ -341,9 +342,9 @@ public:
         info(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    LogStream log(QExtLogLevel level) const;
+    QExtLogStream log(QExtLogLevel level) const;
     void log(QExtLogLevel level, const QExtLogError &logError) const;
-    void log(const LoggingEvent &logEvent) const;
+    void log(const QExtLoggingEvent &logEvent) const;
 
     void log(QExtLogLevel level, const QString &message) const;
     template<typename T, typename ...Ts>
@@ -359,7 +360,7 @@ public:
         logWithLocation(level, file, line, function, message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    LogStream trace() const;
+    QExtLogStream trace() const;
     void trace(const QExtLogError &logError) const;
     void trace(const QString &message) const;
 
@@ -369,7 +370,7 @@ public:
         trace(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    LogStream warn() const;
+    QExtLogStream warn() const;
     void warn(const QExtLogError &logError) const;
     void warn(const QString &message) const;
 
@@ -379,26 +380,24 @@ public:
         warn(message.arg(std::forward<T>(t)), std::forward<Ts>(ts)...);
     }
 
-    // LogManager operations
-    static Logger *logger(const QString &name);
-    static Logger *logger(const char *name);
-    static Logger *rootLogger();
+    // QExtLogManager operations
+    static QExtLogger *logger(const QString &name);
+    static QExtLogger *logger(const char *name);
+    static QExtLogger *rootLogger();
 
 protected:
     void forcedLog(QExtLogLevel level, const QString &message) const;
-    void forcedLog(const LoggingEvent &logEvent) const;
+    void forcedLog(const QExtLoggingEvent &logEvent) const;
 
 private:
     const QString mName;
-    LoggerRepository *mLoggerRepository;
+    QExtLoggerRepository *mLoggerRepository;
     volatile bool mAdditivity;
     QExtLogLevel mLevel;
-    Logger *mParentLogger;
+    QExtLogger *mParentLogger;
 
-    // Needs to be friend to create Logger objects
-    friend class Hierarchy;
+    // Needs to be friend to create QExtLogger objects
+    friend class QExtLogHierarchy;
 };
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_LOGGER_H
+#endif // _QEXTLOGGER_H

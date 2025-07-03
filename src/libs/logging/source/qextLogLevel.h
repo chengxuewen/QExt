@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_LEVEL_H
-#define LOG4QT_LEVEL_H
+#ifndef _QEXTLOGLEVEL_H
+#define _QEXTLOGLEVEL_H
 
 #include <qextLoggingGlobal.h>
 
@@ -35,33 +40,34 @@ class QEXT_LOGGING_API QExtLogLevel
 {
 public:
     // Comparisson operators rely on the order:
-    // NULL_INT < ALL_INT < TRACE_INT < ...
+    // Null < All < Trace < ...
     // Serialisation uses unsigned 8 bit int
 
     /*!
      * The enumeration Value contains all possible QExtLogLevel values.
      */
-    enum Value
+    enum LevelEnum
     {
-        /*! NULL_INT is used for no level has been specified */
-        NULL_INT = 0,
-        ALL_INT = 32,
-        TRACE_INT = 64,
-        DEBUG_INT = 96,
-        INFO_INT = 128,
-        WARN_INT = 150,
-        ERROR_INT = 182,
-        FATAL_INT = 214,
-        OFF_INT = 255
+        /*! Null is used for no level has been specified */
+        Null = 0,
+        All = 32,
+        Trace = 64,
+        Debug = 96,
+        Info = 128,
+        Warn = 150,
+        Error = 182,
+        Fatal = 214,
+        Off = 255
     };
 
 public:
-    QExtLogLevel(Value value = NULL_INT)
+    QExtLogLevel(LevelEnum value = Null)
         : mValue(value)
     {
     }
 
     int syslogEquivalent() const;
+
     int toInt() const
     {
         return mValue;
@@ -96,19 +102,20 @@ public:
     {
         return mValue >= other.mValue;
     }
+
     QString toString() const;
 
-    static QExtLogLevel fromString(const QString &level, bool *ok = nullptr);
+    static const QList<int> &levelEnumList();
+    static const char *levelEnumString(int level);
+    static QExtLogLevel fromString(const QString &level, bool *ok = QEXT_NULLPTR);
 
 private:
-    volatile Value mValue;
+    volatile LevelEnum mValue;
 
 #ifndef QT_NO_DATASTREAM
     // Needs to be friend to stream objects
-    friend QEXT_LOGGING_API QDataStream &operator<<(QDataStream &out,
-                                   QExtLogLevel level);
-    friend QEXT_LOGGING_API QDataStream &operator>>(QDataStream &in,
-                                   QExtLogLevel &level);
+    friend QEXT_LOGGING_API QDataStream &operator<<(QDataStream &out, QExtLogLevel level);
+    friend QEXT_LOGGING_API QDataStream &operator>>(QDataStream &in, QExtLogLevel &level);
 #endif // QT_NO_DATASTREAM
 };
 
@@ -119,8 +126,7 @@ private:
  * Writes the given error \a rLevel to the given stream \a rStream,
  * and returns a reference to the stream.
  */
-QEXT_LOGGING_API QDataStream &operator<<(QDataStream &out,
-                        QExtLogLevel level);
+QEXT_LOGGING_API QDataStream &operator<<(QDataStream &out, QExtLogLevel level);
 
 /*!
  * \relates QExtLogLevel
@@ -128,12 +134,11 @@ QEXT_LOGGING_API QDataStream &operator<<(QDataStream &out,
  * Reads an error from the given stream \a rStream into the given
  * error \a rLevel, and returns a reference to the stream.
  */
-QEXT_LOGGING_API QDataStream &operator>>(QDataStream &in,
-                        QExtLogLevel &level);
+QEXT_LOGGING_API QDataStream &operator>>(QDataStream &in, QExtLogLevel &level);
 #endif // QT_NO_DATASTREAM
 
 Q_DECLARE_METATYPE(QExtLogLevel)
 Q_DECLARE_TYPEINFO(QExtLogLevel, Q_MOVABLE_TYPE);
 
 
-#endif // LOG4QT_LEVEL_H
+#endif // _QEXTLOGLEVEL_H

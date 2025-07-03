@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -128,7 +128,6 @@ qext_add_library(${QEXT_LIB_NAME}
     source/logger/qextLoggerRepository.h
     source/logger/qextQMLLogger.cpp
     source/logger/qextQMLLogger.h
-    source/log4qt.h
     source/qextBinaryLoggingEvent.cpp
     source/qextBinaryLoggingEvent.h
     source/qextBinaryLogStream.cpp

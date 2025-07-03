@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogBasicConfigurator.h>
 
@@ -29,38 +34,33 @@
 #include <QCoreApplication>
 #include <QThread>
 
-namespace Log4Qt
+bool QExtLogBasicConfigurator::configure()
 {
-
-bool BasicConfigurator::configure()
-{
-    auto *list = new ListAppender;
-    list->setName(QStringLiteral("BasicConfigurator"));
+    auto *list = new QExtLogListAppender;
+    list->setName(QStringLiteral("QExtLogBasicConfigurator"));
     list->setConfiguratorList(true);
-    list->setThreshold(QExtLogLevel::ERROR_INT);
-    LogManager::logLogger()->addAppender(AppenderSharedPtr(list));
+    list->setThreshold(QExtLogLevel::Error);
+    QExtLogManager::logLogger()->addAppender(QExtLogAppenderSharedPtr(list));
 
-    LayoutSharedPtr p_layout(new PatternLayout(PatternLayout::TTCC_CONVERSION_PATTERN));
-    p_layout->setName(QStringLiteral("BasicConfigurator TTCC"));
+    QExtLogLayoutSharedPtr p_layout(new QExtLogPatternLayout(QExtLogPatternLayout::TTCC_CONVERSION_PATTERN));
+    p_layout->setName(QStringLiteral("QExtLogBasicConfigurator TTCC"));
     p_layout->activateOptions();
-    ConsoleAppender *p_appender = new ConsoleAppender(p_layout, ConsoleAppender::STDOUT_TARGET);
-    p_appender->setName(QStringLiteral("BasicConfigurator stdout"));
+    QExtLogConsoleAppender *p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    p_appender->setName(QStringLiteral("QExtLogBasicConfigurator stdout"));
     p_appender->activateOptions();
-    LogManager::rootLogger()->addAppender(p_appender);
+    QExtLogManager::rootLogger()->addAppender(p_appender);
 
-    LogManager::logLogger()->removeAppender(list);
-    ConfiguratorHelper::setConfigureError(list->list());
+    QExtLogManager::logLogger()->removeAppender(list);
+    QExtLogConfiguratorHelper::setConfigureError(list->list());
     return (list->list().count() == 0);
 }
 
-void BasicConfigurator::configure(Appender *pAppender)
+void QExtLogBasicConfigurator::configure(QExtLogAppender *pAppender)
 {
-    LogManager::rootLogger()->addAppender(pAppender);
+    QExtLogManager::rootLogger()->addAppender(pAppender);
 }
 
-void BasicConfigurator::resetConfiguration()
+void QExtLogBasicConfigurator::resetConfiguration()
 {
-    LogManager::resetConfiguration();
+    QExtLogManager::resetConfiguration();
 }
-
-} // namespace Log4Qt

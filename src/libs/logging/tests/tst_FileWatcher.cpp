@@ -106,9 +106,9 @@ void FilewatcherTest::testConfiguratorHelperSaveFileToTempDeleteOrigAndRename()
     QTemporaryDir tempDir;
     QString testFilePath = tempDir.path() + "log4qt.properties";
     createTestFile(testFilePath);
-    QSignalSpy configurationFileChangeSpy(Log4Qt::ConfiguratorHelper::instance(), &Log4Qt::ConfiguratorHelper::configurationFileChanged);
+    QSignalSpy configurationFileChangeSpy(QExtLogConfiguratorHelper::instance(), &QExtLogConfiguratorHelper::configurationFileChanged);
 
-    Log4Qt::ConfiguratorHelper::instance()->setConfigurationFile(testFilePath, configure);
+    QExtLogConfiguratorHelper::instance()->setConfigurationFile(testFilePath, configure);
 
     modifyTestFile(testFilePath);
     QVERIFY(QFile::exists(testFilePath));

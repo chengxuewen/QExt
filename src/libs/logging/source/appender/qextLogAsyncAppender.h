@@ -1,60 +1,61 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_ASYNCAPPENDER_H
-#define LOG4QT_ASYNCAPPENDER_H
+#ifndef _QEXTLOGASYNCAPPENDER_H
+#define _QEXTLOGASYNCAPPENDER_H
 
 #include <qextLogAppenderSkeleton.h>
 #include <qextLogAppenderAttachable.h>
 
-namespace Log4Qt
-{
-
-class Dispatcher;
+class QExtLogDispatcher;
 
 /*!
- * \brief The class AsyncAppender lets users log events asynchronously.
+ * \brief The class QExtLogAsyncAppender lets users log events asynchronously.
  *
- * The AsyncAppender will collect the events sent to it and then dispatch them to all the
- * appenders that are attached to it. You can attach multiple appenders to an AsyncAppender.
+ * The QExtLogAsyncAppender will collect the events sent to it and then dispatch them to all the
+ * appenders that are attached to it. You can attach multiple appenders to an QExtLogAsyncAppender.
  *
- * The AsyncAppender uses a separate thread to serve the events fromthe event loop.
+ * The QExtLogAsyncAppender uses a separate thread to serve the events fromthe event loop.
  *
  * \note All the functions declared in this class are thread-safe.
  * &nbsp;
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API AsyncAppender : public AppenderSkeleton, public AppenderAttachable
+class QEXT_LOGGING_API QExtLogAsyncAppender : public QExtLogAppenderSkeleton, public QExtLogAppenderAttachable
 {
     Q_OBJECT
 
 public:
-    AsyncAppender(QObject *parent = nullptr);
-    ~AsyncAppender() override;
+    QExtLogAsyncAppender(QObject *parent = nullptr);
+    ~QExtLogAsyncAppender() override;
 
-    bool requiresLayout() const override;
-
-    void activateOptions() override;
     void close() override;
-    void callAppenders(const LoggingEvent &event) const;
+    void activateOptions() override;
+    bool requiresLayout() const override;
+    void callAppenders(const QExtLoggingEvent &event) const;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -62,32 +63,29 @@ public:
      *
      * If a conditions is not met, an error is logged and the function
      * returns false. Otherwise the result of
-     * AppenderSkeleton::checkEntryConditions() is returned.
+     * QExtLogAppenderSkeleton::checkEntryConditions() is returned.
      *
      * The checked conditions are:
      * - dispatcher thread running (QExtLogError::Error_AppenderAsyncDispatcherNotRunning)
      *
      * The function is called as part of the checkEntryConditions() chain
-     * started by AppenderSkeleton::doAppend().
+     * started by QExtLogAppenderSkeleton::doAppend().
      *
-     * \sa AppenderSkeleton::doAppend(),
-     *     AppenderSkeleton::checkEntryConditions()
+     * \sa QExtLogAppenderSkeleton::doAppend(),
+     *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
     bool checkEntryConditions() const override;
 
 protected:
-    void append(const LoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) override;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(AsyncAppender)
+    QEXT_DISABLE_COPY_MOVE(QExtLogAsyncAppender)
 
     //! Event dispatcher trhead
-    QThread       *mThread;
-    Dispatcher    *mDispatcher;
+    QThread *mThread;
+    QExtLogDispatcher *mDispatcher;
     void closeInternal();
 };
 
-
-} // namespace Log4Qt
-
-#endif // LOG4QT_AsyncAppender_H
+#endif // _QEXTLOGASYNCAPPENDER_H

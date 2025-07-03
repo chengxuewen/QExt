@@ -1,86 +1,87 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogHierarchy.h>
-
-#include <qextLogger.h>
-#include <qextLogBinaryLogger.h>
 #include <qextLogOptionConverter.h>
+#include <qextLogBinaryLogger.h>
+#include <qextLogger.h>
 
 #if (__cplusplus >= 201703L) // C++17 or later
 #include <utility>
 #endif
 
-namespace Log4Qt
-{
+QEXT_DECLARE_STATIC_LOGGER(static_logger, ::QExtLoggerRepository)
 
-LOG4QT_DECLARE_STATIC_LOGGER(static_logger, ::LoggerRepository)
-
-Hierarchy::Hierarchy() :
+QExtLogHierarchy::QExtLogHierarchy() :
     mObjectGuard(QReadWriteLock::Recursive),
-    mThreshold(QExtLogLevel::NULL_INT),
+    mThreshold(QExtLogLevel::Null),
     mRootLogger(logger(QString()))
 {
 }
 
-Hierarchy::~Hierarchy()
+QExtLogHierarchy::~QExtLogHierarchy()
 {
-    static_logger()->warn(QStringLiteral("Unexpected destruction of Hierarchy"));
+    static_logger()->warn(QStringLiteral("Unexpected destruction of QExtLogHierarchy"));
 }
 
-bool Hierarchy::exists(const QString &name) const
+bool QExtLogHierarchy::exists(const QString &name) const
 {
     QReadLocker locker(&mObjectGuard);
 
     return mLoggers.contains(name);
 }
 
-Logger *Hierarchy::logger(const QString &name)
+QExtLogger *QExtLogHierarchy::logger(const QString &name)
 {
     QWriteLocker locker(&mObjectGuard);
 
     return createLogger(name);
 }
 
-QList<Logger *> Hierarchy::loggers() const
+QList<QExtLogger *> QExtLogHierarchy::loggers() const
 {
     QReadLocker locker(&mObjectGuard);
 
     return mLoggers.values();
 }
 
-void Hierarchy::setThreshold(const QString &threshold)
+void QExtLogHierarchy::setThreshold(const QString &threshold)
 {
     setThreshold(QExtLogLevel::fromString(threshold));
 }
 
-void Hierarchy::resetConfiguration()
+void QExtLogHierarchy::resetConfiguration()
 {
     QWriteLocker locker(&mObjectGuard);
 
     // Reset all loggers.
     // Leave log, qt and root logger to the last to allow debugging of shutdown.
 
-    Logger *p_logging_logger = logger(QLatin1String(""));
-    Logger *p_qt_logger = logger(QStringLiteral("Qt"));
-    Logger *p_root_logger = rootLogger();
+    QExtLogger *p_logging_logger = logger(QLatin1String(""));
+    QExtLogger *p_qt_logger = logger(QStringLiteral("Qt"));
+    QExtLogger *p_root_logger = rootLogger();
 
 #if (__cplusplus >= 201703L)
     for (auto &&p_logger : std::as_const(mLoggers))
@@ -90,37 +91,37 @@ void Hierarchy::resetConfiguration()
     {
         if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
             continue;
-        resetLogger(p_logger, QExtLogLevel::NULL_INT);
+        resetLogger(p_logger, QExtLogLevel::Null);
     }
-    resetLogger(p_qt_logger, QExtLogLevel::NULL_INT);
-    resetLogger(p_logging_logger, QExtLogLevel::NULL_INT);
-    resetLogger(p_root_logger, QExtLogLevel::DEBUG_INT);
+    resetLogger(p_qt_logger, QExtLogLevel::Null);
+    resetLogger(p_logging_logger, QExtLogLevel::Null);
+    resetLogger(p_root_logger, QExtLogLevel::Debug);
 }
 
-void Hierarchy::shutdown()
+void QExtLogHierarchy::shutdown()
 {
-    static_logger()->debug(QStringLiteral("Shutting down Hierarchy"));
+    static_logger()->debug(QStringLiteral("Shutting down QExtLogHierarchy"));
     resetConfiguration();
 }
 
-Logger *Hierarchy::createLogger(const QString &orgName)
+QExtLogger *QExtLogHierarchy::createLogger(const QString &orgName)
 {
     static const QLatin1String binaryIndicator = QLatin1String("@@binary@@");
     static const QLatin1String name_separator = QLatin1String("::");
 
-    QString name(OptionConverter::classNameJavaToCpp(orgName));
+    QString name(QExtLogOptionConverter::classNameJavaToCpp(orgName));
     bool needBinaryLogger = orgName.contains(binaryIndicator);
 
     if (needBinaryLogger)
         name.remove(binaryIndicator);
 
-    Logger *logger = mLoggers.value(name, nullptr);
+    QExtLogger *logger = mLoggers.value(name, nullptr);
     if (logger != nullptr)
         return logger;
 
     if (name.isEmpty())
     {
-        logger = new Logger(this, QExtLogLevel::DEBUG_INT, QStringLiteral("root"), nullptr);
+        logger = new QExtLogger(this, QExtLogLevel::Debug, QStringLiteral("root"), nullptr);
         mLoggers.insert(QString(), logger);
         return logger;
     }
@@ -130,18 +131,16 @@ Logger *Hierarchy::createLogger(const QString &orgName)
         parent_name = name.left(index);
 
     if (needBinaryLogger)
-        logger = new BinaryLogger(this, QExtLogLevel::NULL_INT, name, createLogger(parent_name));
+        logger = new QExtBinaryLogger(this, QExtLogLevel::Null, name, createLogger(parent_name));
     else
-        logger = new Logger(this, QExtLogLevel::NULL_INT, name, createLogger(parent_name));
+        logger = new QExtLogger(this, QExtLogLevel::Null, name, createLogger(parent_name));
     mLoggers.insert(name, logger);
     return logger;
 }
 
-void Hierarchy::resetLogger(Logger *logger, QExtLogLevel level) const
+void QExtLogHierarchy::resetLogger(QExtLogger *logger, QExtLogLevel level) const
 {
     logger->removeAllAppenders();
     logger->setAdditivity(true);
     logger->setLevel(level);
 }
-
-} // namespace Log4Qt

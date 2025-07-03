@@ -1,27 +1,27 @@
-/******************************************************************************
- *
- * package:     Log4Qt
- * file:        databaselayout.cpp
- * created:     March 2010
- * author:      Michael Filonenko
- *
- *
- * Copyright 2010 Michael Filonenko
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
-
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright 2010 Michael Filonenko
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogDatabaseLayout.h>
 #include <qextLoggingEvent.h>
@@ -29,10 +29,7 @@
 
 #include <QtSql/QSqlField>
 
-namespace Log4Qt
-{
-
-QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
+QSqlRecord QExtLogDatabaseLayout::formatRecord(const QExtLoggingEvent &event)
 {
     QSqlField field;
     QSqlRecord record;
@@ -85,7 +82,7 @@ QSqlRecord DatabaseLayout::formatRecord(const LoggingEvent &event)
 }
 
 
-QString DatabaseLayout::format(const LoggingEvent &event)
+QString QExtLogDatabaseLayout::format(const QExtLoggingEvent &event)
 {
     QString result;
 
@@ -130,55 +127,53 @@ QString DatabaseLayout::format(const LoggingEvent &event)
     return result;
 }
 
-QString DatabaseLayout::timeStampColumn() const
+QString QExtLogDatabaseLayout::timeStampColumn() const
 {
     return mTimeStamp;
 }
-QString DatabaseLayout::loggenameColumn() const
+QString QExtLogDatabaseLayout::loggenameColumn() const
 {
     return mLoggename;
 }
-QString DatabaseLayout::threadNameColumn() const
+QString QExtLogDatabaseLayout::threadNameColumn() const
 {
     return mThreadName;
 }
 
-QString DatabaseLayout::levelColumn() const
+QString QExtLogDatabaseLayout::levelColumn() const
 {
     return mLevel;
 }
 
-QString DatabaseLayout::messageColumn() const
+QString QExtLogDatabaseLayout::messageColumn() const
 {
     return mMessage;
 }
 
 
-void DatabaseLayout::setTimeStampColumn(const QString &columnName)
+void QExtLogDatabaseLayout::setTimeStampColumn(const QString &columnName)
 {
     mTimeStamp = columnName;
 }
 
-void DatabaseLayout::setLoggenameColumn(const QString &columnName)
+void QExtLogDatabaseLayout::setLoggenameColumn(const QString &columnName)
 {
     mLoggename = columnName;
 }
 
-void DatabaseLayout::setThreadNameColumn(const QString &columnName)
+void QExtLogDatabaseLayout::setThreadNameColumn(const QString &columnName)
 {
     mThreadName = columnName;
 }
 
-void DatabaseLayout::setLevelColumn(const QString &columnName)
+void QExtLogDatabaseLayout::setLevelColumn(const QString &columnName)
 {
     mLevel = columnName;
 }
 
-void DatabaseLayout::setMessageColumn(const QString &columnName)
+void QExtLogDatabaseLayout::setMessageColumn(const QString &columnName)
 {
     mMessage = columnName;
 }
-
-} // namespace Log4Qt
 
 // #include "moc_databaselayout.cpp"

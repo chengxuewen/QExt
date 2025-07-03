@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogFileAppender.h>
 #include <qextLoggingEvent.h>
@@ -32,11 +37,8 @@
 #include <windows.h>
 #endif
 
-namespace Log4Qt
-{
-
-FileAppender::FileAppender(QObject *parent) :
-    WriterAppender(parent),
+QExtLogFileAppender::QExtLogFileAppender(QObject *parent) :
+    QExtLogWriterAppender(parent),
     mAppendFile(false),
     mBufferedIo(true),
     mFile(nullptr),
@@ -44,10 +46,10 @@ FileAppender::FileAppender(QObject *parent) :
 {
 }
 
-FileAppender::FileAppender(const LayoutSharedPtr &layout,
+QExtLogFileAppender::QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                            const QString &fileName,
                            QObject *parent) :
-    WriterAppender(layout, parent),
+    QExtLogWriterAppender(layout, parent),
     mAppendFile(false),
     mBufferedIo(true),
     mFileName(fileName),
@@ -56,11 +58,11 @@ FileAppender::FileAppender(const LayoutSharedPtr &layout,
 {
 }
 
-FileAppender::FileAppender(const LayoutSharedPtr &layout,
+QExtLogFileAppender::QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                            const QString &fileName,
                            bool append,
                            QObject *parent) :
-    WriterAppender(layout, parent),
+    QExtLogWriterAppender(layout, parent),
     mAppendFile(append),
     mBufferedIo(true),
     mFileName(fileName),
@@ -70,12 +72,12 @@ FileAppender::FileAppender(const LayoutSharedPtr &layout,
 }
 
 
-FileAppender::FileAppender(const LayoutSharedPtr &layout,
+QExtLogFileAppender::QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                            const QString &fileName,
                            bool append,
                            bool buffered,
                            QObject *parent) :
-    WriterAppender(layout, parent),
+    QExtLogWriterAppender(layout, parent),
     mAppendFile(append),
     mBufferedIo(buffered),
     mFileName(fileName),
@@ -84,18 +86,18 @@ FileAppender::FileAppender(const LayoutSharedPtr &layout,
 {
 }
 
-FileAppender::~FileAppender()
+QExtLogFileAppender::~QExtLogFileAppender()
 {
     closeInternal();
 }
 
-void FileAppender::activateOptions()
+void QExtLogFileAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
     if (mFileName.isEmpty())
     {
-        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of Appender '%1' that requires file and has no file set"),
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires file and has no file set"),
                                          QExtLogError::Error_AppenderActivateMissingFile);
         e << name();
         logger()->error(e);
@@ -103,17 +105,17 @@ void FileAppender::activateOptions()
     }
     closeFile();
     openFile();
-    WriterAppender::activateOptions();
+    QExtLogWriterAppender::activateOptions();
 }
 
-void FileAppender::close()
+void QExtLogFileAppender::close()
 {
     closeInternal();
-    WriterAppender::close();
+    QExtLogWriterAppender::close();
 
 }
 
-void FileAppender::closeInternal()
+void QExtLogFileAppender::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -123,7 +125,7 @@ void FileAppender::closeInternal()
     closeFile();
 }
 
-bool FileAppender::checkEntryConditions() const
+bool QExtLogFileAppender::checkEntryConditions() const
 {
     if ((mFile == nullptr) || (mTextStream == nullptr))
     {
@@ -134,10 +136,10 @@ bool FileAppender::checkEntryConditions() const
         return false;
     }
 
-    return WriterAppender::checkEntryConditions();
+    return QExtLogWriterAppender::checkEntryConditions();
 }
 
-void FileAppender::closeFile()
+void QExtLogFileAppender::closeFile()
 {
     if (mFile != nullptr)
         logger()->debug(QStringLiteral("Closing file '%1' for appender '%2'"), mFile->fileName(), name());
@@ -149,7 +151,7 @@ void FileAppender::closeFile()
     mFile = nullptr;
 }
 
-bool FileAppender::handleIoErrors() const
+bool QExtLogFileAppender::handleIoErrors() const
 {
     if (mFile->error() == QFile::NoError)
         return false;
@@ -163,9 +165,9 @@ bool FileAppender::handleIoErrors() const
 }
 
 
-void FileAppender::openFile()
+void QExtLogFileAppender::openFile()
 {
-    Q_ASSERT_X(mFile == nullptr && mTextStream == nullptr, "FileAppender::openFile()", "Opening file without closing previous file");
+    Q_ASSERT_X(mFile == nullptr && mTextStream == nullptr, "QExtLogFileAppender::openFile()", "Opening file without closing previous file");
 
     QFileInfo file_info(mFileName);
     QDir parent_dir = file_info.dir();
@@ -207,7 +209,7 @@ void FileAppender::openFile()
 }
 
 
-bool FileAppender::removeFile(QFile &file) const
+bool QExtLogFileAppender::removeFile(QFile &file) const
 {
     if (file.remove())
         return true;
@@ -220,7 +222,7 @@ bool FileAppender::removeFile(QFile &file) const
     return false;
 }
 
-bool FileAppender::renameFile(QFile &file,
+bool QExtLogFileAppender::renameFile(QFile &file,
                               const QString &fileName) const
 {
     logger()->debug(QStringLiteral("Renaming file '%1' to '%2'"), file.fileName(), fileName);
@@ -234,7 +236,5 @@ bool FileAppender::renameFile(QFile &file,
     logger()->error(e);
     return false;
 }
-
-} // namespace Log4Qt
 
 // #include "moc_fileappender.cpp"

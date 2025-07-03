@@ -1,26 +1,27 @@
-/******************************************************************************
- *
- * package:     Log4Qt
- * file:        databaseappender.cpp
- * created:     Marth 2010
- * author:      Michael Filonenko
- *
- *
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
  * Copyright 2010 Michael Filonenko
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogDatabaseAppender.h>
 #include <qextLogDatabaseLayout.h>
@@ -33,35 +34,32 @@
 #include <QtSql/QSqlField>
 #include <QtSql/QSqlError>
 
-namespace Log4Qt
-{
-
-DatabaseAppender::DatabaseAppender(QObject *parent) :
-      AppenderSkeleton(false, parent)
+QExtLogDatabaseAppender::QExtLogDatabaseAppender(QObject *parent) :
+      QExtLogAppenderSkeleton(false, parent)
     , connectionName(QSqlDatabase::defaultConnection)
 {
 }
 
 
-DatabaseAppender::DatabaseAppender(const LayoutSharedPtr &layout,
+QExtLogDatabaseAppender::QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &layout,
                                    QObject *parent)
-    : AppenderSkeleton(false, layout, parent)
+    : QExtLogAppenderSkeleton(false, layout, parent)
     , connectionName(QSqlDatabase::defaultConnection)
 {
 }
 
 
-DatabaseAppender::DatabaseAppender(const LayoutSharedPtr &layout,
+QExtLogDatabaseAppender::QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &layout,
                                    const QString &tableName,
                                    const QString &connection,
                                    QObject *parent)
-    : AppenderSkeleton(false, layout, parent)
+    : QExtLogAppenderSkeleton(false, layout, parent)
     , connectionName(connection)
     , tableName(tableName)
 {
 }
 
-void DatabaseAppender::setConnection(const QString &connection)
+void QExtLogDatabaseAppender::setConnection(const QString &connection)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -71,7 +69,7 @@ void DatabaseAppender::setConnection(const QString &connection)
     connectionName = connection;
 }
 
-void DatabaseAppender::setTable(const QString &table)
+void QExtLogDatabaseAppender::setTable(const QString &table)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -81,30 +79,30 @@ void DatabaseAppender::setTable(const QString &table)
     tableName = table;
 }
 
-void DatabaseAppender::activateOptions()
+void QExtLogDatabaseAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
-        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of Appender '%1' that requires sql connection and table and has no connection or table set")
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires sql connection and table and has no connection or table set")
                                          , QExtLogError::Error_AppenderMissingDatabaseOrTable);
         e << name();
         logger()->error(e);
         return;
     }
 
-    AppenderSkeleton::activateOptions();
+    QExtLogAppenderSkeleton::activateOptions();
 }
 
-bool DatabaseAppender::requiresLayout() const
+bool QExtLogDatabaseAppender::requiresLayout() const
 {
     return true;
 }
 
-void DatabaseAppender::append(const LoggingEvent &event)
+void QExtLogDatabaseAppender::append(const QExtLoggingEvent &event)
 {
-    DatabaseLayout *databaseLayout = qobject_cast<DatabaseLayout *>(layout().data());
+    QExtLogDatabaseLayout *databaseLayout = qobject_cast<QExtLogDatabaseLayout *>(layout().data());
 
     if (databaseLayout != nullptr)
     {
@@ -131,7 +129,7 @@ void DatabaseAppender::append(const LoggingEvent &event)
     }
 }
 
-bool DatabaseAppender::checkEntryConditions() const
+bool QExtLogDatabaseAppender::checkEntryConditions() const
 {
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
@@ -142,10 +140,8 @@ bool DatabaseAppender::checkEntryConditions() const
         return false;
     }
 
-    return AppenderSkeleton::checkEntryConditions();
+    return QExtLogAppenderSkeleton::checkEntryConditions();
 }
-
-} // namespace Log4Qt
 
 // #include "moc_databaseappender.cpp"
 

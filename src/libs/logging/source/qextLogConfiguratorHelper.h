@@ -1,40 +1,42 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_HELPERS_CONFIGURATORHELPER_H
-#define LOG4QT_HELPERS_CONFIGURATORHELPER_H
+#ifndef _QEXTLOGCONFIGURATORHELPER_H
+#define _QEXTLOGCONFIGURATORHELPER_H
 
 #include <qextLoggingEvent.h>
 
-#include <QObject>
-#include <QList>
-#include <QMutex>
 #include <QFileInfo>
+#include <QObject>
+#include <QMutex>
+#include <QList>
 
 class QFileSystemWatcher;
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class ConfiguratorHelper provides a confiuration file watch
+ * \brief The class QExtLogConfiguratorHelper provides a confiuration file watch
  *        and last error for configurator classes.
  *
  * A configuration file can be set using setConfigurationFile(). The file
@@ -45,7 +47,7 @@ namespace Log4Qt
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class QEXT_LOGGING_API ConfiguratorHelper : public QObject
+class QEXT_LOGGING_API QExtLogConfiguratorHelper : public QObject
 {
     Q_OBJECT
 
@@ -56,15 +58,15 @@ public:
          * configuration file as a parameter.
          *
          * \sa setConfigurationFile(),
-         *     PropertyConfigurator::configure(const QString &)
+         *     QExtLogPropertyConfigurator::configure(const QString &)
      */
     typedef bool (*ConfigureFunc)(const QString &fileName);
 
 private:
-    explicit ConfiguratorHelper(QObject *parent = nullptr);
-    virtual ~ConfiguratorHelper();
+    explicit QExtLogConfiguratorHelper(QObject *parent = nullptr);
+    virtual ~QExtLogConfiguratorHelper();
 
-    QEXT_DISABLE_COPY_MOVE(ConfiguratorHelper)
+    QEXT_DISABLE_COPY_MOVE(QExtLogConfiguratorHelper)
 
 public:
 
@@ -74,10 +76,10 @@ public:
      * a call to one of the configure methods or through a change
      * to the configuration file.
      *
-     * \sa setConfigureError(), PropertyConfigurator::configure(),
+     * \sa setConfigureError(), QExtLogPropertyConfigurator::configure(),
      *     setConfigurationFile()
      */
-    static QList<LoggingEvent> configureError();
+    static QList<QExtLoggingEvent> configureError();
 
     /*!
      * Returns the current configuration file.
@@ -87,9 +89,9 @@ public:
     static QString configurationFile();
 
     /*!
-         * Returns the ConfiguratorHelper instance.
+         * Returns the QExtLogConfiguratorHelper instance.
          */
-    static ConfiguratorHelper *instance();
+    static QExtLogConfiguratorHelper *instance();
 
     /*!
      * Sets the configuration error information for the last configuration
@@ -97,7 +99,7 @@ public:
      *
      * \sa configureError()
      */
-    static void setConfigureError(const QList<LoggingEvent> &configureError);
+    static void setConfigureError(const QList<QExtLoggingEvent> &configureError);
 
     /*!
      * Sets the configuration file to \a fileName. The file is watched for
@@ -106,7 +108,7 @@ public:
      *
      * Setting the configuration file to an empty string stops the file watch.
      *
-     * \sa configurationFile(), PropertyConfigurator::configureAndWatch(),
+     * \sa configurationFile(), QExtLogPropertyConfigurator::configureAndWatch(),
      *     configureError()
      */
     static void setConfigurationFile(const QString &fileName = QString(),
@@ -136,33 +138,31 @@ private:
     QFileInfo mConfigurationFile;
     ConfigureFunc mConfigureFunc;
     QFileSystemWatcher *mConfigurationFileWatch;
-    QList<LoggingEvent> mConfigureError;
+    QList<QExtLoggingEvent> mConfigureError;
 };
 
-inline QList<LoggingEvent> ConfiguratorHelper::configureError()
+inline QList<QExtLoggingEvent> QExtLogConfiguratorHelper::configureError()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
     return instance()->mConfigureError;
 }
 
-inline QString ConfiguratorHelper::configurationFile()
+inline QString QExtLogConfiguratorHelper::configurationFile()
 {
     QMutexLocker locker(&instance()->mObjectGuard);
     return instance()->mConfigurationFile.absoluteFilePath();
 }
 
-inline void ConfiguratorHelper::setConfigureError(const QList<LoggingEvent> &configureError)
+inline void QExtLogConfiguratorHelper::setConfigureError(const QList<QExtLoggingEvent> &configureError)
 {
     QMutexLocker locker(&instance()->mObjectGuard);
     instance()->mConfigureError = configureError;
 }
 
-inline void ConfiguratorHelper::setConfigurationFile(const QString &fileName,
+inline void QExtLogConfiguratorHelper::setConfigurationFile(const QString &fileName,
         ConfigureFunc pConfigureFunc)
 {
     instance()->doSetConfigurationFile(fileName, pConfigureFunc);
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_HELPERS_CONFIGURATORHELPER_H
+#endif // _QEXTLOGCONFIGURATORHELPER_H

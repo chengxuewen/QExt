@@ -5,7 +5,7 @@
 
 #include <QStringList>
 
-class  TestAppender : public Log4Qt::AppenderSkeleton
+class  TestAppender : public QExtLogAppenderSkeleton
 {
     Q_OBJECT
 public:
@@ -18,7 +18,7 @@ public:
     virtual bool requiresLayout() const override;
 
 protected:
-    virtual void append(const Log4Qt::LoggingEvent &event) override;
+    virtual void append(const QExtLoggingEvent &event) override;
 
 private:
     QStringList mMessages;

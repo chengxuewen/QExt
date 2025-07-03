@@ -1,25 +1,29 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogProperties.h>
-
 #include <qextLogger.h>
 
 #include <QIODevice>
@@ -27,25 +31,22 @@
 #include <QTextStream>
 
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
-namespace Log4Qt
-{
+QEXT_DECLARE_STATIC_LOGGER(qextLogPropertiesLogger, QExtLogProperties)
 
-LOG4QT_DECLARE_STATIC_LOGGER(logger, Log4Qt::Properties)
-
-void Properties::load(QIODevice *pDevice)
+void QExtLogProperties::load(QIODevice *device)
 {
     const QLatin1Char append_char(msEscapeChar);
 
-    if (pDevice == nullptr)
+    if (QEXT_NULLPTR == device)
     {
-        logger()->warn(QStringLiteral("No device specified for load."));
+        qextLogPropertiesLogger()->warn(QStringLiteral("No device specified for load."));
         return;
     }
 
-    QTextStream stream(pDevice);
+    QTextStream stream(device);
     QString line;
     int line_number = 0;
     QString property;
@@ -57,7 +58,9 @@ void Properties::load(QIODevice *pDevice)
         line_number++;
 
         if (!line.isEmpty() && line.at(line.length() - 1) == append_char)
+        {
             property += line.left(line.length() - 1);
+        }
         else
         {
             property += line;
@@ -69,8 +72,7 @@ void Properties::load(QIODevice *pDevice)
     while (!line.isNull());
 }
 
-
-void Properties::load(const QSettings &settings)
+void QExtLogProperties::load(const QSettings &settings)
 {
     QStringList keys = settings.childKeys();
 #if (__cplusplus >= 201703L)
@@ -78,58 +80,69 @@ void Properties::load(const QSettings &settings)
 #else
     for (const auto &key : qAsConst(keys))
 #endif
+    {
         insert(key, settings.value(key).toString());
+    }
 }
 
 
-QString Properties::property(const QString &key) const
+QString QExtLogProperties::property(const QString &key) const
 {
     // Null string indicates the property does not contain the key.
-
-    if (contains(key))
+    if (this->contains(key))
     {
         QString value = this->value(key);
         if (value.isNull())
+        {
             return QString(QLatin1String(""));
+        }
         return value;
     }
 
     if (mpDefaultProperties)
+    {
         return mpDefaultProperties->property(key);
+    }
     return QString();
 }
 
 
-QString Properties::property(const QString &key,
-                             const QString &defaultValue) const
+QString QExtLogProperties::property(const QString &key, const QString &defaultValue) const
 {
     QString value = property(key);
     if (value.isNull())
+    {
         return defaultValue;
+    }
     return value;
 }
 
-QStringList Properties::propertyNames() const
+QStringList QExtLogProperties::propertyNames() const
 {
-    QStringList default_keys;
+    QStringList defaultKeys;
     if (mpDefaultProperties)
-        default_keys = mpDefaultProperties->propertyNames();
+    {
+        defaultKeys = mpDefaultProperties->propertyNames();
+    }
 
     QStringList keys = this->keys();
 #if (__cplusplus >= 201703L)
     for (const auto &key : std::as_const(default_keys))
 #else
-    for (const auto &key : qAsConst(default_keys))
+    for (const auto &key : qAsConst(defaultKeys))
 #endif
+    {
         if (!keys.contains(key))
+        {
             keys << key;
+        }
+    }
 
     return keys;
 }
 
 
-void Properties::parseProperty(const QString &property,
-                               int line)
+void QExtLogProperties::parseProperty(const QString &property, int line)
 {
     Q_ASSERT_X(property == trimLeft(property), "parseProperty()", "property has leading spaces");
 
@@ -143,12 +156,14 @@ void Properties::parseProperty(const QString &property,
         VALUEESCAPE_STATE,
         UNICODEESCAPE_STATE
     };
-    const QString value_escape_codes = QLatin1String(msValueEscapeCodes);
-    const QString value_escape_chars = QLatin1String(msValueEscapeChars);
-    Q_ASSERT_X(value_escape_codes.length() == value_escape_chars.length(), "parseProperty()", "Value escape sequence character definition does not map");
-    const QString key_escape_codes = QLatin1String(msKeyEscapeCodes);
-    const QString key_escape_chars = QLatin1String(msKeyEscapeChars);
-    Q_ASSERT_X(key_escape_codes.length() == key_escape_chars.length(), "parseProperty()", "Key escape sequence character definition does not map");
+    const QString valueEscapeCodes = QLatin1String(msValueEscapeCodes);
+    const QString valueEscapeChars = QLatin1String(msValueEscapeChars);
+    Q_ASSERT_X(valueEscapeCodes.length() == valueEscapeChars.length(),
+               "parseProperty()", "Value escape sequence character definition does not map");
+    const QString keyEscapeCodes = QLatin1String(msKeyEscapeCodes);
+    const QString keyEscapeChars = QLatin1String(msKeyEscapeChars);
+    Q_ASSERT_X(keyEscapeCodes.length() == keyEscapeChars.length(),
+               "parseProperty()", "Key escape sequence character definition does not map");
 
     if (property.isEmpty())
         return;
@@ -175,8 +190,11 @@ void Properties::parseProperty(const QString &property,
         switch (state)
         {
         case KEY_STATE:
+        {
             if (ch == '!' || ch == '#' )
+            {
                 return;
+            }
             else if (c.isSpace())
             {
                 p_string = &value;
@@ -188,42 +206,61 @@ void Properties::parseProperty(const QString &property,
                 state = SPACEVALUE_STATE;
             }
             else if (ch == msEscapeChar)
+            {
                 state = KEYESCAPE_STATE;
+            }
             else
+            {
                 *p_string += c;
+            }
             break;
+        }
         case KEYSPACE_STATE:
+        {
             if (ch == '=' || ch == ':')
+            {
                 state = SPACEVALUE_STATE;
+            }
             else if (!c.isSpace())
             {
                 *p_string += c;
                 state = VALUE_STATE;
             }
             break;
+        }
         case SPACEVALUE_STATE:
+        {
             if (!c.isSpace())
             {
                 *p_string += c;
                 state = VALUE_STATE;
             }
             break;
+        }
         case VALUE_STATE:
-            if (ch == msEscapeChar)
-                state = VALUEESCAPE_STATE;
-            else
-                *p_string += c;
-            break;
-        case KEYESCAPE_STATE:
         {
-            int convert = key_escape_codes.indexOf(c);
-            if (convert >= 0)
-                *p_string += key_escape_chars.at(convert);
+            if (ch == msEscapeChar)
+            {
+                state = VALUEESCAPE_STATE;
+            }
             else
             {
-                logger()->warn(QStringLiteral("Unknown escape sequence '\\%1' in key of property starting at line %2"),
-                               QString(c),
-                               line);
+                *p_string += c;
+            }
+            break;
+        }
+        case KEYESCAPE_STATE:
+        {
+            int convert = keyEscapeCodes.indexOf(c);
+            if (convert >= 0)
+            {
+                *p_string += keyEscapeChars.at(convert);
+            }
+            else
+            {
+                qextLogPropertiesLogger()->warn(QStringLiteral("Unknown escape sequence '\\%1' in key of property "
+                                                               "starting at line %2"),
+                                                QString(c), line);
                 *p_string += c;
             }
             state = KEY_STATE;
@@ -231,10 +268,10 @@ void Properties::parseProperty(const QString &property,
         }
         case VALUEESCAPE_STATE:
         {
-            int convert = value_escape_codes.indexOf(c);
+            int convert = valueEscapeCodes.indexOf(c);
             if (convert >= 0)
             {
-                *p_string += value_escape_chars.at(convert);
+                *p_string += valueEscapeChars.at(convert);
                 state = VALUE_STATE;
             }
             else if (ch == 'u')
@@ -245,7 +282,9 @@ void Properties::parseProperty(const QString &property,
             }
             else
             {
-                logger()->warn(QStringLiteral("Unknown escape sequence '\\%1' in value of property starting at line %2"), QString(c), line);
+                qextLogPropertiesLogger()->warn(QStringLiteral("Unknown escape sequence '\\%1' in value of property "
+                                                               "starting at line %2"),
+                                                QString(c), line);
                 *p_string += c;
                 state = VALUE_STATE;
             }
@@ -267,48 +306,55 @@ void Properties::parseProperty(const QString &property,
             else
             {
                 if (ucs_digits > 0)
+                {
                     *p_string += QChar(ucs);
+                }
                 state = VALUE_STATE;
                 continue;
             }
             break;
         }
         default:
-            Q_ASSERT_X(false, "Properties::parseProperty()", "Unknown state constant");
+            Q_ASSERT_X(false, "QExtLogProperties::parseProperty()", "Unknown state constant");
             return;
         }
         i++;
     }
 
     if (key.isEmpty() && !value.isEmpty())
-        logger()->warn(QStringLiteral("Found value with no key in property starting at line %1"), line);
+    {
+        qextLogPropertiesLogger()->warn(QStringLiteral("Found value with no key in property starting at line %1"),
+                                        line);
+    }
 
-    logger()->trace(QStringLiteral("Loaded property '%1' : '%2'"), key, value);
+    qextLogPropertiesLogger()->trace(QStringLiteral("Loaded property '%1' : '%2'"), key, value);
     insert(key, value);
 }
 
-int Properties::hexDigitValue(QChar digit)
+int QExtLogProperties::hexDigitValue(QChar digit)
 {
     bool ok;
     int result = QString(digit).toInt(&ok, 16);
     if (!ok)
+    {
         return -1;
+    }
 
     return result;
 }
 
-QString Properties::trimLeft(const QString &line)
+QString QExtLogProperties::trimLeft(const QString &line)
 {
     int i = 0;
     while (i < line.length() && line.at(i).isSpace())
+    {
         i++;
+    }
     return line.right(line.length() - i);
 }
 
-const char Properties::msEscapeChar = '\\';
-const char *Properties::msValueEscapeCodes = R"(tnr\"' )";
-const char *Properties::msValueEscapeChars = "\t\n\r\\\"\' ";
-const char *Properties::msKeyEscapeCodes = " :=";
-const char *Properties::msKeyEscapeChars = " :=";
-
-} // namespace Log4Qt
+const char QExtLogProperties::msEscapeChar = '\\';
+const char *QExtLogProperties::msValueEscapeCodes = R"(tnr\"' )";
+const char *QExtLogProperties::msValueEscapeChars = "\t\n\r\\\"\' ";
+const char *QExtLogProperties::msKeyEscapeCodes = " :=";
+const char *QExtLogProperties::msKeyEscapeChars = " :=";

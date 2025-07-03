@@ -1,35 +1,37 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_HELPERS_INITIALISATIONHELPER_H
-#define LOG4QT_HELPERS_INITIALISATIONHELPER_H
+#ifndef _QEXTLOGINITIALISATIONHELPER_H
+#define _QEXTLOGINITIALISATIONHELPER_H
 
 #include <qextLoggingGlobal.h>
 
-#include <QHash>
 #include <QString>
+#include <QHash>
 
 class QMutex;
-
-namespace Log4Qt
-{
 
 /*!
  * LOG4QT_IMPLEMENT_INSTANCE implements an instance function for a
@@ -68,7 +70,7 @@ namespace Log4Qt
  *
  * \note The function created by the macro is thread-safe.
  *
- * \sa \ref Log4Qt::InitialisationHelper "InitialisationHelper"
+ * \sa \ref QExtLogInitialisationHelper "QExtLogInitialisationHelper"
  */
 #define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                  \
                 TYPE *TYPE::instance()                   \
@@ -78,10 +80,10 @@ namespace Log4Qt
                 }
 
 /*!
- * \brief The class InitialisationHelper performs static initialisation
+ * \brief The class QExtLogInitialisationHelper performs static initialisation
  *        tasks.
  *
- * The InitialisationHelper is either created on the first call or through
+ * The QExtLogInitialisationHelper is either created on the first call or through
  * static initialisation. It will capture the programs startup time,
  * which can be retrieved using startTime(). The system environment
  * is analysed for package related definitions. The result is available
@@ -90,19 +92,19 @@ namespace Log4Qt
  *
  * Settings for the package can be retrieved using setting(). Two macros
  * are available to help with the creation of singletons / global static
- * objects  and \ref Log4Qt::LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
+ * objects  and \ref LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
  *
  * \note All the functions declared in this class are thread-safe.
  *
  * \sa \ref Init "Initialization procedure",
  */
-class QEXT_LOGGING_API InitialisationHelper
+class QEXT_LOGGING_API QExtLogInitialisationHelper
 {
 private:
-    InitialisationHelper();
-    virtual ~InitialisationHelper();
+    QExtLogInitialisationHelper();
+    virtual ~QExtLogInitialisationHelper();
 
-    QEXT_DISABLE_COPY_MOVE(InitialisationHelper)
+    QEXT_DISABLE_COPY_MOVE(QExtLogInitialisationHelper)
 
 public:
 
@@ -135,9 +137,9 @@ public:
     static QHash<QString, QString> environmentSettings();
 
     /*!
-    * Returns the InitialisationHelper instance.
+    * Returns the QExtLogInitialisationHelper instance.
     */
-    static InitialisationHelper *instance();
+    static QExtLogInitialisationHelper *instance();
 
     /*!
      * Returns the value for the setting \a rKey or \a rDefault, if it is
@@ -159,14 +161,14 @@ public:
      * </tr><tr>
      * <td> Debug </td>
      * <td> The variable controls the QExtLogLevel value for the logger
-     * LogManager::logLogger(). If the value is a valid QExtLogLevel string,
+     * QExtLogManager::logLogger(). If the value is a valid QExtLogLevel string,
      * the level for the logger is set to the level. If the value is not
-     * a valid QExtLogLevel string,  \ref QExtLogLevel::DEBUG_INT "DEBUG_INT" is used.
-     * Otherwise \ref QExtLogLevel::ERROR_INT "ERROR_INT" is used. </td>
+     * a valid QExtLogLevel string,  \ref QExtLogLevel::Debug "Debug" is used.
+     * Otherwise \ref QExtLogLevel::Error "Error" is used. </td>
      * </tr><tr bgcolor="#ffffff">
      * <td> DefaultInitOverride </td>
      * <td> The variable controls the \ref Init "initialization procedure"
-     * performed by the \ref LogManager "LogManager" on startup.
+     * performed by the \ref QExtLogManager "QExtLogManager" on startup.
      * If it is set to any other value then \c false the \ref Init
      * "initialization procedure" is skipped.</td>
      * </tr><tr>
@@ -180,7 +182,7 @@ public:
      *
      * \sa environmentSettings(), \ref Env "Environment Variables",
      *     \ref Init "Initialization procedure",
-     *     LogManager::configureLogLogger(), LogManager::startup()
+     *     QExtLogManager::configureLogLogger(), QExtLogManager::startup()
      */
     static QString setting(const QString &key,
                            const QString &defaultValue = QString());
@@ -210,22 +212,20 @@ private:
 
 };
 
-inline QHash<QString, QString> InitialisationHelper::environmentSettings()
+inline QHash<QString, QString> QExtLogInitialisationHelper::environmentSettings()
 {
     return instance()->mEnvironmentSettings;
 }
 
-inline QString InitialisationHelper::setting(const QString &key,
+inline QString QExtLogInitialisationHelper::setting(const QString &key,
         const QString &defaultValue)
 {
     return instance()->doSetting(key, defaultValue);
 }
 
-inline qint64 InitialisationHelper::startTime()
+inline qint64 QExtLogInitialisationHelper::startTime()
 {
     return instance()->mStartTime;
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_HELPERS_INITIALISATIONHELPER_H
+#endif // _QEXTLOGINITIALISATIONHELPER_H

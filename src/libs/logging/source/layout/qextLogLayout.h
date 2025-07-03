@@ -1,43 +1,45 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_LAYOUT_H
-#define LOG4QT_LAYOUT_H
+#ifndef _QEXTLOGLAYOUT_H
+#define _QEXTLOGLAYOUT_H
 
 #include <qextLoggingGlobal.h>
 #include <qextObjectSharedPointer.h>
 
 #include <QObject>
 
-namespace Log4Qt
-{
-
-class LoggingEvent;
+class QExtLoggingEvent;
 
 /*!
- * \brief The class Layout is the base class for all layouts.
+ * \brief The class QExtLogLayout is the base class for all layouts.
  *
  * \note The ownership and lifetime of objects of this class are managed. See
  *       \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API Layout : public QObject
+class QEXT_LOGGING_API QExtLogLayout : public QObject
 {
     Q_OBJECT
 
@@ -61,8 +63,8 @@ class QEXT_LOGGING_API Layout : public QObject
     Q_PROPERTY(QString header READ header WRITE setHeader)
 
 public:
-    Layout(QObject *parent = nullptr);
-    virtual ~Layout();
+    QExtLogLayout(QObject *parent = nullptr);
+    virtual ~QExtLogLayout();
 
 public:
     virtual QString contentType() const;
@@ -74,7 +76,7 @@ public:
     void setName(const QString &name);
 
     virtual void activateOptions();
-    virtual QString format(const LoggingEvent &event) = 0;
+    virtual QString format(const QExtLoggingEvent &event) = 0;
 
     /*!
      * Returns the end of line seperator for the operating system.
@@ -87,43 +89,41 @@ public:
 
     // Member variables
 private:
-    QEXT_DISABLE_COPY_MOVE(Layout)
+    QEXT_DISABLE_COPY_MOVE(QExtLogLayout)
     QString mFooter;
     QString mHeader;
 };
 
-inline QString Layout::footer() const
+inline QString QExtLogLayout::footer() const
 {
     return mFooter;
 }
 
-inline QString Layout::header() const
+inline QString QExtLogLayout::header() const
 {
     return mHeader;
 }
 
-inline QString Layout::name() const
+inline QString QExtLogLayout::name() const
 {
     return objectName();
 }
 
-inline void Layout::setFooter(const QString &footer)
+inline void QExtLogLayout::setFooter(const QString &footer)
 {
     mFooter = footer;
 }
 
-inline void Layout::setHeader(const QString &header)
+inline void QExtLogLayout::setHeader(const QString &header)
 {
     mHeader = header;
 }
 
-inline void Layout::setName(const QString &name)
+inline void QExtLogLayout::setName(const QString &name)
 {
     setObjectName(name);
 }
 
-using LayoutSharedPtr = QExtObjectSharedPointer<Layout>;
+using QExtLogLayoutSharedPtr = QExtObjectSharedPointer<QExtLogLayout>;
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_LAYOUT_H
+#endif // _QEXTLOGLAYOUT_H

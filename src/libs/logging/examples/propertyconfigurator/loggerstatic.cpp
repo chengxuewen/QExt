@@ -22,7 +22,7 @@
 
 #include <qextLogger.h>
 
-LOG4QT_DECLARE_STATIC_LOGGER(logger, LoggerStatic)
+QEXT_DECLARE_STATIC_LOGGER(logger, LoggerStatic)
 
 LoggerStatic::LoggerStatic()
 {

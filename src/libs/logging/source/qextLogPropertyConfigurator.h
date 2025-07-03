@@ -1,27 +1,31 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_PROPERTYCONFIGURATOR_H
-#define LOG4QT_PROPERTYCONFIGURATOR_H
+#ifndef _QEXTLOGPROPERTYCONFIGURATOR_H
+#define _QEXTLOGPROPERTYCONFIGURATOR_H
 
-#include "log4qt.h"
 #include <qextLogLayout.h>
 #include <qextLogAppender.h>
 
@@ -29,59 +33,56 @@
 
 class QSettings;
 
-namespace Log4Qt
-{
-
-class ListAppender;
-class Logger;
-class Properties;
-class LoggerRepository;
+class QExtLogger;
+class QExtLogProperties;
+class QExtLogListAppender;
+class QExtLoggerRepository;
 
 /*!
- * \brief The class PropertyConfigurator allows the configuration of the
+ * \brief The class QExtLogPropertyConfigurator allows the configuration of the
  *        package from a JAVA properties file.
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class QEXT_LOGGING_API PropertyConfigurator
+class QEXT_LOGGING_API QExtLogPropertyConfigurator
 {
 public:
-    PropertyConfigurator();
+    QExtLogPropertyConfigurator();
 
 private:
-    QEXT_DISABLE_COPY_MOVE(PropertyConfigurator)
+    QEXT_DISABLE_COPY_MOVE(QExtLogPropertyConfigurator)
 
 public:
     /*!
-     * \sa ConfiguratorHelper::configureError()
+     * \sa QExtLogConfiguratorHelper::configureError()
      */
-    bool doConfigure(const Properties &properties,
-                     LoggerRepository *loggerRepository = nullptr);
+    bool doConfigure(const QExtLogProperties &properties,
+                     QExtLoggerRepository *loggerRepository = nullptr);
 
     /*!
-     * \sa ConfiguratorHelper::configureError()
+     * \sa QExtLogConfiguratorHelper::configureError()
      */
     bool doConfigure(const QString &configFileName,
-                     LoggerRepository *loggerRepository = nullptr);
+                     QExtLoggerRepository *loggerRepository = nullptr);
 
     /*!
      * Reads the configuration data from the QSettings object
      * \a settings.
      *
-     * \sa \ref Properties::load(const QSettings &) "Properties::load()",
-     *     ConfiguratorHelper::configureError()
+     * \sa \ref QExtLogProperties::load(const QSettings &) "QExtLogProperties::load()",
+     *     QExtLogConfiguratorHelper::configureError()
      */
     bool doConfigure(const QSettings &settings,
-                     LoggerRepository *loggerRepository = nullptr);
+                     QExtLoggerRepository *loggerRepository = nullptr);
 
 
     /*!
-     * \sa ConfiguratorHelper::configureError()
+     * \sa QExtLogConfiguratorHelper::configureError()
      */
-    static bool configure(const Properties &properties);
+    static bool configure(const QExtLogProperties &properties);
 
     /*!
-     * \sa ConfiguratorHelper::configureError()
+     * \sa QExtLogConfiguratorHelper::configureError()
      */
     static bool configure(const QString &configFilename);
 
@@ -89,43 +90,43 @@ public:
      * Reads the configuration data from the QSettings object
      * \a settings.
      *
-     * \sa \ref doConfigure(const QSettings &, LoggerRepository *) "doConfigure()",
-     *     \ref Properties::load(const QSettings &) "Properties::load()",
-     *     ConfiguratorHelper::configureError()
+     * \sa \ref doConfigure(const QSettings &, QExtLoggerRepository *) "doConfigure()",
+     *     \ref QExtLogProperties::load(const QSettings &) "QExtLogProperties::load()",
+     *     QExtLogConfiguratorHelper::configureError()
      */
     static bool configure(const QSettings &settings);
 
     /*!
-     * \sa ConfiguratorHelper::configureError(),
-     *     ConfiguratorHelper::configurationFile()
+     * \sa QExtLogConfiguratorHelper::configureError(),
+     *     QExtLogConfiguratorHelper::configurationFile()
      */
     static bool configureAndWatch(const QString &configFilename);
 
 private:
     void configureFromFile(const QString &configFileName,
-                           LoggerRepository *loggerRepository);
-    void configureFromProperties(const Properties &properties,
-                                 LoggerRepository *loggerRepository);
+                           QExtLoggerRepository *loggerRepository);
+    void configureFromProperties(const QExtLogProperties &properties,
+                                 QExtLoggerRepository *loggerRepository);
     void configureFromSettings(const QSettings &settings,
-                               LoggerRepository *loggerRepository);
-    void configureGlobalSettings(const Properties &properties,
-                                 LoggerRepository *loggerRepository) const;
-    void configureNonRootElements(const Properties &properties,
-                                  LoggerRepository *loggerRepository);
-    void configureRootLogger(const Properties &properties,
-                             LoggerRepository *loggerRepository);
-    void parseAdditivityForLogger(const Properties &properties,
-                                  Logger *logger,
+                               QExtLoggerRepository *loggerRepository);
+    void configureGlobalSettings(const QExtLogProperties &properties,
+                                 QExtLoggerRepository *loggerRepository) const;
+    void configureNonRootElements(const QExtLogProperties &properties,
+                                  QExtLoggerRepository *loggerRepository);
+    void configureRootLogger(const QExtLogProperties &properties,
+                             QExtLoggerRepository *loggerRepository);
+    void parseAdditivityForLogger(const QExtLogProperties &properties,
+                                  QExtLogger *logger,
                                   const QString &log4jName) const;
-    AppenderSharedPtr parseAppender(const Properties &properties,
+    QExtLogAppenderSharedPtr parseAppender(const QExtLogProperties &properties,
                                     const QString &name);
-    LayoutSharedPtr parseLayout(const Properties &properties,
+    QExtLogLayoutSharedPtr parseLayout(const QExtLogProperties &properties,
                                 const QString &appendename);
-    void parseLogger(const Properties &properties,
-                     Logger *logger,
+    void parseLogger(const QExtLogProperties &properties,
+                     QExtLogger *logger,
                      const QString &key,
                      const QString &value);
-    void setProperties(const Properties &properties,
+    void setProperties(const QExtLogProperties &properties,
                        const QString &prefix,
                        const QStringList &exclusion,
                        QObject *object);
@@ -133,13 +134,11 @@ private:
     bool stopCaptureErrors();
 
 private:
-    AppenderSharedPtr mpConfigureErrors;
-    QHash<QString, AppenderSharedPtr> mAppenderRegistry;
+    QExtLogAppenderSharedPtr mpConfigureErrors;
+    QHash<QString, QExtLogAppenderSharedPtr> mAppenderRegistry;
 };
 
-inline PropertyConfigurator::PropertyConfigurator()
+inline QExtLogPropertyConfigurator::QExtLogPropertyConfigurator()
 {}
 
-} // namspace Log4Qt
-
-#endif // LOG4QT_PROPERTYCONFIGURATOR_H
+#endif // _QEXTLOGPROPERTYCONFIGURATOR_H

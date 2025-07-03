@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextQMLLogger.h>
 #include <qextLogLevel.h>
@@ -25,53 +30,50 @@
 #include <QStringBuilder>
 #include <QTimer>
 
-namespace Log4Qt
-{
-
-QmlLogger::QmlLogger(QObject *parent) :
+QExtQmlLogger::QExtQmlLogger(QObject *parent) :
     QObject(parent)
     , mContext(QStringLiteral("Qml"))
     , mLogger(nullptr)
 {
 }
 
-void QmlLogger::trace(const QString &message) const
+void QExtQmlLogger::trace(const QString &message) const
 {
     logger()->trace(message);
 }
 
-void QmlLogger::debug(const QString &message) const
+void QExtQmlLogger::debug(const QString &message) const
 {
     logger()->debug(message);
 }
 
-void QmlLogger::info(const QString &message) const
+void QExtQmlLogger::info(const QString &message) const
 {
     logger()->info(message);
 }
 
-void QmlLogger::error(const QString &message) const
+void QExtQmlLogger::error(const QString &message) const
 {
     logger()->error(message);
 }
 
-void QmlLogger::fatal(const QString &message) const
+void QExtQmlLogger::fatal(const QString &message) const
 {
     logger()->fatal(message);
 }
 
-void QmlLogger::log(LevelEnum level, const QString &message) const
+void QExtQmlLogger::log(LevelEnum level, const QString &message) const
 {
-    QExtLogLevel loglevel(static_cast<QExtLogLevel::Value>(level));
+    QExtLogLevel loglevel(static_cast<QExtLogLevel::LevelEnum>(level));
     logger()->log(loglevel, message);
 }
 
-QString QmlLogger::name() const
+QString QExtQmlLogger::name() const
 {
     return mName;
 }
 
-void QmlLogger::setName(const QString &name)
+void QExtQmlLogger::setName(const QString &name)
 {
     if (mName != name)
     {
@@ -80,17 +82,17 @@ void QmlLogger::setName(const QString &name)
     }
 }
 
-QString QmlLogger::context() const
+QString QExtQmlLogger::context() const
 {
     return mContext;
 }
 
-QmlLogger::LevelEnum QmlLogger::level() const
+QExtQmlLogger::LevelEnum QExtQmlLogger::level() const
 {
-    return static_cast<QmlLogger::LevelEnum>(mLogger->level().toInt());
+    return static_cast<QExtQmlLogger::LevelEnum>(mLogger->level().toInt());
 }
 
-void QmlLogger::setContext(const QString &context)
+void QExtQmlLogger::setContext(const QString &context)
 {
     if (mContext != context)
     {
@@ -99,16 +101,16 @@ void QmlLogger::setContext(const QString &context)
     }
 }
 
-void QmlLogger::setLevel(QmlLogger::LevelEnum level)
+void QExtQmlLogger::setLevel(QExtQmlLogger::LevelEnum level)
 {
     if (this->level() != level)
     {
-        mLogger->setLevel(QExtLogLevel(static_cast<QExtLogLevel::Value>(level)));
+        mLogger->setLevel(QExtLogLevel(static_cast<QExtLogLevel::LevelEnum>(level)));
         Q_EMIT levelChanged(level);
     }
 }
 
-QString QmlLogger::loggename() const
+QString QExtQmlLogger::loggename() const
 {
     if (mName.isEmpty() && (parent() != nullptr))
         mName = parent()->objectName();
@@ -118,14 +120,12 @@ QString QmlLogger::loggename() const
     return mName;
 }
 
-Logger *QmlLogger::logger() const
+QExtLogger *QExtQmlLogger::logger() const
 {
     if (mLogger == nullptr)
-        mLogger = Log4Qt::Logger::logger(loggename());
+        mLogger = QExtLogger::logger(loggename());
 
     return  mLogger;
-}
-
 }
 
 // #include "moc_qmllogger.cpp"

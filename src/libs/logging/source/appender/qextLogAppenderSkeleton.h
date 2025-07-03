@@ -1,25 +1,30 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_APPENDERSKELETON_H
-#define LOG4QT_APPENDERSKELETON_H
+#ifndef _QEXTLOGAPPENDERSKELETON_H
+#define _QEXTLOGAPPENDERSKELETON_H
 
 #include <qextLogAppender.h>
 #include <qextLogLayout.h>
@@ -28,69 +33,66 @@
 
 #include <QMutex>
 
-namespace Log4Qt
-{
-
-class Logger;
-class LoggingEvent;
+class QExtLogger;
+class QExtLoggingEvent;
 
 /*!
- * \brief The class AppenderSkeleton implements general Appender functionality.
+ * \brief The class QExtLogAppenderSkeleton implements general QExtLogAppender functionality.
  *
  * \note All the functions declared in this class are thread-safe.
  *
  * \note The ownership and lifetime of objects of this class are managed. See
  *       \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API AppenderSkeleton : public Appender
+class QEXT_LOGGING_API QExtLogAppenderSkeleton : public QExtLogAppender
 {
     Q_OBJECT
 
     /*!
-     * The property holds if the Appender has been activated.
+     * The property holds if the QExtLogAppender has been activated.
      *
      * \sa isActive()
      */
     Q_PROPERTY(bool isActive READ isActive)
 
     /*!
-     * The property holds if the Appender has been closed.
+     * The property holds if the QExtLogAppender has been closed.
      *
      * \sa isClosed()
      */
     Q_PROPERTY(bool isClosed READ isClosed)
 
     /*!
-     * The property holds the threshold level used by the Appender.
+     * The property holds the threshold level used by the QExtLogAppender.
      *
      * \sa threshold(), setThreshold()
      */
     Q_PROPERTY(QExtLogLevel threshold READ threshold WRITE setThreshold)
 
 public:
-    explicit AppenderSkeleton(QObject *parent = nullptr);
+    explicit QExtLogAppenderSkeleton(QObject *parent = nullptr);
 
 protected:
-    explicit AppenderSkeleton(bool isActive,
+    explicit QExtLogAppenderSkeleton(bool isActive,
                               QObject *parent = nullptr);
-    explicit AppenderSkeleton(bool isActive,
-                              const LayoutSharedPtr &layout,
+    explicit QExtLogAppenderSkeleton(bool isActive,
+                              const QExtLogLayoutSharedPtr &layout,
                               QObject *parent = nullptr);
-    ~AppenderSkeleton() override;
+    ~QExtLogAppenderSkeleton() override;
 
 public:
-    FilterSharedPtr filter() const override;
-    LayoutSharedPtr layout() const override;
+    QExtLogFilterSharedPtr filter() const override;
+    QExtLogLayoutSharedPtr layout() const override;
     bool isActive() const;
     bool isClosed() const;
     QString name() const override;
     QExtLogLevel threshold() const;
-    void setLayout(const LayoutSharedPtr &layout) override;
+    void setLayout(const QExtLogLayoutSharedPtr &layout) override;
     void setName(const QString &name) override;
     void setThreshold(QExtLogLevel level);
 
     virtual void activateOptions();
-    void addFilter(const FilterSharedPtr &filter) override;
+    void addFilter(const QExtLogFilterSharedPtr &filter) override;
     void clearFilters() override;
     void close() override;
 
@@ -98,15 +100,15 @@ public:
      * Performs checks and delegates the actuall appending to the subclass
      * specific append() function.
      *
-     * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), Filter
+     * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), QExtLogFilter
      */
-    void doAppend(const LoggingEvent &event) override;
+    void doAppend(const QExtLoggingEvent &event) override;
 
-    FilterSharedPtr firstFilter() const;
+    QExtLogFilterSharedPtr firstFilter() const;
     bool isAsSevereAsThreshold(QExtLogLevel level) const;
 
 protected:
-    virtual void append(const LoggingEvent &event) = 0;
+    virtual void append(const QExtLoggingEvent &event) = 0;
     void customEvent(QEvent *event) override;
 
     /*!
@@ -127,7 +129,7 @@ protected:
      * specific checkEntryConditions() function. The function checks the
      * class specific conditions and calls checkEntryConditions() of
      * it's parent class. The last function called is
-     * AppenderSkeleton::checkEntryConditions().
+     * QExtLogAppenderSkeleton::checkEntryConditions().
      *
      * \sa doAppend()
      */
@@ -141,66 +143,64 @@ protected:
 #endif
 
 private:
-    QEXT_DISABLE_COPY_MOVE(AppenderSkeleton)
+    QEXT_DISABLE_COPY_MOVE(QExtLogAppenderSkeleton)
     bool mAppendRecursionGuard;
     volatile bool mIsActive;
     volatile bool mIsClosed;
-    LayoutSharedPtr mpLayout;
+    QExtLogLayoutSharedPtr mpLayout;
     QExtLogLevel mThreshold;
-    FilterSharedPtr mpHeadFilter;
-    FilterSharedPtr mpTailFilter;
+    QExtLogFilterSharedPtr mpHeadFilter;
+    QExtLogFilterSharedPtr mpTailFilter;
     void closeInternal();
 };
 
-inline FilterSharedPtr AppenderSkeleton::filter() const
+inline QExtLogFilterSharedPtr QExtLogAppenderSkeleton::filter() const
 {
     QMutexLocker locker(&mObjectGuard);
     return mpHeadFilter;
 }
 
-inline QString AppenderSkeleton::name() const
+inline QString QExtLogAppenderSkeleton::name() const
 {
     QMutexLocker locker(&mObjectGuard);
     return objectName();
 }
 
-inline QExtLogLevel AppenderSkeleton::threshold() const
+inline QExtLogLevel QExtLogAppenderSkeleton::threshold() const
 {
     return mThreshold;
 }
 
-inline void AppenderSkeleton::setName(const QString &name)
+inline void QExtLogAppenderSkeleton::setName(const QString &name)
 {
     QMutexLocker locker(&mObjectGuard);
     setObjectName(name);
 }
 
-inline void AppenderSkeleton::setThreshold(QExtLogLevel level)
+inline void QExtLogAppenderSkeleton::setThreshold(QExtLogLevel level)
 {
     mThreshold = level;
 }
 
-inline bool AppenderSkeleton::isActive() const
+inline bool QExtLogAppenderSkeleton::isActive() const
 {
     return mIsActive;
 }
 
-inline bool AppenderSkeleton::isClosed() const
+inline bool QExtLogAppenderSkeleton::isClosed() const
 {
     return mIsClosed;
 }
 
-inline FilterSharedPtr AppenderSkeleton::firstFilter() const
+inline QExtLogFilterSharedPtr QExtLogAppenderSkeleton::firstFilter() const
 {
     QMutexLocker locker(&mObjectGuard);
     return filter();
 }
 
-inline bool AppenderSkeleton::isAsSevereAsThreshold(QExtLogLevel level) const
+inline bool QExtLogAppenderSkeleton::isAsSevereAsThreshold(QExtLogLevel level) const
 {
     return (mThreshold <= level);
 }
 
-} // namespace Log4Qt
-
-#endif // LOG4QT_APPENDERSKELETON_H
+#endif // _QEXTLOGAPPENDERSKELETON_H

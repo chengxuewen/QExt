@@ -1,22 +1,27 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
 #include <qextLogAppenderSkeleton.h>
 #include <qextLoggerRepository.h>
@@ -33,40 +38,37 @@
 #include <utility>
 #endif
 
-namespace Log4Qt
-{
-
-Logger::Logger(LoggerRepository *loggerRepository, QExtLogLevel level,
-               const QString &name, Logger *parent) :
+QExtLogger::QExtLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level,
+               const QString &name, QExtLogger *parent) :
     QObject(nullptr),
     mName(name), mLoggerRepository(loggerRepository), mAdditivity(true),
     mLevel(level), mParentLogger(parent)
 {
-    Q_ASSERT_X(loggerRepository, "Logger::Logger()",
-               "Construction of Logger with null LoggerRepository");
+    Q_ASSERT_X(loggerRepository, "QExtLogger::QExtLogger()",
+               "Construction of QExtLogger with null QExtLoggerRepository");
 
     setObjectName( mName);
 }
 
-Logger::~Logger()
+QExtLogger::~QExtLogger()
 {
-    logger()->warn(QStringLiteral("Unexpected destruction of Logger"));
+    logger()->warn(QStringLiteral("Unexpected destruction of QExtLogger"));
 }
 
-void Logger::setLevel(QExtLogLevel level)
+void QExtLogger::setLevel(QExtLogLevel level)
 {
-    if ((parentLogger() == nullptr) && (level == QExtLogLevel::NULL_INT))
+    if ((parentLogger() == nullptr) && (level == QExtLogLevel::Null))
     {
         logger()->warn(
-            QStringLiteral("Invalid root logger level NULL_INT. Using DEBUG_INT instead"));
-        level = QExtLogLevel::DEBUG_INT;
+            QStringLiteral("Invalid root logger level Null. Using Debug instead"));
+        level = QExtLogLevel::Debug;
     }
     mLevel = level;
 }
 
-// Note: use MainThreadAppender if you want write the log from non-main threads
+// Note: use QExtLogMainThreadAppender if you want write the log from non-main threads
 // within the main trhead
-void Logger::callAppenders(const LoggingEvent &event) const
+void QExtLogger::callAppenders(const QExtLoggingEvent &event) const
 {
     QReadLocker locker(&mAppenderGuard);
 
@@ -80,221 +82,221 @@ void Logger::callAppenders(const LoggingEvent &event) const
         parentLogger()->callAppenders(event);
 }
 
-QExtLogLevel Logger::effectiveLevel() const
+QExtLogLevel QExtLogger::effectiveLevel() const
 {
-    Q_ASSERT_X(LogManager::rootLogger()->level() != QExtLogLevel::NULL_INT,
-               "Logger::effectiveLevel()", "Root logger level must not be NULL_INT");
+    Q_ASSERT_X(QExtLogManager::rootLogger()->level() != QExtLogLevel::Null,
+               "QExtLogger::effectiveLevel()", "Root logger level must not be Null");
 
     QReadLocker locker(&mAppenderGuard);
 
-    const Logger *logger = this;
-    while (logger->level() == QExtLogLevel::NULL_INT)
+    const QExtLogger *logger = this;
+    while (logger->level() == QExtLogLevel::Null)
         logger = logger->parentLogger();
     return logger->level();
 }
 
-bool Logger::isEnabledFor(QExtLogLevel level) const
+bool QExtLogger::isEnabledFor(QExtLogLevel level) const
 {
     if (mLoggerRepository->isDisabled(level))
         return false;
     return (effectiveLevel() <= level);
 }
 
-Logger *Logger::logger(const QString &name)
+QExtLogger *QExtLogger::logger(const QString &name)
 {
-    return LogManager::logger(name);
+    return QExtLogManager::logger(name);
 }
 
-Logger *Logger::logger(const char *name)
+QExtLogger *QExtLogger::logger(const char *name)
 {
-    return LogManager::logger(QLatin1String(name));
+    return QExtLogManager::logger(QLatin1String(name));
 }
 
-Logger *Logger::rootLogger()
+QExtLogger *QExtLogger::rootLogger()
 {
-    return LogManager::rootLogger();
+    return QExtLogManager::rootLogger();
 }
 
-void Logger::forcedLog(QExtLogLevel level, const QString &message) const
+void QExtLogger::forcedLog(QExtLogLevel level, const QString &message) const
 {
-    LoggingEvent event(this, level, message);
+    QExtLoggingEvent event(this, level, message);
     forcedLog(event);
 }
 
-void Logger::forcedLog(const LoggingEvent &logEvent) const
+void QExtLogger::forcedLog(const QExtLoggingEvent &logEvent) const
 {
     callAppenders(logEvent);
 }
 
-bool Logger::additivity() const
+bool QExtLogger::additivity() const
 {
     return mAdditivity;
 }
 
-QExtLogLevel Logger::level() const
+QExtLogLevel QExtLogger::level() const
 {
     return mLevel;
 }
 
-LoggerRepository *Logger::loggerRepository() const
+QExtLoggerRepository *QExtLogger::loggerRepository() const
 {
     return mLoggerRepository;
 }
 
-QString Logger::name() const
+QString QExtLogger::name() const
 {
     return mName;
 }
 
-Logger *Logger::parentLogger() const
+QExtLogger *QExtLogger::parentLogger() const
 {
     return mParentLogger;
 }
 
-void Logger::setAdditivity(bool additivity)
+void QExtLogger::setAdditivity(bool additivity)
 {
     mAdditivity = additivity;
 }
 
 // QExtLogLevel operations
 
-bool Logger::isDebugEnabled() const
+bool QExtLogger::isDebugEnabled() const
 {
-    return isEnabledFor(QExtLogLevel::DEBUG_INT);
+    return isEnabledFor(QExtLogLevel::Debug);
 }
 
-bool Logger::isErrorEnabled() const
+bool QExtLogger::isErrorEnabled() const
 {
-    return isEnabledFor(QExtLogLevel::ERROR_INT);
+    return isEnabledFor(QExtLogLevel::Error);
 }
 
-bool Logger::isFatalEnabled() const
+bool QExtLogger::isFatalEnabled() const
 {
-    return isEnabledFor(QExtLogLevel::FATAL_INT);
+    return isEnabledFor(QExtLogLevel::Fatal);
 }
 
-bool Logger::isInfoEnabled() const
+bool QExtLogger::isInfoEnabled() const
 {
-    return isEnabledFor(QExtLogLevel::INFO_INT);
+    return isEnabledFor(QExtLogLevel::Info);
 }
 
-bool Logger::isTraceEnabled() const
+bool QExtLogger::isTraceEnabled() const
 {
-    return isEnabledFor(QExtLogLevel::TRACE_INT);
+    return isEnabledFor(QExtLogLevel::Trace);
 }
 
-bool Logger::isWarnEnabled() const
+bool QExtLogger::isWarnEnabled() const
 {
-    return isEnabledFor(QExtLogLevel::WARN_INT);
+    return isEnabledFor(QExtLogLevel::Warn);
 }
 
 // Log operations: debug
 
-LogStream Logger::debug() const
+QExtLogStream QExtLogger::debug() const
 {
-    return LogStream(*this, QExtLogLevel::DEBUG_INT);
+    return QExtLogStream(*this, QExtLogLevel::Debug);
 }
 
-void Logger::debug(const QExtLogError &logError) const
+void QExtLogger::debug(const QExtLogError &logError) const
 {
-    if (isEnabledFor(QExtLogLevel::DEBUG_INT))
-        forcedLog(QExtLogLevel::DEBUG_INT, logError.toString());
+    if (isEnabledFor(QExtLogLevel::Debug))
+        forcedLog(QExtLogLevel::Debug, logError.toString());
 }
 
-void Logger::debug(const QString &message) const
+void QExtLogger::debug(const QString &message) const
 {
-    if (isEnabledFor(QExtLogLevel::DEBUG_INT))
-        forcedLog(QExtLogLevel::DEBUG_INT, message);
+    if (isEnabledFor(QExtLogLevel::Debug))
+        forcedLog(QExtLogLevel::Debug, message);
 }
 
 // Log operations: error
 
-LogStream Logger::error() const
+QExtLogStream QExtLogger::error() const
 {
-    return LogStream(*this, QExtLogLevel::ERROR_INT);
+    return QExtLogStream(*this, QExtLogLevel::Error);
 }
 
-void Logger::error(const QString &message) const
+void QExtLogger::error(const QString &message) const
 {
-    if (isEnabledFor(QExtLogLevel::ERROR_INT))
-        forcedLog(QExtLogLevel::ERROR_INT, message);
+    if (isEnabledFor(QExtLogLevel::Error))
+        forcedLog(QExtLogLevel::Error, message);
 }
 
-void Logger::error(const QExtLogError &logError) const
+void QExtLogger::error(const QExtLogError &logError) const
 {
-    if (isEnabledFor(QExtLogLevel::ERROR_INT))
-        forcedLog(QExtLogLevel::ERROR_INT, logError.toString());
+    if (isEnabledFor(QExtLogLevel::Error))
+        forcedLog(QExtLogLevel::Error, logError.toString());
 }
 
 // Log operations: fatal
 
-LogStream Logger::fatal() const
+QExtLogStream QExtLogger::fatal() const
 {
-    return LogStream(*this, QExtLogLevel::FATAL_INT);
+    return QExtLogStream(*this, QExtLogLevel::Fatal);
 }
 
-void Logger::fatal(const QString &message) const
+void QExtLogger::fatal(const QString &message) const
 {
-    if (isEnabledFor(QExtLogLevel::FATAL_INT))
-        forcedLog(QExtLogLevel::FATAL_INT, message);
+    if (isEnabledFor(QExtLogLevel::Fatal))
+        forcedLog(QExtLogLevel::Fatal, message);
 }
 
-void Logger::fatal(const QExtLogError &logError) const
+void QExtLogger::fatal(const QExtLogError &logError) const
 {
-    if (isEnabledFor(QExtLogLevel::FATAL_INT))
-        forcedLog(QExtLogLevel::FATAL_INT, logError.toString());
+    if (isEnabledFor(QExtLogLevel::Fatal))
+        forcedLog(QExtLogLevel::Fatal, logError.toString());
 }
 
 // Log operations: info
 
-LogStream Logger::info() const
+QExtLogStream QExtLogger::info() const
 {
-    return LogStream(*this, QExtLogLevel::INFO_INT);
+    return QExtLogStream(*this, QExtLogLevel::Info);
 }
 
-void Logger::info(const QString &message) const
+void QExtLogger::info(const QString &message) const
 {
-    if (isEnabledFor(QExtLogLevel::INFO_INT))
-        forcedLog(QExtLogLevel::INFO_INT, message);
+    if (isEnabledFor(QExtLogLevel::Info))
+        forcedLog(QExtLogLevel::Info, message);
 }
 
-void Logger::info(const QExtLogError &logError) const
+void QExtLogger::info(const QExtLogError &logError) const
 {
-    if (isEnabledFor(QExtLogLevel::INFO_INT))
-        forcedLog(QExtLogLevel::INFO_INT, logError.toString());
+    if (isEnabledFor(QExtLogLevel::Info))
+        forcedLog(QExtLogLevel::Info, logError.toString());
 }
 
 // Log operations: log
 
-LogStream Logger::log(QExtLogLevel level) const
+QExtLogStream QExtLogger::log(QExtLogLevel level) const
 {
-    return LogStream(*this, level);
+    return QExtLogStream(*this, level);
 }
 
-void Logger::log(QExtLogLevel level,
+void QExtLogger::log(QExtLogLevel level,
                  const QString &message) const
 {
     if (isEnabledFor(level))
         forcedLog(level, message);
 }
 
-void Logger::log(const LoggingEvent &logEvent) const
+void QExtLogger::log(const QExtLoggingEvent &logEvent) const
 {
     if (isEnabledFor(logEvent.level()))
         forcedLog(logEvent);
 }
 
-void Logger::logWithLocation(QExtLogLevel level, const char *file, int line, const char *function, const QString &message) const
+void QExtLogger::logWithLocation(QExtLogLevel level, const char *file, int line, const char *function, const QString &message) const
 {
-    LoggingEvent loggingEvent = LoggingEvent(this,
+    QExtLoggingEvent loggingEvent = QExtLoggingEvent(this,
                                              level,
                                              message,
-                                             MessageContext(file, line, function),
+                                             QExtLogMessageContext(file, line, function),
                                              QString());
     forcedLog(loggingEvent);
 }
 
-void Logger::log(QExtLogLevel level,
+void QExtLogger::log(QExtLogLevel level,
                  const QExtLogError &logError) const
 {
     if (isEnabledFor(level))
@@ -303,53 +305,51 @@ void Logger::log(QExtLogLevel level,
 
 // Log operations: trace
 
-LogStream Logger::trace() const
+QExtLogStream QExtLogger::trace() const
 {
-    return LogStream(*this, QExtLogLevel::TRACE_INT);
+    return QExtLogStream(*this, QExtLogLevel::Trace);
 }
 
-void Logger::trace(const QString &message) const
+void QExtLogger::trace(const QString &message) const
 {
-    if (isEnabledFor(QExtLogLevel::TRACE_INT))
-        forcedLog(QExtLogLevel::TRACE_INT, message);
+    if (isEnabledFor(QExtLogLevel::Trace))
+        forcedLog(QExtLogLevel::Trace, message);
 }
 
-void Logger::trace(const QExtLogError &logError) const
+void QExtLogger::trace(const QExtLogError &logError) const
 {
-    if (isEnabledFor(QExtLogLevel::TRACE_INT))
-        forcedLog(QExtLogLevel::TRACE_INT, logError.toString());
+    if (isEnabledFor(QExtLogLevel::Trace))
+        forcedLog(QExtLogLevel::Trace, logError.toString());
 }
 
 // Log operations: warn
 
-LogStream Logger::warn() const
+QExtLogStream QExtLogger::warn() const
 {
-    return LogStream(*this, QExtLogLevel::WARN_INT);
+    return QExtLogStream(*this, QExtLogLevel::Warn);
 }
 
-void Logger::warn(const QString &message) const
+void QExtLogger::warn(const QString &message) const
 {
-    if (isEnabledFor(QExtLogLevel::WARN_INT))
-        forcedLog(QExtLogLevel::WARN_INT, message);
+    if (isEnabledFor(QExtLogLevel::Warn))
+        forcedLog(QExtLogLevel::Warn, message);
 }
 
-void Logger::warn(const QExtLogError &logError) const
+void QExtLogger::warn(const QExtLogError &logError) const
 {
-    if (isEnabledFor(QExtLogLevel::WARN_INT))
-        forcedLog(QExtLogLevel::WARN_INT, logError.toString());
+    if (isEnabledFor(QExtLogLevel::Warn))
+        forcedLog(QExtLogLevel::Warn, logError.toString());
 }
 
-void MessageLogger::log(const QString &message) const
+void QExtMessageLogger::log(const QString &message) const
 {
     mLogger->logWithLocation(mLevel, mContext.file, mContext.line, mContext.function, message);
 }
 
-LogStream MessageLogger::log() const
+QExtLogStream QExtMessageLogger::log() const
 {
-    return LogStream(*mLogger.data(), mLevel);
+    return QExtLogStream(*mLogger.data(), mLevel);
 }
-
-} // namespace Log4Qt
 
 // #include "moc_logger.cpp"
 
