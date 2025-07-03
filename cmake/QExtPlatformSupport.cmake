@@ -151,6 +151,35 @@ endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+# QExt platform compile arch variable
+#-----------------------------------------------------------------------------------------------------------------------
+string(TOUPPER "${CMAKE_BUILD_TYPE}" QEXT_UPPER_BUILD_TYPE)
+string(TOLOWER "${CMAKE_BUILD_TYPE}" QEXT_LOWER_BUILD_TYPE)
+string(TOLOWER "${CMAKE_SYSTEM_NAME}" QEXT_LOWER_SYSTEM_NAME)
+string(TOLOWER "${CMAKE_CXX_COMPILER_ID}" QEXT_LOWER_CXX_COMPILER_ID)
+string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" QEXT_LOWER_SYSTEM_PROCESSOR)
+set(QEXT_X64_PROCESSORS "amd64" "x64" "x86_64")
+set(QEXT_X86_PROCESSORS "i386" "i686" "x86")
+set(QEXT_ARM32_PROCESSORS "arm32" "arm")
+set(QEXT_ARM64_PROCESSORS "arm64")
+if(QEXT_LOWER_SYSTEM_PROCESSOR IN_LIST QEXT_X64_PROCESSORS)
+    set(QEXT_PROCESSOR_MERGE_NAME x64)
+elseif(QEXT_LOWER_SYSTEM_PROCESSOR IN_LIST QEXT_X86_PROCESSORS)
+    set(QEXT_PROCESSOR_MERGE_NAME x86)
+elseif(QEXT_LOWER_SYSTEM_PROCESSOR IN_LIST QEXT_ARM32_PROCESSORS)
+    set(QEXT_PROCESSOR_MERGE_NAME arm32)
+elseif(QEXT_LOWER_SYSTEM_PROCESSOR IN_LIST QEXT_ARM64_PROCESSORS)
+    set(QEXT_PROCESSOR_MERGE_NAME arm64)
+else()
+    message(FATAL_ERROR "Unknown system processor.")
+endif()
+set(QEXT_PLATFORM_NAME "${QEXT_LOWER_SYSTEM_NAME}-${QEXT_PROCESSOR_MERGE_NAME}")
+set(QEXT_PLATFORM_COMPILER_NAME "${QEXT_PLATFORM_NAME}-${QEXT_LOWER_CXX_COMPILER_ID}")
+message(STATUS "Platform name: ${QEXT_PLATFORM_NAME}")
+message(STATUS "Platform compiler name: ${QEXT_PLATFORM_COMPILER_NAME}")
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 # QExt mkspecs version
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_SYSTEM_WIN32)

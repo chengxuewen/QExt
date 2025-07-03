@@ -1,28 +1,25 @@
 ﻿#ifndef _QEXTDAIODEVICEFACTORY_H
 #define _QEXTDAIODEVICEFACTORY_H
 
-#include <QObject>
-#include <QStandardItemModel>
-
 #include <qextTypeTrait.h>
 #include <qextDAIODevice.h>
 #include <qextDAViewGlobal.h>
 
-typedef QExtDAIODevice::SharedPointer(*QExtDAIODeviceCreaterFunc)();
+#include <QObject>
+#include <QStandardItemModel>
+
+typedef QExtDAIODevice::SharedPtr(*QExtDAIODeviceCreaterFunc)();
 
 template <typename T>
 QExtDAIODeviceCreaterFunc qextDAIODeviceCreaterFunction()
 {
-    return []() { return QExtDAIODevice::SharedPointer(new T); };
+    return []() { return QExtDAIODevice::SharedPtr(new T); };
 }
 
 template <typename T>
 struct QExtDAIODeviceCreaterFunctor
 {
-    QExtDAIODeviceCreaterFunc operator ()()
-    {
-        return new T;
-    }
+    QExtDAIODeviceCreaterFunc operator ()() { return new T; }
 };
 
 class QExtDAIODeviceFactoryPrivate;
@@ -41,11 +38,11 @@ public:
     }
 
     virtual QStringList ioDeviceTypes() const;
-    virtual QExtDAIODevice::SharedPointer createIODevice(const QString &type) const;
+    virtual QExtDAIODevice::SharedPtr createIODevice(const QString &type) const;
     virtual void registerIODevice(const QString &type, QExtDAIODeviceCreaterFunc func);
 
     virtual QStandardItemModel *makeIODeviceTypeListModel(QObject *parent = QEXT_NULLPTR) const;
-    virtual QExtDAIODevice::SharedPointer selectCreateIODevice(QWidget *parent = QEXT_NULLPTR) const;
+    virtual QExtDAIODevice::SharedPtr selectCreateIODevice(QWidget *parent = QEXT_NULLPTR) const;
 
 protected:
     QScopedPointer<QExtDAIODeviceFactoryPrivate> dd_ptr;

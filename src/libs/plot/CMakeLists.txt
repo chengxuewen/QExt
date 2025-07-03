@@ -38,7 +38,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Widgets)
 qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
 list(APPEND QEXT_LIB_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 
@@ -49,9 +49,37 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
-    source/qextPlotGlobal.h
     source/qextPlot.cpp
     source/qextPlot.h
+    source/qextPlot_p.h
+    source/qextPlotConstants.h
+    source/qextPlotCurve.cpp
+    source/qextPlotCurve.h
+    source/qextPlotCurve_p.h
+    source/qextPlotDataBuffer.cpp
+    source/qextPlotDataBuffer.h
+    source/qextPlotFactory.cpp
+    source/qextPlotFactory.h
+    source/qextPlotGlobal.h
+    source/qextPlotGroup.cpp
+    source/qextPlotGroup.h
+    source/qextPlotManager.cpp
+    source/qextPlotManager.h
+    source/qextPlotModel.cpp
+    source/qextPlotModel.h
+    source/qextPlotScalePicker.cpp
+    source/qextPlotScalePicker.h
+    source/qextPlotScaleZoomer.cpp
+    source/qextPlotScaleZoomer.h
+    source/qextPlotScrollBar.cpp
+    source/qextPlotScrollBar.h
+    source/qextPlotScrollZoomer.cpp
+    source/qextPlotScrollZoomer.h
+    source/qextPlotSeriesData.cpp
+    source/qextPlotSeriesData.h
+    source/qextPlotSeriesData_p.h
+    source/qextPlotZoomer.cpp
+    source/qextPlotZoomer.h
     resources/qextPlot.qrc
     PRECOMPILED_HEADER
     source/qextPlotPch.h

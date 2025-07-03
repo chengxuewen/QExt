@@ -1,6 +1,7 @@
 ﻿#include <private/qextPEAbstractPropertyEditor_p.h>
 #include <private/qextPEPropertyManager_p.h>
 #include <private/qextPEWidgetFactory_p.h>
+#include <qextLimits.h>
 
 #include <QTimer>
 #include <QFontDatabase>
@@ -2694,12 +2695,12 @@ void QExtPERectFPropertyManagerPrivate::slotPropertyDestroyed(QExtPEProperty *pr
 void QExtPERectFPropertyManagerPrivate::setConstraint(QExtPEProperty *property, const QRectF &constraint, const QRectF &val)
 {
     const bool isNull = constraint.isNull();
-    const float left   = isNull ? FLT_MIN : constraint.left();
-    const float right  = isNull ? FLT_MAX : constraint.left() + constraint.width();
-    const float top    = isNull ? FLT_MIN : constraint.top();
-    const float bottom = isNull ? FLT_MAX : constraint.top() + constraint.height();
-    const float width  = isNull ? FLT_MAX : constraint.width();
-    const float height = isNull ? FLT_MAX : constraint.height();
+    const float left   = isNull ? QEXT_FLOAT_MIN : constraint.left();
+    const float right  = isNull ? QEXT_FLOAT_MAX : constraint.left() + constraint.width();
+    const float top    = isNull ? QEXT_FLOAT_MIN : constraint.top();
+    const float bottom = isNull ? QEXT_FLOAT_MAX : constraint.top() + constraint.height();
+    const float width  = isNull ? QEXT_FLOAT_MAX : constraint.width();
+    const float height = isNull ? QEXT_FLOAT_MAX : constraint.height();
 
     m_doublePropertyManager->setRange(m_propertyToX[property], left, right);
     m_doublePropertyManager->setRange(m_propertyToY[property], top, bottom);

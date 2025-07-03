@@ -69,11 +69,9 @@ qext_add_library(${QEXT_LIB_NAME}
     source/reader/qextDAIOReader.cpp
     source/reader/qextDAIOReader.h
     source/reader/qextDAIOReader_p.h
-    source/serialization/qextDASerializable.h
-    source/serialization/qextDASettingsSerializeFile.cpp
-    source/serialization/qextDASettingsSerializeFile.h
-    source/serialization/qextDAJsonSerializeFile.cpp
-    source/serialization/qextDAJsonSerializeFile.h
+    source/vsdevice/qextDAVSDevice.cpp
+    source/vsdevice/qextDAVSDevice.h
+    source/vsdevice/qextDAVSDevice_p.h
     source/qextDAConstants.h
     source/qextDAViewGlobal.h
     source/qextDAView.cpp

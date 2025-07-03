@@ -5,7 +5,7 @@
 
 #include <QAtomicInt>
 
-class QExtOnceFlag
+class QEXT_CORE_API QExtOnceFlag
 {
 public:
     enum
@@ -33,12 +33,14 @@ public:
         m_state.fetchAndStoreOrdered(Done);
     }
 
+    static QExtOnceFlag *localOnceFlag();
+
 private:
     QAtomicInt m_state;
     QEXT_DISABLE_COPY_MOVE(QExtOnceFlag)
 };
 
-template<typename Func>
+template <typename Func>
 void qextCallOnce(QExtOnceFlag &flag, Func func)
 {
     if (flag.enter())
@@ -58,5 +60,10 @@ static QEXT_FORCE_INLINE void qextCallOnce(QExtOnceFlag &flag, std::function<voi
 }
 #endif
 
+template <typename Func>
+void qextCallOncePerThread(Func func)
+{
+    qextCallOnce(*QExtOnceFlag::localOnceFlag(), func);
+}
 
 #endif // _QEXTONCEFLAG_H

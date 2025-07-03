@@ -181,7 +181,7 @@ QThread *QExtDAIODevice::initDevice(qint64 id)
                 {
                     d->updateBpsValue();
                 });
-        connect(this, &QExtDAIODevice::openStateChanged, this, [=](bool opened)
+        connect(this, &QExtDAIODevice::stateChanged, this, [=](bool opened)
                 {
                     if (opened)
                     {
@@ -197,20 +197,20 @@ QThread *QExtDAIODevice::initDevice(qint64 id)
     return d->mThread.data();
 }
 
-bool QExtDAIODevice::destroyDevice()
+bool QExtDAIODevice::clearDevice()
 {
     Q_D(QExtDAIODevice);
-    const bool flag = d->mDestroyOnceFlag.enter();
-    if (flag)
+    if (d->mClearOnceFlag.enter())
     {
         d->mThread->quit();
         d->mThread->wait();
         d->mThread.reset();
         d->mIO->disconnect();
         delete d->mIO.data();
-        d->mDestroyOnceFlag.leave();
+        d->mClearOnceFlag.leave();
+        return true;
     }
-    return flag;
+    return false;
 }
 
 bool QExtDAIODevice::isOpened() const
@@ -261,16 +261,16 @@ void QExtDAIODevice::open()
                        });
 }
 
-void QExtDAIODevice::load(const Items &items)
+void QExtDAIODevice::serializeLoad(const SerializedItems &items)
 {
     this->setAlias(items.value(QExtDAConstants::IODEVICE_PROPERTY_ALIAS, "").toString());
     this->setBufferSize(items.value(QExtDAConstants::IODEVICE_PROPERTY_BUFFER_SIZE, 1000).toLongLong());
     this->setBufferEnable(items.value(QExtDAConstants::IODEVICE_PROPERTY_BUFFER_ENABLED, true).toBool());
 }
 
-QExtDASerializable::Items QExtDAIODevice::save() const
+QExtSerializable::SerializedItems QExtDAIODevice::serializeSave() const
 {
-    QExtDASerializable::Items items;
+    QExtSerializable::SerializedItems items;
     items[QExtDAConstants::IODEVICE_PROPERTY_ID] = this->id();
     items[QExtDAConstants::IODEVICE_PROPERTY_TYPE] = this->ioType();
     items[QExtDAConstants::IODEVICE_PROPERTY_ALIAS] = this->alias();
@@ -339,12 +339,12 @@ void QExtDAIODevice::write(const char *data, qint64 size)
     }
 }
 
-qint64 QExtDAIODevice::loadId(const Items &items)
+qint64 QExtDAIODevice::loadId(const SerializedItems &items)
 {
     return items.value(QExtDAConstants::IODEVICE_PROPERTY_ID, -1).toLongLong();
 }
 
-QString QExtDAIODevice::loadType(const Items &items)
+QString QExtDAIODevice::loadType(const SerializedItems &items)
 {
     return items.value(QExtDAConstants::IODEVICE_PROPERTY_TYPE, "").toString();
 }
@@ -457,8 +457,8 @@ void QExtDAIODevice::updateOpenState(bool opened)
     Q_D(QExtDAIODevice);
     if (d->mIsOpened.fetchAndStoreOrdered(opened) != opened)
     {
-        this->onOpenStateChanged(opened);
-        Q_EMIT this->openStateChanged(opened);
+        this->onStateChanged(opened);
+        Q_EMIT this->stateChanged(opened);
     }
 }
 

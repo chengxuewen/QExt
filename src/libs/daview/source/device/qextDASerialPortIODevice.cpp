@@ -187,9 +187,9 @@ QThread *QExtDASerialPortIODevice::initDevice(qint64 id)
     return QExtDAIODevice::initDevice(id);
 }
 
-void QExtDASerialPortIODevice::load(const Items &items)
+void QExtDASerialPortIODevice::serializeLoad(const SerializedItems &items)
 {
-    QExtDAIODevice::load(items);
+    QExtDAIODevice::serializeLoad(items);
     this->setParity(items.value(QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_PARITY,
                                 QSerialPort::NoParity).value<QSerialPort::Parity>());
     this->setBaudRate(items.value(QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_BAUD_RATE,
@@ -204,9 +204,9 @@ void QExtDASerialPortIODevice::load(const Items &items)
                                      QSerialPort::NoFlowControl).value<QSerialPort::FlowControl>());
 }
 
-QExtDASerializable::Items QExtDASerialPortIODevice::save() const
+QExtSerializable::SerializedItems QExtDASerialPortIODevice::serializeSave() const
 {
-    QExtDASerializable::Items items = QExtDAIODevice::save();
+    QExtSerializable::SerializedItems items = QExtDAIODevice::serializeSave();
     items[QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_PARITY] = this->parity();
     items[QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_BAUD_RATE] = this->baudRate();
     items[QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_STOP_BITS] = this->stopBits();
@@ -289,8 +289,8 @@ bool QExtDASerialPortIODevice::ioOpen()
 {
     Q_D(QExtDASerialPortIODevice);
     this->updateOpenState(d->mSerialPort->open(QIODevice::ReadWrite));
-    this->updateIOState(d->mIsOpened.loadRelaxed() ? tr("Opened") : tr("Closed"));
-    return d->mIsOpened.loadRelaxed();
+    this->updateIOState(d->mIsOpened.loadAcquire() ? tr("Opened") : tr("Closed"));
+    return d->mIsOpened.loadAcquire();
 }
 
 void QExtDASerialPortIODevice::ioClose()
@@ -316,7 +316,7 @@ void QExtDASerialPortIODevice::initPropertyModel(QExtPropertyModel *propertyMode
 QExtDASerialPortPortNamePropertyItem::QExtDASerialPortPortNamePropertyItem(QExtDASerialPortIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDASerialPortIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDASerialPortIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDASerialPortIODevice::portNameChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -408,7 +408,7 @@ bool QExtDASerialPortPortNamePropertyItem::setData(const QVariant &value, int ro
 QExtDASerialPortBaudRatePropertyItem::QExtDASerialPortBaudRatePropertyItem(QExtDASerialPortIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDASerialPortIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDASerialPortIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDASerialPortIODevice::baudRateChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -503,7 +503,7 @@ bool QExtDASerialPortBaudRatePropertyItem::setData(const QVariant &value, int ro
 QExtDASerialPortParityPropertyItem::QExtDASerialPortParityPropertyItem(QExtDASerialPortIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDASerialPortIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDASerialPortIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDASerialPortIODevice::parityChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -592,7 +592,7 @@ bool QExtDASerialPortParityPropertyItem::setData(const QVariant &value, int role
 QExtDASerialPortStopBitsPropertyItem::QExtDASerialPortStopBitsPropertyItem(QExtDASerialPortIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDASerialPortIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDASerialPortIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDASerialPortIODevice::stopBitsChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -681,7 +681,7 @@ bool QExtDASerialPortStopBitsPropertyItem::setData(const QVariant &value, int ro
 QExtDASerialPortDataBitsPropertyItem::QExtDASerialPortDataBitsPropertyItem(QExtDASerialPortIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDASerialPortIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDASerialPortIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDASerialPortIODevice::dataBitsChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -771,7 +771,7 @@ bool QExtDASerialPortDataBitsPropertyItem::setData(const QVariant &value, int ro
 QExtDASerialPortFlowControlPropertyItem::QExtDASerialPortFlowControlPropertyItem(QExtDASerialPortIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDASerialPortIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDASerialPortIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDASerialPortIODevice::flowControlChanged, this, &QExtPropertyModelItem::updateItem);
 }
 

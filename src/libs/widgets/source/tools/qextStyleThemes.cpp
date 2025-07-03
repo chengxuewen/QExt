@@ -1,4 +1,6 @@
 ﻿#include <private/qextStyleThemes_p.h>
+#include <qextWidgetConstants.h>
+#include <qextCommonUtils.h>
 
 #include <QMap>
 #include <QXmlStreamReader>
@@ -42,6 +44,13 @@ public:
         sgIconEngineInstances->insert(this);
     }
 
+    explicit QExtStyleThemesSvgIconEngine(const QExtStyleThemesSvgIconEngine &other)
+        : mSvgTemplate(other.mSvgTemplate), mStyleTheme(other.mStyleTheme), mStyleVariable(other.mStyleVariable)
+    {
+        this->update();
+        sgIconEngineInstances->insert(this);
+    }
+
     /**
      * Removes itself from the set of instances
      */
@@ -79,7 +88,11 @@ public:
     {
         Q_UNUSED(mode);
         Q_UNUSED(state);
-
+        \
+            if (QIcon::Disabled == mode)
+        {
+            painter->setOpacity(0.1);
+        }
         QSvgRenderer renderer(mSvgContent);
         renderer.render(painter, rect);
     }
@@ -119,7 +132,7 @@ QExtStyleThemesPrivate::~QExtStyleThemesPrivate()
 {
 }
 
-bool QExtStyleThemesPrivate::generateStylesheet()
+bool QExtStyleThemesPrivate::generateStyleSheet()
 {
     Q_Q(QExtStyleThemes);
     QString cssTemplateFileName = mJsonStyleParam.value("css_template").toString();
@@ -140,14 +153,14 @@ bool QExtStyleThemesPrivate::generateStylesheet()
     templateFile.open(QIODevice::ReadOnly);
     QString content(templateFile.readAll());
     this->replaceStylesheetVariables(content);
-    mStylesheet = content;
+    mStyleSheet = content;
     this->exportInternalStylesheet(QFileInfo(templateFilePath).baseName() + ".css");
     return true;
 }
 
 bool QExtStyleThemesPrivate::exportInternalStylesheet(const QString &filename)
 {
-    return this->storeStylesheet(mStylesheet, filename);
+    return this->storeStylesheet(mStyleSheet, filename);
 }
 
 bool QExtStyleThemesPrivate::storeStylesheet(const QString &stylesheet, const QString &filename)
@@ -570,33 +583,59 @@ QExtStyleThemes::ColorReplaceVector QExtStyleThemesPrivate::parseColorReplaceLis
     return colorReplaceVector;
 }
 
+void QExtStyleThemesPrivate::updateStyleSheetUsers()
+{
+    foreach (QApplication *app, mUserApps)
+    {
+        if (app)
+        {
+            app->setStyleSheet(mStyleSheet);
+        }
+    }
+    foreach (QWidget *widget, mUserWidgets)
+    {
+        if (widget)
+        {
+            widget->setStyleSheet(mStyleSheet);
+        }
+    }
+    foreach (StyleSheetCallback callback, mUserCallbacks)
+    {
+        if (callback)
+        {
+            callback(mStyleSheet);
+        }
+    }
+}
+
 QPalette::ColorRole QExtStyleThemesPrivate::colorRoleFromString(const QString &text)
 {
     static QMap<QString, QPalette::ColorRole> colorRoleMap =
-    {{"WindowText", QPalette::WindowText},
-      {"Button", QPalette::Button},
-      {"Light", QPalette::Light},
-      {"Midlight", QPalette::Midlight},
-      {"Dark", QPalette::Dark},
-      {"Mid", QPalette::Mid},
-      {"Text", QPalette::Text},
-      {"BrightText", QPalette::BrightText},
-      {"ButtonTextd", QPalette::ButtonText},
-      {"Base", QPalette::Base},
-      {"Window", QPalette::Window},
-      {"Shadow", QPalette::Shadow},
-      {"Highlight", QPalette::Highlight},
-      {"HighlightedText", QPalette::HighlightedText},
-      {"Link", QPalette::Link},
-      {"LinkVisited", QPalette::LinkVisited},
-      {"AlternateBase", QPalette::AlternateBase},
-      {"NoRole", QPalette::NoRole},
-      {"ToolTipBase", QPalette::ToolTipBase},
-      {"ToolTipText", QPalette::ToolTipText},
+        {
+            {"WindowText", QPalette::WindowText},
+            {"Button", QPalette::Button},
+            {"Light", QPalette::Light},
+            {"Midlight", QPalette::Midlight},
+            {"Dark", QPalette::Dark},
+            {"Mid", QPalette::Mid},
+            {"Text", QPalette::Text},
+            {"BrightText", QPalette::BrightText},
+            {"ButtonTextd", QPalette::ButtonText},
+            {"Base", QPalette::Base},
+            {"Window", QPalette::Window},
+            {"Shadow", QPalette::Shadow},
+            {"Highlight", QPalette::Highlight},
+            {"HighlightedText", QPalette::HighlightedText},
+            {"Link", QPalette::Link},
+            {"LinkVisited", QPalette::LinkVisited},
+            {"AlternateBase", QPalette::AlternateBase},
+            {"NoRole", QPalette::NoRole},
+            {"ToolTipBase", QPalette::ToolTipBase},
+            {"ToolTipText", QPalette::ToolTipText},
 #if QT_VERSION >= 0x050C00
-      {"PlaceholderText", QPalette::PlaceholderText}
+            {"PlaceholderText", QPalette::PlaceholderText}
 #endif
-    };
+        };
 
     return colorRoleMap.value(text, QPalette::NoRole);
 }
@@ -618,12 +657,67 @@ QString QExtStyleThemesPrivate::colorGroupString(QPalette::ColorGroup colorGroup
 }
 
 QExtStyleThemes::QExtStyleThemes(QObject *parent)
-    : QObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
+    : QExtSerializableObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
 {
+    this->setStylesDirPath();
+}
+
+QExtStyleThemes::QExtStyleThemes(const QString &outputDir, QObject *parent)
+    : QExtSerializableObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
+{
+    this->setStylesDirPath();
+    this->setOutputDirPath(outputDir);
 }
 
 QExtStyleThemes::~QExtStyleThemes()
 {
+}
+
+QExtSerializable::SerializedItems QExtStyleThemes::serializeSave() const
+{
+    QExtSerializable::SerializedItems items;
+    items[QExtWidgetsConstants::KEY_STYLETHEME] = this->currentStyleTheme();
+    return items;
+}
+
+void QExtStyleThemes::serializeLoad(const SerializedItems &items)
+{
+    this->setCurrentStyleTheme(items.value(QExtWidgetsConstants::KEY_STYLETHEME, "fusion White").toString());
+}
+
+void QExtStyleThemes::unbindStyleSheet(void *user)
+{
+    Q_D(QExtStyleThemes);
+    d->mUserWidgets.removeOne(reinterpret_cast<QWidget *>(user));
+    d->mUserApps.removeOne(reinterpret_cast<QApplication *>(user));
+    d->mUserCallbacks.removeOne(reinterpret_cast<StyleSheetCallback>(user));
+}
+
+void QExtStyleThemes::bindStyleSheet(QWidget *widget)
+{
+    Q_D(QExtStyleThemes);
+    if (!d->mUserWidgets.contains(widget))
+    {
+        d->mUserWidgets.append(widget);
+    }
+}
+
+void QExtStyleThemes::bindStyleSheet(QApplication *app)
+{
+    Q_D(QExtStyleThemes);
+    if (!d->mUserApps.contains(app))
+    {
+        d->mUserApps.append(app);
+    }
+}
+
+void QExtStyleThemes::bindStyleSheet(StyleSheetCallback callback)
+{
+    Q_D(QExtStyleThemes);
+    if (!d->mUserCallbacks.contains(callback))
+    {
+        d->mUserCallbacks.append(callback);
+    }
 }
 
 void QExtStyleThemes::setStylesDirPath(const QString &path)
@@ -790,7 +884,7 @@ QString QExtStyleThemes::currentStyleTheme() const
 QString QExtStyleThemes::styleSheet() const
 {
     Q_D(const QExtStyleThemes);
-    return d->mStylesheet;
+    return d->mStyleSheet;
 }
 
 QString QExtStyleThemes::processStylesheetTemplate(const QString &templateText, const QString &outputFile)
@@ -924,7 +1018,13 @@ QIcon QExtStyleThemes::loadThemeAwareSvgIcon(const QString &fileName, const QStr
     return QIcon(new QExtStyleThemesSvgIconEngine(content, this, variable));
 }
 
-bool QExtStyleThemes::setCurrentTheme(const QString &theme)
+void QExtStyleThemes::initDefaultOutputDirPath(QExtStyleThemes *styleThemes)
+{
+    styleThemes->setOutputDirPath(QExtCommonUtils::defaultDataLocation() + "/stylethemes");
+    qDebug() << "initDefaultOutputDirPath():" << styleThemes->outputDirPath();
+}
+
+bool QExtStyleThemes::setCurrentTheme(const QString &theme, bool updateQSS)
 {
     Q_D(QExtStyleThemes);
     d->clearError();
@@ -937,6 +1037,10 @@ bool QExtStyleThemes::setCurrentTheme(const QString &theme)
         return false;
     }
     d->mCurrentTheme = theme;
+    if (updateQSS)
+    {
+        this->updateStylesheet();
+    }
     emit this->currentThemeChanged(d->mCurrentTheme);
     return true;
 }
@@ -961,19 +1065,33 @@ bool QExtStyleThemes::setCurrentStyle(const QString &style)
     bool result = d->parseStyleJsonFile();
     d->addFonts();
     emit this->currentStyleChanged(d->mCurrentStyle);
-    emit this->stylesheetChanged();
+    emit this->styleSheetChanged(d->mStyleSheet);
+    d->updateStyleSheetUsers();
     return result;
 }
 
-bool QExtStyleThemes::setCurrentStyleTheme(const QString &styleTheme)
+bool QExtStyleThemes::setCurrentStyleTheme(const QString &styleTheme, bool updateQSS)
 {
-    QStringList split = styleTheme.split(" ");
-    if (2 == split.size())
+    static QStringList sepList;
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
     {
-        if (this->setCurrentStyle(split.first()))
+        sepList << " " << "-" << "_" << "/" << "," << "." << "|" << ":";
+        onceFlag.leave();
+    }
+    foreach (const QString &sep, sepList)
+    {
+        if (styleTheme.contains(sep))
         {
-            this->setDefaultTheme();
-            return this->setCurrentTheme(split.last());
+            QStringList split = styleTheme.split(sep);
+            if (2 == split.size())
+            {
+                if (this->setCurrentStyle(split.first()))
+                {
+                    this->setDefaultTheme();
+                    return this->setCurrentTheme(split.last(), updateQSS);
+                }
+            }
         }
     }
     return false;
@@ -990,12 +1108,13 @@ bool QExtStyleThemes::updateStylesheet()
     d->mIconDefaultColor.clear();
     d->mIconColorReplaceList.clear();
     QExtStyleThemesSvgIconEngine::updateAllIcons();
-    if (!d->generateStylesheet() && (error() != QExtStyleThemes::Error_None))
+    if (!d->generateStyleSheet() && (error() != QExtStyleThemes::Error_None))
     {
         return false;
     }
 
-    emit this->stylesheetChanged();
+    emit this->styleSheetChanged(d->mStyleSheet);
+    d->updateStyleSheetUsers();
     return true;
 }
 

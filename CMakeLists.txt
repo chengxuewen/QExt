@@ -36,7 +36,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.3.2 LANGUAGES CXX C)
+project(QExt VERSION 1.3.4.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -360,6 +360,7 @@ include(QExtSeparateDebugInfo)
 include(QExtConfigureHelpers)
 include(QExtFrameworkHelpers)
 include(QExtPkgConfigHelpers)
+include(QExtDeployQtHelpers)
 include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
 include(QExtQtToolsHelpers)
@@ -402,11 +403,20 @@ qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_AUTH "Enable this to build the auth lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_LOGGING "Enable this to build the logging lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_BREAKPAD "Enable this to build the breakpad lib" OFF
+    DEPENDS WIN32 OR UNIX OR APPLE
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_MEDIA "Enable this to build the media lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
     DEPENDS QEXT_ENABLE_LIB_GUI
@@ -422,6 +432,8 @@ qext_option(QEXT_ENABLE_LIB_KEYBOARD "Enable this to build the keyboard lib" OFF
 qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -453,6 +465,7 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qw
 # Install locations:
 qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
 qext_configure_process_path(QEXT_INSTALL_BINDIR "bin" "Executables [PREFIX/bin]")
+qext_configure_process_path(QEXT_INSTALL_TOOLDIR "tool" "Executables [PREFIX/tool]")
 qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
 qext_configure_process_path(QEXT_INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
 qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR
@@ -715,11 +728,12 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_OPTIONAL_ARGS
     DELAY_TARGET_INFO
     QEXT_APP)
 set(QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS
+    VERSION
+    OUTPUT_NAME
     CORE_LIBRARY
     OUTPUT_SUBDIR
     OUTPUT_DIRECTORY
     INSTALL_DIRECTORY
-    VERSION
     ${QEXT_DEFAULT_TARGET_INFO_ARGS})
 set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
     ${QEXT_DEFAULT_PRIVATE_ARGS}

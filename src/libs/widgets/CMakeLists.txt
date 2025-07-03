@@ -206,6 +206,7 @@ qext_add_library(${QEXT_LIB_NAME}
     source/tools/qextStyleThemes.cpp
     source/tools/qextStyleThemes.h
     source/tools/qextStyleThemes_p.h
+    source/qextWidgetConstants.h
     source/qextWidgetGlobal.h
     resources/qextWidgets.qrc
     PRECOMPILED_HEADER

@@ -38,7 +38,7 @@ QExtDAIODeviceModel::QExtDAIODeviceModel(QExtDAIODeviceManager *ioDeviceManager,
     Q_D(QExtDAIODeviceModel);
     d->mIODeviceManager = ioDeviceManager;
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDeviceAboutToBeDelete, this,
-            [=](const QExtDAIODevice::SharedPointer &/*ioDevice*/, qint64 /*id*/)
+            [=](const QExtDAIODevice::SharedPtr &/*ioDevice*/, qint64 /*id*/)
             {
                 this->beginResetModel();
             });
@@ -54,13 +54,13 @@ QExtDAIODeviceModel::QExtDAIODeviceModel(QExtDAIODeviceManager *ioDeviceManager,
                 this->beginResetModel();
             });
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDeviceCreated, this,
-            [=](const QExtDAIODevice::SharedPointer &/*ioDevice*/, qint64 /*id*/)
+            [=](const QExtDAIODevice::SharedPtr &/*ioDevice*/, qint64 /*id*/)
             {
                 this->endResetModel();
             });
 
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDevicePropertyChanged, this,
-            [=](const QExtDAIODevice::SharedPointer &ioDevice, const QString &name)
+            [=](const QExtDAIODevice::SharedPtr &ioDevice, const QString &name)
             {
                 int row = d->mIODeviceManager->ioDeviceIndex(ioDevice);
                 QModelIndex leftTopIndex = this->index(row, 0);
@@ -93,7 +93,7 @@ QVariant QExtDAIODeviceModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceManager->ioDevice(index.row());
+    QExtDAIODevice::SharedPtr ioDevice = d->mIODeviceManager->ioDevice(index.row());
     if (ioDevice)
     {
         switch (index.column())
@@ -164,7 +164,7 @@ bool QExtDAIODeviceModel::setData(const QModelIndex &index, const QVariant &valu
     }
 
     bool ret = false;
-    QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceManager->ioDevice(index.row());
+    QExtDAIODevice::SharedPtr ioDevice = d->mIODeviceManager->ioDevice(index.row());
     if (ioDevice)
     {
         // set name
@@ -262,7 +262,7 @@ QExtDAIODeviceManager *QExtDAIODeviceModel::ioDeviceManager() const
     return d->mIODeviceManager.data();
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceModel::ioDevice(int row) const
+QExtDAIODevice::SharedPtr QExtDAIODeviceModel::ioDevice(int row) const
 {
     Q_D(const QExtDAIODeviceModel);
     if (row < 0 || row >= d->mIODeviceManager->ioDeviceCount())
@@ -273,7 +273,7 @@ QExtDAIODevice::SharedPointer QExtDAIODeviceModel::ioDevice(int row) const
     return d->mIODeviceManager->ioDevice(row);
 }
 
-QExtDAIODevice::SharedPointer QExtDAIODeviceModel::ioDevice(const QModelIndex &index) const
+QExtDAIODevice::SharedPtr QExtDAIODeviceModel::ioDevice(const QModelIndex &index) const
 {
     if (!index.isValid())
     {
@@ -281,6 +281,12 @@ QExtDAIODevice::SharedPointer QExtDAIODeviceModel::ioDevice(const QModelIndex &i
         return QEXT_NULLPTR;
     }
     return this->ioDevice(index.row());
+}
+
+int QExtDAIODeviceModel::ioDeviceIndex(const QExtDAIODevice::SharedPtr &ioDevice) const
+{
+    Q_D(const QExtDAIODeviceModel);
+    return d->mIODeviceManager->ioDeviceIndex(ioDevice);
 }
 
 QString QExtDAIODeviceModel::columnEnumName(int type, bool isEng)

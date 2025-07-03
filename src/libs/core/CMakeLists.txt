@@ -71,9 +71,15 @@ qext_add_library(Core
     SOURCES
     source/global/qextCompiler.h
     source/global/qextGlobal.h
+    source/global/qextLimits.h
     source/global/qextPreprocessor.h
     source/global/qextProcessor.h
     source/global/qextSystem.h
+    source/serialization/qextSerializable.h
+    source/serialization/qextSettingsSerializeFile.cpp
+    source/serialization/qextSettingsSerializeFile.h
+    source/serialization/qextJsonSerializeFile.cpp
+    source/serialization/qextJsonSerializeFile.h
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
@@ -85,12 +91,17 @@ qext_add_library(Core
     source/tools/qextLinearBuffer.h
     source/tools/qextMath.h
     source/tools/qextMemory.h
+    source/tools/qextModifiedFlag.h
     source/tools/qextNumeric.cpp
     source/tools/qextNumeric.h
     source/tools/qextTagId.cpp
     source/tools/qextTagId.h
+    source/tools/qextRange.cpp
+    source/tools/qextRange.h
+    source/tools/qextSingleton.h
     source/tools/qextSpinlock.h
     source/tools/qextTSValue.h
+    source/tools/qextOnceFlag.cpp
     source/tools/qextOnceFlag.h
     source/tools/qextOptional.h
     source/tools/qextTypeInfo.h
@@ -114,6 +125,8 @@ qext_add_library(Core
     source/utils/qextHostInfoUtils.h
     source/utils/qextNetworkUtils.cpp
     source/utils/qextNetworkUtils.h
+    source/utils/qextStringUtils.cpp
+    source/utils/qextStringUtils.h
     source/utils/qextVariantUtils.cpp
     source/utils/qextVariantUtils.h
     PRECOMPILED_HEADER

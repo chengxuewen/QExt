@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -554,11 +554,14 @@ function(qext_fetch_3rdparty name)
         message(FATAL_ERROR "3rdparty ${name} fetch failed, url ${arg_URL} not exist.")
     endif()
     get_filename_component(url_name ${arg_URL} NAME)
+    string(REGEX MATCH "\\.7z$" is_7z ${url_name})
     string(REGEX MATCH "\\.zip$" is_zip ${url_name})
     string(REGEX MATCH "\\.tar\\.gz$" is_tar_gz ${url_name})
     string(REGEX MATCH "\\.tar\\.xz$" is_tar_xz ${url_name})
     string(REGEX MATCH "\\.tar\\.bz2$" is_tar_bz2 ${url_name})
-    if(is_zip)
+    if(is_7z)
+        string(REGEX REPLACE "\\.7z$" "" url_base_name ${url_name})
+    elseif(is_zip)
         string(REGEX REPLACE "\\.zip$" "" url_base_name ${url_name})
     elseif(is_tar_gz)
         string(REGEX REPLACE "\\.tar\\.gz$" "" url_base_name ${url_name})

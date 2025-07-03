@@ -41,8 +41,9 @@ public:
 
     QExtDAIODeviceManager *ioDeviceManager() const;
 
-    QExtDAIODevice::SharedPointer ioDevice(int row) const;
-    QExtDAIODevice::SharedPointer ioDevice(const QModelIndex &index) const;
+    QExtDAIODevice::SharedPtr ioDevice(int row) const;
+    QExtDAIODevice::SharedPtr ioDevice(const QModelIndex &index) const;
+    int ioDeviceIndex(const QExtDAIODevice::SharedPtr &ioDevice) const;
 
     static QString columnEnumName(int type, bool isEng = false);
 

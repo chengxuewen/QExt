@@ -1,4 +1,5 @@
 ﻿#include <qextPropertyModel.h>
+#include <qextDoubleSpinBox.h>
 
 #include <QDebug>
 #include <QWidget>
@@ -53,7 +54,7 @@ QList<QExtPropertyModelItem *> QExtPropertyModelItem::childrenList() const
     return mChildrenList;
 }
 
-void QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
+QExtPropertyModelItem *QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
 {
     if (!mChildrenList.contains(child))
     {
@@ -69,6 +70,7 @@ void QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
         connect(child, SIGNAL(childRemoveed(QExtPropertyModelItem*)), this, SIGNAL(childRemoveed(QExtPropertyModelItem*)));
         emit this->childAppended(child);
     }
+    return child;
 }
 
 void QExtPropertyModelItem::appendChildren(const QList<QExtPropertyModelItem *> &children)
@@ -163,16 +165,6 @@ bool QExtPropertyModelItem::setEditorData(QWidget *editor, const QModelIndex &in
             return true;
         }
     }
-    case Editor_DoubleSpinBox:
-    {
-        auto widget = qobject_cast<QDoubleSpinBox *>(editor);
-        if (widget)
-        {
-            double data = index.model()->data(index, Qt::EditRole).toDouble();
-            widget->setValue(data);
-            return true;
-        }
-    }
     case Editor_LineEdit:
     {
         auto widget = qobject_cast<QLineEdit *>(editor);
@@ -180,6 +172,16 @@ bool QExtPropertyModelItem::setEditorData(QWidget *editor, const QModelIndex &in
         {
             QString data = index.model()->data(index, Qt::EditRole).toString();
             widget->setText(data);
+            return true;
+        }
+    }
+    case Editor_DoubleSpinBox:
+    {
+        auto widget = qobject_cast<QExtDoubleSpinBox *>(editor);
+        if (widget)
+        {
+            double data = index.model()->data(index, Qt::EditRole).toDouble();
+            widget->setValue(data);
             return true;
         }
     }
@@ -211,22 +213,22 @@ bool QExtPropertyModelItem::setModelData(QWidget *editor, QAbstractItemModel *mo
             return true;
         }
     }
-    case Editor_DoubleSpinBox:
-    {
-        auto widget = qobject_cast<QDoubleSpinBox *>(editor);
-        if (widget)
-        {
-            double data = widget->value();
-            model->setData(index, data, Qt::EditRole);
-            return true;
-        }
-    }
     case Editor_LineEdit:
     {
         auto widget = qobject_cast<QLineEdit *>(editor);
         if (widget)
         {
             QString data = widget->text();
+            model->setData(index, data, Qt::EditRole);
+            return true;
+        }
+    }
+    case Editor_DoubleSpinBox:
+    {
+        auto widget = qobject_cast<QExtDoubleSpinBox *>(editor);
+        if (widget)
+        {
+            double data = widget->value();
             model->setData(index, data, Qt::EditRole);
             return true;
         }
@@ -262,13 +264,13 @@ QWidget *QExtPropertyModelItem::createEditor(QWidget *parent, const QStyleOption
     {
         return new QSpinBox(parent);
     }
-    case Editor_DoubleSpinBox:
-    {
-        return new QDoubleSpinBox(parent);
-    }
     case Editor_LineEdit:
     {
         return new QLineEdit(parent);
+    }
+    case Editor_DoubleSpinBox:
+    {
+        return new QExtDoubleSpinBox(true, QExtDoubleSpinBox::CursorMoveTrigger_RightKey, parent);
     }
     default:
         return QEXT_NULLPTR;

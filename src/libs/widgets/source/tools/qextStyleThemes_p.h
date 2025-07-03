@@ -38,6 +38,7 @@
 class QEXT_WIDGETS_API QExtStyleThemesPrivate
 {
 public:
+    typedef QExtStyleThemes::StyleSheetCallback StyleSheetCallback;
     /**
      * Groups the data the build a parsed palette color entry
      */
@@ -66,7 +67,7 @@ public:
     explicit QExtStyleThemesPrivate(QExtStyleThemes *q);
     virtual ~QExtStyleThemesPrivate();
 
-    bool generateStylesheet(); // Generate the final stylesheet from the stylesheet template file
+    bool generateStyleSheet(); // Generate the final stylesheet from the stylesheet template file
     bool exportInternalStylesheet(const QString &filename); // Export the internal generated stylesheet
     bool storeStylesheet(const QString &stylesheet, const QString &filename); // Store the given stylesheet
     /* Parse a list of theme variables */
@@ -99,6 +100,8 @@ public:
     /* Parse a color replace list from the given JsonObject */
     QExtStyleThemes::ColorReplaceVector parseColorReplaceList(const QJsonObject &jsonObject) const;
 
+    void updateStyleSheetUsers();
+
     /* Converts a color role string into a color role enum */
     static QPalette::ColorRole colorRoleFromString(const QString &text);
     /* Returns the color group string for a given QPalette::ColorGroup */
@@ -124,7 +127,7 @@ public:
     QMap<QString, QString> mThemeColors;
     QMap<QString, QString> mStyleVariables;
     QMap<QString, QString> mThemeVariables;// theme variables contains StyleVariables and ThemeColors
-    QString mStylesheet;
+    QString mStyleSheet;
     QString mCurrentStyle;
     QString mCurrentTheme;
     QString mDefaultTheme;
@@ -142,6 +145,10 @@ public:
     bool mIsDarkTheme;
     QString mIconDefaultColor;
     mutable QExtStyleThemes::ColorReplaceVector mIconColorReplaceList;
+
+    QList<QWidget *> mUserWidgets;
+    QList<QApplication *> mUserApps;
+    QList<StyleSheetCallback> mUserCallbacks;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)

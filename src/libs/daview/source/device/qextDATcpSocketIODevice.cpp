@@ -93,20 +93,20 @@ QThread *QExtDATcpSocketIODevice::initDevice(qint64 id)
     d->mTcpSocket = static_cast<QTcpSocket *>(d->mIO.data());
     this->updateIOState(QExtDAIODeviceUtils::socketStateString(QAbstractSocket::UnconnectedState));
     connect(d->mTcpSocket.data(), &QTcpSocket::stateChanged, this, &QExtDATcpSocketIODevice::onTcpSocketStateChanged);
-    connect(d->mTcpSocket.data(), &QTcpSocket::errorOccurred, this, &QExtDATcpSocketIODevice::onTcpSocketErrorOccurred);
+    connect(d->mTcpSocket.data(), SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onTcpSocketErrorOccurred(QAbstractSocket::SocketError)));
     return QExtDAIODevice::initDevice(id);
 }
 
-void QExtDATcpSocketIODevice::load(const Items &items)
+void QExtDATcpSocketIODevice::serializeLoad(const SerializedItems &items)
 {
-    QExtDAIODevice::load(items);
+    QExtDAIODevice::serializeLoad(items);
     this->setRemoteIP(items.value(QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_IP, "").toString());
     this->setRemotePort(items.value(QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT, 0).value<quint16>());
 }
 
-QExtDASerializable::Items QExtDATcpSocketIODevice::save() const
+QExtSerializable::SerializedItems QExtDATcpSocketIODevice::serializeSave() const
 {
-    QExtDASerializable::Items items = QExtDAIODevice::save();
+    QExtSerializable::SerializedItems items = QExtDAIODevice::serializeSave();
     items[QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_IP] = this->remoteIP();
     items[QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT] = this->remotePort();
     return items;
@@ -149,7 +149,7 @@ void QExtDATcpSocketIODevice::initPropertyModel(QExtPropertyModel *propertyModel
 QExtDATcpSocketRemoteIPPropertyItem::QExtDATcpSocketRemoteIPPropertyItem(QExtDATcpSocketIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDATcpSocketIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDATcpSocketIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDATcpSocketIODevice::remoteIPChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
@@ -210,7 +210,7 @@ bool QExtDATcpSocketRemoteIPPropertyItem::setData(const QVariant &value, int rol
 QExtDATcpSocketRemotePortPropertyItem::QExtDATcpSocketRemotePortPropertyItem(QExtDATcpSocketIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDATcpSocketIODevice::openStateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDATcpSocketIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
     connect(ioDevice, &QExtDATcpSocketIODevice::remotePortChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
