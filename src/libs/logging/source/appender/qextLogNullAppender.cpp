@@ -41,5 +41,3 @@ void QExtLogNullAppender::append(const QExtLoggingEvent &event)
 {
     Q_UNUSED(event);
 }
-
-// #include "moc_nullappender.cpp"

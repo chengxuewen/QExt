@@ -31,12 +31,12 @@
 
 QExtLogBinaryWriterAppender::QExtLogBinaryWriterAppender(QObject *parent) :
     QExtLogAppenderSkeleton(false, parent),
-    mWriter(nullptr)
+    mWriter(QEXT_NULLPTR)
 {
 }
 
 QExtLogBinaryWriterAppender::QExtLogBinaryWriterAppender(QDataStream *dataStream,
-                                           QObject *parent) :
+                                                         QObject *parent) :
     QExtLogAppenderSkeleton(false, parent),
     mWriter(dataStream)
 {
@@ -62,10 +62,11 @@ void QExtLogBinaryWriterAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if (writer() == nullptr)
+    if (writer() == QEXT_NULLPTR)
     {
-        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires writer and has no writer set"),
-                                             QExtLogError::Error_AppenderActivateMissingWriter);
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires writer"
+                                                          "and has no writer set"),
+                                               QExtLogError::Error_AppenderActivateMissingWriter);
         e << name();
         logger()->error(e);
         return;
@@ -85,7 +86,9 @@ void QExtLogBinaryWriterAppender::closeInternal()
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
+    {
         return;
+    }
 
     closeWriter();
 }
@@ -101,21 +104,29 @@ void QExtLogBinaryWriterAppender::append(const QExtLoggingEvent &event)
     const QExtLogLayoutSharedPtr l = layout();
     const QExtLogBinaryLayout *bl = qobject_cast<QExtLogBinaryLayout *>(l.data());
 
-    if (binEvent != nullptr)
+    if (binEvent != QEXT_NULLPTR)
     {
         // handle binary events
-        if (bl != nullptr)
+        if (bl != QEXT_NULLPTR)
+        {
             *mWriter << bl->binaryFormat(*binEvent);   // if it's a binary message and we have a binary layout output the binary message via the binary layout.
+        }
         else
+        {
             *mWriter << binEvent->binaryMessage();     // binary message, but no layout or not a binary layout, output the binary message without the layout
+        }
     }
     else
     {
         // handle non binary events
-        if ((l != nullptr) && (bl == nullptr))
+        if ((l != QEXT_NULLPTR) && (bl == QEXT_NULLPTR))
+        {
             *mWriter << l->format(event); // if the message and the layout are not binary, output it as in QExtLogWriterAppender
+        }
         else
+        {
             *mWriter << event.message();  // if the message is not binary and there is no layout or the layout is binary, output it without the layout
+        }
     }
 
     handleIoErrors();
@@ -123,10 +134,10 @@ void QExtLogBinaryWriterAppender::append(const QExtLoggingEvent &event)
 
 bool QExtLogBinaryWriterAppender::checkEntryConditions() const
 {
-    if (mWriter == nullptr)
+    if (mWriter == QEXT_NULLPTR)
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a writer set"),
-                                             QExtLogError::Error_AppenderUseMissingWriter);
+                                               QExtLogError::Error_AppenderUseMissingWriter);
         e << name();
         logger()->error(e);
         return false;
@@ -138,11 +149,13 @@ bool QExtLogBinaryWriterAppender::checkEntryConditions() const
 
 void QExtLogBinaryWriterAppender::closeWriter()
 {
-    if (mWriter == nullptr)
+    if (mWriter == QEXT_NULLPTR)
+    {
         return;
+    }
 
     writeFooter();
-    mWriter = nullptr;
+    mWriter = QEXT_NULLPTR;
 }
 
 bool QExtLogBinaryWriterAppender::handleIoErrors() const
@@ -152,30 +165,36 @@ bool QExtLogBinaryWriterAppender::handleIoErrors() const
 
 void QExtLogBinaryWriterAppender::writeHeader() const
 {
-    if ((layout() != nullptr) && (mWriter != nullptr))
+    if ((layout() != QEXT_NULLPTR) && (mWriter != QEXT_NULLPTR))
+    {
         writeRawData(binaryLayout()->binaryHeader());
+    }
 }
 
 void QExtLogBinaryWriterAppender::writeFooter() const
 {
-    if ((layout() != nullptr) && (mWriter != nullptr))
+    if ((layout() != QEXT_NULLPTR) && (mWriter != QEXT_NULLPTR))
+    {
         writeRawData(binaryLayout()->binaryFooter());
+    }
 }
 
 void QExtLogBinaryWriterAppender::writeRawData(const QByteArray &data) const
 {
     if (data.isEmpty())
+    {
         return;
+    }
 
     mWriter->writeRawData(data.constData(), data.size());
 
     if (handleIoErrors())
+    {
         return;
+    }
 }
 
 QExtLogBinaryLayout *QExtLogBinaryWriterAppender::binaryLayout() const
 {
     return qobject_cast<QExtLogBinaryLayout *>(layout().data());
 }
-
-// #include "moc_binarywriterappender.cpp"

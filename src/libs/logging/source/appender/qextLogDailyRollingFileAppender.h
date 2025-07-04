@@ -75,11 +75,11 @@ public:
     };
     Q_ENUM(DatePattern)
 
-    QExtLogDailyRollingFileAppender(QObject *parent = nullptr);
+    QExtLogDailyRollingFileAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogDailyRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
                              const QString &fileName,
                              const QString &datePattern,
-                             QObject *parent = nullptr);
+                             QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogDailyRollingFileAppender)

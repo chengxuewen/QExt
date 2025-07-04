@@ -32,11 +32,11 @@ static const char binLogger[] = "binlogger";
 class BinaryLoggerTest: public QObject
 {
     Q_OBJECT
-    LOG4QT_DECLARE_QCLASS_BINARYLOGGER
+    QEXT_DECLARE_QCLASS_BINARYLOGGER
 public:
-    explicit BinaryLoggerTest(QObject *parent = nullptr)
+    explicit BinaryLoggerTest(QObject *parent = QEXT_NULLPTR)
         : QObject(parent)
-        , mAppender{nullptr}
+        , mAppender{QEXT_NULLPTR}
     {
     }
 
@@ -120,7 +120,7 @@ private:
     }
 };
 
-LOG4QT_DECLARE_STATIC_BINARYLOGGER(unitTestLogger, StaticBinaryLogger)
+QEXT_DECLARE_STATIC_BINARYLOGGER(unitTestLogger, StaticBinaryLogger)
 
 void BinaryLoggerTest::initTestCase()
 {

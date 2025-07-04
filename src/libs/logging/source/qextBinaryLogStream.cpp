@@ -46,8 +46,10 @@ struct QExtLogBinaryStream::Stream
 
 QExtLogBinaryStream::Stream::~Stream()
 {
-    if (auto blogger = qobject_cast<const QExtBinaryLogger *>(logger))
+    if (const QExtBinaryLogger *blogger = qobject_cast<const QExtBinaryLogger *>(logger))
+    {
         blogger->log(level, buffer);
+    }
     else if (logger->isEnabledFor(level))
     {
         QExtBinaryLoggingEvent event(logger, level, buffer);

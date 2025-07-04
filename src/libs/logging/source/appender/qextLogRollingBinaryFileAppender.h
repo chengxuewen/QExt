@@ -37,7 +37,7 @@ class QExtLogRollingBinaryFileAppender : public QExtLogBinaryFileAppender
     Q_PROPERTY(qint64 maximumFileSize READ maximumFileSize WRITE setMaximumFileSize)
     Q_PROPERTY(QString datePattern READ datePattern WRITE setDatePattern)
 public:
-    explicit QExtLogRollingBinaryFileAppender(QObject *parent = nullptr);
+    explicit QExtLogRollingBinaryFileAppender(QObject *parent = QEXT_NULLPTR);
 
     enum DatePattern
     {

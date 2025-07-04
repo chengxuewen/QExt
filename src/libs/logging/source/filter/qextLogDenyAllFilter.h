@@ -39,7 +39,7 @@ class QEXT_LOGGING_API QExtLogDenyAllFilter : public QExtLogFilter
     Q_OBJECT
 
 public:
-    QExtLogDenyAllFilter(QObject *parent = nullptr);
+    QExtLogDenyAllFilter(QObject *parent = QEXT_NULLPTR);
 
     Decision decide(const QExtLoggingEvent &event) const override
     {

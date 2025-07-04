@@ -80,12 +80,12 @@ class QEXT_LOGGING_API QExtLogWriterAppender : public QExtLogAppenderSkeleton
     Q_PROPERTY(bool immediateFlush READ immediateFlush WRITE setImmediateFlush)
 
 public:
-    QExtLogWriterAppender(QObject *parent = nullptr);
+    QExtLogWriterAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogWriterAppender(const QExtLogLayoutSharedPtr &layout,
-                   QObject *parent = nullptr);
+                   QObject *parent = QEXT_NULLPTR);
     QExtLogWriterAppender(const QExtLogLayoutSharedPtr &layout,
                    QTextStream *textStream,
-                   QObject *parent = nullptr);
+                   QObject *parent = QEXT_NULLPTR);
     ~QExtLogWriterAppender() override;
 
 private:

@@ -59,7 +59,7 @@ class QEXT_LOGGING_API QExtLogLevelMatchFilter : public QExtLogFilter
     Q_PROPERTY(QExtLogLevel levelToMatch READ levelToMatch WRITE setLevelToMatch)
 
 public:
-    QExtLogLevelMatchFilter(QObject *parent = nullptr);
+    QExtLogLevelMatchFilter(QObject *parent = QEXT_NULLPTR);
 
     bool acceptOnMatch() const;
     QExtLogLevel levelToMatch() const;

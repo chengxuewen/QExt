@@ -29,7 +29,7 @@
 #include <qextLogger.h>
 
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
 QEXT_DECLARE_STATIC_LOGGER(static_logger, ::QExtLoggerRepository)
@@ -79,23 +79,25 @@ void QExtLogHierarchy::resetConfiguration()
     // Reset all loggers.
     // Leave log, qt and root logger to the last to allow debugging of shutdown.
 
-    QExtLogger *p_logging_logger = logger(QLatin1String(""));
-    QExtLogger *p_qt_logger = logger(QStringLiteral("Qt"));
-    QExtLogger *p_root_logger = rootLogger();
+    QExtLogger *loggingLogger = logger(QLatin1String(""));
+    QExtLogger *qtLogger = logger(QStringLiteral("Qt"));
+    QExtLogger *rootLogger = this->rootLogger();
 
 #if (__cplusplus >= 201703L)
-    for (auto &&p_logger : std::as_const(mLoggers))
+    for (auto &&logger : std::as_const(mLoggers))
 #else
-    for (auto &&p_logger : qAsConst(mLoggers))
+    for (auto &&logger : qAsConst(mLoggers))
 #endif
     {
-        if ((p_logger == p_logging_logger) || (p_logger == p_qt_logger) || (p_logger == p_root_logger))
+        if ((logger == loggingLogger) || (logger == qtLogger) || (logger == rootLogger))
+        {
             continue;
-        resetLogger(p_logger, QExtLogLevel::Null);
+        }
+        resetLogger(logger, QExtLogLevel::Null);
     }
-    resetLogger(p_qt_logger, QExtLogLevel::Null);
-    resetLogger(p_logging_logger, QExtLogLevel::Null);
-    resetLogger(p_root_logger, QExtLogLevel::Debug);
+    resetLogger(qtLogger, QExtLogLevel::Null);
+    resetLogger(loggingLogger, QExtLogLevel::Null);
+    resetLogger(rootLogger, QExtLogLevel::Debug);
 }
 
 void QExtLogHierarchy::shutdown()
@@ -113,27 +115,37 @@ QExtLogger *QExtLogHierarchy::createLogger(const QString &orgName)
     bool needBinaryLogger = orgName.contains(binaryIndicator);
 
     if (needBinaryLogger)
+    {
         name.remove(binaryIndicator);
+    }
 
-    QExtLogger *logger = mLoggers.value(name, nullptr);
-    if (logger != nullptr)
+    QExtLogger *logger = mLoggers.value(name, QEXT_NULLPTR);
+    if (logger != QEXT_NULLPTR)
+    {
         return logger;
+    }
 
     if (name.isEmpty())
     {
-        logger = new QExtLogger(this, QExtLogLevel::Debug, QStringLiteral("root"), nullptr);
+        logger = new QExtLogger(this, QExtLogLevel::Debug, QStringLiteral("root"), QEXT_NULLPTR);
         mLoggers.insert(QString(), logger);
         return logger;
     }
     QString parent_name;
     int index = name.lastIndexOf(name_separator);
     if (index >= 0)
+    {
         parent_name = name.left(index);
+    }
 
     if (needBinaryLogger)
+    {
         logger = new QExtBinaryLogger(this, QExtLogLevel::Null, name, createLogger(parent_name));
+    }
     else
+    {
         logger = new QExtLogger(this, QExtLogLevel::Null, name, createLogger(parent_name));
+    }
     mLoggers.insert(name, logger);
     return logger;
 }

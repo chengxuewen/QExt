@@ -39,12 +39,14 @@ QExtLogFilter::Decision QExtLogStringMatchFilter::decide(const QExtLoggingEvent 
     if (event.message().isEmpty() ||
         mStringToMatch.isEmpty() ||
         !event.message().contains(mStringToMatch,mCaseSensitivity))
+    {
         return QExtLogFilter::NEUTRAL;
+    }
 
     if (mAcceptOnMatch)
+    {
         return QExtLogFilter::ACCEPT;
+    }
 
     return QExtLogFilter::DENY;
 }
-
-// #include "moc_stringmatchfilter.cpp"

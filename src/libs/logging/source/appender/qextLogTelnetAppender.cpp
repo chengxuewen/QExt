@@ -39,7 +39,7 @@ QExtLogTelnetAppender::QExtLogTelnetAppender(QObject *parent)
     : QExtLogAppenderSkeleton(false, parent)
     , mAddress(QHostAddress::Any)
     , mPort(23)
-    , mTcpServer(nullptr)
+    , mTcpServer(QEXT_NULLPTR)
     , mImmediateFlush(false)
 {
 }
@@ -48,7 +48,7 @@ QExtLogTelnetAppender::QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layou
     : QExtLogAppenderSkeleton(false, layout, parent)
     , mAddress(QHostAddress::Any)
     , mPort(23)
-    , mTcpServer(nullptr)
+    , mTcpServer(QEXT_NULLPTR)
     , mImmediateFlush(false)
 {
 }
@@ -57,17 +57,17 @@ QExtLogTelnetAppender::QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layou
     : QExtLogAppenderSkeleton(false, layout, parent)
     , mAddress(QHostAddress::Any)
     , mPort(port)
-    , mTcpServer(nullptr)
+    , mTcpServer(QEXT_NULLPTR)
     , mImmediateFlush(false)
 {
 }
 
 QExtLogTelnetAppender::QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout, const QHostAddress &address,
-                               int port, QObject *parent)
+                                             int port, QObject *parent)
     : QExtLogAppenderSkeleton(false, layout, parent)
     , mAddress(address)
     , mPort(port)
-    , mTcpServer(nullptr)
+    , mTcpServer(QEXT_NULLPTR)
     , mImmediateFlush(false)
 {
 }
@@ -92,7 +92,9 @@ void QExtLogTelnetAppender::close()
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
+    {
         return;
+    }
 
     QExtLogAppenderSkeleton::close();
     closeServer();
@@ -142,16 +144,18 @@ void QExtLogTelnetAppender::append(const QExtLoggingEvent &event)
     {
         clientConnection->write(message.toLocal8Bit().constData());
         if (immediateFlush())
+        {
             clientConnection->flush();
+        }
     }
 }
 
 bool QExtLogTelnetAppender::checkEntryConditions() const
 {
-    if ((mTcpServer == nullptr) || !mTcpServer->isListening())
+    if ((mTcpServer == QEXT_NULLPTR) || !mTcpServer->isListening())
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a listing telnet server"),
-                                QExtLogError::Error_AppenderTelnetServerNotRunning);
+                                               QExtLogError::Error_AppenderTelnetServerNotRunning);
         e << name();
         logger()->error(e);
         return false;
@@ -169,20 +173,24 @@ void QExtLogTelnetAppender::openServer()
 
 void QExtLogTelnetAppender::closeServer()
 {
-    if (mTcpServer != nullptr)
+    if (mTcpServer != QEXT_NULLPTR)
+    {
         mTcpServer->close();
+    }
 
 #if (__cplusplus >= 201703L)
     for (auto &&clientConnection : std::as_const(mTcpSockets))
 #else
     for (auto &&clientConnection : qAsConst(mTcpSockets))
 #endif
+    {
         delete clientConnection;
+    }
 
     mTcpSockets.clear();
 
     delete mTcpServer;
-    mTcpServer = nullptr;
+    mTcpServer = QEXT_NULLPTR;
 }
 
 QList<QTcpSocket *> QExtLogTelnetAppender::clients() const
@@ -194,10 +202,10 @@ void QExtLogTelnetAppender::onNewConnection()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if ((mTcpServer != nullptr) && mTcpServer->hasPendingConnections())
+    if ((mTcpServer != QEXT_NULLPTR) && mTcpServer->hasPendingConnections())
     {
         QTcpSocket *clientConnection = mTcpServer->nextPendingConnection();
-        if (clientConnection != nullptr)
+        if (clientConnection != QEXT_NULLPTR)
         {
             mTcpSockets.append(clientConnection);
             connect(clientConnection, &QTcpSocket::disconnected,
@@ -210,7 +218,9 @@ void QExtLogTelnetAppender::onNewConnection()
 void QExtLogTelnetAppender::sendWelcomeMessage(QTcpSocket *clientConnection)
 {
     if (mWelcomeMessage.isEmpty())
+    {
         return;
+    }
 
     clientConnection->write(mWelcomeMessage.toLocal8Bit().constData());
 }
@@ -220,11 +230,9 @@ void QExtLogTelnetAppender::onClientDisconnected()
     QMutexLocker locker(&mObjectGuard);
 
     QTcpSocket *clientConnection = qobject_cast<QTcpSocket *> (sender());
-    if (clientConnection != nullptr)
+    if (clientConnection != QEXT_NULLPTR)
     {
         mTcpSockets.removeOne(clientConnection);
         clientConnection->deleteLater();
     }
 }
-
-// #include "moc_telnetappender.cpp"

@@ -33,10 +33,10 @@ class DailyFileAppenderTest : public QObject
 {
     Q_OBJECT
 public:
-    explicit DailyFileAppenderTest(QObject * parent = nullptr) :
+    explicit DailyFileAppenderTest(QObject * parent = QEXT_NULLPTR) :
                                 QObject(parent),
-                                mLogDirectory(nullptr),
-                                mAppender(nullptr) {}
+                                mLogDirectory(QEXT_NULLPTR),
+                                mAppender(QEXT_NULLPTR) {}
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -203,7 +203,7 @@ void DailyFileAppenderTest::testObsoleteLogFileDeletion()
     // Since deletion takes place in a separate thread, we would need to sleep here. To avoid that,
     // we rely on the appender to wait for completion in its destructor
     delete mAppender;
-    mAppender = nullptr;
+    mAppender = QEXT_NULLPTR;
     QVERIFY(!QFileInfo::exists(deleteAfterOneDayFileName));
     QVERIFY(QFileInfo::exists(alwaysKeptFileName));
 }

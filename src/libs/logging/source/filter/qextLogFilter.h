@@ -70,7 +70,7 @@ public:
     Q_ENUM(Decision)
 
 public:
-    QExtLogFilter(QObject *parent = nullptr);
+    QExtLogFilter(QObject *parent = QEXT_NULLPTR);
     virtual ~QExtLogFilter();
 
     QExtLogFilterSharedPtr next() const;

@@ -70,14 +70,14 @@ class QEXT_LOGGING_API QExtLogAppenderSkeleton : public QExtLogAppender
     Q_PROPERTY(QExtLogLevel threshold READ threshold WRITE setThreshold)
 
 public:
-    explicit QExtLogAppenderSkeleton(QObject *parent = nullptr);
+    explicit QExtLogAppenderSkeleton(QObject *parent = QEXT_NULLPTR);
 
 protected:
     explicit QExtLogAppenderSkeleton(bool isActive,
-                              QObject *parent = nullptr);
+                              QObject *parent = QEXT_NULLPTR);
     explicit QExtLogAppenderSkeleton(bool isActive,
                               const QExtLogLayoutSharedPtr &layout,
-                              QObject *parent = nullptr);
+                              QObject *parent = QEXT_NULLPTR);
     ~QExtLogAppenderSkeleton() override;
 
 public:

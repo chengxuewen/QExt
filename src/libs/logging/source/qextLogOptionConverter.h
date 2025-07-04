@@ -67,7 +67,7 @@ public:
      * and false is returned.
      */
     static bool toBoolean(const QString &option,
-                          bool *ok = nullptr);
+                          bool *ok = QEXT_NULLPTR);
 
     static bool toBoolean(const QString &option,
                           bool defaultValue);
@@ -82,7 +82,7 @@ public:
      * and 0 is returned.
      */
     static qint64 toFileSize(const QString &option,
-                             bool *ok = nullptr);
+                             bool *ok = QEXT_NULLPTR);
 
     /*!
         * Converts the option \a option to a integer value using
@@ -91,7 +91,7 @@ public:
         * to the log, \a ok is set to false and 0 is returned.
         */
     static int toInt(const QString &option,
-                     bool *ok = nullptr);
+                     bool *ok = QEXT_NULLPTR);
 
     /*!
      * Converts the option \a option to a level value using
@@ -103,7 +103,7 @@ public:
      * \sa QExtLogLevel::fromString()
      */
     static QExtLogLevel toLevel(const QString &option,
-                         bool *ok = nullptr);
+                         bool *ok = QEXT_NULLPTR);
 
     static QExtLogLevel toLevel(const QString &option,
                          QExtLogLevel defaultValue);
@@ -117,7 +117,7 @@ public:
      * QExtLogConsoleAppender::STDOUT_TARGET is returned.
      */
     static int toTarget(const QString &option,
-                        bool *ok = nullptr);
+                        bool *ok = QEXT_NULLPTR);
 
 #if QT_VERSION < 0x060000
     /*!
@@ -128,7 +128,7 @@ public:
      * 0 is returned.
      */
     static QTextCodec* toEncoding(const QString &option,
-                                  bool *ok = nullptr);
+                                  bool *ok = QEXT_NULLPTR);
 #else
     /*!
      * Converts the option \a option to a QStringConverter::Encoding value using
@@ -138,7 +138,7 @@ public:
      * QStringConverter::System is returned.
      */
     static QStringConverter::Encoding toEncoding(const QString &option,
-                                  bool *ok = nullptr);
+                                  bool *ok = QEXT_NULLPTR);
 #endif
 };
 

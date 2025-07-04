@@ -40,7 +40,7 @@ class QEXT_LOGGING_API QExtLogBinaryLayout : public QExtLogLayout
     Q_PROPERTY(QByteArray binaryHeader READ binaryHeader WRITE setBinaryHeader)
 
 public:
-    explicit QExtLogBinaryLayout(QObject *parent = nullptr);
+    explicit QExtLogBinaryLayout(QObject *parent = QEXT_NULLPTR);
 
     virtual QByteArray binaryFormat(const QExtBinaryLoggingEvent &event) const;
     virtual QString format(const QExtLoggingEvent &event) override;

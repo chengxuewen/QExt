@@ -34,14 +34,16 @@ QExtLogBinaryEventFilter::QExtLogBinaryEventFilter(QObject *parent)
 
 QExtLogFilter::Decision QExtLogBinaryEventFilter::decide(const QExtLoggingEvent &event) const
 {
-    bool isBinaryEvent = dynamic_cast<const QExtBinaryLoggingEvent *>(&event) != nullptr;
+    bool isBinaryEvent = dynamic_cast<const QExtBinaryLoggingEvent *>(&event) != QEXT_NULLPTR;
 
     if (!isBinaryEvent)
+    {
         return QExtLogFilter::NEUTRAL;
+    }
 
     if (mAcceptBinaryEvents)
+    {
         return QExtLogFilter::ACCEPT;
+    }
     return QExtLogFilter::DENY;
 }
-
-// #include "moc_binaryeventfilter.cpp"

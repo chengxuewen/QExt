@@ -30,7 +30,7 @@
 #include <QString>
 
 QExtBinaryClassLogger::QExtBinaryClassLogger()
-    : mLogger(nullptr)
+    : mLogger(QEXT_NULLPTR)
 {
 }
 
@@ -40,6 +40,8 @@ QExtBinaryLogger *QExtBinaryClassLogger::logger(const QObject *object)
     QString loggename(object->metaObject()->className());
     loggename += QStringLiteral("@@binary@@");
     if (!mLogger.loadAcquire())
-        mLogger.testAndSetOrdered(nullptr, qobject_cast<QExtBinaryLogger *>(QExtLogManager::logger(loggename)));
+    {
+        mLogger.testAndSetOrdered(QEXT_NULLPTR, qobject_cast<QExtBinaryLogger *>(QExtLogManager::logger(loggename)));
+    }
     return mLogger.loadAcquire();
 }

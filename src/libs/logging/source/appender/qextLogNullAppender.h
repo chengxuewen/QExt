@@ -41,7 +41,7 @@ class QEXT_LOGGING_API QExtLogNullAppender : public QExtLogAppenderSkeleton
     Q_OBJECT
 
 public:
-    QExtLogNullAppender(QObject *parent = nullptr);
+    QExtLogNullAppender(QObject *parent = QEXT_NULLPTR);
     ~QExtLogNullAppender() override;
 
 public:

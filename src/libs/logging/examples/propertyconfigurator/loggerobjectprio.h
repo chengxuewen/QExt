@@ -30,7 +30,7 @@ class LoggerObjectPrio : public QObject
     Q_OBJECT
     QEXT_DECLARE_QCLASS_LOGGER
 public:
-    explicit LoggerObjectPrio(QObject *parent = nullptr);
+    explicit LoggerObjectPrio(QObject *parent = QEXT_NULLPTR);
 
 private Q_SLOTS:
     void onTimeout();

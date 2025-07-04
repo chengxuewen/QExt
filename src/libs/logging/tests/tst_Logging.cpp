@@ -79,7 +79,7 @@ class Log4QtTest : public QObject
     Q_OBJECT
 
 public:
-    explicit Log4QtTest(QObject *parent = nullptr);
+    explicit Log4QtTest(QObject *parent = QEXT_NULLPTR);
     virtual ~Log4QtTest();
 private:
     Log4QtTest(const Log4QtTest &other); // Not implemented
@@ -196,7 +196,7 @@ Log4QtTest::Log4QtTest(QObject *parent) : QObject(parent),
     mSkipLongTests(false),
     mProperties(&mDefaultProperties)
 {
-#ifdef LOG4QT_DISABLE_LONG_TESTS
+#ifdef QEXT_DISABLE_LONG_TESTS
     mSkipLongTests = true;
 #endif
 }
@@ -302,80 +302,80 @@ void Log4QtTest::patternFormatter_data()
     properties.insert(QStringLiteral("C"), QStringLiteral("c"));
 
     QTest::newRow("Default conversion")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"))
-            << "%m%n"
-            << "This is the message" + eol
-            << 0;
+        << "%m%n"
+        << "This is the message" + eol
+        << 0;
     QTest::newRow("TTCC conversion")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
                             properties,
                             QStringLiteral("main"),
                             relative_timestamp)
-            << "%r [%t] %p %c %x - %m%n"
-            << relative_string + " [main] DEBUG Test::TestLog4Qt QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%r [%t] %p %c %x - %m%n"
+        << relative_string + " [main] DEBUG Test::TestLog4Qt QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("Java class documentation example 1")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Warn),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
                             properties,
                             QStringLiteral("main"),
                             relative_timestamp)
-            << "%-5p [%t]: %m%n"
-            << "WARN  [main]: This is the message" + eol
-            << 0;
+        << "%-5p [%t]: %m%n"
+        << "WARN  [main]: This is the message" + eol
+        << 0;
     QTest::newRow("Java class documentation example 2")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Info),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
                             properties,
                             QStringLiteral("main"),
                             relative_timestamp)
-            << "%r [%t] %-5p %c %x - %m%n"
-            << relative_string + " [main] INFO  Test::TestLog4Qt QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%r [%t] %-5p %c %x - %m%n"
+        << relative_string + " [main] INFO  Test::TestLog4Qt QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("Java class documentation example 2")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Info),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
                             properties,
                             QStringLiteral("main"),
                             relative_timestamp)
-            << "%-6r [%15.15t] %-5p %30.30c %x - %m%n"
-            << relative_string + "  [           main] INFO                Test::TestLog4Qt QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%-6r [%15.15t] %-5p %30.30c %x - %m%n"
+        << relative_string + "  [           main] INFO                Test::TestLog4Qt QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("Java class documentation example 2, truncating")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Info),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
                             properties,
                             QStringLiteral("threadwithextralongname"),
                             relative_timestamp)
-            << "%-6r [%15.15t] %-5p %30.30c %x - %m%n"
-            << relative_string + "  [thextralongname] INFO                Test::TestLog4Qt QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%-6r [%15.15t] %-5p %30.30c %x - %m%n"
+        << relative_string + "  [thextralongname] INFO                Test::TestLog4Qt QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("TTCC with ISO date")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
                             properties,
                             QStringLiteral("main"),
                             absolute_timestamp)
-            << "%d{ISO8601} [%t] %p %c %x - %m%n"
-            << "2001-09-07 15:07:05.009 [main] DEBUG Test::TestLog4Qt QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%d{ISO8601} [%t] %p %c %x - %m%n"
+        << "2001-09-07 15:07:05.009 [main] DEBUG Test::TestLog4Qt QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("TTCC conversion with file, line and method")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
@@ -385,11 +385,11 @@ void Log4QtTest::patternFormatter_data()
                             QExtLogMessageContext("foo.cpp", 100, "foo()"),
                             QStringLiteral("category")
                             )
-            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
-            << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100-foo() QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+        << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100-foo() QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("TTCC conversion with location information")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
@@ -399,11 +399,11 @@ void Log4QtTest::patternFormatter_data()
                             QExtLogMessageContext("foo.cpp", 100, "foo()"),
                             QStringLiteral("category")
                             )
-            << "%r [%t] %p %c %l %x - %m%n"
-            << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100 - foo() QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%r [%t] %p %c %l %x - %m%n"
+        << relative_string + " [main] DEBUG Test::TestLog4Qt foo.cpp:100 - foo() QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("TTCC conversion with file, line and method - Qt logger")
-            << QExtLoggingEvent(QExtLogManager::instance()->qtLogger(),
+        << QExtLoggingEvent(QExtLogManager::instance()->qtLogger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
@@ -413,11 +413,11 @@ void Log4QtTest::patternFormatter_data()
                             QExtLogMessageContext("foo.cpp", 100, "foo()"),
                             QStringLiteral("Qt category")
                             )
-            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
-            << relative_string + " [main] DEBUG Qt category foo.cpp:100-foo() QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+        << relative_string + " [main] DEBUG Qt category foo.cpp:100-foo() QExtLogNDC - This is the message" + eol
+        << 0;
     QTest::newRow("TTCC conversion with file, line and method - Qt logger no category")
-            << QExtLoggingEvent(QExtLogManager::instance()->qtLogger(),
+        << QExtLoggingEvent(QExtLogManager::instance()->qtLogger(),
                             QExtLogLevel(QExtLogLevel::Debug),
                             QStringLiteral("This is the message"),
                             QStringLiteral("QExtLogNDC"),
@@ -427,9 +427,9 @@ void Log4QtTest::patternFormatter_data()
                             QExtLogMessageContext("foo.cpp", 100, "foo()"),
                             QString()
                             )
-            << "%r [%t] %p %c %F:%L-%M %x - %m%n"
-            << relative_string + " [main] DEBUG Qt foo.cpp:100-foo() QExtLogNDC - This is the message" + eol
-            << 0;
+        << "%r [%t] %p %c %F:%L-%M %x - %m%n"
+        << relative_string + " [main] DEBUG Qt foo.cpp:100-foo() QExtLogNDC - This is the message" + eol
+        << 0;
 
     resetLogging();
 }
@@ -509,21 +509,21 @@ void Log4QtTest::properties_load_device_data()
     stream << "Truth = Beauty" << Qt::endl;
     device.close();
     QTest::newRow("Java class documentation example 1a")
-            << buffer << 1 << "Truth" << "Beauty" << 0;
+        << buffer << 1 << "Truth" << "Beauty" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "         Truth:Beauty" << Qt::endl;
     device.close();
     QTest::newRow("Java class documentation example 1b")
-            << buffer << 1 << "Truth" << "Beauty" << 0;
+        << buffer << 1 << "Truth" << "Beauty" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "Truth        :Beauty" << Qt::endl;
     device.close();
     QTest::newRow("Java class documentation example 1c")
-            << buffer << 1 << "Truth" << "Beauty" << 0;
+        << buffer << 1 << "Truth" << "Beauty" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
@@ -532,57 +532,57 @@ void Log4QtTest::properties_load_device_data()
     stream << "                      kiwi, mango" << Qt::endl;
     device.close();
     QTest::newRow("Java class documentation example 2")
-            << buffer << 1 << "fruits"
-            << "apple, banana, pear, cantaloupe, watermelon, kiwi, mango" << 0;
+        << buffer << 1 << "fruits"
+        << "apple, banana, pear, cantaloupe, watermelon, kiwi, mango" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "cheese" << Qt::endl;
     device.close();
     QTest::newRow("Java class documentation example 3")
-            << buffer << 1 << "cheese" << "" << 0;
+        << buffer << 1 << "cheese" << "" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "K\\ e\\=\\:y Value" << Qt::endl;
     device.close();
     QTest::newRow("Key escape sequences")
-            << buffer << 1 << "K e=:y" << "Value" << 0;
+        << buffer << 1 << "K e=:y" << "Value" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "Key V\\t\\n\\ra\\\\l\\\"u\\\'e" << Qt::endl;
     device.close();
     QTest::newRow("Value escape sequences")
-            << buffer << 1 << "Key" << "V\t\n\ra\\l\"u\'e" << 0;
+        << buffer << 1 << "Key" << "V\t\n\ra\\l\"u\'e" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "Key\\t Value\\j" << Qt::endl;
     device.close();
     QTest::newRow("Invalid escape sequences")
-            << buffer << 1 << "Keyt" << "Valuej" << 2;
+        << buffer << 1 << "Keyt" << "Valuej" << 2;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "Key Valu\\u006fe" << Qt::endl;
     device.close();
     QTest::newRow("Unicode escape sequence")
-            << buffer << 1 << "Key" << "Valuoe" << 0;
+        << buffer << 1 << "Key" << "Valuoe" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << "Key Value\\u6f" << Qt::endl;
     device.close();
     QTest::newRow("Unicode escape sequence at the end")
-            << buffer << 1 << "Key" << "Valueo" << 0;
+        << buffer << 1 << "Key" << "Valueo" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
     stream << ": Value" << Qt::endl;
     device.close();
     QTest::newRow("Empty key")
-            << buffer << 1 << "" << "Value" << 1;
+        << buffer << 1 << "" << "Value" << 1;
 
     resetLogging();
 }
@@ -679,27 +679,27 @@ void Log4QtTest::optionConverter_filesize_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("Int")
-            << "135" << true << Q_INT64_C(135) << 0;
+        << "135" << true << Q_INT64_C(135) << 0;
     QTest::newRow("Trim")
-            << " 135 " << true << Q_INT64_C(135) << 0;
+        << " 135 " << true << Q_INT64_C(135) << 0;
     QTest::newRow("KB")
-            << "2KB" << true << Q_INT64_C(2048) << 0;
+        << "2KB" << true << Q_INT64_C(2048) << 0;
     QTest::newRow("KB case")
-            << "2kb" << true << Q_INT64_C(2048) << 0;
+        << "2kb" << true << Q_INT64_C(2048) << 0;
     QTest::newRow("KB trim")
-            << " 2KB " << true << Q_INT64_C(2048) << 0;
+        << " 2KB " << true << Q_INT64_C(2048) << 0;
     QTest::newRow("MB")
-            << "100MB" << true << Q_INT64_C(104857600) << 0;
+        << "100MB" << true << Q_INT64_C(104857600) << 0;
     QTest::newRow("GB")
-            << "2GB" << true << Q_INT64_C(2147483648) << 0;
+        << "2GB" << true << Q_INT64_C(2147483648) << 0;
     QTest::newRow("Invalid negative")
-            << "-1" << false << Q_INT64_C(0) << 1;
+        << "-1" << false << Q_INT64_C(0) << 1;
     QTest::newRow("Invalid character")
-            << "x" << false << Q_INT64_C(0) << 1;
+        << "x" << false << Q_INT64_C(0) << 1;
     QTest::newRow("Invalid character with unit")
-            << "xkb" << false << Q_INT64_C(0) << 1;
+        << "xkb" << false << Q_INT64_C(0) << 1;
     QTest::newRow("Invalid additional text")
-            << "2KBx" << false << Q_INT64_C(0) << 1;
+        << "2KBx" << false << Q_INT64_C(0) << 1;
 
     resetLogging();
 }
@@ -759,20 +759,20 @@ void Log4QtTest::optionConverter_level_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("Case")
-            << "WaRn"
-            << QExtLogLevel(QExtLogLevel::Error)
-            << QExtLogLevel(QExtLogLevel::Warn)
-            << 0;
+        << "WaRn"
+        << QExtLogLevel(QExtLogLevel::Error)
+        << QExtLogLevel(QExtLogLevel::Warn)
+        << 0;
     QTest::newRow("Trim")
-            << " warn "
-            << QExtLogLevel(QExtLogLevel::Error)
-            << QExtLogLevel(QExtLogLevel::Warn)
-            << 0;
+        << " warn "
+        << QExtLogLevel(QExtLogLevel::Error)
+        << QExtLogLevel(QExtLogLevel::Warn)
+        << 0;
     QTest::newRow("Default")
-            << "NoLevel"
-            << QExtLogLevel(QExtLogLevel::Error)
-            << QExtLogLevel(QExtLogLevel::Error)
-            << 2; // One from QExtLogLevel + one from QExtLogOptionConverter
+        << "NoLevel"
+        << QExtLogLevel(QExtLogLevel::Error)
+        << QExtLogLevel(QExtLogLevel::Error)
+        << 2; // One from QExtLogLevel + one from QExtLogOptionConverter
 
     resetLogging();
 }
@@ -802,23 +802,23 @@ void Log4QtTest::optionConverter_substitution_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("Existing value")
-            << "A" << "a" << "a" << 0;
+        << "A" << "a" << "a" << 0;
     QTest::newRow("Existing value")
-            << "B" << "b" << "b" << 0;
+        << "B" << "b" << "b" << 0;
     QTest::newRow("Empty value")
-            << "C" << "" << "" << 0;
+        << "C" << "" << "" << 0;
     QTest::newRow("Null value")
-            << "D" << QString() << "" << 0;
+        << "D" << QString() << "" << 0;
     QTest::newRow("Substitution")
-            << "S1" << "begin${A}end" << "beginaend" << 0;
+        << "S1" << "begin${A}end" << "beginaend" << 0;
     QTest::newRow("Substitution with two values")
-            << "S2" << "begin${A}end${B}" << "beginaendb" << 0;
+        << "S2" << "begin${A}end${B}" << "beginaendb" << 0;
     QTest::newRow("Substitution recursive")
-            << "S3" << "${S1}" << "beginaend" << 0;
+        << "S3" << "${S1}" << "beginaend" << 0;
     QTest::newRow("Substitution missing bracket")
-            << "S4" << "begin${end" << "begin" << 1;
+        << "S4" << "begin${end" << "begin" << 1;
     QTest::newRow("Substitution spare brackets")
-            << "S5" << "begin}${A}}end" << "begin}a}end" << 0;
+        << "S5" << "begin}${A}}end" << "begin}a}end" << 0;
 }
 
 
@@ -844,17 +844,17 @@ void Log4QtTest::optionConverter_target_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("stdout cpp")
-            << "STDOUT_TARGET" << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
+        << "STDOUT_TARGET" << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
     QTest::newRow("stdout java")
-            << "System.out" << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
+        << "System.out" << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
     QTest::newRow("stderr cpp")
-            << "STDERR_TARGET" << true << static_cast<int>(QExtLogConsoleAppender::STDERR_TARGET) << 0;
+        << "STDERR_TARGET" << true << static_cast<int>(QExtLogConsoleAppender::STDERR_TARGET) << 0;
     QTest::newRow("stderr java")
-            << "System.err" << true << static_cast<int>(QExtLogConsoleAppender::STDERR_TARGET) << 0;
+        << "System.err" << true << static_cast<int>(QExtLogConsoleAppender::STDERR_TARGET) << 0;
     QTest::newRow("trim")
-            << "  STDOUT_TARGET  " << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
+        << "  STDOUT_TARGET  " << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
     QTest::newRow("error")
-            << "Hello" << false << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 1;
+        << "Hello" << false << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 1;
 }
 
 
@@ -885,33 +885,33 @@ void Log4QtTest::factory_createAppender_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("QExtLogConsoleAppender java")
-            << "org.apache.log4j.QExtLogConsoleAppender" << "QExtLogConsoleAppender" << 0;
+        << "org.QExt.LogConsoleAppender" << "QExtLogConsoleAppender" << 0;
     QTest::newRow("QExtLogConsoleAppender cpp")
-            << "QExtLogConsoleAppender" << "QExtLogConsoleAppender" << 0;
+        << "QExtLogConsoleAppender" << "QExtLogConsoleAppender" << 0;
     QTest::newRow("QExtLogDailyRollingFileAppender java")
-            << "org.apache.log4j.QExtLogDailyRollingFileAppender" << "QExtLogDailyRollingFileAppender" << 0;
+        << "org.QExt.LogDailyRollingFileAppender" << "QExtLogDailyRollingFileAppender" << 0;
     QTest::newRow("QExtLogDailyRollingFileAppender cpp")
-            << "QExtLogDailyRollingFileAppender" << "QExtLogDailyRollingFileAppender" << 0;
+        << "QExtLogDailyRollingFileAppender" << "QExtLogDailyRollingFileAppender" << 0;
     QTest::newRow("QExtLogDebugAppender java")
-            << "org.apache.log4j.varia.QExtLogDebugAppender" << "QExtLogDebugAppender" << 0;
+        << "org.QExt.LogDebugAppender" << "QExtLogDebugAppender" << 0;
     QTest::newRow("QExtLogDebugAppender cpp")
-            << "QExtLogDebugAppender" << "QExtLogDebugAppender" << 0;
+        << "QExtLogDebugAppender" << "QExtLogDebugAppender" << 0;
     QTest::newRow("QExtLogFileAppender java")
-            << "org.apache.log4j.QExtLogFileAppender" << "QExtLogFileAppender" << 0;
+        << "org.QExt.LogFileAppender" << "QExtLogFileAppender" << 0;
     QTest::newRow("QExtLogFileAppender cpp")
-            << "QExtLogFileAppender" << "QExtLogFileAppender" << 0;
+        << "QExtLogFileAppender" << "QExtLogFileAppender" << 0;
     QTest::newRow("QExtLogListAppender java")
-            << "org.apache.log4j.varia.QExtLogListAppender" << "QExtLogListAppender" << 0;
+        << "org.QExt.LogListAppender" << "QExtLogListAppender" << 0;
     QTest::newRow("QExtLogListAppender cpp")
-            << "QExtLogListAppender" << "QExtLogListAppender" << 0;
+        << "QExtLogListAppender" << "QExtLogListAppender" << 0;
     QTest::newRow("QExtLogNullAppender java")
-            << "org.apache.log4j.varia.QExtLogNullAppender" << "QExtLogNullAppender" << 0;
+        << "org.QExt.LogNullAppender" << "QExtLogNullAppender" << 0;
     QTest::newRow("QExtLogNullAppender cpp")
-            << "QExtLogNullAppender" << "QExtLogNullAppender" << 0;
+        << "QExtLogNullAppender" << "QExtLogNullAppender" << 0;
     QTest::newRow("QExtLogRollingFileAppender java")
-            << "org.apache.log4j.QExtLogRollingFileAppender" << "QExtLogRollingFileAppender" << 0;
+        << "org.QExt.LogRollingFileAppender" << "QExtLogRollingFileAppender" << 0;
     QTest::newRow("QExtLogRollingFileAppender cpp")
-            << "QExtLogRollingFileAppender" << "QExtLogRollingFileAppender" << 0;
+        << "QExtLogRollingFileAppender" << "QExtLogRollingFileAppender" << 0;
 }
 
 
@@ -923,7 +923,7 @@ void Log4QtTest::factory_createAppender()
 
     loggingEvents()->clearList();
     QObject *p_object = QExtLogFactory::createAppender(classname);
-    QVERIFY(p_object != nullptr);
+    QVERIFY(p_object != QEXT_NULLPTR);
     QCOMPARE(QString::fromLatin1(p_object->metaObject()->className()), result);
     delete p_object;
     QCOMPARE(loggingEvents()->list().count(), event_count);
@@ -937,21 +937,21 @@ void Log4QtTest::factory_createFilter_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("QExtLogDenyAllFilter java")
-            << "org.apache.log4j.varia.QExtLogDenyAllFilter" << "QExtLogDenyAllFilter" << 0;
+        << "org.QExt.LogDenyAllFilter" << "QExtLogDenyAllFilter" << 0;
     QTest::newRow("QExtLogDenyAllFilter cpp")
-            << "QExtLogDenyAllFilter" << "QExtLogDenyAllFilter" << 0;
+        << "QExtLogDenyAllFilter" << "QExtLogDenyAllFilter" << 0;
     QTest::newRow("QExtLogLevelMatchFilter java")
-            << "org.apache.log4j.varia.QExtLogLevelMatchFilter" << "QExtLogLevelMatchFilter" << 0;
+        << "org.QExt.LogLevelMatchFilter" << "QExtLogLevelMatchFilter" << 0;
     QTest::newRow("QExtLogLevelMatchFilter cpp")
-            << "QExtLogLevelMatchFilter" << "QExtLogLevelMatchFilter" << 0;
+        << "QExtLogLevelMatchFilter" << "QExtLogLevelMatchFilter" << 0;
     QTest::newRow("QExtLogLevelRangeFilter java")
-            << "org.apache.log4j.varia.QExtLogLevelRangeFilter" << "QExtLogLevelRangeFilter" << 0;
+        << "org.QExt.LogLevelRangeFilter" << "QExtLogLevelRangeFilter" << 0;
     QTest::newRow("QExtLogLevelRangeFilter cpp")
-            << "QExtLogLevelRangeFilter" << "QExtLogLevelRangeFilter" << 0;
+        << "QExtLogLevelRangeFilter" << "QExtLogLevelRangeFilter" << 0;
     QTest::newRow("QExtLogStringMatchFilter java")
-            << "org.apache.log4j.varia.QExtLogStringMatchFilter" << "QExtLogStringMatchFilter" << 0;
+        << "org.QExt.LogStringMatchFilter" << "QExtLogStringMatchFilter" << 0;
     QTest::newRow("QExtLogStringMatchFilter cpp")
-            << "QExtLogStringMatchFilter" << "QExtLogStringMatchFilter" << 0;
+        << "QExtLogStringMatchFilter" << "QExtLogStringMatchFilter" << 0;
 }
 
 
@@ -963,7 +963,7 @@ void Log4QtTest::factory_createFilter()
 
     loggingEvents()->clearList();
     QObject *p_object = QExtLogFactory::createFilter(classname);
-    QVERIFY(p_object != nullptr);
+    QVERIFY(p_object != QEXT_NULLPTR);
     QCOMPARE(QString::fromLatin1(p_object->metaObject()->className()), result);
     delete p_object;
     QCOMPARE(loggingEvents()->list().count(), event_count);
@@ -977,17 +977,17 @@ void Log4QtTest::factory_createLayout_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("QExtLogPatternLayout java")
-            << "org.apache.log4j.QExtLogPatternLayout" << "QExtLogPatternLayout" << 0;
+        << "org.QExt.LogPatternLayout" << "QExtLogPatternLayout" << 0;
     QTest::newRow("QExtLogPatternLayout cpp")
-            << "QExtLogPatternLayout" << "QExtLogPatternLayout" << 0;
+        << "QExtLogPatternLayout" << "QExtLogPatternLayout" << 0;
     QTest::newRow("QExtLogSimpleLayout java")
-            << "org.apache.log4j.QExtLogSimpleLayout" << "QExtLogSimpleLayout" << 0;
+        << "org.QExt.LogSimpleLayout" << "QExtLogSimpleLayout" << 0;
     QTest::newRow("QExtLogSimpleLayout cpp")
-            << "QExtLogSimpleLayout" << "QExtLogSimpleLayout" << 0;
+        << "QExtLogSimpleLayout" << "QExtLogSimpleLayout" << 0;
     QTest::newRow("QExtLogTTCCLayout java")
-            << "org.apache.log4j.QExtLogTTCCLayout" << "QExtLogTTCCLayout" << 0;
+        << "org.QExt.LogTTCCLayout" << "QExtLogTTCCLayout" << 0;
     QTest::newRow("QExtLogTTCCLayout cpp")
-            << "QExtLogTTCCLayout" << "QExtLogTTCCLayout" << 0;
+        << "QExtLogTTCCLayout" << "QExtLogTTCCLayout" << 0;
 }
 
 
@@ -999,7 +999,7 @@ void Log4QtTest::factory_createLayout()
 
     loggingEvents()->clearList();
     QObject *p_object = QExtLogFactory::createLayout(classname);
-    QVERIFY(p_object != nullptr);
+    QVERIFY(p_object != QEXT_NULLPTR);
     QCOMPARE(QString::fromLatin1(p_object->metaObject()->className()), result);
     delete p_object;
     QCOMPARE(loggingEvents()->list().count(), event_count);
@@ -1015,37 +1015,37 @@ void Log4QtTest::factory_setObjectProperty_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("Bool")
-            << "QExtLogFileAppender"
-            << "immediateFlush" << "false"
-            << "false" << 0;
+        << "QExtLogFileAppender"
+        << "immediateFlush" << "false"
+        << "false" << 0;
     QTest::newRow("Int")
-            << "QExtLogListAppender"
-            << "maxCount" << "10"
-            << "10" << 0;
+        << "QExtLogListAppender"
+        << "maxCount" << "10"
+        << "10" << 0;
     QTest::newRow("QString")
-            << "QExtLogFileAppender"
-            << "file" << "C:\\tmp\\mylog.txt"
-            << "C:\\tmp\\mylog.txt" << 0;
+        << "QExtLogFileAppender"
+        << "file" << "C:\\tmp\\mylog.txt"
+        << "C:\\tmp\\mylog.txt" << 0;
     QTest::newRow("Null object")
-            << "QExtLogNullAppender"
-            << "maxCount" << "10"
-            << "" << 1;
+        << "QExtLogNullAppender"
+        << "maxCount" << "10"
+        << "" << 1;
     QTest::newRow("Empty property string")
-            << "QExtLogNullAppender"
-            << "" << "10"
-            << "" << 1;
+        << "QExtLogNullAppender"
+        << "" << "10"
+        << "" << 1;
     QTest::newRow("Property does not exist")
-            << "QExtLogNullAppender"
-            << "Colour" << "10"
-            << "" << 1;
+        << "QExtLogNullAppender"
+        << "Colour" << "10"
+        << "" << 1;
     QTest::newRow("Property not writable")
-            << "QExtLogNullAppender"
-            << "isClosed" << "10"
-            << "" << 1;
+        << "QExtLogNullAppender"
+        << "isClosed" << "10"
+        << "" << 1;
     QTest::newRow("Property of wrong type")
-            << "QExtLogRollingFileAppender"
-            << "maximumFileSize" << "7"
-            << "" << 1;
+        << "QExtLogRollingFileAppender"
+        << "maximumFileSize" << "7"
+        << "" << 1;
 }
 
 
@@ -1136,8 +1136,8 @@ void Log4QtTest::levelMatchFilter()
     filter.setLevelToMatch(QExtLogLevel::fromString(filter_level));
     filter.setAcceptOnMatch(accept_on_match);
     QExtLoggingEvent
-    event(test_logger(), QExtLogLevel::fromString(event_level),
-          QStringLiteral("Message"));
+        event(test_logger(), QExtLogLevel::fromString(event_level),
+              QStringLiteral("Message"));
 
     QString decision =
         enumValueToKey(&filter, "Decision", filter.decide(event));
@@ -1185,8 +1185,8 @@ void Log4QtTest::levelRangeFilter()
         filter.setLevelMax(QExtLogLevel::fromString(filter_max_level));
     filter.setAcceptOnMatch(accept_on_match);
     QExtLoggingEvent
-    event(test_logger(), QExtLogLevel::fromString(event_level),
-          QStringLiteral("Message"));
+        event(test_logger(), QExtLogLevel::fromString(event_level),
+              QStringLiteral("Message"));
 
     QString decision =
         enumValueToKey(&filter, "Decision", filter.decide(event));
@@ -1301,32 +1301,32 @@ void Log4QtTest::appenderSkeleton_filter_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("Single filter, NEUTRAL")
-            << "WARN" << true << "" << true << "TRACE" << 1;
+        << "WARN" << true << "" << true << "TRACE" << 1;
     QTest::newRow("Single filter, ACCEPT")
-            << "WARN" << true << "" << true << "WARN" << 1;
+        << "WARN" << true << "" << true << "WARN" << 1;
     QTest::newRow("Single filter, DENY")
-            << "WARN" << false << "" << true << "WARN" << 0;
+        << "WARN" << false << "" << true << "WARN" << 0;
 
     QTest::newRow("Double filter, NEUTRAL NEUTRAL")
-            << "WARN" << true << "WARN" << true << "TRACE" << 1;
+        << "WARN" << true << "WARN" << true << "TRACE" << 1;
     QTest::newRow("Double filter, NEUTRAL ACCEPT")
-            << "WARN" << true << "TRACE" << true << "TRACE" << 1;
+        << "WARN" << true << "TRACE" << true << "TRACE" << 1;
     QTest::newRow("Double filter, NEUTRAL DENY")
-            << "WARN" << true << "TRACE" << false << "TRACE" << 0;
+        << "WARN" << true << "TRACE" << false << "TRACE" << 0;
 
     QTest::newRow("Double filter, ACCEPT NEUTRAL")
-            << "WARN" << true << "TRACE" << true << "WARN" << 1;
+        << "WARN" << true << "TRACE" << true << "WARN" << 1;
     QTest::newRow("Double filter, ACCEPT ACCEPT")
-            << "WARN" << true << "WARN" << true << "WARN" << 1;
+        << "WARN" << true << "WARN" << true << "WARN" << 1;
     QTest::newRow("Double filter, ACCEPT DENY")
-            << "WARN" << true << "WARN" << false << "WARN" << 1;
+        << "WARN" << true << "WARN" << false << "WARN" << 1;
 
     QTest::newRow("Double filter, DENY NEUTRAL")
-            << "WARN" << false << "TRACE" << true << "WARN" << 0;
+        << "WARN" << false << "TRACE" << true << "WARN" << 0;
     QTest::newRow("Double filter, DENY ACCEPT")
-            << "WARN" << false << "WARN" << true << "WARN" << 0;
+        << "WARN" << false << "WARN" << true << "WARN" << 0;
     QTest::newRow("Double filter, DENY DENY")
-            << "WARN" << false << "WARN" << false << "WARN" << 0;
+        << "WARN" << false << "WARN" << false << "WARN" << 0;
 }
 
 
@@ -1357,7 +1357,7 @@ void Log4QtTest::appenderSkeleton_filter()
     }
 
     appender.doAppend(QExtLoggingEvent(test_logger(),
-                                   QExtLogLevel::fromString(event_level), QStringLiteral("Message")));
+                                       QExtLogLevel::fromString(event_level), QStringLiteral("Message")));
     QCOMPARE(appender.list().count(), event_count);
 }
 
@@ -1372,13 +1372,13 @@ void Log4QtTest::basicConfigurator()
     QCOMPARE(p_logger->appenders().count(), 1);
     auto *p_appender =
         qobject_cast<QExtLogConsoleAppender *>(p_logger->appenders().at(0).data());
-    QCOMPARE(p_appender != nullptr, true);
+    QCOMPARE(p_appender != QEXT_NULLPTR, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
     auto *p_layout =
         qobject_cast<QExtLogPatternLayout *>(p_appender->layout().data());
-    QVERIFY(p_layout != nullptr);
+    QVERIFY(p_layout != QEXT_NULLPTR);
     QCOMPARE(p_layout->conversionPattern(), QString("%r [%t] %p %c %x - %m%n"));
 
     QExtLogger *logger = QExtLogManager::rootLogger();
@@ -1402,9 +1402,9 @@ void Log4QtTest::fileAppender()
     appender1.setName(QStringLiteral("Fileappender1"));
     appender1.activateOptions();
     appender1.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                    QStringLiteral("Message 0")));
+                                        QStringLiteral("Message 0")));
     appender1.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                    QStringLiteral("Message 1")));
+                                        QStringLiteral("Message 1")));
     appender1.close();
     QStringList expected;
     QString result;
@@ -1420,9 +1420,9 @@ void Log4QtTest::fileAppender()
     appender2.setName(QStringLiteral("Fileappender2"));
     appender2.activateOptions();
     appender2.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                    QStringLiteral("Message 2")));
+                                        QStringLiteral("Message 2")));
     appender2.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                    QStringLiteral("Message 3")));
+                                        QStringLiteral("Message 3")));
     appender2.close();
     expected.clear();
     expected << QStringLiteral("log");
@@ -1437,9 +1437,9 @@ void Log4QtTest::fileAppender()
     appender3.setName(QStringLiteral("Fileappender3"));
     appender3.activateOptions();
     appender3.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                    QStringLiteral("Message 4")));
+                                        QStringLiteral("Message 4")));
     appender3.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                    QStringLiteral("Message 5")));
+                                        QStringLiteral("Message 5")));
     appender3.close();
     expected.clear();
     expected << QStringLiteral("log");
@@ -1447,8 +1447,8 @@ void Log4QtTest::fileAppender()
         QFAIL(qPrintable(result));
     expected.clear();
     expected
-            << QStringLiteral("DEBUG - Message 2") << QStringLiteral("DEBUG - Message 3")
-            << QStringLiteral("DEBUG - Message 4") << QStringLiteral("DEBUG - Message 5");
+        << QStringLiteral("DEBUG - Message 2") << QStringLiteral("DEBUG - Message 3")
+        << QStringLiteral("DEBUG - Message 4") << QStringLiteral("DEBUG - Message 5");
     if (!validateFileContents(dir + file, expected, result))
         QFAIL(qPrintable(result));
 
@@ -1481,14 +1481,14 @@ void Log4QtTest::dailyRollingFileAppender()
 
     qDebug() << "   1 / 7";
     appender.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                   QStringLiteral("Message 0")));
+                                       QStringLiteral("Message 0")));
     int i;
     for (i = 1; i < 7; i++)
     {
         QTest::qSleep(21 * 1000);
         qDebug() << "  " << i + 1 << "/" << 7;
         appender.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                       QStringLiteral("Message %1").arg(i)));
+                                           QStringLiteral("Message %1").arg(i)));
     }
 
     QCOMPARE(loggingEvents()->list().count(), 0);
@@ -1497,8 +1497,8 @@ void Log4QtTest::dailyRollingFileAppender()
     QStringList expected;
     QString result;
     expected << QStringLiteral("log") << "log"
-             + dailyRollingFileAppenderSuffix(now.addSecs(60)) << "log"
-             + dailyRollingFileAppenderSuffix(now.addSecs(120));
+                                             + dailyRollingFileAppenderSuffix(now.addSecs(60)) << "log"
+                    + dailyRollingFileAppenderSuffix(now.addSecs(120));
     if (!validateDirContents(dir, expected, result))
         QFAIL(qPrintable(result));
 
@@ -1511,14 +1511,14 @@ void Log4QtTest::dailyRollingFileAppender()
     expected << QStringLiteral("DEBUG - Message 0") << QStringLiteral("DEBUG - Message 1")
              << QStringLiteral("DEBUG - Message 2");
     if (!validateFileContents(dir + file
-                              + dailyRollingFileAppenderSuffix(now.addSecs(60)),
+                                  + dailyRollingFileAppenderSuffix(now.addSecs(60)),
                               expected, result))
         QFAIL(qPrintable(result));
     expected.clear();
     expected << QStringLiteral("DEBUG - Message 3") << QStringLiteral("DEBUG - Message 4")
              << QStringLiteral("DEBUG - Message 5");
     if (!validateFileContents(dir + file
-                              + dailyRollingFileAppenderSuffix(now.addSecs(120)),
+                                  + dailyRollingFileAppenderSuffix(now.addSecs(120)),
                               expected, result))
         QFAIL(qPrintable(result));
 }
@@ -1535,9 +1535,9 @@ void Log4QtTest::loggingEvent_stream_data()
     properties.insert(QStringLiteral("C"), QStringLiteral("c"));
 
     QTest::newRow("Empty logging event")
-            << QExtLoggingEvent();
+        << QExtLoggingEvent();
     QTest::newRow("Logging event")
-            << QExtLoggingEvent(test_logger(),
+        << QExtLoggingEvent(test_logger(),
                             QExtLogLevel(QExtLogLevel::Warn),
                             QStringLiteral("This is a message"),
                             QStringLiteral("QExtLogNDC"),
@@ -1545,7 +1545,7 @@ void Log4QtTest::loggingEvent_stream_data()
                             QStringLiteral("main"),
                             timestamp);
     QTest::newRow("Logging no logger")
-            << QExtLoggingEvent(nullptr,
+        << QExtLoggingEvent(QEXT_NULLPTR,
                             QExtLogLevel(QExtLogLevel::Warn),
                             QStringLiteral("This is a message"),
                             QStringLiteral("QExtLogNDC"),
@@ -1604,20 +1604,20 @@ void Log4QtTest::logManager_configureLogLogger()
     QExtLogTTCCLayout *p_layout;
 
     p_appender = qobject_cast<QExtLogConsoleAppender *>(p_logger->appenders().at(0).data());
-    QCOMPARE(p_appender != nullptr, true);
+    QCOMPARE(p_appender != QEXT_NULLPTR, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
     p_layout = qobject_cast<QExtLogTTCCLayout *>(p_appender->layout().data());
-    QVERIFY(p_layout != nullptr);
+    QVERIFY(p_layout != QEXT_NULLPTR);
 
     p_appender = qobject_cast<QExtLogConsoleAppender *>(p_logger->appenders().at(1).data());
-    QCOMPARE(p_appender != nullptr, true);
+    QCOMPARE(p_appender != QEXT_NULLPTR, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
     QCOMPARE(p_appender->target(), QString::fromLatin1("STDERR_TARGET"));
     p_layout = qobject_cast<QExtLogTTCCLayout *>(p_appender->layout().data());
-    QVERIFY(p_layout != nullptr);
+    QVERIFY(p_layout != QEXT_NULLPTR);
 
 }
 
@@ -1629,7 +1629,7 @@ void Log4QtTest::propertyConfigurator_missing_appender()
     mDefaultProperties.clear();
     mProperties.clear();
 
-    mProperties.setProperty(QStringLiteral("log4j.logger.MissingAppender"),
+    mProperties.setProperty(QStringLiteral("QExt.logger.MissingAppender"),
                             QStringLiteral("INHERITED, A"));
     QVERIFY(!QExtLogPropertyConfigurator::configure(mProperties));
     QCOMPARE(QExtLogConfiguratorHelper::configureError().count(), 1);
@@ -1644,10 +1644,10 @@ void Log4QtTest::propertyConfigurator_unknown_appender_class()
     mDefaultProperties.clear();
     mProperties.clear();
 
-    mProperties.setProperty(QStringLiteral("log4j.logger.UnknownAppender"),
+    mProperties.setProperty(QStringLiteral("QExt.logger.UnknownAppender"),
                             QStringLiteral("INHERITED, A"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A"),
-                            QStringLiteral("org.apache.log4j.UnknownAppender"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A"),
+                            QStringLiteral("org.QExt.LogUnknownAppender"));
     QVERIFY(!QExtLogPropertyConfigurator::configure(mProperties));
     QCOMPARE(QExtLogConfiguratorHelper::configureError().count(), 1);
     QCOMPARE(loggingEvents()->list().count(), 2); // Warning from QExtLogFactory, Error QExtLogPropertyConfigurator
@@ -1660,10 +1660,10 @@ void Log4QtTest::propertyConfigurator_missing_layout()
     mDefaultProperties.clear();
     mProperties.clear();
 
-    mProperties.setProperty(QStringLiteral("log4j.logger.MissingLayout"),
+    mProperties.setProperty(QStringLiteral("QExt.logger.MissingLayout"),
                             QStringLiteral("INHERITED, A"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A"),
-                            QStringLiteral("org.apache.log4j.QExtLogConsoleAppender"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A"),
+                            QStringLiteral("org.QExt.LogConsoleAppender"));
     QVERIFY(!QExtLogPropertyConfigurator::configure(mProperties));
     QCOMPARE(QExtLogConfiguratorHelper::configureError().count(), 1);
     QCOMPARE(loggingEvents()->list().count(), 1);
@@ -1676,12 +1676,12 @@ void Log4QtTest::propertyConfigurator_unknown_layout_class()
     mDefaultProperties.clear();
     mProperties.clear();
 
-    mProperties.setProperty(QStringLiteral("log4j.logger.UnknownLayout"),
+    mProperties.setProperty(QStringLiteral("QExt.logger.UnknownLayout"),
                             QStringLiteral("INHERITED, A"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A"),
-                            QStringLiteral("org.apache.log4j.QExtLogConsoleAppender"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A.layout"),
-                            QStringLiteral("org.apache.log4j.UnknownLayout"));
+    mProperties.setProperty(QStringLiteral("QExt.appender.A"),
+                            QStringLiteral("org.QExt.LogConsoleAppender"));
+    mProperties.setProperty(QStringLiteral("QExt.appender.A.layout"),
+                            QStringLiteral("org.QExt.LogUnknownLayout"));
     QVERIFY(!QExtLogPropertyConfigurator::configure(mProperties));
     QCOMPARE(QExtLogConfiguratorHelper::configureError().count(), 1);
     QCOMPARE(loggingEvents()->list().count(), 2); // Warning from QExtLogFactory, Error QExtLogPropertyConfigurator
@@ -1700,7 +1700,7 @@ void Log4QtTest::propertyConfigurator_reset()
     //   error and leave the appender
     // - If the reset flag is set, configure must remove the appender
 
-    const QLatin1String key_reset("log4j.reset");
+    const QLatin1String key_reset("QExtLogging.reset");
     test_logger()->addAppender(new QExtLogListAppender);
     mProperties.setProperty(key_reset,
                             QStringLiteral("false"));
@@ -1740,7 +1740,7 @@ void Log4QtTest::propertyConfigurator_debug()
     // - If debug is set to the level TRACE, configure must set the log logger
     //   level to TRACE
 
-    const QLatin1String key_debug("log4j.Debug");
+    const QLatin1String key_debug("QExtLogging.Debug");
     QExtLogger *p_logger = QExtLogManager::logLogger();
     p_logger->setLevel(QExtLogLevel::Info);
 
@@ -1780,7 +1780,7 @@ void Log4QtTest::propertyConfigurator_threshold()
     // - If the threshold is set to WARN, configure must set the repository
     //   threshold to WARN
 
-    const QLatin1String key_threshold("log4j.threshold");
+    const QLatin1String key_threshold("QExtLogging.Threshold");
     QExtLogManager::loggerRepository()->setThreshold(QExtLogLevel::Info);
 
     QVERIFY(QExtLogPropertyConfigurator::configure(mProperties));
@@ -1819,7 +1819,7 @@ void Log4QtTest::propertyConfigurator_handleQtMessages()
     // - If handle Qt messages is true, configure must set handle Qt messages
     //   to true
 
-    const QLatin1String key_handle_qt_messages("log4j.handleQtMessages");
+    const QLatin1String key_handle_qt_messages("QExtLogging.HandleQtMessages");
     QExtLogManager::setHandleQtMessages(true);
 
     QVERIFY(QExtLogPropertyConfigurator::configure(mProperties));
@@ -1861,37 +1861,37 @@ void Log4QtTest::propertyConfigurator_example()
     // - A2 QExtLogLayout: ContextPrinting uses default enabled. Use disabled instead.
     // - root: JavaDoc uses default level DEBUG. Use INFO instead.
     // - SECURITY: JavaDoc uses INHERIT. Use INHERITED instead
-    // - log4j.logger.class.of.the.day: JavaDoc uses INHERIT. Use INHERITED
+    // - QExtLogging.Logger.class.of.the.day: JavaDoc uses INHERIT. Use INHERITED
     //   instead
 
     // QExtLogAppender A1: QExtLogConsoleAppender with QExtLogPatternLayout
-    mProperties.setProperty(QStringLiteral("log4j.appender.A1"),
-                            QStringLiteral("org.apache.log4j.QExtLogConsoleAppender"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A1.Target"), QStringLiteral("System.Out"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A1.layout"),
-                            QStringLiteral("org.apache.log4j.QExtLogPatternLayout"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A1.layout.ConversionPattern"),
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A1"),
+                            QStringLiteral("org.QExt.LogConsoleAppender"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A1.Target"), QStringLiteral("System.Out"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A1.Layout"),
+                            QStringLiteral("org.QExt.LogPatternLayout"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A1.layout.ConversionPattern"),
                             QStringLiteral("%-4r %-5p %c{2} %M.%L %x - %m\n"));
     // QExtLogAppender A2: QExtLogRollingFileAppender with QExtLogTTCCLayout
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2"),
-                            QStringLiteral("org.apache.log4j.QExtLogRollingFileAppender"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2.File"), file);
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2.MaxFileSize"), QStringLiteral("13MB"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2.MaxBackupIndex"), QStringLiteral("7"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2.layout"),
-                            QStringLiteral("org.apache.log4j.QExtLogTTCCLayout"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2.layout.ContextPrinting"),
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2"),
+                            QStringLiteral("org.QExt.LogRollingFileAppender"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2.File"), file);
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2.MaxFileSize"), QStringLiteral("13MB"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2.MaxBackupIndex"), QStringLiteral("7"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2.Layout"),
+                            QStringLiteral("org.QExt.LogTTCCLayout"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2.Layout.ContextPrinting"),
                             QStringLiteral("disabled"));
-    mProperties.setProperty(QStringLiteral("log4j.appender.A2.layout.DateFormat"), QStringLiteral("ISO8601"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Appender.A2.Layout.DateFormat"), QStringLiteral("ISO8601"));
     // Root QExtLogger: Uses A2
-    mProperties.setProperty(QStringLiteral("log4j.rootLogger"), QStringLiteral("INFO, A2"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.RootLogger"), QStringLiteral("INFO, A2"));
     // QExtLogger SECURITY: Uses A1
-    mProperties.setProperty(QStringLiteral("log4j.logger.SECURITY"), QStringLiteral("INHERITED, A1"));
-    mProperties.setProperty(QStringLiteral("log4j.additivity.SECURITY"), QStringLiteral("false"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Logger.SECURITY"), QStringLiteral("INHERITED, A1"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Additivity.SECURITY"), QStringLiteral("false"));
     // QExtLogger SECURITY.access:
-    mProperties.setProperty(QStringLiteral("log4j.logger.SECURITY.access"), QStringLiteral("WARN"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Logger.SECURITY.access"), QStringLiteral("WARN"));
     // QExtLogger class.of.the.day:
-    mProperties.setProperty(QStringLiteral("log4j.logger.class.of.the.day"), QStringLiteral("INHERITED"));
+    mProperties.setProperty(QStringLiteral("QExtLogging.Logger.Class.Of.The.Day"), QStringLiteral("INHERITED"));
 
     // No warnings, no errors expected
     QVERIFY(QExtLogPropertyConfigurator::configure(mProperties));
@@ -1904,13 +1904,13 @@ void Log4QtTest::propertyConfigurator_example()
     QCOMPARE(p_logger->appenders().count(), 1);
     auto *p_a2 =
         qobject_cast<QExtLogRollingFileAppender *>(p_logger->appenders().at(0).data());
-    QVERIFY(p_a2 != nullptr);
+    QVERIFY(p_a2 != QEXT_NULLPTR);
     QCOMPARE(p_a2->file(), file);
     QCOMPARE(p_a2->maximumFileSize(), Q_INT64_C(13 * 1024 * 1024));
     QCOMPARE(p_a2->maxBackupIndex(), 7);
     auto *p_a2layout =
         qobject_cast<QExtLogTTCCLayout *>(p_a2->layout().data());
-    QVERIFY(p_a2layout != nullptr);
+    QVERIFY(p_a2layout != QEXT_NULLPTR);
     QCOMPARE(p_a2layout->contextPrinting(), false);
     QCOMPARE(p_a2layout->dateFormat(), QString::fromLatin1("ISO8601"));
 
@@ -1921,11 +1921,11 @@ void Log4QtTest::propertyConfigurator_example()
     QCOMPARE(p_logger->appenders().count(), 1);
     auto *p_a1 =
         qobject_cast<QExtLogConsoleAppender *>(p_logger->appenders().at(0).data());
-    QVERIFY(p_a1 != nullptr);
+    QVERIFY(p_a1 != QEXT_NULLPTR);
     QCOMPARE(p_a1->target(), QString::fromLatin1("STDOUT_TARGET"));
     auto *p_a1layout =
         qobject_cast<QExtLogPatternLayout *>(p_a1->layout().data());
-    QVERIFY(p_a1layout != nullptr);
+    QVERIFY(p_a1layout != QEXT_NULLPTR);
     QCOMPARE(p_a1layout->conversionPattern(), QString::fromLatin1("%-4r %-5p %c{2} %M.%L %x - %m\n"));
 
     // QExtLogger SECURITY::access
@@ -1957,7 +1957,7 @@ void Log4QtTest::rollingFileAppender()
     int i;
     for (i = 0; i < 10; i++)
         appender.doAppend(QExtLoggingEvent(test_logger(), QExtLogLevel::Debug,
-                                       QStringLiteral("Message %1").arg(i)));
+                                           QStringLiteral("Message %1").arg(i)));
 
     // No warnings or errors expected
     QCOMPARE(loggingEvents()->list().count(), 0);
@@ -2080,7 +2080,7 @@ bool Log4QtTest::compareStringLists(const QStringList &actual,
         if (actual.at(i) != expected.at(i))
         {
             result = tab + entry + " " + QString::number(i + 1)
-                      + " is not the same" + eol;
+            + " is not the same" + eol;
             result += content;
             return false;
         }
@@ -2100,8 +2100,8 @@ bool Log4QtTest::deleteDirectoryTree(const QString &name)
     {
         QDir d(name);
         const QStringList members = d.entryList(QDir::Dirs | QDir::Files
-                                          | QDir::NoDotAndDotDot | QDir::NoSymLinks
-                                          | QDir::Hidden, QDir::Name | QDir::DirsFirst);
+                                                    | QDir::NoDotAndDotDot | QDir::NoSymLinks
+                                                    | QDir::Hidden, QDir::Name | QDir::DirsFirst);
         for (const auto &member : members)
             if (!deleteDirectoryTree(name + '/' + member))
                 return false;
@@ -2133,7 +2133,7 @@ bool Log4QtTest::validateDirContents(const QString &name,
     }
 
     QStringList actual = dir.entryList(QDir::Dirs | QDir::Files
-                                       | QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Hidden,
+                                           | QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Hidden,
                                        QDir::Name | QDir::DirsFirst);
     if (!compareStringLists(actual, expected, QStringLiteral("Entry"), QStringLiteral("Entries"), result))
     {

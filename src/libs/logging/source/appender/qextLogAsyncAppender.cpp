@@ -36,8 +36,8 @@
 #endif
 
 QExtLogAsyncAppender::QExtLogAsyncAppender(QObject *parent) : QExtLogAppenderSkeleton(parent)
-    , mThread(nullptr)
-    , mDispatcher(nullptr)
+    , mThread(QEXT_NULLPTR)
+    , mDispatcher(QEXT_NULLPTR)
 {
 }
 
@@ -53,8 +53,10 @@ bool QExtLogAsyncAppender::requiresLayout() const
 
 void QExtLogAsyncAppender::activateOptions()
 {
-    if (mThread != nullptr)
+    if (mThread != QEXT_NULLPTR)
+    {
         return;
+    }
 
     mThread = new QThread();
     mDispatcher = new QExtLogDispatcher();
@@ -75,17 +77,19 @@ void QExtLogAsyncAppender::closeInternal()
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
-        return;
-
-    if (mThread != nullptr)
     {
-        mDispatcher->setAsyncAppender(nullptr);
+        return;
+    }
+
+    if (mThread != QEXT_NULLPTR)
+    {
+        mDispatcher->setAsyncAppender(QEXT_NULLPTR);
         mThread->quit();
         mThread->wait();
         delete mThread;
-        mThread = nullptr;
+        mThread = QEXT_NULLPTR;
         delete mDispatcher;
-        mDispatcher = nullptr;
+        mDispatcher = QEXT_NULLPTR;
     }
 }
 
@@ -99,7 +103,9 @@ void QExtLogAsyncAppender::callAppenders(const QExtLoggingEvent &event) const
 #else
     for (auto &&pAppender : qAsConst(mAppenders))
 #endif
+    {
         pAppender->doAppend(event);
+    }
 }
 
 void QExtLogAsyncAppender::append(const QExtLoggingEvent &event)
@@ -110,11 +116,10 @@ void QExtLogAsyncAppender::append(const QExtLoggingEvent &event)
 
 bool QExtLogAsyncAppender::checkEntryConditions() const
 {
-    if ((mThread != nullptr) && !mThread->isRunning())
+    if ((mThread != QEXT_NULLPTR) && !mThread->isRunning())
     {
-        QExtLogError e =
-            QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a running dispatcher thread"),
-                                QExtLogError::Error_AppenderAsyncDispatcherNotRunning);
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a running dispatcher thread"),
+                                               QExtLogError::Error_AppenderAsyncDispatcherNotRunning);
         e << name();
         logger()->error(e);
         return false;
@@ -123,4 +128,3 @@ bool QExtLogAsyncAppender::checkEntryConditions() const
     return QExtLogAppenderSkeleton::checkEntryConditions();
 }
 
-// #include "moc_asyncappender.cpp"

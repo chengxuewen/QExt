@@ -27,7 +27,7 @@
 #include <qextLogClassLogger.h>
 
 QExtClassLogger::QExtClassLogger() :
-    mLogger(nullptr)
+    mLogger(QEXT_NULLPTR)
 {
 }
 
@@ -35,7 +35,9 @@ QExtLogger *QExtClassLogger::logger(const QObject *object)
 {
     Q_ASSERT_X(object, "QExtClassLogger::logger()", "pObject must not be null");
     if (!static_cast<QExtLogger *>(mLogger.loadAcquire()))
-        mLogger.testAndSetOrdered(nullptr,
-                                   QExtLogManager::logger(QLatin1String(object->metaObject()->className())));
+    {
+        mLogger.testAndSetOrdered(QEXT_NULLPTR,
+                                  QExtLogManager::logger(QLatin1String(object->metaObject()->className())));
+    }
     return const_cast<QExtLogger *>(static_cast<QExtLogger *>(mLogger.loadAcquire()));
 }

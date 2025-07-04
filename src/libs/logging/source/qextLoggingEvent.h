@@ -39,7 +39,7 @@ class QExtLogger;
 struct QExtLogMessageContext
 {
     explicit QExtLogMessageContext()
-        : file(nullptr), line(-1), function(nullptr) {}
+        : file(QEXT_NULLPTR), line(-1), function(QEXT_NULLPTR) {}
     explicit QExtLogMessageContext(const char *fileName, int lineNumber, const char *functionName)
         : file(fileName), line(lineNumber), function(functionName) {}
 
@@ -60,6 +60,7 @@ class QEXT_LOGGING_API QExtLoggingEvent : public QEvent
 {
 public:
     static const QEvent::Type eventId;
+
     QExtLoggingEvent();
     virtual ~QExtLoggingEvent();
 

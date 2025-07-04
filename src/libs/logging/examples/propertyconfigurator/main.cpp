@@ -30,6 +30,7 @@
 #include <QScopedPointer>
 #include <QStringBuilder>
 #include <QString>
+#include <QDebug>
 #include <QFile>
 
 static void initializeRootLogger();
@@ -99,6 +100,7 @@ void setupRootLogger(const QString &introMessage)
 {
 
     QString configFile = QCoreApplication::applicationDirPath() + "/" + PROPERTIES_FILE_NAME;
+    qDebug() << "configFile=" << configFile;
     if (QFile::exists(configFile))
         QExtLogPropertyConfigurator::configureAndWatch(configFile);
     if (!introMessage.isEmpty())

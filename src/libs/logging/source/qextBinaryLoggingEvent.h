@@ -33,19 +33,19 @@ class QEXT_LOGGING_API QExtBinaryLoggingEvent : public QExtLoggingEvent
 public:
     QExtBinaryLoggingEvent();
     QExtBinaryLoggingEvent(const QExtLogger *logger,
-                       QExtLogLevel level,
-                       const QByteArray &message);
+                           QExtLogLevel level,
+                           const QByteArray &message);
     QExtBinaryLoggingEvent(const QExtLogger *logger,
-                       QExtLogLevel level,
-                       const QByteArray &message,
-                       qint64 timeStamp);
+                           QExtLogLevel level,
+                           const QByteArray &message,
+                           qint64 timeStamp);
     QExtBinaryLoggingEvent(const QExtLogger *logger,
-                       QExtLogLevel level,
-                       const QByteArray &message,
-                       const QString &ndc,
-                       const QHash<QString, QString> &properties,
-                       const QString &threadName,
-                       qint64 timeStamp);
+                           QExtLogLevel level,
+                           const QByteArray &message,
+                           const QString &ndc,
+                           const QHash<QString, QString> &properties,
+                           const QString &threadName,
+                           qint64 timeStamp);
     QByteArray binaryMessage() const;
 
     QString toString() const;

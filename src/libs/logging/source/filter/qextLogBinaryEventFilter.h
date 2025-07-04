@@ -33,7 +33,7 @@ class QEXT_LOGGING_API QExtLogBinaryEventFilter : public QExtLogFilter
     Q_OBJECT
     Q_PROPERTY(bool acceptBinaryEvents READ acceptBinaryEvents WRITE setAcceptBinaryEvents)
 public:
-    explicit QExtLogBinaryEventFilter(QObject *parent = nullptr);
+    explicit QExtLogBinaryEventFilter(QObject *parent = QEXT_NULLPTR);
 
     bool acceptBinaryEvents() const;
     void setAcceptBinaryEvents(bool accept);

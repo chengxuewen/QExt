@@ -44,7 +44,7 @@ class QEXT_LOGGING_API QExtLogMainThreadAppender : public QExtLogAppenderSkeleto
     Q_OBJECT
 
 public:
-    QExtLogMainThreadAppender(QObject *parent = nullptr);
+    QExtLogMainThreadAppender(QObject *parent = QEXT_NULLPTR);
 
     bool requiresLayout() const override;
 

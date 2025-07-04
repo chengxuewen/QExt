@@ -44,7 +44,7 @@
 QEXT_DECLARE_STATIC_LOGGER(staticLogger, QExtLogPropertyConfigurator)
 
 bool QExtLogPropertyConfigurator::doConfigure(const QExtLogProperties &properties,
-                                       QExtLoggerRepository *loggerRepository)
+                                              QExtLoggerRepository *loggerRepository)
 {
     startCaptureErrors();
     configureFromProperties(properties, loggerRepository);
@@ -53,7 +53,7 @@ bool QExtLogPropertyConfigurator::doConfigure(const QExtLogProperties &propertie
 
 
 bool QExtLogPropertyConfigurator::doConfigure(const QString &configFileName,
-                                       QExtLoggerRepository *loggerRepository)
+                                              QExtLoggerRepository *loggerRepository)
 {
     startCaptureErrors();
     configureFromFile(configFileName, loggerRepository);
@@ -62,7 +62,7 @@ bool QExtLogPropertyConfigurator::doConfigure(const QString &configFileName,
 
 
 bool QExtLogPropertyConfigurator::doConfigure(const QSettings &settings,
-                                       QExtLoggerRepository *loggerRepository)
+                                              QExtLoggerRepository *loggerRepository)
 {
     startCaptureErrors();
     configureFromSettings(settings, loggerRepository);
@@ -106,14 +106,14 @@ bool QExtLogPropertyConfigurator::configureAndWatch(const QString &configFilenam
 
 
 void QExtLogPropertyConfigurator::configureFromFile(const QString &configFileName,
-        QExtLoggerRepository *loggerRepository)
+                                                    QExtLoggerRepository *loggerRepository)
 {
     QFile file(configFileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Unable to open property file '%1'"),
-                                  QExtLogError::Error_ConfiguratorOpenFileFailed,
-                                  "QExtLogPropertyConfigurator");
+                                        QExtLogError::Error_ConfiguratorOpenFileFailed,
+                                        "QExtLogPropertyConfigurator");
         e << configFileName;
         e.addCausingError(QExtLogError(file.errorString(), file.error()));
         staticLogger()->error(e);
@@ -124,8 +124,8 @@ void QExtLogPropertyConfigurator::configureFromFile(const QString &configFileNam
     if (file.error())
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Unable to read property file '%1'"),
-                                  QExtLogError::Error_ConfiguratorReadFileFailed,
-                                  "QExtLogPropertyConfigurator");
+                                        QExtLogError::Error_ConfiguratorReadFileFailed,
+                                        "QExtLogPropertyConfigurator");
         e << configFileName;
         e.addCausingError(QExtLogError(file.errorString(), file.error()));
         staticLogger()->error(e);
@@ -136,10 +136,12 @@ void QExtLogPropertyConfigurator::configureFromFile(const QString &configFileNam
 
 
 void QExtLogPropertyConfigurator::configureFromProperties(const QExtLogProperties &properties,
-        QExtLoggerRepository *loggerRepository)
+                                                          QExtLoggerRepository *loggerRepository)
 {
     if (!loggerRepository)
+    {
         loggerRepository = QExtLogManager::loggerRepository();
+    }
 
     configureGlobalSettings(properties, loggerRepository);
     configureRootLogger(properties, loggerRepository);
@@ -149,7 +151,7 @@ void QExtLogPropertyConfigurator::configureFromProperties(const QExtLogPropertie
 
 
 void QExtLogPropertyConfigurator::configureFromSettings(const QSettings &settings,
-        QExtLoggerRepository *loggerRepository)
+                                                        QExtLoggerRepository *loggerRepository)
 {
     QExtLogProperties properties;
     properties.load(settings);
@@ -158,24 +160,25 @@ void QExtLogPropertyConfigurator::configureFromSettings(const QSettings &setting
 
 
 void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogProperties &properties,
-        QExtLoggerRepository *loggerRepository) const
+                                                          QExtLoggerRepository *loggerRepository) const
 {
-    Q_ASSERT_X(loggerRepository, "QExtLogPropertyConfigurator::configureGlobalSettings()", "loggerRepository must not be null.");
+    Q_ASSERT_X(loggerRepository, "QExtLogPropertyConfigurator::configureGlobalSettings()",
+               "loggerRepository must not be null.");
 
-    const QLatin1String key_reset("log4j.reset");
-    const QLatin1String key_debug("log4j.Debug");
-    const QLatin1String key_config_debug("log4j.configDebug");
-    const QLatin1String key_threshold("log4j.threshold");
-    const QLatin1String key_handle_qt_messages("log4j.handleQtMessages");
-    const QLatin1String key_watch_this_file("log4j.watchThisFile");
-    const QLatin1String key_filterRules("log4j.qtLogging.filterRules");
-    const QLatin1String key_messagePattern("log4j.qtLogging.messagePattern");
+    const QLatin1String key_reset("QExtLogging.Reset");
+    const QLatin1String key_debug("QExtLogging.Debug");
+    const QLatin1String key_config_debug("QExtLogging.ConfigDebug");
+    const QLatin1String key_threshold("QExtLogging.Threshold");
+    const QLatin1String key_handle_qt_messages("QExtLogging.HandleQtMessages");
+    const QLatin1String key_watch_this_file("QExtLogging.WatchThisFile");
+    const QLatin1String key_filterRules("QExtLogging.QtLogging.FilterRules");
+    const QLatin1String key_messagePattern("QExtLogging.QtLogging.MessagePattern");
 
     // Test each global setting and set it
-    // - Reset: log4j.reset
-    // - Debug: log4j.Debug, log4j.configDebug
-    // - Threshold: log4j.threshold
-    // - Handle Qt Messages: log4j.handleQtMessages
+    // - Reset: QExtLogging.Reset
+    // - Debug: QExtLogging.Debug, QExtLogging.ConfigDebug
+    // - Threshold: QExtLogging.Threshold
+    // - Handle Qt Messages: QExtLogging.HandleQtMessages
     // - Watch the properties file
     // - filterRules: QLoggingCategory::setFilterRules
     // - messagePattern: qSetMessagePattern
@@ -196,7 +199,9 @@ void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogPropertie
     {
         value = properties.property(key_config_debug);
         if (!value.isNull())
+        {
             staticLogger()->warn(QStringLiteral("[%1] is deprecated. Use [%2] instead."), key_config_debug, key_debug);
+        }
     }
     if (!value.isNull())
     {
@@ -204,10 +209,12 @@ void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogPropertie
         bool ok;
         QExtLogLevel level = QExtLogLevel::fromString(value, &ok);
         if (!ok)
+        {
             level = QExtLogLevel::Debug;
+        }
         QExtLogManager::logLogger()->setLevel(level);
         staticLogger()->debug(QStringLiteral("Set level for Log4Qt logging to %1"),
-                        QExtLogManager::logLogger()->level().toString());
+                              QExtLogManager::logLogger()->level().toString());
     }
 
     // Threshold
@@ -216,7 +223,7 @@ void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogPropertie
     {
         loggerRepository->setThreshold(QExtLogOptionConverter::toLevel(value, QExtLogLevel::All));
         staticLogger()->debug(QStringLiteral("Set threshold for QExtLoggerRepository to %1"),
-                        loggerRepository->threshold().toString());
+                              loggerRepository->threshold().toString());
     }
 
     // Handle Qt messages
@@ -225,7 +232,7 @@ void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogPropertie
     {
         QExtLogManager::setHandleQtMessages(QExtLogOptionConverter::toBoolean(value, false));
         staticLogger()->debug(QStringLiteral("Set handling of Qt messages QExtLoggerRepository to %1"),
-                        QVariant(QExtLogManager::handleQtMessages()).toString());
+                              QVariant(QExtLogManager::handleQtMessages()).toString());
     }
 
     // Watch this file
@@ -234,7 +241,7 @@ void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogPropertie
     {
         QExtLogManager::setWatchThisFile(QExtLogOptionConverter::toBoolean(value, false));
         staticLogger()->debug(QStringLiteral("Set watching the properties file to %1"),
-                        QVariant(QExtLogManager::watchThisFile()).toString());
+                              QVariant(QExtLogManager::watchThisFile()).toString());
     }
 
     value = properties.property(key_filterRules);
@@ -255,12 +262,12 @@ void QExtLogPropertyConfigurator::configureGlobalSettings(const QExtLogPropertie
 
 
 void QExtLogPropertyConfigurator::configureNonRootElements(const QExtLogProperties &properties,
-        QExtLoggerRepository *loggerRepository)
+                                                           QExtLoggerRepository *loggerRepository)
 {
     Q_ASSERT_X(loggerRepository, "QExtLogPropertyConfigurator::configureNonRootElements()", "loggerRepository must not be null.");
 
-    const QString logger_prefix = QStringLiteral("log4j.logger.");
-    const QString category_prefix = QStringLiteral("log4j.category.");
+    const QString logger_prefix = QStringLiteral("QExtLogging.Logger.");
+    const QString category_prefix = QStringLiteral("QExtLogging.Category.");
 
     // Iterate through all entries:
     // - Test for the logger/category prefix
@@ -278,9 +285,13 @@ void QExtLogPropertyConfigurator::configureNonRootElements(const QExtLogProperti
     {
         QString java_name;
         if (key.startsWith(logger_prefix))
+        {
             java_name = key.mid(logger_prefix.length());
+        }
         else if (key.startsWith(category_prefix))
+        {
             java_name = key.mid(category_prefix.length());
+        }
         QString cpp_name = QExtLogOptionConverter::classNameJavaToCpp(java_name);
         if (!java_name.isEmpty())
         {
@@ -294,12 +305,13 @@ void QExtLogPropertyConfigurator::configureNonRootElements(const QExtLogProperti
 
 
 void QExtLogPropertyConfigurator::configureRootLogger(const QExtLogProperties &properties,
-        QExtLoggerRepository *loggerRepository)
+                                                      QExtLoggerRepository *loggerRepository)
 {
-    Q_ASSERT_X(loggerRepository, "QExtLogPropertyConfigurator::configureRootLogger()", "loggerRepository must not be null.");
+    Q_ASSERT_X(loggerRepository, "QExtLogPropertyConfigurator::configureRootLogger()",
+               "loggerRepository must not be null.");
 
-    const QLatin1String key_root_logger("log4j.rootLogger");
-    const QLatin1String key_root_category("log4j.rootCategory");
+    const QLatin1String key_root_logger("QExtLogging.RootLogger");
+    const QLatin1String key_root_category("QExtLogging.RootCategory");
 
     // - Test for the logger/category prefix
     // - Parse logger data for root logger
@@ -311,23 +323,30 @@ void QExtLogPropertyConfigurator::configureRootLogger(const QExtLogProperties &p
         key = key_root_category;
         value = QExtLogOptionConverter::findAndSubst(properties, key);
         if (!value.isNull())
-            staticLogger()->warn(QStringLiteral("[%1] is deprecated. Use [%2] instead."), key_root_category, key_root_logger);
+        {
+            staticLogger()->warn(QStringLiteral("[%1] is deprecated. Use [%2] instead."),
+                                 key_root_category, key_root_logger);
+        }
     }
 
     if (value.isNull())
+    {
         staticLogger()->debug(QStringLiteral("Could not find root logger information. Is this correct?"));
+    }
     else
+    {
         parseLogger(properties, loggerRepository->rootLogger(), key, value);
+    }
 }
 
 
 void QExtLogPropertyConfigurator::parseAdditivityForLogger(const QExtLogProperties &properties,
-        QExtLogger *logger,
-        const QString &log4jName) const
+                                                           QExtLogger *logger,
+                                                           const QString &log4jName) const
 {
     Q_ASSERT_X(logger, "parseAdditivityForLogger()", "pLogger must not be null.");
 
-    const QLatin1String additivity_prefix("log4j.additivity.");
+    const QLatin1String additivity_prefix("QExtLogging.Additivity.");
 
     // - Lookup additivity key for logger
     // - Set additivity, if specified
@@ -345,7 +364,7 @@ void QExtLogPropertyConfigurator::parseAdditivityForLogger(const QExtLogProperti
 
 
 QExtLogAppenderSharedPtr QExtLogPropertyConfigurator::parseAppender(const QExtLogProperties &properties,
-        const QString &name)
+                                                                    const QString &name)
 {
     // - Test if appender has been parsed before
     // - Find appender key
@@ -355,7 +374,7 @@ QExtLogAppenderSharedPtr QExtLogPropertyConfigurator::parseAppender(const QExtLo
     // - Activate options
     // - Add appender to registry
 
-    const QLatin1String appender_prefix("log4j.appender.");
+    const QLatin1String appender_prefix("QExtLogging.Appender.");
 
     staticLogger()->debug(QStringLiteral("Parsing appender named '%1'"), name);
 
@@ -370,21 +389,21 @@ QExtLogAppenderSharedPtr QExtLogPropertyConfigurator::parseAppender(const QExtLo
     if (value.isNull())
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Missing appender definition for appender named '%1'"),
-                                  QExtLogError::Error_ConfiguratorMissingAppender,
-                                  "QExtLogPropertyConfigurator");
+                                        QExtLogError::Error_ConfiguratorMissingAppender,
+                                        "QExtLogPropertyConfigurator");
         e << name;
         staticLogger()->error(e);
-        return nullptr;
+        return QEXT_NULLPTR;
     }
     QExtLogAppenderSharedPtr p_appender(QExtLogFactory::createAppender(value));
     if (!p_appender)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Unable to create appender of class '%1' named '%2'"),
-                                  QExtLogError::Error_ConfiguratorUnknownAppenderClass,
-                                  "QExtLogPropertyConfigurator");
+                                        QExtLogError::Error_ConfiguratorUnknownAppenderClass,
+                                        "QExtLogPropertyConfigurator");
         e << value << name;
         staticLogger()->error(e);
-        return nullptr;
+        return QEXT_NULLPTR;
     }
     p_appender->setName(name);
 
@@ -392,9 +411,13 @@ QExtLogAppenderSharedPtr QExtLogPropertyConfigurator::parseAppender(const QExtLo
     {
         QExtLogLayoutSharedPtr p_layout = parseLayout(properties, key);
         if (p_layout)
+        {
             p_appender->setLayout(p_layout);
+        }
         else
-            return nullptr;
+        {
+            return QEXT_NULLPTR;
+        }
     }
 
     QStringList exclusions;
@@ -402,7 +425,9 @@ QExtLogAppenderSharedPtr QExtLogPropertyConfigurator::parseAppender(const QExtLo
     setProperties(properties, key + QStringLiteral("."), exclusions, p_appender.data());
     auto *p_appenderskeleton = qobject_cast<QExtLogAppenderSkeleton *>(p_appender.data());
     if (p_appenderskeleton)
+    {
         p_appenderskeleton->activateOptions();
+    }
 
     mAppenderRegistry.insert(name, p_appender);
     return p_appender;
@@ -410,7 +435,7 @@ QExtLogAppenderSharedPtr QExtLogPropertyConfigurator::parseAppender(const QExtLo
 
 
 QExtLogLayoutSharedPtr QExtLogPropertyConfigurator::parseLayout(const QExtLogProperties &properties,
-        const QString &appendename)
+                                                                const QString &appendename)
 {
     Q_ASSERT_X(!appendename.isEmpty(), "QExtLogPropertyConfigurator::parseLayout()", "rAppenderKey must not be empty.");
 
@@ -429,8 +454,8 @@ QExtLogLayoutSharedPtr QExtLogPropertyConfigurator::parseLayout(const QExtLogPro
     if (value.isNull())
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Missing layout definition for appender '%1'"),
-                                  QExtLogError::Error_ConfiguratorMissingLayout,
-                                  "QExtLogPropertyConfigurator");
+                                        QExtLogError::Error_ConfiguratorMissingLayout,
+                                        "QExtLogPropertyConfigurator");
         e << appendename;
         staticLogger()->error(e);
         return p_layout;
@@ -439,8 +464,8 @@ QExtLogLayoutSharedPtr QExtLogPropertyConfigurator::parseLayout(const QExtLogPro
     if (!p_layout)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Unable to create layoput of class '%1' requested by appender '%2'"),
-                                  QExtLogError::Error_ConfiguratorUnknownLayoutClass,
-                                  "QExtLogPropertyConfigurator");
+                                        QExtLogError::Error_ConfiguratorUnknownLayoutClass,
+                                        "QExtLogPropertyConfigurator");
         e << value << appendename;
         staticLogger()->error(e);
         return p_layout;
@@ -454,9 +479,9 @@ QExtLogLayoutSharedPtr QExtLogPropertyConfigurator::parseLayout(const QExtLogPro
 
 
 void QExtLogPropertyConfigurator::parseLogger(const QExtLogProperties &properties,
-                                       QExtLogger *logger,
-                                       const QString &key,
-                                       const QString &value)
+                                              QExtLogger *logger,
+                                              const QString &key,
+                                              const QString &value)
 {
     Q_ASSERT_X(logger, "QExtLogPropertyConfigurator::parseLogger()", "pLogger must not be null.");
     Q_ASSERT_X(!key.isEmpty(), "QExtLogPropertyConfigurator::parseLogger()", "rKey must not be empty.");
@@ -482,16 +507,22 @@ void QExtLogPropertyConfigurator::parseLogger(const QExtLogProperties &propertie
     {
         QExtLogLevel level;
         if (sValue.compare(keyword_inherited, Qt::CaseInsensitive) == 0)
+        {
             level = QExtLogLevel::Null;
+        }
         else
+        {
             level = QExtLogOptionConverter::toLevel(sValue, QExtLogLevel::Debug);
+        }
         if (level == QExtLogLevel::Null && logger->name() == QString())
+        {
             staticLogger()->warn(QStringLiteral("The root logger level cannot be set to NULL."));
+        }
         else
         {
             logger->setLevel(level);
             staticLogger()->debug(QStringLiteral("Set level for logger '%1' to '%2'"),
-                            logger->name(), logger->level().toString());
+                                  logger->name(), logger->level().toString());
         }
     }
 
@@ -500,18 +531,22 @@ void QExtLogPropertyConfigurator::parseLogger(const QExtLogProperties &propertie
     {
         sValue = i.next().trimmed();
         if (sValue.isEmpty())
+        {
             continue;
+        }
         QExtLogAppenderSharedPtr appander = parseAppender(properties, sValue);
         if (appander)
+        {
             logger->addAppender(appander);
+        }
     }
 }
 
 
 void QExtLogPropertyConfigurator::setProperties(const QExtLogProperties &properties,
-        const QString &prefix,
-        const QStringList &exclusion,
-        QObject *object)
+                                                const QString &prefix,
+                                                const QStringList &exclusion,
+                                                QObject *object)
 {
     Q_ASSERT_X(!prefix.isEmpty(), "QExtLogPropertyConfigurator::setProperties()", "rPrefix must not be empty.");
     Q_ASSERT_X(object, "QExtLogPropertyConfigurator::setProperties()", "pObject must not be null.");
@@ -523,8 +558,8 @@ void QExtLogPropertyConfigurator::setProperties(const QExtLogProperties &propert
     // - Set property on object
 
     staticLogger()->debug(QStringLiteral("Setting properties for object of class '%1' from keys starting with '%2'"),
-                    QLatin1String(object->metaObject()->className()),
-                    prefix);
+                          QLatin1String(object->metaObject()->className()),
+                          prefix);
 
     QStringList keys = properties.propertyNames();
 
@@ -535,13 +570,19 @@ void QExtLogPropertyConfigurator::setProperties(const QExtLogProperties &propert
 #endif
     {
         if (!key.startsWith(prefix))
+        {
             continue;
+        }
         QString property = key.mid(prefix.length());
         if (property.isEmpty())
+        {
             continue;
+        }
         QStringList split_property = property.split(QLatin1Char('.'));
         if (exclusion.contains(split_property.at(0), Qt::CaseInsensitive))
+        {
             continue;
+        }
         QString value = QExtLogOptionConverter::findAndSubst(properties, key);
         QExtLogFactory::setObjectProperty(object, property, value);
     }

@@ -49,7 +49,7 @@ class QEXT_LOGGING_API QExtLogAsyncAppender : public QExtLogAppenderSkeleton, pu
     Q_OBJECT
 
 public:
-    QExtLogAsyncAppender(QObject *parent = nullptr);
+    QExtLogAsyncAppender(QObject *parent = QEXT_NULLPTR);
     ~QExtLogAsyncAppender() override;
 
     void close() override;

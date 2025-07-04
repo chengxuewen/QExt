@@ -53,18 +53,26 @@ QExtLogAppenderSharedPtr QExtLogAppenderAttachable::appender(const QString &name
 #else
     for (auto &&pAppender : qAsConst(mAppenders))
 #endif
+    {
         if (pAppender->name() == name)
+        {
             return pAppender;
+        }
+    }
     return QExtLogAppenderSharedPtr();
 }
 
 void QExtLogAppenderAttachable::addAppender(const QExtLogAppenderSharedPtr &appender)
 {
     if (appender.isNull())
+    {
         return;
+    }
     QWriteLocker locker(&mAppenderGuard);
     if (mAppenders.contains(appender))
+    {
         return;
+    }
     mAppenders.append(appender);
 }
 
@@ -82,7 +90,9 @@ void QExtLogAppenderAttachable::removeAllAppenders()
 void QExtLogAppenderAttachable::removeAppender(const QExtLogAppenderSharedPtr &appender)
 {
     if (appender.isNull())
+    {
         return;
+    }
     QWriteLocker locker(&mAppenderGuard);
     mAppenders.removeAll(appender);
 
@@ -92,5 +102,7 @@ void QExtLogAppenderAttachable::removeAppender(const QString &name)
 {
     QExtLogAppenderSharedPtr pAppender = appender(name);
     if (pAppender)
+    {
         removeAppender(pAppender);
+    }
 }

@@ -249,7 +249,7 @@ QExtLogFactory::QExtLogFactory()
     registerDefaultLayouts();
 }
 
-LOG4QT_IMPLEMENT_INSTANCE(QExtLogFactory)
+QEXT_IMPLEMENT_INSTANCE(QExtLogFactory)
 
 QExtLogAppender *QExtLogFactory::doCreateAppender(const QString &appenderClassName)
 {
@@ -257,8 +257,9 @@ QExtLogAppender *QExtLogFactory::doCreateAppender(const QString &appenderClassNa
 
     if (!mAppenderRegistry.contains(appenderClassName))
     {
-        logger()->warn(QStringLiteral("Request for the creation of QExtLogAppender with class '%1', which is not registered"), appenderClassName);
-        return nullptr;
+        logger()->warn(QStringLiteral("Request for the creation of QExtLogAppender with class '%1', "
+                                      "which is not registered"), appenderClassName);
+        return QEXT_NULLPTR;
     }
     return mAppenderRegistry.value(appenderClassName)();
 }
@@ -270,8 +271,9 @@ QExtLogFilter *QExtLogFactory::doCreateFilter(const QString &filterClassName)
 
     if (!mFilterRegistry.contains(filterClassName))
     {
-        logger()->warn(QStringLiteral("Request for the creation of QExtLogFilter with class '%1', which is not registered"), filterClassName);
-        return nullptr;
+        logger()->warn(QStringLiteral("Request for the creation of QExtLogFilter with class '%1', "
+                                      "which is not registered"), filterClassName);
+        return QEXT_NULLPTR;
     }
     return mFilterRegistry.value(filterClassName)();
 }
@@ -283,15 +285,16 @@ QExtLogLayout *QExtLogFactory::doCreateLayout(const QString &layoutClassName)
 
     if (!mLayoutRegistry.contains(layoutClassName))
     {
-        logger()->warn(QStringLiteral("Request for the creation of QExtLogLayout with class '%1', which is not registered"), layoutClassName);
-        return nullptr;
+        logger()->warn(QStringLiteral("Request for the creation of QExtLogLayout with class '%1', "
+                                      "which is not registered"), layoutClassName);
+        return QEXT_NULLPTR;
     }
     return mLayoutRegistry.value(layoutClassName)();
 }
 
 
 void QExtLogFactory::doRegisterAppender(const QString &appenderClassName,
-                                 AppenderFactoryFunc appenderFactoryFunc)
+                                        AppenderFactoryFunc appenderFactoryFunc)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -305,7 +308,7 @@ void QExtLogFactory::doRegisterAppender(const QString &appenderClassName,
 
 
 void QExtLogFactory::doRegisterFilter(const QString &filterClassName,
-                               FilterFactoryFunc filterFactoryFunc)
+                                      FilterFactoryFunc filterFactoryFunc)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -319,7 +322,7 @@ void QExtLogFactory::doRegisterFilter(const QString &filterClassName,
 
 
 void QExtLogFactory::doRegisterLayout(const QString &layoutClassName,
-                               LayoutFactoryFunc layoutFactoryFunc)
+                                      LayoutFactoryFunc layoutFactoryFunc)
 {
     QMutexLocker locker(&mObjectGuard);
 
@@ -333,8 +336,8 @@ void QExtLogFactory::doRegisterLayout(const QString &layoutClassName,
 
 
 void QExtLogFactory::doSetObjectProperty(QObject *object,
-                                  const QString &property,
-                                  const QString &value)
+                                         const QString &property,
+                                         const QString &value)
 {
     // - Validate property
     // - Get correct property name from meta object
@@ -345,7 +348,9 @@ void QExtLogFactory::doSetObjectProperty(QObject *object,
 
     QMetaProperty meta_property;
     if (!validateObjectProperty(meta_property, property, object))
+    {
         return;
+    }
 
     QString propertyString = QLatin1String(meta_property.name());
     QString type = QLatin1String(meta_property.typeName());
@@ -357,25 +362,37 @@ void QExtLogFactory::doSetObjectProperty(QObject *object,
     QVariant variant;
     bool ok = true;
     if (type == QStringLiteral("bool"))
+    {
         variant = QExtLogOptionConverter::toBoolean(value, &ok);
+    }
     else if (type == QStringLiteral("int"))
+    {
         variant = QExtLogOptionConverter::toInt(value, &ok);
+    }
     else if (type == QStringLiteral("QExtLogLevel"))
+    {
         variant = QVariant::fromValue(QExtLogOptionConverter::toLevel(value, &ok));
+    }
     else if (type == QStringLiteral("QString"))
+    {
         variant = value;
+    }
 #if QT_VERSION < 0x060000
     else if (type == QStringLiteral("QTextCodec*"))
+    {
         variant = QVariant::fromValue(QExtLogOptionConverter::toEncoding(value, &ok));
+    }
 #else
     else if (type == QStringLiteral("QStringConverter::Encoding"))
+    {
         variant = QVariant::fromValue(QExtLogOptionConverter::toEncoding(value, &ok));
+    }
 #endif
     else
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Cannot convert to type '%1' for property '%2' on object of class '%3'"),
-                                  QExtLogError::Error_ConfiguratorUnknownType,
-                                  "QExtLogFactory");
+                                        QExtLogError::Error_ConfiguratorUnknownType,
+                                        "QExtLogFactory");
         e << type
           << property
           << QString::fromLatin1(object->metaObject()->className());
@@ -383,12 +400,16 @@ void QExtLogFactory::doSetObjectProperty(QObject *object,
         return;
     }
     if (!ok)
+    {
         return;
+    }
 
     // Everything is checked and the type is the one of the property.
     // Write should never return false
     if (!meta_property.write(object, variant))
+    {
         logger()->warn(QStringLiteral("Unxpected error result from QMetaProperty.write()"));
+    }
 }
 
 
@@ -398,7 +419,8 @@ void QExtLogFactory::doUnregisterAppender(const QString &appenderClassName)
 
     if (!mAppenderRegistry.contains(appenderClassName))
     {
-        logger()->warn(QStringLiteral("Request to unregister not registered QExtLogAppender factory function for class '%1'"), appenderClassName);
+        logger()->warn(QStringLiteral("Request to unregister not registered QExtLogAppender factory "
+                                      "function for class '%1'"), appenderClassName);
         return;
     }
     mAppenderRegistry.remove(appenderClassName);
@@ -411,7 +433,8 @@ void QExtLogFactory::doUnregisterFilter(const QString &filterClassName)
 
     if (!mFilterRegistry.contains(filterClassName))
     {
-        logger()->warn(QStringLiteral("Request to unregister not registered QExtLogFilter factory function for class '%1'"), filterClassName);
+        logger()->warn(QStringLiteral("Request to unregister not registered QExtLogFilter factory "
+                                      "function for class '%1'"), filterClassName);
         return;
     }
     mFilterRegistry.remove(filterClassName);
@@ -424,7 +447,8 @@ void QExtLogFactory::doUnregisterLayout(const QString &layoutClassName)
 
     if (!mLayoutRegistry.contains(layoutClassName))
     {
-        logger()->warn(QStringLiteral("Request to unregister not registered QExtLogLayout factory function for class '%1'"), layoutClassName);
+        logger()->warn(QStringLiteral("Request to unregister not registered QExtLogLayout factory "
+                                      "function for class '%1'"), layoutClassName);
         return;
     }
     mLayoutRegistry.remove(layoutClassName);
@@ -433,107 +457,169 @@ void QExtLogFactory::doUnregisterLayout(const QString &layoutClassName)
 
 void QExtLogFactory::registerDefaultAppenders()
 {
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogConsoleAppender"), console_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogConsoleAppender"), console_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogDailyRollingFileAppender"), create_daily_rolling_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogDailyRollingFileAppender"), create_daily_rolling_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogDebugAppender"), create_debug_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogDebugAppender"), create_debug_appender);
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogFileAppender"), create_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogFileAppender"), create_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogListAppender"), create_list_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogListAppender"), create_list_appender);
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogNullAppender"), create_null_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogNullAppender"), create_null_appender);
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogRollingFileAppender"), create_rolling_file_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogRollingFileAppender"), create_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogConsoleAppender"),
+                             console_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogConsoleAppender"),
+                             console_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogDailyRollingFileAppender"),
+                             create_daily_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogDailyRollingFileAppender"),
+                             create_daily_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogDebugAppender"),
+                             create_debug_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogDebugAppender"),
+                             create_debug_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogFileAppender"),
+                             create_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogFileAppender"),
+                             create_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogListAppender"),
+                             create_list_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogListAppender"),
+                             create_list_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogNullAppender"),
+                             create_null_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogNullAppender"),
+                             create_null_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogRollingFileAppender"),
+                             create_rolling_file_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogRollingFileAppender"),
+                             create_rolling_file_appender);
 
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogSignalAppender"), create_signal_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogSignalAppender"), create_signal_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogSignalAppender"),
+                             create_signal_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogSignalAppender"),
+                             create_signal_appender);
 #ifdef Q_OS_WIN
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.ColorConsoleAppender"), create_color_console_appender);
-    mAppenderRegistry.insert(QStringLiteral("ColorConsoleAppender"), create_color_console_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogColorConsoleAppender"),
+                             create_color_console_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogColorConsoleAppender"),
+                             create_color_console_appender);
 #endif
 
 #if QEXT_FEATURE_USE_LOGGING_DATABASE
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogDatabaseAppender"), create_database_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogDatabaseAppender"), create_database_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogDatabaseAppender"),
+                             create_database_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogDatabaseAppender"),
+                             create_database_appender);
 #endif
 
 #if QEXT_FEATURE_USE_LOGGING_TELNET
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogTelnetAppender"), create_telnet_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogTelnetAppender"), create_telnet_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogTelnetAppender"),
+                             create_telnet_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogTelnetAppender"),
+                             create_telnet_appender);
 #endif
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogAsyncAppender"), create_async_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogAsyncAppender"), create_async_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogAsyncAppender"),
+                             create_async_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogAsyncAppender"),
+                             create_async_appender);
 
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogMainThreadAppender"), create_mainthread_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogMainThreadAppender"), create_mainthread_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogMainThreadAppender"),
+                             create_mainthread_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogMainThreadAppender"),
+                             create_mainthread_appender);
 
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogSystemLogAppender"), create_systemlog_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogSystemLogAppender"), create_systemlog_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogSystemLogAppender"),
+                             create_systemlog_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogSystemLogAppender"),
+                             create_systemlog_appender);
 
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogBinaryFileAppender"), create_binaryfile_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogBinaryFileAppender"), create_binaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogBinaryFileAppender"),
+                             create_binaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogBinaryFileAppender"),
+                             create_binaryfile_appender);
 
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogRollingBinaryFileAppender"), create_rollingbinaryfile_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogRollingBinaryFileAppender"), create_rollingbinaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogRollingBinaryFileAppender"),
+                             create_rollingbinaryfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogRollingBinaryFileAppender"),
+                             create_rollingbinaryfile_appender);
 
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogDailyFileAppender"), create_dailyrollingfile_appender);
-    mAppenderRegistry.insert(QStringLiteral("QExtLogDailyFileAppender"), create_dailyrollingfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogDailyFileAppender"),
+                             create_dailyrollingfile_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogDailyFileAppender"),
+                             create_dailyrollingfile_appender);
 #ifdef Q_OS_WIN
-    mAppenderRegistry.insert(QStringLiteral("org.apache.log4j.WDCAppender"), create_wdc_appender);
-    mAppenderRegistry.insert(QStringLiteral("WDCAppender"), create_wdc_appender);
+    mAppenderRegistry.insert(QStringLiteral("org.QExt.LogWDCAppender"),
+                             create_wdc_appender);
+    mAppenderRegistry.insert(QStringLiteral("QExtLogWDCAppender"),
+                             create_wdc_appender);
 #endif
 }
 
 
 void QExtLogFactory::registerDefaultFilters()
 {
-    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogDenyAllFilter"), create_deny_all_filter);
-    mFilterRegistry.insert(QStringLiteral("QExtLogDenyAllFilter"), create_deny_all_filter);
-    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogLevelMatchFilter"), create_level_match_filter);
-    mFilterRegistry.insert(QStringLiteral("QExtLogLevelMatchFilter"), create_level_match_filter);
-    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogLevelRangeFilter"), create_level_range_filter);
-    mFilterRegistry.insert(QStringLiteral("QExtLogLevelRangeFilter"), create_level_range_filter);
-    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogStringMatchFilter"), create_string_match_filter);
-    mFilterRegistry.insert(QStringLiteral("QExtLogStringMatchFilter"), create_string_match_filter);
-    mFilterRegistry.insert(QStringLiteral("org.apache.log4j.varia.QExtLogBinaryEventFilter"), create_binaryevent_filter);
-    mFilterRegistry.insert(QStringLiteral("QExtLogBinaryEventFilter"), create_binaryevent_filter);
+    mFilterRegistry.insert(QStringLiteral("org.QExt.LogDenyAllFilter"),
+                           create_deny_all_filter);
+    mFilterRegistry.insert(QStringLiteral("QExtLogDenyAllFilter"),
+                           create_deny_all_filter);
+    mFilterRegistry.insert(QStringLiteral("org.QExt.LogLevelMatchFilter"),
+                           create_level_match_filter);
+    mFilterRegistry.insert(QStringLiteral("QExtLogLevelMatchFilter"),
+                           create_level_match_filter);
+    mFilterRegistry.insert(QStringLiteral("org.QExt.LogLevelRangeFilter"),
+                           create_level_range_filter);
+    mFilterRegistry.insert(QStringLiteral("QExtLogLevelRangeFilter"),
+                           create_level_range_filter);
+    mFilterRegistry.insert(QStringLiteral("org.QExt.LogStringMatchFilter"),
+                           create_string_match_filter);
+    mFilterRegistry.insert(QStringLiteral("QExtLogStringMatchFilter"),
+                           create_string_match_filter);
+    mFilterRegistry.insert(QStringLiteral("org.QExt.LogBinaryEventFilter"),
+                           create_binaryevent_filter);
+    mFilterRegistry.insert(QStringLiteral("QExtLogBinaryEventFilter"),
+                           create_binaryevent_filter);
 }
 
 
 void QExtLogFactory::registerDefaultLayouts()
 {
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogPatternLayout"), create_pattern_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogPatternLayout"), create_pattern_layout);
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogSimpleLayout"), create_simple_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogSimpleLayout"), create_simple_layout);
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogTTCCLayout"), create_ttcc_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogTTCCLayout"), create_ttcc_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogPatternLayout"),
+                           create_pattern_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogPatternLayout"),
+                           create_pattern_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogSimpleLayout"),
+                           create_simple_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogSimpleLayout"),
+                           create_simple_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogTTCCLayout"),
+                           create_ttcc_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogTTCCLayout"),
+                           create_ttcc_layout);
 
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogSimpleTimeLayout"), create_simple_time_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogSimpleTimeLayout"), create_simple_time_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogSimpleTimeLayout"),
+                           create_simple_time_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogSimpleTimeLayout"),
+                           create_simple_time_layout);
 
 #if QEXT_FEATURE_USE_LOGGING_DATABASE
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogDatabaseLayout"), create_database_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogDatabaseLayout"), create_database_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogDatabaseLayout"),
+                           create_database_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogDatabaseLayout"),
+                           create_database_layout);
 #endif
 
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogBinaryLayout"), create_binary_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogBinaryLayout"), create_binary_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogBinaryLayout"),
+                           create_binary_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogBinaryLayout"),
+                           create_binary_layout);
 
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogBinaryToTextLayout"), create_binarytotext_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogBinaryToTextLayout"), create_binarytotext_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogBinaryToTextLayout"),
+                           create_binarytotext_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogBinaryToTextLayout"),
+                           create_binarytotext_layout);
 
-    mLayoutRegistry.insert(QStringLiteral("org.apache.log4j.QExtLogXMLLayout"), create_xml_layout);
-    mLayoutRegistry.insert(QStringLiteral("QExtLogXMLLayout"), create_xml_layout);
+    mLayoutRegistry.insert(QStringLiteral("org.QExt.LogXMLLayout"),
+                           create_xml_layout);
+    mLayoutRegistry.insert(QStringLiteral("QExtLogXMLLayout"),
+                           create_xml_layout);
 }
 
 
 bool QExtLogFactory::validateObjectProperty(QMetaProperty &metaProperty,
-                                     const QString &property,
-                                     QObject *object)
+                                            const QString &property,
+                                            QObject *object)
 {
     // Validate:
     // - No null object pointer
@@ -544,14 +630,14 @@ bool QExtLogFactory::validateObjectProperty(QMetaProperty &metaProperty,
 
     const char *context = "QExtLogFactory";
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Unable to set property value on object"),
-                              QExtLogError::Error_ConfiguratorInvalidProperty,
-                              context);
+                                    QExtLogError::Error_ConfiguratorInvalidProperty,
+                                    context);
 
-    if (object == nullptr)
+    if (object == QEXT_NULLPTR)
     {
         QExtLogError ce = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid null object pointer"),
-                                   0,
-                                   context);
+                                         0,
+                                         context);
         e.addCausingError(ce);
         logger()->error(e);
         return false;
@@ -559,8 +645,8 @@ bool QExtLogFactory::validateObjectProperty(QMetaProperty &metaProperty,
     if (property.isEmpty())
     {
         QExtLogError ce = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid empty property name"),
-                                   0,
-                                   context);
+                                         0,
+                                         context);
         e.addCausingError(ce);
         logger()->error(e);
         return false;
@@ -577,8 +663,8 @@ bool QExtLogFactory::validateObjectProperty(QMetaProperty &metaProperty,
         if (i < 0)
         {
             QExtLogError ce = QEXT_LOG_ERROR(QT_TR_NOOP("Property '%1' does not exist in class '%2'"),
-                                       0,
-                                       context);
+                                             0,
+                                             context);
             ce << propertyString
                << QString::fromLatin1(object->metaObject()->className());
             e.addCausingError(ce);
@@ -590,8 +676,8 @@ bool QExtLogFactory::validateObjectProperty(QMetaProperty &metaProperty,
     if (!metaProperty.isWritable())
     {
         QExtLogError ce = QEXT_LOG_ERROR(QT_TR_NOOP("Property '%1' is not writable in class '%2'"),
-                                   0,
-                                   context);
+                                         0,
+                                         context);
         ce << property
            << QString::fromLatin1(object->metaObject()->className());
         e.addCausingError(ce);

@@ -25,6 +25,14 @@
 #ifndef _QEXTLOGGING_H
 #define _QEXTLOGGING_H
 
+#include <qextLogPropertyConfigurator.h>
+#include <qextLogConsoleAppender.h>
+#include <qextLoggerRepository.h>
+#include <qextLogFileAppender.h>
+#include <qextLogTTCCLayout.h>
+#include <qextLogManager.h>
+#include <qextLogger.h>
+
 /*!
  * \page Log4Qt/Log4j
  *
@@ -363,11 +371,11 @@
  *
  *     // Configure logging to log to the file C:/myapp.log using the level TRACE
  *     s.beginGroup("QExtLogProperties");
- *     s.setValue("log4j.appender.A1", "org.apache.log4j.QExtLogFileAppender");
- *     s.setValue("log4j.appender.A1.file", "C:/myapp.log");
- *     s.setValue("log4j.appender.A1.layout", "org.apache.log4j.QExtLogTTCCLayout");
- *     s.setValue("log4j.appender.A1.layout.DateFormat", "ISO8601");
- *     s.setValue("log4j.rootLogger", "TRACE, A1");
+ *     s.setValue("QExtLogging.Appender.A1", "org.QExt.LogFileAppender");
+ *     s.setValue("QExtLogging.Appender.A1.file", "C:/myapp.log");
+ *     s.setValue("QExtLogging.Appender.A1.layout", "org.QExt.LogTTCCLayout");
+ *     s.setValue("QExtLogging.Appender.A1.layout.DateFormat", "ISO8601");
+ *     s.setValue("QExtLogging.RootLogger", "TRACE, A1");
  *
  *     // Settings will become active on next application startup
  * }
@@ -385,7 +393,7 @@
  * environment variable style Log4Qt form can be used. The following entries
  * are used:
  *
- * - LOG4QT_DEBUG<br>
+ * - QEXT_DEBUG<br>
  *   The variable controls the \ref QExtLogLevel "QExtLogLevel" value for the
  *   logger \ref QExtLogManager::logLogger() "QExtLogManager::logLogger()".
  *   If the value is a valid \ref QExtLogLevel "QExtLogLevel" string, the level for
@@ -396,14 +404,14 @@
  *   - \ref QExtLogManager::configureLogLogger()
  *     "QExtLogManager::configureLogLogger()"
  *
- * - LOG4QT_DEFAULTINITOVERRIDE<br>
+ * - QEXT_DEFAULTINITOVERRIDE<br>
  *   The variable controls the \ref Init "initialization procedure" performed
  *   by the \ref QExtLogManager "QExtLogManager" on startup. If it is set to
  *   any other value then \c false the \ref Init "initialization procedure"
  *   is skipped.
  *   - \ref QExtLogManager::startup() "QExtLogManager::startup()"
  *
- * - LOG4QT_CONFIGURATION<br>
+ * - QEXT_CONFIGURATION<br>
  *   The variable specifies the configuration file used for initialising the
  *   package.
  *   - \ref QExtLogManager::startup() "QExtLogManager::startup()"
@@ -415,7 +423,7 @@
  * "QExtLogInitialisationHelper::environmentSettings()".
  *
  * All settings can also be made in the application settings under the group
- * \c %Log4Qt. For example the environment variable \c LOG4QT_DEBUG is
+ * \c %Log4Qt. For example the environment variable \c QEXT_DEBUG is
  * equivalent to the setting \c Debug. If an environment variable is
  * set it takes precedence over the application setting. Settings are only
  * used, if an QApplication object is available, when the
@@ -456,7 +464,7 @@
  * - Being able to use singleton objects during static de-initialization without
  *   order issues is more valuable then their destruction.
  *   - \ref QExtLogManager "QExtLogManager"
- *   - \ref LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE"
+ *   - \ref QEXT_IMPLEMENT_INSTANCE "QEXT_IMPLEMENT_INSTANCE"
  */
 
 

@@ -63,7 +63,7 @@ class QEXT_LOGGING_API QExtLogDatabaseLayout : public QExtLogLayout
 
 
 public:
-    QExtLogDatabaseLayout(QObject *parent = nullptr);
+    QExtLogDatabaseLayout(QObject *parent = QEXT_NULLPTR);
     // virtual ~QExtLogDatabaseLayout(); // Use compiler default
 private:
     Q_DISABLE_COPY(QExtLogDatabaseLayout)

@@ -36,7 +36,7 @@
 
 #include <limits>
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
 /*!
@@ -214,7 +214,7 @@ class LoggepatternConverter : public QExtLogPatternConverter
 {
 public:
     LoggepatternConverter(QExtLogFormattingInfo formattingInfo,
-                           int precision) :
+                          int precision) :
         QExtLogPatternConverter(formattingInfo),
         mPrecision(precision)
     {}
@@ -283,33 +283,41 @@ QString QExtLogPatternFormatter::format(const QExtLoggingEvent &loggingEvent) co
 {
     QString result;
 #if (__cplusplus >= 201703L)
-    for (auto &&p_converter : std::as_const(mPatternConverters))
+    for (auto &&converter : std::as_const(mPatternConverters))
 #else
-    for (auto &&p_converter : qAsConst(mPatternConverters))
+    for (auto &&converter : qAsConst(mPatternConverters))
 #endif
-        p_converter->format(result, loggingEvent);
+    {
+        converter->format(result, loggingEvent);
+    }
     return result;
 }
 
 
 bool QExtLogPatternFormatter::addDigit(QChar digit,
-                                int &value)
+                                       int &value)
 {
     if (!digit.isDigit())
+    {
         return false;
+    }
 
     int digit_value = digit.digitValue();
     if (value > (INT_MAX - digit_value) / 10)
+    {
         value = INT_MAX;
+    }
     else
+    {
         value = value * 10 + digit_value;
+    }
     return true;
 }
 
 
 void QExtLogPatternFormatter::createConverter(QChar character,
-                                       QExtLogFormattingInfo formattingInfo,
-                                       const QString &option)
+                                              QExtLogFormattingInfo formattingInfo,
+                                              const QString &option)
 {
     Q_ASSERT_X(mConversionCharacters.indexOf(character) >= 0, "QExtLogPatternFormatter::createConverter", "Unknown conversion character" );
 
@@ -325,7 +333,7 @@ void QExtLogPatternFormatter::createConverter(QChar character,
     {
     case 'c':
         mPatternConverters << new LoggepatternConverter(formattingInfo,
-                           parseIntegeoption(option));
+                                                        parseIntegeoption(option));
         break;
     case 'd':
     {
@@ -440,7 +448,9 @@ void QExtLogPatternFormatter::parse()
                 state = ESCAPE_STATE;
             }
             else
+            {
                 literal += c;
+            }
             break;
         case ESCAPE_STATE:
             if (ch == '%')
@@ -461,14 +471,18 @@ void QExtLogPatternFormatter::parse()
                     literal.clear();
                 }
                 if (ch == '-')
+                {
                     formatting_info.mLeftAligned = true;
+                }
                 else if (c.isDigit())
                 {
                     formatting_info.mMinLength = c.digitValue();
                     state = MIN_STATE;
                 }
                 else if (ch == '.')
+                {
                     state = DOT_STATE;
+                }
                 else
                 {
                     state = CHARACTER_STATE;
@@ -480,7 +494,9 @@ void QExtLogPatternFormatter::parse()
             if (!addDigit(c, formatting_info.mMinLength))
             {
                 if (ch == '.')
+                {
                     state = DOT_STATE;
+                }
                 else
                 {
                     state = CHARACTER_STATE;
@@ -497,8 +513,8 @@ void QExtLogPatternFormatter::parse()
             else
             {
                 QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Found character '%1' where digit was expected."),
-                                          QExtLogError::Error_LayoutExpectedDigitFailed,
-                                          "QExtLogPatternFormatter");
+                                                QExtLogError::Error_LayoutExpectedDigitFailed,
+                                                "QExtLogPatternFormatter");
                 e << QString(c);
                 logger()->error(e);
             }
@@ -512,9 +528,13 @@ void QExtLogPatternFormatter::parse()
             break;
         case CHARACTER_STATE:
             if (mIgnoreCharacters.indexOf(c) >= 0)
+            {
                 state = LITERAL_STATE;
+            }
             else if (mOptionCharacters.indexOf(c) >= 0)
+            {
                 state = POSSIBLEOPTION_STATE;
+            }
             else if (mConversionCharacters.indexOf(c) >= 0)
             {
                 createConverter(c, formatting_info);
@@ -562,36 +582,44 @@ void QExtLogPatternFormatter::parse()
     {
         logger()->warn(QStringLiteral("Unexptected end of pattern '%1'"), mPattern);
         if (state == ESCAPE_STATE)
+        {
             literal += c;
+        }
         else
+        {
             literal += mPattern.mid(converter_start);
+        }
     }
 
     if (!literal.isEmpty())
+    {
         createLiteralConverter(literal);
+    }
 }
 
 
 int QExtLogPatternFormatter::parseIntegeoption(const QString &option)
 {
     if (option.isEmpty())
+    {
         return 0;
+    }
 
     bool ok;
     int result = option.toInt(&ok);
     if (!ok)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Option '%1' cannot be converted into an integer"),
-                                  QExtLogError::Error_LayoutOptionIsNotPositive,
-                                  "Patteformatter");
+                                        QExtLogError::Error_LayoutOptionIsNotPositive,
+                                        "Patteformatter");
         e << option;
         logger()->error(e);
     }
     if (result < 0)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Option %1 isn't a positive integer"),
-                                  QExtLogError::Error_LayoutIntegerIsNotPositive,
-                                  "Patteformatter");
+                                        QExtLogError::Error_LayoutIntegerIsNotPositive,
+                                        "Patteformatter");
         e << result;
         logger()->error(e);
         result = 0;
@@ -610,7 +638,9 @@ void QExtLogFormattingInfo::clear()
 QString QExtLogFormattingInfo::intToString(int i)
 {
     if (i == INT_MAX)
+    {
         return QStringLiteral("INT_MAX");
+    }
     return QString::number(i);
 }
 
@@ -622,11 +652,17 @@ void QExtLogPatternConverter::format(QString &format, const QExtLoggingEvent &lo
     // If the data item is longer than the maximum field, then the extra characters
     // are removed from the beginning of the data item and not from the end.
     if (s.length() > mFormattingInfo.mMaxLength)
+    {
         format += s.right(mFormattingInfo.mMaxLength);
+    }
     else if (mFormattingInfo.mLeftAligned)
+    {
         format += s.leftJustified(mFormattingInfo.mMinLength, space, false);
+    }
     else
+    {
         format += s.rightJustified(mFormattingInfo.mMinLength, space, false);
+    }
 }
 
 QString BasicPatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
@@ -671,19 +707,31 @@ QString LiteralPatternConverter::convert(const QExtLoggingEvent &loggingEvent) c
 QString LoggepatternConverter::convert(const QExtLoggingEvent &loggingEvent) const
 {
     if (!loggingEvent.logger())
+    {
         return QString();
+    }
     QString name;
 
     if (loggingEvent.logger() == QExtLogManager::instance()->qtLogger())   // is qt logger
+    {
         if (loggingEvent.categoryName().isEmpty())
+        {
             name = QExtLogManager::instance()->qtLogger()->name();
+        }
         else
+        {
             name = loggingEvent.categoryName();
+        }
+    }
     else
+    {
         name = loggingEvent.logger()->name();
+    }
 
     if (mPrecision <= 0 || (name.isEmpty()))
+    {
         return name;
+    }
 
     const QString separator(QStringLiteral("::"));
 
@@ -695,9 +743,13 @@ QString LoggepatternConverter::convert(const QExtLoggingEvent &loggingEvent) con
         i--;
     }
     if (begin < 0)
+    {
         begin = 0;
+    }
     else
+    {
         begin += 2;
+    }
     return name.mid(begin);
 }
 

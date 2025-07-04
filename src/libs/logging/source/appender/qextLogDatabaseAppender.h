@@ -58,13 +58,13 @@ class QEXT_LOGGING_API QExtLogDatabaseAppender : public QExtLogAppenderSkeleton
      */
     Q_PROPERTY(QString table READ table WRITE setTable)
 public:
-    QExtLogDatabaseAppender(QObject *parent = nullptr);
+    QExtLogDatabaseAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &layout,
-                     QObject *parent = nullptr);
+                     QObject *parent = QEXT_NULLPTR);
     QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &layout
                      , const QString &tableName
                      , const QString &connection = QSqlDatabase::defaultConnection
-                     , QObject *parent = nullptr);
+                     , QObject *parent = QEXT_NULLPTR);
 
 private:
     Q_DISABLE_COPY(QExtLogDatabaseAppender)

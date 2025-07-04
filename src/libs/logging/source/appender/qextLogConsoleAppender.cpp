@@ -37,37 +37,37 @@
 QExtLogConsoleAppender::QExtLogConsoleAppender(QObject *parent) :
     QExtLogWriterAppender(parent),
     mTarget(STDOUT_TARGET),
-    mtextStream(nullptr)
+    mtextStream(QEXT_NULLPTR)
 {
 }
 
 
 QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                                 QObject *parent) :
+                                               QObject *parent) :
     QExtLogWriterAppender(pLayout, parent),
     mTarget(STDOUT_TARGET),
-    mtextStream(nullptr)
+    mtextStream(QEXT_NULLPTR)
 {
 }
 
 
 QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                                 const QString &target,
-                                 QObject *parent) :
+                                               const QString &target,
+                                               QObject *parent) :
     QExtLogWriterAppender(pLayout, parent),
     mTarget(STDOUT_TARGET),
-    mtextStream(nullptr)
+    mtextStream(QEXT_NULLPTR)
 {
     setTarget(target);
 }
 
 
 QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                                 Target target,
-                                 QObject *parent) :
+                                               Target target,
+                                               QObject *parent) :
     QExtLogWriterAppender(pLayout, parent),
     mTarget(target),
-    mtextStream(nullptr)
+    mtextStream(QEXT_NULLPTR)
 {
 }
 
@@ -80,7 +80,9 @@ QExtLogConsoleAppender::~QExtLogConsoleAppender()
 QString QExtLogConsoleAppender::target() const
 {
     if (mTarget == STDOUT_TARGET)
+    {
         return QStringLiteral("STDOUT_TARGET");
+    }
     return QStringLiteral("STDERR_TARGET");
 }
 
@@ -89,7 +91,9 @@ void QExtLogConsoleAppender::setTarget(const QString &target)
     bool ok;
     auto targetEnum = static_cast<Target>(QExtLogOptionConverter::toTarget(target, &ok));
     if (ok)
+    {
         setTarget(targetEnum);
+    }
 }
 
 void QExtLogConsoleAppender::activateOptions()
@@ -99,9 +103,13 @@ void QExtLogConsoleAppender::activateOptions()
     closeStream();
 
     if (mTarget == STDOUT_TARGET)
+    {
         mtextStream = new QTextStream(stdout);
+    }
     else
+    {
         mtextStream = new QTextStream(stderr);
+    }
     setWriter(mtextStream);
 
     QExtLogWriterAppender::activateOptions();
@@ -118,23 +126,24 @@ void QExtLogConsoleAppender::closeInternal()
     QMutexLocker locker(&mObjectGuard);
 
     if (isClosed())
+    {
         return;
+    }
 
     closeStream();
 }
 
 void QExtLogConsoleAppender::closeStream()
 {
-    setWriter(nullptr);
+    setWriter(QEXT_NULLPTR);
     delete mtextStream;
-    mtextStream = nullptr;
+    mtextStream = QEXT_NULLPTR;
 }
 
 void QExtLogConsoleAppender::append(const QExtLoggingEvent &event)
 {
 #ifdef Q_OS_WIN
-    if (GetConsoleWindow() == nullptr &&
-        qEnvironmentVariableIntValue("QT_ASSUME_STDERR_HAS_CONSOLE") == 0)
+    if (GetConsoleWindow() == QEXT_NULLPTR && qEnvironmentVariableIntValue("QT_ASSUME_STDERR_HAS_CONSOLE") == 0)
     {
         // if console is blocked by debugger use OutputDebugString
         Q_ASSERT_X(layout(), "QExtLogConsoleAppender::append()", "QExtLogLayout must not be null");
@@ -147,5 +156,3 @@ void QExtLogConsoleAppender::append(const QExtLoggingEvent &event)
 #endif
         QExtLogWriterAppender::append(event);
 }
-
-// #include "moc_consoleappender.cpp"

@@ -37,14 +37,18 @@ QExtLogLevelRangeFilter::QExtLogLevelRangeFilter(QObject *parent) :
 QExtLogFilter::Decision QExtLogLevelRangeFilter::decide(const QExtLoggingEvent &event) const
 {
     if (event.level() < mLevelMin)
+    {
         return QExtLogFilter::DENY;
+    }
 
     if (event.level() > mLevelMax)
+    {
         return QExtLogFilter::DENY;
+    }
 
     if (mAcceptOnMatch)
+    {
         return QExtLogFilter::ACCEPT;
+    }
     return QExtLogFilter::NEUTRAL;
 }
-
-// #include "moc_levelrangefilter.cpp"

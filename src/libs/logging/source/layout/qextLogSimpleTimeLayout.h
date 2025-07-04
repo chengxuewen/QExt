@@ -40,7 +40,7 @@ class QEXT_LOGGING_API QExtLogSimpleTimeLayout : public QExtLogLayout
     Q_OBJECT
 
 public:
-    QExtLogSimpleTimeLayout(QObject *parent = nullptr);
+    QExtLogSimpleTimeLayout(QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogSimpleTimeLayout)

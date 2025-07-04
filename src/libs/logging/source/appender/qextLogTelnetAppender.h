@@ -67,16 +67,16 @@ class QEXT_LOGGING_API QExtLogTelnetAppender : public QExtLogAppenderSkeleton
     Q_PROPERTY(QHostAddress address READ address WRITE setAddress)
 
 public:
-    QExtLogTelnetAppender(QObject *parent = nullptr);
+    QExtLogTelnetAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout,
-                   QObject *parent = nullptr);
+                   QObject *parent = QEXT_NULLPTR);
     QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout,
                    const QHostAddress &address,
                    int port,
-                   QObject *parent = nullptr);
+                   QObject *parent = QEXT_NULLPTR);
     QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout,
                    int port,
-                   QObject *parent = nullptr);
+                   QObject *parent = QEXT_NULLPTR);
     ~QExtLogTelnetAppender() override;
 
 private:

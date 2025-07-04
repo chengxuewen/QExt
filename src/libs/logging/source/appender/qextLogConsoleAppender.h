@@ -67,12 +67,12 @@ public:
     Q_ENUM(Target)
 
 
-    QExtLogConsoleAppender(QObject *parent = nullptr);
+    QExtLogConsoleAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                    QObject *parent = nullptr);
+                    QObject *parent = QEXT_NULLPTR);
     QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
                     const QString &target,
-                    QObject *parent = nullptr);
+                    QObject *parent = QEXT_NULLPTR);
 
     /*!
      * Creates a QExtLogConsoleAppender with the layout \a pLayout, the target
@@ -81,7 +81,7 @@ public:
      */
     QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
                     Target target,
-                    QObject *parent = nullptr);
+                    QObject *parent = QEXT_NULLPTR);
 
     ~QExtLogConsoleAppender() override;
 private:

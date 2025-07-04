@@ -80,7 +80,7 @@ public:
     };
     Q_ENUM(LevelEnum)
 
-    explicit QExtQmlLogger(QObject *parent = nullptr);
+    explicit QExtQmlLogger(QObject *parent = QEXT_NULLPTR);
 
     // String might be enough as in JavaScript logs concatenation is natural anyway
     Q_INVOKABLE void trace(const QString &message) const;

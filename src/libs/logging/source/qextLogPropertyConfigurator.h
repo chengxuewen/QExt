@@ -57,13 +57,13 @@ public:
      * \sa QExtLogConfiguratorHelper::configureError()
      */
     bool doConfigure(const QExtLogProperties &properties,
-                     QExtLoggerRepository *loggerRepository = nullptr);
+                     QExtLoggerRepository *loggerRepository = QEXT_NULLPTR);
 
     /*!
      * \sa QExtLogConfiguratorHelper::configureError()
      */
     bool doConfigure(const QString &configFileName,
-                     QExtLoggerRepository *loggerRepository = nullptr);
+                     QExtLoggerRepository *loggerRepository = QEXT_NULLPTR);
 
     /*!
      * Reads the configuration data from the QSettings object
@@ -73,7 +73,7 @@ public:
      *     QExtLogConfiguratorHelper::configureError()
      */
     bool doConfigure(const QSettings &settings,
-                     QExtLoggerRepository *loggerRepository = nullptr);
+                     QExtLoggerRepository *loggerRepository = QEXT_NULLPTR);
 
 
     /*!

@@ -44,7 +44,8 @@ void QExtLogListAppender::setMaxCount(int n)
 
     if (n < 0)
     {
-        logger()->warn(QStringLiteral("Attempt to set maximum count for appender '%1' to %2. Using zero instead"), name(), n);
+        logger()->warn(QStringLiteral("Attempt to set maximum count for appender '%1' to %2. Using zero instead"),
+                       name(), n);
         n = 0;
     }
     mMaxCount = n;
@@ -63,16 +64,20 @@ QList<QExtLoggingEvent> QExtLogListAppender::clearList()
 void QExtLogListAppender::append(const QExtLoggingEvent &event)
 {
     if ((mMaxCount <= 0) || (mList.size() < mMaxCount))
+    {
         mList << event;
+    }
 }
 
 void QExtLogListAppender::ensureMaxCount()
 {
     if (mMaxCount <= 0)
+    {
         return;
+    }
 
     while (mList.size() > mMaxCount)
+    {
         mList.removeFirst();
+    }
 }
-
-// #include "moc_listappender.cpp"

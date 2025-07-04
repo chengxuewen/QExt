@@ -34,11 +34,11 @@
 #include <QMutex>
 
 #ifndef QT_NO_DATASTREAM
-#include <QDataStream>
+#   include <QDataStream>
 #endif
 
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
 QExtLogInitialisationHelper::QExtLogInitialisationHelper() :
@@ -53,7 +53,7 @@ QExtLogInitialisationHelper::~QExtLogInitialisationHelper()
     Q_ASSERT_X(false, "QExtLogInitialisationHelper::~QExtLogInitialisationHelper()", "Unexpected destruction of singleton object");
 }
 
-LOG4QT_IMPLEMENT_INSTANCE(QExtLogInitialisationHelper)
+QEXT_IMPLEMENT_INSTANCE(QExtLogInitialisationHelper)
 
 void QExtLogInitialisationHelper::doInitialiseEnvironmentSettings()
 {
@@ -71,7 +71,9 @@ void QExtLogInitialisationHelper::doInitialiseEnvironmentSettings()
 #else
     for (const auto &entry : qAsConst(setting_keys))
 #endif
+    {
         env_keys.insert(QStringLiteral("log4qt_").append(entry).toUpper(), entry);
+    }
 
     QStringList sys_env = QProcess::systemEnvironment();
 #if (__cplusplus >= 201703L)
@@ -82,11 +84,15 @@ void QExtLogInitialisationHelper::doInitialiseEnvironmentSettings()
     {
         int i = entry.indexOf(QLatin1Char('='));
         if (i == -1)
+        {
             continue;
+        }
         QString key = entry.left(i);
         QString value = entry.mid(i + 1).trimmed();
         if (env_keys.contains(key))
+        {
             mEnvironmentSettings.insert(env_keys.value(key), value);
+        }
     }
 }
 
@@ -97,11 +103,11 @@ void QExtLogInitialisationHelper::doRegisterTypes()
     qRegisterMetaType<QExtLoggingEvent>("QExtLoggingEvent");
 
 #ifndef QT_NO_DATASTREAM
-#if QT_VERSION < 0x060000
+#   if QT_VERSION < 0x060000
     qRegisterMetaTypeStreamOperators<QExtLogError>("QExtLogError");
     qRegisterMetaTypeStreamOperators<QExtLogLevel>("QExtLogLevel");
     qRegisterMetaTypeStreamOperators<QExtLoggingEvent>("QExtLoggingEvent");
-#endif
+#   endif
 #endif
 
 }
@@ -110,9 +116,11 @@ QString QExtLogInitialisationHelper::doSetting(const QString &key,
                                         const QString &defaultValue) const
 {
     if (mEnvironmentSettings.contains(key))
+    {
         return mEnvironmentSettings.value(key);
+    }
 
-    if (QCoreApplication::instance() != nullptr)
+    if (QCoreApplication::instance() != QEXT_NULLPTR)
     {
         QSettings s;
         s.beginGroup(QStringLiteral("Log4Qt"));

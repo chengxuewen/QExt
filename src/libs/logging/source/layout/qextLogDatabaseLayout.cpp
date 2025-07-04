@@ -175,5 +175,3 @@ void QExtLogDatabaseLayout::setMessageColumn(const QString &columnName)
 {
     mMessage = columnName;
 }
-
-// #include "moc_databaselayout.cpp"

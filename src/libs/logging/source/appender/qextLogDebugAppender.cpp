@@ -34,7 +34,7 @@
 #include <iostream>
 
 QExtLogDebugAppender::QExtLogDebugAppender(const QExtLogLayoutSharedPtr &layout,
-                             QObject *parent) :
+                                           QObject *parent) :
     QExtLogAppenderSkeleton(true, layout, parent)
 {
 }
@@ -56,5 +56,3 @@ void QExtLogDebugAppender::append(const QExtLoggingEvent &event)
     std::cerr << std::flush;
 #endif
 }
-
-// #include "moc_debugappender.cpp"

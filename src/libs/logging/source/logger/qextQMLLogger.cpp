@@ -33,7 +33,7 @@
 QExtQmlLogger::QExtQmlLogger(QObject *parent) :
     QObject(parent)
     , mContext(QStringLiteral("Qml"))
-    , mLogger(nullptr)
+    , mLogger(QEXT_NULLPTR)
 {
 }
 
@@ -112,20 +112,24 @@ void QExtQmlLogger::setLevel(QExtQmlLogger::LevelEnum level)
 
 QString QExtQmlLogger::loggename() const
 {
-    if (mName.isEmpty() && (parent() != nullptr))
+    if (mName.isEmpty() && (parent() != QEXT_NULLPTR))
+    {
         mName = parent()->objectName();
+    }
 
     if (!mContext.isEmpty())
+    {
         return mContext % "." % mName;
+    }
     return mName;
 }
 
 QExtLogger *QExtQmlLogger::logger() const
 {
-    if (mLogger == nullptr)
+    if (mLogger == QEXT_NULLPTR)
+    {
         mLogger = QExtLogger::logger(loggename());
+    }
 
     return  mLogger;
 }
-
-// #include "moc_qmllogger.cpp"

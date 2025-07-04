@@ -60,7 +60,7 @@ QExtLogManager::QExtLogManager() :
     mLoggerRepository(new QExtLogHierarchy()),
     mHandleQtMessages(false),
     mWatchThisFile(false),
-    mQtMsgHandler(nullptr)
+    mQtMsgHandler(QEXT_NULLPTR)
 {
 }
 
@@ -157,7 +157,9 @@ void QExtLogManager::doSetHandleQtMessages(bool handleQtMessages)
     QMutexLocker locker(&mObjectGuard);
 
     if (instance()->mHandleQtMessages == handleQtMessages)
+    {
         return;
+    }
 
     instance()->mHandleQtMessages = handleQtMessages;
     if (instance()->mHandleQtMessages)
@@ -177,7 +179,9 @@ void QExtLogManager::doSetWatchThisFile(bool watchThisFile)
     QMutexLocker locker(&mObjectGuard);
 
     if (instance()->mWatchThisFile == watchThisFile)
+    {
         return;
+    }
 
     instance()->mWatchThisFile = watchThisFile;
     static_logger()->trace(QStringLiteral("%1able watching the current properties file"), watchThisFile ? "En" : "Dis");
@@ -188,7 +192,9 @@ void QExtLogManager::doSetFilterRules(const QString &filterRules)
     QMutexLocker locker(&mObjectGuard);
 
     if (instance()->mFilterRules == filterRules)
+    {
         return;
+    }
 
     instance()->mFilterRules = filterRules;
     QLoggingCategory::setFilterRules(filterRules);
@@ -200,7 +206,9 @@ void QExtLogManager::doSetMessagePattern(const QString &messagePattern)
     QMutexLocker locker(&mObjectGuard);
 
     if (instance()->mMessagePattern == messagePattern)
+    {
         return;
+    }
 
     instance()->mMessagePattern = messagePattern;
     qSetMessagePattern(messagePattern);
@@ -217,46 +225,46 @@ void QExtLogManager::doConfigureLogLogger()
     logLogger()->setLevel(QExtLogOptionConverter::toLevel(value, QExtLogLevel::Debug));
 
     // Common layout
-    QExtLogLayoutSharedPtr p_layout(new QExtLogTTCCLayout());
-    p_layout->setName(QStringLiteral("LogLog TTCC"));
-    static_cast<QExtLogTTCCLayout *>(p_layout.data())->setContextPrinting(false);
-    p_layout->activateOptions();
+    QExtLogLayoutSharedPtr layout(new QExtLogTTCCLayout());
+    layout->setName(QStringLiteral("LogLog TTCC"));
+    static_cast<QExtLogTTCCLayout *>(layout.data())->setContextPrinting(false);
+    layout->activateOptions();
 
     // Common deny all filter
-    QExtLogFilterSharedPtr p_denyall(new QExtLogDenyAllFilter());
-    p_denyall->activateOptions();
+    QExtLogFilterSharedPtr denyall(new QExtLogDenyAllFilter());
+    denyall->activateOptions();
 
     // QExtLogConsoleAppender on stdout for all events <= INFO
-    QExtLogConsoleAppender *p_appender;
-    p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    QExtLogConsoleAppender *appender;
+    appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDOUT_TARGET);
     auto *pFilterStdout = new QExtLogLevelRangeFilter();
-    pFilterStdout->setNext(p_denyall);
+    pFilterStdout->setNext(denyall);
     pFilterStdout->setLevelMin(QExtLogLevel::Null);
     pFilterStdout->setLevelMax(QExtLogLevel::Info);
     pFilterStdout->activateOptions();
-    p_appender->setName(QStringLiteral("LogLog stdout"));
-    p_appender->addFilter(QExtLogFilterSharedPtr(pFilterStdout));
-    p_appender->activateOptions();
-    logLogger()->addAppender(QExtLogAppenderSharedPtr(p_appender));
+    appender->setName(QStringLiteral("LogLog stdout"));
+    appender->addFilter(QExtLogFilterSharedPtr(pFilterStdout));
+    appender->activateOptions();
+    this->logLogger()->addAppender(QExtLogAppenderSharedPtr(appender));
 
     // QExtLogConsoleAppender on stderr for all events >= WARN
-    p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDERR_TARGET);
+    appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDERR_TARGET);
     auto *pFilterStderr = new QExtLogLevelRangeFilter();
-    pFilterStderr->setNext(p_denyall);
+    pFilterStderr->setNext(denyall);
     pFilterStderr->setLevelMin(QExtLogLevel::Warn);
     pFilterStderr->setLevelMax(QExtLogLevel::Off);
     pFilterStderr->activateOptions();
-    p_appender->setName(QStringLiteral("LogLog stderr"));
-    p_appender->addFilter(QExtLogFilterSharedPtr(pFilterStderr));
-    p_appender->activateOptions();
-    logLogger()->addAppender(QExtLogAppenderSharedPtr(p_appender));
+    appender->setName(QStringLiteral("LogLog stderr"));
+    appender->addFilter(QExtLogFilterSharedPtr(pFilterStderr));
+    appender->activateOptions();
+    this->logLogger()->addAppender(QExtLogAppenderSharedPtr(appender));
 }
 
 /*!
  * \brief QExtLogManager::doStartup
  *
- * 1. If "DefaultInitOverride" or LOG4QT_DEFAULTINITOVERRIDE is not "false" then the initialization is skipped.
- * 2. If the file from "Configuration" or from LOG4QT_CONFIGURATION exists this file is used
+ * 1. If "DefaultInitOverride" or QEXT_DEFAULTINITOVERRIDE is not "false" then the initialization is skipped.
+ * 2. If the file from "Configuration" or from QEXT_CONFIGURATION exists this file is used
  * 3. Check Settings from [Log4Qt/QExtLogProperties] exists the configdata from there is used
  * 4. Check if <application binaryname>.log4qt.properties exists this file is used
  * 5. Check if <application binaryname.exe.log4qt.properties exists this file is used
@@ -332,7 +340,9 @@ void QExtLogManager::doStartup()
             static_logger()->debug(QStringLiteral("Default initialisation configures from default file '%1'"), configFileName);
             QExtLogPropertyConfigurator::configure(configFileName);
             if (mWatchThisFile)
+            {
                QExtLogConfiguratorHelper::setConfigurationFile(configFileName, QExtLogPropertyConfigurator::configure);
+            }
             return;
         }
     }
@@ -358,9 +368,13 @@ void QExtLogManager::welcome()
             QDateTime local_as_utc = QDateTime(local.date(), local.time(), QTimeZone::utc());
             int min = utc.secsTo(local_as_utc) / 60;
             if (min < 0)
+            {
                 offset += QLatin1Char('-');
+            }
             else
+            {
                 offset += QLatin1Char('+');
+            }
             min = abs(min);
             offset += QString::number(min / 60).rightJustified(2, QLatin1Char('0'));
             offset += QLatin1Char(':');
@@ -379,7 +393,9 @@ void QExtLogManager::welcome()
         static_logger()->trace(QStringLiteral("Settings from the system environment:"));
         auto settings = QExtLogInitialisationHelper::environmentSettings();
         for (auto pos = std::begin(settings);pos != std::end(settings);++pos)
+        {
             static_logger()->trace(QStringLiteral("    %1: '%2'"), pos.key(), pos.value());
+        }
 
         static_logger()->trace(QStringLiteral("Settings from the application settings:"));
         if (QCoreApplication::instance())
@@ -390,18 +406,24 @@ void QExtLogManager::welcome()
             QSettings s;
             s.beginGroup(log4qt_group);
             for (const auto &entry : s.childKeys())
+            {
                 static_logger()->trace(QStringLiteral("        %1: '%2'"),
                                        entry,
                                        s.value(entry).toString());
+            }
             static_logger()->trace(QStringLiteral("    %1/%2:"), log4qt_group, properties_group);
             s.beginGroup(properties_group);
             for (const auto &entry : s.childKeys())
+            {
                 static_logger()->trace(QStringLiteral("        %1: '%2'"),
                                        entry,
                                        s.value(entry).toString());
+            }
         }
         else
+        {
             static_logger()->trace(QStringLiteral("    QCoreApplication::instance() is not available"));
+        }
     }
 }
 
@@ -441,7 +463,9 @@ void QExtLogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &
     // begin {
 
     if (isFatal(type))
+    {
         qt_message_fatal(type, context, message);
+    }
 
     // } end
 }
@@ -450,15 +474,20 @@ void QExtLogManager::qtMessageHandler(QtMsgType type, const QMessageLogContext &
 static inline void convert_to_wchar_t_elided(wchar_t *d, size_t space, const char *s) Q_DECL_NOEXCEPT
 {
     size_t len = qstrlen(s);
-    if (len + 1 > space) {
+    if (len + 1 > space)
+    {
         const size_t skip = len - space + 4; // 4 for "..." + '\0'
         s += skip;
         len -= skip;
         for (int i = 0; i < 3; ++i)
+        {
           *d++ = L'.';
+        }
     }
     while (len--)
+    {
         *d++ = *s++;
+    }
     *d++ = 0;
 }
 #endif
@@ -479,9 +508,13 @@ static void qt_message_fatal(QtMsgType, const QMessageLogContext &context, const
     int ret = _CrtDbgReportW(_CRT_ERROR, contextFileL, context.line, _CRT_WIDE(QT_VERSION_STR),
                              reinterpret_cast<const wchar_t *>(message.utf16()));
     if ((ret == 0) && (reportMode & _CRTDBG_MODE_WNDW))
+    {
         return; // ignore
+    }
     else if (ret == 1)
+    {
         _CrtDbgBreak();
+    }
 #else
     Q_UNUSED(context);
     Q_UNUSED(message);
@@ -493,14 +526,18 @@ static void qt_message_fatal(QtMsgType, const QMessageLogContext &context, const
 static bool isFatal(QtMsgType msgType)
 {
     if (msgType == QtFatalMsg)
+    {
         return true;
+    }
 
-    if (msgType == QtCriticalMsg) {
+    if (msgType == QtCriticalMsg)
+    {
         static bool fatalCriticals = !qEnvironmentVariableIsEmpty("QT_FATAL_CRITICALS");
         return fatalCriticals;
     }
 
-    if (msgType == QtWarningMsg || msgType == QtCriticalMsg) {
+    if (msgType == QtWarningMsg || msgType == QtCriticalMsg)
+    {
         static bool fatalWarnings = !qEnvironmentVariableIsEmpty("QT_FATAL_WARNINGS");
         return fatalWarnings;
     }
@@ -508,4 +545,4 @@ static bool isFatal(QtMsgType msgType)
     return false;
 }
 
-QExtLogManager *QExtLogManager::mInstance = nullptr;
+QExtLogManager *QExtLogManager::mInstance = QEXT_NULLPTR;

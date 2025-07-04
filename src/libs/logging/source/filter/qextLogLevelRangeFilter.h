@@ -68,7 +68,7 @@ class QEXT_LOGGING_API QExtLogLevelRangeFilter : public QExtLogFilter
     Q_PROPERTY(QExtLogLevel levelMin READ levelMin WRITE setLevelMin)
 
 public:
-    QExtLogLevelRangeFilter(QObject *parent = nullptr);
+    QExtLogLevelRangeFilter(QObject *parent = QEXT_NULLPTR);
 
     bool acceptOnMatch() const;
     QExtLogLevel levelMax() const;

@@ -56,7 +56,7 @@ class QEXT_LOGGING_API QExtLogStringMatchFilter : public QExtLogFilter
     Q_PROPERTY(QString stringToMatch READ stringToMatch WRITE setStringToMatch)
 
 public:
-    QExtLogStringMatchFilter(QObject *parent = nullptr);
+    QExtLogStringMatchFilter(QObject *parent = QEXT_NULLPTR);
 
     bool acceptOnMatch() const;
     QString stringToMatch() const;

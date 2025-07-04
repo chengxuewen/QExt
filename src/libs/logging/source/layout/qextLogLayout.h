@@ -63,7 +63,7 @@ class QEXT_LOGGING_API QExtLogLayout : public QObject
     Q_PROPERTY(QString header READ header WRITE setHeader)
 
 public:
-    QExtLogLayout(QObject *parent = nullptr);
+    QExtLogLayout(QObject *parent = QEXT_NULLPTR);
     virtual ~QExtLogLayout();
 
 public:

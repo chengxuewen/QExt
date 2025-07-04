@@ -49,7 +49,7 @@ private:
 
 inline RecursionGuardLocker::RecursionGuardLocker(bool *guard)
 {
-    Q_ASSERT_X(guard != nullptr, "RecursionGuardLocker::RecursionGuardLocker()", "Pointer to guard bool must not be null");
+    Q_ASSERT_X(guard != QEXT_NULLPTR, "RecursionGuardLocker::RecursionGuardLocker()", "Pointer to guard bool must not be null");
 
     mGuard = guard;
     *mGuard = true;
@@ -73,7 +73,7 @@ QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(QObject *parent) :
 }
 
 QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(bool isActive,
-                                   QObject *parent) :
+                                                 QObject *parent) :
     QExtLogAppender(parent),
 #if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
@@ -86,8 +86,8 @@ QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(bool isActive,
 }
 
 QExtLogAppenderSkeleton::QExtLogAppenderSkeleton(bool isActive,
-                                   const QExtLogLayoutSharedPtr &layout,
-                                   QObject *parent) :
+                                                 const QExtLogLayoutSharedPtr &layout,
+                                                 QObject *parent) :
     QExtLogAppender(parent),
 #if QT_VERSION < 0x050E00
     mObjectGuard(QMutex::Recursive), // Recursive for doAppend()
@@ -112,7 +112,7 @@ void QExtLogAppenderSkeleton::activateOptions()
     if (requiresLayout() && !layout())
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of appender '%1' that requires layout and has no layout set"),
-                                         QExtLogError::Error_AppenderActivateMissingLayout);
+                                               QExtLogError::Error_AppenderActivateMissingLayout);
         e << name();
         logger()->error(e);
         return;
@@ -189,25 +189,37 @@ void QExtLogAppenderSkeleton::doAppend(const QExtLoggingEvent &event)
     QMutexLocker locker(&mObjectGuard);
 
     if (mAppendRecursionGuard)
+    {
         return;
+    }
 
     RecursionGuardLocker recursion_locker(&mAppendRecursionGuard);
 
     if (!checkEntryConditions())
+    {
         return;
+    }
     if (!isAsSevereAsThreshold(event.level()))
+    {
         return;
+    }
 
     const auto  *filter = mpHeadFilter.data();
     while (filter)
     {
         QExtLogFilter::Decision decision = filter->decide(event);
         if (decision == QExtLogFilter::ACCEPT)
+        {
             break;
+        }
         else if (decision == QExtLogFilter::DENY)
+        {
             return;
+        }
         else
+        {
             filter = filter->next().data();
+        }
     }
 
     append(event);
@@ -218,7 +230,7 @@ bool QExtLogAppenderSkeleton::checkEntryConditions() const
     if (!isActive())
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of non activated appender '%1'"),
-                                         QExtLogError::Error_AppenderNotActivated);
+                                               QExtLogError::Error_AppenderNotActivated);
         e << name();
         logger()->error(e);
         return false;
@@ -226,7 +238,7 @@ bool QExtLogAppenderSkeleton::checkEntryConditions() const
     if (isClosed())
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of closed appender '%1'"),
-                                         QExtLogError::Error_AppenderClosedFailed);
+                                               QExtLogError::Error_AppenderClosedFailed);
         e << name();
         logger()->error(e);
         return false;
@@ -234,7 +246,7 @@ bool QExtLogAppenderSkeleton::checkEntryConditions() const
     if (requiresLayout() && !layout())
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' that requires layout and has no layout set"),
-                                         QExtLogError::Error_AppenderUseMissingLayout);
+                                               QExtLogError::Error_AppenderUseMissingLayout);
         e << name();
         logger()->error(e);
         return false;
@@ -254,5 +266,3 @@ QExtLogLayoutSharedPtr QExtLogAppenderSkeleton::layout() const
     QMutexLocker locker(&mObjectGuard);
     return mpLayout;
 }
-
-// #include "moc_appenderskeleton.cpp"

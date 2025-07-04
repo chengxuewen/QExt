@@ -48,5 +48,3 @@ QString QExtLogLayout::endOfLine()
     // There seams to be no function in Qt for this. MinGW enter '\r\n' automatically
     return QStringLiteral("\n");
 }
-
-// #include "moc_layout.cpp"

@@ -63,7 +63,7 @@ public:
     typedef bool (*ConfigureFunc)(const QString &fileName);
 
 private:
-    explicit QExtLogConfiguratorHelper(QObject *parent = nullptr);
+    explicit QExtLogConfiguratorHelper(QObject *parent = QEXT_NULLPTR);
     virtual ~QExtLogConfiguratorHelper();
 
     QEXT_DISABLE_COPY_MOVE(QExtLogConfiguratorHelper)
@@ -112,7 +112,7 @@ public:
      *     configureError()
      */
     static void setConfigurationFile(const QString &fileName = QString(),
-                                     ConfigureFunc pConfigureFunc = nullptr);
+                                     ConfigureFunc pConfigureFunc = QEXT_NULLPTR);
 
 Q_SIGNALS:
     /*!

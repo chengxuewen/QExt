@@ -25,9 +25,7 @@
 
 #include <qextLogFilter.h>
 
-QExtLogFilter::QExtLogFilter(QObject *parent) :
-    QObject(parent)
-{}
+QExtLogFilter::QExtLogFilter(QObject *parent) : QObject(parent) {}
 
 QExtLogFilter::~QExtLogFilter() = default;
 
@@ -41,5 +39,4 @@ void QExtLogFilter::setNext(const QExtLogFilterSharedPtr &filter)
     mNext = filter;
 }
 
-void QExtLogFilter::activateOptions()
-{}
+void QExtLogFilter::activateOptions() {}

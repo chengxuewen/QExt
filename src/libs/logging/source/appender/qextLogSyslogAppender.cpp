@@ -39,11 +39,11 @@
 #include <QLibrary>
 
 typedef HANDLE(WINAPI *PDeregisterEventSource)(HANDLE);
-static PDeregisterEventSource pDeregisterEventSource = nullptr;
+static PDeregisterEventSource pDeregisterEventSource = QEXT_NULLPTR;
 typedef BOOL(WINAPI *PReportEvent)(HANDLE, WORD, WORD, DWORD, PSID, WORD, DWORD, LPCTSTR *, LPVOID);
-static PReportEvent pReportEvent = nullptr;
+static PReportEvent pReportEvent = QEXT_NULLPTR;
 typedef HANDLE(WINAPI *PRegisterEventSource)(LPCTSTR, LPCTSTR);
-static PRegisterEventSource pRegisterEventSource = nullptr;
+static PRegisterEventSource pRegisterEventSource = QEXT_NULLPTR;
 
 #define RESOLVE(name) p##name = reinterpret_cast<P##name>(lib.resolve(#name));
 #define RESOLVEA(name) p##name = reinterpret_cast<P##name>(lib.resolve(#name"A"));
@@ -51,7 +51,7 @@ static PRegisterEventSource pRegisterEventSource = nullptr;
 
 static bool winServiceInit()
 {
-    if (pDeregisterEventSource == nullptr)
+    if (pDeregisterEventSource == QEXT_NULLPTR)
     {
         QLibrary lib(QStringLiteral("advapi32"));
 
@@ -60,7 +60,7 @@ static bool winServiceInit()
         RESOLVEW(ReportEvent);
         RESOLVEW(RegisterEventSource);
     }
-    return pDeregisterEventSource != nullptr;
+    return pDeregisterEventSource != QEXT_NULLPTR;
 }
 #else
 
@@ -78,21 +78,27 @@ static QString encodeName(const QString &name, bool allowUpper = false)
     QString n = name.toLower();
     QString legal = QStringLiteral("abcdefghijklmnopqrstuvwxyz1234567890");
     if (allowUpper)
+    {
         legal += QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    }
     int pos = 0;
     while (pos < n.size())
     {
         if (legal.indexOf(n[pos]) == -1)
+        {
             n.remove(pos, 1);
+        }
         else
+        {
             ++pos;
+        }
     }
     return n;
 }
 #endif
 
 QExtLogSystemLogAppender::QExtLogSystemLogAppender(QObject *parent) :
-    QExtLogAppenderSkeleton(parent), ident(nullptr)
+    QExtLogAppenderSkeleton(parent), ident(QEXT_NULLPTR)
 {
     setServiceName(QCoreApplication::applicationName());
 }
@@ -129,16 +135,16 @@ void QExtLogSystemLogAppender::append(const QExtLoggingEvent &event)
         break;
     }
 
-    HANDLE h = pRegisterEventSource(nullptr, serviceName().toStdWString().c_str());
-    if (h != nullptr)
+    HANDLE h = pRegisterEventSource(QEXT_NULLPTR, serviceName().toStdWString().c_str());
+    if (h != QEXT_NULLPTR)
     {
         int id = 0;
         uint category = 0;
         auto msg = message.toStdWString();
         const wchar_t *msg_wstr = msg.c_str();
-        const char *bindata = nullptr;//data.size() ? data.constData() : 0;
+        const char *bindata = QEXT_NULLPTR;//data.size() ? data.constData() : 0;
         const int datasize = 0;
-        pReportEvent(h, wType, category, id, nullptr, 1, datasize,
+        pReportEvent(h, wType, category, id, QEXT_NULLPTR, 1, datasize,
                      &msg_wstr, const_cast<char *> (bindata));
         pDeregisterEventSource(h);
     }
@@ -167,7 +173,9 @@ void QExtLogSystemLogAppender::append(const QExtLoggingEvent &event)
 #else
     for (const auto &line : message.split('\n', QString::SkipEmptyParts))
 #endif
+    {
         syslog(st, "%s", line.toLocal8Bit().constData());
+    }
     closelog();
 
 #endif
@@ -191,6 +199,3 @@ void QExtLogSystemLogAppender::setServiceName(const QString &serviceName)
     ::memcpy(ident, tmp.toLocal8Bit().constData(), len);
 #endif
 }
-
-// #include "moc_systemlogappender.cpp"
-

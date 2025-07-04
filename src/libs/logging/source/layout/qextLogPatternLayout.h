@@ -80,16 +80,16 @@ public:
     };
     Q_ENUM(ConversionPattern)
 
-    QExtLogPatternLayout(QObject *parent = nullptr);
+    QExtLogPatternLayout(QObject *parent = QEXT_NULLPTR);
     QExtLogPatternLayout(const QString &pattern,
-                  QObject *parent = nullptr);
+                  QObject *parent = QEXT_NULLPTR);
 
     /*!
      * Creates a QExtLogPatternLayout with the conversion pattern value specified
      * by the \a conversionPattern constant.
      */
     QExtLogPatternLayout(ConversionPattern conversionPattern,
-                  QObject *parent = nullptr);
+                  QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogPatternLayout)

@@ -39,7 +39,7 @@
 QExtLoggingEvent::QExtLoggingEvent() :
     QEvent(eventId),
     mLevel(QExtLogLevel::Null),
-    mLogger(nullptr),
+    mLogger(QEXT_NULLPTR),
     mMessage(),
     mNdc(QExtLogNDC::peek()),
     mProperties(QExtLogMDC::context()),
@@ -207,7 +207,10 @@ void QExtLoggingEvent::setThreadNameToCurrent()
         mThreadName = QThread::currentThread()->objectName();
         // if object name is not set use thread function address for thread identification
         if (mThreadName.isEmpty())
-            mThreadName = QStringLiteral("0x%1").arg(reinterpret_cast<quintptr>(QThread::currentThread()), QT_POINTER_SIZE * 2, 16, QChar('0'));
+        {
+            mThreadName = QStringLiteral("0x%1").arg(reinterpret_cast<quintptr>(QThread::currentThread()),
+                                                     QT_POINTER_SIZE * 2, 16, QChar('0'));
+        }
 
     }
 }
@@ -277,9 +280,13 @@ QDataStream &operator>>(QDataStream &in, QExtLoggingEvent &loggingEvent)
         >> loggingEvent.mThreadName
         >> loggingEvent.mTimeStamp;
     if (logger.isEmpty())
-        loggingEvent.mLogger = nullptr;
+    {
+        loggingEvent.mLogger = QEXT_NULLPTR;
+    }
     else
+    {
         loggingEvent.mLogger = QExtLogger::logger(logger);
+    }
 
     return in;
 }

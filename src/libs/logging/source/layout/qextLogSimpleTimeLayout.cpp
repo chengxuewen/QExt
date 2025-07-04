@@ -30,10 +30,8 @@
 QString QExtLogSimpleTimeLayout::format(const QExtLoggingEvent &event)
 {
     return QExtLogDateTime::fromMSecsSinceEpoch(event.timeStamp()).toString(QStringLiteral("dd.MM.yyyy hh:mm"))
-           + QStringLiteral("[") + event.threadName() + QStringLiteral("]")
-           + QStringLiteral(" ") + event.level().toString()
-           + QStringLiteral(" ") + event.loggename()
-           + QStringLiteral(" - ") + event.message() + QExtLogLayout::endOfLine();
+    + QStringLiteral("[") + event.threadName() + QStringLiteral("]")
+        + QStringLiteral(" ") + event.level().toString()
+        + QStringLiteral(" ") + event.loggename()
+        + QStringLiteral(" - ") + event.message() + QExtLogLayout::endOfLine();
 }
-
-// #include "moc_simpletimelayout.cpp"

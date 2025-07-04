@@ -37,14 +37,14 @@ class QExtBinaryLoggingEvent;
 class QExtLoggerRepository;
 class QExtLogHierarchy;
 
-#define LOG4QT_DECLARE_STATIC_BINARYLOGGER(FUNCTION, CLASS) \
+#define QEXT_DECLARE_STATIC_BINARYLOGGER(FUNCTION, CLASS) \
     static QExtBinaryLogger *FUNCTION() \
     { \
         static QExtLogger * p_logger(QExtLogger::logger(#CLASS"@@binary@@" )); \
         return qobject_cast<QExtBinaryLogger*>(p_logger); \
     }
 
-#define LOG4QT_DECLARE_QCLASS_BINARYLOGGER \
+#define QEXT_DECLARE_QCLASS_BINARYLOGGER \
     private: \
         mutable QExtBinaryClassLogger mClassLogger; \
     public: \
@@ -76,7 +76,7 @@ public:
     void log(QExtLogLevel level, const QByteArray &message, QDateTime timeStamp) const;
 
 protected:
-    QExtBinaryLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, QExtLogger *parent = nullptr);
+    QExtBinaryLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, QExtLogger *parent = QEXT_NULLPTR);
     virtual ~QExtBinaryLogger();
 
     void forcedLog(QExtLogLevel level, const QByteArray &message) const;

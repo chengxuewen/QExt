@@ -47,7 +47,7 @@ class QExtLogLayout;
  * allow to create objects by specifying their class names. By default
  * all classes of the package are recognised with their Log4j and Log4Qt
  * classanmes. For example an object of the class QExtLogFileAppender can be
- * craeted using "org.apache.log4j.QExtLogFileAppender" or "QExtLogFileAppender".
+ * craeted using "org.QExt.LogFileAppender" or "QExtLogFileAppender".
  * Additional classes can be registered using registerAppender(),
  * registerFilter() and registerLayout().
  *

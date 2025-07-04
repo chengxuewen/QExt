@@ -35,35 +35,35 @@
 QExtLogWriterAppender::QExtLogWriterAppender(QObject *parent) :
     QExtLogAppenderSkeleton(false, parent),
 #if QT_VERSION < 0x060000
-    mEncoding(nullptr),
+    mEncoding(QEXT_NULLPTR),
 #else
     mEncoding(QStringConverter::Encoding::Utf8),
 #endif
-    mWriter(nullptr),
+    mWriter(QEXT_NULLPTR),
     mImmediateFlush(true)
 {
 }
 
 QExtLogWriterAppender::QExtLogWriterAppender(const QExtLogLayoutSharedPtr &layout,
-                               QObject *parent) :
+                                             QObject *parent) :
     QExtLogAppenderSkeleton(false, layout, parent),
 #if QT_VERSION < 0x060000
-    mEncoding(nullptr),
+    mEncoding(QEXT_NULLPTR),
 #else
     mEncoding(QStringConverter::Encoding::System),
 #endif
-    mWriter(nullptr),
+    mWriter(QEXT_NULLPTR),
     mImmediateFlush(true)
 {
 }
 
 
 QExtLogWriterAppender::QExtLogWriterAppender(const QExtLogLayoutSharedPtr &layout,
-                               QTextStream *textStream,
-                               QObject *parent) :
+                                             QTextStream *textStream,
+                                             QObject *parent) :
     QExtLogAppenderSkeleton(false, layout, parent),
 #if QT_VERSION < 0x060000
-    mEncoding(nullptr),
+    mEncoding(QEXT_NULLPTR),
 #else
     mEncoding(QStringConverter::Encoding::System),
 #endif
@@ -85,14 +85,18 @@ void QExtLogWriterAppender::setEncoding(QStringConverter::Encoding encoding)
 {
     QMutexLocker locker(&mObjectGuard);
     if (mEncoding == encoding)
+    {
         return;
+    }
 
     mEncoding = encoding;
-    if (mWriter != nullptr)
+    if (mWriter != QEXT_NULLPTR)
     {
 #if QT_VERSION < 0x060000
-        if (mEncoding != nullptr)
+        if (mEncoding != QEXT_NULLPTR)
+        {
             mWriter->setCodec(mEncoding);
+        }
 #else
         mWriter->setEncoding(mEncoding);
 #endif
@@ -107,11 +111,15 @@ void QExtLogWriterAppender::setWriter(QTextStream *textStream)
 
     mWriter = textStream;
 #if QT_VERSION < 0x060000
-    if ((mEncoding != nullptr) && (mWriter != nullptr))
+    if ((mEncoding != QEXT_NULLPTR) && (mWriter != QEXT_NULLPTR))
+    {
         mWriter->setCodec(mEncoding);
+    }
 #else
-    if (mWriter != nullptr)
+    if (mWriter != QEXT_NULLPTR)
+    {
         mWriter->setEncoding(mEncoding);
+    }
 #endif
     writeHeader();
 }
@@ -120,10 +128,11 @@ void QExtLogWriterAppender::activateOptions()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if (writer() == nullptr)
+    if (writer() == QEXT_NULLPTR)
     {
-        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires writer and has no writer set"),
-                                         QExtLogError::Error_AppenderActivateMissingWriter);
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires writer"
+                                                          " and has no writer set"),
+                                               QExtLogError::Error_AppenderActivateMissingWriter);
         e << name();
         logger()->error(e);
         return;
@@ -141,8 +150,10 @@ void QExtLogWriterAppender::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if (isClosed())
+    if (isClosed())        
+    {
         return;
+    }
 
     closeWriter();
 }
@@ -160,22 +171,26 @@ void QExtLogWriterAppender::append(const QExtLoggingEvent &event)
 
     *mWriter << message;
     if (handleIoErrors())
+    {
         return;
+    }
 
     if (immediateFlush())
     {
         mWriter->flush();
         if (handleIoErrors())
+        {
             return;
+        }
     }
 }
 
 bool QExtLogWriterAppender::checkEntryConditions() const
 {
-    if (writer() == nullptr)
+    if (writer() == QEXT_NULLPTR)
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' without a writer set"),
-                                         QExtLogError::Error_AppenderUseMissingWriter);
+                                               QExtLogError::Error_AppenderUseMissingWriter);
         e << name();
         logger()->error(e);
         return false;
@@ -186,11 +201,13 @@ bool QExtLogWriterAppender::checkEntryConditions() const
 
 void QExtLogWriterAppender::closeWriter()
 {
-    if (mWriter == nullptr)
+    if (mWriter == QEXT_NULLPTR)
+    {
         return;
+    }
 
     writeFooter();
-    mWriter = nullptr;
+    mWriter = QEXT_NULLPTR;
 }
 
 bool QExtLogWriterAppender::handleIoErrors() const
@@ -200,30 +217,40 @@ bool QExtLogWriterAppender::handleIoErrors() const
 
 void QExtLogWriterAppender::writeFooter() const
 {
-    if (!layout() || (mWriter == nullptr))
+    if (!layout() || (mWriter == QEXT_NULLPTR))
+    {
         return;
+    }
 
     QString footer = layout()->footer();
     if (footer.isEmpty())
+    {
         return;
+    }
 
     *mWriter << footer << QExtLogLayout::endOfLine();
     if (handleIoErrors())
+    {
         return;
+    }
 }
 
 void QExtLogWriterAppender::writeHeader() const
 {
-    if (!layout() || (mWriter == nullptr))
+    if (!layout() || (mWriter == QEXT_NULLPTR))
+    {
         return;
+    }
 
     QString header = layout()->header();
     if (header.isEmpty())
+    {
         return;
+    }
 
     *mWriter << header << QExtLogLayout::endOfLine();
     if (handleIoErrors())
+    {
         return;
+    }
 }
-
-// #include "moc_writerappender.cpp"

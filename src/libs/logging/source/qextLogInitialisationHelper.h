@@ -34,7 +34,7 @@
 class QMutex;
 
 /*!
- * LOG4QT_IMPLEMENT_INSTANCE implements an instance function for a
+ * QEXT_IMPLEMENT_INSTANCE implements an instance function for a
  * singleton class \a TYPE.
  *
  *
@@ -64,7 +64,7 @@ class QMutex;
  * MySingleton::~MySingleton()
  * {}
  *
- * LOG4QT_IMPLEMENT_INSTANCE(MySingleton)
+ * QEXT_IMPLEMENT_INSTANCE(MySingleton)
  *
  * \endcode
  *
@@ -72,12 +72,12 @@ class QMutex;
  *
  * \sa \ref QExtLogInitialisationHelper "QExtLogInitialisationHelper"
  */
-#define LOG4QT_IMPLEMENT_INSTANCE(TYPE)                  \
-                TYPE *TYPE::instance()                   \
-                {                                        \
-                    static auto * singelton(new TYPE);   \
-                    return singelton;                    \
-                }
+#define QEXT_IMPLEMENT_INSTANCE(TYPE) \
+        TYPE *TYPE::instance() \
+        { \
+            static auto * singelton(new TYPE); \
+            return singelton; \
+        }
 
 /*!
  * \brief The class QExtLogInitialisationHelper performs static initialisation
@@ -92,7 +92,7 @@ class QMutex;
  *
  * Settings for the package can be retrieved using setting(). Two macros
  * are available to help with the creation of singletons / global static
- * objects  and \ref LOG4QT_IMPLEMENT_INSTANCE "LOG4QT_IMPLEMENT_INSTANCE").
+ * objects  and \ref QEXT_IMPLEMENT_INSTANCE "QEXT_IMPLEMENT_INSTANCE").
  *
  * \note All the functions declared in this class are thread-safe.
  *
@@ -120,13 +120,13 @@ public:
      * <th width="25%"> Environment variable </th>
      * <th width="25%"> Setting key </th>
      * </tr><tr>
-     * <td> LOG4QT_DEBUG </td>
+     * <td> QEXT_DEBUG </td>
      * <td> Debug </td>
      * </tr><tr bgcolor="#ffffff">
-     * <td> LOG4QT_DEFAULTINITOVERRIDE </td>
+     * <td> QEXT_DEFAULTINITOVERRIDE </td>
      * <td> DefaultInitOverride </td>
      * </tr><tr>
-     * <td> LOG4QT_CONFIGURATION </td>
+     * <td> QEXT_CONFIGURATION </td>
      * <td> Configuration </td>
      * </tr>
      * </table>
@@ -184,8 +184,7 @@ public:
      *     \ref Init "Initialization procedure",
      *     QExtLogManager::configureLogLogger(), QExtLogManager::startup()
      */
-    static QString setting(const QString &key,
-                           const QString &defaultValue = QString());
+    static QString setting(const QString &key, const QString &defaultValue = QString());
 
     /*!
      * Returns the start time of the program as the number of milliseconds
@@ -200,8 +199,7 @@ public:
 private:
     void doInitialiseEnvironmentSettings();
     void doRegisterTypes();
-    QString doSetting(const QString &key,
-                      const QString &defaultValue) const;
+    QString doSetting(const QString &key, const QString &defaultValue) const;
     static bool shutdown();
     static bool staticInitialisation();
 
@@ -217,8 +215,7 @@ inline QHash<QString, QString> QExtLogInitialisationHelper::environmentSettings(
     return instance()->mEnvironmentSettings;
 }
 
-inline QString QExtLogInitialisationHelper::setting(const QString &key,
-        const QString &defaultValue)
+inline QString QExtLogInitialisationHelper::setting(const QString &key, const QString &defaultValue)
 {
     return instance()->doSetting(key, defaultValue);
 }

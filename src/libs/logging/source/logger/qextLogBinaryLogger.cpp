@@ -28,7 +28,8 @@
 #include <qextLogClassLogger.h>
 #include <qextLogDatetime.h>
 
-QExtBinaryLogger::QExtBinaryLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, QExtLogger *parent)
+QExtBinaryLogger::QExtBinaryLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name,
+                                   QExtLogger *parent)
     : QExtLogger(loggerRepository, level, name, parent)
 {
 }
@@ -49,7 +50,9 @@ QExtLogBinaryStream QExtBinaryLogger::log(QExtLogLevel level) const
 void QExtBinaryLogger::log(QExtLogLevel level, const QByteArray &message) const
 {
     if (isEnabledFor(level))
+    {
         forcedLog(level, message);
+    }
 }
 
 void QExtBinaryLogger::log(QExtLogLevel level, const QByteArray &message, QDateTime timeStamp) const
@@ -60,6 +63,3 @@ void QExtBinaryLogger::log(QExtLogLevel level, const QByteArray &message, QDateT
         callAppenders(event);
     }
 }
-
-// #include "moc_binarylogger.cpp"
-

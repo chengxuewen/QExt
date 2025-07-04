@@ -58,9 +58,13 @@ void QExtLogMainThreadAppender::append(const QExtLoggingEvent &event)
 #endif
     {
         if (QThread::currentThread() != qApp->thread())
+        {
             qApp->postEvent(pAppender.data(), new QExtLoggingEvent(event));
+        }
         else
+        {
             pAppender->doAppend(event);
+        }
     }
 }
 
@@ -68,6 +72,3 @@ bool QExtLogMainThreadAppender::checkEntryConditions() const
 {
     return QExtLogAppenderSkeleton::checkEntryConditions();
 }
-
-// #include "moc_mainthreadappender.cpp"
-

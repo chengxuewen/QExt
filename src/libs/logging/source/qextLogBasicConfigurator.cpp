@@ -42,13 +42,13 @@ bool QExtLogBasicConfigurator::configure()
     list->setThreshold(QExtLogLevel::Error);
     QExtLogManager::logLogger()->addAppender(QExtLogAppenderSharedPtr(list));
 
-    QExtLogLayoutSharedPtr p_layout(new QExtLogPatternLayout(QExtLogPatternLayout::TTCC_CONVERSION_PATTERN));
-    p_layout->setName(QStringLiteral("QExtLogBasicConfigurator TTCC"));
-    p_layout->activateOptions();
-    QExtLogConsoleAppender *p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDOUT_TARGET);
-    p_appender->setName(QStringLiteral("QExtLogBasicConfigurator stdout"));
-    p_appender->activateOptions();
-    QExtLogManager::rootLogger()->addAppender(p_appender);
+    QExtLogLayoutSharedPtr layout(new QExtLogPatternLayout(QExtLogPatternLayout::TTCC_CONVERSION_PATTERN));
+    layout->setName(QStringLiteral("QExtLogBasicConfigurator TTCC"));
+    layout->activateOptions();
+    QExtLogConsoleAppender *appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    appender->setName(QStringLiteral("QExtLogBasicConfigurator stdout"));
+    appender->activateOptions();
+    QExtLogManager::rootLogger()->addAppender(appender);
 
     QExtLogManager::logLogger()->removeAppender(list);
     QExtLogConfiguratorHelper::setConfigureError(list->list());

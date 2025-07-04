@@ -41,13 +41,16 @@ QExtBinaryLoggingEvent::QExtBinaryLoggingEvent(const QExtLogger *logger, QExtLog
 {
 }
 
-QExtBinaryLoggingEvent::QExtBinaryLoggingEvent(const QExtLogger *logger, QExtLogLevel level, const QByteArray &message, qint64 timeStamp)
+QExtBinaryLoggingEvent::QExtBinaryLoggingEvent(const QExtLogger *logger, QExtLogLevel level, const QByteArray &message,
+                                               qint64 timeStamp)
     : QExtLoggingEvent(logger, level, QString(binMarker), timeStamp)
     , mBinaryMessage(message)
 {
 }
 
-QExtBinaryLoggingEvent::QExtBinaryLoggingEvent(const QExtLogger *logger, QExtLogLevel level, const QByteArray &message, const QString &ndc, const QHash<QString, QString> &properties, const QString &threadName, qint64 timeStamp)
+QExtBinaryLoggingEvent::QExtBinaryLoggingEvent(const QExtLogger *logger, QExtLogLevel level, const QByteArray &message,
+                                               const QString &ndc, const QHash<QString, QString> &properties,
+                                               const QString &threadName, qint64 timeStamp)
     : QExtLoggingEvent(logger, level, QString(binMarker), ndc, properties, threadName, timeStamp)
     , mBinaryMessage(message)
 {

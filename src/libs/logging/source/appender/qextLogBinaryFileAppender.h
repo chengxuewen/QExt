@@ -43,16 +43,16 @@ class QEXT_LOGGING_API QExtLogBinaryFileAppender : public QExtLogBinaryWriterApp
     Q_PROPERTY(QDataStream::Version streamVersion READ streamVersion WRITE setStreamVersion)
 
 public:
-    explicit QExtLogBinaryFileAppender(QObject *parent = nullptr);
+    explicit QExtLogBinaryFileAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogBinaryFileAppender(const QString &fileName,
-                       QObject *parent = nullptr);
+                       QObject *parent = QEXT_NULLPTR);
     QExtLogBinaryFileAppender(const QString &fileName,
                        bool append,
-                       QObject *parent = nullptr);
+                       QObject *parent = QEXT_NULLPTR);
     QExtLogBinaryFileAppender(const QString &fileName,
                        bool append,
                        bool buffered,
-                       QObject *parent = nullptr);
+                       QObject *parent = QEXT_NULLPTR);
     virtual ~QExtLogBinaryFileAppender();
 
     // properties

@@ -41,7 +41,7 @@ QExtLogTTCCLayout::QExtLogTTCCLayout(QObject *parent) :
 }
 
 QExtLogTTCCLayout::QExtLogTTCCLayout(const QString &dateFormat,
-                       QObject *parent) :
+                                     QObject *parent) :
     QExtLogLayout(parent),
     mCategoryPrefixing(true),
     mContextPrinting(true),
@@ -51,7 +51,7 @@ QExtLogTTCCLayout::QExtLogTTCCLayout(const QString &dateFormat,
 }
 
 QExtLogTTCCLayout::QExtLogTTCCLayout(DateFormat dateFormat,
-                       QObject *parent) :
+                                     QObject *parent) :
     QExtLogLayout(parent),
     mCategoryPrefixing(true),
     mContextPrinting(true),
@@ -100,15 +100,19 @@ void QExtLogTTCCLayout::updatePatternFormatter()
 
     pattern += QStringLiteral("%d{") +  mDateFormat + QStringLiteral("}");
     if (mThreadPrinting)
+    {
         pattern += QStringLiteral(" [%t]");
+    }
     pattern += QStringLiteral(" %-5p");
     if (mCategoryPrefixing)
+    {
         pattern += QStringLiteral(" %c");
+    }
     if (mContextPrinting)
+    {
         pattern += QStringLiteral(" %x");
+    }
     pattern += QStringLiteral(" - %m%n");
 
     mPatternFormatter.reset(new QExtLogPatternFormatter(pattern));
 }
-
-// #include "moc_ttcclayout.cpp"

@@ -34,14 +34,14 @@ QExtLogPatternLayout::QExtLogPatternLayout(QObject *parent) :
 }
 
 QExtLogPatternLayout::QExtLogPatternLayout(const QString &pattern,
-                             QObject *parent) :
+                                           QObject *parent) :
     QExtLogLayout(parent)
 {
     setConversionPattern(pattern);
 }
 
 QExtLogPatternLayout::QExtLogPatternLayout(ConversionPattern conversionPattern,
-                             QObject *parent) :
+                                           QObject *parent) :
     QExtLogLayout(parent)
 {
     setConversionPattern(conversionPattern);
@@ -74,6 +74,3 @@ void QExtLogPatternLayout::updatePatternFormatter()
 {
     mPatternFormatter.reset(new QExtLogPatternFormatter(mPattern));
 }
-
-// #include "moc_patternlayout.cpp"
-

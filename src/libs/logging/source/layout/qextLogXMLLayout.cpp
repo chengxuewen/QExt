@@ -39,19 +39,19 @@ QString QExtLogXMLLayout::format(const QExtLoggingEvent &event)
     QString output;
     QXmlStreamWriter writer(&output);
 
-    writer.writeStartElement(QStringLiteral("log4j:event"));
+    writer.writeStartElement(QStringLiteral("QExtLogging:Event"));
     writer.writeAttribute(QStringLiteral("logger"), event.loggename());
     writer.writeAttribute(QStringLiteral("timestamp"), QString::number(event.timeStamp()));
     writer.writeAttribute(QStringLiteral("level"), event.level().toString());
     writer.writeAttribute(QStringLiteral("thread"), event.threadName());
 
-    writer.writeStartElement(QStringLiteral("log4j:message"));
+    writer.writeStartElement(QStringLiteral("QExtLogging:Message"));
     writer.writeCDATA(event.message());
     writer.writeEndElement();
 
     if (!event.ndc().isEmpty())
     {
-        writer.writeStartElement(QStringLiteral("log4j:QExtLogNDC"));
+        writer.writeStartElement(QStringLiteral("QExtLogging:NDC"));
         writer.writeCDATA(event.ndc());
         writer.writeEndElement();
     }
@@ -59,10 +59,10 @@ QString QExtLogXMLLayout::format(const QExtLoggingEvent &event)
     auto props = event.properties();
     if (!props.isEmpty())
     {
-        writer.writeStartElement(QStringLiteral("log4j:properties"));
+        writer.writeStartElement(QStringLiteral("QExtLogging:Properties"));
         for (auto pos = props.constBegin(); pos != props.constEnd(); ++pos)
         {
-            writer.writeStartElement(QStringLiteral("log4j:data"));
+            writer.writeStartElement(QStringLiteral("QExtLogging:Data"));
             writer.writeAttribute(QStringLiteral("name"), pos.key());
             writer.writeAttribute(QStringLiteral("value"), pos.value());
             writer.writeEndElement();
@@ -73,5 +73,3 @@ QString QExtLogXMLLayout::format(const QExtLoggingEvent &event)
 
     return output;
 }
-
-// #include "moc_xmllayout.cpp"

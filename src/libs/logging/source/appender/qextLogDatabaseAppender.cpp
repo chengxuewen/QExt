@@ -35,14 +35,14 @@
 #include <QtSql/QSqlError>
 
 QExtLogDatabaseAppender::QExtLogDatabaseAppender(QObject *parent) :
-      QExtLogAppenderSkeleton(false, parent)
+    QExtLogAppenderSkeleton(false, parent)
     , connectionName(QSqlDatabase::defaultConnection)
 {
 }
 
 
 QExtLogDatabaseAppender::QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &layout,
-                                   QObject *parent)
+                                                 QObject *parent)
     : QExtLogAppenderSkeleton(false, layout, parent)
     , connectionName(QSqlDatabase::defaultConnection)
 {
@@ -50,9 +50,9 @@ QExtLogDatabaseAppender::QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &l
 
 
 QExtLogDatabaseAppender::QExtLogDatabaseAppender(const QExtLogLayoutSharedPtr &layout,
-                                   const QString &tableName,
-                                   const QString &connection,
-                                   QObject *parent)
+                                                 const QString &tableName,
+                                                 const QString &connection,
+                                                 QObject *parent)
     : QExtLogAppenderSkeleton(false, layout, parent)
     , connectionName(connection)
     , tableName(tableName)
@@ -64,7 +64,9 @@ void QExtLogDatabaseAppender::setConnection(const QString &connection)
     QMutexLocker locker(&mObjectGuard);
 
     if (connectionName == connection)
+    {
         return;
+    }
 
     connectionName = connection;
 }
@@ -74,7 +76,9 @@ void QExtLogDatabaseAppender::setTable(const QString &table)
     QMutexLocker locker(&mObjectGuard);
 
     if (table == tableName)
+    {
         return;
+    }
 
     tableName = table;
 }
@@ -85,8 +89,9 @@ void QExtLogDatabaseAppender::activateOptions()
 
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
-        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires sql connection and table and has no connection or table set")
-                                         , QExtLogError::Error_AppenderMissingDatabaseOrTable);
+        QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Activation of QExtLogAppender '%1' that requires sql "
+                                                          "connection and table and has no connection or table set")
+                                               , QExtLogError::Error_AppenderMissingDatabaseOrTable);
         e << name();
         logger()->error(e);
         return;
@@ -104,18 +109,18 @@ void QExtLogDatabaseAppender::append(const QExtLoggingEvent &event)
 {
     QExtLogDatabaseLayout *databaseLayout = qobject_cast<QExtLogDatabaseLayout *>(layout().data());
 
-    if (databaseLayout != nullptr)
+    if (databaseLayout != QEXT_NULLPTR)
     {
         QSqlRecord record = databaseLayout->formatRecord(event);
 
         QSqlDatabase database = QSqlDatabase::database(connectionName);
         QSqlQuery query(database);
         if (!query.exec(database.driver()->sqlStatement(QSqlDriver::InsertStatement
-                        , tableName, record, false)))
+                                                        , tableName, record, false)))
         {
             QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Sql query exec error: '%1'"),
-                                      QExtLogError::Error_AppenderExecSqlQueryFailed,
-                                      Q_FUNC_INFO);
+                                            QExtLogError::Error_AppenderExecSqlQueryFailed,
+                                            Q_FUNC_INFO);
             e << query.lastQuery() + " " + query.lastError().text();
             logger()->error(e);
         }
@@ -123,7 +128,7 @@ void QExtLogDatabaseAppender::append(const QExtLoggingEvent &event)
     else
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid layout"),
-                                         QExtLogError::Error_AppenderInvalidDatabaseLayout);
+                                               QExtLogError::Error_AppenderInvalidDatabaseLayout);
         e << name();
         logger()->error(e);
     }
@@ -134,7 +139,7 @@ bool QExtLogDatabaseAppender::checkEntryConditions() const
     if (!QSqlDatabase::contains(connectionName) || tableName.isEmpty())
     {
         QExtLogError e = QEXT_LOG_QCLASS_ERROR(QT_TR_NOOP("Use of appender '%1' with invalid database or empty table name"),
-                                         QExtLogError::Error_AppenderMissingDatabaseOrTable);
+                                               QExtLogError::Error_AppenderMissingDatabaseOrTable);
         e << name();
         logger()->error(e);
         return false;
@@ -142,6 +147,3 @@ bool QExtLogDatabaseAppender::checkEntryConditions() const
 
     return QExtLogAppenderSkeleton::checkEntryConditions();
 }
-
-// #include "moc_databaseappender.cpp"
-

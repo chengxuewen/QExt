@@ -63,7 +63,7 @@ class QEXT_LOGGING_API QExtLogListAppender : public QExtLogAppenderSkeleton
     Q_PROPERTY(int maxCount READ maxCount WRITE setMaxCount)
 
 public:
-    QExtLogListAppender(QObject *parent = nullptr);
+    QExtLogListAppender(QObject *parent = QEXT_NULLPTR);
 
 public:
     /*!

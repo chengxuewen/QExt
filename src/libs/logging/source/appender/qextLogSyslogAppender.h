@@ -51,7 +51,7 @@ class QEXT_LOGGING_API QExtLogSystemLogAppender: public QExtLogAppenderSkeleton
     Q_PROPERTY(QString serviceName READ serviceName WRITE setServiceName)
 
 public:
-    explicit QExtLogSystemLogAppender(QObject *parent = nullptr);
+    explicit QExtLogSystemLogAppender(QObject *parent = QEXT_NULLPTR);
     ~QExtLogSystemLogAppender() override;
 
     bool requiresLayout() const override;

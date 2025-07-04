@@ -48,13 +48,13 @@ public:
     /*!
      * Creates a QExtLogDebugAppender.
      */
-    QExtLogDebugAppender(QObject *parent = nullptr);
+    QExtLogDebugAppender(QObject *parent = QEXT_NULLPTR);
 
     /*!
      * Creates a QExtLogDebugAppender with the specified layout \a pLayout
      */
     QExtLogDebugAppender(const QExtLogLayoutSharedPtr &layout,
-                  QObject *parent = nullptr);
+                  QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogDebugAppender)

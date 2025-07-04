@@ -166,7 +166,9 @@ void QExtLogProperties::parseProperty(const QString &property, int line)
                "parseProperty()", "Key escape sequence character definition does not map");
 
     if (property.isEmpty())
+    {
         return;
+    }
 
     int i = 0;
     QChar c;

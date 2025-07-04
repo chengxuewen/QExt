@@ -29,9 +29,9 @@
 QString QExtLogSimpleLayout::format(const QExtLoggingEvent &event)
 {
     if (mShowLevel)
+    {
         return event.level().toString() + QStringLiteral(" - ") + event.message() + QExtLogLayout::endOfLine();
+    }
 
     return event.message() + QExtLogLayout::endOfLine();
 }
-
-// #include "moc_simplelayout.cpp"

@@ -261,7 +261,7 @@ class QEXT_LOGGING_API QExtLogger : public QObject, public QExtLogAppenderAttach
     QEXT_DECLARE_QCLASS_LOGGER
 
 protected:
-    QExtLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, QExtLogger *parent = nullptr);
+    QExtLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level, const QString &name, QExtLogger *parent = QEXT_NULLPTR);
     ~QExtLogger() override;
 
 private:

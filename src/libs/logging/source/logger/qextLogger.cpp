@@ -35,12 +35,12 @@
 #include <QCoreApplication>
 
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
 QExtLogger::QExtLogger(QExtLoggerRepository *loggerRepository, QExtLogLevel level,
-               const QString &name, QExtLogger *parent) :
-    QObject(nullptr),
+                       const QString &name, QExtLogger *parent) :
+    QObject(QEXT_NULLPTR),
     mName(name), mLoggerRepository(loggerRepository), mAdditivity(true),
     mLevel(level), mParentLogger(parent)
 {
@@ -57,10 +57,9 @@ QExtLogger::~QExtLogger()
 
 void QExtLogger::setLevel(QExtLogLevel level)
 {
-    if ((parentLogger() == nullptr) && (level == QExtLogLevel::Null))
+    if ((parentLogger() == QEXT_NULLPTR) && (level == QExtLogLevel::Null))
     {
-        logger()->warn(
-            QStringLiteral("Invalid root logger level Null. Using Debug instead"));
+        logger()->warn(QStringLiteral("Invalid root logger level Null. Using Debug instead"));
         level = QExtLogLevel::Debug;
     }
     mLevel = level;
@@ -77,9 +76,13 @@ void QExtLogger::callAppenders(const QExtLoggingEvent &event) const
 #else
     for (auto &&appender : qAsConst(mAppenders))
 #endif
+    {
         appender->doAppend(event);
-    if (additivity() && (parentLogger() != nullptr))
+    }
+    if (additivity() && (parentLogger() != QEXT_NULLPTR))
+    {
         parentLogger()->callAppenders(event);
+    }
 }
 
 QExtLogLevel QExtLogger::effectiveLevel() const
@@ -91,14 +94,18 @@ QExtLogLevel QExtLogger::effectiveLevel() const
 
     const QExtLogger *logger = this;
     while (logger->level() == QExtLogLevel::Null)
+    {
         logger = logger->parentLogger();
+    }
     return logger->level();
 }
 
 bool QExtLogger::isEnabledFor(QExtLogLevel level) const
 {
     if (mLoggerRepository->isDisabled(level))
+    {
         return false;
+    }
     return (effectiveLevel() <= level);
 }
 
@@ -200,13 +207,17 @@ QExtLogStream QExtLogger::debug() const
 void QExtLogger::debug(const QExtLogError &logError) const
 {
     if (isEnabledFor(QExtLogLevel::Debug))
+    {
         forcedLog(QExtLogLevel::Debug, logError.toString());
+    }
 }
 
 void QExtLogger::debug(const QString &message) const
 {
     if (isEnabledFor(QExtLogLevel::Debug))
+    {
         forcedLog(QExtLogLevel::Debug, message);
+    }
 }
 
 // Log operations: error
@@ -219,13 +230,17 @@ QExtLogStream QExtLogger::error() const
 void QExtLogger::error(const QString &message) const
 {
     if (isEnabledFor(QExtLogLevel::Error))
+    {
         forcedLog(QExtLogLevel::Error, message);
+    }
 }
 
 void QExtLogger::error(const QExtLogError &logError) const
 {
     if (isEnabledFor(QExtLogLevel::Error))
+    {
         forcedLog(QExtLogLevel::Error, logError.toString());
+    }
 }
 
 // Log operations: fatal
@@ -238,13 +253,17 @@ QExtLogStream QExtLogger::fatal() const
 void QExtLogger::fatal(const QString &message) const
 {
     if (isEnabledFor(QExtLogLevel::Fatal))
+    {
         forcedLog(QExtLogLevel::Fatal, message);
+    }
 }
 
 void QExtLogger::fatal(const QExtLogError &logError) const
 {
     if (isEnabledFor(QExtLogLevel::Fatal))
+    {
         forcedLog(QExtLogLevel::Fatal, logError.toString());
+    }
 }
 
 // Log operations: info
@@ -257,13 +276,17 @@ QExtLogStream QExtLogger::info() const
 void QExtLogger::info(const QString &message) const
 {
     if (isEnabledFor(QExtLogLevel::Info))
+    {
         forcedLog(QExtLogLevel::Info, message);
+    }
 }
 
 void QExtLogger::info(const QExtLogError &logError) const
 {
     if (isEnabledFor(QExtLogLevel::Info))
+    {
         forcedLog(QExtLogLevel::Info, logError.toString());
+    }
 }
 
 // Log operations: log
@@ -274,33 +297,39 @@ QExtLogStream QExtLogger::log(QExtLogLevel level) const
 }
 
 void QExtLogger::log(QExtLogLevel level,
-                 const QString &message) const
+                     const QString &message) const
 {
     if (isEnabledFor(level))
+    {
         forcedLog(level, message);
+    }
 }
 
 void QExtLogger::log(const QExtLoggingEvent &logEvent) const
 {
     if (isEnabledFor(logEvent.level()))
+    {
         forcedLog(logEvent);
+    }
 }
 
 void QExtLogger::logWithLocation(QExtLogLevel level, const char *file, int line, const char *function, const QString &message) const
 {
     QExtLoggingEvent loggingEvent = QExtLoggingEvent(this,
-                                             level,
-                                             message,
-                                             QExtLogMessageContext(file, line, function),
-                                             QString());
+                                                     level,
+                                                     message,
+                                                     QExtLogMessageContext(file, line, function),
+                                                     QString());
     forcedLog(loggingEvent);
 }
 
 void QExtLogger::log(QExtLogLevel level,
-                 const QExtLogError &logError) const
+                     const QExtLogError &logError) const
 {
     if (isEnabledFor(level))
+    {
         forcedLog(level, logError.toString());
+    }
 }
 
 // Log operations: trace
@@ -313,13 +342,17 @@ QExtLogStream QExtLogger::trace() const
 void QExtLogger::trace(const QString &message) const
 {
     if (isEnabledFor(QExtLogLevel::Trace))
+    {
         forcedLog(QExtLogLevel::Trace, message);
+    }
 }
 
 void QExtLogger::trace(const QExtLogError &logError) const
 {
     if (isEnabledFor(QExtLogLevel::Trace))
+    {
         forcedLog(QExtLogLevel::Trace, logError.toString());
+    }
 }
 
 // Log operations: warn
@@ -332,13 +365,17 @@ QExtLogStream QExtLogger::warn() const
 void QExtLogger::warn(const QString &message) const
 {
     if (isEnabledFor(QExtLogLevel::Warn))
+    {
         forcedLog(QExtLogLevel::Warn, message);
+    }
 }
 
 void QExtLogger::warn(const QExtLogError &logError) const
 {
     if (isEnabledFor(QExtLogLevel::Warn))
+    {
         forcedLog(QExtLogLevel::Warn, logError.toString());
+    }
 }
 
 void QExtMessageLogger::log(const QString &message) const
@@ -350,6 +387,3 @@ QExtLogStream QExtMessageLogger::log() const
 {
     return QExtLogStream(*mLogger.data(), mLevel);
 }
-
-// #include "moc_logger.cpp"
-

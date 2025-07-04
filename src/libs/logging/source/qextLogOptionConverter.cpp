@@ -32,11 +32,13 @@
 QEXT_DECLARE_STATIC_LOGGER(logger, QExtLogOptionConverter)
 
 QString QExtLogOptionConverter::findAndSubst(const QExtLogProperties &properties,
-                                      const QString &key)
+                                             const QString &key)
 {
     QString value = properties.property(key);
     if (value.isNull())
+    {
         return value;
+    }
 
     const QString begin_subst = QStringLiteral("${");
     const QString end_subst = QStringLiteral("}");
@@ -65,16 +67,18 @@ QString QExtLogOptionConverter::findAndSubst(const QExtLogProperties &properties
             if (end == -1)
             {
                 QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Missing closing bracket for opening bracket at %1. Invalid subsitution in value %2."),
-                                          QExtLogError::Error_ConfiguratorInvalidSubstitution,
-                                          "QExtLogOptionConverter");
+                                                QExtLogError::Error_ConfiguratorInvalidSubstitution,
+                                                "QExtLogOptionConverter");
                 e << begin << value;
                 logger()->error(e);
                 return result;
             }
             auto keyName = value.mid(begin + begin_length, end - begin - end_length - 1);
             auto subValue = findAndSubst(properties, keyName);
-            if (subValue.isNull() && keyName.startsWith(QLatin1String("LOG4QT_")))
+            if (subValue.isNull() && keyName.startsWith(QLatin1String("QEXT_")))
+            {
                 subValue = qgetenv(qPrintable(keyName));
+            }
             result +=subValue;
             i = end + end_length;
         }
@@ -92,7 +96,7 @@ QString QExtLogOptionConverter::classNameJavaToCpp(const QString &className)
 }
 
 bool QExtLogOptionConverter::toBoolean(const QString &option,
-                                bool *ok)
+                                       bool *ok)
 {
     const QLatin1String str_true("true");
     const QLatin1String str_enabled("enabled");
@@ -102,36 +106,46 @@ bool QExtLogOptionConverter::toBoolean(const QString &option,
     const QLatin1String str_zero("0");
 
     if (ok)
+    {
         *ok = true;
+    }
     QString s = option.trimmed().toLower();
     if (s == str_true || s == str_enabled || s == str_one)
+    {
         return true;
+    }
     if (s == str_false || s == str_disabled || s == str_zero)
+    {
         return false;
+    }
 
     if (ok)
+    {
         *ok = false;
+    }
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a boolean"),
-                              QExtLogError::Error_ConfiguratorInvalidOption,
-                              "QExtLogOptionConverter");
+                                    QExtLogError::Error_ConfiguratorInvalidOption,
+                                    "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return false;
 }
 
 bool QExtLogOptionConverter::toBoolean(const QString &option,
-                                bool defaultValue)
+                                       bool defaultValue)
 {
     bool ok;
     bool result = toBoolean(option, &ok);
     if (ok)
+    {
         return result;
+    }
 
     return defaultValue;
 }
 
 qint64 QExtLogOptionConverter::toFileSize(const QString &option,
-                                   bool *ok)
+                                          bool *ok)
 {
     // - Search for unit
     // - Convert characters befor unit to int
@@ -140,90 +154,110 @@ qint64 QExtLogOptionConverter::toFileSize(const QString &option,
     //   - the value < 0
     //   - there is text after the unit characters
 
-    if (ok != nullptr)
+    if (ok != QEXT_NULLPTR)
+    {
         *ok = false;
+    }
     QString s = option.trimmed().toLower();
     qint64 f = 1;
     int i;
     i = s.indexOf(QStringLiteral("kb"));
     if (i >= 0)
+    {
         f = 1024;
+    }
     else
     {
         i = s.indexOf(QStringLiteral("mb"));
         if (i >= 0)
+        {
             f = 1024 * 1024;
+        }
         else
         {
             i = s.indexOf(QStringLiteral("gb"));
             if (i >= 0)
+            {
                 f = 1024 * 1024 * 1024;
+            }
         }
     }
     if (i < 0)
+    {
         i = s.length();
+    }
     bool convertOk;
     qint64 value = s.left(i).toLongLong(&convertOk);
     if (!convertOk || value < 0 || s.length() > i + 2)
     {
         QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a file size"),
-                                  QExtLogError::Error_ConfiguratorInvalidOption,
-                                  "QExtLogOptionConverter");
+                                        QExtLogError::Error_ConfiguratorInvalidOption,
+                                        "QExtLogOptionConverter");
         e << option;
         logger()->error(e);
         return 0;
     }
-    if (ok != nullptr)
+    if (ok != QEXT_NULLPTR)
+    {
         *ok = true;
+    }
     return value * f;
 }
 
 int QExtLogOptionConverter::toInt(const QString &option,
-                           bool *ok)
+                                  bool *ok)
 {
     int value = option.trimmed().toInt(ok);
     if (*ok)
+    {
         return value;
+    }
 
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for an integer"),
-                              QExtLogError::Error_ConfiguratorInvalidOption,
-                              "QExtLogOptionConverter");
+                                    QExtLogError::Error_ConfiguratorInvalidOption,
+                                    "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return 0;
 }
 
 QExtLogLevel QExtLogOptionConverter::toLevel(const QString &option,
-                               bool *ok)
+                                             bool *ok)
 {
     bool convertOk;
     QExtLogLevel level = QExtLogLevel::fromString(option.toUpper().trimmed(), &convertOk);
-    if (ok != nullptr)
+    if (ok != QEXT_NULLPTR)
+    {
         *ok = convertOk;
+    }
     if (convertOk)
+    {
         return level;
+    }
 
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a level"),
-                              QExtLogError::Error_ConfiguratorInvalidOption,
-                              "QExtLogOptionConverter");
+                                    QExtLogError::Error_ConfiguratorInvalidOption,
+                                    "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return level;
 }
 
 QExtLogLevel QExtLogOptionConverter::toLevel(const QString &option,
-                               QExtLogLevel defaultValue)
+                                             QExtLogLevel defaultValue)
 {
     bool ok;
     QExtLogLevel result = toLevel(option, &ok);
     if (ok)
+    {
         return result;
+    }
 
     return defaultValue;
 }
 
 int QExtLogOptionConverter::toTarget(const QString &option,
-                              bool *ok)
+                                     bool *ok)
 {
     const QLatin1String java_stdout("system.out");
     const QLatin1String cpp_stdout("stdout_target");
@@ -231,18 +265,26 @@ int QExtLogOptionConverter::toTarget(const QString &option,
     const QLatin1String cpp_stderr("stderr_target");
 
     if (ok)
+    {
         *ok = true;
+    }
     QString s = option.trimmed().toLower();
     if (s == java_stdout || s == cpp_stdout)
+    {
         return QExtLogConsoleAppender::STDOUT_TARGET;
+    }
     if (s == java_stderr || s == cpp_stderr)
+    {
         return QExtLogConsoleAppender::STDERR_TARGET;
+    }
 
     if (ok)
+    {
         *ok = false;
+    }
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a target"),
-                              QExtLogError::Error_ConfiguratorInvalidOption,
-                              "QExtLogOptionConverter");
+                                    QExtLogError::Error_ConfiguratorInvalidOption,
+                                    "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return QExtLogConsoleAppender::STDOUT_TARGET;
@@ -250,10 +292,11 @@ int QExtLogOptionConverter::toTarget(const QString &option,
 
 #if QT_VERSION < 0x060000
 QTextCodec* QExtLogOptionConverter::toEncoding(const QString &option,
-                              bool *ok)
+                                               bool *ok)
 {
     QTextCodec* encoding = QTextCodec::codecForName(option.toUtf8());
-    if (encoding) {
+    if (encoding)
+    {
         *ok = true;
         return encoding;
     }
@@ -261,29 +304,30 @@ QTextCodec* QExtLogOptionConverter::toEncoding(const QString &option,
     *ok = false;
 
     QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QTextCodec"),
-                              QExtLogError::Error_ConfiguratorInvalidOption,
-                              "QExtLogOptionConverter");
+                                    QExtLogError::Error_ConfiguratorInvalidOption,
+                                    "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
     return 0;
 }
 #else
-    QStringConverter::Encoding QExtLogOptionConverter::toEncoding(const QString &option,
-                                            bool *ok)
+QStringConverter::Encoding QExtLogOptionConverter::toEncoding(const QString &option,
+                                                              bool *ok)
+{
+    std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForName(option.toStdString().c_str());
+    if (encoding.has_value())
     {
-        std::optional<QStringConverter::Encoding> encoding = QStringConverter::encodingForName(option.toStdString().c_str());
-        if (encoding.has_value()) {
-            *ok = true;
-            return encoding.value();
-        }
-
-        *ok = false;
-
-        QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QStringConverter::Encoding"),
-                                  QExtLogError::Error_ConfiguratorInvalidOption,
-                                  "QExtLogOptionConverter");
-        e << option;
-        logger()->error(e);
-        return QStringConverter::System;
+        *ok = true;
+        return encoding.value();
     }
+
+    *ok = false;
+
+    QExtLogError e = QEXT_LOG_ERROR(QT_TR_NOOP("Invalid option string '%1' for a QStringConverter::Encoding"),
+                                    QExtLogError::Error_ConfiguratorInvalidOption,
+                                    "QExtLogOptionConverter");
+    e << option;
+    logger()->error(e);
+    return QStringConverter::System;
+}
 #endif

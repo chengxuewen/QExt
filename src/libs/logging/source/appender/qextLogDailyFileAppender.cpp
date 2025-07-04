@@ -56,7 +56,8 @@ QExtLogDailyFileAppender::QExtLogDailyFileAppender(QObject *parent)
 {
 }
 
-QExtLogDailyFileAppender::QExtLogDailyFileAppender(const QExtLogLayoutSharedPtr &layout, const QString &fileName, const QString &datePattern, const int keepDays, QObject *parent)
+QExtLogDailyFileAppender::QExtLogDailyFileAppender(const QExtLogLayoutSharedPtr &layout, const QString &fileName,
+                                                   const QString &datePattern, const int keepDays, QObject *parent)
     : QExtLogFileAppender(layout, fileName, parent)
     , mDateRetriever(new QExtLogDefaultDateRetriever)
     , mDatePattern(datePattern.isEmpty() ? defaultDatePattern : datePattern)
@@ -91,24 +92,20 @@ void QExtLogDailyFileAppender::setKeepDays(const int keepDays)
 namespace
 {
 
-void deleteObsoleteFiles(
-        QDate currentDate,
-        const QString &datePattern,
-        int keepDays,
-        const QString &originalFilename)
+void deleteObsoleteFiles(QDate currentDate,
+                         const QString &datePattern,
+                         int keepDays,
+                         const QString &originalFilename)
 {
     if (keepDays <= 0) return;
     if (originalFilename.isEmpty()) return;
 
     const QFileInfo fi(originalFilename);
     const QDir logDir(fi.absolutePath());
-    const auto logFileNames(
-                logDir.entryList(
-                    QStringList(QStringLiteral("*.") + fi.completeSuffix()),
-                    QDir::NoSymLinks | QDir::Files));
+    const auto logFileNames(logDir.entryList(QStringList(QStringLiteral("*.") + fi.completeSuffix()),
+                                             QDir::NoSymLinks | QDir::Files));
 
-    const QRegularExpression creationDateExtractor(
-                fi.baseName() % QStringLiteral("(.*)") % QStringLiteral(".") % fi.completeSuffix());
+    const QRegularExpression creationDateExtractor(fi.baseName() % QStringLiteral("(.*)") % QStringLiteral(".") % fi.completeSuffix());
 
     const auto startOfLogging(currentDate.addDays(-keepDays));
 
@@ -172,10 +169,9 @@ void QExtLogDailyFileAppender::append(const QExtLoggingEvent &event)
 
         // schedule check for obsolete files for asynchronous execution, destructor will wait for
         // completion of each executor
-        mDeleteObsoleteFilesExecutors.addFuture(
-                    QtConcurrent::run(
-                        deleteObsoleteFiles,
-                        currentDate, mDatePattern, mKeepDays, mOriginalFilename));
+        mDeleteObsoleteFilesExecutors.addFuture(QtConcurrent::run(deleteObsoleteFiles,
+                                                                  currentDate, mDatePattern,
+                                                                  mKeepDays, mOriginalFilename));
     }
     QExtLogFileAppender::append(event);
 }
@@ -190,7 +186,9 @@ void QExtLogDailyFileAppender::setDateRetriever(const QSharedPointer<const QExtL
 void QExtLogDailyFileAppender::setLogFileForCurrentDay()
 {
     if (mOriginalFilename.isEmpty())
+    {
         mOriginalFilename = file();
+    }
 
     Q_ASSERT_X(mDateRetriever, "QExtLogDailyFileAppender::setLogFileForCurrentDay()", "No date retriever set");
 
@@ -204,5 +202,3 @@ void QExtLogDailyFileAppender::rollOver()
     setLogFileForCurrentDay();
     openFile();
 }
-
-// #include "moc_dailyfileappender.cpp"

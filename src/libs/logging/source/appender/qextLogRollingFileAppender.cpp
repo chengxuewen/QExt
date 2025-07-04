@@ -38,8 +38,8 @@ QExtLogRollingFileAppender::QExtLogRollingFileAppender(QObject *parent) :
 }
 
 QExtLogRollingFileAppender::QExtLogRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
-        const QString &fileName,
-        QObject *parent) :
+                                                       const QString &fileName,
+                                                       QObject *parent) :
     QExtLogFileAppender(layout, fileName, parent),
     mMaxBackupIndex(1),
     mMaximumFileSize(10 * 1024 * 1024)
@@ -47,9 +47,9 @@ QExtLogRollingFileAppender::QExtLogRollingFileAppender(const QExtLogLayoutShared
 }
 
 QExtLogRollingFileAppender::QExtLogRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
-        const QString &fileName,
-        bool append,
-        QObject *parent) :
+                                                       const QString &fileName,
+                                                       bool append,
+                                                       QObject *parent) :
     QExtLogFileAppender(layout, fileName, append, parent),
     mMaxBackupIndex(1),
     mMaximumFileSize(10 * 1024 * 1024)
@@ -61,23 +61,31 @@ void QExtLogRollingFileAppender::setMaxFileSize(const QString &maxFileSize)
     bool ok;
     qint64 max_file_size = QExtLogOptionConverter::toFileSize(maxFileSize, &ok);
     if (ok)
+    {
         setMaximumFileSize(max_file_size);
+    }
 }
 
 void QExtLogRollingFileAppender::append(const QExtLoggingEvent &event)
 {
     QExtLogFileAppender::append(event);
     if (writer()->device()->size() > this->mMaximumFileSize)
+    {
         rollOver();
+    }
 }
 
 void QExtLogRollingFileAppender::openFile()
 {
     // if we do not append, we roll the file to avoid data loss
     if (appendFile())
+    {
         QExtLogFileAppender::openFile();
+    }
     else
+    {
         rollOver();
+    }
 }
 
 void QExtLogRollingFileAppender::rollOver()
@@ -89,7 +97,9 @@ void QExtLogRollingFileAppender::rollOver()
     QFile f;
     f.setFileName(file() + QLatin1Char('.') + QString::number(mMaxBackupIndex));
     if (f.exists() && !removeFile(f))
+    {
         return;
+    }
 
     for (int i = mMaxBackupIndex - 1; i >= 1; i--)
     {
@@ -98,7 +108,9 @@ void QExtLogRollingFileAppender::rollOver()
         {
             const QString target_file_name = file() + QLatin1Char('.') + QString::number(i + 1);
             if (!renameFile(f, target_file_name))
+            {
                 return;
+            }
         }
     }
 
@@ -108,10 +120,10 @@ void QExtLogRollingFileAppender::rollOver()
     {
         const QString target_file_name = file() + QStringLiteral(".1");
         if (!renameFile(f, target_file_name))
+        {
             return;
+        }
     }
 
     QExtLogFileAppender::openFile();
 }
-
-// #include "moc_rollingfileappender.cpp"

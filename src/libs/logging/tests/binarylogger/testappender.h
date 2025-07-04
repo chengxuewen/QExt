@@ -9,7 +9,7 @@ class  TestAppender : public QExtLogAppenderSkeleton
 {
     Q_OBJECT
 public:
-    explicit TestAppender(QObject *parent = nullptr);
+    explicit TestAppender(QObject *parent = QEXT_NULLPTR);
     TestAppender(const TestAppender &) = delete;
     TestAppender &operator=(const TestAppender &) = delete;
 

@@ -28,6 +28,8 @@
 
 #include <QObject>
 
+#include <qextLoggingGlobal.h>
+
 class QExtLogAsyncAppender;
 
 /*!
@@ -38,11 +40,11 @@ class QExtLogAsyncAppender;
  *
  * \note All the functions declared in this class are thread-safe.
  */
-class QExtLogDispatcher : public QObject
+class QEXT_LOGGING_API QExtLogDispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit QExtLogDispatcher(QObject *parent = nullptr);
+    explicit QExtLogDispatcher(QObject *parent = QEXT_NULLPTR);
 
     void setAsyncAppender(QExtLogAsyncAppender *asyncAppender);
 

@@ -114,16 +114,16 @@ public:
     };
     Q_ENUM(DateFormat)
 
-    QExtLogTTCCLayout(QObject *parent = nullptr);
+    QExtLogTTCCLayout(QObject *parent = QEXT_NULLPTR);
     QExtLogTTCCLayout(const QString &dateFormat,
-               QObject *parent = nullptr);
+               QObject *parent = QEXT_NULLPTR);
 
     /*!
      * Creates a QExtLogTTCCLayout with the date formar value specified by
      * the \a dateFormat constant and the parent \a parent.
      */
     QExtLogTTCCLayout(DateFormat dateFormat,
-               QObject *parent = nullptr);
+               QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogTTCCLayout)

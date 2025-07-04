@@ -45,10 +45,14 @@ QString QExtLogBinaryToTextLayout::format(const QExtLoggingEvent &event)
             QString spacedHexData;
 
             for (int i = 0; i < hexData.length(); i += 2)
+            {
                 spacedHexData.append(hexData.mid(i, 2) % " ");
+            }
 
             // replace binary marker in output with hexdump
-            return mSubLayout->format(event).replace(QExtBinaryLoggingEvent::binaryMarker(), QStringLiteral("%1 bytes: %2").arg(binaryEvent->binaryMessage().size()).arg(spacedHexData));
+            return mSubLayout->format(event).replace(QExtBinaryLoggingEvent::binaryMarker(),
+                                                     QStringLiteral("%1 bytes: %2").
+                                                     arg(binaryEvent->binaryMessage().size()).arg(spacedHexData));
         }
     }
     return QString();

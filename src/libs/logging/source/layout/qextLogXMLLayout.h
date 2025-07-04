@@ -32,7 +32,7 @@ class QEXT_LOGGING_API QExtLogXMLLayout : public QExtLogLayout
 {
     Q_OBJECT
 public:
-    explicit QExtLogXMLLayout(QObject *parent = nullptr);
+    explicit QExtLogXMLLayout(QObject *parent = QEXT_NULLPTR);
 
     QString format(const QExtLoggingEvent &event) override;
 

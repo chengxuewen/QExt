@@ -41,7 +41,7 @@ class QEXT_LOGGING_API QExtLogSimpleLayout : public QExtLogLayout
     Q_PROPERTY(bool showLevel READ showLevel WRITE setShowLevel)
 
 public:
-    QExtLogSimpleLayout(QObject *parent = nullptr);
+    QExtLogSimpleLayout(QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogSimpleLayout)

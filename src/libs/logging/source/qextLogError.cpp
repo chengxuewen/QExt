@@ -87,7 +87,7 @@ QExtLogError::QExtLogError(const char *message,
 
 QString QExtLogError::translatedMessage() const
 {
-    return QCoreApplication::translate(mContext.toLatin1().constData(), mMessage.toUtf8().constData(), nullptr);
+    return QCoreApplication::translate(mContext.toLatin1().constData(), mMessage.toUtf8().constData(), QEXT_NULLPTR);
 }
 
 QExtLogError QExtLogError::lastError()

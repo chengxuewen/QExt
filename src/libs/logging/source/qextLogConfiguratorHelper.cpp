@@ -33,24 +33,24 @@
 
 QExtLogConfiguratorHelper::QExtLogConfiguratorHelper(QObject *parent) :
     QObject(parent),
-    mConfigureFunc(nullptr),
-    mConfigurationFileWatch(nullptr)
+    mConfigureFunc(QEXT_NULLPTR),
+    mConfigurationFileWatch(QEXT_NULLPTR)
 {
 }
-
 
 QExtLogConfiguratorHelper::~QExtLogConfiguratorHelper()
 {
     delete mConfigurationFileWatch;
 }
 
-LOG4QT_IMPLEMENT_INSTANCE(QExtLogConfiguratorHelper)
+QEXT_IMPLEMENT_INSTANCE(QExtLogConfiguratorHelper)
 
 void QExtLogConfiguratorHelper::doConfigurationFileChanged(const QString &fileName)
 {
-    if (!mConfigureFunc ||
-        !QFileInfo::exists(mConfigurationFile.absoluteFilePath()))
+    if (!mConfigureFunc || !QFileInfo::exists(mConfigurationFile.absoluteFilePath()))
+    {
         return;
+    }
     mConfigureFunc(fileName);
     Q_EMIT configurationFileChanged(fileName, mConfigureError.count() > 0);
 }
@@ -64,19 +64,22 @@ void QExtLogConfiguratorHelper::doConfigurationFileDirectoryChanged(const QStrin
 void QExtLogConfiguratorHelper::tryToReAddConfigurationFile()
 {
     if (!mConfigurationFileWatch->files().contains(mConfigurationFile.absoluteFilePath()))
+    {
         mConfigurationFileWatch->addPath(mConfigurationFile.absoluteFilePath());
+    }
 }
 
-void QExtLogConfiguratorHelper::doSetConfigurationFile(const QString &fileName,
-        ConfigureFunc pConfigureFunc)
+void QExtLogConfiguratorHelper::doSetConfigurationFile(const QString &fileName, ConfigureFunc pConfigureFunc)
 {
     QMutexLocker locker(&mObjectGuard);
     mConfigurationFile.setFile(fileName);
-    mConfigureFunc = nullptr;
+    mConfigureFunc = QEXT_NULLPTR;
     delete mConfigurationFileWatch;
-    mConfigurationFileWatch = nullptr;
+    mConfigurationFileWatch = QEXT_NULLPTR;
     if (fileName.isEmpty() || !QFileInfo::exists(fileName))
+    {
         return;
+    }
 
     mConfigureFunc = pConfigureFunc;
     mConfigurationFileWatch = new QFileSystemWatcher();
@@ -90,7 +93,7 @@ void QExtLogConfiguratorHelper::doSetConfigurationFile(const QString &fileName,
                 this, &QExtLogConfiguratorHelper::doConfigurationFileDirectoryChanged);
     }
     else
+    {
         qWarning() << "Add Path '" << fileName << "' to file system watcher failed!";
+    }
 }
-
-// #include "moc_configuratorhelper.cpp"

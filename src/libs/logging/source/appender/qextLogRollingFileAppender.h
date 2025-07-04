@@ -69,14 +69,14 @@ class QEXT_LOGGING_API QExtLogRollingFileAppender : public QExtLogFileAppender
     Q_PROPERTY(QString maxFileSize READ maxFileSize WRITE setMaxFileSize)
 
 public:
-    QExtLogRollingFileAppender(QObject *parent = nullptr);
+    QExtLogRollingFileAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
                         const QString &fileName,
-                        QObject *parent = nullptr);
+                        QObject *parent = QEXT_NULLPTR);
     QExtLogRollingFileAppender(const QExtLogLayoutSharedPtr &layout,
                         const QString &fileName,
                         bool append,
-                        QObject *parent = nullptr);
+                        QObject *parent = QEXT_NULLPTR);
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogRollingFileAppender)

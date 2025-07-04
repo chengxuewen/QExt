@@ -30,7 +30,7 @@
 #include <QCoreApplication>
 
 QExtLogDispatcher::QExtLogDispatcher(QObject *parent) : QObject(parent)
-    , mAsyncAppender(nullptr)
+    , mAsyncAppender(QEXT_NULLPTR)
 {}
 
 void QExtLogDispatcher::customEvent(QEvent *event)
@@ -38,8 +38,10 @@ void QExtLogDispatcher::customEvent(QEvent *event)
     if (event->type() == QExtLoggingEvent::eventId)
     {
         auto *logEvent = static_cast<QExtLoggingEvent *>(event);
-        if (mAsyncAppender != nullptr)
+        if (mAsyncAppender != QEXT_NULLPTR)
+        {
             mAsyncAppender->callAppenders(*logEvent);
+        }
     }
     QObject::customEvent(event);
 }
@@ -48,5 +50,3 @@ void QExtLogDispatcher::setAsyncAppender(QExtLogAsyncAppender *asyncAppender)
 {
     mAsyncAppender = asyncAppender;
 }
-
-// #include "moc_dispatcher.cpp"

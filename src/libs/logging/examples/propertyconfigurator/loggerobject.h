@@ -30,7 +30,7 @@ class LoggerObject : public QObject
     Q_OBJECT
     QEXT_DECLARE_QCLASS_LOGGER
 public:
-    explicit LoggerObject(QObject *parent = nullptr);
+    explicit LoggerObject(QObject *parent = QEXT_NULLPTR);
 
 Q_SIGNALS:
     void exit(int code);

@@ -69,7 +69,7 @@ class QEXT_LOGGING_API QExtLogAppender : public QObject
     Q_PROPERTY(bool requiresLayout READ requiresLayout)
 
 public:
-    QExtLogAppender(QObject *parent = nullptr);
+    QExtLogAppender(QObject *parent = QEXT_NULLPTR);
     virtual ~QExtLogAppender();
 
     virtual QExtLogFilterSharedPtr filter() const = 0;

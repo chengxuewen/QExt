@@ -37,8 +37,8 @@ class QEXT_LOGGING_API QExtLogBinaryWriterAppender : public QExtLogAppenderSkele
     Q_OBJECT
     Q_PROPERTY(QDataStream *writer READ writer WRITE setWriter)
 public:
-    QExtLogBinaryWriterAppender(QObject *parent = nullptr);
-    QExtLogBinaryWriterAppender(QDataStream *dataStream, QObject *parent = nullptr);
+    QExtLogBinaryWriterAppender(QObject *parent = QEXT_NULLPTR);
+    QExtLogBinaryWriterAppender(QDataStream *dataStream, QObject *parent = QEXT_NULLPTR);
     ~QExtLogBinaryWriterAppender() override;
 
     bool requiresLayout() const override;

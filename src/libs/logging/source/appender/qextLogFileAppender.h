@@ -69,19 +69,19 @@ class QEXT_LOGGING_API QExtLogFileAppender : public QExtLogWriterAppender
     Q_PROPERTY(QString file READ file WRITE setFile)
 
 public:
-    explicit QExtLogFileAppender(QObject *parent = nullptr);
+    explicit QExtLogFileAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                  const QString &fileName,
-                 QObject *parent = nullptr);
+                 QObject *parent = QEXT_NULLPTR);
     QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                  const QString &fileName,
                  bool append,
-                 QObject *parent = nullptr);
+                 QObject *parent = QEXT_NULLPTR);
     QExtLogFileAppender(const QExtLogLayoutSharedPtr &layout,
                  const QString &fileName,
                  bool append,
                  bool buffered,
-                 QObject *parent = nullptr);
+                 QObject *parent = QEXT_NULLPTR);
     ~QExtLogFileAppender() override;
 
 private:

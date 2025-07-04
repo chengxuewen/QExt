@@ -69,8 +69,8 @@ class QEXT_LOGGING_API QExtLogDailyFileAppender : public QExtLogFileAppender
     Q_PROPERTY(int keepDays READ keepDays WRITE setKeepDays)
 
 public:
-    explicit QExtLogDailyFileAppender(QObject *parent = nullptr);
-    QExtLogDailyFileAppender(const QExtLogLayoutSharedPtr &layout, const QString &fileName, const QString &datePattern = QString(), int keepDays = 0, QObject *parent = nullptr);
+    explicit QExtLogDailyFileAppender(QObject *parent = QEXT_NULLPTR);
+    QExtLogDailyFileAppender(const QExtLogLayoutSharedPtr &layout, const QString &fileName, const QString &datePattern = QString(), int keepDays = 0, QObject *parent = QEXT_NULLPTR);
 
     QString datePattern() const;
     void setDatePattern(const QString &datePattern);

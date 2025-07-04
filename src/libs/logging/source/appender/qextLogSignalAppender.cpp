@@ -36,5 +36,3 @@ void QExtLogSignalAppender::append(const QExtLoggingEvent &event)
     QString message(layout()->format(event));
     Q_EMIT appended(message);
 }
-
-// #include "moc_signalappender.cpp"

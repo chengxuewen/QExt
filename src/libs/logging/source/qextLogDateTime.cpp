@@ -35,20 +35,34 @@ QExtLogDateTime::QExtLogDateTime(const QExtLogDateTime &other) = default;
 QString QExtLogDateTime::toString(const QString &format) const
 {
     if (format.isEmpty())
+    {
         return QString();
-    if (!isValid())
+    }
+    if (!this->isValid())
+    {
         return QString();
+    }
 
     if (format == QStringLiteral("NONE"))
+    {
         return QString();
+    }
     if (format == QStringLiteral("RELATIVE"))
+    {
         return QString::number(toMSecsSinceEpoch() - QExtLogInitialisationHelper::startTime());
+    }
     if (format == QStringLiteral("ISO8601"))
+    {
         return formatDateTime(QStringLiteral("yyyy-MM-dd hh:mm:ss.zzz"));
+    }
     if (format == QStringLiteral("ABSOLUTE"))
+    {
         return formatDateTime(QStringLiteral("HH:mm:ss.zzz"));
+    }
     if (format == QStringLiteral("DATE"))
+    {
         return formatDateTime(QStringLiteral("dd MM yyyy HH:mm:ss.zzz"));
+    }
 
     return formatDateTime(format);
 }
