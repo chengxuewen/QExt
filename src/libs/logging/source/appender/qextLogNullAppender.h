@@ -42,13 +42,13 @@ class QEXT_LOGGING_API QExtLogNullAppender : public QExtLogAppenderSkeleton
 
 public:
     QExtLogNullAppender(QObject *parent = QEXT_NULLPTR);
-    ~QExtLogNullAppender() override;
+    ~QExtLogNullAppender() QEXT_OVERRIDE;
 
 public:
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogNullAppender)

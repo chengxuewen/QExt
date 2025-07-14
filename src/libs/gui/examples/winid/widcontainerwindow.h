@@ -1,4 +1,4 @@
-#ifndef WIDCONTAINERWINDOW_H
+﻿#ifndef WIDCONTAINERWINDOW_H
 #define WIDCONTAINERWINDOW_H
 
 #include <QMainWindow>
@@ -14,7 +14,7 @@ class widcontainerWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit widcontainerWindow(QWidget *parent = nullptr);
+    explicit widcontainerWindow(QWidget *parent = 0);
     ~widcontainerWindow();
 
     void load();

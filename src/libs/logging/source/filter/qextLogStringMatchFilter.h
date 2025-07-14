@@ -63,7 +63,7 @@ public:
     void setAcceptOnMatch(bool accept);
     void setStringToMatch(const QString &string, Qt::CaseSensitivity cs = Qt::CaseSensitive);
 
-    Decision decide(const QExtLoggingEvent &event) const override;
+    Decision decide(const QExtLoggingEvent &event) const QEXT_OVERRIDE;
 
 private:
     bool mAcceptOnMatch;

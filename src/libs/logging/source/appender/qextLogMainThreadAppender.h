@@ -46,9 +46,9 @@ class QEXT_LOGGING_API QExtLogMainThreadAppender : public QExtLogAppenderSkeleto
 public:
     QExtLogMainThreadAppender(QObject *parent = QEXT_NULLPTR);
 
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 
-    void activateOptions() override;
+    void activateOptions() QEXT_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -67,10 +67,10 @@ public:
      * \sa QExtLogAppenderSkeleton::doAppend(),
      *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogMainThreadAppender)

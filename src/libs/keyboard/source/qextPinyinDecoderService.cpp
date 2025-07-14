@@ -148,7 +148,7 @@ void QExtPinyinDecoderService::setUserDictionary(bool enabled)
     }
     else
     {
-        im_init_user_dictionary(nullptr);
+        im_init_user_dictionary(QEXT_NULLPTR);
     }
 }
 
@@ -281,7 +281,7 @@ void QExtPinyinDecoderService::flushCache()
 QList<QString> QExtPinyinDecoderService::predictionList(const QString &history)
 {
     QList<QString> predictList;
-    char16 (*predictItems)[kMaxPredictSize + 1] = nullptr;
+    char16 (*predictItems)[kMaxPredictSize + 1] = QEXT_NULLPTR;
     int predictNum = int(im_get_predicts(history.utf16(), predictItems));
     predictList.reserve(predictNum);
     for (int i = 0; i < predictNum; i++)

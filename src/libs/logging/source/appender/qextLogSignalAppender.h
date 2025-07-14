@@ -39,10 +39,10 @@ class QEXT_LOGGING_API QExtLogSignalAppender : public QExtLogAppenderSkeleton
 public:
     explicit QExtLogSignalAppender(QObject *parent = QEXT_NULLPTR);
 
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 Q_SIGNALS:
     /*!

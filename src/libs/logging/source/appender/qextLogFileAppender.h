@@ -82,7 +82,7 @@ public:
                  bool append,
                  bool buffered,
                  QObject *parent = QEXT_NULLPTR);
-    ~QExtLogFileAppender() override;
+    ~QExtLogFileAppender() QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogFileAppender)
@@ -95,8 +95,8 @@ public:
     void setBufferedIo(bool buffered);
     void setFile(const QString &fileName);
 
-    void activateOptions() override;
-    void close() override;
+    void activateOptions() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
 protected:
     /*!
@@ -114,7 +114,7 @@ protected:
      *
      * \sa QExtLogAppenderSkeleton::doAppend(), QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
     void closeFile();
 
@@ -122,7 +122,7 @@ protected:
      * Checks for file I/O errrors. If an error is found it is logged and the
      * function returns true. Otherwise false is returned.
      */
-    bool handleIoErrors() const override;
+    bool handleIoErrors() const QEXT_OVERRIDE;
 
     /*!
      * Opens the file for the appender based on the specified file name and

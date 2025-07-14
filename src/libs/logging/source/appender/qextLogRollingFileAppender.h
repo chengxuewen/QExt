@@ -90,8 +90,8 @@ public:
     void setMaxFileSize(const QString &maxFileSize);
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
-    void openFile() override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
+    void openFile() QEXT_OVERRIDE;
 
 private:
     void rollOver();

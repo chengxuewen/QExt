@@ -36,7 +36,7 @@ class QEXT_LOGGING_API QExtLogBinaryToTextLayout : public QExtLogLayout
 public:
     explicit QExtLogBinaryToTextLayout(const QExtLogLayoutSharedPtr &subLayout = QExtLogLayoutSharedPtr(), QObject *parent = QEXT_NULLPTR);
 
-    virtual QString format(const QExtLoggingEvent &event) override;
+    virtual QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     QExtLogLayoutSharedPtr subLayout() const {return mSubLayout;}
     void setSubLayout(const QExtLogLayoutSharedPtr &layout) {mSubLayout = layout;}

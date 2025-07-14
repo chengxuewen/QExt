@@ -77,7 +77,7 @@ public:
     void setLevelMax(QExtLogLevel level);
     void setLevelMin(QExtLogLevel level);
 
-    Decision decide(const QExtLoggingEvent &event) const override;
+    Decision decide(const QExtLoggingEvent &event) const QEXT_OVERRIDE;
 
 private:
     bool mAcceptOnMatch;

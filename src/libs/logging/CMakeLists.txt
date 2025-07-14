@@ -46,6 +46,7 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::CorePrivate)
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
+    DEFINES UNICODE
     SOURCES
     source/qextLogging.cpp
     source/qextLogging.h

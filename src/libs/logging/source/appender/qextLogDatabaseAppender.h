@@ -70,7 +70,7 @@ private:
     Q_DISABLE_COPY(QExtLogDatabaseAppender)
 
 public:
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 
     QString connection() const;
     QString table() const;
@@ -78,10 +78,10 @@ public:
     void setConnection(const QString &connection);
     void setTable(const QString &table);
 
-    void activateOptions() override;
+    void activateOptions() QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -100,7 +100,7 @@ protected:
      * \sa QExtLogAppenderSkeleton::doAppend(),
      *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
     void closeWriter();
 

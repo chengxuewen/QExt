@@ -163,12 +163,12 @@ QExtLogAppender *create_dailyrollingfile_appender()
 #ifdef Q_OS_WIN
 QExtLogAppender *create_wdc_appender()
 {
-    return new WDCAppender;
+    return new QExtLogWDCAppender;
 }
 
 QExtLogAppender *create_color_console_appender()
 {
-    return new ColorConsoleAppender;
+    return new QExtLogColorConsoleAppender;
 }
 #endif
 

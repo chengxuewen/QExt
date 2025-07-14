@@ -38,7 +38,7 @@ public:
     bool acceptBinaryEvents() const;
     void setAcceptBinaryEvents(bool accept);
 
-    Decision decide(const QExtLoggingEvent &event) const override;
+    Decision decide(const QExtLoggingEvent &event) const QEXT_OVERRIDE;
 
 private:
     bool mAcceptBinaryEvents;

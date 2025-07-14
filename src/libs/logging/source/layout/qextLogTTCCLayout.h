@@ -144,7 +144,7 @@ public:
     void setDateFormat(DateFormat dateFormat);
 
     void setThreadPrinting(bool threadPrinting);
-    virtual QString format(const QExtLoggingEvent &event) override;
+    virtual QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     void updatePatternFormatter();

@@ -90,10 +90,10 @@ public:
     void setMaxCount(int n);
 
     QList<QExtLoggingEvent> clearList();
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     /*!
      * Ensures that the count of events is less or equal then the maxium

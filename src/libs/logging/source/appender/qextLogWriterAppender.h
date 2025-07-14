@@ -86,13 +86,13 @@ public:
     QExtLogWriterAppender(const QExtLogLayoutSharedPtr &layout,
                    QTextStream *textStream,
                    QObject *parent = QEXT_NULLPTR);
-    ~QExtLogWriterAppender() override;
+    ~QExtLogWriterAppender() QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogWriterAppender)
 
 public:
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 #if QT_VERSION < 0x060000
     QTextCodec *encoding() const;
 #else
@@ -118,11 +118,11 @@ public:
     void setImmediateFlush(bool immediateFlush);
     void setWriter(QTextStream *textStream);
 
-    void activateOptions() override;
-    void close() override;
+    void activateOptions() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -141,7 +141,7 @@ protected:
      * \sa QExtLogAppenderSkeleton::doAppend(),
      *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
     void closeWriter();
 

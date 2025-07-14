@@ -11,7 +11,7 @@ class QEXT_KEYBOARD_API QExtCandidatesListWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QExtCandidatesListWidget(QWidget *parent = nullptr);
+    explicit QExtCandidatesListWidget(QWidget *parent = QEXT_NULLPTR);
     ~QExtCandidatesListWidget() QEXT_OVERRIDE;
 
 Q_SIGNALS:

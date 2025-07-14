@@ -296,12 +296,12 @@ void QExtKeyboardInputContext::sendKeyEvent(QKeyEvent *event)
 {
     Q_D(QExtKeyboardInputContext);
     const QGuiApplication *app = qApp;
-    QWindow *focusWindow = app ? app->focusWindow() : nullptr;
+    QWindow *focusWindow = app ? app->focusWindow() : QEXT_NULLPTR;
     if (focusWindow)
     {
         d->m_filterEvent = event;
         QGuiApplication::sendEvent(focusWindow, event);
-        d->m_filterEvent = nullptr;
+        d->m_filterEvent = QEXT_NULLPTR;
     }
 }
 
@@ -312,7 +312,7 @@ void QExtKeyboardInputContext::sendEvent(QEvent *event)
     {
         d->m_filterEvent = event;
         QGuiApplication::sendEvent(d->m_focusObject, event);
-        d->m_filterEvent = nullptr;
+        d->m_filterEvent = QEXT_NULLPTR;
     }
 }
 

@@ -78,23 +78,23 @@ protected:
     explicit QExtLogAppenderSkeleton(bool isActive,
                               const QExtLogLayoutSharedPtr &layout,
                               QObject *parent = QEXT_NULLPTR);
-    ~QExtLogAppenderSkeleton() override;
+    ~QExtLogAppenderSkeleton() QEXT_OVERRIDE;
 
 public:
-    QExtLogFilterSharedPtr filter() const override;
-    QExtLogLayoutSharedPtr layout() const override;
+    QExtLogFilterSharedPtr filter() const QEXT_OVERRIDE;
+    QExtLogLayoutSharedPtr layout() const QEXT_OVERRIDE;
     bool isActive() const;
     bool isClosed() const;
-    QString name() const override;
+    QString name() const QEXT_OVERRIDE;
     QExtLogLevel threshold() const;
-    void setLayout(const QExtLogLayoutSharedPtr &layout) override;
-    void setName(const QString &name) override;
+    void setLayout(const QExtLogLayoutSharedPtr &layout) QEXT_OVERRIDE;
+    void setName(const QString &name) QEXT_OVERRIDE;
     void setThreshold(QExtLogLevel level);
 
     virtual void activateOptions();
-    void addFilter(const QExtLogFilterSharedPtr &filter) override;
-    void clearFilters() override;
-    void close() override;
+    void addFilter(const QExtLogFilterSharedPtr &filter) QEXT_OVERRIDE;
+    void clearFilters() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
     /*!
      * Performs checks and delegates the actuall appending to the subclass
@@ -102,14 +102,14 @@ public:
      *
      * \sa append(), checkEntryConditions(), isAsSevereAsThreshold(), QExtLogFilter
      */
-    void doAppend(const QExtLoggingEvent &event) override;
+    void doAppend(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     QExtLogFilterSharedPtr firstFilter() const;
     bool isAsSevereAsThreshold(QExtLogLevel level) const;
 
 protected:
     virtual void append(const QExtLoggingEvent &event) = 0;
-    void customEvent(QEvent *event) override;
+    void customEvent(QEvent *event) QEXT_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are

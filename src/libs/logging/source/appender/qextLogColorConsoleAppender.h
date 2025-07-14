@@ -1,86 +1,84 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#ifndef LOG4QT_COLORCONSOLEAPPENDER_H
-#define LOG4QT_COLORCONSOLEAPPENDER_H
+#ifndef _QEXTLOGCOLORCONSOLEAPPENDER_H
+#define _QEXTLOGCOLORCONSOLEAPPENDER_H
 
 #include <qextLogConsoleAppender.h>
 
 // if we are in WIN*
 #ifdef Q_OS_WIN
-#define WIN32_LEAN_AND_MEAN
-#define NOGDI
-#include <windows.h>
+#   define WIN32_LEAN_AND_MEAN
+#   define NOGDI
+#   include <windows.h>
 #endif
 
 class QFile;
 class QTextStream;
 
-namespace Log4Qt
-{
-
 /*!
- * \brief The class ColorConsoleAppender appends to stdout or stderr with color formatting.
+ * \brief The class QExtLogColorConsoleAppender appends to stdout or stderr with color formatting.
  *
  * \note All the functions declared in this class are thread-safe.
  *
  * \note The ownership and lifetime of objects of this class are managed.
  *       See \ref Ownership "Object ownership" for more details.
  */
-class QEXT_LOGGING_API ColorConsoleAppender : public ConsoleAppender
+class QEXT_LOGGING_API QExtLogColorConsoleAppender : public QExtLogConsoleAppender
 {
     Q_OBJECT
 
 public:
-    ColorConsoleAppender(QObject *parent = nullptr);
-    ColorConsoleAppender(const LayoutSharedPtr &layout,
-                         QObject *parent = nullptr);
-    ColorConsoleAppender(const LayoutSharedPtr &layout,
-                         const QString &target,
-                         QObject *parent = nullptr);
+    QExtLogColorConsoleAppender(QObject *parent = QEXT_NULLPTR);
+    QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout,
+                                QObject *parent = QEXT_NULLPTR);
+    QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout,
+                                const QString &target,
+                                QObject *parent = QEXT_NULLPTR);
     /*!
      * Creates a ConsoleAppender with the layout \a pLayout, the target
      * value specified by the \a target constant and the parent
      * \a parent.
      */
-    ColorConsoleAppender(const LayoutSharedPtr &layout,
-                         Target target,
-                         QObject *parent = nullptr);
+    QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout,
+                                Target target,
+                                QObject *parent = QEXT_NULLPTR);
 
-    ~ColorConsoleAppender() override;
+    ~QExtLogColorConsoleAppender() QEXT_OVERRIDE;
     // if we are in WIN*
 #ifdef Q_OS_WIN
-    void activateOptions() override;
-    void close() override;
+    void activateOptions() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
 protected:
-    void append(const LoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
-    HANDLE hConsole;
+    HANDLE mConsoleHandle;
 #endif
     void closeInternal();
 };
 
-
-} // namespace Log4Qt
-
-
-#endif // #ifndef  LOG4QT_COLORCONSOLEAPPENDER_H
+#endif // _QEXTLOGCOLORCONSOLEAPPENDER_H

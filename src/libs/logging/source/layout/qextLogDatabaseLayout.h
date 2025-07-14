@@ -70,7 +70,7 @@ private:
 
 public:
     virtual QSqlRecord formatRecord(const QExtLoggingEvent &event);
-    QString format(const QExtLoggingEvent &event) override;
+    QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     QString timeStampColumn() const;
     QString loggenameColumn() const;

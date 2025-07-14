@@ -13,7 +13,7 @@ namespace
 class DateRetrieverMock final : public QExtLogDateRetrieverInterface
 {
 public:
-    QDate currentDate() const override
+    QDate currentDate() const QEXT_OVERRIDE
     {
         return mCurrentDate;
     }

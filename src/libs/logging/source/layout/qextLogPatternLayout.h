@@ -104,7 +104,7 @@ public:
      */
     void setConversionPattern(ConversionPattern conversionPattern);
 
-    QString format(const QExtLoggingEvent &event) override;
+    QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     void updatePatternFormatter();

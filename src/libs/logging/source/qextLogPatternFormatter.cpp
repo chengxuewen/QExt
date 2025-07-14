@@ -133,7 +133,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(BasicPatternConverter)
 
 protected:
-    QString convert(const QExtLoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const QEXT_OVERRIDE;
 
 private:
     Type mType;
@@ -164,7 +164,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(DatePatternConverter)
 
 protected:
-    QString convert(const QExtLoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const QEXT_OVERRIDE;
 
 private:
     QString mFormat;
@@ -192,7 +192,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(LiteralPatternConverter)
 
 protected:
-    QString convert(const QExtLoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const QEXT_OVERRIDE;
 
 private:
     QString mLiteral;
@@ -223,7 +223,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(LoggepatternConverter)
 
 protected:
-    QString convert(const QExtLoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const QEXT_OVERRIDE;
 
 private:
     int mPrecision;
@@ -255,7 +255,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(MDCPatternConverter)
 
 protected:
-    QString convert(const QExtLoggingEvent &loggingEvent) const override;
+    QString convert(const QExtLoggingEvent &loggingEvent) const QEXT_OVERRIDE;
 
 private:
     QString mKey;

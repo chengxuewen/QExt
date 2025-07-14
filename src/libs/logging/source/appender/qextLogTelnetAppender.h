@@ -77,15 +77,15 @@ public:
     QExtLogTelnetAppender(const QExtLogLayoutSharedPtr &layout,
                    int port,
                    QObject *parent = QEXT_NULLPTR);
-    ~QExtLogTelnetAppender() override;
+    ~QExtLogTelnetAppender() QEXT_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QExtLogTelnetAppender)
 
 public:
-    bool requiresLayout() const override;
-    void activateOptions() override;
-    void close() override;
+    bool requiresLayout() const QEXT_OVERRIDE;
+    void activateOptions() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
     /*!
      * Sets the listening port of the telnet server (default = 23)
@@ -118,7 +118,7 @@ public:
     void setWelcomeMessage(const QString &welcomeMessage);
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -137,7 +137,7 @@ protected:
      * \sa QExtLogAppenderSkeleton::doAppend(),
      *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
     /*!
      *  Creates and starts (listening) the TCP server

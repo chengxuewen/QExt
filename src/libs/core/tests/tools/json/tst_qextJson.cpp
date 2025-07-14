@@ -1211,7 +1211,7 @@ void tst_qextJson::fromVariant_data()
     variantList.append(doubleValue);
     variantList.append(stringValue);
     variantList.append(stringList);
-    variantList.append(QVariant::fromValue(nullptr));
+    variantList.append(QVariant::fromValue(QEXT_NULLPTR));
     variantList.append(QVariant());
     QExtJsonArray jsonArray_variant;
     jsonArray_variant.append(boolValue);
@@ -1227,14 +1227,14 @@ void tst_qextJson::fromVariant_data()
     variantMap["float"] = floatValue;
     variantMap["string"] = stringValue;
     variantMap["array"] = variantList;
-    variantMap["null"] = QVariant::fromValue(nullptr);
+    variantMap["null"] = QVariant::fromValue(QEXT_NULLPTR);
     variantMap["default"] = QVariant();
     QVariantHash variantHash;
     variantHash["bool"] = boolValue;
     variantHash["float"] = floatValue;
     variantHash["string"] = stringValue;
     variantHash["array"] = variantList;
-    variantHash["null"] = QVariant::fromValue(nullptr);
+    variantHash["null"] = QVariant::fromValue(QEXT_NULLPTR);
     variantHash["default"] = QVariant();
     QExtJsonObject jsonObject;
     jsonObject["bool"] = boolValue;
@@ -1245,7 +1245,7 @@ void tst_qextJson::fromVariant_data()
     jsonObject["default"] = QExtJsonValue();
 
     QTest::newRow("default") << QVariant() <<  QExtJsonValue();
-    QTest::newRow("nullptr") << QVariant::fromValue(nullptr) <<  QExtJsonValue(QExtJsonValue::Type_Null);
+    QTest::newRow("QEXT_NULLPTR") << QVariant::fromValue(QEXT_NULLPTR) <<  QExtJsonValue(QExtJsonValue::Type_Null);
     QTest::newRow("bool") << QVariant(boolValue) <<  QExtJsonValue(boolValue);
     QTest::newRow("int") << QVariant(intValue) <<  QExtJsonValue(intValue);
     QTest::newRow("uint") << QVariant(uintValue) <<  QExtJsonValue(static_cast<qint64>(uintValue));
@@ -1260,13 +1260,13 @@ void tst_qextJson::fromVariant_data()
     QTest::newRow("variantHash") << QVariant(variantHash) <<  QExtJsonValue(jsonObject);
 }
 
-// replaces QVariant() with QVariant(nullptr)
+// replaces QVariant() with QVariant(QEXT_NULLPTR)
 static QVariant normalizedVariant(const QVariant &v)
 {
     switch (v.userType())
     {
     case QMetaType::UnknownType:
-        return QVariant::fromValue(nullptr);
+        return QVariant::fromValue(QEXT_NULLPTR);
     case QMetaType::QVariantList: {
         const QVariantList in = v.toList();
         QVariantList out;
@@ -1414,14 +1414,14 @@ void tst_qextJson::toVariantMap()
 
     QCOMPARE(map.size(), 3);
     QCOMPARE(map.value("Key"), QVariant(QString("Value")));
-    QCOMPARE(map.value("null"), QVariant::fromValue(nullptr));
+    QCOMPARE(map.value("null"), QVariant::fromValue(QEXT_NULLPTR));
     QCOMPARE(map.value("Array").type(), QVariant::List);
     QVariantList list = map.value("Array").toList();
     QCOMPARE(list.size(), 4);
     QCOMPARE(list.at(0), QVariant(true));
     QCOMPARE(list.at(1), QVariant(999.));
     QCOMPARE(list.at(2), QVariant(QString("string")));
-    QCOMPARE(list.at(3), QVariant::fromValue(nullptr));
+    QCOMPARE(list.at(3), QVariant::fromValue(QEXT_NULLPTR));
 #endif
 }
 
@@ -1445,14 +1445,14 @@ void tst_qextJson::toVariantHash()
 
     QCOMPARE(hash.size(), 3);
     QCOMPARE(hash.value("Key"), QVariant(QString("Value")));
-    QCOMPARE(hash.value("null"), QVariant::fromValue(nullptr));
+    QCOMPARE(hash.value("null"), QVariant::fromValue(QEXT_NULLPTR));
     QCOMPARE(hash.value("Array").type(), QVariant::List);
     QVariantList list = hash.value("Array").toList();
     QCOMPARE(list.size(), 4);
     QCOMPARE(list.at(0), QVariant(true));
     QCOMPARE(list.at(1), QVariant(999.));
     QCOMPARE(list.at(2), QVariant(QString("string")));
-    QCOMPARE(list.at(3), QVariant::fromValue(nullptr));
+    QCOMPARE(list.at(3), QVariant::fromValue(QEXT_NULLPTR));
 #endif
 }
 
@@ -1478,14 +1478,14 @@ void tst_qextJson::toVariantList()
 
     QCOMPARE(list.size(), 3);
     QCOMPARE(list[0], QVariant(QString("Value")));
-    QCOMPARE(list[1], QVariant::fromValue(nullptr));
+    QCOMPARE(list[1], QVariant::fromValue(QEXT_NULLPTR));
     QCOMPARE(list[2].type(), QVariant::List);
     QVariantList vlist = list[2].toList();
     QCOMPARE(vlist.size(), 4);
     QCOMPARE(vlist.at(0), QVariant(true));
     QCOMPARE(vlist.at(1), QVariant(999.));
     QCOMPARE(vlist.at(2), QVariant(QString("string")));
-    QCOMPARE(vlist.at(3), QVariant::fromValue(nullptr));
+    QCOMPARE(vlist.at(3), QVariant::fromValue(QEXT_NULLPTR));
 #endif
 }
 
@@ -3329,9 +3329,9 @@ void tst_qextJson::fromToVariantConversions_data()
     constexpr double minDouble = std::numeric_limits<double>::min();
 
     QTest::newRow("default")     << QVariant() << QExtJsonValue(QExtJsonValue::Type_Null)
-                                 << QVariant::fromValue(nullptr);
-    QTest::newRow("nullptr")     << QVariant::fromValue(nullptr) << QExtJsonValue(QExtJsonValue::Type_Null)
-                                 << QVariant::fromValue(nullptr);
+                                 << QVariant::fromValue(QEXT_NULLPTR);
+    QTest::newRow("QEXT_NULLPTR")     << QVariant::fromValue(QEXT_NULLPTR) << QExtJsonValue(QExtJsonValue::Type_Null)
+                                 << QVariant::fromValue(QEXT_NULLPTR);
     QTest::newRow("bool")        << QVariant(true) << QExtJsonValue(true) << QVariant(true);
     QTest::newRow("int pos")     << QVariant(123) << QExtJsonValue(123) << QVariant(qlonglong(123));
     QTest::newRow("int neg")     << QVariant(-123) << QExtJsonValue(-123) << QVariant(qlonglong(-123));
@@ -3367,9 +3367,9 @@ void tst_qextJson::fromToVariantConversions_data()
                                      << QVariant(QString(utf8));
 
     QTest::newRow("bytearray null")  << QVariant(QByteArray()) << QExtJsonValue(QExtJsonValue::Type_Null)
-                                     << QVariant::fromValue(nullptr);
+                                     << QVariant::fromValue(QEXT_NULLPTR);
     QTest::newRow("bytearray empty") << QVariant(QByteArray()) << QExtJsonValue(QExtJsonValue::Type_Null)
-                                     << QVariant::fromValue(nullptr);
+                                     << QVariant::fromValue(QEXT_NULLPTR);
     QTest::newRow("bytearray ascii") << QVariant(QByteArray("Data")) << QExtJsonValue(QString("Data"))
                                      << QVariant(QString("Data"));
     QTest::newRow("bytearray utf8")  << QVariant(utf8) << QExtJsonValue(QString(utf8))
@@ -3384,14 +3384,14 @@ void tst_qextJson::fromToVariantConversions_data()
                               << QExtJsonValue(uuid.toString(QUuid::WithoutBraces))
                               << QVariant(uuid.toString(QUuid::WithoutBraces));
     QTest::newRow("regexp")   << QVariant(QRegularExpression(".")) << QExtJsonValue(QExtJsonValue::Type_Null)
-                              << QVariant::fromValue(nullptr);
+                              << QVariant::fromValue(QEXT_NULLPTR);
 
     QTest::newRow("inf")      << QVariant(qInf()) << QExtJsonValue(QExtJsonValue::Type_Null)
-                              << QVariant::fromValue(nullptr);
+                              << QVariant::fromValue(QEXT_NULLPTR);
     QTest::newRow("-inf")     << QVariant(-qInf()) << QExtJsonValue(QExtJsonValue::Type_Null)
-                              << QVariant::fromValue(nullptr);
+                              << QVariant::fromValue(QEXT_NULLPTR);
     QTest::newRow("NaN")      << QVariant(qQNaN()) << QExtJsonValue(QExtJsonValue::Type_Null)
-                              << QVariant::fromValue(nullptr);
+                              << QVariant::fromValue(QEXT_NULLPTR);
 
     static_assert(std::numeric_limits<double>::digits <= 63,
             "double is too big on this platform, this test would fail");

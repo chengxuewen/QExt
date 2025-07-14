@@ -59,8 +59,8 @@ public:
     void setDatePattern(const QString &datePattern);
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
-    void activateOptions() override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
+    void activateOptions() QEXT_OVERRIDE;
 
     bool checkFotimeRollOver() const;
     void rollOvetime();

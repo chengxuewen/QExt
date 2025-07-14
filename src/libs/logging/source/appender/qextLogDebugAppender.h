@@ -65,7 +65,7 @@ public:
      *
      * \sa setLayout()
      */
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
 
 protected:
     /*!
@@ -78,7 +78,7 @@ protected:
      *
      * \sa setLayout(), QExtLogAppenderSkeleton::doAppend(), checkEntryConditions()
      */
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 };
 

@@ -43,9 +43,9 @@ public:
     explicit QExtLogBinaryLayout(QObject *parent = QEXT_NULLPTR);
 
     virtual QByteArray binaryFormat(const QExtBinaryLoggingEvent &event) const;
-    virtual QString format(const QExtLoggingEvent &event) override;
+    virtual QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
-    virtual QString contentType() const override;
+    virtual QString contentType() const QEXT_OVERRIDE;
 
     virtual QByteArray binaryFooter() const;
     void setBinaryFooter(const QByteArray &footer);

@@ -1,32 +1,36 @@
-/******************************************************************************
- *
- * This file is part of Log4Qt library.
- *
- * Copyright (C) 2007 - 2020 Log4Qt contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- ******************************************************************************/
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+** Copyright (C) 2007 - 2020 Log4Qt contributors
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
 
-#include "colorconsoleappender.h"
-
+#include <qextLogColorConsoleAppender.h>
 #include <qextLoggingEvent.h>
 #include <qextLogLayout.h>
 
 #include <QTextStream>
 
 #if (__cplusplus >= 201703L) // C++17 or later
-#include <utility>
+#   include <utility>
 #endif
 
 #define NIX_BACK_BLACK      40
@@ -88,6 +92,8 @@
 
 #define WIN_DEFAULT                     FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED
 
+namespace detail
+{
 static void colorOutputString(HANDLE hConsole, const QString &output)
 {
     QString message = output;
@@ -116,7 +122,7 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
     {
         wideMessage = new wchar_t [colorizedMessage.at(0).size()];
         actualSize = colorizedMessage.at(0).toWCharArray(wideMessage);
-        WriteConsoleW(hConsole, wideMessage, actualSize, &out, nullptr);
+        WriteConsoleW(hConsole, wideMessage, actualSize, &out, QEXT_NULLPTR);
         delete [] wideMessage;
         colorizedMessage.removeAt(0);
     }
@@ -209,96 +215,101 @@ static void colorOutputString(HANDLE hConsole, const QString &output)
 
         wideMessage = new wchar_t [it.size()];
         actualSize = it.toWCharArray(wideMessage);
-        WriteConsoleW(hConsole, wideMessage, actualSize, &out, nullptr);
+        WriteConsoleW(hConsole, wideMessage, actualSize, &out, QEXT_NULLPTR);
         delete [] wideMessage;
     }
     // load old colors
     SetConsoleTextAttribute(hConsole, cbi.wAttributes);
 }
 #endif
+}
 
-namespace Log4Qt
-{
 
-ColorConsoleAppender::ColorConsoleAppender(QObject *parent) :
-    ConsoleAppender(parent),
-    hConsole(nullptr)
+QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(QObject *parent) :
+    QExtLogConsoleAppender(parent),
+    mConsoleHandle(QEXT_NULLPTR)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout, QObject *parent) :
-    ConsoleAppender(layout, parent),
-    hConsole(nullptr)
+QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout, QObject *parent) :
+    QExtLogConsoleAppender(layout, parent),
+    mConsoleHandle(QEXT_NULLPTR)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout,
-        const QString &target, QObject *parent) :
-    ConsoleAppender(layout, target, parent),
-    hConsole(nullptr)
+QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout,
+                                                         const QString &target, QObject *parent) :
+    QExtLogConsoleAppender(layout, target, parent),
+    mConsoleHandle(QEXT_NULLPTR)
 {
 }
 
-ColorConsoleAppender::ColorConsoleAppender(const LayoutSharedPtr &layout, Target target,
-        QObject *parent) :
-    ConsoleAppender(layout, target, parent),
-    hConsole(nullptr)
+QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout, Target target,
+                                                         QObject *parent) :
+    QExtLogConsoleAppender(layout, target, parent),
+    mConsoleHandle(QEXT_NULLPTR)
 {
 }
 
-ColorConsoleAppender::~ColorConsoleAppender()
+QExtLogColorConsoleAppender::~QExtLogColorConsoleAppender()
 {
-    closeInternal();
+    this->closeInternal();
 }
 
 #ifdef Q_OS_WIN
-void ColorConsoleAppender::append(const LoggingEvent &event)
+void QExtLogColorConsoleAppender::append(const QExtLoggingEvent &event)
 {
-    QString message = layout()->format(event);
+    QString message = this->layout()->format(event);
 
-    colorOutputString(hConsole, message);
+    detail::colorOutputString(mConsoleHandle, message);
 
     if (handleIoErrors())
-        return;
-
-    if (immediateFlush())
     {
-        writer()->flush();
-        if (handleIoErrors())
+        return;
+    }
+
+    if (this->immediateFlush())
+    {
+        this->writer()->flush();
+        if (this->handleIoErrors())
+        {
             return;
+        }
     }
 }
 
-void ColorConsoleAppender::activateOptions()
+void QExtLogColorConsoleAppender::activateOptions()
 {
-    ConsoleAppender::activateOptions();
+    QExtLogConsoleAppender::activateOptions();
 
-    if (target() == QStringLiteral("STDOUT_TARGET"))
-        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (this->target() == QStringLiteral("STDOUT_TARGET"))
+    {
+        mConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    }
     else
-        hConsole = GetStdHandle(STD_ERROR_HANDLE);
+    {
+        mConsoleHandle = GetStdHandle(STD_ERROR_HANDLE);
+    }
 }
 
-void ColorConsoleAppender::close()
+void QExtLogColorConsoleAppender::close()
 {
-    closeInternal();
-    ConsoleAppender::close();
+    this->closeInternal();
+    QExtLogConsoleAppender::close();
 }
 #endif
 
-void ColorConsoleAppender::closeInternal()
+void QExtLogColorConsoleAppender::closeInternal()
 {
     QMutexLocker locker(&mObjectGuard);
 
-    if (isClosed())
+    if (this->isClosed())
+    {
         return;
+    }
 
 #ifdef Q_OS_WIN
-    CloseHandle(hConsole);
+    CloseHandle(mConsoleHandle);
 #endif
 }
-
-} // namespace Log4Qt
-
-#include "moc_colorconsoleappender.cpp"
 

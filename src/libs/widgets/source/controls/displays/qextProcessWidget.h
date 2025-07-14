@@ -34,7 +34,7 @@ class QEXT_WIDGETS_API QExtProcessWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QExtProcessWidget(QWidget *parent = nullptr);
+    explicit QExtProcessWidget(QWidget *parent = QEXT_NULLPTR);
     ~QExtProcessWidget() QEXT_OVERRIDE;
 
     QString processPath() const;

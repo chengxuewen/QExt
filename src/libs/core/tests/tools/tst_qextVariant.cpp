@@ -10,7 +10,7 @@
 
 #if QEXT_VARIANT_HAVE_STD_VARIANT
 #define variant_noexcept  noexcept
-const void * test_nullptr = nullptr;
+const void * test_nullptr = QEXT_NULLPTR;
 #else
 const void * test_nullptr = QEXT_VARIANT_NULLPTR;
 #endif

@@ -34,7 +34,7 @@ class QEXT_LOGGING_API QExtLogXMLLayout : public QExtLogLayout
 public:
     explicit QExtLogXMLLayout(QObject *parent = QEXT_NULLPTR);
 
-    QString format(const QExtLoggingEvent &event) override;
+    QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogXMLLayout)

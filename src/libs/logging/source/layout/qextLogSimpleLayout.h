@@ -51,7 +51,7 @@ public:
     bool showLevel() const;
     void setShowLevel(bool show);
 
-    QString format(const QExtLoggingEvent &event) override;
+    QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 };
 

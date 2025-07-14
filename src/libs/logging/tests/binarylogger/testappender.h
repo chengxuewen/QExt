@@ -15,10 +15,10 @@ public:
 
     QStringList list() const;
     QStringList clearList();
-    virtual bool requiresLayout() const override;
+    virtual bool requiresLayout() const QEXT_OVERRIDE;
 
 protected:
-    virtual void append(const QExtLoggingEvent &event) override;
+    virtual void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     QStringList mMessages;

@@ -37,7 +37,7 @@ public Q_SLOTS:
     void animationSetVisible(bool visible);
 
 protected:
-    explicit QExtKeyboardPanel(QWidget *parent = nullptr);
+    explicit QExtKeyboardPanel(QWidget *parent = QEXT_NULLPTR);
 
     QScopedPointer<QExtKeyboardPanelPrivate> dd_ptr;
 

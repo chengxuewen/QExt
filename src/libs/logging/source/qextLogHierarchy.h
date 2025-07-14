@@ -40,20 +40,20 @@ class QEXT_LOGGING_API QExtLogHierarchy : public QExtLoggerRepository
 {
 public:
     QExtLogHierarchy();
-    ~QExtLogHierarchy() override;
+    ~QExtLogHierarchy() QEXT_OVERRIDE;
 
 public:
-    bool exists(const QString &name) const override;
-    QExtLogger *logger(const QString &name) override;
-    QList<QExtLogger *> loggers() const override;
-    QExtLogger *rootLogger() const override;
-    QExtLogLevel threshold() const override;
-    void setThreshold(QExtLogLevel level) override;
-    void setThreshold(const QString &threshold) override;
+    bool exists(const QString &name) const QEXT_OVERRIDE;
+    QExtLogger *logger(const QString &name) QEXT_OVERRIDE;
+    QList<QExtLogger *> loggers() const QEXT_OVERRIDE;
+    QExtLogger *rootLogger() const QEXT_OVERRIDE;
+    QExtLogLevel threshold() const QEXT_OVERRIDE;
+    void setThreshold(QExtLogLevel level) QEXT_OVERRIDE;
+    void setThreshold(const QString &threshold) QEXT_OVERRIDE;
 
-    bool isDisabled(QExtLogLevel level) override;
-    void resetConfiguration() override;
-    void shutdown() override;
+    bool isDisabled(QExtLogLevel level) QEXT_OVERRIDE;
+    void resetConfiguration() QEXT_OVERRIDE;
+    void shutdown() QEXT_OVERRIDE;
 
 private:
     QExtLogger *createLogger(const QString &name);

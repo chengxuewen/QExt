@@ -52,14 +52,14 @@ class QEXT_LOGGING_API QExtLogSystemLogAppender: public QExtLogAppenderSkeleton
 
 public:
     explicit QExtLogSystemLogAppender(QObject *parent = QEXT_NULLPTR);
-    ~QExtLogSystemLogAppender() override;
+    ~QExtLogSystemLogAppender() QEXT_OVERRIDE;
 
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
     QString serviceName() const;
     void setServiceName(const QString &serviceName);
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     QString mServiceName;
     char *ident;

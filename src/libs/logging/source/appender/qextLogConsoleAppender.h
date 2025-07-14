@@ -83,7 +83,7 @@ public:
                     Target target,
                     QObject *parent = QEXT_NULLPTR);
 
-    ~QExtLogConsoleAppender() override;
+    ~QExtLogConsoleAppender() QEXT_OVERRIDE;
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogConsoleAppender)
 
@@ -96,12 +96,12 @@ public:
      */
     void setTarget(Target target);
 
-    virtual void activateOptions() override;
-    virtual void close() override;
+    virtual void activateOptions() QEXT_OVERRIDE;
+    virtual void close() QEXT_OVERRIDE;
 
 protected:
     void closeStream();
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     volatile Target mTarget;

@@ -10,8 +10,8 @@ class QEXT_CORE_API QExtObject : public QObject
     Q_OBJECT
     Q_PROPERTY(QObject *parent READ parent WRITE setParent NOTIFY parentChanged)
 public:
-    explicit QExtObject(QObject *parent = nullptr);
-    ~QExtObject() override;
+    explicit QExtObject(QObject *parent = QEXT_NULLPTR);
+    ~QExtObject() QEXT_OVERRIDE;
 
     void setParent(QObject *parent);
 
@@ -19,7 +19,7 @@ Q_SIGNALS:
     void parentChanged(QObject *parent);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtObject)

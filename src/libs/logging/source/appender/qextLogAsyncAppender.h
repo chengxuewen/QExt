@@ -50,11 +50,11 @@ class QEXT_LOGGING_API QExtLogAsyncAppender : public QExtLogAppenderSkeleton, pu
 
 public:
     QExtLogAsyncAppender(QObject *parent = QEXT_NULLPTR);
-    ~QExtLogAsyncAppender() override;
+    ~QExtLogAsyncAppender() QEXT_OVERRIDE;
 
-    void close() override;
-    void activateOptions() override;
-    bool requiresLayout() const override;
+    void close() QEXT_OVERRIDE;
+    void activateOptions() QEXT_OVERRIDE;
+    bool requiresLayout() const QEXT_OVERRIDE;
     void callAppenders(const QExtLoggingEvent &event) const;
 
     /*!
@@ -74,10 +74,10 @@ public:
      * \sa QExtLogAppenderSkeleton::doAppend(),
      *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtLogAsyncAppender)

@@ -27,7 +27,7 @@ protected Q_SLOTS:
     void onShowKeyboardTimerTimeout();
 
 protected:
-    QExtInputMethodTrigger(QObject *parent = nullptr);
+    QExtInputMethodTrigger(QObject *parent = QEXT_NULLPTR);
 
     bool eventFilter(QObject *watched, QEvent *event) QEXT_OVERRIDE;
 

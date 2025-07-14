@@ -49,7 +49,7 @@ public:
     void setAsyncAppender(QExtLogAsyncAppender *asyncAppender);
 
 protected:
-    void customEvent(QEvent *event) override;
+    void customEvent(QEvent *event) QEXT_OVERRIDE;
 
 private:
     QExtLogAsyncAppender *mAsyncAppender;

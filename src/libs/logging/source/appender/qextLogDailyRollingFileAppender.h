@@ -94,10 +94,10 @@ public:
 
     void setDatePattern(const QString &datePattern);
 
-    void activateOptions() override;
+    void activateOptions() QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     /*!
      * Tests if all entry conditions for using append() in this class are
@@ -116,7 +116,7 @@ protected:
      * \sa QExtLogAppenderSkeleton::doAppend(),
      *     QExtLogAppenderSkeleton::checkEntryConditions()
      */
-    bool checkEntryConditions() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
 private:
     void computeFrequency();

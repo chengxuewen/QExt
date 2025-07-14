@@ -70,12 +70,12 @@ public:
     void setStreamVersion(QDataStream::Version version);
 
     // public members
-    void activateOptions() override;
-    void close() override;
+    void activateOptions() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
 protected:
-    bool checkEntryConditions() const override;
-    bool handleIoErrors() const override;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
+    bool handleIoErrors() const QEXT_OVERRIDE;
 
     void closeFile();
     void openFile();

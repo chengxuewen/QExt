@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -35,9 +35,9 @@
 class QObject;
 class QMetaProperty;
 
-class QExtLogAppender;
 class QExtLogFilter;
 class QExtLogLayout;
+class QExtLogAppender;
 
 /*!
  * \brief The class QExtLogFactory provides factories for QExtLogAppender, QExtLogFilter and
@@ -332,37 +332,37 @@ inline QExtLogLayout *QExtLogFactory::createLayout(const char *layoutClassName)
 }
 
 inline void QExtLogFactory::registerAppender(const QString &appenderClassName,
-                                      AppenderFactoryFunc appenderFactoryFunc)
+                                             AppenderFactoryFunc appenderFactoryFunc)
 {
     instance()->doRegisterAppender(appenderClassName, appenderFactoryFunc);
 }
 
 inline void QExtLogFactory::registerAppender(const char *appenderClassName,
-                                      AppenderFactoryFunc appenderFactoryFunc)
+                                             AppenderFactoryFunc appenderFactoryFunc)
 {
     instance()->doRegisterAppender(QLatin1String(appenderClassName), appenderFactoryFunc);
 }
 
 inline void QExtLogFactory::registerFilter(const QString &filterClassName,
-                                    FilterFactoryFunc filterFactoryFunc)
+                                           FilterFactoryFunc filterFactoryFunc)
 {
     instance()->doRegisterFilter(filterClassName, filterFactoryFunc);
 }
 
 inline void QExtLogFactory::registerFilter(const char *filterClassName,
-                                    FilterFactoryFunc filterFactoryFunc)
+                                           FilterFactoryFunc filterFactoryFunc)
 {
     instance()->doRegisterFilter(QLatin1String(filterClassName), filterFactoryFunc);
 }
 
 inline void QExtLogFactory::registerLayout(const QString &filterClassName,
-                                    LayoutFactoryFunc layoutFactoryFunc)
+                                           LayoutFactoryFunc layoutFactoryFunc)
 {
     instance()->doRegisterLayout(filterClassName, layoutFactoryFunc);
 }
 
 inline void QExtLogFactory::registerLayout(const char *layoutClassName,
-                                    LayoutFactoryFunc layoutFactoryFunc)
+                                           LayoutFactoryFunc layoutFactoryFunc)
 {
     instance()->doRegisterLayout(QLatin1String(layoutClassName), layoutFactoryFunc);
 }
@@ -386,15 +386,15 @@ inline QStringList QExtLogFactory::registeredLayouts()
 }
 
 inline void QExtLogFactory::setObjectProperty(QObject *object,
-                                       const QString &property,
-                                       const QString &value)
+                                              const QString &property,
+                                              const QString &value)
 {
     instance()->doSetObjectProperty(object, property, value);
 }
 
 inline void QExtLogFactory::setObjectProperty(QObject *object,
-                                       const char *property,
-                                       const QString &value)
+                                              const char *property,
+                                              const QString &value)
 {
     instance()->doSetObjectProperty(object, QLatin1String(property), value);
 }

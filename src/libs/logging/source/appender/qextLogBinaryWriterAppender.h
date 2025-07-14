@@ -39,19 +39,19 @@ class QEXT_LOGGING_API QExtLogBinaryWriterAppender : public QExtLogAppenderSkele
 public:
     QExtLogBinaryWriterAppender(QObject *parent = QEXT_NULLPTR);
     QExtLogBinaryWriterAppender(QDataStream *dataStream, QObject *parent = QEXT_NULLPTR);
-    ~QExtLogBinaryWriterAppender() override;
+    ~QExtLogBinaryWriterAppender() QEXT_OVERRIDE;
 
-    bool requiresLayout() const override;
+    bool requiresLayout() const QEXT_OVERRIDE;
     QDataStream *writer() const;
 
     void setWriter(QDataStream *dataStream);
 
-    void activateOptions() override;
-    void close() override;
+    void activateOptions() QEXT_OVERRIDE;
+    void close() QEXT_OVERRIDE;
 
 protected:
-    void append(const QExtLoggingEvent &event) override;
-    bool checkEntryConditions() const override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
+    bool checkEntryConditions() const QEXT_OVERRIDE;
 
     void closeWriter();
 

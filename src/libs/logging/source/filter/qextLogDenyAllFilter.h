@@ -41,7 +41,7 @@ class QEXT_LOGGING_API QExtLogDenyAllFilter : public QExtLogFilter
 public:
     QExtLogDenyAllFilter(QObject *parent = QEXT_NULLPTR);
 
-    Decision decide(const QExtLoggingEvent &event) const override
+    Decision decide(const QExtLoggingEvent &event) const QEXT_OVERRIDE
     {
         Q_UNUSED(&event);
         return QExtLogFilter::DENY;

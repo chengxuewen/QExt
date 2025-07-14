@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -50,7 +50,7 @@
  * \endcode
  */
 #define QEXT_LOG_ERROR(message, code, context) \
-        QExtLogError(message, code, #code, context)
+QExtLogError(message, code, #code, context)
 
 /*!
  * Creates an QExtLogError object with the error message \a message and the
@@ -73,10 +73,9 @@
  * \endcode
  */
 #define QEXT_LOG_QCLASS_ERROR(message, code) \
-        QExtLogError(message, code, #code, this->metaObject()->className())
+    QExtLogError(message, code, #code, this->metaObject()->className())
 
-
-/*!
+    /*!
  * This macro expands a numeric value of the form 0xMMmmPP (MM = major,
  * mm = minor, PP = patch) that specifies Log4Qt's version number.
  * This is the version against which the application is compiled.
@@ -85,7 +84,7 @@
  *     \ref QExtLogManager::version() "QExtLogManager::version()"
  */
 
-/*!
+    /*!
  * The macro expands to a string that specifies the Log4Qt's version
  * number. This is the version against which the application is compiled.
  *
@@ -94,7 +93,7 @@
  */
 
 
-/*!
+    /*!
  * \brief The class QExtLogError represents an error.
  *
  * The class error allows storing error information in a structured way.
@@ -218,9 +217,9 @@ public:
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
     explicit QExtLogError(const QString &message,
-                      int code = 0,
-                      const QString &symbol = QString(),
-                      const QString &context = QString());
+                          int code = 0,
+                          const QString &symbol = QString(),
+                          const QString &context = QString());
 
     /*!
      * Creates an error with the Message \a pMessage and the error code
@@ -239,10 +238,10 @@ public:
      * \sa translatedMessage(), translatedMessageWithArgs()
      */
     explicit QExtLogError(const char *message,
-                      int code = 0,
-                      const char *symbol = QEXT_NULLPTR,
-                      const char *context = QEXT_NULLPTR,
-                      EncodingEnum encoding = Encoding_Latin1);
+                          int code = 0,
+                          const char *symbol = QEXT_NULLPTR,
+                          const char *context = QEXT_NULLPTR,
+                          EncodingEnum encoding = Encoding_Latin1);
 
     /*!
      * Returns the error code.
@@ -600,8 +599,6 @@ inline QExtLogError &QExtLogError::operator<<(const QString &arg)
 {
     return addArg(arg);
 }
-
-// } // namespace Log4Qt
 
 Q_DECLARE_METATYPE(QExtLogError)
 Q_DECLARE_TYPEINFO(QExtLogError, Q_MOVABLE_TYPE);

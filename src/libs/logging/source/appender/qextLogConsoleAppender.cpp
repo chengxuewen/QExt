@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -30,6 +30,8 @@
 
 #include <QTextStream>
 
+
+#define UNICODE
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
@@ -154,5 +156,7 @@ void QExtLogConsoleAppender::append(const QExtLoggingEvent &event)
     }
     else
 #endif
+    {
         QExtLogWriterAppender::append(event);
+    }
 }

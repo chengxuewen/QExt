@@ -107,7 +107,7 @@ QExtPinyinInputMethodPrivate::QExtPinyinInputMethodPrivate(QExtPinyinInputMethod
     , m_surface()
     , m_composingStr()
     , m_candidatesList()
-    , m_inputContext(nullptr)
+    , m_inputContext(QEXT_NULLPTR)
     , m_inputMode(QExtPinyinInputMethod::InputMode::Latin)
     , m_pinyinDecoderService(QExtPinyinDecoderService::instance())
 {

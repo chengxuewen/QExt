@@ -47,7 +47,7 @@ public:
     /**
      * Return the current date, as reported by the system clock.
      */
-    QDate currentDate() const override;
+    QDate currentDate() const QEXT_OVERRIDE;
 };
 
 /*!
@@ -78,9 +78,9 @@ public:
     int keepDays() const;
     void setKeepDays(int keepDays);
 
-    void activateOptions() override;
+    void activateOptions() QEXT_OVERRIDE;
 
-    void append(const QExtLoggingEvent &event) override;
+    void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
     void setDateRetriever(const QSharedPointer<const QExtLogDateRetrieverInterface> &dateRetriever);
 
