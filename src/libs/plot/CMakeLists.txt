@@ -38,9 +38,10 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Widgets)
 qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt3rdparty::WrapQwt)
+list(APPEND QEXT_LIB_LINK_LIBRARIES
+    QExt::Core QExt::Widgets
+    QExt3rdparty::WrapQwt)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -60,4 +60,5 @@ function(qext_find_deployqt)
     qext_find_qt_tool(${tool_name} PATHS "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLDIR}")
     set(QEXT_DEPLOYQT_EXECUTABLE "${${tool_name}_EXECUTABLE}" PARENT_SCOPE)
     set(QEXT_DEPLOYQT_BIN_DIR "${${tool_name}_BIN_DIR}" PARENT_SCOPE)
+    message(STATUS "Found deployqt ${${tool_name}_EXECUTABLE}")
 endfunction()

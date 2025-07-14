@@ -38,7 +38,10 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::CorePrivate)
+qext_find_package(WrapMicroCDR PROVIDED_TARGETS QExt3rdparty::WrapMicroCDR)
+list(APPEND QEXT_LIB_LINK_LIBRARIES
+    QExt::Core QExt::CorePrivate
+    QExt3rdparty::WrapMicroCDR)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
