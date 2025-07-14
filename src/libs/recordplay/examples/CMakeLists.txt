@@ -45,30 +45,42 @@ endif()
 
 list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
     QExt3rdparty::WrapMicroCDR
+    QExt3rdparty::Wrapmcap
     QExt::RecordPlay)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(QExtExpRecordPlayCDRBasic
+qext_add_executable(QExtExpRecordPlayMCapAttachment
     SOURCES
-    exp_cdr_basic.cpp
+    mcap/exp_mcap_attachment.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/mcap
     OUTPUT_DIRECTORY
     ${EXECUTABLE_OUTPUT_PATH}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${EXECUTABLE_OUTPUT_PATH}")
-qext_add_executable(QExtExpRecordPlayCDRFragmentation
+qext_add_executable(QExtExpRecordPlayMicroCDRBasic
     SOURCES
-    exp_cdr_fragmentation.cpp
+    microcdr/exp_ucdr_basic.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/microcdr
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${EXECUTABLE_OUTPUT_PATH}")
+qext_add_executable(QExtExpRecordPlayMicroCDRFragmentation
+    SOURCES
+    microcdr/exp_ucdr_fragmentation.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/microcdr
     OUTPUT_DIRECTORY
     ${EXECUTABLE_OUTPUT_PATH}
     DEFINES

@@ -39,10 +39,12 @@ else()
 endif()
 
 qext_find_package(WrapMicroCDR PROVIDED_TARGETS QExt3rdparty::WrapMicroCDR)
+qext_find_package(WrapFastCDR PROVIDED_TARGETS QExt3rdparty::WrapFastCDR)
 qext_find_package(Wrapmcap PROVIDED_TARGETS QExt3rdparty::Wrapmcap)
 list(APPEND QEXT_LIB_LINK_LIBRARIES
     QExt::Core QExt::CorePrivate
     QExt3rdparty::WrapMicroCDR
+    QExt3rdparty::WrapFastCDR
     QExt3rdparty::Wrapmcap)
 
 

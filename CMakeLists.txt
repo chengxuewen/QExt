@@ -211,9 +211,15 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Specify the C++ standard and flags
 #-----------------------------------------------------------------------------------------------------------------------
-set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if("${CMAKE_CXX_STANDARD}" STREQUAL "")
+    set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
+endif()
+if("${CMAKE_CXX_EXTENSIONS}" STREQUAL "")
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+if("${CMAKE_CXX_STANDARD_REQUIRED}" STREQUAL "")
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 message(STATUS "Using C++: ${QEXT_CXX_STANDARD}")
 message(STATUS "Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
 
@@ -707,15 +713,16 @@ set(QEXT_DEFAULT_PUBLIC_ARGS
     PUBLIC_INCLUDE_DIRECTORIES
     PUBLIC_COMPILE_OPTIONS
     PUBLIC_LINK_OPTIONS)
-set(QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS
-    PRIVATE_LIBRARY_INTERFACE)
 set(QEXT_DEFAULT_TARGET_INFO_ARGS
     TARGET_VERSION
     TARGET_PRODUCT
     TARGET_DESCRIPTION
     TARGET_COMPANY
     TARGET_COPYRIGHT)
-
+set(QEXT_DEFAULT_TARGET_SINGLE_ARGS
+    CXX_STANDARD)
+set(QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS
+    PRIVATE_LIBRARY_INTERFACE)
 
 # Collection of arguments so they can be shared across qext_internal_add_executable and qext_internal_add_test_helper.
 set(QEXT_INTERNAL_ADD_EXECUTABLE_OPTIONAL_ARGS
@@ -732,7 +739,8 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS
     OUTPUT_SUBDIR
     OUTPUT_DIRECTORY
     INSTALL_DIRECTORY
-    ${QEXT_DEFAULT_TARGET_INFO_ARGS})
+    ${QEXT_DEFAULT_TARGET_INFO_ARGS}
+    ${QEXT_DEFAULT_TARGET_SINGLE_ARGS})
 set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
     ${QEXT_DEFAULT_PRIVATE_ARGS}
     ${QEXT_DEFAULT_PUBLIC_ARGS})

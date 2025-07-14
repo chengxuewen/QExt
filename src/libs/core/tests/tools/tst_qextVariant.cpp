@@ -1,4 +1,4 @@
-#include <qextVariant.h>
+﻿#include <qextVariant.h>
 #include <qextGlobal.h>
 
 #include <QtTest>

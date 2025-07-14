@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -46,6 +46,7 @@
 #define QEXT_VARIANT_CPP20_OR_GREATER variant_CPP20_OR_GREATER
 
 #define QEXT_VARIANT_HAVE_STD_VARIANT variant_HAVE_STD_VARIANT
+#define QEXT_VARIANT_USES_STD_VARIANT variant_USES_STD_VARIANT
 #define QEXT_VARIANT_CONFIG_NO_EXCEPTIONS variant_CONFIG_NO_EXCEPTIONS
 #define QEXT_VARIANT_HAVE_IN_PLACE_TYPES nonstd_lite_HAVE_IN_PLACE_TYPES
 

@@ -136,6 +136,11 @@ function(qext_add_executable name)
     qext_internal_set_ignore_warning_flags("${name}")
     qext_internal_set_exceptions_flags("${name}" ${arg_EXCEPTIONS})
 
+    if("x${arg_CXX_STANDARD}" STREQUAL "x")
+        set(arg_CXX_STANDARD ${CMAKE_CXX_STANDARD})
+    endif()
+    set_property(TARGET "${name}" PROPERTY CXX_STANDARD ${arg_CXX_STANDARD})
+
     # Check if target needs to be excluded from all target. Also affects qext_install.
     # Set by qext_exclude_tool_directories_from_default_target.
     set(exclude_from_all FALSE)

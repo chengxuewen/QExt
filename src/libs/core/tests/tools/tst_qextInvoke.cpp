@@ -1,4 +1,4 @@
-#include <qextInvoke.h>
+﻿#include <qextInvoke.h>
 
 #include <QtTest>
 #include <QtEndian>
@@ -7,6 +7,9 @@
 
 #include <utility>
 #include <iostream>
+#if QEXT_INVOKE_CPP11_OR_GREATER
+#include <array>
+#endif
 
 namespace
 {
