@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -30,17 +30,15 @@
 
 QExtLogLayout::QExtLogLayout(QObject *parent) :
     QObject(parent)
-{}
+{
+
+}
 
 QExtLogLayout::~QExtLogLayout() = default;
 
 QString QExtLogLayout::contentType() const
 {
     return QStringLiteral("text/plain");
-}
-
-void QExtLogLayout::activateOptions()
-{
 }
 
 QString QExtLogLayout::endOfLine()

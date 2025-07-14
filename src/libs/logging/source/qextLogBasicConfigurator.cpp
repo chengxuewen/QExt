@@ -45,7 +45,7 @@ bool QExtLogBasicConfigurator::configure()
     QExtLogLayoutSharedPtr layout(new QExtLogPatternLayout(QExtLogPatternLayout::TTCC_CONVERSION_PATTERN));
     layout->setName(QStringLiteral("QExtLogBasicConfigurator TTCC"));
     layout->activateOptions();
-    QExtLogConsoleAppender *appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    QExtLogConsoleAppender *appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::Target_Stdout);
     appender->setName(QStringLiteral("QExtLogBasicConfigurator stdout"));
     appender->activateOptions();
     QExtLogManager::rootLogger()->addAppender(appender);

@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -75,11 +75,11 @@ public:
     void setHeader(const QString &header);
     void setName(const QString &name);
 
-    virtual void activateOptions();
+    virtual void activateOptions() {}
     virtual QString format(const QExtLoggingEvent &event) = 0;
 
-    /*!
-     * Returns the end of line seperator for the operating system.
+    /**
+     * @brief Returns the end of line seperator for the operating system.
      *
      * Windows: \\r\\n
      * Mac: \\r
@@ -121,7 +121,7 @@ inline void QExtLogLayout::setHeader(const QString &header)
 
 inline void QExtLogLayout::setName(const QString &name)
 {
-    setObjectName(name);
+    this->setObjectName(name);
 }
 
 using QExtLogLayoutSharedPtr = QExtObjectSharedPointer<QExtLogLayout>;

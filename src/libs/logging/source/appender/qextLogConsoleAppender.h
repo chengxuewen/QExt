@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -45,7 +45,7 @@ class QEXT_LOGGING_API QExtLogConsoleAppender : public QExtLogWriterAppender
     /*!
      * The property holds the target used by the appender.
      *
-     * The default is STDOUT_TARGET for the standard output.
+     * The default is Target_Stdout for the standard output.
      *
      * \sa Target, target(), setTarget()
      */
@@ -57,44 +57,29 @@ public:
      *
      * \sa target(), setTarget()
      */
-    enum Target
+    enum TargetEnum
     {
         /*! The output target is standard out. */
-        STDOUT_TARGET,
+        Target_Stdout,
         /*! The output target is standard error. */
-        STDERR_TARGET
+        Target_Stderr
     };
-    Q_ENUM(Target)
+    Q_ENUM(TargetEnum)
 
 
     QExtLogConsoleAppender(QObject *parent = QEXT_NULLPTR);
-    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                    QObject *parent = QEXT_NULLPTR);
-    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                    const QString &target,
-                    QObject *parent = QEXT_NULLPTR);
-
-    /*!
-     * Creates a QExtLogConsoleAppender with the layout \a pLayout, the target
-     * value specified by the \a target constant and the parent
-     * \a parent.
-     */
-    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                    Target target,
-                    QObject *parent = QEXT_NULLPTR);
-
+    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &layout, QObject *parent = QEXT_NULLPTR);
+    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &layout, TargetEnum target, QObject *parent = QEXT_NULLPTR);
+    QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &layout, const QString &target, QObject *parent = QEXT_NULLPTR);
     ~QExtLogConsoleAppender() QEXT_OVERRIDE;
-private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogConsoleAppender)
 
-public:
     QString target() const;
     void setTarget(const QString &target);
 
     /*!
      * Sets the target to the value specified by the \a target constant.
      */
-    void setTarget(Target target);
+    void setTarget(TargetEnum target);
 
     virtual void activateOptions() QEXT_OVERRIDE;
     virtual void close() QEXT_OVERRIDE;
@@ -104,12 +89,14 @@ protected:
     void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
-    volatile Target mTarget;
+    volatile TargetEnum mTarget;
     QTextStream *mtextStream;
     void closeInternal();
+
+    QEXT_DISABLE_COPY_MOVE(QExtLogConsoleAppender)
 };
 
-inline void QExtLogConsoleAppender::setTarget(Target target)
+inline void QExtLogConsoleAppender::setTarget(TargetEnum target)
 {
     mTarget = target;
 }

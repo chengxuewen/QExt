@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -43,49 +43,14 @@ class QExtLoggingEvent;
 class QEXT_LOGGING_API QExtLogTTCCLayout : public QExtLogLayout
 {
     Q_OBJECT
-
-    /*!
-     * The property holds if the logger name is part of the formatted output.
-     *
-     * The default value is true for including the logger name.
-     *
-     * \sa categoryPrefixing(), setCategoryPrefixing()
-     */
-    Q_PROPERTY(bool categoryPrefixing READ categoryPrefixing WRITE setCategoryPrefixing)
-
-    /*!
-     * The property holds if the nested context information is part of the
-     * formatted output.
-     *
-     * The default value it true for including the nested context information.
-     *
-     * \sa contextPrinting(), setContextPrinting()
-     */
-    Q_PROPERTY(bool contextPrinting READ contextPrinting WRITE setContextPrinting)
-
-    /*!
-     * The property holds the date format used by the layout.
-     *
-     * The default date format is "RELATIVE".
-     *
-     * \sa dateFormat(), setDateFormat()
-     */
-    Q_PROPERTY(QString dateFormat READ dateFormat WRITE setDateFormat)
-
-    /*!
-     * The property holds if the thread name is part of the formatted output.
-     *
-     * The default value it true for including the thread name.
-     *
-     * \sa threadPrinting(), setThreadPrinting()
-     */
-    Q_PROPERTY(bool threadPrinting READ threadPrinting WRITE setThreadPrinting)
-
+    Q_PROPERTY(QString dateFormat READ dateFormat WRITE setDateFormat NOTIFY dateFormatChanged)
+    Q_PROPERTY(bool threadPrinting READ threadPrinting WRITE setThreadPrinting NOTIFY threadPrintingChanged)
+    Q_PROPERTY(bool contextPrinting READ contextPrinting WRITE setContextPrinting NOTIFY contextPrintingChanged)
+    Q_PROPERTY(bool categoryPrefixing READ categoryPrefixing WRITE setCategoryPrefixing NOTIFY categoryPrefixingChanged)
 public:
-    /*!
-     * The enum DateFormat defines constants for date formats.
-     *
-     * \sa setDateFormat(DateFormat), QExtLogDateTime::toString()
+    /**
+     * @brief The enum DateFormat defines constants for date formats.
+     * @sa setDateFormat(DateFormat), QExtLogDateTime::toString()
      */
     enum DateFormat
     {
@@ -115,36 +80,58 @@ public:
     Q_ENUM(DateFormat)
 
     QExtLogTTCCLayout(QObject *parent = QEXT_NULLPTR);
-    QExtLogTTCCLayout(const QString &dateFormat,
-               QObject *parent = QEXT_NULLPTR);
+    QExtLogTTCCLayout(const QString &dateFormat, QObject *parent = QEXT_NULLPTR);
 
     /*!
      * Creates a QExtLogTTCCLayout with the date formar value specified by
      * the \a dateFormat constant and the parent \a parent.
      */
-    QExtLogTTCCLayout(DateFormat dateFormat,
-               QObject *parent = QEXT_NULLPTR);
+    QExtLogTTCCLayout(DateFormat dateFormat, QObject *parent = QEXT_NULLPTR);
 
-private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogTTCCLayout)
-
-public:
-    bool categoryPrefixing() const;
-    bool contextPrinting() const;
+    /**
+     * @brief The property holds the date format used by the layout.
+     * The default date format is "RELATIVE".
+     * @return Date format string.
+     */
     QString dateFormat() const;
-    bool threadPrinting() const;
-    void setCategoryPrefixing(bool categoryPrefixing);
-    void setContextPrinting(bool contextPrinting);
+    /**
+     * @brief Sets the date format to the value specified by the @a dateFormat constant.
+     */
+    void setDateFormat(DateFormat dateFormat);
     void setDateFormat(const QString &dateFormat);
 
-    /*!
-    * Sets the date format to the value specified by the \a dateFormat
-    * constant.
-    */
-    void setDateFormat(DateFormat dateFormat);
+    /**
+     * @brief The property holds if the nested context information is part of the formatted output.
+     * The default value it true for including the nested context information.
+     * @return
+     */
+    bool contextPrinting() const;
+    void setContextPrinting(bool contextPrinting);
 
+    /**
+     * @brief The property holds if the logger name is part of the formatted output.
+     * The default value is true for including the logger name.
+     * @return
+     */
+    bool categoryPrefixing() const;
+    void setCategoryPrefixing(bool categoryPrefixing);
+
+    /**
+     * @brief The property holds if the thread name is part of the formatted output.
+     * The default value it true for including the thread name.
+     * @return
+     */
+    bool threadPrinting() const;
     void setThreadPrinting(bool threadPrinting);
-    virtual QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
+
+    QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;
+
+Q_SIGNALS:
+    void dateFormatChanged(const QString &dateFormat);
+
+    void threadPrintingChanged(bool threadPrinting);
+    void contextPrintingChanged(bool contextPrinting);
+    void categoryPrefixingChanged(bool categoryPrefixing);
 
 private:
     void updatePatternFormatter();
@@ -155,6 +142,7 @@ private:
     QString mDateFormat;
     bool mThreadPrinting;
     QScopedPointer<QExtLogPatternFormatter> mPatternFormatter;
+    QEXT_DISABLE_COPY_MOVE(QExtLogTTCCLayout)
 };
 
 inline bool QExtLogTTCCLayout::categoryPrefixing() const
@@ -175,30 +163,6 @@ inline QString QExtLogTTCCLayout::dateFormat() const
 inline bool QExtLogTTCCLayout::threadPrinting() const
 {
     return mThreadPrinting;
-}
-
-inline void QExtLogTTCCLayout::setCategoryPrefixing(bool categoryPrefixing)
-{
-    mCategoryPrefixing = categoryPrefixing;
-    updatePatternFormatter();
-}
-
-inline void QExtLogTTCCLayout::setContextPrinting(bool contextPrinting)
-{
-    mContextPrinting = contextPrinting;
-    updatePatternFormatter();
-}
-
-inline void QExtLogTTCCLayout::setDateFormat(const QString &dateFormat)
-{
-    mDateFormat = dateFormat;
-    updatePatternFormatter();
-}
-
-inline void QExtLogTTCCLayout::setThreadPrinting(bool threadPrinting)
-{
-    mThreadPrinting = threadPrinting;
-    updatePatternFormatter();
 }
 
 #endif // _QEXTLOGTTCCLAYOUT_H

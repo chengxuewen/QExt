@@ -271,11 +271,11 @@ int QExtLogOptionConverter::toTarget(const QString &option,
     QString s = option.trimmed().toLower();
     if (s == java_stdout || s == cpp_stdout)
     {
-        return QExtLogConsoleAppender::STDOUT_TARGET;
+        return QExtLogConsoleAppender::Target_Stdout;
     }
     if (s == java_stderr || s == cpp_stderr)
     {
-        return QExtLogConsoleAppender::STDERR_TARGET;
+        return QExtLogConsoleAppender::Target_Stderr;
     }
 
     if (ok)
@@ -287,7 +287,7 @@ int QExtLogOptionConverter::toTarget(const QString &option,
                                     "QExtLogOptionConverter");
     e << option;
     logger()->error(e);
-    return QExtLogConsoleAppender::STDOUT_TARGET;
+    return QExtLogConsoleAppender::Target_Stdout;
 }
 
 #if QT_VERSION < 0x060000

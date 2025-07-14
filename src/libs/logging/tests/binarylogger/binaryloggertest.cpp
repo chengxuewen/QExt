@@ -135,7 +135,7 @@ void BinaryLoggerTest::initTestCase()
 
     auto *consoleAppender = new QExtLogConsoleAppender(rootLogger);
     consoleAppender->setLayout(binlayout);
-    consoleAppender->setTarget(QExtLogConsoleAppender::STDOUT_TARGET);
+    consoleAppender->setTarget(QExtLogConsoleAppender::Target_Stdout);
     consoleAppender->activateOptions();
 
     QExtLogFilter *denyall = new QExtLogDenyAllFilter;

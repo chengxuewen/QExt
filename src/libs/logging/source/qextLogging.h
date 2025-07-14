@@ -189,7 +189,7 @@
  * QExtLogTTCCLayout *p_layout = new QExtLogTTCCLayout();
  *
  * // Create appender
- * QExtLogConsoleAppender *p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::STDOUT_TARGET);
+ * QExtLogConsoleAppender *p_appender = new QExtLogConsoleAppender(p_layout, QExtLogConsoleAppender::Target_Stdout);
  * p_appender->activateOptions();
  *
  * // Get logger
@@ -213,7 +213,7 @@
  * QExtLogTTCCLayout *p_layout = new QExtLogTTCCLayout(p_appender);
  *
  * // Configure appender
- * p_appender->setTarget(QExtLogConsoleAppender::STDOUT_TARGET);
+ * p_appender->setTarget(QExtLogConsoleAppender::Target_Stdout);
  * p_appender->setLayout(QExtLogLayoutSharedPtr(p_layout));
  * p_appender->activateOptions();
  *

@@ -244,7 +244,7 @@ QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(const QExtLogLayoutShar
 {
 }
 
-QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout, Target target,
+QExtLogColorConsoleAppender::QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout, TargetEnum target,
                                                          QObject *parent) :
     QExtLogConsoleAppender(layout, target, parent),
     mConsoleHandle(QEXT_NULLPTR)
@@ -282,7 +282,7 @@ void QExtLogColorConsoleAppender::activateOptions()
 {
     QExtLogConsoleAppender::activateOptions();
 
-    if (this->target() == QStringLiteral("STDOUT_TARGET"))
+    if (this->target() == QStringLiteral("Target_Stdout"))
     {
         mConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     }

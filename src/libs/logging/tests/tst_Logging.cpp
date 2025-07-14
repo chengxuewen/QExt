@@ -844,17 +844,17 @@ void Log4QtTest::optionConverter_target_data()
     QTest::addColumn<int>("event_count");
 
     QTest::newRow("stdout cpp")
-        << "STDOUT_TARGET" << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
+        << "Target_Stdout" << true << static_cast<int>(QExtLogConsoleAppender::Target_Stdout) << 0;
     QTest::newRow("stdout java")
-        << "System.out" << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
+        << "System.out" << true << static_cast<int>(QExtLogConsoleAppender::Target_Stdout) << 0;
     QTest::newRow("stderr cpp")
-        << "STDERR_TARGET" << true << static_cast<int>(QExtLogConsoleAppender::STDERR_TARGET) << 0;
+        << "Target_Stderr" << true << static_cast<int>(QExtLogConsoleAppender::Target_Stderr) << 0;
     QTest::newRow("stderr java")
-        << "System.err" << true << static_cast<int>(QExtLogConsoleAppender::STDERR_TARGET) << 0;
+        << "System.err" << true << static_cast<int>(QExtLogConsoleAppender::Target_Stderr) << 0;
     QTest::newRow("trim")
-        << "  STDOUT_TARGET  " << true << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 0;
+        << "  Target_Stdout  " << true << static_cast<int>(QExtLogConsoleAppender::Target_Stdout) << 0;
     QTest::newRow("error")
-        << "Hello" << false << static_cast<int>(QExtLogConsoleAppender::STDOUT_TARGET) << 1;
+        << "Hello" << false << static_cast<int>(QExtLogConsoleAppender::Target_Stdout) << 1;
 }
 
 
@@ -1375,7 +1375,7 @@ void Log4QtTest::basicConfigurator()
     QCOMPARE(p_appender != QEXT_NULLPTR, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
-    QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
+    QCOMPARE(p_appender->target(), QString::fromLatin1("Target_Stdout"));
     auto *p_layout =
         qobject_cast<QExtLogPatternLayout *>(p_appender->layout().data());
     QVERIFY(p_layout != QEXT_NULLPTR);
@@ -1607,7 +1607,7 @@ void Log4QtTest::logManager_configureLogLogger()
     QCOMPARE(p_appender != QEXT_NULLPTR, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
-    QCOMPARE(p_appender->target(), QString::fromLatin1("STDOUT_TARGET"));
+    QCOMPARE(p_appender->target(), QString::fromLatin1("Target_Stdout"));
     p_layout = qobject_cast<QExtLogTTCCLayout *>(p_appender->layout().data());
     QVERIFY(p_layout != QEXT_NULLPTR);
 
@@ -1615,7 +1615,7 @@ void Log4QtTest::logManager_configureLogLogger()
     QCOMPARE(p_appender != QEXT_NULLPTR, true);
     QVERIFY(p_appender->isActive());
     QVERIFY(!p_appender->isClosed());
-    QCOMPARE(p_appender->target(), QString::fromLatin1("STDERR_TARGET"));
+    QCOMPARE(p_appender->target(), QString::fromLatin1("Target_Stderr"));
     p_layout = qobject_cast<QExtLogTTCCLayout *>(p_appender->layout().data());
     QVERIFY(p_layout != QEXT_NULLPTR);
 
@@ -1922,7 +1922,7 @@ void Log4QtTest::propertyConfigurator_example()
     auto *p_a1 =
         qobject_cast<QExtLogConsoleAppender *>(p_logger->appenders().at(0).data());
     QVERIFY(p_a1 != QEXT_NULLPTR);
-    QCOMPARE(p_a1->target(), QString::fromLatin1("STDOUT_TARGET"));
+    QCOMPARE(p_a1->target(), QString::fromLatin1("Target_Stdout"));
     auto *p_a1layout =
         qobject_cast<QExtLogPatternLayout *>(p_a1->layout().data());
     QVERIFY(p_a1layout != QEXT_NULLPTR);

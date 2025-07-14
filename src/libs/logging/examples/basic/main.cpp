@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
  *
  * This file is part of Log4Qt library.
  *
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     const auto *object1 = new LoggerObjectPrio(&application);
     Q_UNUSED(object1)
     QLoggingCategory::setFilterRules("*.debug=false\n"
-                                         "test.category1.debug=true");
+                                     "test.category1.debug=true");
 
     QObject::connect(object, &LoggerObject::exit, &application, &QCoreApplication::exit);
 
@@ -108,7 +108,7 @@ void setupRootLogger(const QString &introMessage)
     layout->setName(QStringLiteral("My QExtLogLayout"));
     layout->activateOptions();
     // Create a console appender
-    QExtLogConsoleAppender *consoleAppender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    QExtLogConsoleAppender *consoleAppender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::Target_Stdout);
     consoleAppender->setName(QStringLiteral("My QExtLogAppender"));
     consoleAppender->activateOptions();
     // Add appender on root logger

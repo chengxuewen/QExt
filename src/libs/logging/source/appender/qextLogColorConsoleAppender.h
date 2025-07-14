@@ -63,7 +63,7 @@ public:
      * \a parent.
      */
     QExtLogColorConsoleAppender(const QExtLogLayoutSharedPtr &layout,
-                                Target target,
+                                TargetEnum target,
                                 QObject *parent = QEXT_NULLPTR);
 
     ~QExtLogColorConsoleAppender() QEXT_OVERRIDE;

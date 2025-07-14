@@ -38,36 +38,36 @@
 
 QExtLogConsoleAppender::QExtLogConsoleAppender(QObject *parent) :
     QExtLogWriterAppender(parent),
-    mTarget(STDOUT_TARGET),
+    mTarget(Target_Stdout),
     mtextStream(QEXT_NULLPTR)
 {
 }
 
 
-QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
+QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &layout,
                                                QObject *parent) :
-    QExtLogWriterAppender(pLayout, parent),
-    mTarget(STDOUT_TARGET),
+    QExtLogWriterAppender(layout, parent),
+    mTarget(Target_Stdout),
     mtextStream(QEXT_NULLPTR)
 {
 }
 
 
-QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
+QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &layout,
                                                const QString &target,
                                                QObject *parent) :
-    QExtLogWriterAppender(pLayout, parent),
-    mTarget(STDOUT_TARGET),
+    QExtLogWriterAppender(layout, parent),
+    mTarget(Target_Stdout),
     mtextStream(QEXT_NULLPTR)
 {
     setTarget(target);
 }
 
 
-QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &pLayout,
-                                               Target target,
+QExtLogConsoleAppender::QExtLogConsoleAppender(const QExtLogLayoutSharedPtr &layout,
+                                               TargetEnum target,
                                                QObject *parent) :
-    QExtLogWriterAppender(pLayout, parent),
+    QExtLogWriterAppender(layout, parent),
     mTarget(target),
     mtextStream(QEXT_NULLPTR)
 {
@@ -81,17 +81,17 @@ QExtLogConsoleAppender::~QExtLogConsoleAppender()
 
 QString QExtLogConsoleAppender::target() const
 {
-    if (mTarget == STDOUT_TARGET)
+    if (mTarget == Target_Stdout)
     {
-        return QStringLiteral("STDOUT_TARGET");
+        return QStringLiteral("stdout");
     }
-    return QStringLiteral("STDERR_TARGET");
+    return QStringLiteral("stderr");
 }
 
 void QExtLogConsoleAppender::setTarget(const QString &target)
 {
     bool ok;
-    auto targetEnum = static_cast<Target>(QExtLogOptionConverter::toTarget(target, &ok));
+    auto targetEnum = static_cast<TargetEnum>(QExtLogOptionConverter::toTarget(target, &ok));
     if (ok)
     {
         setTarget(targetEnum);
@@ -104,7 +104,7 @@ void QExtLogConsoleAppender::activateOptions()
 
     closeStream();
 
-    if (mTarget == STDOUT_TARGET)
+    if (mTarget == Target_Stdout)
     {
         mtextStream = new QTextStream(stdout);
     }

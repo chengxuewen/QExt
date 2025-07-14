@@ -236,7 +236,7 @@ void QExtLogManager::doConfigureLogLogger()
 
     // QExtLogConsoleAppender on stdout for all events <= INFO
     QExtLogConsoleAppender *appender;
-    appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDOUT_TARGET);
+    appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::Target_Stdout);
     auto *pFilterStdout = new QExtLogLevelRangeFilter();
     pFilterStdout->setNext(denyall);
     pFilterStdout->setLevelMin(QExtLogLevel::Null);
@@ -248,7 +248,7 @@ void QExtLogManager::doConfigureLogLogger()
     this->logLogger()->addAppender(QExtLogAppenderSharedPtr(appender));
 
     // QExtLogConsoleAppender on stderr for all events >= WARN
-    appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::STDERR_TARGET);
+    appender = new QExtLogConsoleAppender(layout, QExtLogConsoleAppender::Target_Stderr);
     auto *pFilterStderr = new QExtLogLevelRangeFilter();
     pFilterStderr->setNext(denyall);
     pFilterStderr->setLevelMin(QExtLogLevel::Warn);

@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -60,6 +60,26 @@ QExtLogTTCCLayout::QExtLogTTCCLayout(DateFormat dateFormat,
     setDateFormat(dateFormat);
 }
 
+void QExtLogTTCCLayout::setCategoryPrefixing(bool categoryPrefixing)
+{
+    if (categoryPrefixing != mCategoryPrefixing)
+    {
+        mCategoryPrefixing = categoryPrefixing;
+        Q_EMIT this->categoryPrefixingChanged(categoryPrefixing);
+        this->updatePatternFormatter();
+    }
+}
+
+void QExtLogTTCCLayout::setThreadPrinting(bool threadPrinting)
+{
+    if (threadPrinting != mThreadPrinting)
+    {
+        mThreadPrinting = threadPrinting;
+        this->updatePatternFormatter();
+        Q_EMIT this->threadPrintingChanged(threadPrinting);
+    }
+}
+
 void QExtLogTTCCLayout::setDateFormat(DateFormat dateFormat)
 {
     switch (dateFormat)
@@ -82,6 +102,26 @@ void QExtLogTTCCLayout::setDateFormat(DateFormat dateFormat)
     default:
         Q_ASSERT_X(false, "QExtLogTTCCLayout::setDateFormat", "Unknown DateFormat");
         setDateFormat(QString());
+    }
+}
+
+void QExtLogTTCCLayout::setDateFormat(const QString &dateFormat)
+{
+    if (dateFormat != mDateFormat)
+    {
+        mDateFormat = dateFormat;
+        Q_EMIT this->dateFormatChanged(dateFormat);
+        this->updatePatternFormatter();
+    }
+}
+
+void QExtLogTTCCLayout::setContextPrinting(bool contextPrinting)
+{
+    if (contextPrinting != mContextPrinting)
+    {
+        mContextPrinting = contextPrinting;
+        Q_EMIT this->contextPrintingChanged(contextPrinting);
+        this->updatePatternFormatter();
     }
 }
 

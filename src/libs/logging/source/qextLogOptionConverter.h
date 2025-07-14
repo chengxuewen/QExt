@@ -110,11 +110,11 @@ public:
 
     /*!
      * Converts the option \a option to a QExtLogConsoleAppender::Target value.
-     * Valid strings for \a option are "System.out", "STDOUT_TARGET",
-     * "System.err" and "STDERR_TARGET". If the conversion is successful,
+     * Valid strings for \a option are "System.out", "Target_Stdout",
+     * "System.err" and "Target_Stderr". If the conversion is successful,
      * the target is returned and \a ok is set to true. Otherwise an
      * error is written to the log, \a ok is set to false and
-     * QExtLogConsoleAppender::STDOUT_TARGET is returned.
+     * QExtLogConsoleAppender::Target_Stdout is returned.
      */
     static int toTarget(const QString &option,
                         bool *ok = QEXT_NULLPTR);
