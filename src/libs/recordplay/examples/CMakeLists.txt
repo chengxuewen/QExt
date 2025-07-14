@@ -23,24 +23,53 @@
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+# Set example output path
+#-----------------------------------------------------------------------------------------------------------------------
+set(EXECUTABLE_OUTPUT_PATH "${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}")
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 # Set example link libraries
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_EXAMPLE_LINK_LIBRARIES)
-
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
-            Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::RecordPlay)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+    QExt3rdparty::WrapMicroCDR
+    QExt::RecordPlay)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
+qext_add_executable(QExtExpRecordPlayCDRBasic
+    SOURCES
+    exp_cdr_basic.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${EXECUTABLE_OUTPUT_PATH}")
+qext_add_executable(QExtExpRecordPlayCDRFragmentation
+    SOURCES
+    exp_cdr_fragmentation.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_DIRECTORY
+    ${EXECUTABLE_OUTPUT_PATH}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${EXECUTABLE_OUTPUT_PATH}")

@@ -3,3 +3,13 @@
 //
 
 #include <qextRecorder.h>
+
+QExtRecorder::QExtRecorder()
+{
+
+}
+
+void QExtRecorder::test()
+{
+
+}

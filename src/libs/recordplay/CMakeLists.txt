@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -39,9 +39,11 @@ else()
 endif()
 
 qext_find_package(WrapMicroCDR PROVIDED_TARGETS QExt3rdparty::WrapMicroCDR)
+qext_find_package(Wrapmcap PROVIDED_TARGETS QExt3rdparty::Wrapmcap)
 list(APPEND QEXT_LIB_LINK_LIBRARIES
     QExt::Core QExt::CorePrivate
-    QExt3rdparty::WrapMicroCDR)
+    QExt3rdparty::WrapMicroCDR
+    QExt3rdparty::Wrapmcap)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -58,9 +60,6 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextRecordPlayPch.h
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
-if(QEXT_FEATURE_X11EXTRAS)
-    qext_internal_extend_target(${QEXT_LIB_NAME} LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::X11Extras)
-endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
