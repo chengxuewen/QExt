@@ -451,6 +451,8 @@ qext_ensure_define_variable(QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS "QApplica
 qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty qwindowkit lib" OFF
     DEPENDS QEXT_SINCE_QT6
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -460,6 +462,8 @@ qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty Sin
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF
     DEPENDS QEXT_SINCE_QT6
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
 
@@ -776,6 +780,17 @@ if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
     qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)
+endif()
+
+if(QEXT_ADD_SUBDIRECTORY_QTADS)
+    set(ADS_VERSION "4.4.0")
+    set(QExtWrapQtADS_DIR_NAME "QtADS-${ADS_VERSION}")
+    set(QExtWrapQtADS_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}")
+    qext_fetch_3rdparty(QExtWrapQtADS URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}.7z")
+    add_subdirectory(${QExtWrapQtADS_ROOT_DIR}/source ${QExtWrapQtADS_ROOT_DIR}/subbuild)
+endif()
+if(QEXT_ENABLE_3RDPARTY_QTADS)
+    qext_find_package(WrapQtADS PROVIDED_TARGETS QExt3rdparty::WrapQtADS)
 endif()
 
 qext_add_subdirectory(3rdparty/PinyinIME QEXT_ENABLE_LIB_KEYBOARD)

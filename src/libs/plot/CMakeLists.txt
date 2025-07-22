@@ -57,6 +57,8 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextPlotCurve.cpp
     source/qextPlotCurve.h
     source/qextPlotCurve_p.h
+    source/qextPlotData.cpp
+    source/qextPlotData.h
     source/qextPlotDataBuffer.cpp
     source/qextPlotDataBuffer.h
     source/qextPlotFactory.cpp

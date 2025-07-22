@@ -68,7 +68,7 @@ public:
     // QVector< const MVChannel * > mDispChannels;
 
     QPointer<QwtScaleWidget> mScaleWidget;
-    QExtPlotZoomerValueDrawFunc mValueDrawFunc;
+    // QExtPlotZoomerValueDrawFunc mValueDrawFunc;
     QPointer<QExtPlotZoomerScaleOverlay> mZoomerScaleOverlay;
 };
 
@@ -80,7 +80,7 @@ QExtPlotZoomerPrivate::QExtPlotZoomerPrivate(QExtPlotZoomer *q)
     , mDrawValuesEnable(true)
 {
     mValueResolution = 0;
-    mValueDrawFunc = QEXT_NULLPTR;
+    // mValueDrawFunc = QEXT_NULLPTR;
 }
 
 
@@ -171,11 +171,11 @@ void QExtPlotZoomer::zoom(const QRectF &rect)
 //     d->mDispChannels = channels;
 // }
 
-void QExtPlotZoomer::setValueDrawFunc(QExtPlotZoomerValueDrawFunc func)
-{
-    Q_D(QExtPlotZoomer);
-    d->mValueDrawFunc = func;
-}
+// void QExtPlotZoomer::setValueDrawFunc(QExtPlotZoomerValueDrawFunc func)
+// {
+//     Q_D(QExtPlotZoomer);
+//     d->mValueDrawFunc = func;
+// }
 
 void QExtPlotZoomer::drawScaleOverlay(QPainter *painter)
 {
@@ -261,10 +261,10 @@ void QExtPlotZoomer::drawTracker(QPainter *painter) const
     {
         QwtPlotZoomer::drawTracker(painter);
     }
-    else if (d->mValueDrawFunc)
-    {
-        d->mValueDrawFunc(this, painter);
-    }
+    // else if (d->mValueDrawFunc)
+    // {
+    //     d->mValueDrawFunc(this, painter);
+    // }
     // else if (d->mDispChannels.length())
     // {
     //     this->drawValues(painter);

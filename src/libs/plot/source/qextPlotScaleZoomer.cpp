@@ -32,12 +32,12 @@ QExtPlotScaleZoomer::QExtPlotScaleZoomer(QwtPlot *plot, QwtPlotZoomer *zoomer)
     , dd_ptr(new QExtPlotScaleZoomerPrivate(this))
 {
     Q_D(QExtPlotScaleZoomer);
-    d->mBottomPicker = new QExtPlotScalePicker(plot->axisWidget(QwtPlot::xBottom), plot->canvas());
-    d->mLeftPicker = new QExtPlotScalePicker(plot->axisWidget(QwtPlot::yLeft), plot->canvas());
     d->mPlot = plot;
     d->mZoomer = zoomer;
-    connect(d->mBottomPicker, &QExtPlotScalePicker::picked, this, &QExtPlotScaleZoomer::bottomPicked);
+    d->mLeftPicker = new QExtPlotScalePicker(plot->axisWidget(QwtPlot::yLeft), plot->canvas());
     connect(d->mLeftPicker, &QExtPlotScalePicker::picked, this, &QExtPlotScaleZoomer::leftPicked);
+    d->mBottomPicker = new QExtPlotScalePicker(plot->axisWidget(QwtPlot::xBottom), plot->canvas());
+    connect(d->mBottomPicker, &QExtPlotScalePicker::picked, this, &QExtPlotScaleZoomer::bottomPicked);
 }
 
 QExtPlotScaleZoomer::~QExtPlotScaleZoomer()

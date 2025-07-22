@@ -28,7 +28,7 @@ public:
 
     /// Set displayed channels for value tracking (can be null)
     // void setDispChannels(QVector< const MVChannel * > channels);
-    void setValueDrawFunc(QExtPlotZoomerValueDrawFunc func);
+    // void setValueDrawFunc(QExtPlotZoomerValueDrawFunc func);
 
     void drawScaleOverlay(QPainter *painter); // called from QwtWidgetOverlay
 
@@ -52,11 +52,8 @@ protected:
 
     /// Overloaded for panning
     void widgetMousePressEvent(QMouseEvent *mouseEvent) QEXT_OVERRIDE;
-    /// Overloaded for panning
     void widgetMouseReleaseEvent(QMouseEvent *mouseEvent) QEXT_OVERRIDE;
-    /// Overloaded for panning
     void widgetMouseMoveEvent(QMouseEvent *mouseEvent) QEXT_OVERRIDE;
-    /// Overloaded for panning
     void widgetMouseDoubleClickEvent(QMouseEvent * mouseEvent) QEXT_OVERRIDE;
 
     void widgetKeyPressEvent(QKeyEvent *keyEvent) QEXT_OVERRIDE;
