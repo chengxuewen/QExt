@@ -7,7 +7,7 @@
 #include <qextDateTimeUtils.h>
 
 #include <QPair>
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 #   include <atomic>
 #endif
 
@@ -19,7 +19,7 @@ static T qextTSValueLoad(const T &value)
 {
     return value;
 }
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 template <typename T>
 static T qextTSValueLoad(const std::atomic<T> &value)
 {
@@ -57,7 +57,7 @@ static void qextTSValueStore(T &value, const T &data)
 {
     value = data;
 }
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 template <typename D>
 static void qextTSValueStore(std::atomic<D> &value, const D &data)
 {

@@ -94,10 +94,10 @@ QRectF QExtPlotSeriesData::boundingRect() const
     QRectF rect;
     const QExtRangeF xBufferRange = d->mXBuffer ? d->mXBuffer->range() : QExtRangeF();
     const QExtRangeF yBufferRange = d->mYBuffer ? d->mYBuffer->range() : QExtRangeF();
-    rect.setBottom(yBufferRange.start());
-    rect.setTop(yBufferRange.end());
-    rect.setLeft(xBufferRange.start());
-    rect.setRight(xBufferRange.end());
+    rect.setBottom(yBufferRange.min());
+    rect.setTop(yBufferRange.max());
+    rect.setLeft(xBufferRange.min());
+    rect.setRight(xBufferRange.max());
     return rect.normalized();
 }
 

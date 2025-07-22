@@ -137,18 +137,17 @@
     QExt compiler cplusplus std value macro define
 ***********************************************************************************************************************/
 #if defined(_MSVC_LANG) && !defined(__clang__)
-    #define QEXT_CC_STD_VALUE (_MSC_VER == 1900 ? 201103L : _MSVC_LANG)
+    #define QEXT_CC_CPLUSPLUS_VERSION (_MSC_VER == 1900 ? 201103L : _MSVC_LANG)
 #else
-    #define QEXT_CC_STD_VALUE __cplusplus
+    #define QEXT_CC_CPLUSPLUS_VERSION __cplusplus
 #endif
 
-#define QEXT_CC_STD_98 (QEXT_CC_STD_VALUE >= 199711L)
-#define QEXT_CC_STD_11 (QEXT_CC_STD_VALUE >= 201103L)
-#define QEXT_CC_STD_14 (QEXT_CC_STD_VALUE >= 201402L)
-#define QEXT_CC_STD_17 (QEXT_CC_STD_VALUE >= 201703L)
-#define QEXT_CC_STD_20 (QEXT_CC_STD_VALUE >= 202000L)
-
-
+#define QEXT_CC_CPP98_OR_GREATER (QEXT_CC_CPLUSPLUS_VERSION >= 199711L)
+#define QEXT_CC_CPP11_OR_GREATER (QEXT_CC_CPLUSPLUS_VERSION >= 201103L)
+#define QEXT_CC_CPP14_OR_GREATER (QEXT_CC_CPLUSPLUS_VERSION >= 201402L)
+#define QEXT_CC_CPP17_OR_GREATER (QEXT_CC_CPLUSPLUS_VERSION >= 201703L)
+#define QEXT_CC_CPP20_OR_GREATER (QEXT_CC_CPLUSPLUS_VERSION >= 202002L)
+#define QEXT_CC_CPP23_OR_GREATER (QEXT_CC_CPLUSPLUS_VERSION >= 202300L)
 
 
 /***********************************************************************************************************************

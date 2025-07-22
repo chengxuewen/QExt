@@ -26,7 +26,7 @@
 #   include <mach-o/dyld.h>
 #endif
 
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 #   include <thread>
 #endif
 
@@ -45,7 +45,7 @@ qint64 QExtCommonUtils::applicationPid()
 
 qint64 QExtCommonUtils::applicationTid()
 {
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
     std::hash<std::thread::id> hasher;
     size_t intThreadID = hasher(std::this_thread::get_id());
     return (qint64)intThreadID;

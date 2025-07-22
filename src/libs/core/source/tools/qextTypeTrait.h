@@ -1,4 +1,4 @@
-/****************************************************************************************************************************
+﻿/****************************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -33,7 +33,7 @@
 
 #include <qextGlobal.h>
 
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 #   include <type_traits>
 #endif
 
@@ -69,8 +69,8 @@ struct Identity
 template<typename T, T v>
 struct QExtIntegralConstant
 {
+    typedef T ValueType;
     static const T value = v;
-    typedef T Value;
     typedef QExtIntegralConstant<T, v> Type;
 };
 
@@ -249,7 +249,7 @@ struct QExtIsArithmetic : public QExtIntegralConstant<bool, QExtIsIntegral<T>::v
 /***********************************************************************************************************************
     QExtIsMemberPointer type trait
 ***********************************************************************************************************************/
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 template <typename T>
 struct QExtIsMemberPointer : public QExtIntegralConstant<bool, std::is_member_function_pointer<T>::value>{};
 #endif
@@ -698,7 +698,7 @@ public:
 /***********************************************************************************************************************
    QExtTypeTrait
 ***********************************************************************************************************************/
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 //std::is_base_of
 template <typename T_base, typename T_derived>
 struct QExtIsBaseOf : public std::is_base_of<T_base, T_derived> { };

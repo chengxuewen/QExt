@@ -58,9 +58,10 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-qext_find_package(WrapInvokeLite PROVIDED_TARGETS QExt3rdparty::WrapInvokeLite)
-qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
 qext_find_package(WrapOptionalLite PROVIDED_TARGETS QExt3rdparty::WrapOptionalLite)
+qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
+qext_find_package(WrapInvokeLite PROVIDED_TARGETS QExt3rdparty::WrapInvokeLite)
+qext_find_package(WrapAnyLite PROVIDED_TARGETS QExt3rdparty::WrapAnyLite)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -80,6 +81,7 @@ qext_add_library(Core
     source/serialization/qextSettingsSerializeFile.h
     source/serialization/qextJsonSerializeFile.cpp
     source/serialization/qextJsonSerializeFile.h
+    source/tools/qextAny.h
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
@@ -132,13 +134,15 @@ qext_add_library(Core
     PRECOMPILED_HEADER
     source/qextPch.h
     EXTERNAL_HEADERS_DIRS
-    ${QExtWrapInvokeLite_INSTALL_DIR}/include
-    ${QExtWrapVariantLite_INSTALL_DIR}/include
     ${QExtWrapOptionalLite_INSTALL_DIR}/include
+    ${QExtWrapVariantLite_INSTALL_DIR}/include
+    ${QExtWrapInvokeLite_INSTALL_DIR}/include
+    ${QExtWrapAnyLite_INSTALL_DIR}/include
     PUBLIC_LIBRARIES
-    QExt3rdparty::WrapInvokeLite
-    QExt3rdparty::WrapVariantLite
     QExt3rdparty::WrapOptionalLite
+    QExt3rdparty::WrapVariantLite
+    QExt3rdparty::WrapInvokeLite
+    QExt3rdparty::WrapAnyLite
     ${QEXT_LIB_LINK_LIBRARIES})
 
 if(QEXT_FEATURE_USE_CJSON_BACKEND)

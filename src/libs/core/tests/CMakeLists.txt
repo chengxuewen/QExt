@@ -45,6 +45,13 @@ list(APPEND QEXT_TEST_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 #-----------------------------------------------------------------------------------------------------------------------
 # add tests
 #-----------------------------------------------------------------------------------------------------------------------
+qext_internal_add_test(QExtTstCoreAny
+    SOURCES
+    tools/tst_qextAny.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreTypeTrait
     SOURCES
     tools/tst_qextTypeTrait.cpp

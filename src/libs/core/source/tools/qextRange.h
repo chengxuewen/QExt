@@ -12,79 +12,79 @@
 class QEXT_CORE_API QExtRange
 {
 public:
-    QEXT_CONSTEXPR QExtRange() : mStart(QEXT_INT_MAX), mEnd(QEXT_INT_MIN) {}
-    QEXT_CONSTEXPR QExtRange(int start, int end) : mStart(start), mEnd(end) {}
-    QExtRange(const QExtRange &other) : mStart(other.start()), mEnd(other.end()) {}
+    QEXT_CONSTEXPR QExtRange() : mMin(QEXT_INT_MAX), mMax(QEXT_INT_MIN) {}
+    QEXT_CONSTEXPR QExtRange(int min, int max) : mMin(min), mMax(max) {}
+    QExtRange(const QExtRange &other) : mMin(other.min()), mMax(other.max()) {}
     virtual ~QExtRange() {}
 
     QExtRange &operator=(const QExtRange &other)
     {
         if (this != &other)
         {
-            mStart = other.start();
-            mEnd = other.end();
+            mMin = other.min();
+            mMax = other.max();
         }
         return *this;
     }
 
-    QEXT_CONSTEXPR inline bool isValid() const { return mStart <= mEnd; }
+    QEXT_CONSTEXPR inline bool isValid() const { return mMin <= mMax; }
     QEXT_CONSTEXPR inline bool isIntersected(const QExtRange &other) const
     {
-        return mStart <= other.end() && mEnd >= other.start();
+        return mMin <= other.max() && mMax >= other.min();
     }
 
     QEXT_CONSTEXPR inline bool contains(const QExtRange &other) const
     {
-        return mStart <= other.start() && mEnd >= other.end();
+        return mMin <= other.min() && mMax >= other.max();
     }
     inline QExtRange intersect(const QExtRange &other) const
     {
-        return this->isIntersected(other) ? QExtRange(qMax(mStart, other.start()), qMin(mEnd, other.end())) : QExtRange();
+        return this->isIntersected(other) ? QExtRange(qMax(mMin, other.min()), qMin(mMax, other.max())) : QExtRange();
     }
 
-    QEXT_CONSTEXPR inline int length() const { return this->isValid() ? mEnd - mStart : 0; }
-    QEXT_CONSTEXPR inline int start() const { return mStart; }
-    QEXT_CONSTEXPR inline int end() const { return mEnd; }
-    inline void setStart(int start) { mStart = start; }
-    inline void setEnd(int end) { mEnd = end; }
+    QEXT_CONSTEXPR inline int length() const { return this->isValid() ? mMax - mMin : 0; }
+    QEXT_CONSTEXPR inline int min() const { return mMin; }
+    QEXT_CONSTEXPR inline int max() const { return mMax; }
+    inline void setMin(int min) { mMin = min; }
+    inline void setMax(int max) { mMax = max; }
 
     inline QExtRange &operator+=(int offset)
     {
-        mStart = mStart+offset; mEnd = mEnd+offset; return *this;
+        mMin = mMin+offset; mMax = mMax+offset; return *this;
     }
     inline QExtRange &operator-=(int offset)
     {
-        mStart = mStart-offset; mEnd = mEnd-offset; return *this;
+        mMin = mMin-offset; mMax = mMax-offset; return *this;
     }
 
     inline QExtRange &operator*=(float factor)
     {
-        mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
+        mMin = qRound(mMin*factor); mMax = qRound(mMax*factor); return *this;
     }
     inline QExtRange &operator*=(double factor)
     {
-        mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
+        mMin = qRound(mMin*factor); mMax = qRound(mMax*factor); return *this;
     }
     inline QExtRange &operator*=(int factor)
     {
-        mStart = mStart*factor; mEnd = mEnd*factor; return *this;
+        mMin = mMin*factor; mMax = mMax*factor; return *this;
     }
 
     friend QEXT_CONSTEXPR inline bool operator==(const QExtRange &lhs, const QExtRange &rhs);
     friend QEXT_CONSTEXPR inline bool operator!=(const QExtRange &lhs, const QExtRange &rhs);
 
 protected:
-    int mStart;
-    int mEnd;
+    int mMin;
+    int mMax;
 };
 Q_DECLARE_METATYPE(QExtRange)
 Q_DECLARE_TYPEINFO(QExtRange, Q_MOVABLE_TYPE);
 
 QEXT_CONSTEXPR inline bool operator==(const QExtRange &lhs, const QExtRange &rhs)
-{ return lhs.mStart == rhs.mEnd && lhs.mStart == rhs.mEnd; }
+{ return lhs.mMin == rhs.mMax && lhs.mMin == rhs.mMax; }
 
 QEXT_CONSTEXPR inline bool operator!=(const QExtRange &lhs, const QExtRange &rhs)
-{ return lhs.mStart != rhs.mEnd || lhs.mStart != rhs.mEnd; }
+{ return lhs.mMin != rhs.mMax || lhs.mMin != rhs.mMax; }
 
 #ifndef QT_NO_DATASTREAM
 QEXT_CORE_API QDataStream &operator<<(QDataStream &stream, const QExtRange &range);
@@ -97,81 +97,81 @@ QEXT_CORE_API QDebug operator<<(QDebug debug, const QExtRange &range);
 class QEXT_CORE_API QExtRangeF
 {
 public:
-    QEXT_CONSTEXPR QExtRangeF() : mStart(QEXT_DOUBLE_NAN), mEnd(QEXT_DOUBLE_NAN) {}
-    QEXT_CONSTEXPR QExtRangeF(double start, double end) : mStart(start), mEnd(end) {}
-    QExtRangeF(const QExtRangeF &other) : mStart(other.start()), mEnd(other.end()) {}
+    QEXT_CONSTEXPR QExtRangeF() : mMin(QEXT_DOUBLE_NAN), mMax(QEXT_DOUBLE_NAN) {}
+    QEXT_CONSTEXPR QExtRangeF(double min, double max) : mMin(min), mMax(max) {}
+    QExtRangeF(const QExtRangeF &other) : mMin(other.min()), mMax(other.max()) {}
     virtual ~QExtRangeF() {}
 
     QExtRangeF &operator=(const QExtRangeF &other)
     {
         if (this != &other)
         {
-            mStart = other.start();
-            mEnd = other.end();
+            mMin = other.min();
+            mMax = other.max();
         }
         return *this;
     }
 
-    inline bool isValid() const { return std::isless(mStart, mEnd); }
+    inline bool isValid() const { return std::isless(mMin, mMax); }
     inline bool isIntersected(const QExtRangeF &other) const
     {
-        return std::isless(mStart, other.end()) && std::isgreater(mEnd, other.start());
+        return std::isless(mMin, other.max()) && std::isgreater(mMax, other.min());
     }
 
     inline bool contains(const QExtRangeF &other)
     {
-        return std::isless(mStart, other.start()) && std::isgreater(mEnd, other.end());
+        return std::isless(mMin, other.min()) && std::isgreater(mMax, other.max());
     }
     inline QExtRangeF intersect(const QExtRangeF &other) const
     {
-        return this->isIntersected(other) ? QExtRangeF(qMax(mStart, other.start()), qMin(mEnd, other.end())) : QExtRangeF();
+        return this->isIntersected(other) ? QExtRangeF(qMax(mMin, other.min()), qMin(mMax, other.max())) : QExtRangeF();
     }
-    QEXT_CONSTEXPR inline double length() const { return this->isValid() ? mEnd - mStart : 0; }
+    QEXT_CONSTEXPR inline double length() const { return this->isValid() ? mMax - mMin : 0; }
 
-    QEXT_CONSTEXPR inline double start() const { return mStart; }
-    QEXT_CONSTEXPR inline double end() const { return mEnd; }
-    inline void reset(double start, double end) { mStart = start; mEnd = end; }
-    inline void clear() { mStart = QEXT_DOUBLE_NAN; mEnd = QEXT_DOUBLE_NAN; }
-    inline void setStart(double start) { mStart = start; }
-    inline void setEnd(double end) { mEnd = end; }
+    QEXT_CONSTEXPR inline double min() const { return mMin; }
+    QEXT_CONSTEXPR inline double max() const { return mMax; }
+    inline void reset(double min, double max) { mMin = min; mMax = max; }
+    inline void clear() { mMin = QEXT_DOUBLE_NAN; mMax = QEXT_DOUBLE_NAN; }
+    inline void setMin(double min) { mMin = min; }
+    inline void setMax(double max) { mMax = max; }
 
     inline QExtRangeF &operator+=(double offset)
     {
-        mStart = mStart+offset; mEnd = mEnd+offset; return *this;
+        mMin = mMin+offset; mMax = mMax+offset; return *this;
     }
     inline QExtRangeF &operator-=(double offset)
     {
-        mStart = mStart-offset; mEnd = mEnd-offset; return *this;
+        mMin = mMin-offset; mMax = mMax-offset; return *this;
     }
 
     inline QExtRangeF &operator*=(float factor)
     {
-        mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
+        mMin = qRound(mMin*factor); mMax = qRound(mMax*factor); return *this;
     }
     inline QExtRangeF &operator*=(double factor)
     {
-        mStart = qRound(mStart*factor); mEnd = qRound(mEnd*factor); return *this;
+        mMin = qRound(mMin*factor); mMax = qRound(mMax*factor); return *this;
     }
     inline QExtRangeF &operator*=(int factor)
     {
-        mStart = mStart*factor; mEnd = mEnd*factor; return *this;
+        mMin = mMin*factor; mMax = mMax*factor; return *this;
     }
 
     friend QEXT_CONSTEXPR inline bool operator==(const QExtRangeF &lhs, const QExtRangeF &rhs);
     friend QEXT_CONSTEXPR inline bool operator!=(const QExtRangeF &lhs, const QExtRangeF &rhs);
 
 protected:
-    double mStart;
-    double mEnd;
+    double mMin;
+    double mMax;
 };
 Q_DECLARE_METATYPE(QExtRangeF)
 Q_DECLARE_TYPEINFO(QExtRangeF, Q_MOVABLE_TYPE);
 
 QEXT_CONSTEXPR inline bool operator==(const QExtRangeF &lhs, const QExtRangeF &rhs)
-{ return qFuzzyIsNull(lhs.mStart - rhs.mEnd) && qFuzzyIsNull(lhs.mStart - rhs.mEnd); }
+{ return qFuzzyIsNull(lhs.mMin - rhs.mMax) && qFuzzyIsNull(lhs.mMin - rhs.mMax); }
 
 QEXT_CONSTEXPR inline bool operator!=(const QExtRangeF &lhs, const QExtRangeF &rhs)
-{ return !qFuzzyIsNull(lhs.mStart - rhs.mEnd) || !qFuzzyIsNull(lhs.mStart - rhs.mEnd); }
+{ return !qFuzzyIsNull(lhs.mMin - rhs.mMax) || !qFuzzyIsNull(lhs.mMin - rhs.mMax); }
 
 #ifndef QT_NO_DATASTREAM
 QEXT_CORE_API QDataStream &operator<<(QDataStream &stream, const QExtRangeF &range);

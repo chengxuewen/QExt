@@ -35,7 +35,7 @@ namespace QExtContainerUtils
 {
 
 template <typename T> struct isUniquePtr : public QExtFalseType { };
-#if QEXT_CC_STD_11
+#if QEXT_CC_CPP11_OR_GREATER
 template <typename T, typename D> struct isUniquePtr<std::unique_ptr<T, D>> : public QExtFalseType { };
 #endif
 

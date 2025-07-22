@@ -86,7 +86,7 @@ public:
     void setXAxisMax(double value);
     QString xAxisRangeText() const;
     void setXAxisRange(double min, double max);
-    void setXAxisRange(const QExtRangeF &range) { this->setXAxisRange(range.start(), range.end()); }
+    void setXAxisRange(const QExtRangeF &range) { this->setXAxisRange(range.min(), range.max()); }
 
     double yAxisMin() const;
     double yAxisMax() const;
@@ -95,7 +95,7 @@ public:
     void setYAxisMax(double value);
     QString yAxisRangeText() const;
     void setYAxisRange(double min, double max);
-    void setYAxisRange(const QExtRangeF &range) { this->setYAxisRange(range.start(), range.end()); }
+    void setYAxisRange(const QExtRangeF &range) { this->setYAxisRange(range.min(), range.max()); }
 
     bool isXAxisAutoScaled() const;
     void setXAxisAutoScaled(bool autoScaled);

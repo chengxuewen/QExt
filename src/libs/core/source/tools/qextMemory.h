@@ -30,7 +30,7 @@
 #include <QSharedPointer>
 #include <QScopedPointer>
 
-#if QEXT_CC_STD_11 && QEXT_CC_FEATURE_VARIADIC_TEMPLATES
+#if QEXT_CC_CPP11_OR_GREATER && QEXT_CC_FEATURE_VARIADIC_TEMPLATES
 #   include <memory>
 #   define QExtWeakPointer std::weak_ptr
 #   define QExtSharedPointer std::shared_ptr

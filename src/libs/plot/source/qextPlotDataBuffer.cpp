@@ -55,13 +55,13 @@ void QExtPlotRingBufferPrivate::updateLimits() const
     mRange.reset(mDatas[0], mDatas[0]);
     for (size_t i = 0; i < mSize; i++)
     {
-        if (mDatas[i] > mRange.end())
+        if (mDatas[i] > mRange.max())
         {
-            mRange.setEnd(mDatas[i]);
+            mRange.setMax(mDatas[i]);
         }
-        else if (mDatas[i] < mRange.start())
+        else if (mDatas[i] < mRange.min())
         {
-            mRange.setStart(mDatas[i]);
+            mRange.setMin(mDatas[i]);
         }
     }
     mRangeOutdated = false;
