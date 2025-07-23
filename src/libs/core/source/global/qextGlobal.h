@@ -145,7 +145,7 @@
 /***********************************************************************************************************************
     QExt compiler cxx17 feature macro declare
 ***********************************************************************************************************************/
-#if QEXT_CXX_STANDARD17 && QEXT_CC_FEATURE_CONSTEXPR
+#if QEXT_CC_CPP17_OR_GREATER && QEXT_CC_FEATURE_CONSTEXPR
 #   define QEXT_IF_CONSTEXPR constexpr
 #else
 #   define QEXT_IF_CONSTEXPR

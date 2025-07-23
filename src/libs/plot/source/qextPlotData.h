@@ -34,7 +34,7 @@ public:
     QEXT_STATIC_CONSTANT_NUMBER(CapacityMax, 1024 * 1024)
     QEXT_STATIC_CONSTANT_NUMBER(ASyncBufferCapacityMax, 1024)
 
-    typedef typename QVector<Point> Points;
+    typedef QVector<Point> Points;
     typedef typename Points::iterator Iterator;
     typedef typename Points::const_iterator ConstIterator;
     typedef typename Points::reference Reference;
@@ -276,11 +276,15 @@ template <typename Value>
 class QExtPlotTimeSeriesBase : public QExtPlotDataBase<double, Value>
 {
 public:
-    typedef typename QExtPlotDataBase<double, Value> BaseType;
-    typedef typename BaseType::Point Point;
+    typedef QExtPlotDataBase<double, Value> Base;
+    typedef typename Base::Point Point;
+    typedef typename Base::Iterator Iterator;
+    typedef typename Base::ConstIterator ConstIterator;
+    typedef typename Base::Reference Reference;
+    typedef typename Base::ConstReference ConstReference;
 
     QExtPlotTimeSeriesBase(const QString& name)
-        : BaseType(name)
+        : Base(name)
         , mXRangeMax(std::numeric_limits<double>::max())
     {
     }
@@ -292,15 +296,15 @@ public:
 
     void pushBack(const Point& point) QEXT_OVERRIDE
     {
-        const bool needSorting = (!mPoints.empty() && point.x < this->back().x);
+        const bool needSorting = (!Base::mPoints.empty() && point.x < this->back().x);
         if (needSorting)
         {
-            Iterator iter = std::upper_bound(mPoints.begin(), mPoints.end(), point, timeCompare);
-            BaseType::insert(iter, point);
+            Iterator iter = std::upper_bound(Base::mPoints.begin(), Base::mPoints.end(), point, timeCompare);
+            Base::insert(iter, point);
         }
         else
         {
-            BaseType::pushBack(point);
+            Base::pushBack(point);
         }
         this->trimRange();
     }
@@ -308,15 +312,15 @@ public:
 #if QEXT_CC_CPP11_OR_GREATER
     void pushBack(Point&& point) QEXT_OVERRIDE
     {
-        const bool needSorting = (!mPoints.empty() && point.x < this->back().x);
+        const bool needSorting = (!Base::mPoints.empty() && point.x < this->back().x);
         if (needSorting)
         {
-            Iterator iter = std::upper_bound(mPoints.begin(), mPoints.end(), point, timeCompare);
-            BaseType::insert(iter, std::forward(point));
+            Iterator iter = std::upper_bound(Base::mPoints.begin(), Base::mPoints.end(), point, timeCompare);
+            Base::insert(iter, std::forward(point));
         }
         else
         {
-            BaseType::pushBack(std::forward(point));
+            Base::pushBack(std::forward(point));
         }
         this->trimRange();
     }
@@ -334,23 +338,23 @@ public:
 
     int getIndexFromX(double x) const
     {
-        if (mPoints.empty())
+        if (Base::mPoints.empty())
         {
             return -1;
         }
-        auto lowerIter = std::lower_bound(mPoints.begin(), mPoints.end(), Point(x, {}), timeCompare);
-        auto indexIter = std::distance(mPoints.begin(), lowerIter);
+        auto lowerIter = std::lower_bound(Base::mPoints.begin(), Base::mPoints.end(), Point(x, {}), timeCompare);
+        auto indexIter = std::distance(Base::mPoints.begin(), lowerIter);
 
-        if (indexIter >= mPoints.size())
+        if (indexIter >= Base::mPoints.size())
         {
-            return mPoints.size() - 1;
+            return Base::mPoints.size() - 1;
         }
         if (indexIter < 0)
         {
             return 0;
         }
 
-        if (indexIter > 0 && (std::abs(mPoints[indexIter - 1].x - x) < std::abs(mPoints[indexIter].x - x)))
+        if (indexIter > 0 && (std::abs(Base::mPoints[indexIter - 1].x - x) < std::abs(Base::mPoints[indexIter].x - x)))
         {
             indexIter = indexIter - 1;
         }
@@ -360,17 +364,17 @@ public:
     QExtOptional<Value> getYfromX(double x) const
     {
         int index = this->getIndexFromX(x);
-        return (index < 0) ? qextMakeNullopt() : qextMakeOptional(mPoints[index].y);
+        return (index < 0) ? qextMakeNullopt() : qextMakeOptional(Base::mPoints[index].y);
     }
 
 
 private:
     void trimRange()
     {
-        if (mXRangeMax < std::numeric_limits<double>::max() && !mPoints.empty())
+        if (mXRangeMax < std::numeric_limits<double>::max() && !Base::mPoints.empty())
         {
-            const double backPointX = mPoints.back().x;
-            while (mPoints.size() > 2 && (backPointX - mPoints.front().x) > mXRangeMax)
+            const double backPointX = Base::mPoints.back().x;
+            while (Base::mPoints.size() > 2 && (backPointX - Base::mPoints.front().x) > mXRangeMax)
             {
                 this->popFront();
             }

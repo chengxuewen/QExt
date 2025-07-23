@@ -36,7 +36,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.4.3 LANGUAGES CXX C)
+project(QExt VERSION 1.3.5.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -45,10 +45,9 @@ set(QEXT_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 set(QEXT_VERSION ${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION_PATCH})
 set(QEXT_SO_VERSION ${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR})
 set(QEXT_VERSION_STR "${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION_PATCH}")
-set(QEXT_COPYRIGHT "Copyright (c) 2021 ChengXueWen 1398831004@qq.com")
+set(QEXT_COPYRIGHT "Copyright (c) 2021~Present ChengXueWen 1398831004@qq.com")
 set(QEXT_LICENSE "MIT License")
 set(QEXT_PRODUCT_NAME "QExt")
-set(QEXT_CXX_STANDARD 11)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
 message(STATUS "Project version: ${QEXT_VERSION}")
 message(STATUS "Project copyright: ${QEXT_COPYRIGHT}")
@@ -99,7 +98,6 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     set(QEXT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
     set(QEXT_QT_SERIALPORT_FOUND OFF)
     set(QEXT_QT_HAS_QML OFF)
-    set(QEXT_CXX_STANDARD 98)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Network Test PrintSupport Xml Svg Sql REQUIRED)
@@ -115,7 +113,6 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     set(QEXT_QT_CONCURRENT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}Concurrent_FOUND})
     set(QEXT_QT_SERIALPORT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}SerialPort_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt5)
-    set(QEXT_CXX_STANDARD 11)
     set(QEXT_QT_HAS_QJSON ON)
     if(QEXT_QT_VERSION_MINOR GREATER_EQUAL 9)
         set(QEXT_QT_HAS_QML ON)
@@ -138,7 +135,6 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     set(QEXT_QT_SERIALPORT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}SerialPort_FOUND})
     set(QEXT_QT_OPENGLWIDGET_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGLWidgets_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt6)
-    set(QEXT_CXX_STANDARD 17)
     set(QEXT_QT_HAS_QJSON ON)
     set(QEXT_QT_HAS_QML ON)
 else()
@@ -168,6 +164,90 @@ endif()
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Specify the C++ standard and flags
+#-----------------------------------------------------------------------------------------------------------------------
+if(NOT CMAKE_CXX_STANDARD OR "${CMAKE_CXX_STANDARD}" STREQUAL "")
+    include(CheckCXXCompilerFlag)
+    CHECK_CXX_COMPILER_FLAG("-std=c++11" QEXT_COMPILER_SUPPORTS_CXX11)
+    CHECK_CXX_COMPILER_FLAG("-std=c++14" QEXT_COMPILER_SUPPORTS_CXX14)
+    CHECK_CXX_COMPILER_FLAG("-std=c++17" QEXT_COMPILER_SUPPORTS_CXX17)
+    CHECK_CXX_COMPILER_FLAG("-std=c++20" QEXT_COMPILER_SUPPORTS_CXX20)
+    CHECK_CXX_COMPILER_FLAG("-std=c++23" QEXT_COMPILER_SUPPORTS_CXX23)
+    if(QEXT_COMPILER_SUPPORTS_CXX23)
+        set(QEXT_DEFAULT_CXX_STANDARD 23)
+    elseif(QEXT_COMPILER_SUPPORTS_CXX20)
+        set(QEXT_DEFAULT_CXX_STANDARD 20)
+    elseif(QEXT_COMPILER_SUPPORTS_CXX17)
+        set(QEXT_DEFAULT_CXX_STANDARD 17)
+    elseif(QEXT_COMPILER_SUPPORTS_CXX14)
+        set(QEXT_DEFAULT_CXX_STANDARD 14)
+    elseif(QEXT_COMPILER_SUPPORTS_CXX11)
+        set(QEXT_DEFAULT_CXX_STANDARD 11)
+    else()
+        set(QEXT_DEFAULT_CXX_STANDARD 98)
+    endif()
+    message(STATUS "Support C++ standard: ${QEXT_DEFAULT_CXX_STANDARD}")
+    set(QEXT_CXX_STANDARD "${QEXT_DEFAULT_CXX_STANDARD}" CACHE STRING "Set cxx standard(98/11/14/17/20/23)!")
+    set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
+else()
+    set(QEXT_CXX_STANDARD "${CMAKE_CXX_STANDARD}" CACHE STRING "Set cxx standard(98/11/14/17/20/23)!" FORCE)
+endif()
+if("${CMAKE_CXX_STANDARD}" STREQUAL "23")
+    set(QEXT_CXX_STANDARD23 ON)
+    set(QEXT_CXX_STANDARD20 ON)
+    set(QEXT_CXX_STANDARD17 ON)
+    set(QEXT_CXX_STANDARD14 ON)
+    set(QEXT_CXX_STANDARD11 ON)
+elseif("${CMAKE_CXX_STANDARD}" STREQUAL "20")
+    set(QEXT_CXX_STANDARD20 ON)
+    set(QEXT_CXX_STANDARD17 ON)
+    set(QEXT_CXX_STANDARD14 ON)
+    set(QEXT_CXX_STANDARD11 ON)
+elseif("${CMAKE_CXX_STANDARD}" STREQUAL "17")
+    set(QEXT_CXX_STANDARD17 ON)
+    set(QEXT_CXX_STANDARD14 ON)
+    set(QEXT_CXX_STANDARD11 ON)
+elseif("${CMAKE_CXX_STANDARD}" STREQUAL "14")
+    set(QEXT_CXX_STANDARD14 ON)
+    set(QEXT_CXX_STANDARD14 ON)
+    set(QEXT_CXX_STANDARD11 ON)
+elseif("${CMAKE_CXX_STANDARD}" STREQUAL "11")
+    set(QEXT_CXX_STANDARD11 ON)
+endif()
+if("${CMAKE_CXX_EXTENSIONS}" STREQUAL "")
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+if("${CMAKE_CXX_STANDARD_REQUIRED}" STREQUAL "")
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+message(STATUS "Using C++: ${CMAKE_CXX_STANDARD}")
+message(STATUS "Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
+message(STATUS "Set C++ standard: ${CMAKE_CXX_STANDARD_REQUIRED}")
+
+if(WIN32)
+    if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+        # open bigobj flags in msvc compiler(bigobj)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+        # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
+    endif()
+    # Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+    set(CMAKE_OBJECT_PATH_MAX 2048)
+endif()
+
+## Position independent code:
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Does the linker support position independent code?
+include(CheckPIESupported)
+check_pie_supported()
+
+# Do not relink dependent libraries when no header has changed:
+set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -206,44 +286,6 @@ elseif(APPLE)
     set(CMAKE_DEBUG_POSTFIX "_debug")
     set(CMAKE_FRAMEWORK_MULTI_CONFIG_POSTFIX_DEBUG "_debug")
 endif()
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Specify the C++ standard and flags
-#-----------------------------------------------------------------------------------------------------------------------
-if("${CMAKE_CXX_STANDARD}" STREQUAL "")
-    set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
-endif()
-if("${CMAKE_CXX_EXTENSIONS}" STREQUAL "")
-    set(CMAKE_CXX_EXTENSIONS OFF)
-endif()
-if("${CMAKE_CXX_STANDARD_REQUIRED}" STREQUAL "")
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
-message(STATUS "Using C++: ${QEXT_CXX_STANDARD}")
-message(STATUS "Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
-
-if(WIN32)
-    if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-        # open bigobj flags in msvc compiler(bigobj)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
-        # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
-    endif()
-    # Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
-    set(CMAKE_OBJECT_PATH_MAX 2048)
-endif()
-
-## Position independent code:
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-# Does the linker support position independent code?
-include(CheckPIESupported)
-check_pie_supported()
-
-# Do not relink dependent libraries when no header has changed:
-set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -429,7 +471,7 @@ qext_option(QEXT_ENABLE_LIB_DAVIEW "Enable this to build the daview lib" OFF
     DEPENDS QEXT_ENABLE_LIB_PLOT AND QEXT_ENABLE_LIB_WIDGETS
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_FONTICON "Enable this to build the fonticon lib" OFF
-    DEPENDS QEXT_SINCE_QT5
+    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_KEYBOARD "Enable this to build the keyboard lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -438,6 +480,7 @@ qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib" OFF
+    DEPENDS QEXT_CXX_STANDARD17
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -445,11 +488,10 @@ qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatche
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
-    DEPENDS QEXT_SINCE_QT5
+    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
-qext_ensure_define_variable(QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS "QApplication")
 qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty qwindowkit lib" OFF
-    DEPENDS QEXT_SINCE_QT6
+    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5.12.0") AND QEXT_CXX_STANDARD17
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -458,10 +500,10 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdi
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D "Enable this to add the 3rdparty QwtPlot3D subdirectory" OFF)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
-    DEPENDS QEXT_SINCE_QT5
+    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF
-    DEPENDS QEXT_SINCE_QT6
+    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5.12.0") AND QEXT_CXX_STANDARD17
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -768,15 +810,25 @@ if(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
-    set(USER_QAPPLICATION_CLASS "${QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS}")
-    add_subdirectory(3rdparty/SingleApplication-3.5.1 ${PROJECT_BINARY_DIR}/3rdparty/SingleApplication-3.5.1/subbuild)
+    set(QAPPLICATION_CLASS FreeStandingSingleApplication)
+    set(QExtWrapSingleApp_DIR_NAME "SingleApplication-3.5.3")
+    set(QExtWrapSingleApp_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}")
+    qext_fetch_3rdparty(QExtWrapSingleApp URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}.tar.gz")
+    add_subdirectory(${QExtWrapSingleApp_ROOT_DIR}/source ${QExtWrapSingleApp_ROOT_DIR}/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
     qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
-    add_subdirectory(3rdparty/qwindowkit-1.0.1 ${PROJECT_BINARY_DIR}/3rdparty/qwindowkit-1.0.1/subbuild)
+    set(QWINDOWKIT_INSTALL OFF)
+    set(QWINDOWKIT_BUILD_QUICK ON)
+    set(QWINDOWKIT_BUILD_STATIC ON)
+    set(QWINDOWKIT_BUILD_EXAMPLES ON)
+    set(QExtWrapQWindowkit_DIR_NAME "qwindowkit-1.4.0")
+    set(QExtWrapQWindowkit_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQWindowkit_DIR_NAME}")
+    qext_fetch_3rdparty(QExtWrapQWindowkit URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQWindowkit_DIR_NAME}.7z")
+    add_subdirectory(${QExtWrapQWindowkit_ROOT_DIR}/source ${QExtWrapQWindowkit_ROOT_DIR}/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
     qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)

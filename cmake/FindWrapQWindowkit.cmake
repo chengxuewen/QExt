@@ -28,62 +28,64 @@ if(TARGET QExt3rdparty::WrapQWindowkit)
     return()
 endif()
 
-set(QWINDOWKIT_DIR_NAME "qwindowkit-1.0.1")
-set(QWINDOWKIT_URL_NAME "qwindowkit-1.0.1")
-set(QWINDOWKIT_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QWINDOWKIT_URL_NAME}")
-set(QWINDOWKIT_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QWINDOWKIT_DIR_NAME}")
-set(QWINDOWKIT_SOURCE_DIR "${QWINDOWKIT_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
-set(QWINDOWKIT_BUILD_DIR "${QWINDOWKIT_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
-set(QWINDOWKIT_INSTALL_DIR "${QWINDOWKIT_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
-if(NOT EXISTS ${QWINDOWKIT_SOURCE_DIR})
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${QWINDOWKIT_URL_PATH} ${QWINDOWKIT_SOURCE_DIR}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${QWINDOWKIT_BUILD_DIR}
-        RESULT_VARIABLE FETCH_RESULT)
-endif()
-if(NOT EXISTS ${QWINDOWKIT_INSTALL_DIR})
-    if(NOT EXISTS ${QWINDOWKIT_SOURCE_DIR})
-        message(FATAL_ERROR "${QWINDOWKIT_DIR_NAME} FetchContent failed.")
+set(QExtWrapQWindowkit_DIR_NAME "qwindowkit-1.4.0")
+set(QExtWrapQWindowkit_URL_NAME "qwindowkit-1.4.0.7z")
+set(QExtWrapQWindowkit_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQWindowkit_URL_NAME}")
+set(QExtWrapQWindowkit_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQWindowkit_DIR_NAME}")
+set(QExtWrapQWindowkit_SOURCE_DIR "${QExtWrapQWindowkit_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
+set(QExtWrapQWindowkit_BUILD_DIR "${QExtWrapQWindowkit_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
+set(QExtWrapQWindowkit_INSTALL_DIR "${QExtWrapQWindowkit_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
+qext_stamp_file_info(QExtWrapQWindowkit OUTPUT_DIR "${QExtWrapQWindowkit_ROOT_DIR}")
+qext_fetch_3rdparty(QExtWrapQWindowkit URL "${QExtWrapQWindowkit_URL_PATH}")
+if(NOT EXISTS ${QExtWrapQWindowkit_STAMP_FILE_PATH})
+    if(NOT EXISTS ${QExtWrapQWindowkit_SOURCE_DIR})
+        message(FATAL_ERROR "${QExtWrapQWindowkit_DIR_NAME} FetchContent failed.")
     endif()
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQWindowkit_BUILD_DIR}
+        WORKING_DIRECTORY "${QExtWrapQWindowkit_ROOT_DIR}"
+        RESULT_VARIABLE MKDIR_RESULT)
+    if(NOT (MKDIR_RESULT MATCHES 0))
+        message(FATAL_ERROR "${QExtWrapQWindowkit_DIR_NAME} lib build directory make failed.")
+    endif()
+
     execute_process(
         COMMAND ${CMAKE_COMMAND}
         -G${CMAKE_GENERATOR}
         -DQWINDOWKIT_BUILD_STATIC=ON
+        -DQWINDOWKIT_BUILD_QUICK=ON
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DCMAKE_INSTALL_PREFIX=${QWINDOWKIT_INSTALL_DIR} ${QWINDOWKIT_SOURCE_DIR}
-        WORKING_DIRECTORY "${QWINDOWKIT_BUILD_DIR}"
+        -DCMAKE_INSTALL_PREFIX=${QExtWrapQWindowkit_INSTALL_DIR} ${QExtWrapQWindowkit_SOURCE_DIR}
+        WORKING_DIRECTORY "${QExtWrapQWindowkit_BUILD_DIR}"
         RESULT_VARIABLE CONFIGURE_RESULT)
     if(CONFIGURE_RESULT MATCHES 0)
-        message(STATUS "${QWINDOWKIT_DIR_NAME} configure success")
+        message(STATUS "${QExtWrapQWindowkit_DIR_NAME} configure success")
         execute_process(
             COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS}
-            WORKING_DIRECTORY "${QWINDOWKIT_BUILD_DIR}"
+            WORKING_DIRECTORY "${QExtWrapQWindowkit_BUILD_DIR}"
             RESULT_VARIABLE BUILD_RESULT)
         if(BUILD_RESULT MATCHES 0)
-            message(STATUS "${QWINDOWKIT_DIR_NAME} build success")
+            message(STATUS "${QExtWrapQWindowkit_DIR_NAME} build success")
             execute_process(
                 COMMAND ${CMAKE_COMMAND} --install ./
-                WORKING_DIRECTORY "${QWINDOWKIT_BUILD_DIR}"
+                WORKING_DIRECTORY "${QExtWrapQWindowkit_BUILD_DIR}"
                 RESULT_VARIABLE INSTALL_RESULT)
             if(BUILD_RESULT MATCHES 0)
-                message(STATUS "${QWINDOWKIT_DIR_NAME} install success")
+                message(STATUS "${QExtWrapQWindowkit_DIR_NAME} install success")
+                qext_make_stamp_file("${QExtWrapQWindowkit_STAMP_FILE_PATH}")
             else()
-                message(FATAL_ERROR "${QWINDOWKIT_DIR_NAME} install failed.")
+                message(FATAL_ERROR "${QExtWrapQWindowkit_DIR_NAME} install failed.")
             endif()
         else()
-            message(FATAL_ERROR "${QWINDOWKIT_DIR_NAME} build failed.")
+            message(FATAL_ERROR "${QExtWrapQWindowkit_DIR_NAME} build failed.")
         endif()
     else()
-        message(FATAL_ERROR "${QWINDOWKIT_DIR_NAME} configure failed.")
+        message(FATAL_ERROR "${QExtWrapQWindowkit_DIR_NAME} configure failed.")
     endif()
 endif()
-if(EXISTS ${QWINDOWKIT_INSTALL_DIR})
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${QWINDOWKIT_INSTALL_DIR} ${QEXT_BUILD_DIR}
-        RESULT_VARIABLE COPY_RESULT)
-endif()
-find_package(QWindowKit PATHS ${QWINDOWKIT_INSTALL_DIR} REQUIRED)
+# wrap lib
+find_package(QWindowKit PATHS ${QExtWrapQWindowkit_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQWindowkit INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQWindowkit INTERFACE QWindowKit::Core QWindowKit::Widgets)
 set(WrapQWindowkit_FOUND ON)

@@ -53,7 +53,7 @@ static QEXT_FORCE_INLINE void qextCallOnce(QExtOnceFlag &flag, void(*func)())
 {
     qextCallOnce<void(*)()>(flag, func);
 }
-#ifdef QEXT_CXX_STANDARD11
+#ifdef QEXT_CC_CPP11_OR_GREATER
 static QEXT_FORCE_INLINE void qextCallOnce(QExtOnceFlag &flag, std::function<void()> func)
 {
     qextCallOnce<std::function<void()>>(flag, func);

@@ -337,8 +337,8 @@ void QExtVariantTest::construct()
     {
         int i = 7;
 
-        QExtVariant<double, std::string> var1(  i );
-        QExtVariant<double, std::string> var2(  7 );
+        QExtVariant<double, std::string> var1(  static_cast<double>(i) );
+        QExtVariant<double, std::string> var2(  static_cast<double>(7) );
 
         QVERIFY( var1.index() == 0u              );
         QVERIFY( qextVariantGet<0>(var1) == approx(7) );
@@ -352,7 +352,7 @@ void QExtVariantTest::construct()
 #if QEXT_VARIANT_CPP11_OR_GREATER
         struct Int { operator int() { return 7; } };
 
-        QExtVariant<double, std::string> var( Int{} );
+        QExtVariant<double, std::string> var( static_cast<double>(Int{}) );
 
         QVERIFY( var.index() == 0u              );
         QVERIFY( qextVariantGet<0>(var) == approx(7) );

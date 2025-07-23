@@ -127,7 +127,7 @@ QStringList QExtLogProperties::propertyNames() const
 
     QStringList keys = this->keys();
 #if (__cplusplus >= 201703L)
-    for (const auto &key : std::as_const(default_keys))
+    for (const auto &key : std::as_const(defaultKeys))
 #else
     for (const auto &key : qAsConst(defaultKeys))
 #endif
