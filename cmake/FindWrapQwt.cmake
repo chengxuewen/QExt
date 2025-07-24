@@ -29,7 +29,7 @@ if(TARGET QExt3rdparty::WrapQwt)
 endif()
 
 set(QExtWrapQwt_DIR_NAME "qwt-${QWT_VERSION}")
-set(QExtWrapQwt_URL_NAME "qwt-${QWT_VERSION}")
+set(QExtWrapQwt_URL_NAME "qwt-${QWT_VERSION}.7z")
 set(QExtWrapQwt_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQwt_URL_NAME}")
 set(QExtWrapQwt_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}")
 set(QExtWrapQwt_SOURCE_DIR "${QExtWrapQwt_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)

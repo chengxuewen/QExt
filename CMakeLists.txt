@@ -487,6 +487,8 @@ qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatche
 
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
@@ -498,7 +500,8 @@ qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Adv
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D "Enable this to add the 3rdparty QwtPlot3D subdirectory" OFF)
+qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty qcustomplot subdirectory" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
     DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
@@ -797,16 +800,25 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 #-----------------------------------------------------------------------------------------------------------------------
 set(QWT_VERSION 6.3.0)
 if(QEXT_ADD_SUBDIRECTORY_QWT)
-    set(QWT_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwt-${QWT_VERSION} ${PROJECT_BINARY_DIR}/3rdparty/qwt-${QWT_VERSION}/subbuild)
+    set(QWT_BUILD_ALL ${QEXT_BUILD_ALL})
+    set(QExtWrapQwt_DIR_NAME "qwt-${QWT_VERSION}")
+    set(QExtWrapQwt_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}")
+    qext_fetch_3rdparty(QExtWrapSingleApp URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}.7z")
+    add_subdirectory(${QExtWrapQwt_ROOT_DIR}/source ${QExtWrapQwt_ROOT_DIR}/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
 endif()
 
-if(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D)
-    set(QWTPLOT3D_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwtplot3d-0.2.7 ${PROJECT_BINARY_DIR}/3rdparty/qwtplot3d-0.2.7/subbuild)
+if(QEXT_ADD_SUBDIRECTORY_QTADS)
+    set(ADS_VERSION "4.4.0")
+    set(QExtWrapQtADS_DIR_NAME "QtADS-${ADS_VERSION}")
+    set(QExtWrapQtADS_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}")
+    qext_fetch_3rdparty(QExtWrapQtADS URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}.7z")
+    add_subdirectory(${QExtWrapQtADS_ROOT_DIR}/source ${QExtWrapQtADS_ROOT_DIR}/subbuild)
+endif()
+if(QEXT_ENABLE_3RDPARTY_QTADS)
+    qext_find_package(WrapQtADS PROVIDED_TARGETS QExt3rdparty::WrapQtADS)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
@@ -834,15 +846,15 @@ if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
     qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)
 endif()
 
-if(QEXT_ADD_SUBDIRECTORY_QTADS)
-    set(ADS_VERSION "4.4.0")
-    set(QExtWrapQtADS_DIR_NAME "QtADS-${ADS_VERSION}")
-    set(QExtWrapQtADS_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}")
-    qext_fetch_3rdparty(QExtWrapQtADS URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}.7z")
-    add_subdirectory(${QExtWrapQtADS_ROOT_DIR}/source ${QExtWrapQtADS_ROOT_DIR}/subbuild)
+if(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT)
+    set(QCUSTOMPLOT_BUILD_ALL ON)
+    set(QExtWrapQCustomPlot_DIR_NAME "qcustomplot-2.1.1")
+    set(QExtWrapQCustomPlot_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQCustomPlot_DIR_NAME}")
+    qext_fetch_3rdparty(QExtWrapQCustomPlot URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQCustomPlot_DIR_NAME}.7z")
+    add_subdirectory(${QExtWrapQCustomPlot_ROOT_DIR}/source ${QExtWrapQCustomPlot_ROOT_DIR}/subbuild)
 endif()
-if(QEXT_ENABLE_3RDPARTY_QTADS)
-    qext_find_package(WrapQtADS PROVIDED_TARGETS QExt3rdparty::WrapQtADS)
+if(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT)
+    qext_find_package(WrapQCustomPlot PROVIDED_TARGETS QExt3rdparty::WrapQCustomPlot)
 endif()
 
 qext_add_subdirectory(3rdparty/PinyinIME QEXT_ENABLE_LIB_KEYBOARD)

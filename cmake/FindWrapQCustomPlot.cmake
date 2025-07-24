@@ -1,0 +1,108 @@
+﻿########################################################################################################################
+#
+# Library: QExt
+#
+# Copyright (C) 2025 ChengXueWen.
+#
+# License: MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+########################################################################################################################
+
+# We can't create the same interface imported target multiple times, CMake will complain if we do
+# that. This can happen if the find_package call is done in multiple different subdirectories.
+if(TARGET QExt3rdparty::WrapQCustomPlot)
+    set(WrapQCustomPlot_FOUND ON)
+    return()
+endif()
+
+set(QExtWrapQCustomPlot_VERSION "2.1.1")
+set(QExtWrapQCustomPlot_DIR_NAME "qcustomplot-${QExtWrapQCustomPlot_VERSION}")
+set(QExtWrapQCustomPlot_URL_NAME "qcustomplot-${QExtWrapQCustomPlot_VERSION}.7z")
+set(QExtWrapQCustomPlot_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQCustomPlot_URL_NAME}")
+set(QExtWrapQCustomPlot_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQCustomPlot_DIR_NAME}")
+set(QExtWrapQCustomPlot_SOURCE_DIR "${QExtWrapQCustomPlot_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
+set(QExtWrapQCustomPlot_BUILD_DIR "${QExtWrapQCustomPlot_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
+set(QExtWrapQCustomPlot_INSTALL_DIR "${QExtWrapQCustomPlot_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
+qext_stamp_file_info(QExtWrapQCustomPlot OUTPUT_DIR "${QExtWrapQCustomPlot_ROOT_DIR}")
+qext_fetch_3rdparty(QExtWrapQCustomPlot URL "${QExtWrapQCustomPlot_URL_PATH}")
+if(NOT EXISTS ${QExtWrapQCustomPlot_STAMP_FILE_PATH})
+    if(NOT EXISTS ${QExtWrapQCustomPlot_SOURCE_DIR})
+        message(FATAL_ERROR "${QExtWrapQCustomPlot_DIR_NAME} FetchContent failed.")
+    endif()
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQCustomPlot_BUILD_DIR}
+        WORKING_DIRECTORY "${QExtWrapQCustomPlot_ROOT_DIR}"
+        RESULT_VARIABLE MKDIR_RESULT)
+    if(NOT (MKDIR_RESULT MATCHES 0))
+        message(FATAL_ERROR "${QExtWrapQCustomPlot_DIR_NAME} lib build directory make failed.")
+    endif()
+
+    execute_process(
+        COMMAND ${CMAKE_COMMAND}
+        -G${CMAKE_GENERATOR}
+        -DQCUSTOMPLOT_BUILD_INSTALL=ON
+        -DQCUSTOMPLOT_BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
+        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+        -DCMAKE_INSTALL_PREFIX=${QExtWrapQCustomPlot_INSTALL_DIR} ${QExtWrapQCustomPlot_SOURCE_DIR}
+        WORKING_DIRECTORY "${QExtWrapQCustomPlot_BUILD_DIR}"
+        RESULT_VARIABLE CONFIGURE_RESULT)
+    if(CONFIGURE_RESULT MATCHES 0)
+        message(STATUS "${QExtWrapQCustomPlot_DIR_NAME} configure success")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS}
+            WORKING_DIRECTORY "${QExtWrapQCustomPlot_BUILD_DIR}"
+            RESULT_VARIABLE BUILD_RESULT)
+        if(BUILD_RESULT MATCHES 0)
+            message(STATUS "${QExtWrapQCustomPlot_DIR_NAME} build success")
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} --install ./
+                WORKING_DIRECTORY "${QExtWrapQCustomPlot_BUILD_DIR}"
+                RESULT_VARIABLE INSTALL_RESULT)
+            if(BUILD_RESULT MATCHES 0)
+                message(STATUS "${QExtWrapQCustomPlot_DIR_NAME} install success")
+                qext_make_stamp_file("${QExtWrapQCustomPlot_STAMP_FILE_PATH}")
+            else()
+                message(FATAL_ERROR "${QExtWrapQCustomPlot_DIR_NAME} install failed.")
+            endif()
+        else()
+            message(FATAL_ERROR "${QExtWrapQCustomPlot_DIR_NAME} build failed.")
+        endif()
+    else()
+        message(FATAL_ERROR "${QExtWrapQCustomPlot_DIR_NAME} configure failed.")
+    endif()
+endif()
+# wrap lib
+find_package(QCustomPlot ${QExtWrapQCustomPlot_VERSION} EXACT PATHS ${QExtWrapQCustomPlot_INSTALL_DIR} REQUIRED)
+# add_library(QExt3rdparty::WrapQCustomPlot ALIAS QCustomPlot::QCustomPlot)
+add_library(QExt3rdparty::WrapQCustomPlot INTERFACE IMPORTED)
+target_link_libraries(QExt3rdparty::WrapQCustomPlot INTERFACE QCustomPlot::QCustomPlot)
+# copy lib to build dir
+set(QExtWrapQCustomPlot_INSTALL_DLLDIR "${QExtWrapQCustomPlot_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
+qext_get_files("${QExtWrapQCustomPlot_INSTALL_DLLDIR}" QExtWrapQCustomPlot_LIBRARIES)
+execute_process(
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
+    WORKING_DIRECTORY "${QExtWrapQCustomPlot_ROOT_DIR}"
+    ERROR_QUIET)
+foreach(library ${QExtWrapQCustomPlot_LIBRARIES})
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${library}" "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
+        WORKING_DIRECTORY "${QExtWrapQCustomPlot_ROOT_DIR}"
+        ERROR_QUIET)
+endforeach()
+qext_install(FILES "${QExtWrapQCustomPlot_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
+set(WrapQCustomPlot_FOUND ON)
