@@ -3,8 +3,8 @@
 
 #include <qextPlot.h>
 #include <qextOnceFlag.h>
-#include <qextPlotZoomer.h>
-#include <qextPlotScaleZoomer.h>
+#include <qextQwtPlotZoomer.h>
+#include <qextQwtPlotScaleZoomer.h>
 
 #include <qwt_text.h>
 #include <qwt_symbol.h>

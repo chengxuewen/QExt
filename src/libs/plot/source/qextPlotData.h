@@ -10,9 +10,27 @@
 
 typedef QHash<QString, QVariant> QExtPlotAttributes;
 
+class QExtPlotDataBase
+{
+public:
+    QExtPlotDataBase() {}
+    virtual ~QExtPlotDataBase() {}
+
+    QEXT_STATIC_CONSTANT_NUMBER(CapacityMax, 1024 * 1024)
+    QEXT_STATIC_CONSTANT_NUMBER(ASyncBufferCapacityMax, 1024)
+
+    virtual void clear() = 0;
+    virtual int size() const = 0;
+    virtual bool isTimeseries() const = 0;
+    virtual const QString& plotName() const = 0;
+
+    virtual QExtRangeF xRange() const = 0;
+    virtual QExtRangeF yRange() const = 0;
+};
+
 // A Generic series of points
 template <typename TypeX, typename Value>
-class QExtPlotDataBase
+class QExtPlotData : public QExtPlotDataBase
 {
 public:
     class Point
@@ -31,8 +49,6 @@ public:
     };
 
     typedef Value ValueType;
-    QEXT_STATIC_CONSTANT_NUMBER(CapacityMax, 1024 * 1024)
-    QEXT_STATIC_CONSTANT_NUMBER(ASyncBufferCapacityMax, 1024)
 
     typedef QVector<Point> Points;
     typedef typename Points::iterator Iterator;
@@ -40,13 +56,13 @@ public:
     typedef typename Points::reference Reference;
     typedef typename Points::const_reference ConstReference;
 
-    QExtPlotDataBase(const QString &name)
+    QExtPlotData(const QString &name)
         : mName(name), mXRangeDirty(true), mYRangeDirty(true)
     {
     }
-    virtual ~QExtPlotDataBase() {}
+    ~QExtPlotData() QEXT_OVERRIDE {}
 
-    virtual void clear()
+    void clear() QEXT_OVERRIDE
     {
         mPoints.clear();
         mXRange.clear();
@@ -54,12 +70,13 @@ public:
         mXRangeDirty = true;
         mYRangeDirty = true;
     }
-    virtual int size() const { return mPoints.size(); }
-    virtual bool isTimeseries() const { return false; }
+    int size() const QEXT_OVERRIDE { return mPoints.size(); }
+    bool isTimeseries() const QEXT_OVERRIDE { return false; }
+    const QString& plotName() const QEXT_OVERRIDE { return mName; }
 
-    virtual QExtRangeF xRange() const
+    QExtRangeF xRange() const QEXT_OVERRIDE
     {
-        if QEXT_CONSTEXPR (QExtIsArithmetic<TypeX>::value && !mPoints.isEmpty())
+        if (QExtIsArithmetic<TypeX>::value && !mPoints.isEmpty())
         {
             if (mXRangeDirty)
             {
@@ -77,9 +94,9 @@ public:
         }
         return QExtRangeF();
     }
-    virtual QExtRangeF yRange() const
+    QExtRangeF yRange() const QEXT_OVERRIDE
     {
-        if QEXT_CONSTEXPR (QExtIsArithmetic<Value>::value && !mPoints.isEmpty())
+        if (QExtIsArithmetic<Value>::value && !mPoints.isEmpty())
         {
             if (mYRangeDirty)
             {
@@ -111,7 +128,7 @@ public:
     {
         if (this->pushUpdateXYRange(point))
         {
-            mPoints.append(std::forward(point));
+            mPoints.append(point);
         }
     }
 #endif
@@ -129,7 +146,7 @@ public:
     {
         if (this->pushUpdateXYRange(point))
         {
-            mPoints.insert(iter, std::forward(point));
+            mPoints.insert(iter, point);
         }
     }
 #endif
@@ -156,11 +173,11 @@ public:
         mPoints.pop_front();
     }
 
-    Point& at(int index) { return mPoints.at(index); }
-    const Point  at(int index) const { return mPoints.at(index); }
+    Point& at(size_t index) { return mPoints.at(index); }
+    const Point &at(size_t index) const { return mPoints.at(index); }
 
-    Point& operator[](int index) { return this->at(index); }
-    const Point& operator[](int index) const { return this->at(index); }
+    Point& operator[](size_t index) { return this->at(index); }
+    const Point& operator[](size_t index) const { return this->at(index); }
 
     QExtPlotAttributes& attributes() { return mAttributes; }
     const QExtPlotAttributes& attributes() const { return mAttributes; }
@@ -268,22 +285,22 @@ protected:
     mutable QExtRangeF mXRange;
     mutable QExtRangeF mYRange;
     QExtPlotAttributes mAttributes;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotDataBase)
+    // QEXT_DISABLE_COPY_MOVE(QExtPlotDataBase)
 };
 
 
 template <typename Value>
-class QExtPlotTimeSeriesBase : public QExtPlotDataBase<double, Value>
+class QExtPlotTimeSeriesDataBase : public QExtPlotData<double, Value>
 {
 public:
-    typedef QExtPlotDataBase<double, Value> Base;
+    typedef QExtPlotData<double, Value> Base;
     typedef typename Base::Point Point;
     typedef typename Base::Iterator Iterator;
     typedef typename Base::ConstIterator ConstIterator;
     typedef typename Base::Reference Reference;
     typedef typename Base::ConstReference ConstReference;
 
-    QExtPlotTimeSeriesBase(const QString& name)
+    QExtPlotTimeSeriesDataBase(const QString& name)
         : Base(name)
         , mXRangeMax(std::numeric_limits<double>::max())
     {
@@ -316,11 +333,11 @@ public:
         if (needSorting)
         {
             Iterator iter = std::upper_bound(Base::mPoints.begin(), Base::mPoints.end(), point, timeCompare);
-            Base::insert(iter, std::forward(point));
+            Base::insert(iter, point);
         }
         else
         {
-            Base::pushBack(std::forward(point));
+            Base::pushBack(point);
         }
         this->trimRange();
     }
@@ -390,8 +407,12 @@ protected:
     double mXRangeMax;
 };
 
-typedef QExtPlotDataBase<double, double> QExtPlotDataXY;
-typedef QExtPlotTimeSeriesBase<double> QExtPlotTimeSeriesY;
-typedef QExtPlotTimeSeriesBase<QExtAny> QExtPlotTimeSeriesAny;
+typedef QExtPlotData<double, double> QExtPlotScatterData;
+typedef QExtPlotTimeSeriesDataBase<double> QExtPlotTimeSeriesData;
+typedef QExtPlotTimeSeriesDataBase<QExtAny> QExtPlotTimeSeriesAnyData;
+
+typedef QHash<QString, QExtPlotScatterData> QExtPlotScatterDataMap;
+typedef QHash<QString, QExtPlotTimeSeriesData> QExtPlotTimeSeriesDataMap;
+typedef QHash<QString, QExtPlotTimeSeriesAnyData> QExtPlotTimeSeriesAnyDataMap;
 
 #endif // _QEXTPLOTDATA_H

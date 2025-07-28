@@ -395,6 +395,18 @@ QExtPlotManager::QExtPlotManager(QObject *parent)
 {
 }
 
+void QExtPlotManager::onAboutToBeDestroyed()
+{
+    Q_D(QExtPlotManager);
+    QList<QExtPlot::SharedPtr>::ConstIterator iter(d->mPlotList.constBegin());
+    while (d->mPlotList.constEnd() != iter)
+    {
+        this->unregisterPlot(*iter);
+        (*iter)->removeDestroyedNotifyFunction(detail::plotSerializableDestroyedNotifyFunction);
+        iter++;
+    }
+}
+
 QExtPlotManager::~QExtPlotManager()
 {
 }

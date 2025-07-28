@@ -812,6 +812,7 @@ endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QTADS)
     set(ADS_VERSION "4.4.0")
+    set(ADS_BUILD_INSTALL OFF)
     set(QExtWrapQtADS_DIR_NAME "QtADS-${ADS_VERSION}")
     set(QExtWrapQtADS_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapQtADS URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}.7z")

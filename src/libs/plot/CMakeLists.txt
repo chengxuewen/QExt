@@ -50,17 +50,34 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
+    source/qwt/qextQwtPlot.cpp
+    source/qwt/qextQwtPlot.h
+    source/qwt/qextQwtPlotCurve.cpp
+    source/qwt/qextQwtPlotCurve.h
+    source/qwt/qextQwtPlotCurve_p.h
+    source/qwt/qextQwtPlotScalePicker.cpp
+    source/qwt/qextQwtPlotScalePicker.h
+    source/qwt/qextQwtPlotScaleZoomer.cpp
+    source/qwt/qextQwtPlotScaleZoomer.h
+    source/qwt/qextQwtPlotScrollBar.cpp
+    source/qwt/qextQwtPlotScrollBar.h
+    source/qwt/qextQwtPlotScrollZoomer.cpp
+    source/qwt/qextQwtPlotScrollZoomer.h
+    source/qwt/qextQwtPlotZoomer.cpp
+    source/qwt/qextQwtPlotZoomer.h
+    source/qwt/qextQwtSeriesData.cpp
+    source/qwt/qextQwtSeriesData.h
+    source/qwt/qextQwtSeriesData_p.h
     source/qextPlot.cpp
     source/qextPlot.h
     source/qextPlot_p.h
     source/qextPlotConstants.h
-    source/qextPlotCurve.cpp
-    source/qextPlotCurve.h
-    source/qextPlotCurve_p.h
     source/qextPlotData.cpp
     source/qextPlotData.h
     source/qextPlotDataBuffer.cpp
     source/qextPlotDataBuffer.h
+    source/qextPlotDataTransform.cpp
+    source/qextPlotDataTransform.h
     source/qextPlotFactory.cpp
     source/qextPlotFactory.h
     source/qextPlotGlobal.h
@@ -70,19 +87,8 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextPlotManager.h
     source/qextPlotModel.cpp
     source/qextPlotModel.h
-    source/qextPlotScalePicker.cpp
-    source/qextPlotScalePicker.h
-    source/qextPlotScaleZoomer.cpp
-    source/qextPlotScaleZoomer.h
-    source/qextPlotScrollBar.cpp
-    source/qextPlotScrollBar.h
-    source/qextPlotScrollZoomer.cpp
-    source/qextPlotScrollZoomer.h
-    source/qextPlotSeriesData.cpp
-    source/qextPlotSeriesData.h
-    source/qextPlotSeriesData_p.h
-    source/qextPlotZoomer.cpp
-    source/qextPlotZoomer.h
+    source/qextPlotUtils.cpp
+    source/qextPlotUtils.h
     resources/qextPlot.qrc
     PRECOMPILED_HEADER
     source/qextPlotPch.h

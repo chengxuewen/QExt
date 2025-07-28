@@ -16,8 +16,6 @@ class QEXT_PLOT_API QExtPlotManager : public QExtSerializableObject, public QExt
     Q_OBJECT
     QEXT_DECL_SINGLETON(QExtPlotManager)
 public:
-    ~QExtPlotManager() QEXT_OVERRIDE;
-
     QExtPlotFactory &plotFactory();
 
     int plotCount() const;
@@ -66,6 +64,9 @@ Q_SIGNALS:
 
 protected:
     explicit QExtPlotManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtPlotManager() QEXT_OVERRIDE;
+
+    void onAboutToBeDestroyed() QEXT_OVERRIDE;
 
 private:
     QScopedPointer<QExtPlotManagerPrivate> dd_ptr;

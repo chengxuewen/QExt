@@ -5,7 +5,9 @@
 
 #include <QScopedPointer>
 
-#define QEXT_DECL_SINGLETON(CLASS) friend class QExtSingleton<CLASS>;
+#define QEXT_DECL_SINGLETON(CLASS) \
+    friend class QExtSingleton<CLASS>; \
+    friend class QScopedPointerDeleter<CLASS>;
 
 template <typename T>
 class QExtSingleton
@@ -37,12 +39,17 @@ public:
         mInstance = mScoped.data();
     }
 
-    void destroy() { delete this->detachScoped(); }
+    void destroy()
+    {
+        this->onAboutToBeDestroyed();
+        delete this->detachScoped();
+    }
 
 protected:
     QExtSingleton() {}
     virtual ~QExtSingleton() {}
 
+    virtual void onAboutToBeDestroyed() {  }
     T *detachScoped() { mScoped.take(); return mInstance; }
 
 private:
