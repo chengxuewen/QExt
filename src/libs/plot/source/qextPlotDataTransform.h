@@ -51,6 +51,12 @@ public:
 typedef QExtPlotDataTransform::SharedPtr(*QExtPlotDataTransformCreaterFunc)();
 
 template <typename T>
+QExtPlotDataTransform::SharedPtr qextMakePlotDataTransform()
+{
+    return QExtPlotDataTransform::SharedPtr(new T);
+}
+
+template <typename T>
 QExtPlotDataTransformCreaterFunc qextPlotDataTransformCreaterFunction()
 {
     return []() { return QExtPlotDataTransform::SharedPtr(new T); };
