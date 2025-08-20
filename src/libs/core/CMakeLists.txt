@@ -100,6 +100,7 @@ qext_add_library(Core
     source/tools/qextTagId.h
     source/tools/qextRange.cpp
     source/tools/qextRange.h
+    source/tools/qextResult.h
     source/tools/qextSingleton.h
     source/tools/qextSpinlock.h
     source/tools/qextTSValue.h

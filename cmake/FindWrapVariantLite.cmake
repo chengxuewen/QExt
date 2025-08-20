@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -28,8 +28,9 @@ if(TARGET QExt3rdparty::WrapVariantLite)
     return()
 endif()
 
-set(QExtWrapVariantLite_DIR_NAME "variant-lite-2.0.0")
-set(QExtWrapVariantLite_URL_NAME "variant-lite-2.0.0.tar.gz")
+set(QExtWrapVariantLite_NAME "variant-lite")
+set(QExtWrapVariantLite_DIR_NAME "${QExtWrapVariantLite_NAME}")
+set(QExtWrapVariantLite_URL_NAME "${QExtWrapVariantLite_NAME}.7z")
 set(QExtWrapVariantLite_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapVariantLite_URL_NAME}")
 set(QExtWrapVariantLite_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapVariantLite_DIR_NAME}")
 set(QExtWrapVariantLite_SOURCE_DIR "${QExtWrapVariantLite_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
