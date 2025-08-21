@@ -8,7 +8,7 @@
 
 #define QEXT_DECL_SINGLETON(CLASS) \
     friend class QExtSingleton<CLASS>; \
-    friend class QExtSingletonScopedPointerDeleter<CLASS>;
+    friend struct QExtSingletonScopedPointerDeleter<CLASS>;
 
 template <typename T>
 struct QExtSingletonScopedPointerDeleter

@@ -11,9 +11,17 @@
 typedef QExtPlot::SharedPtr(*QExtPlotCreaterFunc)();
 
 template <typename T>
+QExtPlot::SharedPtr qextMakePlot()
+{
+    enum { Valid = QExtIsBaseOf<QExtPlot, T>::value };
+    QEXT_STATIC_ASSERT_X(Valid, "type must base on QExtPlot.");
+    return QExtPlot::SharedPtr(new T);
+}
+
+template <typename T>
 QExtPlotCreaterFunc qextPlotCreaterFunction()
 {
-    return []() { return QExtPlot::SharedPtr(new T); };
+    return &qextMakePlot<T>;
 }
 
 template <typename T>
@@ -33,9 +41,9 @@ public:
     template <typename T>
     void registerPlot(const QString &type)
     {
-        static const int Valid = QExtIsBaseOf<QExtPlot, T>::value;
+        enum { Valid = QExtIsBaseOf<QExtPlot, T>::value };
+        QEXT_STATIC_ASSERT_X(Valid, "type must base on QExtPlot.");
         this->registerPlot(type, qextPlotCreaterFunction<T>());
-        QEXT_STATIC_ASSERT(Valid);
     }
 
     virtual QStringList plotTypes() const;

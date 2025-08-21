@@ -11,9 +11,15 @@
 typedef QExtDAIODevice::SharedPtr(*QExtDAIODeviceCreaterFunc)();
 
 template <typename T>
+QExtDAIODevice::SharedPtr qextMakeDAIODevice()
+{
+    return QExtDAIODevice::SharedPtr(new T);
+}
+
+template <typename T>
 QExtDAIODeviceCreaterFunc qextDAIODeviceCreaterFunction()
 {
-    return []() { return QExtDAIODevice::SharedPtr(new T); };
+    return &qextMakeDAIODevice<T>;
 }
 
 template <typename T>
@@ -33,7 +39,8 @@ public:
     template <typename T>
     void registerIODevice(const QString &type)
     {
-        // QEXT_STATIC_ASSERT(QExtIsBaseOf<QExtDAIODevice, T>::value)
+        enum { Valid = QExtIsBaseOf<QExtDAIODevice, T>::value };
+        QEXT_STATIC_ASSERT_X(Valid, "type must base on QExtDAIODevice.");
         this->registerIODevice(type, qextDAIODeviceCreaterFunction<T>());
     }
 

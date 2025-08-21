@@ -16,7 +16,6 @@ class QEXT_DAVIEW_API QExtDAIODeviceManager : public QExtSerializableObject, pub
     Q_OBJECT
     QEXT_DECL_SINGLETON(QExtDAIODeviceManager)
 public:
-    ~QExtDAIODeviceManager() QEXT_OVERRIDE;
 
     QExtDAIODeviceFactory &ioDeviceFactory();
 
@@ -48,6 +47,7 @@ Q_SIGNALS:
 
 protected:
     explicit QExtDAIODeviceManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtDAIODeviceManager() QEXT_OVERRIDE;
 
     QScopedPointer<QExtDAIODeviceManagerPrivate> dd_ptr;
 

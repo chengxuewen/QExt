@@ -65,7 +65,7 @@ public:
     {
         QEXT_DISABLE_COPY_MOVE(DLocker)
         DLocker(QExtDSpinLock &lock, qint64 timeout, const char *func, qint64 line)
-            : spinLock(lock), mTimeout(timeout), mElapsed(0), mFunc(func), mLine(line)
+            : spinLock(lock), mTimeout(timeout), mFunc(func), mElapsed(0), mLine(line)
         {
             mElapsed = spinLock.lockElapsed();
             if (mTimeout > 0 && mElapsed > mTimeout)
