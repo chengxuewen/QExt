@@ -42,8 +42,8 @@ public:
     bool m_on;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLedPrivate)
-    QEXT_DECL_PUBLIC(QExtLed)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLedPrivate)
+    QEXT_DECLARE_PUBLIC(QExtLed)
 };
 
 #endif // _QEXTLED_P_H

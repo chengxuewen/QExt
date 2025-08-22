@@ -132,8 +132,8 @@ private Q_SLOTS:
     void updateValue();
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtSwitchButton)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSwitchButton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSwitchButton)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSwitchButton)
 };
 
 #endif // _QEXTSWITCHBUTTON_H

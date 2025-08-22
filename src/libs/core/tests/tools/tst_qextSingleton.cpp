@@ -22,10 +22,20 @@ public:
     Object() {}
 };
 
+class NonObject : public QExtSingleton<NonObject>
+{
+    QEXT_DECLARE_SINGLETON(NonObject)
+public:
+    NonObject() {}
+    ~NonObject() {}
+};
+
 void QExtSingletonTest::qobjectBase()
 {
     QPointer<Object> obj = Object::instance();
     obj->destroyLater();
+    NonObject *nonobj = NonObject::instance();
+    nonobj->destroyLater();
 }
 
 QTEST_APPLESS_MAIN(QExtSingletonTest)

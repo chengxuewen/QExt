@@ -22,7 +22,7 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtObject)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtObject)
 };
 
 #endif // _QEXTOBJECT_H

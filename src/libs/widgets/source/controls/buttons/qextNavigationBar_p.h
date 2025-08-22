@@ -83,8 +83,8 @@ public:
     QTimer *mTimer;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavigationBarPrivate)
-    QEXT_DECL_PUBLIC(QExtNavigationBar)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavigationBarPrivate)
+    QEXT_DECLARE_PUBLIC(QExtNavigationBar)
 };
 
 #endif // _QEXTNAVIGATIONBAR_P_H

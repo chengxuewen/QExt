@@ -37,8 +37,8 @@ public:
     QScopedPointer<QVariantAnimation> m_rotationAnimation;
 
 private:
-    QEXT_DECL_PUBLIC(QExtIconAnimation)
-    QEXT_DISABLE_COPY_MOVE(QExtIconAnimationPrivate)
+    QEXT_DECLARE_PUBLIC(QExtIconAnimation)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtIconAnimationPrivate)
 };
 
 #endif // _QEXTICONANIMATION_P_H

@@ -128,8 +128,8 @@ protected:
     QScopedPointer<QExtPlotSeriesDataPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotSeriesData)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotSeriesData)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotSeriesData)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotSeriesData)
 };
 
 // class QExtPlotSeriesWritableDataPrivate;
@@ -146,8 +146,8 @@ private:
 //     void setYBuffer(QExtPlotWritableDataBuffer *yWritableBuffer);
 
 // private:
-//     QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotWritableSeriesData)
-//     QEXT_DISABLE_COPY_MOVE(QExtPlotWritableSeriesData)
+//     QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotWritableSeriesData)
+//     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotWritableSeriesData)
 // };
 
 

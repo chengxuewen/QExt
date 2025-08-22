@@ -13,8 +13,8 @@
 class QExtPlotModelPrivate
 {
     QExtPlotModel * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotModel)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotModelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotModelPrivate)
 public:
     explicit QExtPlotModelPrivate(QExtPlotModel *q);
     virtual ~QExtPlotModelPrivate();

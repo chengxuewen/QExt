@@ -41,7 +41,7 @@ class QEXTQmlThemeBinderPrivate;
 class QEXT_QMLTHEME_API QEXTQmlThemeBinder : public QObject
 {
     Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTQmlThemeBinder)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QEXTQmlThemeBinder)
     Q_DISABLE_COPY(QEXTQmlThemeBinder)
 
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)

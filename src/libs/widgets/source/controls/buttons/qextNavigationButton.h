@@ -81,8 +81,8 @@ protected:
     QScopedPointer<QExtNavigationButtonPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavigationButton)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtNavigationButton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavigationButton)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtNavigationButton)
 };
 
 #endif // _QEXTNAVIGATIONBUTTON_H

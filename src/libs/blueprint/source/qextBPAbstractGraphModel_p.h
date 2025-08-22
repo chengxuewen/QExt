@@ -16,8 +16,8 @@ public:
     QVector<QExtBPTypes::ConnectionId> m_shiftedByDynamicPortsConnections;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPAbstractGraphModel)
-    QEXT_DISABLE_COPY_MOVE(QExtBPAbstractGraphModelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPAbstractGraphModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPAbstractGraphModelPrivate)
 };
 
 #endif // _QEXTBPABSTRACTGRAPHMODEL_P_H

@@ -28,7 +28,7 @@ public:
 protected:
     QExtDAIODeviceManager * const q_ptr;
     Q_DECLARE_PUBLIC(QExtDAIODeviceManager)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceManagerPrivate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIODeviceManagerPrivate)
 };
 
 QExtDAIODeviceManagerPrivate::QExtDAIODeviceManagerPrivate(QExtDAIODeviceManager *q)

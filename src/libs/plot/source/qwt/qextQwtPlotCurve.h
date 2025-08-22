@@ -88,7 +88,7 @@ public:
     ~QExtPlotCurve() QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtPlotCurve)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotCurve)
 };
 
 #endif // _QEXTQWTPLOTCURVE_H

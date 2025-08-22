@@ -54,7 +54,7 @@ public:
     void setBinaryHeader(const QByteArray &header);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogBinaryLayout)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogBinaryLayout)
 
     QByteArray mFooter;
     QByteArray mHeader;

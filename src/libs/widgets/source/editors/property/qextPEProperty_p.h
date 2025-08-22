@@ -8,8 +8,8 @@
 class QExtPEPropertyPrivate
 {
     QExtPEProperty * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPEProperty)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPropertyPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPEProperty)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPropertyPrivate)
 public:
     QExtPEPropertyPrivate(QExtPEProperty *q, QExtPEAbstractPropertyManager *manager);
     virtual ~QExtPEPropertyPrivate() {}
@@ -32,8 +32,8 @@ public:
 class QExtPEPropertyItemPrivate
 {
     QExtPEPropertyItem * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPEPropertyItem)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPropertyItemPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPEPropertyItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPropertyItemPrivate)
 public:
     QExtPEPropertyItemPrivate(QExtPEPropertyItem *q,
                               QExtPEAbstractPropertyEditor *browser,

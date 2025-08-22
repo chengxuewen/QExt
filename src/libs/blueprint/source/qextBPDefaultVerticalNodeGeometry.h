@@ -46,8 +46,8 @@ private:
     unsigned int portCaptionsHeight(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortTypeEnum portType) const;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPDefaultVerticalNodeGeometry)
-    QEXT_DISABLE_COPY_MOVE(QExtBPDefaultVerticalNodeGeometry)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBPDefaultVerticalNodeGeometry)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPDefaultVerticalNodeGeometry)
 };
 
 #endif // _QEXTBPDEFAULTVERTICALNODEGEOMETRY_H

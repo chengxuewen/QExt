@@ -93,7 +93,7 @@ protected:
     QExtLogger *logger() const;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogAppender)
     mutable QExtClassLogger mClassLogger;
 };
 

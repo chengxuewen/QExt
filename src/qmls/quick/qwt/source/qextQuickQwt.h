@@ -58,8 +58,8 @@ protected:
     QScopedPointer<QExtQuickQwtPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtQuickQwt)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickQwt)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQuickQwt)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickQwt)
 };
 
 #endif // _QEXTQUICKQWT_H

@@ -74,8 +74,8 @@ public:
     QTimer *m_timer;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtThermometerPrivate)
-    QEXT_DECL_PUBLIC(QExtThermometer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtThermometerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtThermometer)
 };
 
 #endif // _QEXTTHERMOMETER_P_H

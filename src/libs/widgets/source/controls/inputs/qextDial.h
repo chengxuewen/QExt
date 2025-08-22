@@ -135,8 +135,8 @@ protected:
     QScopedPointer<QExtDialPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtDial)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtDial)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDial)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtDial)
 };
 
 #endif // _QEXTDIAL_H

@@ -85,7 +85,7 @@ public:
     ~QExtLogFileAppender() QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogFileAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogFileAppender)
 
 public:
     bool appendFile() const;

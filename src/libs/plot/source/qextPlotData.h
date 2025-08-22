@@ -285,7 +285,7 @@ protected:
     mutable QExtRangeF mXRange;
     mutable QExtRangeF mYRange;
     QExtPlotAttributes mAttributes;
-    // QEXT_DISABLE_COPY_MOVE(QExtPlotDataBase)
+    // QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotDataBase)
 };
 
 

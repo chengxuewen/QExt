@@ -51,7 +51,7 @@ protected:
     void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogNullAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogNullAppender)
 };
 
 inline bool QExtLogNullAppender::requiresLayout() const

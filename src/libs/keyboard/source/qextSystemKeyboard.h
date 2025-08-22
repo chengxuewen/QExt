@@ -23,8 +23,8 @@ protected:
     QScopedPointer<QExtSystemKeyboardPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSystemKeyboard)
-    QEXT_DISABLE_COPY_MOVE(QExtSystemKeyboard)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSystemKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSystemKeyboard)
 };
 
 #endif // _QEXTSYSTEMKEYBOARD_H

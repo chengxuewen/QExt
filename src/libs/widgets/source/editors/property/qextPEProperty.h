@@ -214,8 +214,8 @@ protected:
 private:
     friend class QExtPEAbstractPropertyManager;
     QScopedPointer<QExtPEPropertyPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPEProperty)
-    QEXT_DISABLE_COPY_MOVE(QExtPEProperty)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPEProperty)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEProperty)
 };
 
 
@@ -277,8 +277,8 @@ private:
 
     friend class QExtPEAbstractPropertyEditorPrivate;
     QScopedPointer<QExtPEPropertyItemPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPEPropertyItem)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPropertyItem)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPEPropertyItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPropertyItem)
 };
 
 #endif // QEXTPEPROPERTY_H

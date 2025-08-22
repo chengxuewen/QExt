@@ -36,7 +36,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.5.1 LANGUAGES CXX C)
+project(QExt VERSION 1.3.6.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -485,6 +485,10 @@ qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib"
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
+qext_option(QEXT_ENABLE_APP_RECORDPLAYER "Enable this to build the recordplayer app" OFF
+    DEPENDS QEXT_CXX_STANDARD11
+    OR_CONDITION QEXT_BUILD_ALL)
+
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF
@@ -875,6 +879,7 @@ endif()
 # Add subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 add_subdirectory(src/libs)
+add_subdirectory(src/apps)
 add_subdirectory(src/tools)
 add_subdirectory(src/plugins)
 qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)

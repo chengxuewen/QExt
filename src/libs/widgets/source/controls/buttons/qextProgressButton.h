@@ -83,8 +83,8 @@ protected:
     QScopedPointer<QExtProgressButtonPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProgressButton)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtProgressButton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressButton)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtProgressButton)
 };
 
 #endif // _QEXTPROGRESSBUTTON_H

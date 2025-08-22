@@ -24,8 +24,8 @@ public:
     mutable QFontMetrics m_boldFontMetrics;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPDefaultHorizontalNodeGeometry)
-    QEXT_DISABLE_COPY_MOVE(QExtBPDefaultHorizontalNodeGeometryPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPDefaultHorizontalNodeGeometry)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPDefaultHorizontalNodeGeometryPrivate)
 };
 
 QExtBPDefaultHorizontalNodeGeometryPrivate::QExtBPDefaultHorizontalNodeGeometryPrivate(QExtBPDefaultHorizontalNodeGeometry *q,

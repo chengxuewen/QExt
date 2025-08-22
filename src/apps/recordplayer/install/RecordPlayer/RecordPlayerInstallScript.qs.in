@@ -1,0 +1,22 @@
+﻿
+function Component()
+{
+    // default constructor
+}
+
+Component.prototype.createOperations = function() {
+    // call default implementation to actually install README.txt!
+    component.createOperations();
+
+    if (systemInfo.productType === "windows")  {
+        var execPath = "@TargetDir" + "@/bin/RecordPlayer.exe";
+        var linkPath = "@StartMenuDir" + "@/RecordPlayer @RP_VERSION_NAME@.lnk";
+        var workPath = "workingDirectory=@" + "TargetDir@/bin"
+        var icoPath = "iconPath=@" + "TargetDir@/share/icons/RecordPlayer_Icon.ico";
+        component.addElevatedOperation("CreateShortcut", execPath, linkPath, workPath, icoPath,
+                                        "description=Open RecordPlayer");
+        var shortcutPath = "@DesktopDir" + "@/RecordPlayer @RP_VERSION_STRING@.lnk";
+        component.addElevatedOperation("CreateShortcut", execPath, shortcutPath, workPath, icoPath,
+                                        "description=Open RecordPlayer");
+    }
+}

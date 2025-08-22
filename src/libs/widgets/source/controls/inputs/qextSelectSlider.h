@@ -138,8 +138,8 @@ protected:
     QScopedPointer<QExtSelectSliderPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtSelectSlider)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSelectSlider)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSelectSlider)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSelectSlider)
 };
 
 #endif // _QEXTSELECTSLIDER_H

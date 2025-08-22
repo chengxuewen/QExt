@@ -68,7 +68,7 @@ class QEXT_LOGGING_API QExtLogManager
 private:
     QExtLogManager();
     ~QExtLogManager();
-    QEXT_DISABLE_COPY_MOVE(QExtLogManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogManager)
 
 public:
     /*!

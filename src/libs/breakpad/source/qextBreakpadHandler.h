@@ -44,8 +44,8 @@ protected:
     QScopedPointer<QExtBreakpadHandlerPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBreakpadHandler)
-    QEXT_DISABLE_COPY_MOVE(QExtBreakpadHandler)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBreakpadHandler)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBreakpadHandler)
 };
 
 #define qextBreakpadHandler QExtSingleton<QExtBreakpadHandler>::instance()

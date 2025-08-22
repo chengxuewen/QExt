@@ -60,7 +60,7 @@ protected:
     void writeHeader() const;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogBinaryWriterAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogBinaryWriterAppender)
     void writeRawData(const QByteArray &data) const;
     void closeInternal();
     QExtLogBinaryLayout *binaryLayout() const;

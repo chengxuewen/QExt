@@ -17,7 +17,7 @@ public:
 protected:
     QExtDAIOReader * const q_ptr;
     Q_DECLARE_PUBLIC(QExtDAIOReader)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIOReaderPrivate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIOReaderPrivate)
 };
 
 

@@ -51,7 +51,7 @@ protected:
 
 private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDAUdpSocketIODevice)
-    QEXT_DISABLE_COPY_MOVE(QExtDAUdpSocketIODevice)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAUdpSocketIODevice)
 };
 
 class QExtDAUdpSocketRemoteIPPropertyItem : public QExtPropertyModelItem

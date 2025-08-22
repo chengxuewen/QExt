@@ -154,8 +154,8 @@ protected:
     QScopedPointer<QExtPropertyModelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPropertyModel)
-    QEXT_DISABLE_COPY_MOVE(QExtPropertyModel)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPropertyModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPropertyModel)
 };
 
 class QEXT_WIDGETS_API QExtPropertyDelegate : public QStyledItemDelegate

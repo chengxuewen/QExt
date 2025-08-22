@@ -32,8 +32,8 @@ public:
     QStringList m_editableSuperClassNames;
 
 private:
-    QEXT_DECL_PUBLIC(QExtInputMethodTrigger)
-    QEXT_DISABLE_COPY_MOVE(QExtInputMethodTriggerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtInputMethodTrigger)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtInputMethodTriggerPrivate)
 };
 
 QExtInputMethodTriggerPrivate::QExtInputMethodTriggerPrivate(QExtInputMethodTrigger *q)

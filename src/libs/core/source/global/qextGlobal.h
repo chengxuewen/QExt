@@ -156,23 +156,23 @@
     QExt disable copy move macro declare
 ***********************************************************************************************************************/
 // disable copy macro define
-#define QEXT_DECL_DISABLE_COPY(Class) \
+#define QEXT_DECLARE_DISABLE_COPY(Class) \
     Class(const Class &) QEXT_EQ_DELETE; \
     Class &operator=(const Class &) QEXT_EQ_DELETE;
 
 // disable move macro define
 #if QEXT_CC_FEATURE_RVALUE_REFS
-#   define QEXT_DECL_DISABLE_MOVE(Class) \
+#   define QEXT_DECLARE_DISABLE_MOVE(Class) \
     Class(Class &&) QEXT_EQ_DELETE; \
     Class &operator=(Class &&) QEXT_EQ_DELETE;
 #else
-#   define QEXT_DECL_DISABLE_MOVE(Class)
+#   define QEXT_DECLARE_DISABLE_MOVE(Class)
 #endif
 
 // disable copy move macro define
-#define QEXT_DISABLE_COPY_MOVE(Class) \
-    QEXT_DECL_DISABLE_COPY(Class) \
-    QEXT_DECL_DISABLE_MOVE(Class)
+#define QEXT_DECLARE_DISABLE_COPY_MOVE(Class) \
+    QEXT_DECLARE_DISABLE_COPY(Class) \
+    QEXT_DECLARE_DISABLE_MOVE(Class)
 
 template <typename T> inline T *qextGetPointer(T *ptr) { return ptr; }
 template <typename T> inline const T *qextGetPointer(const T *ptr) { return ptr; }
@@ -180,30 +180,30 @@ template <typename Wrapper> static inline typename Wrapper::pointer qextGetPoint
 
 // The body must be a statement:
 #define QEXT_CAST_IGNORE_ALIGN(body) QEXT_WARNING_PUSH QEXT_WARNING_DISABLE_GCC("-Wcast-align") body QEXT_WARNING_POP
-#define QEXT_DECL_PRIVATE(Class) \
+#define QEXT_DECLARE_PRIVATE(Class) \
     inline Class##Private *d_func() \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPointer(d_ptr));) } \
     inline const Class##Private *d_func() const \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPointer(d_ptr));) } \
     friend class Class##Private;
 
-#define QEXT_DECL_PRIVATE_D(Dptr, Class) \
+#define QEXT_DECLARE_PRIVATE_D(Dptr, Class) \
     inline Class##Private *d_func() \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPointer(Dptr));) } \
     inline const Class##Private *d_func() const \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPointer(Dptr));) } \
     friend class Class##Private;
 
-#define QEXT_DECL_PUBLIC(Class) \
+#define QEXT_DECLARE_PUBLIC(Class) \
     inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
     inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
     friend class Class;
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
-#   define QEXT_DECL_UNSETENV(env) qunsetenv(env)
+#   define QEXT_UNSETENV(env) qunsetenv(env)
 #else
-#   define QEXT_DECL_UNSETENV(env)
+#   define QEXT_UNSETENV(env)
 #endif
 
 
@@ -278,11 +278,9 @@ inline void qextMetaEnum(const QVariant &variant)
     QExt unused macro declare
 ***********************************************************************************************************************/
 #if defined(QEXT_CC_GNU) || defined(QEXT_CC_CLANG)
-#   define QEXT_DECL_UNUSED  __attribute__((__unused__))
-#endif
-
-#ifndef QEXT_DECL_UNUSED
-#   define QEXT_DECL_UNUSED
+#   define QEXT_ATTRIBUTE_UNUSED  __attribute__((__unused__))
+#else
+#   define QEXT_ATTRIBUTE_UNUSED
 #endif
 
 

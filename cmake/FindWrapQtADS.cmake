@@ -24,7 +24,7 @@
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
 if(TARGET QExt3rdparty::WrapQtADS)
-    set(WrapQtADS_FOUND ON)
+    set(QExtWrapQtADS_FOUND ON)
     return()
 endif()
 
@@ -105,4 +105,4 @@ qext_install(FILES "${QExtWrapQtADS_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLD
 #         WORKING_DIRECTORY "${QExtWrapQtADS_ROOT_DIR}"
 #         ERROR_QUIET)
 # endforeach()
-set(WrapQtADS_FOUND ON)
+set(QExtWrapQtADS_FOUND ON)

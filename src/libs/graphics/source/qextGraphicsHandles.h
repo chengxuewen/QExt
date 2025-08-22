@@ -50,8 +50,8 @@ protected:
     QScopedPointer<QExtGraphicsSizeHandlePrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtGraphicsSizeHandle)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsSizeHandle)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtGraphicsSizeHandle)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsSizeHandle)
 };
 
 #endif // _QEXTGRAPHICSHANDLES_H

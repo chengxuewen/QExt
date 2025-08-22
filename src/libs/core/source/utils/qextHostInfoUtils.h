@@ -10,7 +10,7 @@ class QEXT_CORE_API QExtHostInfoUtils : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QExtHostInfoUtils)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtHostInfoUtils)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtHostInfoUtils)
 public:
     enum HostArchType {
         HostArch_X86,

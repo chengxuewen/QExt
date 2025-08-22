@@ -6,8 +6,8 @@
 class QExtPlotRingBufferPrivate
 {
     QExtPlotRingBuffer * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotRingBuffer)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotRingBufferPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotRingBuffer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotRingBufferPrivate)
 public:
     QExtPlotRingBufferPrivate(QExtPlotRingBuffer *q, size_t size);
     virtual ~QExtPlotRingBufferPrivate();

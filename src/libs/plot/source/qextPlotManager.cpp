@@ -6,8 +6,8 @@
 class QExtPlotManagerPrivate
 {
     QExtPlotManager * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotManagerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotManagerPrivate)
 public:
     explicit QExtPlotManagerPrivate(QExtPlotManager *q);
     virtual ~QExtPlotManagerPrivate();

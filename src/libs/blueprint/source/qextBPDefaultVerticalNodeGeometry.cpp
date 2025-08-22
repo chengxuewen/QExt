@@ -23,8 +23,8 @@ public:
     mutable QFontMetrics m_boldFontMetrics;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPDefaultVerticalNodeGeometry)
-    QEXT_DISABLE_COPY_MOVE(QExtBPDefaultVerticalNodeGeometryPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPDefaultVerticalNodeGeometry)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPDefaultVerticalNodeGeometryPrivate)
 };
 
 QExtBPDefaultVerticalNodeGeometryPrivate::QExtBPDefaultVerticalNodeGeometryPrivate(QExtBPDefaultVerticalNodeGeometry *q,

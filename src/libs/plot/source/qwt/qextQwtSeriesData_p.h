@@ -6,8 +6,8 @@
 class QEXT_PLOT_API QExtPlotSeriesDataPrivate
 {
     QExtPlotSeriesData * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotSeriesData)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotSeriesDataPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotSeriesData)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotSeriesDataPrivate)
 public:
     explicit QExtPlotSeriesDataPrivate(QExtPlotSeriesData *q);
     virtual ~QExtPlotSeriesDataPrivate();

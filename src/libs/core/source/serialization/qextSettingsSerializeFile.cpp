@@ -25,8 +25,8 @@ public:
 
 protected:
     QExtSettingsSerializeFile * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtSettingsSerializeFile)
-    QEXT_DISABLE_COPY_MOVE(QExtSettingsSerializeFilePrivate)
+    QEXT_DECLARE_PUBLIC(QExtSettingsSerializeFile)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSettingsSerializeFilePrivate)
 };
 
 QExtSettingsSerializeFilePrivate::QExtSettingsSerializeFilePrivate(QExtSettingsSerializeFile *q)

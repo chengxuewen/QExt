@@ -57,8 +57,8 @@ public:
     int m_currentPos;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtTumblerPrivate)
-    QEXT_DECL_PUBLIC(QExtTumbler)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtTumblerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtTumbler)
 };
 
 #endif // _QEXTTUMBLER_P_H

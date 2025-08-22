@@ -56,8 +56,8 @@ private:
 class QExtPlotScalePickerPrivate
 {
     QExtPlotScalePicker * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotScalePicker)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScalePickerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotScalePicker)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScalePickerPrivate)
 public:
     explicit QExtPlotScalePickerPrivate(QExtPlotScalePicker *q);
     virtual ~QExtPlotScalePickerPrivate();

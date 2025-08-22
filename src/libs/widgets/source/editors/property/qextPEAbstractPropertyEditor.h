@@ -309,8 +309,8 @@ private:
     bool addFactory(QExtPEAbstractPropertyManager *abstractManager, QExtPEAbstractWidgetFactoryBase *abstractFactory);
 
     QScopedPointer<QExtPEAbstractPropertyEditorPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPEAbstractPropertyEditor)
-    QEXT_DISABLE_COPY_MOVE(QExtPEAbstractPropertyEditor)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPEAbstractPropertyEditor)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEAbstractPropertyEditor)
 
     Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QExtPEProperty *, QExtPEProperty *, QExtPEProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QExtPEProperty *, QExtPEProperty *))

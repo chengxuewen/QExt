@@ -24,8 +24,8 @@ public:
     QScopedPointer<QProcess> m_process;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProcessWidgetPrivate)
-    QEXT_DECL_PUBLIC(QExtProcessWidget)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProcessWidgetPrivate)
+    QEXT_DECLARE_PUBLIC(QExtProcessWidget)
 };
 
 #endif // _QEXTPROCESSWIDGET_P_H

@@ -89,8 +89,8 @@ static void setSizeMaximumData(PrivateData *data, const Value &newMaxVal)
 class QExtPEAbstractPropertyManagerPrivate
 {
     QExtPEAbstractPropertyManager * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPEAbstractPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEAbstractPropertyManagerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPEAbstractPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEAbstractPropertyManagerPrivate)
 public:
     explicit QExtPEAbstractPropertyManagerPrivate(QExtPEAbstractPropertyManager *q);
     virtual ~QExtPEAbstractPropertyManagerPrivate() {}

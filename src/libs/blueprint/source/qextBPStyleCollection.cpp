@@ -13,8 +13,8 @@ public:
     QExtBPGraphicsViewStyle m_flowViewStyle;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPStyleCollection)
-    QEXT_DISABLE_COPY_MOVE(QExtBPStyleCollectionPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPStyleCollection)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPStyleCollectionPrivate)
 };
 
 QExtBPStyleCollectionPrivate::QExtBPStyleCollectionPrivate(QExtBPStyleCollection *q)

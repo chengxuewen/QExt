@@ -88,7 +88,7 @@ public:
 
 private:
     QExtLogFactory();
-    QEXT_DISABLE_COPY_MOVE(QExtLogFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogFactory)
 
 public:
     /*!

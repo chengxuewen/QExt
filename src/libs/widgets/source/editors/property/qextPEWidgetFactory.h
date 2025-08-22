@@ -343,7 +343,7 @@ protected:
 private:
     QExtPESpinBoxFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPESpinBoxFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPESpinBoxFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPESpinBoxFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtPEProperty *, int, int))
     Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtPEProperty *, int))
@@ -395,7 +395,7 @@ protected:
 private:
     QExtPESliderFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPESliderFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPESliderFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPESliderFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtPEProperty *, int, int))
     Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtPEProperty *, int))
@@ -446,7 +446,7 @@ protected:
 private:
     QExtPEScrollBarFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEScrollBarFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEScrollBarFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEScrollBarFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtPEProperty *, int, int))
     Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtPEProperty *, int))
@@ -497,7 +497,7 @@ protected:
 private:
     QExtPECheckBoxFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPECheckBoxFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPECheckBoxFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPECheckBoxFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotTextVisibleChanged(QExtPEProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(bool))
@@ -547,7 +547,7 @@ protected:
 private:
     QExtPEDoubleSpinBoxFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEDoubleSpinBoxFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEDoubleSpinBoxFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEDoubleSpinBoxFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, double))
     Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtPEProperty *, double, double))
     Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtPEProperty *, double))
@@ -600,7 +600,7 @@ protected:
 private:
     QExtPELineEditFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPELineEditFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPELineEditFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPELineEditFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QString &))
     Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QExtPEProperty *, const QRegExp &))
     Q_PRIVATE_SLOT(d_func(), void slotEchoModeChanged(QExtPEProperty *, int))
@@ -652,7 +652,7 @@ protected:
 private:
     QExtPEDateEditFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEDateEditFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEDateEditFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEDateEditFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QDate &))
     Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtPEProperty *, const QDate &, const QDate &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QDate &))
@@ -702,7 +702,7 @@ protected:
 private:
     QExtPETimeEditFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPETimeEditFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPETimeEditFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPETimeEditFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QTime &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QTime &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
@@ -751,7 +751,7 @@ protected:
 private:
     QExtPEDateTimeEditFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEDateTimeEditFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEDateTimeEditFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEDateTimeEditFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QDateTime &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QDateTime &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
@@ -800,7 +800,7 @@ protected:
 private:
     QExtPEKeySequenceEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEKeySequenceEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEKeySequenceEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEKeySequenceEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QKeySequence &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QKeySequence &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
@@ -849,7 +849,7 @@ protected:
 private:
     QExtPECharEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPECharEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPECharEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPECharEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QChar &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QChar &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
@@ -898,7 +898,7 @@ protected:
 private:
     QExtPEEnumEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEEnumEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEEnumEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEEnumEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotEnumNamesChanged(QExtPEProperty *, const QStringList &))
     Q_PRIVATE_SLOT(d_func(), void slotEnumIconsChanged(QExtPEProperty *, const QMap<int, QIcon> &))
@@ -949,7 +949,7 @@ protected:
 private:
     QExtPECursorEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPECursorEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPECursorEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPECursorEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QCursor &))
     Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
@@ -998,7 +998,7 @@ protected:
 private:
     QExtPEColorEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEColorEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEColorEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEColorEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QColor &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QColor &))
@@ -1047,7 +1047,7 @@ protected:
 private:
     QExtPEFontEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEFontEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEFontEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEFontEditorFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QFont &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QFont &))

@@ -28,8 +28,8 @@ public:
     QExtCandidatesListWidget *m_textDisplayWidget;
 
 private:
-    QEXT_DECL_PUBLIC(QExtKeyboardPanel)
-    QEXT_DISABLE_COPY_MOVE(QExtKeyboardPanelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtKeyboardPanel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtKeyboardPanelPrivate)
 };
 
 QExtKeyboardPanelPrivate::QExtKeyboardPanelPrivate(QExtKeyboardPanel *q)

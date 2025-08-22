@@ -58,8 +58,8 @@ public:
     bool m_pressed;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtScaleKnobPrivate)
-    QEXT_DECL_PUBLIC(QExtScaleKnob)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtScaleKnobPrivate)
+    QEXT_DECLARE_PUBLIC(QExtScaleKnob)
 };
 
 #endif // _QEXTSCALEKNOB_P_H

@@ -37,8 +37,8 @@ protected:
     QScopedPointer<QExtCheckComboBoxModelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtCheckComboBoxModel)
-    QEXT_DISABLE_COPY_MOVE(QExtCheckComboBoxModel)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtCheckComboBoxModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtCheckComboBoxModel)
 };
 
 class QExtCheckComboBoxLineEdit : public QLineEdit
@@ -106,8 +106,8 @@ protected:
     QScopedPointer<QExtCheckComboBoxPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtCheckComboBox)
-    QEXT_DISABLE_COPY_MOVE(QExtCheckComboBox)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtCheckComboBox)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtCheckComboBox)
 };
 
 #endif // _QEXTCHECKCOMBOBOX_H

@@ -27,7 +27,7 @@ protected:
 
 private:
     QExtPlot *mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisAutoRangeUpdater)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotXAxisAutoRangeUpdater)
 };
 
 class QExtPlotYAxisAutoRangeUpdater : public QExtPlotAutoRangeUpdater
@@ -51,7 +51,7 @@ protected:
 
 private:
     QExtPlot *mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisAutoRangeUpdater)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotYAxisAutoRangeUpdater)
 };
 
 

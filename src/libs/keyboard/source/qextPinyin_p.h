@@ -16,8 +16,8 @@ public:
     int m_iMaxOutputLength;     //Maximum output length
 
 private:
-    QEXT_DECL_PUBLIC(QExtPinyin)
-    QEXT_DISABLE_COPY_MOVE(QExtPinyinPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPinyin)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPinyinPrivate)
 };
 
 #endif // _QEXTPINYIN_P_H

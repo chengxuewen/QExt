@@ -45,8 +45,8 @@ public:
     QExtNavigationButton::PositionEnum mNavigationPosition;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavigationButtonPrivate)
-    QEXT_DECL_PUBLIC(QExtNavigationButton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavigationButtonPrivate)
+    QEXT_DECLARE_PUBLIC(QExtNavigationButton)
 };
 
 #endif // _QEXTNAVIGATIONBUTTON_P_H

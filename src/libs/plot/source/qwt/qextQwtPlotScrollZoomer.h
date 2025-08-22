@@ -66,8 +66,8 @@ private:
 
 protected:
     QScopedPointer<QExtPlotScrollZoomerPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotScrollZoomer)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScrollZoomer)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotScrollZoomer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScrollZoomer)
 };
 
 #endif // _QEXTQWTPLOTSCROLLZOOMER_H

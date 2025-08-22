@@ -42,8 +42,8 @@ protected:
     QScopedPointer<QExtKeyboardPanelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtKeyboardPanel)
-    QEXT_DISABLE_COPY_MOVE(QExtKeyboardPanel)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtKeyboardPanel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtKeyboardPanel)
 };
 
 #endif // _QEXTKEYBOARDPANEL_H

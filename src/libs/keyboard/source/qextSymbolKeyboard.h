@@ -43,7 +43,7 @@ private:
     QVector<QPair<int, QString>> m_page1;
     QMap<QAbstractButton *, int> m_keyMap;
     QVector<QAbstractButton *> m_symbolButtons;
-    QEXT_DISABLE_COPY_MOVE(QExtSymbolKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSymbolKeyboard)
 };
 
 #endif // _QEXTSYMBOLKEYBOARD_H

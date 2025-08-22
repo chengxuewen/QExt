@@ -64,7 +64,7 @@ public:
     virtual ~QExtLogPatternFormatter();
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogPatternFormatter)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogPatternFormatter)
 
 public:
     /*!

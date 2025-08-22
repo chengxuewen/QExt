@@ -18,8 +18,8 @@ public:
     QExtBPTypes::ConnectionId m_connectionId;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPConnectionGraphicsObject)
-    QEXT_DISABLE_COPY_MOVE(QExtBPConnectionGraphicsObjectPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPConnectionGraphicsObject)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPConnectionGraphicsObjectPrivate)
 };
 
 #endif // _QEXTBPCONNECTIONGRAPHICSOBJECT_P_H

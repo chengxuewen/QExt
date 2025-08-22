@@ -58,8 +58,8 @@ public:
     QPointer<QExtPinyinDecoderService> m_pinyinDecoderService;
 
 private:
-    QEXT_DECL_PUBLIC(QExtPinyinInputMethod)
-    QEXT_DISABLE_COPY_MOVE(QExtPinyinInputMethodPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPinyinInputMethod)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPinyinInputMethodPrivate)
 };
 
 class ScopedCandidateListUpdate

@@ -70,8 +70,8 @@ protected:
 
 private:
     QScopedPointer<QExtPlotManagerPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotManager)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotManager)
 };
 
 #define qextPlotManager QExtPlotManager::instance();

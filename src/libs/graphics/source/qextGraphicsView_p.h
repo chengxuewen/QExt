@@ -20,8 +20,8 @@ public:
     double m_maxsize;
 
 private:
-    QEXT_DECL_PUBLIC(QExtGraphicsViewRuleBar)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsViewRuleBarPrivate)
+    QEXT_DECLARE_PUBLIC(QExtGraphicsViewRuleBar)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsViewRuleBarPrivate)
 };
 
 class QExtGraphicsViewPrivate
@@ -46,8 +46,8 @@ public:
     QString m_curFile;
 
 private:
-    QEXT_DECL_PUBLIC(QExtGraphicsView)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsViewPrivate)
+    QEXT_DECLARE_PUBLIC(QExtGraphicsView)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsViewPrivate)
 };
 
 #endif // _QEXTGRAPHICSVIEW_P_H

@@ -33,8 +33,8 @@ public:
     QScopedPointer<QUndoStack> m_undoStack;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPBasicGraphicsScene)
-    QEXT_DISABLE_COPY_MOVE(QExtBPBasicGraphicsScenePrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPBasicGraphicsScene)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPBasicGraphicsScenePrivate)
 };
 
 

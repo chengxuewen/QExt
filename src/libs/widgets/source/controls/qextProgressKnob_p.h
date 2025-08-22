@@ -65,8 +65,8 @@ public:
     QPropertyAnimation *m_animation;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProgressKnobPrivate)
-    QEXT_DECL_PUBLIC(QExtProgressKnob)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressKnobPrivate)
+    QEXT_DECLARE_PUBLIC(QExtProgressKnob)
 };
 
 #endif // _QEXTKNOB_P_H

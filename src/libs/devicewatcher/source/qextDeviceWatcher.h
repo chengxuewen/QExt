@@ -29,7 +29,7 @@ class QExtDeviceWatcherPrivate;
 class QEXT_DEVICEWATCHER_API QExtDeviceWatcher : public QObject
 {
     Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtDeviceWatcher)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtDeviceWatcher)
 
 public:
     explicit QExtDeviceWatcher(QObject *parent = 0);

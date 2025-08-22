@@ -44,8 +44,8 @@ public:
     Qt::CursorShape m_mouseAreaCurrsor = Qt::ArrowCursor;
 
 private:
-    QEXT_DECL_PUBLIC(QExtQuickQwt)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickQwtPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickQwt)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickQwtPrivate)
 };
 
 #endif // _QEXTQUICKQWT_P_H

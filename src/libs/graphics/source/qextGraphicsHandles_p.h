@@ -16,8 +16,8 @@ public:
     const int m_dir;
 
 private:
-    QEXT_DECL_PUBLIC(QExtGraphicsSizeHandle)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsSizeHandlePrivate)
+    QEXT_DECLARE_PUBLIC(QExtGraphicsSizeHandle)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsSizeHandlePrivate)
 };
 
 #endif // _QEXTGRAPHICSITEMHANDLE_P_H

@@ -165,8 +165,8 @@ protected:
     QScopedPointer<QExtRangeSliderPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtRangeSlider)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtRangeSlider)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtRangeSlider)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtRangeSlider)
 };
 
 #endif // _QEXTRANGESLIDER_H

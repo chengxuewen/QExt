@@ -43,7 +43,7 @@ Q_SIGNALS:
 protected:
     QScopedPointer<QExtPlotGroupPrivate> dd_ptr;
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtPlotGroup)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotGroup)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotGroup)
 };
 
 #endif // _QEXTPLOTGROUP_H

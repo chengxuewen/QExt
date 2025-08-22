@@ -22,7 +22,7 @@
 ########################################################################################################################
 
 if(TARGET QExt3rdparty::Wrapmcap)
-    set(Wrapmcap_FOUND ON)
+    set(QExtWrapmcap_FOUND ON)
     return()
 endif()
 
@@ -54,4 +54,4 @@ qext_find_package(Wraplz4 PROVIDED_TARGETS QExt3rdparty::Wraplz4)
 qext_find_package(Wrapzstd PROVIDED_TARGETS QExt3rdparty::Wrapzstd)
 target_link_libraries(QExt3rdparty::Wrapmcap INTERFACE QExt3rdparty::Wrapzstd QExt3rdparty::Wraplz4)
 target_include_directories(QExt3rdparty::Wrapmcap INTERFACE "${QExtWrapmcap_SOURCE_DIR}/cpp/mcap/include")
-set(Wrapmcap_FOUND ON)
+set(QExtWrapmcap_FOUND ON)

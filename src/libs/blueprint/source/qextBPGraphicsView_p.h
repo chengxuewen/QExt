@@ -25,8 +25,8 @@ public:
     QExtBPGraphicsView::ScaleRange m_scaleRange;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPGraphicsView)
-    QEXT_DISABLE_COPY_MOVE(QExtBPGraphicsViewPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPGraphicsView)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPGraphicsViewPrivate)
 };
 
 #endif // _QEXTBPGRAPHICSVIEW_P_H

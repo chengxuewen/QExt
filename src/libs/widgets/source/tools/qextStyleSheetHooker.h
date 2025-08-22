@@ -26,8 +26,8 @@ protected:
     QScopedPointer<QExtStyleSheetHookerPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleSheetHooker)
-    QEXT_DISABLE_COPY_MOVE(QExtStyleSheetHooker)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtStyleSheetHooker)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtStyleSheetHooker)
 };
 
 #endif // _QEXTSTYLESHEETHOOKER_H

@@ -224,7 +224,7 @@ protected:
 private:
     QExtPEPropertyTreeEditorPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEPropertyTreeEditor)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPropertyTreeEditor)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPropertyTreeEditor)
 
     Q_PRIVATE_SLOT(d_func(), void slotCollapsed(const QModelIndex &))
     Q_PRIVATE_SLOT(d_func(), void slotExpanded(const QModelIndex &))

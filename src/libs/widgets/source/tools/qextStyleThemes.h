@@ -393,8 +393,8 @@ protected:
 
 private:
     friend class QExtStyleThemesSvgIconEngine;
-    QEXT_DISABLE_COPY_MOVE(QExtStyleThemes)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleThemes)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtStyleThemes)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtStyleThemes)
 };
 
 #define qextStyleThemes QExtSingleton<QExtStyleThemes>::instance<QExtStyleThemes::initDefaultOutputDirPath>()

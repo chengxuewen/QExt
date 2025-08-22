@@ -136,8 +136,8 @@ protected:
 private:
     void rebuildDataBrushIfNeeded();
 
-    QEXT_DISABLE_COPY_MOVE(QExtProgressPie)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtProgressPie)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressPie)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtProgressPie)
 };
 
 #endif // _QEXTPROGRESSROUND_H

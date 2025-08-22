@@ -34,8 +34,8 @@ public:
     QExtKeyboardInputContext::PopupModeEnum m_inputPanelPopupMode;
 
 private:
-    QEXT_DECL_PUBLIC(QExtKeyboardInputContext)
-    QEXT_DISABLE_COPY_MOVE(QExtKeyboardInputContextPrivate)
+    QEXT_DECLARE_PUBLIC(QExtKeyboardInputContext)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtKeyboardInputContextPrivate)
 };
 
 #endif // _QEXTKEYBOARDINPUTCONTEXT_P_H

@@ -70,8 +70,8 @@ private:
     explicit QExtPinyinDecoderService(QObject *parent = QEXT_NULLPTR);
 
     QScopedPointer<QExtPinyinDecoderServicePrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPinyinDecoderService)
-    QEXT_DISABLE_COPY_MOVE(QExtPinyinDecoderService)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPinyinDecoderService)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPinyinDecoderService)
 };
 
 #endif // _QEXTPINYINDECODERSERVICE_P_H

@@ -89,7 +89,7 @@ private:
     friend class QExtScrollerPrivate;
     friend class QExtScrollerPropertiesPrivate;
     QExtScrollerProperties(QExtScrollerPropertiesPrivate &dd);
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtScrollerProperties)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtScrollerProperties)
 };
 Q_DECLARE_METATYPE(QExtScrollerProperties::OvershootPolicy)
 Q_DECLARE_METATYPE(QExtScrollerProperties::FrameRates)
@@ -184,8 +184,8 @@ private:
     QExtScroller(QObject *target);
     virtual ~QExtScroller();
 
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtScroller)
-    QEXT_DISABLE_COPY_MOVE(QExtScroller)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtScroller)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtScroller)
 
 #ifndef QT_NO_GESTURES
     friend class QExtFlickGestureRecognizer;

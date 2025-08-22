@@ -42,7 +42,7 @@ public:
     explicit RecursionGuardLocker(bool *guard);
     ~RecursionGuardLocker();
 private:
-    QEXT_DISABLE_COPY_MOVE(RecursionGuardLocker)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(RecursionGuardLocker)
 private:
     bool *mGuard;
 };

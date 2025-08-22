@@ -7,8 +7,8 @@
 class QExtPlotScrollBarPrivate
 {
     QExtPlotScrollBar * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotScrollBar)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScrollBarPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotScrollBar)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScrollBarPrivate)
 public:
     explicit QExtPlotScrollBarPrivate(QExtPlotScrollBar *q);
     virtual ~QExtPlotScrollBarPrivate();

@@ -18,7 +18,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QExtDAIODeviceModel)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceModelPrivate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIODeviceModelPrivate)
 };
 
 QExtDAIODeviceModelPrivate::QExtDAIODeviceModelPrivate(QExtDAIODeviceModel *q)

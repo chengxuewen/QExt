@@ -24,7 +24,7 @@
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
 if(TARGET QExt3rdparty::WrapQCustomPlot)
-    set(WrapQCustomPlot_FOUND ON)
+    set(QExtWrapQCustomPlot_FOUND ON)
     return()
 endif()
 
@@ -105,4 +105,4 @@ foreach(library ${QExtWrapQCustomPlot_LIBRARIES})
         ERROR_QUIET)
 endforeach()
 qext_install(FILES "${QExtWrapQCustomPlot_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
-set(WrapQCustomPlot_FOUND ON)
+set(QExtWrapQCustomPlot_FOUND ON)

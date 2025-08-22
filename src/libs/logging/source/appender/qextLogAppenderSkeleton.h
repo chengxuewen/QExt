@@ -143,7 +143,7 @@ protected:
 #endif
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogAppenderSkeleton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogAppenderSkeleton)
     bool mAppendRecursionGuard;
     volatile bool mIsActive;
     volatile bool mIsClosed;

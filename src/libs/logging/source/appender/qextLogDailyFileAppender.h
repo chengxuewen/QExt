@@ -85,7 +85,7 @@ public:
     void setDateRetriever(const QSharedPointer<const QExtLogDateRetrieverInterface> &dateRetriever);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogDailyFileAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogDailyFileAppender)
 
     void setLogFileForCurrentDay();
     void rollOver();

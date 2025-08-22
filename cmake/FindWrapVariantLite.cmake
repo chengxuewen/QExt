@@ -24,7 +24,7 @@
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
 if(TARGET QExt3rdparty::WrapVariantLite)
-    set(WrapVariantLite_FOUND ON)
+    set(QExtWrapVariantLite_FOUND ON)
     return()
 endif()
 
@@ -89,4 +89,4 @@ endif()
 add_library(QExt3rdparty::WrapVariantLite INTERFACE IMPORTED)
 find_package(variant-lite PATHS ${QExtWrapVariantLite_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapVariantLite INTERFACE nonstd::variant-lite)
-set(WrapVariantLite_FOUND ON)
+set(QExtWrapVariantLite_FOUND ON)

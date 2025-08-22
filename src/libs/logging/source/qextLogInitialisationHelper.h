@@ -104,7 +104,7 @@ private:
     QExtLogInitialisationHelper();
     virtual ~QExtLogInitialisationHelper();
 
-    QEXT_DISABLE_COPY_MOVE(QExtLogInitialisationHelper)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogInitialisationHelper)
 
 public:
 

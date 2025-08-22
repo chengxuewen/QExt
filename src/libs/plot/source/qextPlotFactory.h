@@ -56,7 +56,7 @@ public:
 protected:
     QScopedPointer<QExtPlotFactoryPrivate> dd_ptr;
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtPlotFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotFactory)
 };
 
 #endif // _QEXTPLOTFACTORY_H

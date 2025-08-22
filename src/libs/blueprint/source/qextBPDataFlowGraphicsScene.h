@@ -36,8 +36,8 @@ protected Q_SLOTS:
                               const QExtBPTypes::PortIndex);
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPDataFlowGraphicsScene)
-    QEXT_DISABLE_COPY_MOVE(QExtBPDataFlowGraphicsScene)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBPDataFlowGraphicsScene)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPDataFlowGraphicsScene)
 
 };
 

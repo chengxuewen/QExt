@@ -41,8 +41,8 @@ public:
 
 
 private:
-    QEXT_DECL_PUBLIC(QExtQmlFontIcon)
-    QEXT_DISABLE_COPY_MOVE(QExtQmlFontIconPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQmlFontIcon)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlFontIconPrivate)
 };
 
 QExtQmlFontIconPrivate::QExtQmlFontIconPrivate(QExtQmlFontIcon *q)

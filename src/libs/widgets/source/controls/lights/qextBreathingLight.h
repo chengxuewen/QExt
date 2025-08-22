@@ -64,8 +64,8 @@ protected:
     QScopedPointer<QExtBreathingLightPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtBreathingLight)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBreathingLight)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBreathingLight)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBreathingLight)
 };
 
 #endif // _QEXTBREATHINGLIGHT_H

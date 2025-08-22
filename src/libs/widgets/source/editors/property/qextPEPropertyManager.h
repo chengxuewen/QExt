@@ -183,8 +183,8 @@ protected:
 private:
     friend class QExtPEProperty;
     QScopedPointer<QExtPEAbstractPropertyManagerPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPEAbstractPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEAbstractPropertyManager)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPEAbstractPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEAbstractPropertyManager)
 };
 
 
@@ -398,7 +398,7 @@ protected:
 private:
     QExtPEIntPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEIntPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEIntPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEIntPropertyManager)
 };
 
 
@@ -478,7 +478,7 @@ protected:
 private:
     QExtPEBoolPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEBoolPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEBoolPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEBoolPropertyManager)
 };
 
 /**
@@ -669,7 +669,7 @@ protected:
 private:
     QExtPEDoublePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEDoublePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEDoublePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEDoublePropertyManager)
 };
 
 
@@ -780,7 +780,7 @@ protected:
 private:
     QExtPEStringPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEStringPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEStringPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEStringPropertyManager)
 };
 
 
@@ -914,7 +914,7 @@ protected:
 private:
     QExtPEDatePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEDatePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEDatePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEDatePropertyManager)
 };
 
 
@@ -988,7 +988,7 @@ protected:
 private:
     QExtPETimePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPETimePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPETimePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPETimePropertyManager)
 };
 
 /**
@@ -1058,7 +1058,7 @@ protected:
 private:
     QExtPEDateTimePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEDateTimePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEDateTimePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEDateTimePropertyManager)
 };
 
 
@@ -1130,7 +1130,7 @@ protected:
 private:
     QExtPEKeySequencePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEKeySequencePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEKeySequencePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEKeySequencePropertyManager)
 };
 
 /**
@@ -1201,7 +1201,7 @@ protected:
 private:
     QExtPECharPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPECharPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPECharPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPECharPropertyManager)
 };
 
 /**
@@ -1289,7 +1289,7 @@ protected:
 private:
     QExtPELocalePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPELocalePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPELocalePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPELocalePropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -1379,7 +1379,7 @@ protected:
 private:
     QExtPEPointPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEPointPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPointPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPointPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -1493,7 +1493,7 @@ protected:
 private:
     QExtPEPointFPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEPointFPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPointFPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPointFPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QExtPEProperty *, double))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -1643,7 +1643,7 @@ protected:
 private:
     QExtPESizePropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPESizePropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPESizePropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPESizePropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -1814,7 +1814,7 @@ protected:
 private:
     QExtPESizeFPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPESizeFPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPESizeFPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPESizeFPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QExtPEProperty *, double))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -1936,7 +1936,7 @@ protected:
 private:
     QExtPERectPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPERectPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPERectPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPERectPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -2080,7 +2080,7 @@ protected:
 private:
     QExtPERectFPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPERectFPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPERectFPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPERectFPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QExtPEProperty *, double))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -2216,7 +2216,7 @@ protected:
 private:
     QExtPEEnumPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEEnumPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEEnumPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEEnumPropertyManager)
 };
 
 /**
@@ -2336,7 +2336,7 @@ protected:
 private:
     QExtPEFlagPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEFlagPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEFlagPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEFlagPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotBoolChanged(QExtPEProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -2437,7 +2437,7 @@ protected:
 private:
     QExtPESizePolicyPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPESizePolicyPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPESizePolicyPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPESizePolicyPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
@@ -2555,7 +2555,7 @@ protected:
 private:
     QExtPEFontPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEFontPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEFontPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEFontPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotBoolChanged(QExtPEProperty *, bool))
@@ -2654,7 +2654,7 @@ protected:
 private:
     QExtPEColorPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEColorPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEColorPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEColorPropertyManager)
     Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtPEProperty *))
 };
@@ -2736,7 +2736,7 @@ protected:
 private:
     QExtPECursorPropertyManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPECursorPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPECursorPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPECursorPropertyManager)
 };
 
 

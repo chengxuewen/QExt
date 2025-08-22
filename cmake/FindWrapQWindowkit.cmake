@@ -24,7 +24,7 @@
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
 if(TARGET QExt3rdparty::WrapQWindowkit)
-    set(WrapQWindowkit_FOUND ON)
+    set(QExtWrapQWindowkit_FOUND ON)
     return()
 endif()
 
@@ -88,4 +88,4 @@ endif()
 find_package(QWindowKit PATHS ${QExtWrapQWindowkit_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQWindowkit INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQWindowkit INTERFACE QWindowKit::Core QWindowKit::Widgets)
-set(WrapQWindowkit_FOUND ON)
+set(QExtWrapQWindowkit_FOUND ON)

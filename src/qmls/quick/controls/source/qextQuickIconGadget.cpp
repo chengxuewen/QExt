@@ -41,8 +41,8 @@ public:
     QString m_source;
 
 private:
-    QEXT_DECL_PUBLIC(QExtQuickIconGadget)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickIconGadgetPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickIconGadget)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickIconGadgetPrivate)
 };
 
 QExtQuickIconGadgetPrivate::QExtQuickIconGadgetPrivate(QExtQuickIconGadget *q)

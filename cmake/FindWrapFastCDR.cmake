@@ -22,7 +22,7 @@
 ########################################################################################################################
 
 if(TARGET QExt3rdparty::WrapFastCDR)
-    set(WrapFastCDR_FOUND ON)
+    set(QExtWrapFastCDR_FOUND ON)
     return()
 endif()
 
@@ -84,4 +84,4 @@ endif()
 add_library(QExt3rdparty::WrapFastCDR INTERFACE IMPORTED)
 find_package(fastcdr PATHS ${QExtWrapFastCDR_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapFastCDR INTERFACE fastcdr)
-set(WrapFastCDR_FOUND ON)
+set(QExtWrapFastCDR_FOUND ON)

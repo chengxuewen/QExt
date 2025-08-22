@@ -16,8 +16,8 @@ public:
     QPointer<QWidget> mTarget;
 
 private:
-    QEXT_DECL_PUBLIC(QExtStyleSheetHooker)
-    QEXT_DISABLE_COPY_MOVE(QExtStyleSheetHookerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtStyleSheetHooker)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtStyleSheetHookerPrivate)
 };
 
 #endif // _QEXTSTYLESHEETHOOKER_P_H

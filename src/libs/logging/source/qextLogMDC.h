@@ -61,7 +61,7 @@ protected:
 
 private:
     QThreadStorage<QHash<QString, QString> *> mHash;
-    QEXT_DISABLE_COPY_MOVE(QExtLogMDC)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogMDC)
 };
 
 #endif // _QEXTLOGMDC_H

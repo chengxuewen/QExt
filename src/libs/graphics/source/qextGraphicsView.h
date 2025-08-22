@@ -40,8 +40,8 @@ protected:
     QScopedPointer<QExtGraphicsViewRuleBarPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtGraphicsViewRuleBar)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsViewRuleBar)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtGraphicsViewRuleBar)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsViewRuleBar)
 };
 
 
@@ -82,8 +82,8 @@ protected:
     QScopedPointer<QExtGraphicsViewPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtGraphicsView)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsView)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtGraphicsView)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsView)
 };
 
 #endif // _QEXTGRAPHICSVIEW_H

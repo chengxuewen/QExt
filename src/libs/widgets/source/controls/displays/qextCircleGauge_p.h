@@ -75,8 +75,8 @@ public:
     QPropertyAnimation *m_animation;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtCircleGaugePrivate)
-    QEXT_DECL_PUBLIC(QExtCircleGauge)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtCircleGaugePrivate)
+    QEXT_DECLARE_PUBLIC(QExtCircleGauge)
 };
 
 #endif // _QEXTGAUGECAR_P_H

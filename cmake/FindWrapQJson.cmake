@@ -24,7 +24,7 @@
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
 if(TARGET QExt3rdparty::WrapQJson)
-    set(WrapQJson_FOUND ON)
+    set(QExtWrapQJson_FOUND ON)
     return()
 endif()
 
@@ -85,4 +85,4 @@ endif()
 find_package(QJSON-qt${QEXT_QT_VERSION_MAJOR} PATHS ${WrapQJson_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQJson INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQJson INTERFACE QJSON-qt${QEXT_QT_VERSION_MAJOR})
-set(WrapQJson_FOUND ON)
+set(QExtWrapQJson_FOUND ON)

@@ -84,8 +84,8 @@ protected:
     QScopedPointer<QExtBPAbstractNodeGeometryPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPAbstractNodeGeometry)
-    QEXT_DISABLE_COPY_MOVE(QExtBPAbstractNodeGeometry)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBPAbstractNodeGeometry)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPAbstractNodeGeometry)
 };
 
 #endif // _QEXTBPABSTRACTNODEGEOMETRY_H

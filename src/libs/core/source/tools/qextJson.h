@@ -91,7 +91,7 @@ private:
     friend class QExtJsonArray;
     friend class QExtJsonObject;
     friend class QExtJsonDocument;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtJsonValue)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtJsonValue)
 };
 
 class QEXT_CORE_API QExtJsonValueRef
@@ -232,7 +232,7 @@ private:
     friend class QExtJsonValue;
     friend class QExtJsonValueRef;
     friend class QExtJsonDocument;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtJsonObject)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtJsonObject)
 };
 Q_DECLARE_METATYPE(QExtJsonObject)
 
@@ -317,7 +317,7 @@ protected:
 private:
     friend class QExtJsonValue;
     friend class QExtJsonDocument;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtJsonArray)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtJsonArray)
 };
 Q_DECLARE_METATYPE(QExtJsonArray)
 
@@ -378,7 +378,7 @@ protected:
     QExtJsonDocumentPrivate *dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtJsonDocument)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtJsonDocument)
 };
 Q_DECLARE_METATYPE(QExtJsonDocument)
 

@@ -158,8 +158,8 @@ protected:
     void updateAttachedNodes(const QExtBPTypes::ConnectionId connectionId, const QExtBPTypes::PortTypeEnum portType);
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPBasicGraphicsScene)
-    QEXT_DISABLE_COPY_MOVE(QExtBPBasicGraphicsScene)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBPBasicGraphicsScene)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPBasicGraphicsScene)
 };
 
 #endif // _QEXTBPBASICGRAPHICSSCENE_H

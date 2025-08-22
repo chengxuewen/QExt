@@ -43,7 +43,7 @@ public:
     QExtLogSimpleTimeLayout(QObject *parent = QEXT_NULLPTR);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogSimpleTimeLayout)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogSimpleTimeLayout)
 
 public:
     QString format(const QExtLoggingEvent &event) QEXT_OVERRIDE;

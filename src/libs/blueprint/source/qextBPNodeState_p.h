@@ -18,8 +18,8 @@ public:
     QPointer<QExtBPConnectionGraphicsObject const> m_connectionForReaction;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPNodeState)
-    QEXT_DISABLE_COPY_MOVE(QExtBPNodeStatePrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPNodeState)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPNodeStatePrivate)
 };
 
 #endif // _QEXTBPNODESTATE_P_H

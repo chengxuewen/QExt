@@ -33,7 +33,7 @@ class QExtSpinLock
 public:
     struct Locker
     {
-        QEXT_DISABLE_COPY_MOVE(Locker)
+        QEXT_DECLARE_DISABLE_COPY_MOVE(Locker)
         Locker(QExtSpinLock &lock) : spinLock(lock) { spinLock.lock(); }
         virtual ~Locker() { spinLock.unlock(); }
         virtual void unlock() { spinLock.unlock(); }
@@ -55,7 +55,7 @@ public:
 
 private:
     QAtomicInt mFlag;
-    QEXT_DISABLE_COPY_MOVE(QExtSpinLock)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSpinLock)
 };
 
 class QExtDSpinLock : public QExtSpinLock
@@ -63,7 +63,7 @@ class QExtDSpinLock : public QExtSpinLock
 public:
     struct DLocker
     {
-        QEXT_DISABLE_COPY_MOVE(DLocker)
+        QEXT_DECLARE_DISABLE_COPY_MOVE(DLocker)
         DLocker(QExtDSpinLock &lock, qint64 timeout, const char *func, qint64 line)
             : spinLock(lock), mTimeout(timeout), mFunc(func), mElapsed(0), mLine(line)
         {
@@ -126,7 +126,7 @@ public:
 
 private:
     qint64 mTimestamp;
-    QEXT_DISABLE_COPY_MOVE(QExtDSpinLock)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDSpinLock)
 };
 
 #endif // _QEXTSPINLOCK_H

@@ -50,7 +50,7 @@ public:
     QExtLogPropertyConfigurator();
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogPropertyConfigurator)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogPropertyConfigurator)
 
 public:
     /*!

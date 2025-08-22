@@ -42,7 +42,7 @@ protected:
     void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogWDCAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogWDCAppender)
 };
 
 #endif //  _QEXTLOGWDCAPPENDER_H

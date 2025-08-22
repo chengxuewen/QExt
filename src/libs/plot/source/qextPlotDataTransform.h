@@ -97,7 +97,7 @@ protected:
 private:
     QScopedPointer<QExtPlotDataTransformFactoryPrivate> dd_ptr;
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtPlotDataTransformFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotDataTransformFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotDataTransformFactory)
 };
 
 #define qextPlotDataTransformFactory QExtPlotDataTransformFactory::instance()

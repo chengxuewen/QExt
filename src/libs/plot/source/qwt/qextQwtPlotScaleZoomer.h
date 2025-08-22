@@ -24,8 +24,8 @@ private Q_SLOTS:
 
 private:
     QScopedPointer<QExtPlotScaleZoomerPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotScaleZoomer)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScaleZoomer)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotScaleZoomer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScaleZoomer)
 };
 
 #endif // _QEXTQWTPLOTSCALEZOOMER_H

@@ -27,8 +27,8 @@ public:
 class QExtPlotScrollZoomerPrivate
 {
     QExtPlotScrollZoomer * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotScrollZoomer)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScrollZoomerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotScrollZoomer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScrollZoomerPrivate)
 public:
     explicit QExtPlotScrollZoomerPrivate(QExtPlotScrollZoomer *q);
     virtual ~QExtPlotScrollZoomerPrivate();

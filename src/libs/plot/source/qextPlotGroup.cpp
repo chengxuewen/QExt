@@ -3,8 +3,8 @@
 class QExtPlotGroupPrivate
 {
     QExtPlotGroup * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotGroup)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotGroupPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotGroup)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotGroupPrivate)
 public:
     QExtPlotGroupPrivate(QExtPlotGroup *q, const QString &name);
     virtual ~QExtPlotGroupPrivate();

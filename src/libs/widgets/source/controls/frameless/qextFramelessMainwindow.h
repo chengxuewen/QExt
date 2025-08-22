@@ -73,8 +73,8 @@ protected:
     QScopedPointer<QExtFramelessMainWindowPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtFramelessMainWindow)
-    QEXT_DISABLE_COPY_MOVE(QExtFramelessMainWindow)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtFramelessMainWindow)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtFramelessMainWindow)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_H

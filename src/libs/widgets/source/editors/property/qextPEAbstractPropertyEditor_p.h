@@ -60,8 +60,8 @@ private:
 class QExtPEAbstractPropertyEditorPrivate
 {
     QExtPEAbstractPropertyEditor * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPEAbstractPropertyEditor)
-    QEXT_DISABLE_COPY_MOVE(QExtPEAbstractPropertyEditorPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPEAbstractPropertyEditor)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEAbstractPropertyEditorPrivate)
 public:
     explicit QExtPEAbstractPropertyEditorPrivate(QExtPEAbstractPropertyEditor *q);
     virtual ~QExtPEAbstractPropertyEditorPrivate() {}

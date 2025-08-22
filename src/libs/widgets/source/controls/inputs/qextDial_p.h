@@ -56,8 +56,8 @@ public:
     bool m_pressed;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtDialPrivate)
-    QEXT_DECL_PUBLIC(QExtDial)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDialPrivate)
+    QEXT_DECLARE_PUBLIC(QExtDial)
 };
 
 #endif // _QEXTDIAL_P_H

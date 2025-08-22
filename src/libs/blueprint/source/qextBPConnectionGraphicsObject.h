@@ -79,8 +79,8 @@ private:
 
     std::pair<QPointF, QPointF> pointsC1C2Vertical() const;
 
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPConnectionGraphicsObject)
-    QEXT_DISABLE_COPY_MOVE(QExtBPConnectionGraphicsObject)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBPConnectionGraphicsObject)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPConnectionGraphicsObject)
 };
 
 #endif // _QEXTBPCONNECTIONGRAPHICSOBJECT_H

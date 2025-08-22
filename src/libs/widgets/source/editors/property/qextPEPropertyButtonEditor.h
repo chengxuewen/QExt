@@ -86,7 +86,7 @@ protected:
 private:
     QExtPEPropertyButtonEditorPrivate *dd_ptr;
     Q_DECLARE_PRIVATE(QExtPEPropertyButtonEditor)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPropertyButtonEditor)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPropertyButtonEditor)
     Q_PRIVATE_SLOT(d_func(), void slotUpdate())
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed())
     Q_PRIVATE_SLOT(d_func(), void slotToggled(bool))

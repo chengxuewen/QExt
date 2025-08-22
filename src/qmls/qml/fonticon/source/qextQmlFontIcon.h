@@ -53,8 +53,8 @@ protected:
     QScopedPointer<QExtQmlFontIconPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtQmlFontIcon)
-    QEXT_DISABLE_COPY_MOVE(QExtQmlFontIcon)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlFontIcon)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlFontIcon)
 };
 
 #endif // _QEXTQMLFONTICON_H

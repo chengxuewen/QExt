@@ -49,8 +49,8 @@ private Q_SLOTS:
 
 private:
     QScopedPointer<QExtPlotScalePickerPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotScalePicker)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScalePicker)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotScalePicker)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScalePicker)
 };
 
 #endif // _QEXTQWTPLOTSCALEPICKER_H

@@ -71,7 +71,7 @@ private:
 #endif
     QExtSerialEnumeratorPrivate *dd_ptr;
 
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSerialEnumerator)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSerialEnumerator)
 };
 
 

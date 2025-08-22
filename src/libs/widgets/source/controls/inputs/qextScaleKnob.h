@@ -142,8 +142,8 @@ protected:
     QScopedPointer<QExtScaleKnobPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtScaleKnob)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtScaleKnob)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtScaleKnob)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtScaleKnob)
 };
 
 #endif // _QEXTSCALEKNOB_H

@@ -53,8 +53,8 @@ protected:
 
 private:
     QScopedPointer<QExtPlotScrollBarPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotScrollBar)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotScrollBar)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotScrollBar)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotScrollBar)
 };
 
 #endif // _QEXTQWTPLOTSCROLLBAR_H

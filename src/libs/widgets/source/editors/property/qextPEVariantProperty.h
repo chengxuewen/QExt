@@ -566,7 +566,7 @@ private:
     Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QExtPEProperty *, QExtPEProperty *, QExtPEProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QExtPEProperty *, QExtPEProperty *))
     Q_DECLARE_PRIVATE(QExtPEVariantPropertyManager)
-    QEXT_DISABLE_COPY_MOVE(QExtPEVariantPropertyManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEVariantPropertyManager)
 };
 
 
@@ -657,7 +657,7 @@ protected:
 private:
     QExtPEVariantEditorFactoryPrivate *d_ptr;
     Q_DECLARE_PRIVATE(QExtPEVariantEditorFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPEVariantEditorFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEVariantEditorFactory)
 };
 
 Q_DECLARE_METATYPE(QIcon)

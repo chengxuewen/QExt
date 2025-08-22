@@ -74,8 +74,8 @@ protected:
     QScopedPointer<QExtProgressWaitPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProgressWait)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtProgressWait)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressWait)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtProgressWait)
 
 private:
 	double degreesToRadians(double value);

@@ -70,8 +70,8 @@ public:
     QPropertyAnimation *m_animation;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtSemicircleGaugePrivate)
-    QEXT_DECL_PUBLIC(QExtSemicircleGauge)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSemicircleGaugePrivate)
+    QEXT_DECLARE_PUBLIC(QExtSemicircleGauge)
 };
 
 #endif // _QEXTGAUGESEMICIRCLE_P_H

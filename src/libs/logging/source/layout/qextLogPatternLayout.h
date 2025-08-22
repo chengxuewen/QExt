@@ -92,7 +92,7 @@ public:
                   QObject *parent = QEXT_NULLPTR);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogPatternLayout)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogPatternLayout)
 
 public:
     QString conversionPattern() const;

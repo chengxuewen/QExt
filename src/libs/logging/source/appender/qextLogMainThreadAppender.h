@@ -73,7 +73,7 @@ protected:
     void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogMainThreadAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogMainThreadAppender)
 
 };
 

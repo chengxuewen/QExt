@@ -168,8 +168,8 @@ private slots:
     void updateValue(const QVariant &value);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtSemicircleGauge)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSemicircleGauge)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSemicircleGauge)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSemicircleGauge)
 };
 
 #endif // _QEXTSEMICIRCLEGAUGE_H

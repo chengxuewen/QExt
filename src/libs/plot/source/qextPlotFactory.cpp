@@ -9,8 +9,8 @@ typedef QHash<QString, QExtPlotCreaterFunc> QExtPlotCreaterMap;
 class QExtPlotFactoryPrivate
 {
     QExtPlotFactory * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotFactoryPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotFactoryPrivate)
 public:
     explicit QExtPlotFactoryPrivate(QExtPlotFactory *q);
     virtual ~QExtPlotFactoryPrivate();

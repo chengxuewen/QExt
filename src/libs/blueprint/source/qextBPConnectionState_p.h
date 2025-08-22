@@ -16,8 +16,8 @@ public:
     QExtBPConnectionGraphicsObject &m_connectionGraphicsObject;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPConnectionState)
-    QEXT_DISABLE_COPY_MOVE(QExtBPConnectionStatePrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPConnectionState)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPConnectionStatePrivate)
 };
 
 #endif // _QEXTBPCONNECTIONSTATE_P_H

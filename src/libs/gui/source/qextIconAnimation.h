@@ -40,8 +40,8 @@ protected:
     QScopedPointer<QExtIconAnimationPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtIconAnimation)
-    QEXT_DISABLE_COPY_MOVE(QExtIconAnimation)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtIconAnimation)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtIconAnimation)
 };
 
 #endif // _QEXTICONANIMATION_H

@@ -82,7 +82,7 @@ public:
                              QObject *parent = QEXT_NULLPTR);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogDailyRollingFileAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogDailyRollingFileAppender)
 public:
     QString datePattern() const;
 

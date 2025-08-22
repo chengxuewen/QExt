@@ -25,8 +25,8 @@ public:
     QSet<QString> mCheckedItems;
 
 private:
-    QEXT_DECL_PUBLIC(QExtCheckComboBoxModel)
-    QEXT_DISABLE_COPY_MOVE(QExtCheckComboBoxModelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtCheckComboBoxModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtCheckComboBoxModelPrivate)
 };
 
 QExtCheckComboBoxModelPrivate::QExtCheckComboBoxModelPrivate(QExtCheckComboBoxModel *q)
@@ -227,8 +227,8 @@ public:
     QPointer<QExtCheckComboBoxLineEdit> mLineEdit;
 
 private:
-    QEXT_DECL_PUBLIC(QExtCheckComboBox)
-    QEXT_DISABLE_COPY_MOVE(QExtCheckComboBoxPrivate)
+    QEXT_DECLARE_PUBLIC(QExtCheckComboBox)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtCheckComboBoxPrivate)
 };
 
 QExtCheckComboBoxPrivate::QExtCheckComboBoxPrivate(QExtCheckComboBox *q)

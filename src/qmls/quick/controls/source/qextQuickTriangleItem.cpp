@@ -17,8 +17,8 @@ public:
     int m_borderWidth;
 
 private:
-    QEXT_DECL_PUBLIC(QExtQuickTriangleItem)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickTriangleItemPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickTriangleItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickTriangleItemPrivate)
 };
 
 QExtQuickTriangleItemPrivate::QExtQuickTriangleItemPrivate(QExtQuickTriangleItem *q)

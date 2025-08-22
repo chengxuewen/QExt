@@ -45,8 +45,8 @@ public:
     QTimer *m_finishTimer;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtOvenTimerPrivate)
-    QEXT_DECL_PUBLIC(QExtOvenTimer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtOvenTimerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtOvenTimer)
 };
 
 #endif // _QEXTOVENTIMER_P_H

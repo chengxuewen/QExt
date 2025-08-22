@@ -43,8 +43,8 @@ public:
     QPointer<QQmlEngine> m_qmlEngine;
 
 private:
-    QEXT_DECL_PUBLIC(QExtQuickKeyboard)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickKeyboardPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickKeyboardPrivate)
 };
 
 #endif // _QEXTQUICKKEYBOARD_P_H

@@ -56,8 +56,8 @@ public:
     QColor m_barColor;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProgressBarPrivate)
-    QEXT_DECL_PUBLIC(QExtProgressBar)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressBarPrivate)
+    QEXT_DECLARE_PUBLIC(QExtProgressBar)
 };
 
 #endif // _QEXTPROGRESSBAR_P_H

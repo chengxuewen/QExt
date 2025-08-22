@@ -21,7 +21,7 @@ public:
 protected:
     QExtDAIODeviceFactory * const q_ptr;
     Q_DECLARE_PUBLIC(QExtDAIODeviceFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceFactoryPrivate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIODeviceFactoryPrivate)
 };
 
 QExtDAIODeviceFactoryPrivate::QExtDAIODeviceFactoryPrivate(QExtDAIODeviceFactory *q)

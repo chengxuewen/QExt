@@ -57,8 +57,8 @@ public:
     Qt::WindowFlags m_flags;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtFramelessDialogPrivate)
-    QEXT_DECL_PUBLIC(QExtFramelessDialog)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtFramelessDialogPrivate)
+    QEXT_DECLARE_PUBLIC(QExtFramelessDialog)
 };
 
 #endif // _QEXTFRAMELESSDIALOG_P_H

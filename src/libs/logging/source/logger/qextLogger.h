@@ -158,7 +158,7 @@
 
 class QEXT_LOGGING_API QExtMessageLogger
 {
-    QEXT_DISABLE_COPY_MOVE(QExtMessageLogger)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtMessageLogger)
 
 public:
     explicit QExtMessageLogger(QExtLogger *logger, QExtLogLevel level) : mLogger(logger), mLevel(level) {}
@@ -265,7 +265,7 @@ protected:
     ~QExtLogger() QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogger)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogger)
 
 public:
     bool additivity() const;

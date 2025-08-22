@@ -63,8 +63,8 @@ protected:
     QExtPinyinPrivate *dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPinyin)
-    QEXT_DISABLE_COPY_MOVE(QExtPinyin)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPinyin)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPinyin)
 };
 
 #endif // _QEXTPINYIN_H

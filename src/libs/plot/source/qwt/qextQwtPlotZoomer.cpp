@@ -48,8 +48,8 @@ void QExtPlotZoomerScaleOverlay::drawOverlay(QPainter *painter) const
 class QExtPlotZoomerPrivate
 {
     QExtPlotZoomer * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtPlotZoomer)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotZoomerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtPlotZoomer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotZoomerPrivate)
 public:
     explicit QExtPlotZoomerPrivate(QExtPlotZoomer *q);
     virtual ~QExtPlotZoomerPrivate() {}

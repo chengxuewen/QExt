@@ -151,8 +151,8 @@ public:
     QList<StyleSheetCallback> mUserCallbacks;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)
-    QEXT_DECL_PUBLIC(QExtStyleThemes)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)
+    QEXT_DECLARE_PUBLIC(QExtStyleThemes)
 };
 
 #endif //_QEXTSTYLETHEMES_P_H

@@ -38,8 +38,8 @@ public:
     double m_bottomPadding;
 
 private:
-    QEXT_DECL_PUBLIC(QExtQuickPadding)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickPaddingPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickPadding)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickPaddingPrivate)
 };
 
 QExtQuickPaddingPrivate::QExtQuickPaddingPrivate(QExtQuickPadding *q)

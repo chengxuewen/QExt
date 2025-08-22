@@ -64,14 +64,14 @@ public:
     QList<QExtNavigationListItem *> mChildItems;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavigationListItemPrivate)
-    QEXT_DECL_PUBLIC(QExtNavigationListItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavigationListItemPrivate)
+    QEXT_DECLARE_PUBLIC(QExtNavigationListItem)
 };
 
 class QExtNavListView : public QListView
 {
     Q_OBJECT
-    QEXT_DISABLE_COPY_MOVE(QExtNavListView)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavListView)
 public:
     explicit QExtNavListView(QWidget *parent = QEXT_NULLPTR) : QListView(parent) { }
     ~QExtNavListView() QEXT_OVERRIDE {}
@@ -90,7 +90,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavListDelegate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavListDelegate)
     QFont mIconFont;
     QExtNavigationListViewPrivate *mNavData;
     QExtNavigationListView * const mNavListView;
@@ -117,8 +117,8 @@ public:
     QList<QExtNavigationListItem *> mVisiableItemList;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavigationListModelPrivate)
-    QEXT_DECL_PUBLIC(QExtNavigationListModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavigationListModelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtNavigationListModel)
 };
 
 
@@ -175,8 +175,8 @@ public:
     QExtNavigationListView::ExpendMode mExpendMode;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtNavigationListViewPrivate)
-    QEXT_DECL_PUBLIC(QExtNavigationListView)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNavigationListViewPrivate)
+    QEXT_DECLARE_PUBLIC(QExtNavigationListView)
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_P_H

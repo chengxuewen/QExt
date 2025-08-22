@@ -66,7 +66,7 @@ private:
     explicit QExtLogConfiguratorHelper(QObject *parent = QEXT_NULLPTR);
     virtual ~QExtLogConfiguratorHelper();
 
-    QEXT_DISABLE_COPY_MOVE(QExtLogConfiguratorHelper)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogConfiguratorHelper)
 
 public:
 

@@ -146,8 +146,8 @@ protected:
 
 protected:
     QScopedPointer<QExtPlotPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlot)
-    QEXT_DISABLE_COPY_MOVE(QExtPlot)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlot)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlot)
 };
 
 
@@ -163,7 +163,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotGridVisibleItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotGridVisibleItem)
 };
 class QExtPlotXAxisGridVisibleItem : public QExtPropertyModelItem
 {
@@ -180,7 +180,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisGridVisibleItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotXAxisGridVisibleItem)
 };
 class QExtPlotXAxisMinorGridVisibleItem : public QExtPropertyModelItem
 {
@@ -197,7 +197,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisMinorGridVisibleItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotXAxisMinorGridVisibleItem)
 };
 class QExtPlotYAxisGridVisibleItem : public QExtPropertyModelItem
 {
@@ -214,7 +214,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisGridVisibleItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotYAxisGridVisibleItem)
 };
 class QExtPlotYAxisMinorGridVisibleItem : public QExtPropertyModelItem
 {
@@ -231,7 +231,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisMinorGridVisibleItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotYAxisMinorGridVisibleItem)
 };
 
 
@@ -250,7 +250,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisRangeItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotXAxisRangeItem)
 };
 class QExtPlotXAxisMinItem : public QExtPropertyModelItem
 {
@@ -271,7 +271,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisMinItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotXAxisMinItem)
 };
 class QExtPlotXAxisMaxItem : public QExtPropertyModelItem
 {
@@ -292,7 +292,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotXAxisMaxItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotXAxisMaxItem)
 };
 
 
@@ -311,7 +311,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisRangeItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotYAxisRangeItem)
 };
 class QExtPlotYAxisMinItem : public QExtPropertyModelItem
 {
@@ -332,7 +332,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisMinItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotYAxisMinItem)
 };
 class QExtPlotYAxisMaxItem : public QExtPropertyModelItem
 {
@@ -353,7 +353,7 @@ public:
 
 protected:
     QPointer<QExtPlot> mPlot;
-    QEXT_DISABLE_COPY_MOVE(QExtPlotYAxisMaxItem)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotYAxisMaxItem)
 };
 
 

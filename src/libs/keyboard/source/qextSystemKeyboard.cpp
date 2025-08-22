@@ -163,8 +163,8 @@ public:
     QExtSystemKeyboard * const q_ptr;
 
 private:
-    QEXT_DECL_PUBLIC(QExtSystemKeyboard)
-    QEXT_DISABLE_COPY_MOVE(QExtSystemKeyboardPrivate)
+    QEXT_DECLARE_PUBLIC(QExtSystemKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSystemKeyboardPrivate)
 };
 
 QExtSystemKeyboardPrivate::QExtSystemKeyboardPrivate(QExtSystemKeyboard *q)

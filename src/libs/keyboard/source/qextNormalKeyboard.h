@@ -42,7 +42,7 @@ private:
     Ui::QExtNormalKeyboard *ui;
     Qt::KeyboardModifiers m_modifier;
     QMap<QAbstractButton*,Qt::Key> m_letterkeys;
-    QEXT_DISABLE_COPY_MOVE(QExtNormalKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNormalKeyboard)
 };
 
 #endif // _QEXTNORMALKEYBOARD_H

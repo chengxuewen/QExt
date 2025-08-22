@@ -157,8 +157,8 @@ protected:
     QScopedPointer<QExtPlotRingBufferPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotRingBuffer)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotRingBuffer)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotRingBuffer)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotRingBuffer)
 };
 
 

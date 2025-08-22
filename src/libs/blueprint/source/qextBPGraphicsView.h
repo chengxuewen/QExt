@@ -84,8 +84,8 @@ protected:
     QScopedPointer<QExtBPGraphicsViewPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPGraphicsView)
-    QEXT_DISABLE_COPY_MOVE(QExtBPGraphicsView)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtBPGraphicsView)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPGraphicsView)
 };
 
 #endif // _QEXTBPGRAPHICSVIEW_H

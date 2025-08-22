@@ -77,8 +77,8 @@ protected:
     QScopedPointer<QExtQuickIconGadgetPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtQuickIconGadget)
-    QEXT_DISABLE_COPY_MOVE(QExtQuickIconGadget)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQuickIconGadget)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickIconGadget)
 };
 
 #endif // _QEXTQUICKICONGADGET_H

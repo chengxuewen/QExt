@@ -34,8 +34,8 @@ public:
 #endif
 
 private:
-    QEXT_DECL_PUBLIC(QExtJsonValue)
-    QEXT_DISABLE_COPY_MOVE(QExtJsonValuePrivate)
+    QEXT_DECLARE_PUBLIC(QExtJsonValue)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonValuePrivate)
 };
 
 class QEXT_CORE_API QExtJsonObjectPrivate
@@ -53,8 +53,8 @@ public:
 #endif
 
 private:
-    QEXT_DECL_PUBLIC(QExtJsonObject)
-    QEXT_DISABLE_COPY_MOVE(QExtJsonObjectPrivate)
+    QEXT_DECLARE_PUBLIC(QExtJsonObject)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonObjectPrivate)
 };
 
 class QEXT_CORE_API QExtJsonArrayPrivate
@@ -72,8 +72,8 @@ public:
 #endif
 
 private:
-    QEXT_DECL_PUBLIC(QExtJsonArray)
-    QEXT_DISABLE_COPY_MOVE(QExtJsonArrayPrivate)
+    QEXT_DECLARE_PUBLIC(QExtJsonArray)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonArrayPrivate)
 };
 
 class QEXT_CORE_API QExtJsonDocumentPrivate
@@ -91,8 +91,8 @@ public:
 #endif
 
 private:
-    QEXT_DECL_PUBLIC(QExtJsonDocument)
-    QEXT_DISABLE_COPY_MOVE(QExtJsonDocumentPrivate)
+    QEXT_DECLARE_PUBLIC(QExtJsonDocument)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonDocumentPrivate)
 };
 
 #endif // _QEXTJSON_P_H

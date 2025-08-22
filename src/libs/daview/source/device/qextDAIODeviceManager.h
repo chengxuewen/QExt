@@ -53,7 +53,7 @@ protected:
 
 private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDAIODeviceManager)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceManager)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIODeviceManager)
 };
 
 #define qextDAIODeviceManager QExtDAIODeviceManager::instance()

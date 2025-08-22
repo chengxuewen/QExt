@@ -103,7 +103,7 @@ protected:
     void ensureMaxCount();
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogListAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogListAppender)
     volatile bool mConfiguratorList;
     QList<QExtLoggingEvent> mList;
     volatile int mMaxCount;

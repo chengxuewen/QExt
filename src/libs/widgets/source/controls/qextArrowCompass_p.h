@@ -66,8 +66,8 @@ public:
     QScopedPointer<QPropertyAnimation> m_animation;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtArrowCompassPrivate)
-    QEXT_DECL_PUBLIC(QExtArrowCompass)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtArrowCompassPrivate)
+    QEXT_DECLARE_PUBLIC(QExtArrowCompass)
 };
 
 #endif // _QEXTARROWCOMPASS_P_H

@@ -42,7 +42,7 @@ public:
     void setSubLayout(const QExtLogLayoutSharedPtr &layout) {mSubLayout = layout;}
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogBinaryToTextLayout)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogBinaryToTextLayout)
     QExtLogLayoutSharedPtr mSubLayout;
 };
 

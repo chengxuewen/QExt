@@ -55,8 +55,8 @@ public:
     QExtSpinLock m_spinLock;
 
 private:
-    QEXT_DECL_PUBLIC(QExtPinyinDecoderService)
-    QEXT_DISABLE_COPY_MOVE(QExtPinyinDecoderServicePrivate)
+    QEXT_DECLARE_PUBLIC(QExtPinyinDecoderService)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPinyinDecoderServicePrivate)
 };
 
 QExtPinyinDecoderServicePrivate::QExtPinyinDecoderServicePrivate(QExtPinyinDecoderService *q)

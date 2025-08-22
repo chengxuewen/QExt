@@ -55,8 +55,8 @@ protected slots:
 
 protected:
     QScopedPointer<QExtPlotModelPrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPlotModel)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotModel)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtPlotModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotModel)
 };
 
 

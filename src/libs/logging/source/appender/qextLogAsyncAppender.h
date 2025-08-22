@@ -80,7 +80,7 @@ protected:
     void append(const QExtLoggingEvent &event) QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogAsyncAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogAsyncAppender)
 
     //! Event dispatcher trhead
     QThread *mThread;

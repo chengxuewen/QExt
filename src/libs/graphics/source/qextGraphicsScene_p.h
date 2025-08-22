@@ -17,8 +17,8 @@ public:
     QExtGraphicsGridTool *m_grid;
 
 private:
-    QEXT_DECL_PUBLIC(QExtGraphicsScene)
-    QEXT_DISABLE_COPY_MOVE(QExtGraphicsScenePrivate)
+    QEXT_DECLARE_PUBLIC(QExtGraphicsScene)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtGraphicsScenePrivate)
 };
 
 #endif // _QEXTGRAPHICSSCENE_P_H

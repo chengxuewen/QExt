@@ -58,7 +58,7 @@ protected:
 private:
     QExtPEPropertyGroupBoxEditorPrivate *dd_ptr;
     Q_DECLARE_PRIVATE(QExtPEPropertyGroupBoxEditor)
-    QEXT_DISABLE_COPY_MOVE(QExtPEPropertyGroupBoxEditor)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPEPropertyGroupBoxEditor)
     Q_PRIVATE_SLOT(d_func(), void slotUpdate())
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed())
 };

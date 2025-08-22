@@ -64,8 +64,8 @@ public:
     QScopedPointer<QTimer> m_timer;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtSwitchButtonPrivate)
-    QEXT_DECL_PUBLIC(QExtSwitchButton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSwitchButtonPrivate)
+    QEXT_DECLARE_PUBLIC(QExtSwitchButton)
 };
 
 #endif // _QEXTSWITCHBUTTON_P_H

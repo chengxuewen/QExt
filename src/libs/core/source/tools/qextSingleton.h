@@ -27,15 +27,18 @@ struct QExtSingletonScopedPointerDeleter
 
         delete pointer;
     }
-    template <typename U>
-    static inline void cleanupLater(U *pointer, QExtTrueType)
+
+    static inline void cleanupLater(T *pointer)
     {
-        qobject_cast<QObject *>(pointer)->deleteLater();
-    }
-    template <typename U>
-    static inline void cleanupLater(U *pointer, QExtFalseType)
-    {
-        cleanup(pointer);
+        QObject *object = dynamic_cast<QObject *>(pointer);
+        if (object)
+        {
+            object->deleteLater();
+        }
+        else
+        {
+            cleanup(pointer);
+        }
     }
 };
 
@@ -43,8 +46,8 @@ struct QExtSingletonScopedPointerDeleter
 template <typename T>
 class QExtSingleton
 {
-public:
     typedef QExtSingletonScopedPointerDeleter<T> Deleter;
+public:
     typedef void(*InitFunc)(T *);
 
     static T *instance()
@@ -74,8 +77,7 @@ public:
     void destroyLater()
     {
         this->onAboutToBeDestroyed();
-        Deleter::cleanupLater(this->detachScoped(),
-                              QExtIsQObjectBase<T>::Type());
+        Deleter::cleanupLater(this->detachScoped());
     }
 
     void destroy()
@@ -95,7 +97,7 @@ private:
     static T *mInstance;
     static QExtOnceFlag mOnceFlag;
     static QScopedPointer<T, Deleter> mScoped;
-    QEXT_DISABLE_COPY_MOVE(QExtSingleton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSingleton)
 };
 
 template <typename T> QExtOnceFlag QExtSingleton<T>::mOnceFlag;

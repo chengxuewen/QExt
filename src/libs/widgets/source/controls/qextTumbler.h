@@ -98,8 +98,8 @@ protected:
     QScopedPointer<QExtTumblerPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtTumbler)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTumbler)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtTumbler)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtTumbler)
 };
 
 #endif // _QEXTTUMBLER_H

@@ -39,7 +39,7 @@ class QExtLogAppender;
 class QEXT_LOGGING_API QExtLogBasicConfigurator
 {
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogBasicConfigurator)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogBasicConfigurator)
 
 public:
     static bool configure();

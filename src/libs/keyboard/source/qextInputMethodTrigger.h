@@ -34,8 +34,8 @@ protected:
     QScopedPointer<QExtInputMethodTriggerPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtInputMethodTrigger)
-    QEXT_DISABLE_COPY_MOVE(QExtInputMethodTrigger)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtInputMethodTrigger)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtInputMethodTrigger)
 };
 
 #endif // _QEXTINPUTMETHODTRAGGER_H

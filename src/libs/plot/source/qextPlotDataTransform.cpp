@@ -10,7 +10,7 @@ class QExtPlotDataTransformFactoryPrivate
 {
     QExtPlotDataTransformFactory * const q_ptr;
     Q_DECLARE_PUBLIC(QExtPlotDataTransformFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtPlotDataTransformFactoryPrivate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPlotDataTransformFactoryPrivate)
 public:
     explicit QExtPlotDataTransformFactoryPrivate(QExtPlotDataTransformFactory *q);
     virtual ~QExtPlotDataTransformFactoryPrivate();

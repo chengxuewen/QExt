@@ -37,8 +37,8 @@ public:
     QExtIconLabel * const q_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtIconLabelPrivate)
-    QEXT_DECL_PUBLIC(QExtIconLabel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtIconLabelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtIconLabel)
 };
 
 #endif // _QEXTICONLABEL_P_H

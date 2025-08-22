@@ -17,8 +17,8 @@ public:
     QExtBPAbstractGraphModel &m_graphModel;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPNodeGraphicsObject)
-    QEXT_DISABLE_COPY_MOVE(QExtBPNodeGraphicsObjectPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPNodeGraphicsObject)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPNodeGraphicsObjectPrivate)
 };
 
 #endif // _QEXTBPNODEGRAPHICSOBJECT_P_H

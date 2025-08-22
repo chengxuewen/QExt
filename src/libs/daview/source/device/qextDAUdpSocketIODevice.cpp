@@ -23,7 +23,7 @@ public:
 
 protected:
     Q_DECLARE_PUBLIC(QExtDAUdpSocketIODevice)
-    QEXT_DISABLE_COPY_MOVE(QExtDAUdpSocketIODevicePrivate)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAUdpSocketIODevicePrivate)
 };
 
 QExtDAUdpSocketIODevicePrivate::QExtDAUdpSocketIODevicePrivate(QExtDAUdpSocketIODevice *q)

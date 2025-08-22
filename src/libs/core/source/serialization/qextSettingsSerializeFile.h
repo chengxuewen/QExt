@@ -26,8 +26,8 @@ protected:
     void onSerializeFilePathChanged(const QString &path) QEXT_OVERRIDE;
 
     QScopedPointer<QExtSettingsSerializeFilePrivate> dd_ptr;
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSettingsSerializeFile)
-    QEXT_DISABLE_COPY_MOVE(QExtSettingsSerializeFile)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSettingsSerializeFile)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSettingsSerializeFile)
 };
 
 #endif // _QEXTSETTINGSSERIALIZEFILE_H

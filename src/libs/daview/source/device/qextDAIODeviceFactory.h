@@ -54,7 +54,7 @@ public:
 protected:
     QScopedPointer<QExtDAIODeviceFactoryPrivate> dd_ptr;
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDAIODeviceFactory)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceFactory)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIODeviceFactory)
 };
 
 #endif // _QEXTDAIODEVICEFACTORY_H

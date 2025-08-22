@@ -22,7 +22,7 @@
 ########################################################################################################################
 
 if(TARGET QExt3rdparty::Wraplz4)
-    set(Wraplz4_FOUND ON)
+    set(QExtWraplz4_FOUND ON)
     return()
 endif()
 
@@ -86,4 +86,4 @@ endif()
 add_library(QExt3rdparty::Wraplz4 INTERFACE IMPORTED)
 find_package(lz4 PATHS ${QExtWraplz4_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::Wraplz4 INTERFACE LZ4::lz4_static)
-set(Wraplz4_FOUND ON)
+set(QExtWraplz4_FOUND ON)

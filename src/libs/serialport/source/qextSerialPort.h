@@ -233,7 +233,7 @@ protected:
 
 private:
     Q_DISABLE_COPY(QExtSerialPort)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSerialPort)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtSerialPort)
 
 #ifdef Q_OS_WIN
     Q_PRIVATE_SLOT(d_func(), void _q_onWinEvent(HANDLE))

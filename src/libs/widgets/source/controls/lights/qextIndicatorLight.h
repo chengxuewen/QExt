@@ -157,8 +157,8 @@ protected:
     QScopedPointer<QExtIndicatorLightPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtIndicatorLight)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtIndicatorLight)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtIndicatorLight)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtIndicatorLight)
 };
 
 #endif // _QTKINDICATORLIGHT_H

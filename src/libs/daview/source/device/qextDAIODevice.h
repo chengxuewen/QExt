@@ -117,7 +117,7 @@ protected:
 
     QScopedPointer<QExtDAIODevicePrivate> dd_ptr;
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDAIODevice)
-    QEXT_DISABLE_COPY_MOVE(QExtDAIODevice)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDAIODevice)
 };
 
 class QExtDAIODeviceStatePropertyItem : public QExtPropertyModelItem

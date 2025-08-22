@@ -42,7 +42,7 @@ class QEXTQmlThemeManagerPrivate;
 class QEXT_QMLTHEME_API QEXTQmlThemeManager : public QObject
 {
     Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTQmlThemeManager)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QEXTQmlThemeManager)
     Q_DISABLE_COPY(QEXTQmlThemeManager)
 
     Q_PROPERTY(bool generateThemeTemplateEnable READ isGenerateThemeTemplateEnable WRITE setGenerateThemeTemplateEnable)

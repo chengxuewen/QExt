@@ -22,7 +22,7 @@
 ########################################################################################################################
 
 if(TARGET QExt3rdparty::WrapMicroCDR)
-    set(WrapMicroCDR_FOUND ON)
+    set(QExtWrapMicroCDR_FOUND ON)
     return()
 endif()
 
@@ -84,4 +84,4 @@ endif()
 add_library(QExt3rdparty::WrapMicroCDR INTERFACE IMPORTED)
 find_package(microcdr PATHS ${QExtWrapMicroCDR_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapMicroCDR INTERFACE microcdr)
-set(WrapMicroCDR_FOUND ON)
+set(QExtWrapMicroCDR_FOUND ON)

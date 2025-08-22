@@ -119,8 +119,8 @@ private:
 
 private:
     Ui::QExtVirtualKeyboard *ui;
-    QEXT_DISABLE_COPY_MOVE(QExtVirtualKeyboard)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtVirtualKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtVirtualKeyboard)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtVirtualKeyboard)
     static QExtVirtualKeyboard *sm_pInstance;
     QExtVirtualKeyboardPrivate *dd_ptr;
     Q_PRIVATE_SLOT(d_func(), void init())

@@ -22,7 +22,7 @@
 ########################################################################################################################
 
 if(TARGET QExt3rdparty::Wrapzstd)
-    set(Wrapzstd_FOUND ON)
+    set(QExtWrapzstd_FOUND ON)
     return()
 endif()
 
@@ -86,4 +86,4 @@ endif()
 add_library(QExt3rdparty::Wrapzstd INTERFACE IMPORTED)
 find_package(zstd PATHS ${QExtWrapzstd_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::Wrapzstd INTERFACE zstd::libzstd_static)
-set(Wrapzstd_FOUND ON)
+set(QExtWrapzstd_FOUND ON)

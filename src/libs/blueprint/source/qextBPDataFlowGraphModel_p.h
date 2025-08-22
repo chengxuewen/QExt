@@ -17,8 +17,8 @@ public:
     mutable std::unordered_map<QExtBPTypes::NodeId, QExtBPDataFlowGraphModel::NodeGeometryData> m_nodeGeometryData;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPDataFlowGraphModel)
-    QEXT_DISABLE_COPY_MOVE(QExtBPDataFlowGraphModelPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPDataFlowGraphModel)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPDataFlowGraphModelPrivate)
 };
 
 #endif // _QEXTBPDATAFLOWGRAPHMODEL_P_H

@@ -35,8 +35,8 @@ public:
     QExtBPDataFlowGraphModel &m_dataFlowGraphModel;
 
 private:
-    QEXT_DECL_PUBLIC(QExtBPDataFlowGraphicsScene)
-    QEXT_DISABLE_COPY_MOVE(QExtBPDataFlowGraphicsScenePrivate)
+    QEXT_DECLARE_PUBLIC(QExtBPDataFlowGraphicsScene)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBPDataFlowGraphicsScenePrivate)
 
 };
 

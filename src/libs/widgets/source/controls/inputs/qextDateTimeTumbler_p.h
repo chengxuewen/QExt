@@ -53,8 +53,8 @@ public:
     QExtTumbler *m_tumblerSec;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtDateTimeTumblerPrivate)
-    QEXT_DECL_PUBLIC(QExtDateTimeTumbler)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtDateTimeTumblerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtDateTimeTumbler)
 };
 
 #endif // _QEXTDATETIMETUMBLER_P_H

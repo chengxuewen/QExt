@@ -89,7 +89,7 @@ public:
 
     // Member variables
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogLayout)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogLayout)
     QString mFooter;
     QString mHeader;
 };

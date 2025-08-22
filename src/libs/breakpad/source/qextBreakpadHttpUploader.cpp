@@ -13,8 +13,8 @@
 class QExtBreakpadHttpUploaderPrivate
 {
     QExtBreakpadHttpUploader * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtBreakpadHttpUploader)
-    QEXT_DISABLE_COPY_MOVE(QExtBreakpadHttpUploaderPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBreakpadHttpUploader)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBreakpadHttpUploaderPrivate)
 public:
     explicit QExtBreakpadHttpUploaderPrivate(QExtBreakpadHttpUploader *q);
     virtual ~QExtBreakpadHttpUploaderPrivate();

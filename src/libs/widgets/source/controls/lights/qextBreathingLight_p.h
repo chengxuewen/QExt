@@ -49,8 +49,8 @@ public:
     QScopedPointer<QTimer> m_timer;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtBreathingLightPrivate)
-    QEXT_DECL_PUBLIC(QExtBreathingLight)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBreathingLightPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBreathingLight)
 };
 
 #endif // _QEXTBREATHINGLIGHT_P_H

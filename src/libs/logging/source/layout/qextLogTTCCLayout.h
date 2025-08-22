@@ -142,7 +142,7 @@ private:
     QString mDateFormat;
     bool mThreadPrinting;
     QScopedPointer<QExtLogPatternFormatter> mPatternFormatter;
-    QEXT_DISABLE_COPY_MOVE(QExtLogTTCCLayout)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogTTCCLayout)
 };
 
 inline bool QExtLogTTCCLayout::categoryPrefixing() const

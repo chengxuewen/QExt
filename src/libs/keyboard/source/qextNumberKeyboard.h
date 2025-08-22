@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::QExtNumberKeyboard *ui;
-    QEXT_DISABLE_COPY_MOVE(QExtNumberKeyboard)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNumberKeyboard)
 };
 
 #endif // _QEXTNUMBERKEYBOARD_H

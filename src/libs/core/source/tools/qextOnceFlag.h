@@ -37,7 +37,7 @@ public:
 
 private:
     QAtomicInt m_state;
-    QEXT_DISABLE_COPY_MOVE(QExtOnceFlag)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtOnceFlag)
 };
 
 template <typename Func>

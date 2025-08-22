@@ -56,7 +56,7 @@
 class QEXT_LOGGING_API QExtQmlLogger : public QObject
 {
     Q_OBJECT
-    QEXT_DISABLE_COPY_MOVE(QExtQmlLogger)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlLogger)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString context READ context WRITE setContext NOTIFY contextChanged)
     Q_PROPERTY(LevelEnum level READ level WRITE setLevel NOTIFY levelChanged)

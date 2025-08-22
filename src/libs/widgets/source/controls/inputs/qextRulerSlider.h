@@ -128,8 +128,8 @@ protected:
     QScopedPointer<QExtRulerSliderPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtRulerSlider)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtRulerSlider)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtRulerSlider)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtRulerSlider)
 };
 
 #endif // _QEXTRULERSLIDER_H

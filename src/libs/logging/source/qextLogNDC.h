@@ -54,7 +54,7 @@ public:
 protected:
     QExtLogNDC() {}
     QEXT_DECLARE_SINGLETON(QExtLogNDC)
-    QEXT_DISABLE_COPY_MOVE(QExtLogNDC)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogNDC)
 
 private:
     QThreadStorage<QStack<QString> *> mStack;

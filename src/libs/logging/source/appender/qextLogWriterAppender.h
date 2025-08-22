@@ -89,7 +89,7 @@ public:
     ~QExtLogWriterAppender() QEXT_OVERRIDE;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtLogWriterAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogWriterAppender)
 
 public:
     bool requiresLayout() const QEXT_OVERRIDE;

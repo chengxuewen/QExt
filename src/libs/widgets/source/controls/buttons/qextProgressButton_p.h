@@ -50,8 +50,8 @@ public:
     QTimer *m_timer;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProgressButtonPrivate)
-    QEXT_DECL_PUBLIC(QExtProgressButton)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressButtonPrivate)
+    QEXT_DECLARE_PUBLIC(QExtProgressButton)
 };
 
 #endif // _QEXTPROGRESSBUTTON_P_H

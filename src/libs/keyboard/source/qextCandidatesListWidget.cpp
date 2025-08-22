@@ -25,8 +25,8 @@ public:
     QStringList m_candidatesList;
 
 private:
-    QEXT_DECL_PUBLIC(QExtCandidatesListWidget)
-    QEXT_DISABLE_COPY_MOVE(QExtCandidatesListWidgetPrivate)
+    QEXT_DECLARE_PUBLIC(QExtCandidatesListWidget)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtCandidatesListWidgetPrivate)
 };
 
 QExtCandidatesListWidgetPrivate::QExtCandidatesListWidgetPrivate(QExtCandidatesListWidget *q)

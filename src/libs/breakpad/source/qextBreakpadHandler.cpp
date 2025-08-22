@@ -21,8 +21,8 @@
 class QExtBreakpadHandlerPrivate
 {
     QExtBreakpadHandler * const q_ptr;
-    QEXT_DECL_PUBLIC(QExtBreakpadHandler)
-    QEXT_DISABLE_COPY_MOVE(QExtBreakpadHandlerPrivate)
+    QEXT_DECLARE_PUBLIC(QExtBreakpadHandler)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtBreakpadHandlerPrivate)
 public:
     explicit QExtBreakpadHandlerPrivate(QExtBreakpadHandler *q);
     virtual ~QExtBreakpadHandlerPrivate();

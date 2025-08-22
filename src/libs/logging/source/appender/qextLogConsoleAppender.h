@@ -93,7 +93,7 @@ private:
     QTextStream *mtextStream;
     void closeInternal();
 
-    QEXT_DISABLE_COPY_MOVE(QExtLogConsoleAppender)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLogConsoleAppender)
 };
 
 inline void QExtLogConsoleAppender::setTarget(TargetEnum target)

@@ -48,8 +48,8 @@ public:
     QPointer<QQmlEngine> m_qmlEngine;
 
 private:
-    QEXT_DECL_PUBLIC(QExtQml)
-    QEXT_DISABLE_COPY_MOVE(QExtQmlPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQml)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlPrivate)
 };
 
 QExtQmlPrivate::QExtQmlPrivate(QExtQml *q)

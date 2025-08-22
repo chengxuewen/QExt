@@ -74,8 +74,8 @@ public:
     QPropertyAnimation *m_animation;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtProgressRingPrivate)
-    QEXT_DECL_PUBLIC(QExtProgressRing)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtProgressRingPrivate)
+    QEXT_DECLARE_PUBLIC(QExtProgressRing)
 };
 
 
