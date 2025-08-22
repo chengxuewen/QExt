@@ -53,8 +53,8 @@ public:
     virtual void open();
     virtual void close();
 
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
 
     QByteArray readAll();
     bool canReadLine() const;
@@ -65,8 +65,8 @@ public:
     qint64 readLine(char *target, qint64 size);
     void write(const char *data, qint64 size);
 
-    static qint64 loadId(const SerializedItems &items);
-    static QString loadType(const SerializedItems &items);
+    static qint64 loadId(const SerializedItemsMap &items);
+    static QString loadType(const SerializedItemsMap &items);
 
     static QString nameFromId(qint64 id);
     static qint64 idFromName(const QString &name);

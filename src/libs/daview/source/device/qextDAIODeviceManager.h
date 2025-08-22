@@ -14,7 +14,7 @@ class QExtDAIODeviceManagerPrivate;
 class QEXT_DAVIEW_API QExtDAIODeviceManager : public QExtSerializableObject, public QExtSingleton<QExtDAIODeviceManager>
 {
     Q_OBJECT
-    QEXT_DECL_SINGLETON(QExtDAIODeviceManager)
+    QEXT_DECLARE_SINGLETON(QExtDAIODeviceManager)
 public:
 
     QExtDAIODeviceFactory &ioDeviceFactory();
@@ -32,8 +32,8 @@ public:
     QExtDAIODeviceModel *makeIODeviceModel(QObject *parent = QEXT_NULLPTR);
     QExtDAIODevice::SharedPtr selectCreateIODevice(QWidget *parent = QEXT_NULLPTR);
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void ioDeviceAboutToBeDelete(const QExtDAIODevice::SharedPtr &ioDevice, qint64 id);

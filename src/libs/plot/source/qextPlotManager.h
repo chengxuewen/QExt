@@ -14,7 +14,7 @@ class QExtPlotManagerPrivate;
 class QEXT_PLOT_API QExtPlotManager : public QExtSerializableObject, public QExtSingleton<QExtPlotManager>
 {
     Q_OBJECT
-    QEXT_DECL_SINGLETON(QExtPlotManager)
+    QEXT_DECLARE_SINGLETON(QExtPlotManager)
 public:
     QExtPlotFactory &plotFactory();
 
@@ -43,10 +43,10 @@ public:
 
     QExtPlotModel *makePlotModel(QObject *parent = QEXT_NULLPTR);
 
-    SerializedItems plotSerializedItems(const QString &tag) const;
+    SerializedItemsMap plotSerializedItems(const QString &tag) const;
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void plotAboutToBeRegistered(const QExtPlot::SharedPtr &plot);

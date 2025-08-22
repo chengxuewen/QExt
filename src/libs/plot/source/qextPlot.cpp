@@ -464,7 +464,7 @@ QString QExtPlot::typeString() const
     return QExtPlotConstants::PLOT_TYPE_BASE;
 }
 
-void QExtPlot::serializeLoad(const SerializedItems &items)
+void QExtPlot::serializeLoad(const SerializedItemsMap &items)
 {
     this->setVisible(items.value(QExtPlotConstants::PLOT_PROPERTY_VISIBLE, true).toBool());
     this->setXAxisMin(items.value(QExtPlotConstants::PLOT_PROPERTY_XAXIS_RANGE_MIN, 0).toDouble());
@@ -480,9 +480,9 @@ void QExtPlot::serializeLoad(const SerializedItems &items)
     this->setTitle(QEXT_FROM_UNICODES_STRING(items.value(QExtPlotConstants::PLOT_PROPERTY_TITLE, "").toString()));
 }
 
-QExtSerializable::SerializedItems QExtPlot::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtPlot::serializeSave() const
 {
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     items[QExtPlotConstants::PLOT_PROPERTY_ID] = this->id();
     items[QExtPlotConstants::PLOT_PROPERTY_TYPE] = this->typeString();
     items[QExtPlotConstants::PLOT_PROPERTY_GROUP] = this->groupName();
@@ -501,17 +501,17 @@ QExtSerializable::SerializedItems QExtPlot::serializeSave() const
     return items;
 }
 
-qint64 QExtPlot::loadId(const SerializedItems &items)
+qint64 QExtPlot::loadId(const SerializedItemsMap &items)
 {
     return items.value(QExtPlotConstants::PLOT_PROPERTY_ID, -1).toLongLong();
 }
 
-QString QExtPlot::loadType(const SerializedItems &items)
+QString QExtPlot::loadType(const SerializedItemsMap &items)
 {
     return items.value(QExtPlotConstants::PLOT_PROPERTY_TYPE, "").toString();
 }
 
-QString QExtPlot::loadGroup(const SerializedItems &items)
+QString QExtPlot::loadGroup(const SerializedItemsMap &items)
 {
     return items.value(QExtPlotConstants::PLOT_PROPERTY_GROUP, "").toString();
 }

@@ -114,12 +114,12 @@ public:
 
     virtual QString typeString() const;
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
 
-    static qint64 loadId(const SerializedItems &items);
-    static QString loadType(const SerializedItems &items);
-    static QString loadGroup(const SerializedItems &items);
+    static qint64 loadId(const SerializedItemsMap &items);
+    static QString loadType(const SerializedItemsMap &items);
+    static QString loadGroup(const SerializedItemsMap &items);
 
 Q_SIGNALS:
     void plotPropertyChanged(const QString &propertyName);

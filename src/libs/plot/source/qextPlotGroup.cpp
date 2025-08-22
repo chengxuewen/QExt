@@ -85,15 +85,15 @@ bool QExtPlotGroup::contains(const QExtPlot::SharedPtr &plot) const
     return d->mPlotList.contains(plot);
 }
 
-void QExtPlotGroup::serializeLoad(const SerializedItems &items)
+void QExtPlotGroup::serializeLoad(const SerializedItemsMap &items)
 {
 
 }
 
-QExtSerializable::SerializedItems QExtPlotGroup::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtPlotGroup::serializeSave() const
 {
     Q_D(const QExtPlotGroup);
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     return items;
 }
 

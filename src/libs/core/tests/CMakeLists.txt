@@ -87,6 +87,13 @@ qext_internal_add_test(QExtTstCoreOptional
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_TESTSDIR})
+qext_internal_add_test(QExtTstCoreSingleton
+    SOURCES
+    tools/tst_qextSingleton.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreVariant
     SOURCES
     tools/tst_qextVariant.cpp

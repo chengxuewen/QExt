@@ -53,7 +53,7 @@ public:
 
 protected:
     QExtLogNDC() {}
-    QEXT_DECL_SINGLETON(QExtLogNDC)
+    QEXT_DECLARE_SINGLETON(QExtLogNDC)
     QEXT_DISABLE_COPY_MOVE(QExtLogNDC)
 
 private:

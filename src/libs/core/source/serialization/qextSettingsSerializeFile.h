@@ -14,8 +14,13 @@ public:
     explicit QExtSettingsSerializeFile(const QString &filePath = "");
     ~QExtSettingsSerializeFile() QEXT_OVERRIDE;
 
-    QExtSerializable::SerializedItems loadFile() QEXT_OVERRIDE;
-    void saveFile(const QExtSerializable::SerializedItems &items) QEXT_OVERRIDE;
+    int versionMajor() const QEXT_OVERRIDE;
+    int versionMinor() const QEXT_OVERRIDE;
+    void setVersionMajor(int major) QEXT_OVERRIDE;
+    void setVersionMinor(int minor) QEXT_OVERRIDE;
+
+    QExtSerializable::SerializedItemsMap loadFile() QEXT_OVERRIDE;
+    void saveFile(const QExtSerializable::SerializedItemsMap &items) QEXT_OVERRIDE;
 
 protected:
     void onSerializeFilePathChanged(const QString &path) QEXT_OVERRIDE;

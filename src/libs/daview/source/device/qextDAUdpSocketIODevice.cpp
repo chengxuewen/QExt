@@ -115,7 +115,7 @@ QThread *QExtDAUdpSocketIODevice::initDevice(qint64 id)
     return QExtDAIODevice::initDevice(id);
 }
 
-void QExtDAUdpSocketIODevice::serializeLoad(const SerializedItems &items)
+void QExtDAUdpSocketIODevice::serializeLoad(const SerializedItemsMap &items)
 {
     QExtDAIODevice::serializeLoad(items);
     this->setRemoteIP(items.value(QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_IP, "").toString());
@@ -123,9 +123,9 @@ void QExtDAUdpSocketIODevice::serializeLoad(const SerializedItems &items)
     this->setLocalPort(items.value(QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_LOCAL_PORT, 8089).value<quint16>());
 }
 
-QExtSerializable::SerializedItems QExtDAUdpSocketIODevice::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtDAUdpSocketIODevice::serializeSave() const
 {
-    QExtSerializable::SerializedItems items = QExtDAIODevice::serializeSave();
+    QExtSerializable::SerializedItemsMap items = QExtDAIODevice::serializeSave();
     items[QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_IP] = this->remoteIP();
     items[QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT] = this->remotePort();
     items[QExtDAConstants::UDPSOCKET_IODEVICE_PROPERTY_LOCAL_PORT] = this->localPort();

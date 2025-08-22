@@ -56,7 +56,7 @@ public:
 
 protected:
     QExtLogMDC() {}
-    QEXT_DECL_SINGLETON(QExtLogMDC)
+    QEXT_DECLARE_SINGLETON(QExtLogMDC)
     static QHash<QString, QString> *localData();
 
 private:

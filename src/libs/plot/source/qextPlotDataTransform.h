@@ -72,7 +72,7 @@ class QExtPlotDataTransformFactoryPrivate;
 class QEXT_PLOT_API QExtPlotDataTransformFactory : public QObject, public QExtSingleton<QExtPlotDataTransformFactory>
 {
     Q_OBJECT
-    QEXT_DECL_SINGLETON(QExtPlotDataTransformFactory)
+    QEXT_DECLARE_SINGLETON(QExtPlotDataTransformFactory)
 public:
     typedef QExtPlotDataTransformFactory Self;
 

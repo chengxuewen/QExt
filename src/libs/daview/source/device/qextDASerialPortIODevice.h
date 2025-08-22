@@ -57,8 +57,8 @@ public:
 
     QThread *initDevice(qint64 id) QEXT_OVERRIDE;
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
 
     static QString flowControlEnumString(int type, bool isEng = false);
     static QString baudRateEnumString(int type, bool isEng = false);

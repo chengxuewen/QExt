@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QHash>
+#include <QFile>
 #include <QString>
 #include <QVariant>
 #include <QSharedData>
@@ -12,7 +13,7 @@
 
 struct QExtSerializable
 {
-    typedef QHash<QString, QVariant> SerializedItems;
+    typedef QMap<QString, QVariant> SerializedItemsMap;
     typedef void(*DestroyedNotifyFunction)(QExtSerializable *serializable, const QVariant &usrdata);
 
     virtual ~QExtSerializable()
@@ -38,17 +39,17 @@ struct QExtSerializable
         mDestroyedNotifyFunctionMap.insert(reinterpret_cast<qulonglong>(func), usrdata);
     }
 
-    virtual void serializeLoad(const SerializedItems &items) { Q_UNUSED(items); }
-    virtual SerializedItems serializeSave() const { return SerializedItems(); }
+    virtual void serializeLoad(const SerializedItemsMap &items) { Q_UNUSED(items); }
+    virtual SerializedItemsMap serializeSave() const { return SerializedItemsMap(); }
     virtual bool isSerializationModified() const { return true; }
 
     static inline bool isSerializedItems(const QVariant &variant)
     {
-        return variant.canConvert<SerializedItems>();
+        return variant.canConvert<SerializedItemsMap>();
     }
-    static inline SerializedItems serializedItemsFromVariant(const QVariant &variant)
+    static inline SerializedItemsMap serializedItemsFromVariant(const QVariant &variant)
     {
-        return variant.value<SerializedItems>();
+        return variant.value<SerializedItemsMap>();
     }
 
 protected:
@@ -65,7 +66,7 @@ class QExtSerializableProxy : public QExtSerializable
 public:
     QExtSerializableProxy(QExtSerializable *serializable = QEXT_NULLPTR)
         : mSerializable(serializable) {}
-    QExtSerializableProxy(const SerializedItems &items)
+    QExtSerializableProxy(const SerializedItemsMap &items)
         : mSerializable(QEXT_NULLPTR), mSerializedItems(items) {}
     QExtSerializableProxy(const QExtSerializableProxy &other)
         : mSerializable(other.mSerializable), mSerializedItems(other.mSerializedItems) {}
@@ -101,12 +102,12 @@ public:
     }
 
     QExtSerializable *serializable() const { return mSerializable; }
-    const SerializedItems &serializedItems() const { return mSerializedItems; }
+    const SerializedItemsMap &serializedItems() const { return mSerializedItems; }
 
     bool isValid() const { return !this->isNull(); }
     bool isNull() const { return QEXT_NULLPTR == mSerializable && mSerializedItems.isEmpty(); }
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE
     {
         if (mSerializable)
         {
@@ -117,7 +118,7 @@ public:
             mSerializedItems = items;
         }
     }
-    SerializedItems serializeSave() const QEXT_OVERRIDE
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE
     {
         return mSerializable ? mSerializable->serializeSave() : mSerializedItems;
     }
@@ -128,7 +129,7 @@ public:
 
 private:
     QExtSerializable *mSerializable;
-    SerializedItems mSerializedItems;
+    SerializedItemsMap mSerializedItems;
 };
 
 class QExtSerializableObject : public QObject, public QExtSerializable
@@ -155,8 +156,23 @@ struct QExtSerializeFile
         }
     }
 
-    virtual QExtSerializable::SerializedItems loadFile() = 0;
-    virtual void saveFile(const QExtSerializable::SerializedItems &items) = 0;
+    virtual int versionMajor() const = 0;
+    virtual int versionMinor() const = 0;
+    virtual void setVersionMajor(int major) = 0;
+    virtual void setVersionMinor(int minor) = 0;
+
+    QString versionString() const
+    {
+        return QString("%1.%2").arg(this->versionMajor()).arg(this->versionMinor());
+    }
+    void setVersion(int major, int minor)
+    {
+        this->setVersionMajor(major);
+        this->setVersionMinor(minor);
+    }
+
+    virtual QExtSerializable::SerializedItemsMap loadFile() = 0;
+    virtual void saveFile(const QExtSerializable::SerializedItemsMap &items) = 0;
 
 protected:
     virtual void onSerializeFilePathChanged(const QString &path) { Q_UNUSED(path); }

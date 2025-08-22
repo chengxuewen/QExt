@@ -15,7 +15,7 @@ public:
     void removePlotSerializable(const QString &tag);
     void removePlotSerializable(QExtSerializable *serializable);
     void insertPlotSerializable(const QString &tag, QExtSerializable *serializable);
-    void insertPlotSerializable(const QString &tag, const QExtSerializable::SerializedItems &items);
+    void insertPlotSerializable(const QString &tag, const QExtSerializable::SerializedItemsMap &items);
 
     QExtIdRegistry mIdRegistry;
     QExtPlotFactory mPlotFactory;
@@ -82,7 +82,7 @@ void QExtPlotManagerPrivate::insertPlotSerializable(const QString &tag, QExtSeri
     }
 }
 
-void QExtPlotManagerPrivate::insertPlotSerializable(const QString &tag, const QExtSerializable::SerializedItems &items)
+void QExtPlotManagerPrivate::insertPlotSerializable(const QString &tag, const QExtSerializable::SerializedItemsMap &items)
 {
     mPlotSerializableProxyMap.insert(tag, QExtSerializableProxy(items));
 }
@@ -250,7 +250,7 @@ QExtPlotModel *QExtPlotManager::makePlotModel(QObject *parent)
     return new QExtPlotModel(this, parent ? parent : this);
 }
 
-QExtSerializable::SerializedItems QExtPlotManager::plotSerializedItems(const QString &tag) const
+QExtSerializable::SerializedItemsMap QExtPlotManager::plotSerializedItems(const QString &tag) const
 {
     Q_D(const QExtPlotManager);
     return d->mPlotSerializableProxyMap.value(tag, QExtSerializableProxy()).serializeSave();
@@ -334,13 +334,13 @@ QExtSerializable::SerializedItems QExtPlotManager::plotSerializedItems(const QSt
 //     }
 // }
 
-void QExtPlotManager::serializeLoad(const SerializedItems &items)
+void QExtPlotManager::serializeLoad(const SerializedItemsMap &items)
 {
     Q_D(QExtPlotManager);
-    QExtSerializable::SerializedItems::ConstIterator iter(items.constBegin());
+    QExtSerializable::SerializedItemsMap::ConstIterator iter(items.constBegin());
     while (items.constEnd() != iter)
     {
-        const QExtSerializable::SerializedItems childItems = iter.value().toHash();
+        const QExtSerializable::SerializedItemsMap childItems = iter.value().toMap();
         const QString key = iter.key();
 
         const bool instantiation = childItems.value(QExtPlotConstants::PLOT_PROPERTY_CONSTRUCT, false).toBool();
@@ -368,10 +368,10 @@ void QExtPlotManager::serializeLoad(const SerializedItems &items)
     }
 }
 
-QExtSerializable::SerializedItems QExtPlotManager::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtPlotManager::serializeSave() const
 {
     Q_D(const QExtPlotManager);
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     QHashIterator<QString, QExtSerializableProxy> iter(d->mPlotSerializableProxyMap);
     while (iter.hasNext())
     {
@@ -380,7 +380,7 @@ QExtSerializable::SerializedItems QExtPlotManager::serializeSave() const
         QExtSerializable *serializable = proxy.serializable();
         if (serializable)
         {
-            SerializedItems childItems = serializable->serializeSave();
+            SerializedItemsMap childItems = serializable->serializeSave();
             const bool constructEnable = d->mPlotSerializableConstructEnableSet.contains(serializable);
             childItems[QExtPlotConstants::PLOT_PROPERTY_CONSTRUCT] = constructEnable;
             items.insert(iter.key(), childItems);

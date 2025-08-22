@@ -66,8 +66,8 @@ public:
     QExtStyleThemes(const QString &outputDir, QObject *parent = QEXT_NULLPTR);
     ~QExtStyleThemes() QEXT_OVERRIDE;
 
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
 
     void unbindStyleSheet(void *user);
     void bindStyleSheet(QWidget *widget);

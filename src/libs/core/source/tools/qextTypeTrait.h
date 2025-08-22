@@ -132,29 +132,32 @@ struct QExtNoType { char padding[8]; };
 
 
 /***********************************************************************************************************************
-    QExtTypeEnableIf QExtTypeIf type trait
+ * like cxx11 std::conditional
 ***********************************************************************************************************************/
-template <bool, typename T = void> struct QExtTypeEnableIf { };
-template <typename T> struct QExtTypeEnableIf<true, T>
+template <bool, typename T = void> struct QExtEnableIf { };
+template <typename T> struct QExtEnableIf<true, T>
 {
     typedef T Type;
 };
 
-// QExtTypeIf is a templatized conditional statement.
-// QExtTypeIf<cond, T_A, T_B> is a compile time evaluation of cond.
-// QExtTypeIf<>::Type contains T_A if cond is true, T_B otherwise.
-template<bool cond, typename T_A, typename T_B>
-struct QExtTypeIf
+
+/***********************************************************************************************************************
+ * like cxx11 std::conditional
+***********************************************************************************************************************/
+template<bool cond, typename L, typename R>
+struct QExtConditional
 {
-    typedef T_A Type;
+    typedef L Type;
 };
 
-template<typename T_A, typename T_B>
-struct QExtTypeIf<false, T_A, T_B>
+template<typename L, typename R>
+struct QExtConditional<false, L, R>
 {
-    typedef T_B Type;
+    typedef R Type;
 };
 
+/***********************************************************************************************************************
+***********************************************************************************************************************/
 // QExtTypeAnd is a template && operator.
 // QExtTypeAnd<T_A, T_B>::value evaluates "T_A::value && T_B::value".
 template<typename T_A, typename T_B>
@@ -780,6 +783,12 @@ struct QExtIsBaseOf<T_base, T_base>
 };
 
 #endif
+template<typename T>
+struct QExtIsQObjectBase
+{
+    static const bool value = QExtIsBaseOf<QObject, T>::value;
+    typedef typename QExtConditional<QExtIsBaseOf<QObject, T>::value, QExtTrueType, QExtFalseType>::Type Type;
+};
 
 
 /***********************************************************************************************************************

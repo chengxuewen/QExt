@@ -261,16 +261,16 @@ void QExtDAIODevice::open()
                        });
 }
 
-void QExtDAIODevice::serializeLoad(const SerializedItems &items)
+void QExtDAIODevice::serializeLoad(const SerializedItemsMap &items)
 {
     this->setAlias(items.value(QExtDAConstants::IODEVICE_PROPERTY_ALIAS, "").toString());
     this->setBufferSize(items.value(QExtDAConstants::IODEVICE_PROPERTY_BUFFER_SIZE, 1000).toLongLong());
     this->setBufferEnable(items.value(QExtDAConstants::IODEVICE_PROPERTY_BUFFER_ENABLED, true).toBool());
 }
 
-QExtSerializable::SerializedItems QExtDAIODevice::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtDAIODevice::serializeSave() const
 {
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     items[QExtDAConstants::IODEVICE_PROPERTY_ID] = this->id();
     items[QExtDAConstants::IODEVICE_PROPERTY_TYPE] = this->ioType();
     items[QExtDAConstants::IODEVICE_PROPERTY_ALIAS] = this->alias();
@@ -339,12 +339,12 @@ void QExtDAIODevice::write(const char *data, qint64 size)
     }
 }
 
-qint64 QExtDAIODevice::loadId(const SerializedItems &items)
+qint64 QExtDAIODevice::loadId(const SerializedItemsMap &items)
 {
     return items.value(QExtDAConstants::IODEVICE_PROPERTY_ID, -1).toLongLong();
 }
 
-QString QExtDAIODevice::loadType(const SerializedItems &items)
+QString QExtDAIODevice::loadType(const SerializedItemsMap &items)
 {
     return items.value(QExtDAConstants::IODEVICE_PROPERTY_TYPE, "").toString();
 }

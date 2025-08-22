@@ -673,14 +673,14 @@ QExtStyleThemes::~QExtStyleThemes()
 {
 }
 
-QExtSerializable::SerializedItems QExtStyleThemes::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtStyleThemes::serializeSave() const
 {
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     items[QExtWidgetsConstants::KEY_STYLETHEME] = this->currentStyleTheme();
     return items;
 }
 
-void QExtStyleThemes::serializeLoad(const SerializedItems &items)
+void QExtStyleThemes::serializeLoad(const SerializedItemsMap &items)
 {
     this->setCurrentStyleTheme(items.value(QExtWidgetsConstants::KEY_STYLETHEME, "fusion White").toString());
 }

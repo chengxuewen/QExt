@@ -27,8 +27,8 @@ public:
     bool contains(qint64 plotId) const;
     bool contains(const QExtPlot::SharedPtr &plot) const;
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void plotAboutToBeInserted(const QExtPlot::SharedPtr &plot);

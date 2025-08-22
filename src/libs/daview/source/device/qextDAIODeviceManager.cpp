@@ -188,13 +188,13 @@ QExtDAIODevice::SharedPtr QExtDAIODeviceManager::selectCreateIODevice(QWidget *p
     return !ioDevice.isNull() ? this->registerIODevice(ioDevice) : ioDevice;
 }
 
-void QExtDAIODeviceManager::serializeLoad(const SerializedItems &items)
+void QExtDAIODeviceManager::serializeLoad(const SerializedItemsMap &items)
 {
     Q_D(QExtDAIODeviceManager);
-    QExtSerializable::SerializedItems::ConstIterator iter(items.constBegin());
+    QExtSerializable::SerializedItemsMap::ConstIterator iter(items.constBegin());
     while (items.constEnd() != iter)
     {
-        const QExtSerializable::SerializedItems childItems = iter.value().toHash();
+        const QExtSerializable::SerializedItemsMap childItems = iter.value().toMap();
         const QString type = QExtDAIODevice::loadType(childItems);
         const qint64 id = QExtDAIODevice::loadId(childItems);
         if (id >= 0 && !type.isEmpty())
@@ -210,10 +210,10 @@ void QExtDAIODeviceManager::serializeLoad(const SerializedItems &items)
     }
 }
 
-QExtSerializable::SerializedItems QExtDAIODeviceManager::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtDAIODeviceManager::serializeSave() const
 {
     Q_D(const QExtDAIODeviceManager);
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     QList<QExtDAIODevice::SharedPtr>::ConstIterator iter(d->mIODeviceList.constBegin());
     while (d->mIODeviceList.constEnd() != iter)
     {

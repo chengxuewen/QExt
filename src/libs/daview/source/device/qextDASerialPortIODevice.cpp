@@ -187,7 +187,7 @@ QThread *QExtDASerialPortIODevice::initDevice(qint64 id)
     return QExtDAIODevice::initDevice(id);
 }
 
-void QExtDASerialPortIODevice::serializeLoad(const SerializedItems &items)
+void QExtDASerialPortIODevice::serializeLoad(const SerializedItemsMap &items)
 {
     QExtDAIODevice::serializeLoad(items);
     this->setParity(items.value(QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_PARITY,
@@ -204,9 +204,9 @@ void QExtDASerialPortIODevice::serializeLoad(const SerializedItems &items)
                                      QSerialPort::NoFlowControl).value<QSerialPort::FlowControl>());
 }
 
-QExtSerializable::SerializedItems QExtDASerialPortIODevice::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtDASerialPortIODevice::serializeSave() const
 {
-    QExtSerializable::SerializedItems items = QExtDAIODevice::serializeSave();
+    QExtSerializable::SerializedItemsMap items = QExtDAIODevice::serializeSave();
     items[QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_PARITY] = this->parity();
     items[QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_BAUD_RATE] = this->baudRate();
     items[QExtDAConstants::SERIALPORT_IODEVICE_PROPERTY_STOP_BITS] = this->stopBits();

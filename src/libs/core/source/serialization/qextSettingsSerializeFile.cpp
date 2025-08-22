@@ -1,6 +1,13 @@
 ﻿#include <qextSettingsSerializeFile.h>
 
-#include <QMutex>
+#include <QReadWriteLock>
+
+namespace internal
+{
+QEXT_STATIC_CONSTANT_STRING(kVersion, "Version")
+QEXT_STATIC_CONSTANT_STRING(kVersionMajor, "Major")
+QEXT_STATIC_CONSTANT_STRING(kVersionMinor, "Minor")
+}
 
 class QExtSettingsSerializeFilePrivate
 {
@@ -8,13 +15,13 @@ public:
     explicit QExtSettingsSerializeFilePrivate(QExtSettingsSerializeFile *q);
     virtual ~QExtSettingsSerializeFilePrivate();
 
-    QExtSerializable::SerializedItems loadItems();
-    void saveItems(const QExtSerializable::SerializedItems &items);
+    QExtSerializable::SerializedItemsMap loadItems();
+    void saveItems(const QExtSerializable::SerializedItemsMap &items);
     void saveVariant(const QString &key, const QVariant &value);
 
-    mutable QMutex mMutex;
-    QExtSerializable::SerializedItems mItems;
+    mutable QReadWriteLock mRWLock;
     QScopedPointer<QSettings> mSettings;
+    QExtSerializable::SerializedItemsMap mItems;
 
 protected:
     QExtSettingsSerializeFile * const q_ptr;
@@ -31,15 +38,15 @@ QExtSettingsSerializeFilePrivate::~QExtSettingsSerializeFilePrivate()
 {
 }
 
-QExtSerializable::SerializedItems QExtSettingsSerializeFilePrivate::loadItems()
+QExtSerializable::SerializedItemsMap QExtSettingsSerializeFilePrivate::loadItems()
 {
-    QExtSerializable::SerializedItems items;
+    QExtSerializable::SerializedItemsMap items;
     QStringList childGroups = mSettings->childGroups();
     for (int i = 0; i < childGroups.size(); ++i)
     {
         const QString &key = childGroups.at(i);
         mSettings->beginGroup(key);
-        QExtSerializable::SerializedItems childItems = this->loadItems();
+        QExtSerializable::SerializedItemsMap childItems = this->loadItems();
         QStringList childKeys = mSettings->childKeys();
         for (int j = 0; j < childKeys.size(); ++j)
         {
@@ -52,9 +59,9 @@ QExtSerializable::SerializedItems QExtSettingsSerializeFilePrivate::loadItems()
     return items;
 }
 
-void QExtSettingsSerializeFilePrivate::saveItems(const QExtSerializable::SerializedItems &items)
+void QExtSettingsSerializeFilePrivate::saveItems(const QExtSerializable::SerializedItemsMap &items)
 {
-    QExtSerializable::SerializedItems::ConstIterator iter(items.constBegin());
+    QExtSerializable::SerializedItemsMap::ConstIterator iter(items.constBegin());
     while (items.constEnd() != iter)
     {
         const QString &key = iter.key();
@@ -68,7 +75,7 @@ void QExtSettingsSerializeFilePrivate::saveVariant(const QString &key, const QVa
 {
     if (QExtSerializable::isSerializedItems(value))
     {
-        QExtSerializable::SerializedItems items = QExtSerializable::serializedItemsFromVariant(value);
+        QExtSerializable::SerializedItemsMap items = QExtSerializable::serializedItemsFromVariant(value);
         mSettings->beginGroup(key);
         this->saveItems(items);
         mSettings->endGroup();
@@ -89,17 +96,55 @@ QExtSettingsSerializeFile::~QExtSettingsSerializeFile()
 {
 }
 
-QExtSerializable::SerializedItems QExtSettingsSerializeFile::loadFile()
+int QExtSettingsSerializeFile::versionMajor() const
+{
+    Q_D(const QExtSettingsSerializeFile);
+    QReadLocker locker(&d->mRWLock);
+    d->mSettings->beginGroup(internal::kVersion);
+    const int major = d->mSettings->value(internal::kVersionMajor, 0).toInt();
+    d->mSettings->endGroup();
+    return major;
+}
+
+int QExtSettingsSerializeFile::versionMinor() const
+{
+    Q_D(const QExtSettingsSerializeFile);
+    QReadLocker locker(&d->mRWLock);
+    d->mSettings->beginGroup(internal::kVersion);
+    const int minor = d->mSettings->value(internal::kVersionMinor, 0).toInt();
+    d->mSettings->endGroup();
+    return minor;
+}
+
+void QExtSettingsSerializeFile::setVersionMajor(int major)
 {
     Q_D(QExtSettingsSerializeFile);
-    QMutexLocker locker(&d->mMutex);
+    QWriteLocker locker(&d->mRWLock);
+    d->mSettings->beginGroup(internal::kVersion);
+    d->mSettings->setValue(internal::kVersionMajor, major);
+    d->mSettings->endGroup();
+}
+
+void QExtSettingsSerializeFile::setVersionMinor(int minor)
+{
+    Q_D(QExtSettingsSerializeFile);
+    QWriteLocker locker(&d->mRWLock);
+    d->mSettings->beginGroup(internal::kVersion);
+    d->mSettings->setValue(internal::kVersionMinor, minor);
+    d->mSettings->endGroup();
+}
+
+QExtSerializable::SerializedItemsMap QExtSettingsSerializeFile::loadFile()
+{
+    Q_D(QExtSettingsSerializeFile);
+    QReadLocker locker(&d->mRWLock);
     return d->loadItems();
 }
 
-void QExtSettingsSerializeFile::saveFile(const QExtSerializable::SerializedItems &items)
+void QExtSettingsSerializeFile::saveFile(const QExtSerializable::SerializedItemsMap &items)
 {
     Q_D(QExtSettingsSerializeFile);
-    QMutexLocker locker(&d->mMutex);
+    QWriteLocker locker(&d->mRWLock);
     d->mSettings->clear();
     d->saveItems(items);
     d->mItems = items;
@@ -108,7 +153,7 @@ void QExtSettingsSerializeFile::saveFile(const QExtSerializable::SerializedItems
 void QExtSettingsSerializeFile::onSerializeFilePathChanged(const QString &path)
 {
     Q_D(QExtSettingsSerializeFile);
-    QMutexLocker locker(&d->mMutex);
+    QWriteLocker locker(&d->mRWLock);
     d->mSettings.reset(new QSettings(path, QSettings::IniFormat));
     d->saveItems(d->mItems);
 }

@@ -25,8 +25,8 @@ public:
 
     QThread *initDevice(qint64 id) QEXT_OVERRIDE;
 
-    void serializeLoad(const SerializedItems &items) QEXT_OVERRIDE;
-    SerializedItems serializeSave() const QEXT_OVERRIDE;
+    void serializeLoad(const SerializedItemsMap &items) QEXT_OVERRIDE;
+    SerializedItemsMap serializeSave() const QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void remotePortChanged(quint16 port);

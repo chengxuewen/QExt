@@ -86,7 +86,7 @@ struct QExtTypeInfoQuery : public QExtTypeInfo<T_type>
 
 // if QExtTypeInfo<T_type>::isRelocatable exists, use it
 template<typename T_type>
-struct QExtTypeInfoQuery<T_type, typename QExtTypeEnableIf<QExtTypeInfo<T_type>::isRelocatable || true>::Type>
+struct QExtTypeInfoQuery<T_type, typename QExtEnableIf<QExtTypeInfo<T_type>::isRelocatable || true>::Type>
         : public QExtTypeInfo<T_type>
 {
 };

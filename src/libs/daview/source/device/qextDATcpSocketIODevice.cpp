@@ -97,16 +97,16 @@ QThread *QExtDATcpSocketIODevice::initDevice(qint64 id)
     return QExtDAIODevice::initDevice(id);
 }
 
-void QExtDATcpSocketIODevice::serializeLoad(const SerializedItems &items)
+void QExtDATcpSocketIODevice::serializeLoad(const SerializedItemsMap &items)
 {
     QExtDAIODevice::serializeLoad(items);
     this->setRemoteIP(items.value(QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_IP, "").toString());
     this->setRemotePort(items.value(QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT, 0).value<quint16>());
 }
 
-QExtSerializable::SerializedItems QExtDATcpSocketIODevice::serializeSave() const
+QExtSerializable::SerializedItemsMap QExtDATcpSocketIODevice::serializeSave() const
 {
-    QExtSerializable::SerializedItems items = QExtDAIODevice::serializeSave();
+    QExtSerializable::SerializedItemsMap items = QExtDAIODevice::serializeSave();
     items[QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_IP] = this->remoteIP();
     items[QExtDAConstants::TCPSOCKET_IODEVICE_PROPERTY_REMOTE_PORT] = this->remotePort();
     return items;
