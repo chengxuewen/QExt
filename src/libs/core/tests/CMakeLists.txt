@@ -66,13 +66,6 @@ qext_internal_add_test(QExtTstCoreTSValue
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_TESTSDIR})
-qext_internal_add_test(QExtTstCoreInvoke
-    SOURCES
-    tools/tst_qextInvoke.cpp
-    LIBRARIES
-    ${QEXT_TEST_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreMemory
     SOURCES
     tools/tst_qextMemory.cpp

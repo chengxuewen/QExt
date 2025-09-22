@@ -58,7 +58,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-qext_find_package(WrapStringviewLite PROVIDED_TARGETS QExt3rdparty::WrapStringviewLite)
+qext_find_package(WrapStringViewLite PROVIDED_TARGETS QExt3rdparty::WrapStringViewLite)
 qext_find_package(WrapOptionalLite PROVIDED_TARGETS QExt3rdparty::WrapOptionalLite)
 qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
 qext_find_package(WrapInvokeLite PROVIDED_TARGETS QExt3rdparty::WrapInvokeLite)
@@ -145,7 +145,7 @@ qext_add_library(Core
     PUBLIC_DEFINES
     nssv_CONFIG_SELECT_STRING_VIEW=1
     PUBLIC_LIBRARIES
-    QExt3rdparty::WrapStringviewLite
+    QExt3rdparty::WrapStringViewLite
     QExt3rdparty::WrapOptionalLite
     QExt3rdparty::WrapVariantLite
     QExt3rdparty::WrapInvokeLite

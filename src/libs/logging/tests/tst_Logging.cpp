@@ -65,7 +65,7 @@
 #include <QtTest/QTest>
 
 #if QT_VERSION >= 0x050E00
-using Qt::endl;
+using "\n";
 #endif
 
 
@@ -506,30 +506,30 @@ void Log4QtTest::properties_load_device_data()
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "Truth = Beauty" << Qt::endl;
+    stream << "Truth = Beauty" << "\n";
     device.close();
     QTest::newRow("Java class documentation example 1a")
         << buffer << 1 << "Truth" << "Beauty" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "         Truth:Beauty" << Qt::endl;
+    stream << "         Truth:Beauty" << "\n";
     device.close();
     QTest::newRow("Java class documentation example 1b")
         << buffer << 1 << "Truth" << "Beauty" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "Truth        :Beauty" << Qt::endl;
+    stream << "Truth        :Beauty" << "\n";
     device.close();
     QTest::newRow("Java class documentation example 1c")
         << buffer << 1 << "Truth" << "Beauty" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "fruits                apple, banana, pear, \\" << Qt::endl;
-    stream << "                      cantaloupe, watermelon, \\" << Qt::endl;
-    stream << "                      kiwi, mango" << Qt::endl;
+    stream << "fruits                apple, banana, pear, \\" << "\n";
+    stream << "                      cantaloupe, watermelon, \\" << "\n";
+    stream << "                      kiwi, mango" << "\n";
     device.close();
     QTest::newRow("Java class documentation example 2")
         << buffer << 1 << "fruits"
@@ -537,49 +537,49 @@ void Log4QtTest::properties_load_device_data()
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "cheese" << Qt::endl;
+    stream << "cheese" << "\n";
     device.close();
     QTest::newRow("Java class documentation example 3")
         << buffer << 1 << "cheese" << "" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "K\\ e\\=\\:y Value" << Qt::endl;
+    stream << "K\\ e\\=\\:y Value" << "\n";
     device.close();
     QTest::newRow("Key escape sequences")
         << buffer << 1 << "K e=:y" << "Value" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "Key V\\t\\n\\ra\\\\l\\\"u\\\'e" << Qt::endl;
+    stream << "Key V\\t\\n\\ra\\\\l\\\"u\\\'e" << "\n";
     device.close();
     QTest::newRow("Value escape sequences")
         << buffer << 1 << "Key" << "V\t\n\ra\\l\"u\'e" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "Key\\t Value\\j" << Qt::endl;
+    stream << "Key\\t Value\\j" << "\n";
     device.close();
     QTest::newRow("Invalid escape sequences")
         << buffer << 1 << "Keyt" << "Valuej" << 2;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "Key Valu\\u006fe" << Qt::endl;
+    stream << "Key Valu\\u006fe" << "\n";
     device.close();
     QTest::newRow("Unicode escape sequence")
         << buffer << 1 << "Key" << "Valuoe" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << "Key Value\\u6f" << Qt::endl;
+    stream << "Key Value\\u6f" << "\n";
     device.close();
     QTest::newRow("Unicode escape sequence at the end")
         << buffer << 1 << "Key" << "Valueo" << 0;
 
     buffer.clear();
     device.open(QIODevice::WriteOnly);
-    stream << ": Value" << Qt::endl;
+    stream << ": Value" << "\n";
     device.close();
     QTest::newRow("Empty key")
         << buffer << 1 << "" << "Value" << 1;

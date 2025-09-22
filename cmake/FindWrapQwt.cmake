@@ -87,9 +87,8 @@ if(NOT EXISTS ${QExtWrapQwt_STAMP_FILE_PATH})
 endif()
 # wrap lib
 find_package(Qwt ${QWT_VERSION} EXACT PATHS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
-add_library(QExt3rdparty::WrapQwt ALIAS Qwt::Qwt)
-# add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
-# target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
+add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
+target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
 # copy lib to build dir
 set(QExtWrapQwt_INSTALL_DLLDIR "${QExtWrapQwt_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
 qext_get_files("${QExtWrapQwt_INSTALL_DLLDIR}" QExtWrapQwt_LIBRARIES)

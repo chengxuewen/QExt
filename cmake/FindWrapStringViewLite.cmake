@@ -23,31 +23,31 @@
 
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
-if(TARGET QExt3rdparty::WrapStringviewLite)
-    set(QExtWrapStringviewLite_FOUND ON)
+if(TARGET QExt3rdparty::WrapStringViewLite)
+    set(QExtWrapStringViewLite_FOUND ON)
     return()
 endif()
 
-set(QExtWrapStringviewLite_NAME "string-view-lite-1.8.0")
-set(QExtWrapStringviewLite_DIR_NAME "${QExtWrapStringviewLite_NAME}")
-set(QExtWrapStringviewLite_URL_NAME "${QExtWrapStringviewLite_NAME}.tar.gz")
-set(QExtWrapStringviewLite_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapStringviewLite_URL_NAME}")
-set(QExtWrapStringviewLite_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapStringviewLite_DIR_NAME}")
-set(QExtWrapStringviewLite_SOURCE_DIR "${QExtWrapStringviewLite_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
-set(QExtWrapStringviewLite_BUILD_DIR "${QExtWrapStringviewLite_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
-set(QExtWrapStringviewLite_INSTALL_DIR "${QExtWrapStringviewLite_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
-qext_stamp_file_info(QExtWrapStringviewLite OUTPUT_DIR "${QExtWrapStringviewLite_ROOT_DIR}")
-qext_fetch_3rdparty(QExtWrapStringviewLite URL "${QExtWrapStringviewLite_URL_PATH}")
-if(NOT EXISTS ${QExtWrapStringviewLite_STAMP_FILE_PATH})
-    if(NOT EXISTS ${QExtWrapStringviewLite_SOURCE_DIR})
-        message(FATAL_ERROR "${QExtWrapStringviewLite_DIR_NAME} FetchContent failed.")
+set(QExtWrapStringViewLite_NAME "string-view-lite-1.8.0")
+set(QExtWrapStringViewLite_DIR_NAME "${QExtWrapStringViewLite_NAME}")
+set(QExtWrapStringViewLite_URL_NAME "${QExtWrapStringViewLite_NAME}.tar.gz")
+set(QExtWrapStringViewLite_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapStringViewLite_URL_NAME}")
+set(QExtWrapStringViewLite_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapStringViewLite_DIR_NAME}")
+set(QExtWrapStringViewLite_SOURCE_DIR "${QExtWrapStringViewLite_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
+set(QExtWrapStringViewLite_BUILD_DIR "${QExtWrapStringViewLite_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
+set(QExtWrapStringViewLite_INSTALL_DIR "${QExtWrapStringViewLite_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
+qext_stamp_file_info(QExtWrapStringViewLite OUTPUT_DIR "${QExtWrapStringViewLite_ROOT_DIR}")
+qext_fetch_3rdparty(QExtWrapStringViewLite URL "${QExtWrapStringViewLite_URL_PATH}")
+if(NOT EXISTS ${QExtWrapStringViewLite_STAMP_FILE_PATH})
+    if(NOT EXISTS ${QExtWrapStringViewLite_SOURCE_DIR})
+        message(FATAL_ERROR "${QExtWrapStringViewLite_DIR_NAME} FetchContent failed.")
     endif()
     execute_process(
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapStringviewLite_BUILD_DIR}
-        WORKING_DIRECTORY "${QExtWrapStringviewLite_ROOT_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapStringViewLite_BUILD_DIR}
+        WORKING_DIRECTORY "${QExtWrapStringViewLite_ROOT_DIR}"
         RESULT_VARIABLE MKDIR_RESULT)
     if(NOT (MKDIR_RESULT MATCHES 0))
-        message(FATAL_ERROR "${QExtWrapStringviewLite_DIR_NAME} lib build directory make failed.")
+        message(FATAL_ERROR "${QExtWrapStringViewLite_DIR_NAME} lib build directory make failed.")
     endif()
 
     execute_process(
@@ -56,37 +56,37 @@ if(NOT EXISTS ${QExtWrapStringviewLite_STAMP_FILE_PATH})
         -DVARIANT_LITE_OPT_BUILD_TESTS=OFF
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DCMAKE_INSTALL_PREFIX=${QExtWrapStringviewLite_INSTALL_DIR}
-        ${QExtWrapStringviewLite_SOURCE_DIR}
-        WORKING_DIRECTORY "${QExtWrapStringviewLite_BUILD_DIR}"
+        -DCMAKE_INSTALL_PREFIX=${QExtWrapStringViewLite_INSTALL_DIR}
+        ${QExtWrapStringViewLite_SOURCE_DIR}
+        WORKING_DIRECTORY "${QExtWrapStringViewLite_BUILD_DIR}"
         RESULT_VARIABLE CONFIGURE_RESULT)
     if(CONFIGURE_RESULT MATCHES 0)
-        message(STATUS "${QExtWrapStringviewLite_DIR_NAME} configure success")
+        message(STATUS "${QExtWrapStringViewLite_DIR_NAME} configure success")
         execute_process(
             COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS}
-            WORKING_DIRECTORY "${QExtWrapStringviewLite_BUILD_DIR}"
+            WORKING_DIRECTORY "${QExtWrapStringViewLite_BUILD_DIR}"
             RESULT_VARIABLE BUILD_RESULT)
         if(BUILD_RESULT MATCHES 0)
-            message(STATUS "${QExtWrapStringviewLite_DIR_NAME} build success")
+            message(STATUS "${QExtWrapStringViewLite_DIR_NAME} build success")
             execute_process(
                 COMMAND ${CMAKE_COMMAND} --install ./
-                WORKING_DIRECTORY "${QExtWrapStringviewLite_BUILD_DIR}"
+                WORKING_DIRECTORY "${QExtWrapStringViewLite_BUILD_DIR}"
                 RESULT_VARIABLE INSTALL_RESULT)
             if(BUILD_RESULT MATCHES 0)
-                message(STATUS "${QExtWrapStringviewLite_DIR_NAME} install success")
-                qext_make_stamp_file("${QExtWrapStringviewLite_STAMP_FILE_PATH}")
+                message(STATUS "${QExtWrapStringViewLite_DIR_NAME} install success")
+                qext_make_stamp_file("${QExtWrapStringViewLite_STAMP_FILE_PATH}")
             else()
-                message(FATAL_ERROR "${QExtWrapStringviewLite_DIR_NAME} install failed.")
+                message(FATAL_ERROR "${QExtWrapStringViewLite_DIR_NAME} install failed.")
             endif()
         else()
-            message(FATAL_ERROR "${QExtWrapStringviewLite_DIR_NAME} build failed.")
+            message(FATAL_ERROR "${QExtWrapStringViewLite_DIR_NAME} build failed.")
         endif()
     else()
-        message(FATAL_ERROR "${QExtWrapStringviewLite_DIR_NAME} configure failed.")
+        message(FATAL_ERROR "${QExtWrapStringViewLite_DIR_NAME} configure failed.")
     endif()
 endif()
 # wrap lib
-add_library(QExt3rdparty::WrapStringviewLite INTERFACE IMPORTED)
-find_package(string-view-lite PATHS ${QExtWrapStringviewLite_INSTALL_DIR} REQUIRED)
-target_link_libraries(QExt3rdparty::WrapStringviewLite INTERFACE nonstd::string-view-lite)
-set(QExtWrapStringviewLite_FOUND ON)
+add_library(QExt3rdparty::WrapStringViewLite INTERFACE IMPORTED)
+find_package(string-view-lite PATHS ${QExtWrapStringViewLite_INSTALL_DIR} REQUIRED)
+target_link_libraries(QExt3rdparty::WrapStringViewLite INTERFACE nonstd::string-view-lite)
+set(QExtWrapStringViewLite_FOUND ON)

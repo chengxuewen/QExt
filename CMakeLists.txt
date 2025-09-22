@@ -36,7 +36,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.6.1 LANGUAGES CXX C)
+project(QExt VERSION 1.3.7.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -478,11 +478,13 @@ qext_option(QEXT_ENABLE_LIB_KEYBOARD "Enable this to build the keyboard lib" OFF
 qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
+    DEPENDS (NOT ANDROID)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib" OFF
-    DEPENDS QEXT_CXX_STANDARD17
+    DEPENDS QEXT_CXX_STANDARD17 AND (CMAKE_VERSION STRGREATER_EQUAL 3.20)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
+    DEPENDS NOT ANDROID
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_APP_RECORDPLAYER "Enable this to build the recordplayer app" OFF
@@ -496,9 +498,6 @@ qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty 
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty qwindowkit lib" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5.12.0") AND QEXT_CXX_STANDARD17
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
@@ -508,9 +507,6 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty q
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
     DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5.12.0") AND QEXT_CXX_STANDARD17
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -835,20 +831,6 @@ if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
 endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
     qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
-endif()
-
-if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
-    set(QWINDOWKIT_INSTALL OFF)
-    set(QWINDOWKIT_BUILD_QUICK ON)
-    set(QWINDOWKIT_BUILD_STATIC ON)
-    set(QWINDOWKIT_BUILD_EXAMPLES ON)
-    set(QExtWrapQWindowkit_DIR_NAME "qwindowkit-1.4.0")
-    set(QExtWrapQWindowkit_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQWindowkit_DIR_NAME}")
-    qext_fetch_3rdparty(QExtWrapQWindowkit URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQWindowkit_DIR_NAME}.7z")
-    add_subdirectory(${QExtWrapQWindowkit_ROOT_DIR}/source ${QExtWrapQWindowkit_ROOT_DIR}/subbuild)
-endif()
-if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
-    qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT)

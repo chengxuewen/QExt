@@ -96,11 +96,68 @@ function(qext_evaluate_expression result_var)
     set(skip_next OFF)
     set(expression "${ARGN}")
     list(LENGTH expression length)
+    list(APPEND if_one_var_exps
+        NOT
+        TARGET)
+    list(APPEND if_two_var_exps
+        OR
+        AND
+        EQUAL
+        LESS
+        LESS_EQUAL
+        GREATER
+        GREATER_EQUAL
+        STREQUAL
+        STRLESS
+        STRLESS_EQUAL
+        STRGREATER
+        STRGREATER_EQUAL
+        VERSION_EQUAL
+        VERSION_LESS
+        VERSION_LESS_EQUAL
+        VERSION_GREATER
+        VERSION_GREATER_EQUAL
+        PATH_EQUAL
+        MATCHES)
 
     if(0 EQUAL length)
         message(FATAL_ERROR "expression cannot be empty!")
     elseif(1 EQUAL length)
         set(result ${expression})
+    elseif(2 EQUAL length)
+        list(GET expression 0 exp)
+        list(GET expression 1 var)
+        if(DEFINED "${var}")
+            set(var ${${var}})
+        endif()
+        if (${exp} IN_LIST if_one_var_exps)
+            if (${exp} ${var})
+                set(result ON)
+            else()
+                set(result OF)
+            endif()
+        else()
+            message(FATAL_ERROR "expression '${exp}' not supported!")
+        endif()
+    elseif(3 EQUAL length)
+        list(GET expression 0 lhs)
+        list(GET expression 1 exp)
+        list(GET expression 2 rhs)
+        if(DEFINED "${lhs}")
+            set(lhs ${${lhs}})
+        endif()
+        if(DEFINED "${rhs}")
+            set(rhs ${${rhs}})
+        endif()
+        if (${exp} IN_LIST if_two_var_exps)
+            if (${lhs} ${exp} ${rhs})
+                set(result ON)
+            else()
+                set(result OF)
+            endif()
+        else()
+            message(FATAL_ERROR "expression '${exp}' not supported!")
+        endif()
     else()
         math(EXPR last_index "${length} - 1")
         foreach(member_index RANGE ${last_index})
@@ -148,28 +205,6 @@ function(qext_evaluate_expression result_var)
                     break()
                 endif()
                 set(result "")
-            elseif("${member}" STREQUAL "STREQUAL" AND member_index LESS ${length})
-                # Unfortunately the semantics for STREQUAL in if() are broken when the
-                # RHS is an empty string and the parameters to if are coming through a variable.
-                # So we expect people to write the empty string with single quotes and then we
-                # do the comparison manually here.
-                list(LENGTH result lhsIndex)
-                math(EXPR lhsIndex "${lhsIndex}-1")
-                list(GET result ${lhsIndex} lhs)
-                list(REMOVE_AT result ${lhsIndex})
-                set(lhs "${${lhs}}")
-
-                math(EXPR rhsIndex "${member_index}+1")
-                set(skip_next ON)
-
-                list(GET expression ${rhsIndex} rhs)
-                # We can't pass through an empty string with double quotes through various
-                # stages of substitution, so instead it is represented using single quotes
-                # and resolve here.
-                string(REGEX REPLACE "'(.*)'" "\\1" rhs "${rhs}")
-
-                string(COMPARE EQUAL "${lhs}" "${rhs}" string_compare_result)
-                list(APPEND result ${string_compare_result})
             else()
                 if(DEFINED "${member}")
                     list(APPEND result ${member})
