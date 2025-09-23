@@ -263,11 +263,11 @@ void QExtNavigationBar::drawText(QPainter *painter)
 
     if (d->mHorizontal)
     {
-        textLen  = painter->fontMetrics().width(longText);
+        textLen = painter->fontMetrics().boundingRect(longText).width();
     }
     else
     {
-        textLen  = painter->fontMetrics().height();
+        textLen = painter->fontMetrics().height();
     }
 
     for (int i = 0; i < count; i++)

@@ -29,7 +29,6 @@
 #include <qextIconAnimation.h>
 
 #include <QPushButton>
-#include <QStateMachine>
 #include <QVariantAnimation>
 
 class QExtCollapseTabWidgetPrivate
@@ -46,18 +45,18 @@ public:
 
     QExtCollapseTabWidget *const q_ptr;
 
-    QScopedPointer<QPushButton> m_collapseButton;
-    QScopedPointer<QExtIconAnimation> m_iconAnimation;
-    QScopedPointer<QVariantAnimation> m_sizeAnimation;
-    int m_collapseIconDefaultRotationAngle;
-    int m_animationEnadValue;
-    bool m_collapseVertical;
-    bool m_animationEnabled;
-    bool m_collapsed;
-    int m_collapsedSize;
-    int m_maximumSize;
-    int m_minimumSize;
-    int m_expandSize;
+    QScopedPointer<QExtIconAnimation> mIconAnimation;
+    QScopedPointer<QVariantAnimation> mSizeAnimation;
+    QScopedPointer<QPushButton> mCollapseButton;
+    int mCollapseIconDefaultRotationAngle;
+    int mAnimationEnadValue;
+    bool mCollapseVertical;
+    bool mAnimationEnabled;
+    bool mCollapsed;
+    int mCollapsedSize;
+    int mMaximumSize;
+    int mMinimumSize;
+    int mExpandSize;
 
 private:
     QEXT_DECLARE_PUBLIC(QExtCollapseTabWidget)

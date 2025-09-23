@@ -18,16 +18,26 @@ struct QExtSerializable
 
     virtual ~QExtSerializable()
     {
-        QMutableHashIterator<qulonglong, QVariant> iter(mDestroyedNotifyFunctionMap);
-        while (iter.hasNext())
+        QMultiHash<qulonglong, QVariant>::ConstIterator iter = mDestroyedNotifyFunctionMap.constBegin();
+        while (mDestroyedNotifyFunctionMap.constEnd() != iter)
         {
-            iter.next();
             DestroyedNotifyFunction func = reinterpret_cast<DestroyedNotifyFunction>(iter.key());
             if (func)
             {
                 func(this, iter.value());
             }
+            iter++;
         }
+        // QMutableHashIterator<qulonglong, QVariant> iter(mDestroyedNotifyFunctionMap);
+        // while (iter.hasNext())
+        // {
+        //     iter.next();
+        //     DestroyedNotifyFunction func = reinterpret_cast<DestroyedNotifyFunction>(iter.key());
+        //     if (func)
+        //     {
+        //         func(this, iter.value());
+        //     }
+        // }
     }
 
     void removeDestroyedNotifyFunction(DestroyedNotifyFunction func)

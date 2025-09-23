@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QFileInfoList>
+#include <QRegularExpression>
 
 /*!
   \class ThemeManager
@@ -30,7 +31,7 @@ ThemeManager *ThemeManager::getInstance()
 void ThemeManager::addAppThemePath(const QString &path)
 {
     QString dirpath(path);
-    QRegExp rx("^qrc:");
+    QRegularExpression rx("^qrc:");
     QDir dir(dirpath.replace(rx,":"));
 
     if(!dir.exists()){

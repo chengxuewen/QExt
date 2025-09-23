@@ -5,7 +5,7 @@
 TestThread::TestThread(bool buggy, uint seed)
     : mBuggy(buggy)
 {
-    qsrand(seed);
+    // qsrand(seed);
 }
 
 TestThread::~TestThread()
@@ -22,11 +22,11 @@ void TestThread::run()
 {
     if(mBuggy)
     {
-        QTimer::singleShot(qrand() % 2000 + 100, this, SLOT(crash()));
+        QTimer::singleShot(rand() % 2000 + 100, this, SLOT(crash()));
     }
     else
     {
-        QTimer::singleShot(qrand() % 2000 + 100, this, SLOT(quit()));
+        QTimer::singleShot(rand() % 2000 + 100, this, SLOT(quit()));
     }
     exec();
 }

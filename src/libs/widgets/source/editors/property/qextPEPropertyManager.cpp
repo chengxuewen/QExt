@@ -822,9 +822,9 @@ QString QExtPEStringPropertyManager::value(const QExtPEProperty *property) const
     return getValue<QString>(d_ptr->m_values, property);
 }
 
-QRegExp QExtPEStringPropertyManager::regExp(const QExtPEProperty *property) const
+QExtRegExp QExtPEStringPropertyManager::regExp(const QExtPEProperty *property) const
 {
-    return getData<QRegExp>(d_ptr->m_values, &QExtPEStringPropertyManagerPrivate::Data::regExp, property, QRegExp());
+    return getData<QExtRegExp>(d_ptr->m_values, &QExtPEStringPropertyManagerPrivate::Data::regExp, property, QExtRegExp());
 }
 
 EchoMode QExtPEStringPropertyManager::echoMode(const QExtPEProperty *property) const
@@ -905,27 +905,27 @@ void QExtPEStringPropertyManager::setValue(QExtPEProperty *property, const QStri
 
     \sa regExp(), setValue(), regExpChanged()
 */
-void QExtPEStringPropertyManager::setRegExp(QExtPEProperty *property, const QRegExp &regExp)
-{
-    const QExtPEStringPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
-    if (it == d_ptr->m_values.end())
-    {
-        return;
-    }
+// void QExtPEStringPropertyManager::setRegExp(QExtPEProperty *property, const QRegExp &regExp)
+// {
+//     const QExtPEStringPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
+//     if (it == d_ptr->m_values.end())
+//     {
+//         return;
+//     }
 
-    QExtPEStringPropertyManagerPrivate::Data data = it.value() ;
+//     QExtPEStringPropertyManagerPrivate::Data data = it.value() ;
 
-    if (data.regExp == regExp)
-    {
-        return;
-    }
+//     if (data.regExp == regExp)
+//     {
+//         return;
+//     }
 
-    data.regExp = regExp;
+//     data.regExp = regExp;
 
-    it.value() = data;
+//     it.value() = data;
 
-    emit this->regExpChanged(property, data.regExp);
-}
+//     emit this->regExpChanged(property, data.regExp);
+// }
 
 
 void QExtPEStringPropertyManager::setEchoMode(QExtPEProperty *property, EchoMode echoMode)
@@ -3850,7 +3850,11 @@ void QExtPEFontPropertyManager::setValue(QExtPEProperty *property, const QFont &
     }
 
     const QFont oldVal = it.value();
-    if (oldVal == val && oldVal.resolve() == val.resolve())
+    // if (oldVal == val && oldVal.resolve() == val.resolve())
+    // {
+    //     return;
+    // }
+    if (oldVal == val)
     {
         return;
     }

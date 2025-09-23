@@ -203,7 +203,7 @@ void QExtRulerSlider::drawRule(QPainter *painter)
             painter->drawLine(topPot, bottomPot);
 
             QString strValue = QString("%1").arg((double)i, 0, 'f', d->m_precision);
-            double textWidth = fontMetrics().width(strValue);
+            double textWidth = fontMetrics().boundingRect(strValue).width();
             double textHeight = fontMetrics().height();
             QPointF textPot(initX - textWidth / 2, initY + textHeight);
             painter->drawText(textPot, strValue);
@@ -245,7 +245,7 @@ void QExtRulerSlider::drawSlider(QPainter *painter)
     QPointF tipRectTopLeftPot(d->m_sliderRect.topRight().x() + 2, d->m_sliderRect.topRight().y());
     QString strValue = QString("%1").arg(d->m_currentValue, 0, 'f', d->m_precision);
 
-    double textLength = fontMetrics().width(strValue);
+    double textLength = fontMetrics().boundingRect(strValue).width();
     double textHeight = fontMetrics().height();
     QPointF tipRectBottomRightPot(tipRectTopLeftPot.x() + textLength + 10, tipRectTopLeftPot.y() + textHeight + 5);
     d->m_tipRect = QRectF(tipRectTopLeftPot, tipRectBottomRightPot);

@@ -85,13 +85,15 @@ list(APPEND RP_LINK_INTERNAL_LIBS
     QExt::Plot
     QExt::DAView
     QExt::Widgets
-    QExt::Breakpad
-    QExt::Keyboard)
-qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
-qext_find_package(WrapQtADS PROVIDED_TARGETS QExt3rdparty::WrapQtADS)
-list(APPEND RP_LINK_EXTERNAL_LIBS
-    QExt3rdparty::WrapSingleApp
-    QExt3rdparty::WrapQtADS)
+    QExt::Breakpad)
+if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
+    qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
+    list(APPEND RP_LINK_EXTERNAL_LIBS QExt3rdparty::WrapSingleApp)
+endif()
+if(QEXT_ENABLE_3RDPARTY_QTADS)
+    qext_find_package(WrapQtADS PROVIDED_TARGETS QExt3rdparty::WrapQtADS)
+    list(APPEND RP_LINK_EXTERNAL_LIBS QExt3rdparty::WrapQtADS)
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------

@@ -24,6 +24,7 @@
 ***********************************************************************************************************************/
 
 #include <private/qextIpAddressEdit_p.h>
+#include <qextRegExp.h>
 
 #include <QLabel>
 #include <QLineEdit>
@@ -118,12 +119,12 @@ void QExtIpAddressEditPrivate::initForm(QExtIpAddressEdit *qq)
     frame->setObjectName("frameIP");
 
     QVBoxLayout *verticalLayout = new QVBoxLayout(qq);
-    verticalLayout->setMargin(0);
+    qextSetLayoutMargin(verticalLayout, 0);
     verticalLayout->setSpacing(0);
     verticalLayout->addWidget(frame);
 
     QHBoxLayout *layout = new QHBoxLayout(frame);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     layout->setSpacing(0);
     layout->addWidget(m_txtIP1);
     layout->addWidget(m_labDot1);
@@ -255,11 +256,16 @@ QSize QExtIpAddressEdit::minimumSizeHint() const
 void QExtIpAddressEdit::setIP(const QString &ip)
 {
     Q_D(QExtIpAddressEdit);
-    QRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
+    QExtRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
     if (!regExp.exactMatch(ip))
     {
         return;
     }
+    // QRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
+    // if (!regExp.exactMatch(ip))
+    // {
+    //     return;
+    // }
 
     if (ip != d->m_ip)
     {

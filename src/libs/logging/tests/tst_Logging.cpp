@@ -64,10 +64,6 @@
 #include <QObject>
 #include <QtTest/QTest>
 
-#if QT_VERSION >= 0x050E00
-using "\n";
-#endif
-
 
 /*!
  * \brief The class Log4QtTest provides a unit test for the package Log4Qt.

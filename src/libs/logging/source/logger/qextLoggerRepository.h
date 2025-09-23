@@ -36,13 +36,12 @@ class QExtLogger;
  * \brief The class QExtLoggerRepository is abstract base class for a logger
  *        repository.
  */
-class QEXT_LOGGING_API QExtLoggerRepository
+class QExtLoggerRepository
 {
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtLoggerRepository)
 public:
-    QExtLoggerRepository();
-    virtual ~QExtLoggerRepository();
-    QExtLoggerRepository(const QExtLoggerRepository &other) = delete;
-    QExtLoggerRepository &operator=(const QExtLoggerRepository &other) = delete;
+    QExtLoggerRepository() {}
+    virtual ~QExtLoggerRepository() {}
 
     virtual bool exists(const QString &name) const = 0;
     virtual QExtLogger *logger(const QString &name) = 0;

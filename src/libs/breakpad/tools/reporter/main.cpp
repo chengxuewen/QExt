@@ -4,7 +4,9 @@
 #include <QDateTime>
 #include <QDebug>
 
-#include <qextStyleThemes.h>
+#ifdef QEXT_ENABLE_LIB_WIDGETS
+#   include <qextStyleThemes.h>
+#endif
 
 #include "mainwindow.h"
 
@@ -35,8 +37,12 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addHelpOption();
 
+#ifdef QEXT_ENABLE_LIB_WIDGETS
     QStringList styleThemes = qextStyleThemes->styleThemes();
     QString styleThemesOptions = styleThemes.join(", ");
+#else
+    QString styleThemesOptions;
+#endif
     QCommandLineOption styleThemeValueLongOption(OPTION_STYLETHEME,
                                                  QString("QExt breakpad crash reporter styletheme name.\noptions[%1]").
                                                  arg(styleThemesOptions),
@@ -70,9 +76,11 @@ int main(int argc, char *argv[])
     qDebug() << "styleTheme=" << styleTheme;
     if (!styleTheme.isEmpty())
     {
+#ifdef QEXT_ENABLE_LIB_WIDGETS
         qextStyleThemes->setCurrentStyleTheme(styleTheme);
         qextStyleThemes->updateStylesheet();
         mainWindow.setStyleSheet(qextStyleThemes->styleSheet());
+#endif
     }
     mainWindow.setWindowTitle(parser.value(OPTION_TITLE));
     mainWindow.setCrashedAppName(parser.value(OPTION_APP));

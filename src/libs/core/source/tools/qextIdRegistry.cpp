@@ -1,4 +1,5 @@
 ﻿#include <qextIdRegistry.h>
+#include <qextAlgorithms.h>
 
 #include <QMap>
 #include <QList>
@@ -82,12 +83,12 @@ void QExtIdRegistry::registerId(qint64 id)
     if (d->mFreeIdList.contains(id))
     {
         d->mFreeIdList.removeOne(id);
-        qSort(d->mFreeIdList);
+        qextSort(d->mFreeIdList);
     }
     if (!d->mUsedIdList.contains(id))
     {
         d->mUsedIdList.append(id);
-        qSort(d->mUsedIdList);
+        qextSort(d->mUsedIdList);
     }
 }
 
@@ -97,12 +98,12 @@ void QExtIdRegistry::unregisterId(qint64 id)
     if (!d->mFreeIdList.contains(id))
     {
         d->mFreeIdList.append(id);
-        qSort(d->mFreeIdList);
+        qextSort(d->mFreeIdList);
     }
     if (d->mUsedIdList.contains(id))
     {
         d->mUsedIdList.removeOne(id);
-        qSort(d->mUsedIdList);
+        qextSort(d->mUsedIdList);
     }
 }
 

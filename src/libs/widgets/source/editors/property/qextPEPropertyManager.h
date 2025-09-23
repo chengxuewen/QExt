@@ -2,6 +2,7 @@
 #define _QEXTPEPROPERTYMANAGER_H
 
 #include <qextPEProperty.h>
+#include <qextRegExp.h>
 
 #include <QLineEdit>
 
@@ -716,7 +717,7 @@ public:
      *
      * @sa setRegExp()
      */
-    QRegExp regExp(const QExtPEProperty *property) const;
+    QExtRegExp regExp(const QExtPEProperty *property) const;
 
     /**
      * @brief Returns read-only status of the property.
@@ -728,7 +729,7 @@ public:
 
 public Q_SLOTS:
     void setValue(QExtPEProperty *property, const QString &val);
-    void setRegExp(QExtPEProperty *property, const QRegExp &regExp);
+    void setRegExp(QExtPEProperty *property, const QExtRegExp &regExp);
     void setEchoMode(QExtPEProperty *property, EchoMode echoMode);
 
     /**
@@ -752,7 +753,7 @@ Q_SIGNALS:
      *
      * @sa setRegExp()
      */
-    void regExpChanged(QExtPEProperty *property, const QRegExp &regExp);
+    void regExpChanged(QExtPEProperty *property, const QExtRegExp &regExp);
     void echoModeChanged(QExtPEProperty *property, const int);
     void readOnlyChanged(QExtPEProperty *property, bool);
 

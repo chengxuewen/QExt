@@ -6,7 +6,6 @@
 #include <QDebug>
 #include <QEvent>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QMainWindow>
 #include <QInputDialog>
 #include <QWindow>

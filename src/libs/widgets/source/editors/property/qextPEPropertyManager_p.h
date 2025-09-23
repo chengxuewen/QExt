@@ -165,12 +165,12 @@ public:
     struct Data
     {
         Data()
-            : regExp(QString(QLatin1Char('*')),  Qt::CaseSensitive, QRegExp::Wildcard)
+            : regExp(QString(QLatin1Char('*')))
             , echoMode(QLineEdit::Normal), readOnly(false)
         {
         }
         QString val;
-        QRegExp regExp;
+        QExtRegExp regExp;
         int echoMode;
         bool readOnly;
     };

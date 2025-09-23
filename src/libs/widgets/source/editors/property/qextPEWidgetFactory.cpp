@@ -991,11 +991,10 @@ QWidget *QExtPELineEditFactory::createEditor(QExtPEStringPropertyManager *manage
     QLineEdit *editor = d_ptr->createEditor(property, parent);
     editor->setEchoMode((EchoMode)manager->echoMode(property));
     editor->setReadOnly(manager->isReadOnly(property));
-    QRegExp regExp = manager->regExp(property);
+    QExtRegExp regExp = manager->regExp(property);
     if (regExp.isValid())
     {
-        QValidator *validator = new QRegExpValidator(regExp, editor);
-        editor->setValidator(validator);
+        editor->setValidator(QEXT_MAKE_REGEXP_VALIDATOR(regExp, editor));
     }
     editor->setText(manager->value(property));
 

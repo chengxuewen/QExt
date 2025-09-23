@@ -2,8 +2,11 @@
 #include <qextOnceFlag.h>
 
 #include <QDebug>
-#include <QTextCodec>
 #include <QApplication>
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+#   include <QTextCodec>
+#endif
 
 #ifdef QEXT_OS_WIN
 #   include <Windows.h>

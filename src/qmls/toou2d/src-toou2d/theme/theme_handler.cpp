@@ -1,9 +1,13 @@
 #include "theme_handler.h"
 
-#include <QTextCodec>
 #include <QDebug>
 #include <QUrl>
 #include <QFile>
+
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+#   include <QTextCodec>
+#endif
+
 /*!
   \class ThemeHandler
 
@@ -148,8 +152,9 @@ void ThemeHandler::parseINI(const QString& filename,QVariantMap& varmap)
 
     QString str =  QString::fromUtf8( file.readLine());
     while(!str.isEmpty()){
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         str.replace(QRegExp(";(.*)"),"");
-
+#endif
         int gli = str.indexOf('[');
         int gri =  str.indexOf(']');
 
@@ -161,11 +166,13 @@ void ThemeHandler::parseINI(const QString& filename,QVariantMap& varmap)
 
             curgroup = str.mid(gli + 1 , gri - 1);
         }else{
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
             QRegExp rx("(.*)=(.*)");  // (.)(.)
             int pot = str.indexOf(rx);
             if(pot != -1){
                 curmap.insert(rx.cap(1).trimmed(), rx.cap(2).trimmed());
             }
+#endif
         }
 
         str =  QString::fromUtf8( file.readLine());

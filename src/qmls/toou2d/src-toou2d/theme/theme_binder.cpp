@@ -171,7 +171,11 @@ ThemeBinder *ThemeBinder::childs(int i) const
 
 QQmlListProperty<ThemeBinder> ThemeBinder::childs()
 {
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     return QQmlListProperty<ThemeBinder>(this, m_childs);
+#else
+    return QQmlListProperty<ThemeBinder>(this, &m_childs);
+#endif
 }
 
 ThemeBinder *ThemeBinder::parent() const

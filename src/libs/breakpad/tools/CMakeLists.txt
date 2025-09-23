@@ -37,7 +37,10 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_TOOL_LINK_LIBRARIES QExt::Breakpad QExt::Widgets)
+list(APPEND QEXT_TOOL_LINK_LIBRARIES QExt::Breakpad)
+if(QEXT_ENABLE_LIB_WIDGETS)
+    list(APPEND QEXT_TOOL_LINK_LIBRARIES QExt::Widgets)
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -56,4 +59,7 @@ qext_add_executable(${QEXT_BREAKPAD_REPORTER_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/reporter
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_BINDIR})
+if(QEXT_ENABLE_LIB_WIDGETS)
+    qext_internal_extend_target(${QEXT_BREAKPAD_REPORTER_NAME} DEFINES QEXT_ENABLE_LIB_WIDGETS)
+endif()
 # qext_hide_executable_console(${QEXT_BREAKPAD_REPORTER_NAME})

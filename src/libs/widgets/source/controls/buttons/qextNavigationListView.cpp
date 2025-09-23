@@ -1436,7 +1436,9 @@ QExtNavigationListView::QExtNavigationListView(QWidget *parent)
     qRegisterMetaType<QExtNavigationListView::ItemState>("QExtNavigationListView::ItemState");
     Q_D(QExtNavigationListView);
     QVBoxLayout *layout = new QVBoxLayout;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     layout->setMargin(0);
+#endif
     layout->addWidget(d->mListView.data());
     this->setLayout(layout);
     this->setModel(new QExtNavigationListModel);

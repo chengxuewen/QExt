@@ -223,7 +223,7 @@ class QExtPELineEditFactoryPrivate : public EditorFactoryPrivate<QLineEdit>
 public:
 
     void slotPropertyChanged(QExtPEProperty *property, const QString &value);
-    void slotRegExpChanged(QExtPEProperty *property, const QRegExp &regExp);
+    void slotRegExpChanged(QExtPEProperty *property, const QExtRegExp &regExp);
     void slotSetValue(const QString &value);
     void slotEchoModeChanged(QExtPEProperty *, int);
     void slotReadOnlyChanged(QExtPEProperty *, bool);

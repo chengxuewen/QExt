@@ -2,7 +2,13 @@
 #include "ui_mainwindow.h"
 
 #include <qextOnceFlag.h>
-#include <qextMessageBox.h>
+#ifdef QEXT_ENABLE_LIB_WIDGETS
+#   include <qextMessageBox.h>
+#   define MESSAGEBOX QExtMessageBox
+#else
+#   include <QMessageBox>
+#   define MESSAGEBOX QMessageBox
+#endif
 
 #include <QFile>
 #include <QTimer>
@@ -87,8 +93,8 @@ void MainWindow::start()
                                      }
                                      if (!QFile::copy(d->mCrashedFilePath, desFilePath))
                                      {
-                                         QExtMessageBox::warning(this, tr("Export crash dump file"),
-                                                                 tr("Export crash dump file failed!"), QMessageBox::Ok);
+                                         MESSAGEBOX::warning(this, tr("Export crash dump file"),
+                                                             tr("Export crash dump file failed!"), QMessageBox::Ok);
                                      }
                                  }
                              });

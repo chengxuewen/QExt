@@ -750,7 +750,7 @@ bool QExtGraphicsLineItem::loadFromXml(QXmlStreamReader *xml)
     this->readBaseAttributes(xml);
     while(xml->readNextStartElement())
     {
-        if (xml->name()=="point")
+        if (std::strcmp(xml->name().data(), "point") == 0)
         {
             qreal x = xml->attributes().value("x").toString().toDouble();
             qreal y = xml->attributes().value("y").toString().toDouble();

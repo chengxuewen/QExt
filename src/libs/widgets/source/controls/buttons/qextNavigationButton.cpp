@@ -79,6 +79,7 @@ void QExtNavigationButton::setNavigationPosition(QExtNavigationButton::PositionE
     }
 }
 
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 void QExtNavigationButton::enterEvent(QEvent *)
 {
     Q_D(QExtNavigationButton);
@@ -92,6 +93,7 @@ void QExtNavigationButton::leaveEvent(QEvent *)
     d->mHovered = false;
     this->update();
 }
+#endif
 
 void QExtNavigationButton::paintEvent(QPaintEvent *event)
 {

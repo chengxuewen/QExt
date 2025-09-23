@@ -91,48 +91,6 @@ qext_add_executable(QExtExpWidgetsSwitchButton
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsFramelessMainwindow
-    SOURCES
-    framelesswindow/mainwindow.cpp
-    framelesswindow/mainwindow.h
-    framelesswindow/mainwindow.ui
-    framelesswindow/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/framelesswindow
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_EXAMPLESDIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsFramelessDialog
-    SOURCES
-    framelessdialog/dialog.cpp
-    framelessdialog/dialog.h
-    framelessdialog/dialog.ui
-    framelessdialog/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/framelessdialog
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_EXAMPLESDIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsFramelessWidget
-    SOURCES
-    framelesswidget/widget.cpp
-    framelesswidget/widget.h
-    framelesswidget/widget.ui
-    framelesswidget/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/framelesswidget
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_EXAMPLESDIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsBreathingLight
     SOURCES
     breathinglight/mainwindow.cpp

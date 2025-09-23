@@ -115,7 +115,7 @@ void QExtDateTimeTumbler::initForm()
     d->m_tumblerSec->setValueList(listSec);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     layout->setSpacing(0);
     layout->addWidget(d->m_tumblerYear);
     layout->addWidget(d->m_tumblerMonth);

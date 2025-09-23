@@ -33,7 +33,6 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMetaType>
-#include <QRegExp>
 
 
 QExtSerialEnumeratorPrivate::QExtSerialEnumeratorPrivate(QExtSerialEnumerator *enumrator)

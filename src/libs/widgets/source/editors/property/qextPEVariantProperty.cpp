@@ -1401,7 +1401,7 @@ void QExtPEVariantPropertyManager::setAttribute(QExtPEProperty *property, const 
     {
         if (attribute == d_ptr->m_regExpAttribute)
         {
-            stringManager->setRegExp(internProp, qextVariantValue<QRegExp>(value));
+            stringManager->setRegExp(internProp, qextVariantValue<QExtRegExp>(value));
         }
         if (attribute == d_ptr->m_echoModeAttribute)
         {

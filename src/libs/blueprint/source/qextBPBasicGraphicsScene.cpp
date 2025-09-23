@@ -8,9 +8,9 @@
 #include <qextBPGraphicsView.h>
 #include <qextBPUtils.h>
 
-#include <QtWidgets/QUndoStack>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QGraphicsSceneMoveEvent>
+#include <QUndoStack>
+#include <QFileDialog>
+#include <QGraphicsSceneMoveEvent>
 
 #include <QtCore/QFile>
 #include <QtCore/QBuffer>

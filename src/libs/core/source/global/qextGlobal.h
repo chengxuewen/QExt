@@ -251,6 +251,15 @@ inline void qextMetaEnum(const QVariant &variant)
 #   define QEXT_RANDOM_INT() qrand()
 #endif
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+#   include <QRandomGenerator>
+#   define QEXT_RANDOM_INT_SEED(x) QRandomGenerator::global()->seed(quint32(x))
+#   define QEXT_RANDOM_INT() int(QRandomGenerator::global()->generate())
+#else
+#   define QEXT_RANDOM_INT_SEED(x) qsrand(uint(x))
+#   define QEXT_RANDOM_INT() qrand()
+#endif
+
 
 /***********************************************************************************************************************
     QExt force inline macro declare

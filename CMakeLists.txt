@@ -31,6 +31,9 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 4.0)
     cmake_policy(SET CMP0177 NEW) # use install() DESTINATION
 endif()
+if(${CMAKE_VERSION} VERSION_LESS 3.24)
+    set(QT_CREATOR_SKIP_MAINTENANCE_TOOL_PROVIDER ON)
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -452,6 +455,7 @@ qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
 qext_option(QEXT_ENABLE_LIB_AUTH "Enable this to build the auth lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_LOGGING "Enable this to build the logging lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -465,50 +469,54 @@ qext_option(QEXT_ENABLE_LIB_BREAKPAD "Enable this to build the breakpad lib" OFF
 qext_option(QEXT_ENABLE_LIB_MEDIA "Enable this to build the media lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
-    DEPENDS QEXT_ENABLE_LIB_GUI
+    DEPENDS QEXT_ENABLE_LIB_GUI AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DAVIEW "Enable this to build the daview lib" OFF
     DEPENDS QEXT_ENABLE_LIB_PLOT AND QEXT_ENABLE_LIB_WIDGETS
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_FONTICON "Enable this to build the fonticon lib" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_KEYBOARD "Enable this to build the keyboard lib" OFF
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
     DEPENDS (NOT ANDROID)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib" OFF
-    DEPENDS QEXT_CXX_STANDARD17 AND (CMAKE_VERSION STRGREATER_EQUAL 3.20)
+    DEPENDS QEXT_CXX_STANDARD17 AND (CMAKE_VERSION VERSION_GREATER_EQUAL 3.20)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
-    DEPENDS NOT ANDROID
-    OR_CONDITION QEXT_BUILD_ALL)
-
-qext_option(QEXT_ENABLE_APP_RECORDPLAYER "Enable this to build the recordplayer app" OFF
-    DEPENDS QEXT_CXX_STANDARD11
+    DEPENDS (NOT ANDROID) AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5") AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty qcustomplot subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" STRGREATER_EQUAL "5")
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5") AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+
+qext_option(QEXT_ENABLE_APP_RECORDPLAYER "Enable this to build the recordplayer app" OFF
+    DEPENDS QEXT_CXX_STANDARD11 AND QEXT_ENABLE_LIB_PLOT AND QEXT_ENABLE_LIB_WIDGETS AND QEXT_ENABLE_LIB_RECORDPLAY
     OR_CONDITION QEXT_BUILD_ALL)
 
 

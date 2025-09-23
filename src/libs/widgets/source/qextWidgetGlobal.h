@@ -44,4 +44,15 @@
 #   define QEXT_WIDGETS_HIDDEN
 #endif
 
+#include <QBoxLayout>
+static inline void qextSetLayoutMargin(QBoxLayout *layout, int margin)
+{
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    layout->setMargin(0);
+#else
+    Q_UNUSED(layout);
+    Q_UNUSED(margin);
+#endif
+}
+
 #endif // _QEXTWIDGETGLOBAL_H

@@ -88,21 +88,16 @@ if(NOT EXISTS ${QExtWrapQtADS_STAMP_FILE_PATH})
     endif()
 endif()
 # wrap lib
-find_package(qtadvanceddocking-qt5 ${QExtWrapQtADS_VERSION} EXACT PATHS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQtADS INTERFACE IMPORTED)
-target_link_libraries(QExt3rdparty::WrapQtADS INTERFACE ads::qtadvanceddocking-qt5)
+if ("${QEXT_QT_VERSION}" VERSION_LESS "6")
+    find_package(qtadvanceddocking-qt5 ${QExtWrapQtADS_VERSION} EXACT PATHS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
+    target_link_libraries(QExt3rdparty::WrapQtADS INTERFACE ads::qtadvanceddocking-qt5)
+else()
+    find_package(qtadvanceddocking-qt6 ${QExtWrapQtADS_VERSION} EXACT PATHS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
+    target_link_libraries(QExt3rdparty::WrapQtADS INTERFACE ads::qtadvanceddocking-qt6)
+endif()
 # copy lib to build dir
 set(QExtWrapQtADS_INSTALL_DLLDIR "${QExtWrapQtADS_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
 qext_get_files("${QExtWrapQtADS_INSTALL_DLLDIR}" QExtWrapQtADS_LIBRARIES)
 qext_install(FILES "${QExtWrapQtADS_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
-# execute_process(
-#     COMMAND ${CMAKE_COMMAND} -E make_directory "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
-#     WORKING_DIRECTORY "${QExtWrapQtADS_ROOT_DIR}"
-#     ERROR_QUIET)
-# foreach(library ${QExtWrapQtADS_LIBRARIES})
-#     execute_process(
-#         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${library}" "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
-#         WORKING_DIRECTORY "${QExtWrapQtADS_ROOT_DIR}"
-#         ERROR_QUIET)
-# endforeach()
 set(QExtWrapQtADS_FOUND ON)

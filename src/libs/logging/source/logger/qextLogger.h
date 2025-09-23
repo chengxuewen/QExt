@@ -30,6 +30,7 @@
 
 #include <qextLogError.h>
 #include <qextLogClassLogger.h>
+#include <qextLoggerRepository.h>
 #include <qextLogAppenderAttachable.h>
 #include <qextLogLevel.h>
 #include <qextLogStream.h>

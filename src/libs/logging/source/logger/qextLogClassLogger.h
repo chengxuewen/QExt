@@ -53,6 +53,7 @@ public:
      * Creates a QExtClassLogger object.
      */
     QExtClassLogger();
+    virtual ~QExtClassLogger();
 
     /*!
      * Returns a pointer to a QExtLogger named after the class of the object

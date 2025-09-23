@@ -1,7 +1,6 @@
 ﻿#include <qextBreakpadHandler.h>
 #include <qextBreakpadHttpUploader.h>
 
-#include <qextMessageBox.h>
 #include <qextCommonUtils.h>
 
 #include <QDir>

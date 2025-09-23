@@ -24,7 +24,3 @@
 ***********************************************************************************************************************/
 
 #include <qextLoggerRepository.h>
-
-QExtLoggerRepository::QExtLoggerRepository() = default;
-
-QExtLoggerRepository::~QExtLoggerRepository() = default;

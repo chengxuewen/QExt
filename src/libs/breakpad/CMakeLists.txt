@@ -40,7 +40,10 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Widgets)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
+# if(QEXT_ENABLE_LIB_WIDGETS)
+#     list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Widgets)
+# endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -57,15 +60,15 @@ qext_add_library(${QEXT_LIB_NAME}
     resources/qextBreakpad.qrc
     PRECOMPILED_HEADER
     source/qextBreakpadPch.h
-    INCLUDE_DIRECTORIES
-    ${QExtWrapBreakpad_SOURCE_DIR}/src
-    ${QEXT_3RDPARTY_LSS_ROOT}
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 
 qext_find_package(WrapBreakpad PROVIDED_TARGETS QExt3rdparty::WrapBreakpad)
 qext_internal_extend_target(${QEXT_LIB_NAME} LIBRARIES QExt3rdparty::WrapBreakpad)
 if(QExtWrapBreakpad_USE_SOURCE)
+    qext_internal_extend_target(${QEXT_LIB_NAME}
+        INCLUDE_DIRECTORIES
+        ${QExtWrapBreakpad_SOURCE_DIR}/src)
     qext_internal_extend_target(${QEXT_LIB_NAME}
         SOURCES
         ${QExtWrapBreakpad_SOURCE_DIR}/src/client/minidump_file_writer.cc

@@ -31,6 +31,8 @@ QExtClassLogger::QExtClassLogger() :
 {
 }
 
+QExtClassLogger::~QExtClassLogger() { }
+
 QExtLogger *QExtClassLogger::logger(const QObject *object)
 {
     Q_ASSERT_X(object, "QExtClassLogger::logger()", "pObject must not be null");

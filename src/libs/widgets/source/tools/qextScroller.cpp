@@ -9,7 +9,6 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QGraphicsView>
-#include <QDesktopWidget>
 #include <QGraphicsScene>
 #include <QGraphicsObject>
 #include <QGuiApplication>

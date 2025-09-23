@@ -20,12 +20,12 @@ public:
     QExtKeyboardPanel * const q_ptr;
 
     bool m_hiding;
-    QVBoxLayout *m_mainLayout;
-    QHBoxLayout *m_bottomLayout;
+    QVBoxLayout *mMainLayout;
+    QHBoxLayout *mBottomLayout;
     QPropertyAnimation *m_animation;
-    QExtNormalKeyboard *m_normalKeyboard;
-    QExtSymbolKeyboard *m_symbolKeyboard;
-    QExtCandidatesListWidget *m_textDisplayWidget;
+    QExtNormalKeyboard *mNormalKeyboard;
+    QExtSymbolKeyboard *mSymbolKeyboard;
+    QExtCandidatesListWidget *mTextDisplayWidget;
 
 private:
     QEXT_DECLARE_PUBLIC(QExtKeyboardPanel)
@@ -46,31 +46,33 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
     , dd_ptr(new QExtKeyboardPanelPrivate(this))
 {
     Q_D(QExtKeyboardPanel);
-    d->m_normalKeyboard = new QExtNormalKeyboard(this);
-    d->m_symbolKeyboard = new QExtSymbolKeyboard(this);
-    d->m_textDisplayWidget = new QExtCandidatesListWidget(this);
-    d->m_textDisplayWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    d->m_textDisplayWidget->setMinimumSize(100, 50);
-    d->m_textDisplayWidget->resize(1000, 50);
+    d->mNormalKeyboard = new QExtNormalKeyboard(this);
+    d->mSymbolKeyboard = new QExtSymbolKeyboard(this);
+    d->mTextDisplayWidget = new QExtCandidatesListWidget(this);
+    d->mTextDisplayWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    d->mTextDisplayWidget->setMinimumSize(100, 50);
+    d->mTextDisplayWidget->resize(1000, 50);
 
-    d->m_mainLayout = new QVBoxLayout(this);
-    d->m_mainLayout->addWidget(d->m_textDisplayWidget);
+    d->mMainLayout = new QVBoxLayout(this);
+    d->mMainLayout->addWidget(d->mTextDisplayWidget);
 
     QWidget * widgetContainer = new QWidget(this);
-    d->m_bottomLayout = new QHBoxLayout;
-    d->m_bottomLayout->addWidget(d->m_normalKeyboard);
-    d->m_bottomLayout->addWidget(d->m_symbolKeyboard);
-    d->m_bottomLayout->setMargin(0);
-    widgetContainer->setLayout(d->m_bottomLayout);
+    d->mBottomLayout = new QHBoxLayout;
+    d->mBottomLayout->addWidget(d->mNormalKeyboard);
+    d->mBottomLayout->addWidget(d->mSymbolKeyboard);
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
+    d->mBottomLayout->setMargin(0);
+#endif
+    widgetContainer->setLayout(d->mBottomLayout);
     widgetContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    d->m_mainLayout->addWidget(widgetContainer);
-    d->m_mainLayout->setStretch(0, 0);
-    d->m_mainLayout->setStretch(1, 1);
-    d->m_mainLayout->setSpacing(10);
-    d->m_mainLayout->setContentsMargins(10, 10, 10, 10);
+    d->mMainLayout->addWidget(widgetContainer);
+    d->mMainLayout->setStretch(0, 0);
+    d->mMainLayout->setStretch(1, 1);
+    d->mMainLayout->setSpacing(10);
+    d->mMainLayout->setContentsMargins(10, 10, 10, 10);
 
-    d->m_symbolKeyboard->hide();
+    d->mSymbolKeyboard->hide();
 
 //将KeyboardContainer设置为模态窗口会导致下面的语句不起作用,虚拟键盘会抢输入框焦点
 #if (QT_VERSION > QT_VERSION_CHECK(5, 0, 0))
@@ -122,7 +124,7 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
         }"
         );
 
-    d->m_textDisplayWidget->setStyleSheet("*{font-size: 18pt;font-family: 'Microsoft YaHei';outline: none} \
+    d->mTextDisplayWidget->setStyleSheet("*{font-size: 18pt;font-family: 'Microsoft YaHei';outline: none} \
         QPushButton\
         {\
                 color:rgb(255,255,255);\
@@ -147,17 +149,17 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
         }"
         );
 
-    connect(d->m_normalKeyboard, &QExtNormalKeyboard::changeLanguage, this, &QExtKeyboardPanel::changeLanguage);
-    connect(d->m_symbolKeyboard, &QExtSymbolKeyboard::changeLanguage, this, &QExtKeyboardPanel::changeLanguage);
-    connect(d->m_normalKeyboard, &QExtNormalKeyboard::changeSymbol, this, &QExtKeyboardPanel::onChangeSymbol);
-    connect(d->m_symbolKeyboard, &QExtSymbolKeyboard::changeSymbol, this, &QExtKeyboardPanel::onChangeSymbol);
+    connect(d->mNormalKeyboard, &QExtNormalKeyboard::changeLanguage, this, &QExtKeyboardPanel::changeLanguage);
+    connect(d->mSymbolKeyboard, &QExtSymbolKeyboard::changeLanguage, this, &QExtKeyboardPanel::changeLanguage);
+    connect(d->mNormalKeyboard, &QExtNormalKeyboard::changeSymbol, this, &QExtKeyboardPanel::onChangeSymbol);
+    connect(d->mSymbolKeyboard, &QExtSymbolKeyboard::changeSymbol, this, &QExtKeyboardPanel::onChangeSymbol);
 
-    connect(d->m_normalKeyboard, &QExtNormalKeyboard::hideKeyboard, this, &QExtKeyboardPanel::hideKeyboard);
-    connect(d->m_symbolKeyboard, &QExtSymbolKeyboard::hideKeyboard, this, &QExtKeyboardPanel::hideKeyboard);
+    connect(d->mNormalKeyboard, &QExtNormalKeyboard::hideKeyboard, this, &QExtKeyboardPanel::hideKeyboard);
+    connect(d->mSymbolKeyboard, &QExtSymbolKeyboard::hideKeyboard, this, &QExtKeyboardPanel::hideKeyboard);
 
-    connect(d->m_normalKeyboard, &QExtNormalKeyboard::keyPressed, this, &QExtKeyboardPanel::keyPressed);
-    connect(d->m_symbolKeyboard, &QExtSymbolKeyboard::keyPressed, this, &QExtKeyboardPanel::keyPressed);
-    connect(d->m_textDisplayWidget,&QExtCandidatesListWidget::chooseText,this,&QExtKeyboardPanel::chooseCandidate);
+    connect(d->mNormalKeyboard, &QExtNormalKeyboard::keyPressed, this, &QExtKeyboardPanel::keyPressed);
+    connect(d->mSymbolKeyboard, &QExtSymbolKeyboard::keyPressed, this, &QExtKeyboardPanel::keyPressed);
+    connect(d->mTextDisplayWidget,&QExtCandidatesListWidget::chooseText,this,&QExtKeyboardPanel::chooseCandidate);
 
     d->m_animation = new QPropertyAnimation(this, "pos");
     d->m_animation->setDuration(200);
@@ -197,28 +199,28 @@ bool QExtKeyboardPanel::isAnimating() const
 void QExtKeyboardPanel::setCandidateList(const QStringList &texts)
 {
     Q_D(QExtKeyboardPanel);
-    d->m_textDisplayWidget->setCandidatesList(texts);
+    d->mTextDisplayWidget->setCandidatesList(texts);
 }
 
 void QExtKeyboardPanel::setLanguageName(const QString &name)
 {
     Q_D(QExtKeyboardPanel);
-    d->m_normalKeyboard->setCurLanguage(name);
-    d->m_symbolKeyboard->setCurLanguage(name);
+    d->mNormalKeyboard->setCurLanguage(name);
+    d->mSymbolKeyboard->setCurLanguage(name);
 }
 
 void QExtKeyboardPanel::onChangeSymbol()
 {
     Q_D(QExtKeyboardPanel);
-    if(d->m_normalKeyboard->isVisible())
+    if(d->mNormalKeyboard->isVisible())
     {
-        d->m_normalKeyboard->hide();
-        d->m_symbolKeyboard->show();
+        d->mNormalKeyboard->hide();
+        d->mSymbolKeyboard->show();
     }
     else
     {
-        d->m_normalKeyboard->show();
-        d->m_symbolKeyboard->hide();
+        d->mNormalKeyboard->show();
+        d->mSymbolKeyboard->hide();
     }
 
     emit this->changeSymbol();
@@ -227,10 +229,10 @@ void QExtKeyboardPanel::onChangeSymbol()
 void QExtKeyboardPanel::onHideSymbol()
 {
     Q_D(QExtKeyboardPanel);
-    if(!d->m_normalKeyboard->isVisible())
+    if(!d->mNormalKeyboard->isVisible())
     {
-        d->m_normalKeyboard->show();
-        d->m_symbolKeyboard->hide();
+        d->mNormalKeyboard->show();
+        d->mSymbolKeyboard->hide();
     }
 }
 

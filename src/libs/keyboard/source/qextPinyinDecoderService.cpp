@@ -239,7 +239,7 @@ QString QExtPinyinDecoderService::candidateAt(int index)
     {
         return QString();
     }
-    candidateBuf.last() = 0;
+    candidateBuf.last() = QChar(0);
     return QString(candidateBuf.data());
 }
 

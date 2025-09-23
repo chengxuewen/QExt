@@ -82,6 +82,7 @@ qext_add_library(Core
     source/serialization/qextSettingsSerializeFile.h
     source/serialization/qextJsonSerializeFile.cpp
     source/serialization/qextJsonSerializeFile.h
+    source/tools/qextAlgorithms.h
     source/tools/qextAny.h
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
@@ -99,8 +100,6 @@ qext_add_library(Core
     source/tools/qextNumeric.h
     source/tools/qextTagId.cpp
     source/tools/qextTagId.h
-    source/tools/qextRange.cpp
-    source/tools/qextRange.h
     source/tools/qextResult.h
     source/tools/qextSingleton.h
     source/tools/qextSpinlock.h
@@ -109,6 +108,9 @@ qext_add_library(Core
     source/tools/qextOnceFlag.cpp
     source/tools/qextOnceFlag.h
     source/tools/qextOptional.h
+    source/tools/qextRange.cpp
+    source/tools/qextRange.h
+    source/tools/qextRegExp.h
     source/tools/qextTypeInfo.h
     source/tools/qextTypeTrait.h
     source/tools/qextUniquePointer.h

@@ -102,15 +102,6 @@ qext_add_library(${QEXT_LIB_NAME}
     source/controls/displays/qextWaveChart.cpp
     source/controls/displays/qextWaveChart.h
     source/controls/displays/qextWaveChart_p.h
-    source/controls/frameless/qextFramelessDialog.h
-    source/controls/frameless/qextFramelessDialog_p.h
-    source/controls/frameless/qextFramelessDialog.cpp
-    source/controls/frameless/qextFramelessMainwindow.h
-    source/controls/frameless/qextFramelessMainwindow_p.h
-    source/controls/frameless/qextFramelessMainwindow.cpp
-    source/controls/frameless/qextFramelessWidget.h
-    source/controls/frameless/qextFramelessWidget_p.h
-    source/controls/frameless/qextFramelessWidget.cpp
     source/controls/inputs/qextCheckComboBox.cpp
     source/controls/inputs/qextCheckComboBox.h
     source/controls/inputs/qextDateTimeTumbler.cpp

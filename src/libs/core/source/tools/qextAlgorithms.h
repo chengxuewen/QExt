@@ -2,7 +2,7 @@
 **
 ** Library: QExt
 **
-** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com
 **
 ** License: MIT License
 **
@@ -22,46 +22,42 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTFRAMELESSMAINWINDOW_P_H
-#define _QEXTFRAMELESSMAINWINDOW_P_H
+#ifndef _QEXTALGORITHMS_H
+#define _QEXTALGORITHMS_H
 
-#include <qextFramelessMainwindow.h>
+#include <QtAlgorithms>
 
-#include <QWidget>
-#include <QPointer>
-
-class QExtFramelessMainWindow;
-class QEXT_WIDGETS_API QExtFramelessMainWindowPrivate
+namespace qextInternal
 {
-public:
-    explicit QExtFramelessMainWindowPrivate(QExtFramelessMainWindow *q);
-    virtual ~QExtFramelessMainWindowPrivate();
+template <typename RandomAccessIterator, typename T>
+inline void qSortHelper(RandomAccessIterator start, RandomAccessIterator end, const T &t)
+{
+    if (start != end)
+    {
+        std::sort(start, end, std::less<T>());
+    }
+}
+}
 
-    QExtFramelessMainWindow * const q_ptr;
+template <typename RandomAccessIterator, typename LessThan>
+inline void qextSort(RandomAccessIterator start, RandomAccessIterator end, LessThan lessThan)
+{
+    if (start != end)
+    {
+        std::sort(start, end, lessThan);
+    }
+}
 
-    int m_padding;
-    bool m_moveEnable;
-    bool m_resizeEnable;
+template<typename Container>
+inline void qextSort(Container &container)
+{
+    qextInternal::qSortHelper(container.begin(), container.end(), *container.begin());
+}
 
-    QPointer<QWidget> m_titleBar;
+template <typename RandomAccessIterator>
+inline void qextSort(RandomAccessIterator start, RandomAccessIterator end)
+{
+    qextInternal::qSortHelper(start, end, *start);
+}
 
-    bool m_mousePressed;
-    QPoint m_mousePoint;
-    QRect m_mouseRect;
-
-    //Whether to hold down a region + Size of the region to hold down
-    //Left + right + upper side + lower side + left upper side + right upper side + left lower side + right lower side
-    QList<bool> m_pressedArea;
-    QList<QRect> m_pressedRect;
-
-    //Whether records are minimized
-    bool m_isMin;
-    //Stores the default properties of the form
-    Qt::WindowFlags m_flags;
-
-private:
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtFramelessMainWindowPrivate)
-    QEXT_DECLARE_PUBLIC(QExtFramelessMainWindow)
-};
-
-#endif // _QEXTFRAMELESSMAINWINDOW_P_H
+#endif // _QEXTALGORITHMS_H

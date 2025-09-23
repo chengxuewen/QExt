@@ -21,7 +21,7 @@ QString QExtNumeric::doubleTrimmedText(const QString &text)
     {
         if ('0' != *iter)
         {
-            if ((*iter < 48) || (*iter > 57))
+            if ((*iter < QChar(48)) || (*iter > QChar(57)))
             {
                 index--;
             }

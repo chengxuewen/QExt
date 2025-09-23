@@ -68,8 +68,10 @@ public:
     QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 protected:
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     void enterEvent(QEvent *) QEXT_OVERRIDE;
     void leaveEvent(QEvent *) QEXT_OVERRIDE;
+#endif
     void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     void drawBackground(QPainter *painter);

@@ -59,9 +59,8 @@ ReporterExample::~ReporterExample()
 
 void ReporterExample::crash()
 {
-    qsrand(QDateTime::currentDateTime().toTime_t());
-    TestThread t1(false, qrand());
-    TestThread t2(true, qrand());
+    TestThread t1(false, rand());
+    TestThread t2(true, rand());
 
     t1.start();
     t2.start();
