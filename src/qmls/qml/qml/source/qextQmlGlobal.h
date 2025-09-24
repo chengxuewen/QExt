@@ -26,6 +26,7 @@
 #define _QEXTQMLGLOBAL_H
 
 #include <qextGlobal.h>
+#include <qextQmlConfig.h>
 
 /***********************************************************************************************************************
    QExt Compiler specific cmds for export and import code to DLL

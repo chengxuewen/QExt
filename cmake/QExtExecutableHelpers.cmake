@@ -46,9 +46,29 @@ function(qext_add_executable name)
         set(arg_INSTALL_DIRECTORY "${QEXT_INSTALL_BINDIR}")
     endif()
 
-    qext_internal_create_executable(${name})
-    if(ANDROID)
-        qext_internal_android_executable_finalizer(${name})
+    if("${QT_VERSION}" VERSION_GREATER_EQUAL "6.2.0")
+        qt_add_executable(${name} ${arg_SOURCES})
+        set(private_includes
+            "${CMAKE_CURRENT_SOURCE_DIR}"
+            "${CMAKE_CURRENT_BINARY_DIR}"
+            ${arg_INCLUDE_DIRECTORIES})
+        qext_internal_extend_target("${name}"
+            SOURCES ${arg_SOURCES}
+            INCLUDE_DIRECTORIES ${private_includes}
+            DEFINES ${arg_DEFINES}
+            LIBRARIES ${arg_LIBRARIES}
+            PUBLIC_LIBRARIES ${extra_libraries} ${arg_PUBLIC_LIBRARIES}
+            COMPILE_OPTIONS ${arg_COMPILE_OPTIONS}
+            LINK_OPTIONS ${arg_LINK_OPTIONS})
+        if(ANDROID)
+            qt_android_generate_deployment_settings(${name})
+        endif()
+        return()
+    else()
+        qext_internal_create_executable(${name})
+        if(ANDROID)
+            qext_internal_android_executable_finalizer(${name})
+        endif()
     endif()
 
     if("x${arg_OUTPUT_NAME}" STREQUAL "x")
@@ -112,7 +132,6 @@ function(qext_add_executable name)
         set_property(TARGET ${name} PROPERTY CXX_VISIBILITY_PRESET default)
     endif()
 
-    #    qext_autogen_tools_initial_setup(${name})
     qext_skip_warnings_are_errors_when_repo_unclean("${name}")
 
     set(private_includes

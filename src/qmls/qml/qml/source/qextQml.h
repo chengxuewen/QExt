@@ -26,6 +26,7 @@
 #define _QEXTQML_H
 
 #include <qextQmlGlobal.h>
+#include <qextQmlRegistration.h>
 
 #include <QObject>
 #include <QQmlEngine>
@@ -35,20 +36,20 @@
 class QExtQmlFontIconInfo : public QObject
 {
     Q_OBJECT
+    QEXT_QML_ELEMENT()
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QString family READ family WRITE setFamily NOTIFY familyChanged)
-
 public:
     QExtQmlFontIconInfo() {}
-    QExtQmlFontIconInfo(const QString &family, const QString &text) : m_text(text), m_family(family) {}
-    QExtQmlFontIconInfo(const QExtQmlFontIconInfo &other) : m_text(other.m_text), m_family(other.m_family) {}
+    QExtQmlFontIconInfo(const QString &family, const QString &text) : mText(text), mFamily(family) {}
+    QExtQmlFontIconInfo(const QExtQmlFontIconInfo &other) : mText(other.mText), mFamily(other.mFamily) {}
 
     QExtQmlFontIconInfo &operator =(const QExtQmlFontIconInfo &other)
     {
         if (this != &other)
         {
-            m_text = other.m_text;
-            m_family = other.m_family;
+            mText = other.mText;
+            mFamily = other.mFamily;
         }
         return *this;
     }
@@ -57,7 +58,7 @@ public:
     {
         if (this != &other)
         {
-            return m_text == other.m_text && m_family == other.m_family;
+            return mText == other.mText && mFamily == other.mFamily;
         }
         return true;
     }
@@ -66,22 +67,22 @@ public:
         return !(*this == other);
     }
 
-    QString text() const { return m_text; }
+    QString text() const { return mText; }
     void setText(const QString &text)
     {
-        if (text != m_text)
+        if (text != mText)
         {
-            m_text = text;
+            mText = text;
             emit this->textChanged(text);
         }
     }
 
-    QString family() const { return m_family; }
+    QString family() const { return mFamily; }
     void setFamily(const QString &family)
     {
-        if (family != m_family)
+        if (family != mFamily)
         {
-            m_family = family;
+            mFamily = family;
             emit this->familyChanged(family);
         }
     }
@@ -91,8 +92,8 @@ Q_SIGNALS:
     void familyChanged(const QString &family);
 
 private:
-    QString m_text;
-    QString m_family;
+    QString mText;
+    QString mFamily;
 };
 
 class QExtQmlWorld;
@@ -100,7 +101,9 @@ class QExtQmlPrivate;
 class QEXT_QML_API QExtQml : public QObject
 {
     Q_OBJECT
-
+    QEXT_QML_ELEMENT()
+    QEXT_QML_SINGLETON()
+    Q_PROPERTY(QString version READ version CONSTANT FINAL)
 public:
     enum StateType
     {
@@ -112,7 +115,7 @@ public:
         State_Unchecked,
         State_PartiallyChecked,
     };
-    Q_ENUM(StateType);
+    Q_ENUM(StateType)
 
     enum PositionType
     {
@@ -122,7 +125,7 @@ public:
         Position_Bottom,
         Position_Center
     };
-    Q_ENUM(PositionType);
+    Q_ENUM(PositionType)
 
     enum IconDisplayType
     {
@@ -133,14 +136,14 @@ public:
         IconDisplay_Top,
         IconDisplay_Bottom,
     };
-    Q_ENUM(IconDisplayType);
+    Q_ENUM(IconDisplayType)
 
     enum IconType
     {
         Icon_Awesome = 0,
         Icon_SVG
     };
-    Q_ENUM(IconType);
+    Q_ENUM(IconType)
 
     //h1=32px h2=24px h3=19px h4=16px h5=14px h6=12px
     enum class PixelSizeType
@@ -154,7 +157,7 @@ public:
         PH7 = 10,
         PH8 = 8
     };
-    Q_ENUM(PixelSizeType);
+    Q_ENUM(PixelSizeType)
 
     enum DragDirectionType
     {
@@ -168,10 +171,10 @@ public:
         DragDirection_Bottom,
         DragDirection_Center
     };
-    Q_ENUM(DragDirectionType);
+    Q_ENUM(DragDirectionType)
 
     ~QExtQml();
-    static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
+    static QEXT_QML_SINGLETON_TYPE(QExtQml) *create(QQmlEngine *engine, QJSEngine *scriptEngine);
     static QExtQml *instance();
 
     Q_INVOKABLE QString version() const;
@@ -184,7 +187,7 @@ public:
     Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
     Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
 
-    void registerTypes(const char *url);
+    void registerTypes(const char *url = nullptr);
     void initQmlEngine(QQmlEngine *engine, const char *uri);
 
 protected:

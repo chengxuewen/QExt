@@ -31,7 +31,7 @@ QExtQmlFontAwesome::~QExtQmlFontAwesome()
 
 }
 
-QObject *QExtQmlFontAwesome::qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+QEXT_QML_SINGLETON_TYPE(QExtQmlFontAwesome) *QExtQmlFontAwesome::create(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)

@@ -572,3 +572,12 @@ function(_qext_internal_create_command_script)
             message(FATAL_ERROR \"\${full_command} execution failed with exit code \${result}.\")
         endif()")
 endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_internal_wrap_command_arguments argument_list)
+    list(TRANSFORM ${argument_list} REPLACE "^(.+)$" "[=[\\1]=]")
+    list(JOIN ${argument_list} " " ${argument_list})
+    set(${argument_list} "${${argument_list}}" PARENT_SCOPE)
+endfunction()

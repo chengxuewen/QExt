@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QElapsedTimer>
 #include <QGraphicsView>
 #include <QGraphicsScene>

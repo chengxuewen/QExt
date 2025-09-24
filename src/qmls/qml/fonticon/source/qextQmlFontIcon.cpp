@@ -69,7 +69,7 @@ QExtQmlFontIcon::~QExtQmlFontIcon()
 
 }
 
-QObject *QExtQmlFontIcon::qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+QEXT_QML_SINGLETON_TYPE(QExtQmlFontIcon) *QExtQmlFontIcon::create(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
@@ -83,6 +83,7 @@ QExtQmlFontIcon *QExtQmlFontIcon::instance()
     if(onceFlag.enter())
     {
         instance = new QExtQmlFontIcon;
+        instance->registerTypes();
         onceFlag.leave();
     }
     return instance;
@@ -95,21 +96,27 @@ QString QExtQmlFontIcon::version() const
 
 void QExtQmlFontIcon::registerTypes(const char *url)
 {
-    Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
-    Q_INIT_RESOURCE(qextQmlFontIcon);
+    qDebug() << QString("QExtQmlFontIcon::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+    if (url)
+    {
+        Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
+    }
+    if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
+    {
+        Q_INIT_RESOURCE(qextQmlFontIcon);
 
-    const int major = QEXT_VERSION_MAJOR;
-    const int minor = QEXT_VERSION_MINOR;
+        const int major = QEXT_VERSION_MAJOR;
+        const int minor = QEXT_VERSION_MINOR;
 
-    qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
-                                              QExtQmlFontIcon::qmlSingletonTypeProvider);
-    qmlRegisterSingletonType<QExtQmlFontAwesome>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontAwesome",
-                                                 QExtQmlFontAwesome::qmlSingletonTypeProvider);
+        qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
+                                                  QExtQmlFontIcon::create);
+        qmlRegisterSingletonType<QExtQmlFontAwesome>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontAwesome",
+                                                     QExtQmlFontAwesome::create);
+    }
 }
 
 void QExtQmlFontIcon::initQmlEngine(QQmlEngine *engine, const char *uri)
 {
-    // Q_D(QExtQmlFontIcon);
     Q_UNUSED(engine)
     Q_UNUSED(uri)
 }

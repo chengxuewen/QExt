@@ -28,26 +28,28 @@
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
 
+QEXT_QML_DECLARE_REGISTRATION(QExtQml_FontIcon)
+
 class QExtQmlFontIconPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    // QQmlExtensionInterface interface
-    void registerTypes(const char *uri);
+    QExtQmlFontIconPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent)
+    {
+        QEXT_QML_REFERENCE_REGISTRATION(QExtQml_FontIcon)
+    }
 
-    void initializeEngine(QQmlEngine *engine, const char *uri);
+    void registerTypes(const char *uri)
+    {
+        QExtQmlFontIcon::instance()->registerTypes(uri);
+    }
+
+    void initializeEngine(QQmlEngine *engine, const char *uri)
+    {
+        QExtQmlFontIcon::instance()->initQmlEngine(engine, uri);
+    }
 };
-
-void QExtQmlFontIconPlugin::registerTypes(const char *uri)
-{
-    QExtQmlFontIcon::instance()->registerTypes(uri);
-}
-
-void QExtQmlFontIconPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QExtQmlFontIcon::instance()->initQmlEngine(engine, uri);
-}
 
 #include <qextQmlFontIconPlugin.moc>

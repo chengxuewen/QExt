@@ -23,32 +23,36 @@
 ***********************************************************************************************************************/
 
 #include <qextQml.h>
+#include <qextQmlPadding.h>
 #include <qextQmlConfig.h>
 
 #include <QObject>
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
 
+QEXT_QML_DECLARE_REGISTRATION(QExtQml)
+
+// QQmlEngineExtensionPlugin
 class QExtQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    // QQmlExtensionInterface interface
-    void registerTypes(const char *uri);
+    QExtQmlPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent)
+    {
+        QEXT_QML_REFERENCE_REGISTRATION(QExtQml)
+    }
 
-    void initializeEngine(QQmlEngine *engine, const char *uri);
+    void registerTypes(const char *uri)
+    {
+        QExtQml::instance()->registerTypes(uri);
+    }
+
+    void initializeEngine(QQmlEngine *engine, const char *uri)
+    {
+        QExtQml::instance()->initQmlEngine(engine, uri);
+    }
 };
-
-void QExtQmlPlugin::registerTypes(const char *uri)
-{
-    QExtQml::instance()->registerTypes(uri);
-}
-
-void QExtQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QExtQml::instance()->initQmlEngine(engine, uri);
-}
 
 #include <qextQmlPlugin.moc>

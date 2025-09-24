@@ -41,7 +41,7 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::FontIcon)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qt_internal_add_qml_module(QmlFontIcon
+qext_add_qml_module(QmlFontIcon
     URI "QExtQml.FontIcon"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQmlFontIconPlugin
@@ -55,7 +55,7 @@ qt_internal_add_qml_module(QmlFontIcon
     source/qextQmlFontIcon.cpp
     source/qextQmlFontIcon.h
     source/qextQmlFontIconGlobal.h
-    resources/qextQmlFontIcon.qrc
+    qextQmlFontIcon.qrc
     PRECOMPILED_HEADER
     source/qextQmlFontIconPch.h
     PUBLIC_LIBRARIES

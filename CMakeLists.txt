@@ -154,15 +154,18 @@ foreach(major ${QEXT_QT_VERSION_MAJOR_LIST})
         set(QEXT_SINCE_QT${major} OFF)
     endif()
 endforeach()
+if(ANDROID AND ("${QT_VERSION}" VERSION_LESS "6.5"))
+    set(QEXT_QT_HAS_QML OFF)
+endif()
 
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
 get_filename_component(QEXT_QT_KIT_DIR "${QEXT_QT_BIN_DIR}" DIRECTORY)
 set(QEXT_QT_LIB_DIR ${QEXT_QT_KIT_DIR}/lib)
 set(QEXT_QT_QML_DIR ${QEXT_QT_KIT_DIR}/qml)
-
-if(WIN32)
-    # set(QEXT_QT_HAS_QML OFF)
+if(NOT EXISTS "${QT_HOST_PATH}")
+    set(QT_HOST_PATH ${QEXT_QT_KIT_DIR})
 endif()
+message(STATUS "QT_HOST_PATH is set to:${QT_HOST_PATH}")
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -408,6 +411,7 @@ include(QExtFindPackageHelpers)
 include(QExtPrecompiledHelpers)
 include(QExtExecutableHelpers)
 include(QExtSeparateDebugInfo)
+include(QExtPublicToolHelpers)
 include(QExtConfigureHelpers)
 include(QExtFrameworkHelpers)
 include(QExtPkgConfigHelpers)
@@ -415,6 +419,7 @@ include(QExtDeployQtHelpers)
 include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
 include(QExtQtToolsHelpers)
+include(QExtAndroidHelpers)
 include(QExtAutogenHelpers)
 include(QExtModuleHelpers)
 include(QExtPluginHelpers)
@@ -444,6 +449,7 @@ qext_option(QEXT_BUILD_QMLS "Enable this to build qmls" OFF
     DEPENDS QEXT_QT_HAS_QML
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_TESTS "Enable this to build tests" OFF
+    DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -484,7 +490,7 @@ qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
-    DEPENDS (NOT ANDROID)
+    DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib" OFF
     DEPENDS QEXT_CXX_STANDARD17 AND (CMAKE_VERSION VERSION_GREATER_EQUAL 3.20)
@@ -497,22 +503,26 @@ qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib"
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF
+    DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5") AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
+    DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty qcustomplot subdirectory" OFF
+    DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5") AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
+    DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_APP_RECORDPLAYER "Enable this to build the recordplayer app" OFF
@@ -744,8 +754,8 @@ else()
     set(QEXT_IN_SUBMODULE ON)
 endif()
 
-if(CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QEXT_HOST_PATH}")
-    message(FATAL_ERROR "You need to set QEXT_HOST_PATH to cross compile QEXT.")
+if(CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QT_HOST_PATH}")
+    message(WARNING "You need to set QT_HOST_PATH to cross compile QEXT.")
 endif()
 
 

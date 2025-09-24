@@ -33,8 +33,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
-    )
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -63,7 +62,6 @@ qext_add_executable(QExtExpCoreReflection
     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-
 qext_add_executable(QExtExpCoreHostInfo
     SOURCES
     hostinfo/mainwindow.h

@@ -25,6 +25,7 @@
 #include <qextQml.h>
 #include <qextQmlGlobal.h>
 #include <qextQmlConfig.h>
+#include <qextQmlPadding.h>
 
 #include <qextObject.h>
 #include <qextOnceFlag.h>
@@ -45,7 +46,7 @@ public:
 
     QExtQml * const q_ptr;
 
-    QPointer<QQmlEngine> m_qmlEngine;
+    QPointer<QQmlEngine> mQmlEngine;
 
 private:
     QEXT_DECLARE_PUBLIC(QExtQml)
@@ -74,7 +75,7 @@ QExtQml::~QExtQml()
 
 }
 
-QObject *QExtQml::qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+QEXT_QML_SINGLETON_TYPE(QExtQml) *QExtQml::create(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
@@ -88,6 +89,7 @@ QExtQml *QExtQml::instance()
     if(onceFlag.enter())
     {
         instance = new QExtQml;
+        instance->registerTypes();
         onceFlag.leave();
     }
     return instance;
@@ -202,24 +204,30 @@ QString QExtQml::fontIconUrl(const QString &family, const QString &key)
 
 void QExtQml::registerTypes(const char *url)
 {
-    Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
-    Q_INIT_RESOURCE(qextQml);
+    qDebug() << QString("QExtQml::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+    if (url)
+    {
+        Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
+    }
+    if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
+    {
+        Q_INIT_RESOURCE(qextQml);
 
-    const int major = QEXT_VERSION_MAJOR;
-    const int minor = QEXT_VERSION_MINOR;
+        const int major = QEXT_VERSION_MAJOR;
+        const int minor = QEXT_VERSION_MINOR;
 
-    qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml",
-                                      QExtQml::qmlSingletonTypeProvider);
+        qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml", QExtQml::create);
 
-    qmlRegisterType<QExtObject>( QEXT_QML_MODULE_URI, major, minor, "QExtObject");
-    qmlRegisterType<QExtQmlFontIconInfo>( QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
+        qmlRegisterType<QExtQmlPadding>( QEXT_QML_MODULE_URI, major, minor, "QExtQmlPadding");
+        qmlRegisterType<QExtQmlFontIconInfo>( QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
-    qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"), QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
+        qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"), QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
+    }
 }
 
 void QExtQml::initQmlEngine(QQmlEngine *engine, const char *uri)
 {
     Q_UNUSED(uri)
     Q_D(QExtQml);
-    d->m_qmlEngine = engine;
+    d->mQmlEngine = engine;
 }

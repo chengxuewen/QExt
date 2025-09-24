@@ -42,7 +42,7 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core QExt::Keyboard)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qt_internal_add_qml_module(QuickKeyboard
+qext_add_qml_module(QuickKeyboard
     URI "QExtQuick.Keyboard"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickKeyboardPlugin

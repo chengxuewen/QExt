@@ -87,8 +87,7 @@ if(NOT EXISTS ${QExtWrapQCustomPlot_STAMP_FILE_PATH})
     endif()
 endif()
 # wrap lib
-find_package(QCustomPlot ${QExtWrapQCustomPlot_VERSION} EXACT PATHS ${QExtWrapQCustomPlot_INSTALL_DIR} REQUIRED)
-# add_library(QExt3rdparty::WrapQCustomPlot ALIAS QCustomPlot::QCustomPlot)
+find_package(QCustomPlot ${QExtWrapQCustomPlot_VERSION} HINTS ${QExtWrapQCustomPlot_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQCustomPlot INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQCustomPlot INTERFACE QCustomPlot::QCustomPlot)
 # copy lib to build dir

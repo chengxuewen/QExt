@@ -2,6 +2,7 @@
 #define _QEXTPEWIDGETFACTORY_P_H
 
 #include <qextPEWidgetFactory.h>
+#include <qextRegExp.h>
 
 #include <QLabel>
 #include <QLayout>

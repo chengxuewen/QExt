@@ -30,6 +30,7 @@ set(QEXT_QML_LINK_LIBRARIES)
 if (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_QML_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick)
 else()
@@ -42,9 +43,8 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qt_internal_add_qml_module(Qml
-    # NO_GENERATE_QMLTYPES
-    URI "QExtQml"
+qext_add_qml_module(Qml
+    URI QExtQml
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQmlPlugin
     PLUGIN_TARGET QExtQmlPlugin
@@ -54,8 +54,13 @@ qt_internal_add_qml_module(Qml
     SOURCES
     source/qextQml.cpp
     source/qextQml.h
+    source/qextQmlPadding.cpp
+    source/qextQmlPadding.h
     source/qextQmlGlobal.h
-    resources/qextQml.qrc
+    source/qextQmlRegistration.h
+    qextQml.qrc
+    QML_FILES
+    qml/QExtQmlObject.qml
     PRECOMPILED_HEADER
     source/qextQmlPch.h
     PUBLIC_LIBRARIES

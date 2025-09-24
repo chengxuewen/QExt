@@ -865,8 +865,8 @@ function(qext_internal_export_additional_targets_file_handler id)
     #-----------------------------------------------------------------------------------------------------------------------
     function(qext_internal_link_internal_platform_for_object_library target)
         # We need to apply iOS bitcode flags to object libraries that are associated with internal
-        # modules or plugins (e.g. object libraries added by qt_internal_add_resource,
-        # qt_internal_add_plugin, etc.)
+        # modules or plugins (e.g. object libraries added by qext_internal_add_resource,
+        # qext_internal_add_plugin, etc.)
         # The flags are needed when building iOS apps because Xcode expects bitcode to be
         # present by default.
         # Achieve this by compiling the cpp files with the PlatformModuleInternal compile flags.
@@ -881,21 +881,21 @@ function(qext_internal_export_additional_targets_file_handler id)
     # Can be called to add additional targets to the file after the initial setup call.
     # Used for resources.
     function(qext_internal_add_targets_to_additional_targets_export_file)
-        qt_internal_get_export_additional_targets_keywords(option_args single_args multi_args)
+        qext_internal_get_export_additional_targets_keywords(option_args single_args multi_args)
         cmake_parse_arguments(arg
             "${option_args}"
             "${single_args}"
             "${multi_args}"
             ${ARGN})
 
-        qt_internal_append_export_additional_targets()
+        qext_internal_append_export_additional_targets()
     endfunction()
 
 
 
     #-----------------------------------------------------------------------------------------------------------------------
     #-----------------------------------------------------------------------------------------------------------------------
-    macro(qt_internal_get_export_additional_targets_keywords option_args single_args multi_args)
+    macro(qext_internal_get_export_additional_targets_keywords option_args single_args multi_args)
         set(${option_args})
         set(${single_args}
             EXPORT_NAME_PREFIX)
@@ -909,26 +909,26 @@ function(qext_internal_export_additional_targets_file_handler id)
     #-----------------------------------------------------------------------------------------------------------------------
     #-----------------------------------------------------------------------------------------------------------------------
     # Uses outer-scope variables to keep the implementation less verbose.
-    macro(qt_internal_append_export_additional_targets)
-        qt_internal_validate_export_additional_targets(
+    macro(qext_internal_append_export_additional_targets)
+        qext_internal_validate_export_additional_targets(
             EXPORT_NAME_PREFIX "${arg_EXPORT_NAME_PREFIX}"
             TARGETS ${arg_TARGETS}
             TARGET_EXPORT_NAMES ${arg_TARGET_EXPORT_NAMES})
 
-        qt_internal_get_export_additional_targets_id("${arg_EXPORT_NAME_PREFIX}" id)
+        qext_internal_get_export_additional_targets_id("${arg_EXPORT_NAME_PREFIX}" id)
 
         set_property(GLOBAL APPEND
-            PROPERTY _qt_export_additional_targets_${id} "${arg_TARGETS}")
+            PROPERTY _qext_export_additional_targets_${id} "${arg_TARGETS}")
         set_property(GLOBAL APPEND
-            PROPERTY _qt_export_additional_target_export_names_${id} "${arg_TARGET_EXPORT_NAMES}")
+            PROPERTY _qext_export_additional_target_export_names_${id} "${arg_TARGET_EXPORT_NAMES}")
     endmacro()
 
 
 
     #-----------------------------------------------------------------------------------------------------------------------
     #-----------------------------------------------------------------------------------------------------------------------
-    function(qt_internal_validate_export_additional_targets)
-        qt_internal_get_export_additional_targets_keywords(option_args single_args multi_args)
+    function(qext_internal_validate_export_additional_targets)
+        qext_internal_get_export_additional_targets_keywords(option_args single_args multi_args)
         cmake_parse_arguments(arg
             "${option_args}"
             "${single_args}"
@@ -936,7 +936,7 @@ function(qext_internal_export_additional_targets_file_handler id)
             ${ARGN})
 
         if(NOT arg_EXPORT_NAME_PREFIX)
-            message(FATAL_ERROR "qt_internal_validate_export_additional_targets: "
+            message(FATAL_ERROR "qext_internal_validate_export_additional_targets: "
                 "Missing EXPORT_NAME_PREFIX argument.")
         endif()
 
@@ -944,7 +944,7 @@ function(qext_internal_export_additional_targets_file_handler id)
         list(LENGTH arg_TARGET_EXPORT_NAMES num_TARGET_EXPORT_NAMES)
         if(num_TARGET_EXPORT_NAMES GREATER 0)
             if(NOT num_TARGETS EQUAL num_TARGET_EXPORT_NAMES)
-                message(FATAL_ERROR "qt_internal_validate_export_additional_targets: "
+                message(FATAL_ERROR "qext_internal_validate_export_additional_targets: "
                     "TARGET_EXPORT_NAMES is set but has ${num_TARGET_EXPORT_NAMES} elements while "
                     "TARGETS has ${num_TARGETS} elements. "
                     "They must contain the same number of elements.")
@@ -960,7 +960,7 @@ function(qext_internal_export_additional_targets_file_handler id)
 
     #-----------------------------------------------------------------------------------------------------------------------
     #-----------------------------------------------------------------------------------------------------------------------
-    function(qt_internal_get_export_additional_targets_id export_name out_var)
+    function(qext_internal_get_export_additional_targets_id export_name out_var)
         string(MAKE_C_IDENTIFIER "${export_name}" id)
         set(${out_var} "${id}" PARENT_SCOPE)
     endfunction()

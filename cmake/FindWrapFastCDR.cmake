@@ -82,6 +82,6 @@ if(NOT EXISTS ${QExtWrapFastCDR_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapFastCDR INTERFACE IMPORTED)
-find_package(fastcdr PATHS ${QExtWrapFastCDR_INSTALL_DIR} REQUIRED)
+find_package(fastcdr HINTS ${QExtWrapFastCDR_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapFastCDR INTERFACE fastcdr)
 set(QExtWrapFastCDR_FOUND ON)

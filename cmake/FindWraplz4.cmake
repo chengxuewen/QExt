@@ -84,6 +84,6 @@ if(NOT EXISTS ${QExtWraplz4_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::Wraplz4 INTERFACE IMPORTED)
-find_package(lz4 PATHS ${QExtWraplz4_INSTALL_DIR} REQUIRED)
+find_package(lz4 HINTS ${QExtWraplz4_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::Wraplz4 INTERFACE LZ4::lz4_static)
 set(QExtWraplz4_FOUND ON)

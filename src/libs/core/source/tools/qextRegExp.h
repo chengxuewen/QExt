@@ -5,12 +5,12 @@
 
 #if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
 #   include <QRegExp>
-#   define QEXT_REGEXP_VALIDATOR_HEADER  #include <QRegExpValidator>
-#   define QEXT_MAKE_REGEXP_VALIDATOR(regExp, parent) new QRegExpValidator(regExp, parent)
+#   define QEXT_REGEXP_VALIDATOR_HEADER  <QRegExpValidator>
+#   define QEXT_MAKE_REGEXP_VALIDATOR(regExp, parent) new QRegExpValidator(regExp.raw(), parent)
 #else
 #   include <QRegularExpression>
-#   define QEXT_REGEXP_VALIDATOR_HEADER  #include <QRegularExpressionValidator>
-#   define QEXT_MAKE_REGEXP_VALIDATOR(regExp, parent) new QRegularExpressionValidator(regExp, parent)
+#   define QEXT_REGEXP_VALIDATOR_HEADER  <QRegularExpressionValidator>
+#   define QEXT_MAKE_REGEXP_VALIDATOR(regExp, parent) new QRegularExpressionValidator(regExp.raw(), parent)
 #endif
 
 class QEXT_CORE_API QExtRegExp
@@ -55,6 +55,7 @@ public:
     QString errorString() const { return mRaw.errorString(); }
 
     RawType &raw() { return mRaw; }
+    const RawType &raw() const { return mRaw; }
     void swap(QExtRegExp &other) noexcept { mRaw.swap(other.mRaw); }
     bool operator==(const QExtRegExp &other) const { return mRaw == other.mRaw; }
     inline bool operator!=(const QExtRegExp &other) const { return !operator==(other); }
@@ -62,5 +63,6 @@ public:
 private:
     RawType mRaw;
 };
+Q_DECLARE_METATYPE(QExtRegExp)
 
 #endif // _QEXTREGEXP_H

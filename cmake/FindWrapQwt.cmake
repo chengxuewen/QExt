@@ -86,7 +86,7 @@ if(NOT EXISTS ${QExtWrapQwt_STAMP_FILE_PATH})
     endif()
 endif()
 # wrap lib
-find_package(Qwt ${QWT_VERSION} EXACT PATHS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
+find_package(Qwt ${QWT_VERSION} HINTS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
 # copy lib to build dir

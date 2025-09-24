@@ -90,10 +90,10 @@ endif()
 # wrap lib
 add_library(QExt3rdparty::WrapQtADS INTERFACE IMPORTED)
 if ("${QEXT_QT_VERSION}" VERSION_LESS "6")
-    find_package(qtadvanceddocking-qt5 ${QExtWrapQtADS_VERSION} EXACT PATHS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
+    find_package(qtadvanceddocking-qt5 ${QExtWrapQtADS_VERSION} HINTS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
     target_link_libraries(QExt3rdparty::WrapQtADS INTERFACE ads::qtadvanceddocking-qt5)
 else()
-    find_package(qtadvanceddocking-qt6 ${QExtWrapQtADS_VERSION} EXACT PATHS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
+    find_package(qtadvanceddocking-qt6 ${QExtWrapQtADS_VERSION} HINTS ${QExtWrapQtADS_INSTALL_DIR} REQUIRED)
     target_link_libraries(QExt3rdparty::WrapQtADS INTERFACE ads::qtadvanceddocking-qt6)
 endif()
 # copy lib to build dir

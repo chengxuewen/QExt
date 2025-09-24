@@ -161,7 +161,7 @@ function(qext_add_plugin target)
         APPEND PROPERTY
         EXPORT_PROPERTIES "_qext_package_version")
 
-    # Override the OUTPUT_NAME that qt6_add_plugin() set, we need to account for
+    # Override the OUTPUT_NAME that qext_add_plugin() set, we need to account for
     # QEXT_LIBINFIX, which is specific to building Qt.
     # Make sure the Qt6 plugin library names are like they were in Qt5 qmake land.
     # Whereas the Qt6 CMake target names are like the Qt5 CMake target names.
@@ -712,27 +712,27 @@ function(__qext_internal_add_static_plugin_init_object_library
         plugin_target
         out_var_plugin_init_target)
 
-    __qt_internal_get_plugin_import_macro(${plugin_target} import_macro)
-    __qt_internal_get_plugin_include_prelude(include_prelude)
+    _qext_internal_get_plugin_import_macro(${plugin_target} import_macro)
+    _qext_internal_get_plugin_include_prelude(include_prelude)
     set(import_content "${include_prelude}${import_macro}")
 
     string(MAKE_C_IDENTIFIER "${plugin_target}" plugin_target_identifier)
-    set(generated_qt_plugin_file_name
+    set(generated_qext_plugin_file_name
         "${CMAKE_CURRENT_BINARY_DIR}/${plugin_target_identifier}_init.cpp")
 
     file(GENERATE
-        OUTPUT "${generated_qt_plugin_file_name}"
+        OUTPUT "${generated_qext_plugin_file_name}"
         CONTENT "${import_content}"
     )
 
 # CMake versions earlier than 3.18.0 can't find the generated file for some reason,
 # failing at generation phase.
 # Explicitly marking the file as GENERATED fixes the issue.
-set_source_files_properties("${generated_qt_plugin_file_name}" PROPERTIES GENERATED TRUE)
+set_source_files_properties("${generated_qext_plugin_file_name}" PROPERTIES GENERATED TRUE)
 
-__qt_internal_get_static_plugin_init_target_name("${plugin_target}" plugin_init_target)
+_qext_internal_get_static_plugin_init_target_name("${plugin_target}" plugin_init_target)
 
-qt6_add_library("${plugin_init_target}" OBJECT "${generated_qt_plugin_file_name}")
+qext_add_library("${plugin_init_target}" OBJECT "${generated_qext_plugin_file_name}")
 target_link_libraries(${plugin_init_target}
     PRIVATE
 
@@ -751,38 +751,8 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-# Creates a library by forwarding arguments to add_library, applies some Qt naming file name naming
-# conventions and ensures the execution of Qt specific finalizers.
-function(qt6_add_library target)
-    cmake_parse_arguments(PARSE_ARGV 1 arg "MANUAL_FINALIZATION" "" "")
-
-    # message(arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
-    _qt_internal_add_library("${target}" ${arg_UNPARSED_ARGUMENTS})
-
-    if(arg_MANUAL_FINALIZATION)
-        # Caller says they will call qt6_finalize_target() themselves later
-        return()
-    endif()
-
-    # Defer the finalization if we can. When the caller's project requires
-    # CMake 3.19 or later, this makes the calls to this function concise while
-    # still allowing target property modification before finalization.
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.19)
-        # Need to wrap in an EVAL CODE or else ${target} won't be evaluated
-        # due to special behavior of cmake_language() argument handling
-        cmake_language(EVAL CODE "cmake_language(DEFER CALL qt6_finalize_target ${target})")
-    else()
-        set_target_properties("${target}" PROPERTIES _qt_is_immediately_finalized TRUE)
-        qt6_finalize_target("${target}")
-    endif()
-endfunction()
-
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
 # Generates C++ import macro source code for given plugin
-function(__qt_internal_get_plugin_import_macro plugin_target out_var)
+function(_qext_internal_get_plugin_import_macro plugin_target out_var)
     set(plugin_target_prefixed "${QEXT_QT_EXPORT_NAMESPACE}::${plugin_target}")
 
     # Query the class name of plugin targets prefixed with a Qt namespace and without, this is
@@ -813,7 +783,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-function(__qt_internal_get_plugin_include_prelude out_var)
+function(_qext_internal_get_plugin_include_prelude out_var)
     # set(${out_var} "#include <QtPlugin>\n" PARENT_SCOPE)
 endfunction()
 
@@ -823,7 +793,7 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 
 # Get target name of object library which is used to initialize a qt plugin.
-function(__qt_internal_get_static_plugin_init_target_name plugin_target out_var)
+function(_qext_internal_get_static_plugin_init_target_name plugin_target out_var)
     # Keep the target name short, so we don't hit long path issues on Windows.
     set(plugin_init_target "${plugin_target}_init")
 
@@ -833,10 +803,10 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-function(qt6_finalize_target target)
+function(qext_finalize_target target)
     if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.19")
         cmake_language(DEFER GET_CALL_IDS ids_queued)
-        get_directory_property(wait_for_ids qt_internal_finalizers_wait_for_ids)
+        get_directory_property(wait_for_ids qext_internal_finalizers_wait_for_ids)
         while(wait_for_ids)
             list(GET wait_for_ids 0 id_to_wait_for)
             if(id_to_wait_for IN_LIST ids_queued)
@@ -845,26 +815,26 @@ function(qt6_finalize_target target)
                 # puts us at the end of the current list of deferred actions.
                 cmake_language(EVAL CODE "cmake_language(DEFER CALL ${CMAKE_CURRENT_FUNCTION} ${ARGV})")
                 set_directory_properties(PROPERTIES
-                    qt_internal_finalizers_wait_for_ids "${wait_for_ids}"
+                    qext_internal_finalizers_wait_for_ids "${wait_for_ids}"
                 )
-            return()
-        endif()
-        list(POP_FRONT wait_for_ids)
-    endwhile()
-    # No other deferred tasks to wait for
-    set_directory_properties(PROPERTIES qt_internal_finalizers_wait_for_ids "")
-endif()
+                return()
+            endif()
+            list(POP_FRONT wait_for_ids)
+        endwhile()
+        # No other deferred tasks to wait for
+        set_directory_properties(PROPERTIES qext_internal_finalizers_wait_for_ids "")
+    endif()
 
-if(NOT TARGET "${target}")
-    message(FATAL_ERROR "No target '${target}' found in current scope.")
-endif()
+    if(NOT TARGET "${target}")
+        message(FATAL_ERROR "No target '${target}' found in current scope.")
+    endif()
 
-get_target_property(target_type ${target} TYPE)
-get_target_property(is_android_executable "${target}" _qt_is_android_executable)
+    get_target_property(target_type ${target} TYPE)
+    get_target_property(is_android_executable "${target}" _qt_is_android_executable)
 
-if(target_type STREQUAL "EXECUTABLE" OR is_android_executable)
-    _qt_internal_finalize_executable(${ARGV})
-endif()
+    if(target_type STREQUAL "EXECUTABLE" OR is_android_executable)
+        qext_internal_finalize_executable(${ARGV})
+    endif()
 endfunction()
 
 

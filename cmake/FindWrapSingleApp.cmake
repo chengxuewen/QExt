@@ -88,6 +88,6 @@ if(NOT EXISTS ${QExtWrapSingleApp_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapSingleApp INTERFACE IMPORTED)
-find_package(SingleApplication PATHS ${QExtWrapSingleApp_INSTALL_DIR} REQUIRED)
+find_package(SingleApplication HINTS ${QExtWrapSingleApp_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapSingleApp INTERFACE SingleApplication::SingleApplication)
 set(QExtWrapSingleApp_FOUND ON)

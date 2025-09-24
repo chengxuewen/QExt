@@ -21,99 +21,30 @@
 #
 ########################################################################################################################
 
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Set example output path
-# #-----------------------------------------------------------------------------------------------------------------------
-# set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/quick)
-# set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/quick)
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set example link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+    Qt${QEXT_QT_VERSION_MAJOR}::Core
+    Qt${QEXT_QT_VERSION_MAJOR}::Gui
+    Qt${QEXT_QT_VERSION_MAJOR}::Quick)
+
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::QmlFontIcon)
 
 
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Configure a header file to pass some of the CMake settings to the source code
-# #-----------------------------------------------------------------------------------------------------------------------
-# configure_file(
-#     "${CMAKE_CURRENT_SOURCE_DIR}/qextQuickExampleConfig.h.in"
-#     "${CMAKE_CURRENT_BINARY_DIR}/qextQuickExampleConfig.h")
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Set example link libraries
-# #-----------------------------------------------------------------------------------------------------------------------
-# set(QEXT_EXAMPLE_LINK_LIBRARIES)
-
-# if(UNIX)
-#     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES dl)
-# endif()
-
-# if(WIN32)
-#     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES shlwapi.lib)
-# endif()
-
-# if(CMAKE_THREAD_LIBS_INIT)
-#     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
-# endif()
-
-# if(QEXT_QT_VERSION_MAJOR GREATER 4)
-#     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-#         Qt${QEXT_QT_VERSION_MAJOR}::Core
-#         Qt${QEXT_QT_VERSION_MAJOR}::Gui
-#         Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
-# else()
-#     message(FATAL_ERROR "Not find Qt package")
-# endif()
-
-# list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExtQuickControls)
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # define function
-# #-----------------------------------------------------------------------------------------------------------------------
-# function(qextFunctionQuickAddExample EXAMPLE_NAME)
-#     set(multiValueArgs EXAMPLE_SOURCE EXAMPLE_INCLUDE_DIRS)
-#     cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
-#     add_executable(${EXAMPLE_NAME} ${MY_EXAMPLE_SOURCE} ${QEXT_EXAMPLE_CONFIG_FILE_PATH})
-#     target_link_libraries(${EXAMPLE_NAME} PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
-#     target_include_directories(${EXAMPLE_NAME} PRIVATE
-#         ${CMAKE_CURRENT_BINARY_DIR}
-#         ${CMAKE_CURRENT_SOURCE_DIR}
-#         ${MY_EXAMPLE_INCLUDE_DIRS}
-#         )
-#     set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-#     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
-#         qextFunctionCopyDependencyInternal(
-#             TARGET ${EXAMPLE_NAME}
-#             LIBS QExtCore QExtQuickControls QExtWidgets
-#             DESTINATION ${EXECUTABLE_OUTPUT_PATH}
-#             POST_BUILD
-#             )
-#     endif()
-# endfunction()
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Add example
-# #-----------------------------------------------------------------------------------------------------------------------
-# qextFunctionQuickAddExample(QExtExpQuickSimple
-#     EXAMPLE_SOURCE
-#     simple/QExtQuickSimple.qrc
-#     simple/main.cpp
-#     EXAMPLE_INCLUDE_DIRS
-#     ${CMAKE_CURRENT_SOURCE_DIR}/simple)
-# qextFunctionQuickAddExample(QExtExpQuickComponent
-#     EXAMPLE_SOURCE
-#     component/QExtQuickComponent.qrc
-#     component/main.cpp
-#     EXAMPLE_INCLUDE_DIRS
-#     ${CMAKE_CURRENT_SOURCE_DIR}/component)
-# qextFunctionQuickAddExample(QExtExpQuickPaletteView
-#     EXAMPLE_SOURCE
-#     paletteview/QExtQuickPaletteView.qrc
-#     paletteview/qextquickpalettetablemodel.h
-#     paletteview/qextquickpalettetablemodel.cpp
-#     paletteview/main.cpp
-#     EXAMPLE_INCLUDE_DIRS
-#     ${CMAKE_CURRENT_SOURCE_DIR}/paletteview)
+#-----------------------------------------------------------------------------------------------------------------------
+# Add example
+#-----------------------------------------------------------------------------------------------------------------------
+qext_add_executable(QExtExpQmlFontIcon
+    SOURCES
+    fonticon/fonticon.qrc
+    fonticon/fonticon.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/fonticon
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")

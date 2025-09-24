@@ -84,6 +84,6 @@ if(NOT EXISTS ${QExtWrapzstd_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::Wrapzstd INTERFACE IMPORTED)
-find_package(zstd PATHS ${QExtWrapzstd_INSTALL_DIR} REQUIRED)
+find_package(zstd HINTS ${QExtWrapzstd_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::Wrapzstd INTERFACE zstd::libzstd_static)
 set(QExtWrapzstd_FOUND ON)

@@ -46,7 +46,7 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qt_internal_add_qml_module(QuickQwt
+qext_add_qml_module(QuickQwt
     URI "QExtQuick.Qwt"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickQwtPlugin

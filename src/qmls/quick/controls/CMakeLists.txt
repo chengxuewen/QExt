@@ -43,7 +43,7 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qt_internal_add_qml_module(QuickControls
+qext_add_qml_module(QuickControls
     URI "QExtQuick.Controls"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickControlsPlugin
@@ -80,6 +80,31 @@ qt_internal_add_qml_module(QuickControls
     resources/qextQuickControls.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
+    QML_FILES
+    resources/qml/QExtQuickAvatar.qml
+    resources/qml/QExtQuickBadge.qml
+    resources/qml/QExtQuickBusyIndicator.qml
+    resources/qml/QExtQuickButton.qml
+    resources/qml/QExtQuickCollapse.qml
+    resources/qml/QExtQuickCollapseElement.qml
+    resources/qml/QExtQuickDialog.qml
+    resources/qml/QExtQuickDialogButton.qml
+    resources/qml/QExtQuickDividerLine.qml
+    resources/qml/QExtQuickFontImage.qml
+    resources/qml/QExtQuickFpsMonitor.qml
+    resources/qml/QExtQuickGlobalToast.qml
+    resources/qml/QExtQuickImage.qml
+    resources/qml/QExtQuickInputField.qml
+    resources/qml/QExtQuickMask.qml
+    resources/qml/QExtQuickPopover.qml
+    resources/qml/QExtQuickPopoverElement.qml
+    resources/qml/QExtQuickPopoverMenu.qml
+    resources/qml/QExtQuickPopup.qml
+    resources/qml/QExtQuickProgressBar.qml
+    resources/qml/QExtQuickSvgImage.qml
+    resources/qml/QExtQuickTag.qml
+    resources/qml/QExtQuickToast.qml
+    resources/qml/QExtQuickToolButton.qml
     DEFINES
     QEXT_BUILD_QUICK_LIB
     PUBLIC_LIBRARIES

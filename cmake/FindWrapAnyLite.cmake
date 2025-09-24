@@ -86,6 +86,6 @@ if(NOT EXISTS ${QExtWrapAnyLite_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapAnyLite INTERFACE IMPORTED)
-find_package(any-lite PATHS ${QExtWrapAnyLite_INSTALL_DIR} REQUIRED)
+find_package(any-lite HINTS ${QExtWrapAnyLite_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapAnyLite INTERFACE nonstd::any-lite)
 set(QExtWrapAnyLite_FOUND ON)

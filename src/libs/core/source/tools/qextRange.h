@@ -112,7 +112,7 @@ public:
         return *this;
     }
 
-    QEXT_CONSTEXPR inline bool isValid() const { return std::isless(mMin, mMax); }
+    inline bool isValid() const { return std::isless(mMin, mMax); }
     inline bool isIntersected(const QExtRangeF &other) const
     {
         return std::isless(mMin, other.max()) && std::isgreater(mMax, other.min());
@@ -126,7 +126,7 @@ public:
     {
         return this->isIntersected(other) ? QExtRangeF(qMax(mMin, other.min()), qMin(mMax, other.max())) : QExtRangeF();
     }
-    QEXT_CONSTEXPR inline double length() const { return this->isValid() ? mMax - mMin : 0; }
+    inline double length() const { return this->isValid() ? mMax - mMin : 0; }
 
     QEXT_CONSTEXPR inline double min() const { return mMin; }
     QEXT_CONSTEXPR inline double max() const { return mMax; }

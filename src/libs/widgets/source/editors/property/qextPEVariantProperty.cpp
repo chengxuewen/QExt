@@ -1052,7 +1052,7 @@ QVariant QExtPEVariantPropertyManager::attributeValue(const QExtPEProperty *prop
     {
         if (attribute == d_ptr->m_regExpAttribute)
         {
-            return stringManager->regExp(internProp);
+            return QVariant::fromValue<QExtRegExp>(stringManager->regExp(internProp));
         }
         if (attribute == d_ptr->m_echoModeAttribute)
         {

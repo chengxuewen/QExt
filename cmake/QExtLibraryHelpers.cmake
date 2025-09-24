@@ -140,6 +140,7 @@ function(qext_add_library target)
         set(type_to_create "") # Use default depending on QExt configuration.
     endif()
     # message(type_to_create=${type_to_create})
+    # message(target=${target})
     # message(arg_SOURCES=${arg_SOURCES})
     # add target library. If type_to_create is empty, it will be set afterwards
     qext_internal_add_library("${target}" ${type_to_create} ${arg_SOURCES})
@@ -548,7 +549,6 @@ function(qext_add_library target)
         qext_configure_reset(${arg_CONFIGURE_RESET})
         include(${configure_file})
         qext_configure_library_end("${target}")
-
         set_property(TARGET "${target}" APPEND PROPERTY
             PUBLIC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/include/${library_config_header}")
         set_property(TARGET "${target}" APPEND PROPERTY

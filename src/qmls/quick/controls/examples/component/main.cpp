@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 #ifndef QEXT_BUILD_SHARED
     QExtQuickLoader::load(&engine);
 #else
-    qDebug() << "addImportPath:" << QML_MODULES_DIR;
+    qDebug() << "QML_MODULES_DIR:" << QML_MODULES_DIR;
+    qDebug() << "QEXT_QT_QML_MODULE_PATH:" << QEXT_QT_QML_MODULE_PATH;
     engine.addImportPath(QML_MODULES_DIR);
     engine.addImportPath(QEXT_QT_QML_MODULE_PATH);
 #endif

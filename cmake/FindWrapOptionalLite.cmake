@@ -85,6 +85,6 @@ if(NOT EXISTS ${QExtWrapOptionalLite_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapOptionalLite INTERFACE IMPORTED)
-find_package(optional-lite PATHS ${QExtWrapOptionalLite_INSTALL_DIR} REQUIRED)
+find_package(optional-lite HINTS ${QExtWrapOptionalLite_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapOptionalLite INTERFACE nonstd::optional-lite)
 set(QExtWrapOptionalLite_FOUND ON)

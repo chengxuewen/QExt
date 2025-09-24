@@ -1,6 +1,8 @@
 ﻿#include <private/qextPEAbstractPropertyEditor_p.h>
 #include <private/qextPEWidgetFactory_p.h>
 
+#include QEXT_REGEXP_VALIDATOR_HEADER
+
 #include <QMenu>
 #include <QStyle>
 #include <QAction>
@@ -413,7 +415,7 @@ void QExtPEScrollBarFactory::connectPropertyManager(QExtPEIntPropertyManager *ma
 }
 
 QWidget *QExtPEScrollBarFactory::createEditor(QExtPEIntPropertyManager *manager, QExtPEProperty *property,
-                                            QWidget *parent)
+                                              QWidget *parent)
 {
     QScrollBar *editor = new QScrollBar(Qt::Horizontal, parent);
     d_ptr->initializeEditor(property, editor);
@@ -802,7 +804,7 @@ void QExtPEDoubleSpinBoxFactory::connectPropertyManager(QExtPEDoublePropertyMana
 }
 
 QWidget *QExtPEDoubleSpinBoxFactory::createEditor(QExtPEDoublePropertyManager *manager,
-                                                QExtPEProperty *property, QWidget *parent)
+                                                  QExtPEProperty *property, QWidget *parent)
 {
     QDoubleSpinBox *editor = d_ptr->createEditor(property, parent);
     editor->setSingleStep(manager->singleStep(property));
@@ -836,7 +838,7 @@ void QExtPEDoubleSpinBoxFactory::disconnectPropertyManager(QExtPEDoublePropertyM
  * QExtPELineEditFactory
 ***********************************************************************************************************************/
 void QExtPELineEditFactoryPrivate::slotPropertyChanged(QExtPEProperty *property,
-                                                     const QString &value)
+                                                       const QString &value)
 {
     if (!m_createdEditors.contains(property))
     {
@@ -857,7 +859,7 @@ void QExtPELineEditFactoryPrivate::slotPropertyChanged(QExtPEProperty *property,
 }
 
 void QExtPELineEditFactoryPrivate::slotRegExpChanged(QExtPEProperty *property,
-                                                   const QRegExp &regExp)
+                                                     const QExtRegExp &regExp)
 {
     if (!m_createdEditors.contains(property))
     {
@@ -879,7 +881,7 @@ void QExtPELineEditFactoryPrivate::slotRegExpChanged(QExtPEProperty *property,
         QValidator *newValidator = QEXT_NULLPTR;
         if (regExp.isValid())
         {
-            newValidator = new QRegExpValidator(regExp, editor);
+            newValidator = QEXT_MAKE_REGEXP_VALIDATOR(regExp, editor);
         }
         editor->setValidator(newValidator);
         if (oldValidator)
@@ -1267,7 +1269,7 @@ void QExtPEDateTimeEditFactory::connectPropertyManager(QExtPEDateTimePropertyMan
 }
 
 QWidget *QExtPEDateTimeEditFactory::createEditor(QExtPEDateTimePropertyManager *manager, QExtPEProperty *property,
-                                               QWidget *parent)
+                                                 QWidget *parent)
 {
     QDateTimeEdit *editor =  d_ptr->createEditor(property, parent);
     editor->setDateTime(manager->value(property));
@@ -1528,7 +1530,7 @@ void QExtPEKeySequenceEditorFactory::connectPropertyManager(QExtPEKeySequencePro
 }
 
 QWidget *QExtPEKeySequenceEditorFactory::createEditor(QExtPEKeySequencePropertyManager *manager,
-                                                    QExtPEProperty *property, QWidget *parent)
+                                                      QExtPEProperty *property, QWidget *parent)
 {
     QExtKeySequenceEdit *editor = d_ptr->createEditor(property, parent);
     editor->setKeySequence(manager->value(property));
@@ -1721,7 +1723,7 @@ bool QExtCharEdit::event(QEvent *e)
  * QExtPECharEditorFactory
 ***********************************************************************************************************************/
 void QExtPECharEditorFactoryPrivate::slotPropertyChanged(QExtPEProperty *property,
-                                                       const QChar &value)
+                                                         const QChar &value)
 {
     if (!m_createdEditors.contains(property))
     {
@@ -1781,7 +1783,7 @@ void QExtPECharEditorFactory::connectPropertyManager(QExtPECharPropertyManager *
 }
 
 QWidget *QExtPECharEditorFactory::createEditor(QExtPECharPropertyManager *manager,
-                                             QExtPEProperty *property, QWidget *parent)
+                                               QExtPEProperty *property, QWidget *parent)
 {
     QExtCharEdit *editor = d_ptr->createEditor(property, parent);
     editor->setValue(manager->value(property));
@@ -1925,7 +1927,7 @@ void QExtPEEnumEditorFactory::connectPropertyManager(QExtPEEnumPropertyManager *
 }
 
 QWidget *QExtPEEnumEditorFactory::createEditor(QExtPEEnumPropertyManager *manager, QExtPEProperty *property,
-                                             QWidget *parent)
+                                               QWidget *parent)
 {
     QComboBox *editor = d_ptr->createEditor(property, parent);
     editor->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
@@ -2172,7 +2174,7 @@ void QExtPECursorEditorFactory::connectPropertyManager(QExtPECursorPropertyManag
 }
 
 QWidget *QExtPECursorEditorFactory::createEditor(QExtPECursorPropertyManager *manager, QExtPEProperty *property,
-                                               QWidget *parent)
+                                                 QWidget *parent)
 {
     QExtPEProperty *enumProp = QEXT_NULLPTR;
     if (d_ptr->m_propertyToEnum.contains(property))
@@ -2362,7 +2364,7 @@ void QExtPEColorEditorFactory::connectPropertyManager(QExtPEColorPropertyManager
 }
 
 QWidget *QExtPEColorEditorFactory::createEditor(QExtPEColorPropertyManager *manager,
-                                              QExtPEProperty *property, QWidget *parent)
+                                                QExtPEProperty *property, QWidget *parent)
 {
     QExtColorEditWidget *editor = d_ptr->createEditor(property, parent);
     editor->setValue(manager->value(property));
@@ -2557,7 +2559,7 @@ void QExtPEFontEditorFactory::connectPropertyManager(QExtPEFontPropertyManager *
 }
 
 QWidget *QExtPEFontEditorFactory::createEditor(QExtPEFontPropertyManager *manager,
-                                             QExtPEProperty *property, QWidget *parent)
+                                               QExtPEProperty *property, QWidget *parent)
 {
     QExtFontEditWidget *editor = d_ptr->createEditor(property, parent);
     editor->setValue(manager->value(property));

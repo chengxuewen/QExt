@@ -86,6 +86,6 @@ if(NOT EXISTS ${QExtWrapInvokeLite_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapInvokeLite INTERFACE IMPORTED)
-find_package(invoke-lite PATHS ${QExtWrapInvokeLite_INSTALL_DIR} REQUIRED)
+find_package(invoke-lite HINTS ${QExtWrapInvokeLite_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapInvokeLite INTERFACE nonstd::invoke-lite)
 set(QExtWrapInvokeLite_FOUND ON)

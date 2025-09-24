@@ -82,6 +82,7 @@ if(NOT EXISTS ${QExtWrapMicroCDR_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapMicroCDR INTERFACE IMPORTED)
-find_package(microcdr PATHS ${QExtWrapMicroCDR_INSTALL_DIR} REQUIRED)
+list(APPEND CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ${QExtWrapMicroCDR_INSTALL_DIR})
+find_package(microcdr HINTS ${QExtWrapMicroCDR_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapMicroCDR INTERFACE microcdr)
 set(QExtWrapMicroCDR_FOUND ON)

@@ -26,6 +26,7 @@
 #define _QEXTQMLFONTAWESOME_H
 
 #include <qextQmlFontIconGlobal.h>
+#include <qextQmlRegistration.h>
 #include <qextFontAwesome.h>
 
 #include <QQmlEngine>
@@ -33,9 +34,11 @@
 class QEXT_QMLFONTICON_API QExtQmlFontAwesome : public QExtFontAwesome
 {
     Q_OBJECT
+    QEXT_QML_ELEMENT()
+    QEXT_QML_SINGLETON()
 public:
     ~QExtQmlFontAwesome();
-    static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
+    static QEXT_QML_SINGLETON_TYPE(QExtQmlFontAwesome) *create(QQmlEngine *engine, QJSEngine *scriptEngine);
     static QExtQmlFontAwesome *instance();
 
     Q_INVOKABLE QString fontUrl(int value) const;

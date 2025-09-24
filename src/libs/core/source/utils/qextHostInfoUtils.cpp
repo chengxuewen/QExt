@@ -6,16 +6,14 @@
 #include <QDebug>
 #include <QFileInfoList>
 
-#if defined(Q_CC_GNU) && !defined(Q_WS_QWS)
-
-#include <cpuid.h>
-
+#if defined(Q_CC_GNU) && !defined(Q_WS_QWS) && defined(QEXT_PROCESSOR_X86)
+#   include <cpuid.h>
 #endif
 
 #ifdef Q_OS_WIN
-#undef _WIN32_WINNT
-#define _WIN32_WINNT 0x0501 /* WinXP, needed for GetNativeSystemInfo() */
-#include <qt_windows.h>
+#   undef _WIN32_WINNT
+#   define _WIN32_WINNT 0x0501 /* WinXP, needed for GetNativeSystemInfo() */
+#   include <qt_windows.h>
 #endif
 
 
@@ -129,7 +127,7 @@ QString QExtHostInfoUtils::cpuID()
     unsigned int dwBuf[4] = {0};
     unsigned long long ret = 0;
 
-#if defined(Q_CC_GNU) && !defined(Q_WS_QWS) // GCC
+#if defined(Q_CC_GNU) && !defined(Q_WS_QWS) && defined(QEXT_PROCESSOR_X86) // GCC
     __cpuid(1, dwBuf[0], dwBuf[1], dwBuf[2], dwBuf[3]);
 #elif defined(_MSC_VER)// MSVC
 #   if _MSC_VER >= 1400 // VC2005 __cpuid

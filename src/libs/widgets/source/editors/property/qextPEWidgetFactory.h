@@ -602,7 +602,7 @@ private:
     Q_DECLARE_PRIVATE(QExtPELineEditFactory)
     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtPELineEditFactory)
     Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtPEProperty *, const QString &))
-    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QExtPEProperty *, const QRegExp &))
+    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QExtPEProperty *, const QExtRegExp &))
     Q_PRIVATE_SLOT(d_func(), void slotEchoModeChanged(QExtPEProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QExtPEProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QString &))
