@@ -65,5 +65,6 @@
         <file>qml/C_FontImage.qml</file>
         <file>qml/C_Popup.qml</file>
         <file>qml/C_Triangle.qml</file>
+        <file>qml/C_Rectangle.qml</file>
     </qresource>
 </RCC>

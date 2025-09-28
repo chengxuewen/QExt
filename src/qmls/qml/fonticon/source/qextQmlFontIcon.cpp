@@ -57,37 +57,15 @@ QExtQmlFontIconPrivate::~QExtQmlFontIconPrivate()
 }
 
 
-QExtQmlFontIcon::QExtQmlFontIcon(QObject *parent)
-    : QObject(parent)
-    , dd_ptr(new QExtQmlFontIconPrivate(this))
+QExtQmlFontIcon::QExtQmlFontIcon()
+    : dd_ptr(new QExtQmlFontIconPrivate(this))
 {
-
 }
 
 QExtQmlFontIcon::~QExtQmlFontIcon()
 {
-
 }
 
-QEXT_QML_SINGLETON_TYPE(QExtQmlFontIcon) *QExtQmlFontIcon::create(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return QExtQmlFontIcon::instance();
-}
-
-QExtQmlFontIcon *QExtQmlFontIcon::instance()
-{
-    static QExtQmlFontIcon *instance = QEXT_NULLPTR;
-    static QExtOnceFlag onceFlag;
-    if(onceFlag.enter())
-    {
-        instance = new QExtQmlFontIcon;
-        instance->registerTypes();
-        onceFlag.leave();
-    }
-    return instance;
-}
 
 QString QExtQmlFontIcon::version() const
 {
@@ -103,19 +81,24 @@ void QExtQmlFontIcon::registerTypes(const char *url)
     }
     if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
     {
-        Q_INIT_RESOURCE(qextQmlFontIcon);
+        static QExtOnceFlag onceFlag;
+        if (onceFlag.enter())
+        {
+            Q_INIT_RESOURCE(qextQmlFontIcon);
 
-        const int major = QEXT_VERSION_MAJOR;
-        const int minor = QEXT_VERSION_MINOR;
+            const int major = QEXT_VERSION_MAJOR;
+            const int minor = QEXT_VERSION_MINOR;
 
-        qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
-                                                  QExtQmlFontIcon::create);
-        qmlRegisterSingletonType<QExtQmlFontAwesome>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontAwesome",
-                                                     QExtQmlFontAwesome::create);
+            qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
+                                                      QExtQmlFontIcon::create);
+            qmlRegisterSingletonType<QExtQmlFontAwesome>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontAwesome",
+                                                         QExtQmlFontAwesome::create);
+            onceFlag.leave();
+        }
     }
 }
 
-void QExtQmlFontIcon::initQmlEngine(QQmlEngine *engine, const char *uri)
+void QExtQmlFontIcon::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     Q_UNUSED(engine)
     Q_UNUSED(uri)

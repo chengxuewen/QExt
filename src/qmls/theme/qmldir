@@ -1,4 +1,0 @@
-module QEXTQmlTheme
-plugin QEXTQmlTheme
-classname QEXTQmlThemePlugin
-typeinfo plugin.qmltypes

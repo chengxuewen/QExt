@@ -7,15 +7,19 @@
 #include <QDebug>
 #include <QObject>
 #include <QScopedPointer>
+#include <QCoreApplication>
 
 #define QEXT_DECLARE_SINGLETON(CLASS) \
-    void deleteLater() { destroyLater(); }; \
-    friend class QExtSingleton<CLASS>; \
-    friend struct QExtSingletonScopedPointerDeleter<CLASS>;
+    private: \
+        void deleteLater() { destroyLater(); }; \
+        friend class QExtSingleton<CLASS>; \
+        friend struct QExtSingletonScopedPointerDeleter<CLASS>;
 
+QEXT_WARNING_PUSH
+    QEXT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
 
-template <typename T>
-struct QExtSingletonScopedPointerDeleter
+    template <typename T>
+    struct QExtSingletonScopedPointerDeleter
 {
     static inline void cleanup(T *pointer)
     {
@@ -68,12 +72,7 @@ public:
         return mInstance;
     }
 
-    static void initSingleton()
-    {
-        mScoped.reset(new T);
-        mInstance = mScoped.data();
-    }
-
+public Q_SLOTS:
     void destroyLater()
     {
         this->onAboutToBeDestroyed();
@@ -94,6 +93,22 @@ protected:
     T *detachScoped() { mScoped.take(); return mInstance; }
 
 private:
+    static void initSingleton()
+    {
+        mInstance = new T;
+        QObject *object = dynamic_cast<QObject *>(mInstance);
+        if (object)
+        {
+            object->moveToThread(qApp->thread());
+            object->setParent(qApp);
+        }
+        else
+        {
+            mScoped.reset(mInstance);
+        }
+    }
+
+private:
     static T *mInstance;
     static QExtOnceFlag mOnceFlag;
     static QScopedPointer<T, Deleter> mScoped;
@@ -103,5 +118,15 @@ private:
 template <typename T> QExtOnceFlag QExtSingleton<T>::mOnceFlag;
 template <typename T> T* QExtSingleton<T>::mInstance = QEXT_NULLPTR;
 template <typename T> QScopedPointer<T, QExtSingletonScopedPointerDeleter<T> > QExtSingleton<T>::mScoped(QEXT_NULLPTR);
+
+
+template <typename T>
+class QExtObjectSingleton : public QObject, public QExtSingleton<T>
+{
+private:
+    void setParent(QObject *parent) { QObject::setParent(parent); }
+};
+
+QEXT_WARNING_POP
 
 #endif // _QEXTSINGLETON_H

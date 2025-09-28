@@ -48,7 +48,7 @@ public:
 
     void initializeEngine(QQmlEngine *engine, const char *uri)
     {
-        QExtQmlFontIcon::instance()->initQmlEngine(engine, uri);
+        QExtQmlFontIcon::instance()->initializeEngine(engine, uri);
     }
 };
 

@@ -2,7 +2,7 @@ import QtQml 2.0
 import QtQuick 2.0
 import QtQuick.Window 2.2
 
-import QExtQml.FontIcon 1.3
+import QExtQml.FontIcon 1.4
 
 Window {
     width: 600

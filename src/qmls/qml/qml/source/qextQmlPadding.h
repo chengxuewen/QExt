@@ -30,8 +30,6 @@
 
 #include <QObject>
 
-#include <QObject>
-
 class QExtQmlPaddingPrivate;
 class QEXT_QML_API QExtQmlPadding : public QObject
 {
@@ -72,7 +70,5 @@ private:
     QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlPadding)
     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlPadding)
 };
-
-// static const QExtQmlTypeRegistration<QExtQmlPadding> registration1("WeatherInfo", 1, 2, "QExtQmlPadding");
 
 #endif // _QEXTQMLPADDING_H

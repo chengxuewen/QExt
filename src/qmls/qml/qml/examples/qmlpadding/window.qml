@@ -3,7 +3,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.2
 
-import QExtQml 1.3
+import QExtQml 1.4
 
 Window {
     width: 600
@@ -12,12 +12,27 @@ Window {
 
     property string ver: QExtQml.version
 
+    QExtQmlBorder {
+        leftWidth: 2
+    }
+
     QExtQmlPadding {
         leftPadding: 3
     }
 
     QExtQmlObject {
 
+    }
+    QExtQmlBackground {
+        color: "red"
+    }
+    QExtQmlTextData {
+        font.bold: true
+    }
+
+    Text {
+        id: name
+        text: qsTr("text")
     }
 
     Rectangle {

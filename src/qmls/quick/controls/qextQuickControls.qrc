@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/QExtQuickControls">
+        <file>qml/QExtQuickButton.qml</file>
+        <file>resources/image/warning.svg</file>
+        <file>resources/image/success.svg</file>
+        <file>resources/image/loading.svg</file>
+        <file>resources/image/info.svg</file>
+        <file>resources/image/error.svg</file>
+        <file>resources/image/close_px.svg</file>
+        <file>resources/image/close.svg</file>
+        <file>resources/image/arrow_caret_collapse.svg</file>
+        <file>resources/cso/svg.cso</file>
+        <file>resources/cso/mask.cso</file>
+        <file>qml/QExtQuickRectangle.qml</file>
+        <file>qml/QExtQuickText.qml</file>
+        <file>qml/QExtQuickButtonArea.qml</file>
+    </qresource>
+</RCC>

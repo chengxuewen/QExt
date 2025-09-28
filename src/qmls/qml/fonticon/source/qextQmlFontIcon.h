@@ -26,7 +26,7 @@
 #define _QEXTQMLFONTICON_H
 
 #include <qextQmlFontIconGlobal.h>
-#include <qextQmlRegistration.h>
+#include <qextQmlSingleton.h>
 
 #include <QObject>
 #include <QQmlEngine>
@@ -34,23 +34,18 @@
 
 class QExtQmlWorld;
 class QExtQmlFontIconPrivate;
-class QEXT_QMLFONTICON_API QExtQmlFontIcon : public QObject
+class QEXT_QMLFONTICON_API QExtQmlFontIcon : public QExtQmlSingleton<QExtQmlFontIcon>
 {
     Q_OBJECT
-    QEXT_QML_ELEMENT()
-    QEXT_QML_SINGLETON()
+    QEXT_DECLARE_QML_SINGLETON(QExtQmlFontIcon)
 public:
-    ~QExtQmlFontIcon();
-    static QEXT_QML_SINGLETON_TYPE(QExtQmlFontIcon) *create(QQmlEngine *engine, QJSEngine *scriptEngine);
-    static QExtQmlFontIcon *instance();
-
-    Q_INVOKABLE QString version() const;
-
-    void registerTypes(const char *url = nullptr);
-    void initQmlEngine(QQmlEngine *engine, const char *uri);
+    Q_INVOKABLE QString version() const override;
+    void registerTypes(const char *url = nullptr) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
 
 protected:
-    explicit QExtQmlFontIcon(QObject *parent = QEXT_NULLPTR);
+    QExtQmlFontIcon();
+    ~QExtQmlFontIcon() override;
 
     QScopedPointer<QExtQmlFontIconPrivate> dd_ptr;
 

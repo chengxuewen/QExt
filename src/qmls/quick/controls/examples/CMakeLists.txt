@@ -76,17 +76,17 @@ qext_add_executable(QExtExpQuickControlComponent
     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
-qext_add_executable(QExtExpQuickControlPaletteView
-    SOURCES
-    paletteview/paletteview.qrc
-    paletteview/qextquickpalettetablemodel.h
-    paletteview/qextquickpalettetablemodel.cpp
-    paletteview/main.cpp
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/paletteview
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    OUTPUT_DIRECTORY
-    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
-    DEFINES
-    QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+# qext_add_executable(QExtExpQuickControlPaletteView
+#     SOURCES
+#     paletteview/paletteview.qrc
+#     paletteview/qextquickpalettetablemodel.h
+#     paletteview/qextquickpalettetablemodel.cpp
+#     paletteview/main.cpp
+#     INCLUDE_DIRECTORIES
+#     ${CMAKE_CURRENT_SOURCE_DIR}/paletteview
+#     LIBRARIES
+#     ${QEXT_EXAMPLE_LINK_LIBRARIES}
+#     OUTPUT_DIRECTORY
+#     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+#     DEFINES
+#     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")

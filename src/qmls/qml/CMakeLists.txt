@@ -22,4 +22,5 @@
 ########################################################################################################################
 
 add_subdirectory(qml)
+add_subdirectory(theme)
 qext_add_subdirectory(fonticon QEXT_ENABLE_LIB_FONTICON)

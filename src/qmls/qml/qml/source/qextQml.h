@@ -26,7 +26,7 @@
 #define _QEXTQML_H
 
 #include <qextQmlGlobal.h>
-#include <qextQmlRegistration.h>
+#include <qextQmlSingleton.h>
 
 #include <QObject>
 #include <QQmlEngine>
@@ -98,12 +98,10 @@ private:
 
 class QExtQmlWorld;
 class QExtQmlPrivate;
-class QEXT_QML_API QExtQml : public QObject
+class QEXT_QML_API QExtQml : public QExtQmlSingleton<QExtQml>
 {
     Q_OBJECT
-    QEXT_QML_ELEMENT()
-    QEXT_QML_SINGLETON()
-    Q_PROPERTY(QString version READ version CONSTANT FINAL)
+    QEXT_DECLARE_QML_SINGLETON(QExtQml)
 public:
     enum StateType
     {
@@ -173,12 +171,6 @@ public:
     };
     Q_ENUM(DragDirectionType)
 
-    ~QExtQml();
-    static QEXT_QML_SINGLETON_TYPE(QExtQml) *create(QQmlEngine *engine, QJSEngine *scriptEngine);
-    static QExtQml *instance();
-
-    Q_INVOKABLE QString version() const;
-
     Q_INVOKABLE QString stateToString(int state) const;
     Q_INVOKABLE int stateToEnum(const QString &state) const;
 
@@ -187,11 +179,13 @@ public:
     Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
     Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
 
-    void registerTypes(const char *url = nullptr);
-    void initQmlEngine(QQmlEngine *engine, const char *uri);
+    Q_INVOKABLE QString version() const override;
+    void registerTypes(const char *url = nullptr) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
 
 protected:
-    explicit QExtQml(QObject *parent = QEXT_NULLPTR);
+    QExtQml();
+    ~QExtQml() override;
 
     QScopedPointer<QExtQmlPrivate> dd_ptr;
 

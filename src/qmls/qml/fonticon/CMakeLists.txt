@@ -48,7 +48,7 @@ qext_add_qml_module(QmlFontIcon
     PLUGIN_TARGET QExtQmlFontIconPlugin
     PLUGIN_SOURCES source/qextQmlFontIconPlugin.cpp
     DEPENDENCIES
-    QExt::Core
+    QExtQml
     SOURCES
     source/qextQmlFontAwesome.cpp
     source/qextQmlFontAwesome.h

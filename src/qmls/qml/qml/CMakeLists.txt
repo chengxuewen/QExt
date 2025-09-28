@@ -50,14 +50,26 @@ qext_add_qml_module(Qml
     PLUGIN_TARGET QExtQmlPlugin
     PLUGIN_SOURCES source/qextQmlPlugin.cpp
     DEPENDENCIES
-    QExt::Core
+    QtQml
+    QtQuick
     SOURCES
     source/qextQml.cpp
     source/qextQml.h
+    source/qextQmlBackground.cpp
+    source/qextQmlBackground.h
+    source/qextQmlBorder.cpp
+    source/qextQmlBorder.h
     source/qextQmlPadding.cpp
     source/qextQmlPadding.h
     source/qextQmlGlobal.h
+    source/qextQmlIconData.cpp
+    source/qextQmlIconData.h
     source/qextQmlRegistration.h
+    source/qextQmlSingleton.h
+    source/qextQmlSize.cpp
+    source/qextQmlSize.h
+    source/qextQmlTextData.cpp
+    source/qextQmlTextData.h
     qextQml.qrc
     QML_FILES
     qml/QExtQmlObject.qml

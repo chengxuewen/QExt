@@ -1,82 +1,90 @@
-import QtQuick 2.12
+import QtQuick 2.6
 
-import QExtQuick.Controls 1.3
+import QExtQuick.Controls 1.4
 
 Column{
-    spacing: 10
+    spacing: 10;
     Row{
-        height: 40
+        height: 40;
         spacing: 10
-        QExtQuickButton{
-            text: "Default"
+        QExtQuickButton {
+            content.text: "Default"
         }
 
         QExtQuickButton{
-            text: "Primary"
-            textColor: "#FFF"
-            textFont.bold: true
-            backgroundColor: "#46A0FC"
+            content.text: "Primary"
+            content.color: "#FFF"
+            content.font.bold: true;
+            background.color: "#46A0FC"
+            theme.groupName: "primary"
         }
 
         QExtQuickButton{
-            text: "Success"
-            textColor: "#FFF"
-            textFont.bold: true
-            backgroundColor: "#6AC044"
+            content.text: "Success"
+            content.font.bold: true;
+            content.color: "#FFF"
+            background.color: "#6AC044"
+            theme.groupName: "success"
         }
 
         QExtQuickButton{
-            text: "Warning"
-            textColor: "#FFF"
-            textFont.bold: true
-            backgroundColor: "#E4A147"
+            content.text: "Warning"
+            content.font.bold: true;
+            content.color: "#FFF"
+            background.color: "#E4A147"
+            theme.groupName: "warning"
         }
 
         QExtQuickButton{
-            text: "Danger"
-            textColor: "#FFF"
-            textFont.bold: true
-            backgroundColor: "#F36D6F"
+            content.text: "Danger"
+            content.font.bold: true;
+            content.color: "#FFF"
+            background.color: "#F36D6F"
+            theme.groupName: "danger"
         }
     }
 
     Row{
-        height: 40
+        height: 40;
         spacing: 10
         QExtQuickButton{
-            text: "Default"
+            content.text: "Default"
         }
 
         QExtQuickButton{
-            text: "Primary"
-            textColor: "#46A0FC"
-            textFont.bold: true
-            backgroundColor: "#ECF5FF"
-            backgroundBorderColor: "#46A0FC"
+            content.text: "Primary"
+            content.color: "#46A0FC"
+            content.font.bold: true;
+            background.color: "#ECF5FF"
+            border.color: "#46A0FC"
+            theme.enabled: false
         }
 
         QExtQuickButton{
-            text: "Success"
-            textFont.bold: true
-            textColor: "#6AC044"
-            backgroundColor: "#F0F9EB"
-            backgroundBorderColor: "#6AC044"
+            content.text: "Success"
+            content.font.bold: true;
+            content.color: "#6AC044"
+            background.color: "#F0F9EB"
+            border.color: "#6AC044"
+            theme.enabled: false
         }
 
         QExtQuickButton{
-            text: "Warning"
-            textFont.bold: true
-            textColor: "#E4A147"
-            backgroundColor: "#FDF6ED"
-            backgroundBorderColor: "#E4A147"
+            content.text: "Warning"
+            content.font.bold: true;
+            content.color: "#E4A147"
+            background.color: "#FDF6ED"
+            border.color: "#E4A147"
+            theme.enabled: false
         }
 
         QExtQuickButton{
-            text: "Danger"
-            textFont.bold: true
-            textColor: "#F36D6F"
-            backgroundColor: "#FEF0F0"
-            backgroundBorderColor: "#F36D6F"
+            content.text: "Danger"
+            content.font.bold: true;
+            content.color: "#F36D6F"
+            background.color: "#FEF0F0"
+            border.color: "#F36D6F"
+            theme.enabled: false
         }
     }
 

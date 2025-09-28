@@ -48,9 +48,3 @@ qext_add_executable(QExtExpQmlPadding
     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
-# qt_add_executable(QExtExpQmlPadding
-#     qmlpadding/qmlpadding.qrc
-#     qmlpadding/qmlpadding.cpp)
-# target_link_libraries(QExtExpQmlPadding PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
-# target_compile_definitions(QExtExpQmlPadding PRIVATE QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
-# qt_android_generate_deployment_settings(QExtExpQmlPadding)

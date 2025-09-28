@@ -22,7 +22,7 @@
 ########################################################################################################################
 
 add_subdirectory(qml)
-# add_subdirectory(quick)
+add_subdirectory(quick)
 # add_subdirectory(toou2d)
 
 list(APPEND QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} "${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")

@@ -23,8 +23,8 @@
 ***********************************************************************************************************************/
 
 #include <qextQml.h>
-#include <qextQmlPadding.h>
 #include <qextQmlConfig.h>
+#include <qextQmlRegistration.h>
 
 #include <QObject>
 #include <QQmlEngine>
@@ -51,7 +51,7 @@ public:
 
     void initializeEngine(QQmlEngine *engine, const char *uri)
     {
-        QExtQml::instance()->initQmlEngine(engine, uri);
+        QExtQml::instance()->initializeEngine(engine, uri);
     }
 };
 

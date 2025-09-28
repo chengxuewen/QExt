@@ -909,7 +909,7 @@ endfunction()
 #    directory is used for the installation, e.g. include
 # Note: that for non-prefixed QExt configurations the build interface paths will start with
 # <build_directory>/qextbase/include, e.g foo_build_interface_include_dir of the Qml library looks
-# like qext_toplevel_build_dir/qextbase/include/QEXTQml
+# like qext_toplevel_build_dir/qextbase/include/QExtQml
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_library_info result target)
     if(result STREQUAL "repo")

@@ -26,6 +26,7 @@
 #define _QEXTQUICKCONTROLS_H
 
 #include <qextQuickControlsGlobal.h>
+#include <qextQmlSingleton.h>
 
 #include <QObject>
 #include <QQmlEngine>
@@ -34,24 +35,23 @@
 
 class QExtQuickWorld;
 class QExtQuickControlsPrivate;
-class QEXT_QUICKCONTROLS_API QExtQuickControls : public QObject
+class QEXT_QUICKCONTROLS_API QExtQuickControls : public QExtQmlSingleton<QExtQuickControls>
 {
     Q_OBJECT
-    Q_PROPERTY(QString version READ version CONSTANT)
+    QEXT_DECLARE_QML_SINGLETON(QExtQuickControls)
     Q_PROPERTY(QQuickWindow *rootWindow READ rootWindow NOTIFY rootWindowChanged)
 
 public:
-    enum StateType
+    enum ButtonStateEnum
     {
-        State_None = 0,
-        State_Normal,
-        State_Hovered,
-        State_Pressed,
-        State_Checked,
-        State_Unchecked,
-        State_PartiallyChecked,
+        ButtonStateNone = 0, // disabled
+        ButtonStateNormal,
+        ButtonStateHovered,
+        ButtonStatePressed,
+        ButtonStateChecked,
+        ButtonStateUnchecked
     };
-    Q_ENUM(StateType);
+    Q_ENUM(ButtonStateEnum)
 
     enum PositionType
     {
@@ -61,7 +61,7 @@ public:
         Position_Bottom,
         Position_Center
     };
-    Q_ENUM(PositionType);
+    Q_ENUM(PositionType)
 
     enum IconDisplayType
     {
@@ -72,14 +72,14 @@ public:
         IconDisplay_Top,
         IconDisplay_Bottom,
     };
-    Q_ENUM(IconDisplayType);
+    Q_ENUM(IconDisplayType)
 
     enum IconType
     {
         Icon_Awesome = 0,
         Icon_SVG
     };
-    Q_ENUM(IconType);
+    Q_ENUM(IconType)
 
     //h1=32px h2=24px h3=19px h4=16px h5=14px h6=12px
     enum class PixelSizeType
@@ -93,7 +93,7 @@ public:
         PH7 = 10,
         PH8 = 8
     };
-    Q_ENUM(PixelSizeType);
+    Q_ENUM(PixelSizeType)
 
     enum DragDirectionType
     {
@@ -107,37 +107,35 @@ public:
         DragDirection_Bottom,
         DragDirection_Center
     };
-    Q_ENUM(DragDirectionType);
+    Q_ENUM(DragDirectionType)
 
-    ~QExtQuickControls();
-    static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
-    static QExtQuickControls *instance();
-
-    QString version() const;
     QQuickWindow *rootWindow() const;
 
-    Q_INVOKABLE QString stateToString(int state) const;
-    Q_INVOKABLE int stateToEnum(const QString &state) const;
+    Q_INVOKABLE QString buttonStateToString(int state) const;
+    Q_INVOKABLE int buttonStateToEnum(const QString &state) const;
 
-    void registerTypes(const char *url);
     void initWorld(QExtQuickWorld *world);
     void initQuickRoot(QQuickWindow *rootWindow);
-    void initQmlEngine(QQmlEngine *engine, const char *uri);
 
     int mouseAreaCursorShape() const;
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
+
+    Q_INVOKABLE QString version() const;
+    void registerTypes(const char *url = nullptr) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
 
 Q_SIGNALS:
     void rootWindowChanged(QQuickWindow *window);
 
 protected:
-    explicit QExtQuickControls(QObject *parent = QEXT_NULLPTR);
+    QExtQuickControls();
+    ~QExtQuickControls();
 
     QScopedPointer<QExtQuickControlsPrivate> dd_ptr;
 
 private:
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickControls)
-    Q_DISABLE_COPY(QExtQuickControls)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQuickControls)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickControls)
 };
 
 #endif // _QEXTQUICKCONTROLS_H
