@@ -25,12 +25,12 @@
 #include <qextQml.h>
 #include <qextQmlGlobal.h>
 #include <qextQmlConfig.h>
-#include <qextQmlSize.h>
-#include <qextQmlBorder.h>
-#include <qextQmlPadding.h>
-#include <qextQmlIconData.h>
-#include <qextQmlTextData.h>
-#include <qextQmlBackground.h>
+#include <qextQmlSizeInfo.h>
+#include <qextQmlBorderInfo.h>
+#include <qextQmlPaddingInfo.h>
+#include <qextQmlIconInfo.h>
+#include <qextQmlTextInfo.h>
+#include <qextQmlRectangleInfo.h>
 
 #include <qextObject.h>
 #include <qextOnceFlag.h>
@@ -201,12 +201,13 @@ void QExtQml::registerTypes(const char *url)
 
             qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml", QExtQml::create);
 
-            qmlRegisterType<QExtQmlSize>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlSize");
-            qmlRegisterType<QExtQmlBorder>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorder");
-            qmlRegisterType<QExtQmlPadding>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPadding");
-            qmlRegisterType<QExtQmlTextData>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlTextData");
-            qmlRegisterType<QExtQmlIconData>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlIconData");
-            qmlRegisterType<QExtQmlBackground>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBackground");
+            qmlRegisterType<QExtQmlSizeInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlSizeInfo");
+            qmlRegisterType<QExtQmlTextInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlTextInfo");
+            qmlRegisterType<QExtQmlIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlIconInfo");
+            qmlRegisterType<QExtQmlBorderInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorderInfo");
+            qmlRegisterType<QExtQmlPaddingInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPaddingInfo");
+            qmlRegisterType<QExtQmlRectangleInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlRectangleInfo");
+
             qmlRegisterType<QExtQmlFontIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
             qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"),

@@ -37,7 +37,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::QmlTheme)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -50,7 +50,8 @@ qext_add_qml_module(QuickControls
     PLUGIN_TARGET QExtQuickControlsPlugin
     PLUGIN_SOURCES source/qextQuickControlsPlugin.cpp
     DEPENDENCIES
-    QExt::Qml
+    QExtQml
+    QExtQml.Theme
     SOURCES
     source/qextQuickControls.cpp
     source/qextQuickControls.h

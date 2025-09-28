@@ -11,7 +11,7 @@ Text {
     property alias theme: mTheme;
 
     QExtQmlObject {
-        id: mFont;
+        id: mFont
 
         property alias bold: mControl.font.bold;
         property alias family: mControl.font.family;

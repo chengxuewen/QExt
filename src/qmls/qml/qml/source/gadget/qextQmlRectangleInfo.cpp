@@ -22,19 +22,19 @@
 **
 ***********************************************************************************************************************/
 
-#include <qextQmlBackground.h>
+#include <qextQmlRectangleInfo.h>
 
 #include <QDebug>
 
-class QExtQmlBackgroundPrivate
+class QExtQmlRectangleInfoPrivate
 {
-    Q_DISABLE_COPY(QExtQmlBackgroundPrivate)
-    Q_DECLARE_PUBLIC(QExtQmlBackground)
+    Q_DISABLE_COPY(QExtQmlRectangleInfoPrivate)
+    Q_DECLARE_PUBLIC(QExtQmlRectangleInfo)
 public:
-    explicit QExtQmlBackgroundPrivate(QExtQmlBackground *q);
-    virtual ~QExtQmlBackgroundPrivate();
+    explicit QExtQmlRectangleInfoPrivate(QExtQmlRectangleInfo *q);
+    virtual ~QExtQmlRectangleInfoPrivate();
 
-    QExtQmlBackground * const q_ptr;
+    QExtQmlRectangleInfo * const q_ptr;
 
     QColor mColor;
     qreal mRadius;
@@ -45,7 +45,7 @@ public:
     bool mVisible;
 };
 
-QExtQmlBackgroundPrivate::QExtQmlBackgroundPrivate(QExtQmlBackground *q)
+QExtQmlRectangleInfoPrivate::QExtQmlRectangleInfoPrivate(QExtQmlRectangleInfo *q)
     : q_ptr(q)
 {
     mColor = QColor("#FFFFF");
@@ -57,67 +57,67 @@ QExtQmlBackgroundPrivate::QExtQmlBackgroundPrivate(QExtQmlBackground *q)
     mVisible = true;
 }
 
-QExtQmlBackgroundPrivate::~QExtQmlBackgroundPrivate()
+QExtQmlRectangleInfoPrivate::~QExtQmlRectangleInfoPrivate()
 {
 }
 
-QExtQmlBackground::QExtQmlBackground(QObject *parent)
+QExtQmlRectangleInfo::QExtQmlRectangleInfo(QObject *parent)
     : QObject(parent)
-    , dd_ptr(new QExtQmlBackgroundPrivate(this))
+    , dd_ptr(new QExtQmlRectangleInfoPrivate(this))
 {
 
 }
 
-QExtQmlBackground::~QExtQmlBackground()
+QExtQmlRectangleInfo::~QExtQmlRectangleInfo()
 {
 
 }
 
-qreal QExtQmlBackground::scale() const
+qreal QExtQmlRectangleInfo::scale() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mScale;
 }
 
-qreal QExtQmlBackground::opacity() const
+qreal QExtQmlRectangleInfo::opacity() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mOpacity;
 }
 
-qreal QExtQmlBackground::radius() const
+qreal QExtQmlRectangleInfo::radius() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mRadius;
 }
 
-QColor QExtQmlBackground::color() const
+QColor QExtQmlRectangleInfo::color() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mColor;
 }
 
-bool QExtQmlBackground::isVisible() const
+bool QExtQmlRectangleInfo::isVisible() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mVisible;
 }
 
-qreal QExtQmlBackground::width() const
+qreal QExtQmlRectangleInfo::width() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mWidth;
 }
 
-qreal QExtQmlBackground::height() const
+qreal QExtQmlRectangleInfo::height() const
 {
-    Q_D(const QExtQmlBackground);
+    Q_D(const QExtQmlRectangleInfo);
     return d->mHeight;
 }
 
-void QExtQmlBackground::setWidth(const qreal &width)
+void QExtQmlRectangleInfo::setWidth(const qreal &width)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (width != d->mWidth)
     {
         d->mWidth = width;
@@ -125,9 +125,9 @@ void QExtQmlBackground::setWidth(const qreal &width)
     }
 }
 
-void QExtQmlBackground::setHeight(const qreal &height)
+void QExtQmlRectangleInfo::setHeight(const qreal &height)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (height != d->mHeight)
     {
         d->mHeight = height;
@@ -135,9 +135,9 @@ void QExtQmlBackground::setHeight(const qreal &height)
     }
 }
 
-void QExtQmlBackground::setOpacity(const qreal &opacity)
+void QExtQmlRectangleInfo::setOpacity(const qreal &opacity)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (!qFuzzyCompare(d->mOpacity, opacity))
     {
         d->mOpacity = opacity;
@@ -145,9 +145,9 @@ void QExtQmlBackground::setOpacity(const qreal &opacity)
     }
 }
 
-void QExtQmlBackground::setScale(const qreal &scale)
+void QExtQmlRectangleInfo::setScale(const qreal &scale)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (!qFuzzyCompare(d->mScale, scale))
     {
         d->mScale = scale;
@@ -155,9 +155,9 @@ void QExtQmlBackground::setScale(const qreal &scale)
     }
 }
 
-void QExtQmlBackground::setRadius(const qreal &radius)
+void QExtQmlRectangleInfo::setRadius(const qreal &radius)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (radius != d->mRadius)
     {
         d->mRadius = radius;
@@ -165,9 +165,9 @@ void QExtQmlBackground::setRadius(const qreal &radius)
     }
 }
 
-void QExtQmlBackground::setColor(const QColor &color)
+void QExtQmlRectangleInfo::setColor(const QColor &color)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (color != d->mColor)
     {
         d->mColor = color;
@@ -175,9 +175,9 @@ void QExtQmlBackground::setColor(const QColor &color)
     }
 }
 
-void QExtQmlBackground::setVisible(const bool &visible)
+void QExtQmlRectangleInfo::setVisible(const bool &visible)
 {
-    Q_D(QExtQmlBackground);
+    Q_D(QExtQmlRectangleInfo);
     if (visible != d->mVisible)
     {
         d->mVisible = visible;

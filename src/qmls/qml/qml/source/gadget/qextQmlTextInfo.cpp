@@ -22,17 +22,17 @@
 **
 ***********************************************************************************************************************/
 
-#include <qextQmlTextData.h>
+#include <qextQmlTextInfo.h>
 
-class QExtQmlTextDataPrivate
+class QExtQmlTextInfoPrivate
 {
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlTextDataPrivate)
-    QEXT_DECLARE_PUBLIC(QExtQmlTextData)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlTextInfoPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQmlTextInfo)
 public:
-    explicit QExtQmlTextDataPrivate(QExtQmlTextData *q);
-    virtual ~QExtQmlTextDataPrivate();
+    explicit QExtQmlTextInfoPrivate(QExtQmlTextInfo *q);
+    virtual ~QExtQmlTextInfoPrivate();
 
-    QExtQmlTextData * const q_ptr;
+    QExtQmlTextInfo * const q_ptr;
 
     QString mText;
     QColor mColor;
@@ -43,7 +43,7 @@ public:
 private:
 };
 
-QExtQmlTextDataPrivate::QExtQmlTextDataPrivate(QExtQmlTextData *q)
+QExtQmlTextInfoPrivate::QExtQmlTextInfoPrivate(QExtQmlTextInfo *q)
     : q_ptr(q)
 {
     mText = "";
@@ -53,55 +53,55 @@ QExtQmlTextDataPrivate::QExtQmlTextDataPrivate(QExtQmlTextData *q)
     mFontSize = 12;
 }
 
-QExtQmlTextDataPrivate::~QExtQmlTextDataPrivate()
+QExtQmlTextInfoPrivate::~QExtQmlTextInfoPrivate()
 {
 }
 
-QExtQmlTextData::QExtQmlTextData(QObject *parent)
+QExtQmlTextInfo::QExtQmlTextInfo(QObject *parent)
     : QObject(parent)
-    , dd_ptr(new QExtQmlTextDataPrivate(this))
+    , dd_ptr(new QExtQmlTextInfoPrivate(this))
 {
 
 }
 
-QExtQmlTextData::~QExtQmlTextData()
+QExtQmlTextInfo::~QExtQmlTextInfo()
 {
 
 }
 
-QString QExtQmlTextData::text() const
+QString QExtQmlTextInfo::text() const
 {
-    Q_D(const QExtQmlTextData);
+    Q_D(const QExtQmlTextInfo);
     return d->mText;
 }
 
-QColor QExtQmlTextData::color() const
+QColor QExtQmlTextInfo::color() const
 {
-    Q_D(const QExtQmlTextData);
+    Q_D(const QExtQmlTextInfo);
     return d->mColor;
 }
 
-qreal QExtQmlTextData::scale() const
+qreal QExtQmlTextInfo::scale() const
 {
-    Q_D(const QExtQmlTextData);
+    Q_D(const QExtQmlTextInfo);
     return d->mScale;
 }
 
-QFont QExtQmlTextData::font() const
+QFont QExtQmlTextInfo::font() const
 {
-    Q_D(const QExtQmlTextData);
+    Q_D(const QExtQmlTextInfo);
     return d->mFont;
 }
 
-int QExtQmlTextData::fontSize() const
+int QExtQmlTextInfo::fontSize() const
 {
-    Q_D(const QExtQmlTextData);
+    Q_D(const QExtQmlTextInfo);
     return d->mFontSize;
 }
 
-void QExtQmlTextData::setFontSize(const int &size)
+void QExtQmlTextInfo::setFontSize(const int &size)
 {
-    Q_D(QExtQmlTextData);
+    Q_D(QExtQmlTextInfo);
     if (size != d->mFontSize)
     {
         d->mFontSize = size;
@@ -109,9 +109,9 @@ void QExtQmlTextData::setFontSize(const int &size)
     }
 }
 
-void QExtQmlTextData::setText(const QString &text)
+void QExtQmlTextInfo::setText(const QString &text)
 {
-    Q_D(QExtQmlTextData);
+    Q_D(QExtQmlTextInfo);
     if (text != d->mText)
     {
         d->mText = text;
@@ -119,9 +119,9 @@ void QExtQmlTextData::setText(const QString &text)
     }
 }
 
-void QExtQmlTextData::setColor(const QColor &color)
+void QExtQmlTextInfo::setColor(const QColor &color)
 {
-    Q_D(QExtQmlTextData);
+    Q_D(QExtQmlTextInfo);
     if (color != d->mColor)
     {
         d->mColor = color;
@@ -129,9 +129,9 @@ void QExtQmlTextData::setColor(const QColor &color)
     }
 }
 
-void QExtQmlTextData::setScale(const qreal &scale)
+void QExtQmlTextInfo::setScale(const qreal &scale)
 {
-    Q_D(QExtQmlTextData);
+    Q_D(QExtQmlTextInfo);
     if (!qFuzzyCompare(d->mScale, scale))
     {
         d->mScale = scale;
@@ -139,9 +139,9 @@ void QExtQmlTextData::setScale(const qreal &scale)
     }
 }
 
-void QExtQmlTextData::setFont(const QFont &font)
+void QExtQmlTextInfo::setFont(const QFont &font)
 {
-    Q_D(QExtQmlTextData);
+    Q_D(QExtQmlTextInfo);
     if (font != d->mFont)
     {
         d->mFont = font;

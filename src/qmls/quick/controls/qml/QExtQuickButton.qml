@@ -17,9 +17,9 @@ QExtQuickButtonArea {
     property int contentHAlign: Qt.AlignHCenter; //Qt.AlignHCenter 、 Qt.AlignLeft or Qt.AlignRight
 
     property alias theme: mTheme;
-    property alias border: mBorder;
-    property alias content: mTextData;
-    property alias background: mBackground
+    property alias border: mBorderInfo;
+    property alias content: mTextInfo;
+    property alias background: mRectangleInfo
 
     property Component contentComponent;
     property Component backgroundComponent;
@@ -86,20 +86,20 @@ QExtQuickButtonArea {
         }
     }
 
-    QExtQmlTextData {
-        id: mTextData
+    QExtQmlTextInfo {
+        id: mTextInfo
         color: "#2D2D2D"
         text: "Button"
     }
 
-    QExtQmlBorder {
-        id: mBorder
+    QExtQmlBorderInfo {
+        id: mBorderInfo
         width: 1
         color: "#DCDCDC"
     }
 
-    QExtQmlBackground {
-        id: mBackground
+    QExtQmlRectangleInfo {
+        id: mRectangleInfo
         color: "#FCFCFC"
         radius: 2
     }

@@ -2,7 +2,7 @@
 **
 ** Library: QExt
 **
-** Copyright (C) 2021 ChengXueWen.
+** Copyright (C) 2024 ChengXueWen.
 **
 ** License: MIT License
 **
@@ -22,57 +22,64 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQMLTEXTDATA_H
-#define _QEXTQMLTEXTDATA_H
+#ifndef _QEXTQMLRECTANGLEINFO_H
+#define _QEXTQMLRECTANGLEINFO_H
 
 #include <qextQmlGlobal.h>
 #include <qextQmlRegistration.h>
 
 #include <QColor>
-#include <QFont>
 #include <QObject>
 
-class QExtQmlTextDataPrivate;
-class QEXT_QML_API QExtQmlTextData : public QObject
+class QExtQmlRectangleInfoPrivate;
+class QEXT_QML_API QExtQmlRectangleInfo : public QObject
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
-    Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
-    Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
+    Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
 
 public:
-    explicit QExtQmlTextData(QObject *parent = QEXT_NULLPTR);
-    ~QExtQmlTextData();
+    explicit QExtQmlRectangleInfo(QObject *parent = QEXT_NULLPTR);
+    ~QExtQmlRectangleInfo();
 
-    QString text() const;
     QColor color() const;
     qreal scale() const;
-    QFont font() const;
-    int fontSize() const;
+    qreal opacity() const;
+    qreal radius() const;
+    qreal width() const;
+    qreal height() const;
+    bool isVisible() const;
 
 Q_SIGNALS:
-    void textChanged();
-    void colorChanged();
     void scaleChanged();
-    void fontChanged();
-    void fontSizeChanged(const int &size);
+    void radiusChanged();
+    void colorChanged();
+    void visibleChanged();
+    void widthChanged();
+    void heightChanged();
+    void opacityChanged();
 
 public Q_SLOTS:
-    void setText(const QString &text);
     void setColor(const QColor &color);
+    void setWidth(const qreal &width);
+    void setHeight(const qreal &height);
+    void setOpacity(const qreal &opacity);
     void setScale(const qreal &scale);
-    void setFont(const QFont &font);
-    void setFontSize(const int &size);
+    void setRadius(const qreal &radius);
+    void setVisible(const bool &visible);
 
 protected:
-    QScopedPointer<QExtQmlTextDataPrivate> dd_ptr;
+    QScopedPointer<QExtQmlRectangleInfoPrivate> dd_ptr;
 
 private:
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlTextData)
-    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlTextData)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlRectangleInfo)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlRectangleInfo)
 };
 
-#endif // _QEXTQMLTEXTDATA_H
+#endif // _QEXTQMLRECTANGLEINFO_H

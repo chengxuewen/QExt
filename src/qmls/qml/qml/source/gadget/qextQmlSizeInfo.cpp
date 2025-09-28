@@ -22,42 +22,69 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQMLSIZE_H
-#define _QEXTQMLSIZE_H
+#include <qextQmlSizeInfo.h>
 
-#include <qextQmlGlobal.h>
-#include <qextQmlRegistration.h>
-
-#include <QObject>
-
-class QExtQmlSizePrivate;
-class QEXT_QML_API QExtQmlSize : public QObject
+class QExtQmlSizeInfoPrivate
 {
-    Q_OBJECT
-    QEXT_QML_ELEMENT()
-    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlSizeInfoPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQmlSizeInfo)
 public:
-    explicit QExtQmlSize(QObject *parent = QEXT_NULLPTR);
-    ~QExtQmlSize() override;
+    explicit QExtQmlSizeInfoPrivate(QExtQmlSizeInfo *q);
+    virtual ~QExtQmlSizeInfoPrivate();
 
-    qreal width() const;
-    qreal height() const;
+    QExtQmlSizeInfo * const q_ptr;
 
-Q_SIGNALS:
-    void widthChanged(qreal width);
-    void heightChanged(qreal height);
-
-public Q_SLOTS:
-    void setWidth(qreal width);
-    void setHeight(qreal height);
-
-protected:
-    QScopedPointer<QExtQmlSizePrivate> dd_ptr;
-
-private:
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlSize)
-    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlSize)
+    qreal mWidth;
+    qreal mHeight;
 };
 
-#endif // _QEXTQMLSIZE_H
+QExtQmlSizeInfoPrivate::QExtQmlSizeInfoPrivate(QExtQmlSizeInfo *q)
+    : q_ptr(q)
+{
+}
+
+QExtQmlSizeInfoPrivate::~QExtQmlSizeInfoPrivate()
+{
+}
+
+QExtQmlSizeInfo::QExtQmlSizeInfo(QObject *parent)
+    : QObject(parent)
+    , dd_ptr(new QExtQmlSizeInfoPrivate(this))
+{
+}
+
+QExtQmlSizeInfo::~QExtQmlSizeInfo()
+{
+}
+
+qreal QExtQmlSizeInfo::width() const
+{
+    Q_D(const QExtQmlSizeInfo);
+    return d->mWidth;
+}
+
+qreal QExtQmlSizeInfo::height() const
+{
+    Q_D(const QExtQmlSizeInfo);
+    return d->mHeight;
+}
+
+void QExtQmlSizeInfo::setWidth(qreal width)
+{
+    Q_D(QExtQmlSizeInfo);
+    if (width != d->mWidth)
+    {
+        d->mWidth = width;
+        emit this->widthChanged(width);
+    }
+}
+
+void QExtQmlSizeInfo::setHeight(qreal height)
+{
+    Q_D(QExtQmlSizeInfo);
+    if (height != d->mHeight)
+    {
+        d->mHeight = height;
+        emit this->heightChanged(height);
+    }
+}

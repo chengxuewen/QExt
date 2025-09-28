@@ -53,23 +53,23 @@ qext_add_qml_module(Qml
     QtQml
     QtQuick
     SOURCES
+    source/gadget/qextQmlRectangleInfo.cpp
+    source/gadget/qextQmlRectangleInfo.h
+    source/gadget/qextQmlBorderInfo.cpp
+    source/gadget/qextQmlBorderInfo.h
+    source/gadget/qextQmlPaddingInfo.cpp
+    source/gadget/qextQmlPaddingInfo.h
+    source/gadget/qextQmlIconInfo.cpp
+    source/gadget/qextQmlIconInfo.h
+    source/gadget/qextQmlSizeInfo.cpp
+    source/gadget/qextQmlSizeInfo.h
+    source/gadget/qextQmlTextInfo.cpp
+    source/gadget/qextQmlTextInfo.h
     source/qextQml.cpp
     source/qextQml.h
-    source/qextQmlBackground.cpp
-    source/qextQmlBackground.h
-    source/qextQmlBorder.cpp
-    source/qextQmlBorder.h
-    source/qextQmlPadding.cpp
-    source/qextQmlPadding.h
     source/qextQmlGlobal.h
-    source/qextQmlIconData.cpp
-    source/qextQmlIconData.h
     source/qextQmlRegistration.h
     source/qextQmlSingleton.h
-    source/qextQmlSize.cpp
-    source/qextQmlSize.h
-    source/qextQmlTextData.cpp
-    source/qextQmlTextData.h
     qextQml.qrc
     QML_FILES
     qml/QExtQmlObject.qml

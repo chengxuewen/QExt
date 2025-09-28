@@ -22,8 +22,8 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQMLBORDER_H
-#define _QEXTQMLBORDER_H
+#ifndef _QEXTQMLICONINFO_H
+#define _QEXTQMLICONINFO_H
 
 #include <qextQmlGlobal.h>
 #include <qextQmlRegistration.h>
@@ -31,54 +31,55 @@
 #include <QColor>
 #include <QObject>
 
-class QExtQmlBorderPrivate;
-class QEXT_QML_API QExtQmlBorder : public QObject
+class QExtQmlIconInfoPrivate;
+class QEXT_QML_API QExtQmlIconInfo : public QObject
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(int type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(qreal leftWidth READ leftWidth WRITE setLeftWidth NOTIFY leftWidthChanged)
-    Q_PROPERTY(qreal rightWidth READ rightWidth WRITE setRightWidth NOTIFY rightWidthChanged)
-    Q_PROPERTY(qreal topWidth READ topWidth WRITE setTopWidth NOTIFY topWidthChanged)
-    Q_PROPERTY(qreal bottomWidth READ bottomWidth WRITE setBottomWidth NOTIFY bottomWidthChanged)
-    Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
+    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
+    Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
 
 public:
-    explicit QExtQmlBorder(QObject *parent = nullptr);
-    ~QExtQmlBorder();
+    explicit QExtQmlIconInfo(QObject *parent = QEXT_NULLPTR);
+    ~QExtQmlIconInfo();
 
-    QColor color() const;
     qreal width() const;
-    qreal leftWidth() const;
-    qreal rightWidth() const;
-    qreal topWidth() const;
-    qreal bottomWidth() const;
-    bool isValid() const;
+    qreal height() const;
+    QColor color() const;
+    qreal scale() const;
+    QString source() const;
+    int type() const;
+    int position() const;
 
 Q_SIGNALS:
-    void colorChanged();
     void widthChanged();
-    void leftWidthChanged();
-    void rightWidthChanged();
-    void topWidthChanged();
-    void bottomWidthChanged();
-    void validChanged();
+    void heightChanged();
+    void colorChanged();
+    void scaleChanged();
+    void sourceChanged();
+    void typeChanged(const int &type);
+    void positionChanged(const int &position);
 
-public Q_SLOTS:
-    void setColor(QColor color);
-    void setWidth(qreal width);
-    void setLeftWidth(qreal leftWidth);
-    void setRightWidth(qreal rightWidth);
-    void setTopWidth(qreal topWidth);
-    void setBottomWidth(qreal bottomWidth);
+protected Q_SLOTS:
+    void setWidth(const qreal &width);
+    void setHeight(const qreal &height);
+    void setColor(const QColor &color);
+    void setScale(const qreal &scale);
+    void setSource(const QString &source);
+    void setType(const int &type);
+    void setPosition(const int &position);
 
 protected:
-    QScopedPointer<QExtQmlBorderPrivate> dd_ptr;
+    QScopedPointer<QExtQmlIconInfoPrivate> dd_ptr;
 
 private:
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlBorder)
-    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlBorder)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlIconInfo)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlIconInfo)
 };
 
-#endif // _QEXTQMLBORDER_H
+#endif // _QEXTQMLICONINFO_H

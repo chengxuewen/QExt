@@ -22,8 +22,8 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQMLBACKGROUND_H
-#define _QEXTQMLBACKGROUND_H
+#ifndef _QEXTQMLBORDERINFO_H
+#define _QEXTQMLBORDERINFO_H
 
 #include <qextQmlGlobal.h>
 #include <qextQmlRegistration.h>
@@ -31,55 +31,54 @@
 #include <QColor>
 #include <QObject>
 
-class QExtQmlBackgroundPrivate;
-class QEXT_QML_API QExtQmlBackground : public QObject
+class QExtQmlBorderInfoPrivate;
+class QEXT_QML_API QExtQmlBorderInfo : public QObject
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
-    Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
-    Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
-    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
-    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
+    Q_PROPERTY(qreal leftWidth READ leftWidth WRITE setLeftWidth NOTIFY leftWidthChanged)
+    Q_PROPERTY(qreal rightWidth READ rightWidth WRITE setRightWidth NOTIFY rightWidthChanged)
+    Q_PROPERTY(qreal topWidth READ topWidth WRITE setTopWidth NOTIFY topWidthChanged)
+    Q_PROPERTY(qreal bottomWidth READ bottomWidth WRITE setBottomWidth NOTIFY bottomWidthChanged)
+    Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
 
 public:
-    explicit QExtQmlBackground(QObject *parent = QEXT_NULLPTR);
-    ~QExtQmlBackground();
+    explicit QExtQmlBorderInfo(QObject *parent = nullptr);
+    ~QExtQmlBorderInfo();
 
     QColor color() const;
-    qreal scale() const;
-    qreal opacity() const;
-    qreal radius() const;
     qreal width() const;
-    qreal height() const;
-    bool isVisible() const;
+    qreal leftWidth() const;
+    qreal rightWidth() const;
+    qreal topWidth() const;
+    qreal bottomWidth() const;
+    bool isValid() const;
 
 Q_SIGNALS:
-    void scaleChanged();
-    void radiusChanged();
     void colorChanged();
-    void visibleChanged();
     void widthChanged();
-    void heightChanged();
-    void opacityChanged();
+    void leftWidthChanged();
+    void rightWidthChanged();
+    void topWidthChanged();
+    void bottomWidthChanged();
+    void validChanged();
 
 public Q_SLOTS:
-    void setColor(const QColor &color);
-    void setWidth(const qreal &width);
-    void setHeight(const qreal &height);
-    void setOpacity(const qreal &opacity);
-    void setScale(const qreal &scale);
-    void setRadius(const qreal &radius);
-    void setVisible(const bool &visible);
+    void setColor(QColor color);
+    void setWidth(qreal width);
+    void setLeftWidth(qreal leftWidth);
+    void setRightWidth(qreal rightWidth);
+    void setTopWidth(qreal topWidth);
+    void setBottomWidth(qreal bottomWidth);
 
 protected:
-    QScopedPointer<QExtQmlBackgroundPrivate> dd_ptr;
+    QScopedPointer<QExtQmlBorderInfoPrivate> dd_ptr;
 
 private:
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlBackground)
-    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlBackground)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlBorderInfo)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlBorderInfo)
 };
 
-#endif // _QEXTQMLBACKGROUND_H
+#endif // _QEXTQMLBORDERINFO_H

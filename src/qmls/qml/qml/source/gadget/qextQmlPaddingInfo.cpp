@@ -22,17 +22,17 @@
 **
 ***********************************************************************************************************************/
 
-#include <qextQmlPadding.h>
+#include <qextQmlPaddingInfo.h>
 
 #include <QDebug>
 
-class QExtQmlPaddingPrivate
+class QExtQmlPaddingInfoPrivate
 {
 public:
-    explicit QExtQmlPaddingPrivate(QExtQmlPadding *q);
-    virtual ~QExtQmlPaddingPrivate();
+    explicit QExtQmlPaddingInfoPrivate(QExtQmlPaddingInfo *q);
+    virtual ~QExtQmlPaddingInfoPrivate();
 
-    QExtQmlPadding * const q_ptr;
+    QExtQmlPaddingInfo * const q_ptr;
 
     double mTopPadding;
     double mLeftPadding;
@@ -40,11 +40,11 @@ public:
     double mBottomPadding;
 
 private:
-    QEXT_DECLARE_PUBLIC(QExtQmlPadding)
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlPaddingPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQmlPaddingInfo)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlPaddingInfoPrivate)
 };
 
-QExtQmlPaddingPrivate::QExtQmlPaddingPrivate(QExtQmlPadding *q)
+QExtQmlPaddingInfoPrivate::QExtQmlPaddingInfoPrivate(QExtQmlPaddingInfo *q)
     : q_ptr(q)
     , mTopPadding(0)
     , mLeftPadding(0)
@@ -53,53 +53,53 @@ QExtQmlPaddingPrivate::QExtQmlPaddingPrivate(QExtQmlPadding *q)
 {
 }
 
-QExtQmlPaddingPrivate::~QExtQmlPaddingPrivate()
+QExtQmlPaddingInfoPrivate::~QExtQmlPaddingInfoPrivate()
 {
 }
 
-QExtQmlPadding::QExtQmlPadding(QObject *parent)
+QExtQmlPaddingInfo::QExtQmlPaddingInfo(QObject *parent)
     : QObject(parent)
-    , dd_ptr(new QExtQmlPaddingPrivate(this))
+    , dd_ptr(new QExtQmlPaddingInfoPrivate(this))
 {
 }
 
-QExtQmlPadding::QExtQmlPadding(double padding, QObject *parent)
+QExtQmlPaddingInfo::QExtQmlPaddingInfo(double padding, QObject *parent)
     : QObject(parent)
-    , dd_ptr(new QExtQmlPaddingPrivate(this))
+    , dd_ptr(new QExtQmlPaddingInfoPrivate(this))
 {
     this->setPadding(padding);
 }
 
-QExtQmlPadding::~QExtQmlPadding()
+QExtQmlPaddingInfo::~QExtQmlPaddingInfo()
 {
 
 }
 
-double QExtQmlPadding::topPadding() const
+double QExtQmlPaddingInfo::topPadding() const
 {
-    Q_D(const QExtQmlPadding);
+    Q_D(const QExtQmlPaddingInfo);
     return d->mTopPadding;
 }
 
-double QExtQmlPadding::leftPadding() const
+double QExtQmlPaddingInfo::leftPadding() const
 {
-    Q_D(const QExtQmlPadding);
+    Q_D(const QExtQmlPaddingInfo);
     return d->mLeftPadding;
 }
 
-double QExtQmlPadding::rightPadding() const
+double QExtQmlPaddingInfo::rightPadding() const
 {
-    Q_D(const QExtQmlPadding);
+    Q_D(const QExtQmlPaddingInfo);
     return d->mRightPadding;
 }
 
-double QExtQmlPadding::bottomPadding() const
+double QExtQmlPaddingInfo::bottomPadding() const
 {
-    Q_D(const QExtQmlPadding);
+    Q_D(const QExtQmlPaddingInfo);
     return d->mBottomPadding;
 }
 
-void QExtQmlPadding::setPadding(double padding)
+void QExtQmlPaddingInfo::setPadding(double padding)
 {
     this->setTopPadding(padding);
     this->setLeftPadding(padding);
@@ -107,9 +107,9 @@ void QExtQmlPadding::setPadding(double padding)
     this->setBottomPadding(padding);
 }
 
-void QExtQmlPadding::setTopPadding(double padding)
+void QExtQmlPaddingInfo::setTopPadding(double padding)
 {
-    Q_D(QExtQmlPadding);
+    Q_D(QExtQmlPaddingInfo);
     if (padding != d->mTopPadding)
     {
         d->mTopPadding = padding;
@@ -117,9 +117,9 @@ void QExtQmlPadding::setTopPadding(double padding)
     }
 }
 
-void QExtQmlPadding::setLeftPadding(double padding)
+void QExtQmlPaddingInfo::setLeftPadding(double padding)
 {
-    Q_D(QExtQmlPadding);
+    Q_D(QExtQmlPaddingInfo);
     if (padding != d->mLeftPadding)
     {
         d->mLeftPadding = padding;
@@ -127,9 +127,9 @@ void QExtQmlPadding::setLeftPadding(double padding)
     }
 }
 
-void QExtQmlPadding::setRightPadding(double padding)
+void QExtQmlPaddingInfo::setRightPadding(double padding)
 {
-    Q_D(QExtQmlPadding);
+    Q_D(QExtQmlPaddingInfo);
     if (padding != d->mRightPadding)
     {
         d->mRightPadding = padding;
@@ -137,9 +137,9 @@ void QExtQmlPadding::setRightPadding(double padding)
     }
 }
 
-void QExtQmlPadding::setBottomPadding(double padding)
+void QExtQmlPaddingInfo::setBottomPadding(double padding)
 {
-    Q_D(QExtQmlPadding);
+    Q_D(QExtQmlPaddingInfo);
     if (padding != d->mBottomPadding)
     {
         d->mBottomPadding = padding;

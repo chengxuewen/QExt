@@ -22,17 +22,17 @@
 **
 ***********************************************************************************************************************/
 
-#include <qextQmlIconData.h>
+#include <qextQmlIconInfo.h>
 
-class QExtQmlIconDataPrivate
+class QExtQmlIconInfoPrivate
 {
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlIconDataPrivate)
-    QEXT_DECLARE_PUBLIC(QExtQmlIconData)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlIconInfoPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQmlIconInfo)
 public:
-    explicit QExtQmlIconDataPrivate(QExtQmlIconData *q);
-    virtual ~QExtQmlIconDataPrivate();
+    explicit QExtQmlIconInfoPrivate(QExtQmlIconInfo *q);
+    virtual ~QExtQmlIconInfoPrivate();
 
-    QExtQmlIconData * const q_ptr;
+    QExtQmlIconInfo * const q_ptr;
 
     qreal mWidth;
     qreal mHeight;
@@ -43,7 +43,7 @@ public:
     QString mSource;
 };
 
-QExtQmlIconDataPrivate::QExtQmlIconDataPrivate(QExtQmlIconData *q)
+QExtQmlIconInfoPrivate::QExtQmlIconInfoPrivate(QExtQmlIconInfo *q)
     : q_ptr(q)
 {
     mWidth = 18;
@@ -52,67 +52,67 @@ QExtQmlIconDataPrivate::QExtQmlIconDataPrivate(QExtQmlIconData *q)
     mPosition = 0;
 }
 
-QExtQmlIconDataPrivate::~QExtQmlIconDataPrivate()
+QExtQmlIconInfoPrivate::~QExtQmlIconInfoPrivate()
 {
 }
 
-QExtQmlIconData::QExtQmlIconData(QObject *parent)
+QExtQmlIconInfo::QExtQmlIconInfo(QObject *parent)
     : QObject(parent)
-    , dd_ptr(new QExtQmlIconDataPrivate(this))
+    , dd_ptr(new QExtQmlIconInfoPrivate(this))
 {
 
 }
 
-QExtQmlIconData::~QExtQmlIconData()
+QExtQmlIconInfo::~QExtQmlIconInfo()
 {
 
 }
 
-qreal QExtQmlIconData::width() const
+qreal QExtQmlIconInfo::width() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mWidth;
 }
 
-qreal QExtQmlIconData::height() const
+qreal QExtQmlIconInfo::height() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mHeight;
 }
 
-QColor QExtQmlIconData::color() const
+QColor QExtQmlIconInfo::color() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mColor;
 }
 
-qreal QExtQmlIconData::scale() const
+qreal QExtQmlIconInfo::scale() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mScale;
 }
 
-QString QExtQmlIconData::source() const
+QString QExtQmlIconInfo::source() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mSource;
 }
 
-int QExtQmlIconData::type() const
+int QExtQmlIconInfo::type() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mType;
 }
 
-int QExtQmlIconData::position() const
+int QExtQmlIconInfo::position() const
 {
-    Q_D(const QExtQmlIconData);
+    Q_D(const QExtQmlIconInfo);
     return d->mPosition;
 }
 
-void QExtQmlIconData::setWidth(const qreal &width)
+void QExtQmlIconInfo::setWidth(const qreal &width)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (width != d->mWidth)
     {
         d->mWidth = width;
@@ -120,9 +120,9 @@ void QExtQmlIconData::setWidth(const qreal &width)
     }
 }
 
-void QExtQmlIconData::setPosition(const int &position)
+void QExtQmlIconInfo::setPosition(const int &position)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (position != d->mPosition)
     {
         d->mPosition = position;
@@ -130,9 +130,9 @@ void QExtQmlIconData::setPosition(const int &position)
     }
 }
 
-void QExtQmlIconData::setHeight(const qreal &height)
+void QExtQmlIconInfo::setHeight(const qreal &height)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (height != d->mHeight)
     {
         d->mHeight = height;
@@ -140,9 +140,9 @@ void QExtQmlIconData::setHeight(const qreal &height)
     }
 }
 
-void QExtQmlIconData::setColor(const QColor &color)
+void QExtQmlIconInfo::setColor(const QColor &color)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (color != d->mColor)
     {
         d->mColor = color;
@@ -150,9 +150,9 @@ void QExtQmlIconData::setColor(const QColor &color)
     }
 }
 
-void QExtQmlIconData::setScale(const qreal &scale)
+void QExtQmlIconInfo::setScale(const qreal &scale)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (!qFuzzyCompare(d->mScale, scale))
     {
         d->mScale = scale;
@@ -160,9 +160,9 @@ void QExtQmlIconData::setScale(const qreal &scale)
     }
 }
 
-void QExtQmlIconData::setSource(const QString &source)
+void QExtQmlIconInfo::setSource(const QString &source)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (source != d->mSource)
     {
         d->mSource = source;
@@ -170,9 +170,9 @@ void QExtQmlIconData::setSource(const QString &source)
     }
 }
 
-void QExtQmlIconData::setType(const int &type)
+void QExtQmlIconInfo::setType(const int &type)
 {
-    Q_D(QExtQmlIconData);
+    Q_D(QExtQmlIconInfo);
     if (type != d->mType)
     {
         d->mType = type;

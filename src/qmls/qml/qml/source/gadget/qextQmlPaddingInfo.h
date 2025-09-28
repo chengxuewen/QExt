@@ -22,16 +22,16 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQMLPADDING_H
-#define _QEXTQMLPADDING_H
+#ifndef _QEXTQMLPADDINGINFO_H
+#define _QEXTQMLPADDINGINFO_H
 
 #include <qextQmlGlobal.h>
 #include <qextQmlRegistration.h>
 
 #include <QObject>
 
-class QExtQmlPaddingPrivate;
-class QEXT_QML_API QExtQmlPadding : public QObject
+class QExtQmlPaddingInfoPrivate;
+class QEXT_QML_API QExtQmlPaddingInfo : public QObject
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
@@ -41,9 +41,9 @@ class QEXT_QML_API QExtQmlPadding : public QObject
     Q_PROPERTY(double rightPadding READ rightPadding WRITE setRightPadding NOTIFY rightPaddingChanged)
     Q_PROPERTY(double bottomPadding READ bottomPadding WRITE setBottomPadding NOTIFY bottomPaddingChanged)
 public:
-    explicit QExtQmlPadding(QObject *parent = QEXT_NULLPTR);
-    QExtQmlPadding(double padding, QObject *parent = QEXT_NULLPTR);
-    ~QExtQmlPadding() QEXT_OVERRIDE;
+    explicit QExtQmlPaddingInfo(QObject *parent = QEXT_NULLPTR);
+    QExtQmlPaddingInfo(double padding, QObject *parent = QEXT_NULLPTR);
+    ~QExtQmlPaddingInfo() QEXT_OVERRIDE;
 
     double topPadding() const;
     double leftPadding() const;
@@ -64,11 +64,11 @@ public Q_SLOTS:
     Q_INVOKABLE void setBottomPadding(double padding);
 
 protected:
-    QScopedPointer<QExtQmlPaddingPrivate> dd_ptr;
+    QScopedPointer<QExtQmlPaddingInfoPrivate> dd_ptr;
 
 private:
-    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlPadding)
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlPadding)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlPaddingInfo)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlPaddingInfo)
 };
 
-#endif // _QEXTQMLPADDING_H
+#endif // _QEXTQMLPADDINGINFO_H

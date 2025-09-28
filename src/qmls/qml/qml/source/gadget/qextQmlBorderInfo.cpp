@@ -22,19 +22,19 @@
 **
 ***********************************************************************************************************************/
 
-#include <qextQmlBorder.h>
+#include <qextQmlBorderInfo.h>
 
-class QExtQmlBorderPrivate
+class QExtQmlBorderInfoPrivate
 {
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlBorderPrivate)
-    QEXT_DECLARE_PUBLIC(QExtQmlBorder)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlBorderInfoPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQmlBorderInfo)
 public:
-    explicit QExtQmlBorderPrivate(QExtQmlBorder *q);
-    ~QExtQmlBorderPrivate();
+    explicit QExtQmlBorderInfoPrivate(QExtQmlBorderInfo *q);
+    ~QExtQmlBorderInfoPrivate();
 
     bool updateValid();
 
-    QExtQmlBorder * const q_ptr;
+    QExtQmlBorderInfo * const q_ptr;
 
     QColor mColor;
     qreal mWidth;
@@ -45,7 +45,7 @@ public:
     bool mValid;
 };
 
-QExtQmlBorderPrivate::QExtQmlBorderPrivate(QExtQmlBorder *q)
+QExtQmlBorderInfoPrivate::QExtQmlBorderInfoPrivate(QExtQmlBorderInfo *q)
     : q_ptr(q)
 {
     mColor = "#5D5D5D";
@@ -57,13 +57,13 @@ QExtQmlBorderPrivate::QExtQmlBorderPrivate(QExtQmlBorder *q)
     mValid = false;
 }
 
-QExtQmlBorderPrivate::~QExtQmlBorderPrivate()
+QExtQmlBorderInfoPrivate::~QExtQmlBorderInfoPrivate()
 {
 }
 
-bool QExtQmlBorderPrivate::updateValid()
+bool QExtQmlBorderInfoPrivate::updateValid()
 {
-    Q_Q(QExtQmlBorder);
+    Q_Q(QExtQmlBorderInfo);
     const bool valid = mWidth > 0 || mBottomWidth > 0 || mTopWidth > 0 || mLeftWidth > 0 || mRightWidth > 0;
     if (valid != mValid)
     {
@@ -75,61 +75,61 @@ bool QExtQmlBorderPrivate::updateValid()
 
 
 
-QExtQmlBorder::QExtQmlBorder(QObject *parent)
+QExtQmlBorderInfo::QExtQmlBorderInfo(QObject *parent)
     : QObject(parent)
-    , dd_ptr(new QExtQmlBorderPrivate(this))
+    , dd_ptr(new QExtQmlBorderInfoPrivate(this))
 {
 }
 
-QExtQmlBorder::~QExtQmlBorder()
+QExtQmlBorderInfo::~QExtQmlBorderInfo()
 {
 }
 
-QColor QExtQmlBorder::color() const
+QColor QExtQmlBorderInfo::color() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mColor;
 }
 
-qreal QExtQmlBorder::width() const
+qreal QExtQmlBorderInfo::width() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mWidth;
 }
 
-qreal QExtQmlBorder::leftWidth() const
+qreal QExtQmlBorderInfo::leftWidth() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mLeftWidth;
 }
 
-qreal QExtQmlBorder::rightWidth() const
+qreal QExtQmlBorderInfo::rightWidth() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mRightWidth;
 }
 
-qreal QExtQmlBorder::topWidth() const
+qreal QExtQmlBorderInfo::topWidth() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mTopWidth;
 }
 
-qreal QExtQmlBorder::bottomWidth() const
+qreal QExtQmlBorderInfo::bottomWidth() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mBottomWidth;
 }
 
-bool QExtQmlBorder::isValid() const
+bool QExtQmlBorderInfo::isValid() const
 {
-    Q_D(const QExtQmlBorder);
+    Q_D(const QExtQmlBorderInfo);
     return d->mValid;
 }
 
-void QExtQmlBorder::setLeftWidth(qreal leftWidth)
+void QExtQmlBorderInfo::setLeftWidth(qreal leftWidth)
 {
-    Q_D(QExtQmlBorder);
+    Q_D(QExtQmlBorderInfo);
     if (leftWidth != d->mLeftWidth)
     {
         d->mLeftWidth = leftWidth;
@@ -138,9 +138,9 @@ void QExtQmlBorder::setLeftWidth(qreal leftWidth)
     }
 }
 
-void QExtQmlBorder::setRightWidth(qreal rightWidth)
+void QExtQmlBorderInfo::setRightWidth(qreal rightWidth)
 {
-    Q_D(QExtQmlBorder);
+    Q_D(QExtQmlBorderInfo);
     if (rightWidth != d->mRightWidth)
     {
         d->mRightWidth = rightWidth;
@@ -149,9 +149,9 @@ void QExtQmlBorder::setRightWidth(qreal rightWidth)
     }
 }
 
-void QExtQmlBorder::setTopWidth(qreal topWidth)
+void QExtQmlBorderInfo::setTopWidth(qreal topWidth)
 {
-    Q_D(QExtQmlBorder);
+    Q_D(QExtQmlBorderInfo);
     if (topWidth != d->mTopWidth)
     {
         d->mTopWidth = topWidth;
@@ -160,9 +160,9 @@ void QExtQmlBorder::setTopWidth(qreal topWidth)
     }
 }
 
-void QExtQmlBorder::setBottomWidth(qreal bottomWidth)
+void QExtQmlBorderInfo::setBottomWidth(qreal bottomWidth)
 {
-    Q_D(QExtQmlBorder);
+    Q_D(QExtQmlBorderInfo);
     if (bottomWidth != d->mBottomWidth)
     {
         d->mBottomWidth = bottomWidth;
@@ -171,9 +171,9 @@ void QExtQmlBorder::setBottomWidth(qreal bottomWidth)
     }
 }
 
-void QExtQmlBorder::setColor(QColor color)
+void QExtQmlBorderInfo::setColor(QColor color)
 {
-    Q_D(QExtQmlBorder);
+    Q_D(QExtQmlBorderInfo);
     if (color != d->mColor)
     {
         d->mColor = color;
@@ -182,9 +182,9 @@ void QExtQmlBorder::setColor(QColor color)
     }
 }
 
-void QExtQmlBorder::setWidth(qreal width)
+void QExtQmlBorderInfo::setWidth(qreal width)
 {
-    Q_D(QExtQmlBorder);
+    Q_D(QExtQmlBorderInfo);
     if (width != d->mWidth)
     {
         d->mWidth = width;

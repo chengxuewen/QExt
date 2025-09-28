@@ -1,4 +1,4 @@
-import QtQml 2.2
+import QtQml 2.0
 import QtQuick 2.6
 
 import QExtQml.Theme 1.4

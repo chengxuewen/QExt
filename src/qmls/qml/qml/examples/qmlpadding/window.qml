@@ -12,21 +12,21 @@ Window {
 
     property string ver: QExtQml.version
 
-    QExtQmlBorder {
+    QExtQmlBorderInfo {
         leftWidth: 2
     }
 
-    QExtQmlPadding {
+    QExtQmlPaddingInfo {
         leftPadding: 3
     }
 
     QExtQmlObject {
 
     }
-    QExtQmlBackground {
+    QExtQmlRectangleInfo {
         color: "red"
     }
-    QExtQmlTextData {
+    QExtQmlTextInfo {
         font.bold: true
     }
 
