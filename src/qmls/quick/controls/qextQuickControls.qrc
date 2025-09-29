@@ -22,5 +22,7 @@
         <file>qml/QExtQuickSvgIcon1.qml</file>
         <file>qml/QExtQuickIconButton.qml</file>
         <file>qml/QExtQuickCheckBox.qml</file>
+        <file>qml/QExtQuickRadioBox.qml</file>
+        <file>qml/QExtQuickRadioBoxGroup.qml</file>
     </qresource>
 </RCC>

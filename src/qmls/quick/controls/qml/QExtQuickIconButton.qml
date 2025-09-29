@@ -9,7 +9,6 @@ QExtQuickButtonArea {
     width: 120
     height: 40
     states: defaultState
-    // theme.className: "QExtQuickIconButton"
 
     property int spacing: 5
     property int padding: 10

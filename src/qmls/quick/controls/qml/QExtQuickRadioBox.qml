@@ -10,6 +10,8 @@ QExtQuickButtonArea {
     checkable: true
     width: 120
     height: 40
+    // width:  contentLoader.width  + padding;
+    // height: contentLoader.height + padding;
 
     property int spacing: 5
     property int padding: 10
@@ -18,18 +20,19 @@ QExtQuickButtonArea {
     readonly property int implicitWidth: mContentLoader.implicitTextWidth + padding * 2 + spacing + icon.width + 1
     readonly property int implicitHeight: mContentLoader.implicitTextHeight + padding * 2
 
+    property int groupIndex: -1;
+
     property alias theme: mTheme
     property alias icon: mIconInfo
     property alias content: mTextInfo
     property alias text: mTextInfo.text
-    property alias iconChecked: mIconCheckedInfo
-
-    property alias background: mRectangleInfo
     property alias border: mBackground.border
+    property alias background: mBackgroundInfo
+    property alias checkedIcon: mIconCheckedInfo
 
-    property Component mIconComponent
+    property Component mIconComponent;
 
-    mIconComponent: {
+    mIconComponent:  {
         if(!mIconInfo.source) {
             return null;
         } else if(mIconInfo.source.indexOf(".svg") != -1) {
@@ -38,20 +41,18 @@ QExtQuickButtonArea {
         return mFontIconComponent;
     }
 
-    QExtQuickRectangle {
-        id: mBackground
-        anchors.fill: parent
-        color: mRectangleInfo.color
-        radius: mRectangleInfo.radius
-        visible: mRectangleInfo.visible
-        border.color: Qt.darker(mBackground.color, 1.1)
-
-        theme.parent: mTheme
-        theme.childName: "background"
+    state: {
+        if(!enabled){
+            return "disabled";
+        }
+        else if(checked){
+            return "checked"
+        }
+        return "none";
     }
 
     QExtQmlRectangleInfo {
-        id: mRectangleInfo
+        id: mBackgroundInfo
         color: "#ECF5FF"
         visible: false
         radius: 4
@@ -59,7 +60,7 @@ QExtQuickButtonArea {
 
     QExtQmlTextInfo {
         id: mTextInfo
-        text: "CheckBox"
+        text: "RadioBox"
         color: mControl.enabled ? "#3D3D3D" : "#9D9D9D"
     }
 
@@ -67,7 +68,8 @@ QExtQuickButtonArea {
         id: mIconInfo
         width: 18
         height: 18
-        source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_square_o)
+        // type:   TIconType.Awesome;
+        source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_circle_o)
         color: mControl.enabled ? "#46A0FC" : "#9D9D9D"
     }
 
@@ -75,31 +77,44 @@ QExtQuickButtonArea {
         id: mIconCheckedInfo
         width: 18
         height: 18
-        source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_check_square)
+        // type:   TIcosnType.Awesome;
+        source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_dot_circle_o)
         color: mControl.enabled ? "#46A0FC" : "#9D9D9D"
     }
 
-    Loader {
+    QExtQuickRectangle {
+        id: mBackground
+        anchors.fill: parent
+        color: mBackgroundInfo.color
+        radius: mBackgroundInfo.radius
+        visible: mBackgroundInfo.visible
+        border.color: Qt.darker(mBackground.color, 1.1)
+
+        theme.parent: mTheme
+        theme.childName: "background"
+    }
+
+    Loader{
         id: mContentLoader
-        sourceComponent: mContentRowLayoutComponent
-        anchors.margins: mControl.padding
         anchors.centerIn: parent
+        anchors.margins: mControl.padding
+        sourceComponent: mContentRowLayoutComponent
 
         property int implicitTextWidth: 0
         property int implicitTextHeight: 0
     }
 
-    Component {
+    Component{
         id: mContentRowLayoutComponent
         Row {
-            id:row
             spacing: mControl.spacing
+            // layoutDirection: mControl.iconPosition === TPosition.Left ? Qt.LeftToRight : Qt.RightToLeft;
 
             Loader {
-                id: mIconLoader
-                enabled: false
+                id:icon
+                enabled: false;
                 sourceComponent: mIconComponent
-                anchors.verticalCenter: row.verticalCenter
+                anchors.verticalCenter: parent.verticalCenter
             }
 
             QExtQuickText {
@@ -108,21 +123,21 @@ QExtQuickButtonArea {
                 elide: Text.ElideRight
                 width: mControl.textWidth
                 height: mControl.textHeight
-                text: mControl.content.text
-                font: mControl.content.font
-                color: mControl.content.color
+                text: mControl.content.text;
+                font: mControl.content.font;
+                color: mControl.content.color;
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
-                anchors.verticalCenter: row.verticalCenter
+                anchors.verticalCenter: parent.verticalCenter
 
                 theme.parent: mTheme
                 theme.childName: "text"
 
                 onImplicitWidthChanged: {
-                    mContentLoader.implicitTextWidth = mText.implicitWidth;
+                    mContentLoader.implicitTextWidth = implicitWidth;
                 }
                 onImplicitHeightChanged: {
-                    mContentLoader.implicitTextHeight = mText.implicitHeight;
+                    mContentLoader.implicitTextHeight = implicitHeight;
                 }
             }
         }
@@ -133,14 +148,14 @@ QExtQuickButtonArea {
         QExtQuickFontIcon {
             enabled: false
             theme.enabled: false
-            color: !checked ? mIconInfo.color : mIconCheckedInfo.color
-            width: !checked ? mIconInfo.width : mIconCheckedInfo.width
+            color: !checked ? mIconInfo.color  : mIconCheckedInfo.color
+            width: !checked ? mIconInfo.width  : mIconCheckedInfo.width
             height: !checked ? mIconInfo.height : mIconCheckedInfo.height
             source: !checked ? mIconInfo.source : mIconCheckedInfo.source
         }
     }
 
-    Component{
+    Component {
         id: mSvgIconComponent
         QExtQuickSvgIcon {
             enabled: false
@@ -152,23 +167,22 @@ QExtQuickButtonArea {
         }
     }
 
-
     QExtQmlThemeBinder {
         id: mTheme
-        className: "QExtQuickCheckBox"
+        className: "QExtQuickRadioBox"
         state: mControl.state
 
         QExtQmlThemeBinder {
             childName: "icon"
-            property alias color: mIconInfo.color
-            property alias width: mIconInfo.width
+            property alias color:  mIconInfo.color
+            property alias width:  mIconInfo.width
             property alias height: mIconInfo.height
         }
 
         QExtQmlThemeBinder {
             childName: "icon.checked"
-            property alias color: mIconCheckedInfo.color
-            property alias width: mIconCheckedInfo.width
+            property alias color:  mIconCheckedInfo.color
+            property alias width:  mIconCheckedInfo.width
             property alias height: mIconCheckedInfo.height
         }
 

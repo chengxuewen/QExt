@@ -1,125 +1,168 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QExtQuick.Controls 1.3
+import QtQuick 2.0
+
+import QExtQuick.Controls 1.4
 
 Column{
-    spacing: 15
-
-    ButtonGroup { id: mBtnGroup1 }
-    ButtonGroup { id: mBtnGroup2 }
+    spacing: 15;
 
     Row{
         id:layout
         spacing: 3
+        QExtQuickRadioBoxGroup{
+            parent: layout
 
-        QExtQuickRadioButton {
-            text: "Guangzhou"
-            checked: true
-            ButtonGroup.group: mBtnGroup1
+            QExtQuickRadioBox{
+                text: ""
+                checked: true
+            }
+
+            QExtQuickRadioBox{
+                text: "Guangzhou"
+                checked: true
+            }
+
+            QExtQuickRadioBox{
+                text: "Shanghai"
+            }
+
+            QExtQuickRadioBox{
+                enabled: false;
+                text: "Hong Kong"
+            }
+
+            // onCurrentItemChanged: result.text =  currentItem.text;
         }
 
-        QExtQuickRadioButton {
-            text: "Shanghai"
-            ButtonGroup.group: mBtnGroup1
-        }
+        // Item{width: 18; height: 10;}
 
-        QExtQuickRadioButton {
-            enabled: false
-            text: "Hong Kong"
-            ButtonGroup.group: mBtnGroup1
-        }
-
-        QExtQuickRadioButton {
-            id:result
-            text: "esDF"
-            width: 40
-            anchors.verticalCenter: parent.verticalCenter
-            ButtonGroup.group: mBtnGroup1
-        }
+        // Text{
+        //     id:result
+        //     width: 40;
+        //     anchors.verticalCenter: parent.verticalCenter;
+        // }
     }
 
     Row{
         id:layoutborder
         spacing: 25
+        anchors.horizontalCenter: parent.horizontalCenter
+        QExtQuickRadioBoxGroup{
+            parent: layoutborder
 
-        QExtQuickRadioButton {
-            id:tb
-            text: "Primary"
-            textInLeft: true
-            backgroundVisible: true
-            backgroundBorderWidth: 1
-            radioItem: radioFlatItem
-            ButtonGroup.group: mBtnGroup2
+            QExtQuickRadioBox{
+                id:tb
+                text: "Primary"
+                // iconPosition: TPosition.Reght
+                background.visible: true
+                border.width: 1;
+                theme.groupName: "rboxa"
 
-            states: [
-                State {
-                    name: "Checked"
-                    PropertyChanges {
-                        target: tb
-                        backgroundBorderColor: "#409EFF"
+                states: [
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: tb.border
+                            color:"#409EFF"
+                        }
                     }
-                }
-            ]
-        }
+                ]
+            }
 
-        QExtQuickRadioButton {
-            id:tb2
-            text: "Success"
-            textInLeft: true
-            backgroundVisible: true
-            backgroundBorderWidth: 1
-            backgroundColor: "#F0F9EB"
-            radioItem: radioFlatItem
-            ButtonGroup.group: mBtnGroup2
-            states: [
-                State {
-                    name: "Checked"
-                    PropertyChanges {
-                        target: tb2
-                        backgroundBorderColor: "#67C23A"
+            QExtQuickRadioBox{
+                id:tb2
+                text: "Success"
+                // iconPosition: TPosition.Reght
+                background.visible: true
+                border.width: 1;
+                background.color: "#F0F9EB"
+                theme.groupName: "rboxb"
+                states: [
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: tb2.border
+                            color:"#67C23A"
+                        }
                     }
-                }
-            ]
-        }
+                ]
+            }
 
-        QExtQuickRadioButton {
-            id:tb3
-            text: "Warning"
-            textInLeft: true
-            backgroundVisible: true
-            backgroundBorderWidth: 1
-            backgroundColor: "#FDF6ED"
-            radioItem: radioFlatItem
-            ButtonGroup.group: mBtnGroup2
-            states: [
-                State {
-                    name: "Checked"
-                    PropertyChanges {
-                        target: tb3
-                        backgroundBorderColor: "#E6A23C"
+            QExtQuickRadioBox{
+                id:tb3
+                text: "Warning"
+                // iconPosition: TPosition.Reght
+                background.visible: true
+                border.width: 1;
+                background.color: "#FDF6ED"
+                theme.groupName: "rboxc"
+                states: [
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: tb3.border
+                            color:"#E6A23C"
+                        }
                     }
-                }
-            ]
-        }
+                ]
+            }
 
-        QExtQuickRadioButton {
-            id:tb4
-            text: "Danger"
-            textInLeft: true
-            backgroundVisible: true
-            backgroundBorderWidth: 1
-            backgroundColor: "#FEF0F0"
-            radioItem: radioFlatItem
-            ButtonGroup.group: mBtnGroup2
-            states: [
-                State {
-                    name: "Checked"
-                    PropertyChanges {
-                        target: tb4
-                        backgroundBorderColor: "#F56C6C"
+            QExtQuickRadioBox{
+                id:tb4
+                text: "Danger"
+                // iconPosition: TPosition.Reght
+                background.visible: true
+                border.width: 1;
+                background.color: "#FEF0F0"
+                theme.groupName: "rboxd"
+                states: [
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: tb4.border
+                            color:"#F56C6C"
+                        }
                     }
-                }
-            ]
+                ]
+            }
+
+            QExtQuickRadioBox{
+                id:tb5
+                text: "DangerseFGAERWSGRADSBGHAERG|"
+                // iconPosition: TPosition.Reght
+                background.visible: true
+                border.width: 1;
+                background.color: "#FEF0F0"
+                theme.groupName: "rboxd"
+                states: [
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: tb5.border
+                            color:"#F56C6C"
+                        }
+                    }
+                ]
+            }
+
+            QExtQuickRadioBox{
+                id:tb6
+                width: implicitWidth
+                text: "DangerseFGAERDSBGHAERG|"
+                // iconPosition: TPosition.Reght
+                background.visible: true
+                border.width: 1;
+                background.color: "#FEF0F0"
+                theme.groupName: "rboxd"
+                states: [
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: tb6.border
+                            color:"#F56C6C"
+                        }
+                    }
+                ]
+            }
         }
     }
 
