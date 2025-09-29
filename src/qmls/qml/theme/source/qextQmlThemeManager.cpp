@@ -77,15 +77,13 @@ QExtQmlThemeManagerPrivate::~QExtQmlThemeManagerPrivate()
     mThemeNameToHandlerMap.clear();
 }
 
-static QExtQmlThemeManager *sm_instance = nullptr;
-
 QExtQmlThemeManager::QExtQmlThemeManager()
     : dd_ptr(new QExtQmlThemeManagerPrivate(this))
 {
     Q_D(QExtQmlThemeManager);
-    d->mThemeFileParser.reset(new QExtQmlThemeJsonFileParser());
+    d->mThemeFileParser.reset(new QExtQmlThemeJsonFileParser);
     d->mFileSystemWatcher.reset(new QFileSystemWatcher(this));
-    connect(d->mFileSystemWatcher.data(), &QFileSystemWatcher::fileChanged, [=](const QString &path)
+    connect(d->mFileSystemWatcher.data(), &QFileSystemWatcher::fileChanged, this, [this](const QString &path)
             {
                 qDebug() << "path:" << path;
                 QFileInfo fileInfo(path);
@@ -98,11 +96,11 @@ QExtQmlThemeManager::QExtQmlThemeManager()
 
 void QExtQmlThemeManager::newThemeBinder(QExtQmlThemeBinder *binder)
 {
-    connect(binder, &QExtQmlThemeBinder::initialized, this, [=]()
+    connect(binder, &QExtQmlThemeBinder::initialized, this, [this]()
             {
                 this->generateThemeTemplateFile();
             });
-    connect(binder, &QExtQmlThemeBinder::parentChanged, this, [=]()
+    connect(binder, &QExtQmlThemeBinder::parentChanged, this, [this]()
             {
                 this->generateThemeTemplateFile();
             });
@@ -166,7 +164,7 @@ bool QExtQmlThemeManager::addTheme(const QString &path)
         return false;
     }
 
-    QString name = data.value(QExtQmlThemeConstant::THEME_INFO_KEY).value(QExtQmlThemeConstant::THEME_INFO_NAME_KEY).toString();
+    QString name = data.value(QExtQmlThemeConstant::kInfo).value(QExtQmlThemeConstant::kInfoName).toString();
     QExtQmlThemeHandler *handler = new QExtQmlThemeHandler(name, path);
     handler->setThemeData(data);
     if (d->mThemeNameToHandlerMap.contains(name))

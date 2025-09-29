@@ -29,22 +29,21 @@
 
 namespace QExtQmlThemeConstant
 {
-static const char THEME_INFO_KEY[] = "INFO";
-static const char THEME_INFO_VERSION_KEY[] = "version";
-static const char THEME_INFO_ABOUT_KEY[] = "about";
-static const char THEME_INFO_NAME_KEY[] = "name";
-static const char THEME_INFO_AUTHOR_KEY[] = "author";
+QEXT_STATIC_CONSTANT_STRING(kInfo, "INFO")
+QEXT_STATIC_CONSTANT_STRING(kInfoVersion, "version")
+QEXT_STATIC_CONSTANT_STRING(kInfoAbout, "about")
+QEXT_STATIC_CONSTANT_STRING(kInfoName, "name")
+QEXT_STATIC_CONSTANT_STRING(kInfoAuthor, "author")
 
-static const char THEME_THEME_KEY[] = "THEME";
-static const char THEME_FIELD_GROUPNAME_KEY[] = "groupName";
-static const char THEME_FIELD_STATE_KEY[] = "state";
-static const char THEME_PROPERTY_KEY[] = "PROPERTY";
+QEXT_STATIC_CONSTANT_STRING(kTheme, "THEME")
+QEXT_STATIC_CONSTANT_STRING(kThemeGroupName, "groupName")
+QEXT_STATIC_CONSTANT_STRING(kThemeState, "state")
 
-static const char THEME_PROPERTY_COLOR[] = "color";
+QEXT_STATIC_CONSTANT_STRING(kProperty, "PROPERTY")
+QEXT_STATIC_CONSTANT_STRING(kPropertyColor, "color")
 
-static const int THEME_VERSION_MAJOR = 0;
-static const int THEME_VERSION_MINOR = 1;
-
+QEXT_STATIC_CONSTANT_NUMBER(kVersionMajor, 0)
+QEXT_STATIC_CONSTANT_NUMBER(kVersionMinor, 1)
 } // namespace QExtQmlThemeConstant
 
 #endif // _QEXTQMLTHEMECONSTANT_H

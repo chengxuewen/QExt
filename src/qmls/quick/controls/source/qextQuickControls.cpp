@@ -193,6 +193,10 @@ void QExtQuickControls::registerTypes(const char *url)
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRectangle.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickRectangle");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSvgImage.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgImage");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSwitch.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickSwitch");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickText.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickText");
             onceFlag.leave();

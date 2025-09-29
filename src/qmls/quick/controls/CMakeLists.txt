@@ -27,12 +27,16 @@
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_QML_LINK_LIBRARIES)
 
-if (QEXT_QT_VERSION_MAJOR GREATER 4)
+if(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_QML_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
         Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2)
+    if(QEXT_QT_VERSION_MAJOR GREATER 5)
+        list(APPEND QEXT_QML_LINK_LIBRARIES
+            Qt${QEXT_QT_VERSION_MAJOR}::QuickEffectsPrivate)
+    endif()
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -52,6 +56,7 @@ qext_add_qml_module(QuickControls
     DEPENDENCIES
     QExtQml
     QExtQml.Theme
+    QtQuick.Effects
     SOURCES
     source/qextQuickControls.cpp
     source/qextQuickControls.h
@@ -66,6 +71,10 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
     qml/QExtQuickRectangle.qml
+    qml/QExtQuickSvgImage.qml
+    qml/QExtQuickSvgImage5.qml
+    qml/QExtQuickSvgImage6.qml
+    qml/QExtQuickSwitch.qml
     qml/QExtQuickText.qml
     DEFINES
     QEXT_BUILD_QUICK_LIB

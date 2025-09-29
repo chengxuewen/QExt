@@ -61,7 +61,13 @@ function(qext_add_executable name)
             COMPILE_OPTIONS ${arg_COMPILE_OPTIONS}
             LINK_OPTIONS ${arg_LINK_OPTIONS})
         if(ANDROID)
-            qt_android_generate_deployment_settings(${name})
+            # qt_android_generate_deployment_settings(${name})
+        else()
+            set_target_properties("${name}" PROPERTIES
+                RUNTIME_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}"
+                LIBRARY_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}"
+                WIN32_EXECUTABLE "${arg_GUI}"
+                MACOSX_BUNDLE "${arg_GUI}")
         endif()
         return()
     else()

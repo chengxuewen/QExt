@@ -179,6 +179,11 @@ public:
     Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
     Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
 
+    Q_INVOKABLE QString qtVersion() const;
+    Q_INVOKABLE int qtVersionMajor() const;
+    Q_INVOKABLE int qtVersionMinor() const;
+    Q_INVOKABLE int qtVersionPatch() const;
+
     Q_INVOKABLE QString version() const override;
     void registerTypes(const char *url = nullptr) override;
     void initializeEngine(QQmlEngine *engine, const char *uri) override;

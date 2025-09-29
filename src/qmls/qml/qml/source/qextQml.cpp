@@ -178,6 +178,26 @@ QString QExtQml::fontIconUrl(const QString &family, const QString &key)
     return QString("FontIcon:/%1/%2").arg(family, key);
 }
 
+QString QExtQml::qtVersion() const
+{
+    return QT_VERSION_STR;
+}
+
+int QExtQml::qtVersionMajor() const
+{
+    return QT_VERSION_MAJOR;
+}
+
+int QExtQml::qtVersionMinor() const
+{
+    return QT_VERSION_MINOR;
+}
+
+int QExtQml::qtVersionPatch() const
+{
+    return QT_VERSION_PATCH;
+}
+
 QString QExtQml::version() const
 {
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);

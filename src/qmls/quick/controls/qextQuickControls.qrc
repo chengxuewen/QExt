@@ -14,5 +14,9 @@
         <file>qml/QExtQuickRectangle.qml</file>
         <file>qml/QExtQuickText.qml</file>
         <file>qml/QExtQuickButtonArea.qml</file>
+        <file>qml/QExtQuickSwitch.qml</file>
+        <file>qml/QExtQuickSvgImage.qml</file>
+        <file>qml/QExtQuickSvgImage6.qml</file>
+        <file>qml/QExtQuickSvgImage5.qml</file>
     </qresource>
 </RCC>

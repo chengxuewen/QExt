@@ -136,7 +136,7 @@ const QMap<QString, QVariantMap> QExtQmlThemeHandler::themeData() const
 const QVariantMap QExtQmlThemeHandler::themeInfo() const
 {
     Q_D(const QExtQmlThemeHandler);
-    return d->mThemeDataMap.value(QExtQmlThemeConstant::THEME_INFO_KEY);
+    return d->mThemeDataMap.value(QExtQmlThemeConstant::kInfo);
 }
 
 void QExtQmlThemeHandler::setLastError(const QString &string)

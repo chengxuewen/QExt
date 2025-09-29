@@ -9,7 +9,7 @@
 
 namespace internal
 {
-void retrievalProperty(QExtQmlThemeBinder *binder, QMap<QString, QVariant> &mapNameToProperty, QString parentName = QString())
+void retrievalProperty(QExtQmlThemeBinder *binder, QMap<QString, QVariant> &namePropertyMap, QString parentName = QString())
 {
     //    qDebug() << "retrievalProperty()-------------------------";
     if (binder->className().isEmpty())
@@ -27,25 +27,25 @@ void retrievalProperty(QExtQmlThemeBinder *binder, QMap<QString, QVariant> &mapN
             parentName = binder->childName();
         }
     }
-    QString strDot;
+    QString dotString;
     QMap<QString, QVariant> bindingPropertyMap = binder->themeBindingPropertyMap();
     if (!bindingPropertyMap.isEmpty() && !parentName.isEmpty())
     {
-        strDot = ".";
+        dotString = ".";
     }
 
     QMapIterator<QString, QVariant> mapIter(bindingPropertyMap);
     while (mapIter.hasNext())
     {
         mapIter.next();
-        QString strKey = parentName + strDot + mapIter.key();
+        QString key = parentName + dotString + mapIter.key();
         QVariant value = mapIter.value();
-        mapNameToProperty.insert(strKey, value);
+        namePropertyMap.insert(key, value);
     }
 
     foreach (QExtQmlThemeBinder *pChild, binder->themeBinderChilds())
     {
-        retrievalProperty(pChild, mapNameToProperty, parentName);
+        retrievalProperty(pChild, namePropertyMap, parentName);
     }
 
     return;
@@ -57,25 +57,25 @@ void writeBinderData(QExtQmlThemeBinder *binder, QJsonObject &jsonObject)
     if (nullptr == binder->themeBinderParent())
     {
         QJsonObject binderJsonObject;
-        QString strBinderKey = QExtQmlThemeBinder::generateFieldKey(binder->className(), binder->groupName(), binder->stateName());
-        if (jsonObject.contains(strBinderKey) && jsonObject[strBinderKey].isObject())
+        QString binderKey = QExtQmlThemeBinder::generateFieldKey(binder->className(), binder->groupName(), binder->stateName());
+        if (jsonObject.contains(binderKey) && jsonObject[binderKey].isObject())
         {
-            binderJsonObject = jsonObject[strBinderKey].toObject();
+            binderJsonObject = jsonObject[binderKey].toObject();
         }
 
         // get Low priority theme json obj
-        QStringList listAllFieldKey = QExtQmlThemeBinder::generateFieldKeyList(binder->className(), binder->groupName(), binder->stateName());
+        QStringList allFieldKeys = QExtQmlThemeBinder::generateFieldKeyList(binder->className(), binder->groupName(), binder->stateName());
         QList<QJsonObject> listLowPriorityBinderJsonObject;
-        for (int i = listAllFieldKey.size() - 1; i > 0; --i)
+        for (int i = allFieldKeys.size() - 1; i > 0; --i)
         {
-            QString strKey = listAllFieldKey.at(i);
-            if (strKey != strBinderKey)
+            QString key = allFieldKeys.at(i);
+            if (key != binderKey)
             {
-                if (jsonObject.contains(strKey))
+                if (jsonObject.contains(key))
                 {
-                    if (jsonObject[strKey].isObject())
+                    if (jsonObject[key].isObject())
                     {
-                        listLowPriorityBinderJsonObject.append(jsonObject[strKey].toObject());
+                        listLowPriorityBinderJsonObject.append(jsonObject[key].toObject());
                     }
                 }
             }
@@ -86,23 +86,23 @@ void writeBinderData(QExtQmlThemeBinder *binder, QJsonObject &jsonObject)
         }
 
         // add property
-        QMap<QString, QVariant> mapNameToProperty;
-        retrievalProperty(binder, mapNameToProperty);
-        if (!mapNameToProperty.isEmpty())
+        QMap<QString, QVariant> namePropertyMap;
+        retrievalProperty(binder, namePropertyMap);
+        if (!namePropertyMap.isEmpty())
         {
-            QMapIterator<QString, QVariant> mapIter(mapNameToProperty);
+            QMapIterator<QString, QVariant> mapIter(namePropertyMap);
             while (mapIter.hasNext())
             {
                 mapIter.next();
-                QString strKey = mapIter.key();
+                QString key = mapIter.key();
                 QVariant value = mapIter.value();
-                if (strKey.contains(QExtQmlThemeConstant::THEME_PROPERTY_COLOR))
+                if (key.contains(QExtQmlThemeConstant::kProperty))
                 {
-                    binderJsonObject[strKey] = QJsonValue(value.toString());
+                    binderJsonObject[key] = QJsonValue(value.toString());
                 }
                 else
                 {
-                    binderJsonObject[strKey] = value.toJsonValue();
+                    binderJsonObject[key] = value.toJsonValue();
                 }
 
                 // remove data equal to low priority theme binder json obj
@@ -120,11 +120,11 @@ void writeBinderData(QExtQmlThemeBinder *binder, QJsonObject &jsonObject)
                 for (iter = listLowPriorityBinderJsonObject.begin(); iter != listLowPriorityBinderJsonObject.end(); ++iter)
                 {
                     //                    QJsonObject jsonObject = *iter;
-                    if ((*iter).contains(strKey))
+                    if ((*iter).contains(key))
                     {
-                        if ((*iter).value(strKey) == value)
+                        if ((*iter).value(key) == value)
                         {
-                            binderJsonObject.remove(strKey);
+                            binderJsonObject.remove(key);
                             break;
                         }
                     }
@@ -132,7 +132,7 @@ void writeBinderData(QExtQmlThemeBinder *binder, QJsonObject &jsonObject)
             }
 
             // add binder item
-            jsonObject[strBinderKey] = binderJsonObject;
+            jsonObject[binderKey] = binderJsonObject;
         }
     }
 }
@@ -161,28 +161,28 @@ bool QExtQmlThemeJsonFileParser::parseThemeFile(const QString &path, QMap<QStrin
     QJsonObject themeJsonObject = themeJsonDoc.object();
 
     // parse INFO data
-    if (themeJsonObject.contains(QExtQmlThemeConstant::THEME_INFO_KEY) &&
-        themeJsonObject[QExtQmlThemeConstant::THEME_INFO_KEY].isObject())
+    if (themeJsonObject.contains(QExtQmlThemeConstant::kInfo) &&
+        themeJsonObject[QExtQmlThemeConstant::kInfo].isObject())
     {
-        QJsonObject jsonObjectInfo = themeJsonObject[QExtQmlThemeConstant::THEME_INFO_KEY].toObject();
-        QString strVersion = jsonObjectInfo[QExtQmlThemeConstant::THEME_INFO_VERSION_KEY].toString();
-        QString strAbout = jsonObjectInfo[QExtQmlThemeConstant::THEME_INFO_ABOUT_KEY].toString();
-        QString strName = jsonObjectInfo[QExtQmlThemeConstant::THEME_INFO_NAME_KEY].toString();
-        QString strAuthor = jsonObjectInfo[QExtQmlThemeConstant::THEME_INFO_AUTHOR_KEY].toString();
+        QJsonObject jsonObjectInfo = themeJsonObject[QExtQmlThemeConstant::kInfo].toObject();
+        QString version = jsonObjectInfo[QExtQmlThemeConstant::kInfoVersion].toString();
+        QString about = jsonObjectInfo[QExtQmlThemeConstant::kInfoAbout].toString();
+        QString name = jsonObjectInfo[QExtQmlThemeConstant::kInfoName].toString();
+        QString author = jsonObjectInfo[QExtQmlThemeConstant::kInfoAuthor].toString();
         QVariantMap themeInfoMap;
-        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::THEME_INFO_VERSION_KEY), strVersion);
-        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::THEME_INFO_ABOUT_KEY), strAbout);
-        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::THEME_INFO_NAME_KEY), strName);
-        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::THEME_INFO_AUTHOR_KEY), strAuthor);
-        themeDataMap.insert(QExtQmlThemeConstant::THEME_INFO_KEY, themeInfoMap);
+        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::kInfoVersion), version);
+        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::kInfoAbout), about);
+        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::kInfoName), name);
+        themeInfoMap.insert(QLatin1String(QExtQmlThemeConstant::kInfoAuthor), author);
+        themeDataMap.insert(QExtQmlThemeConstant::kInfo, themeInfoMap);
 
-        QString libVersion = QString("%1.%2").
-                             arg(QExtQmlThemeConstant::THEME_VERSION_MAJOR).
-                             arg(QExtQmlThemeConstant::THEME_VERSION_MINOR);
-        if (libVersion != strVersion)
+        QString nowVersion = QString("%1.%2").
+                             arg(QExtQmlThemeConstant::kVersionMajor).
+                             arg(QExtQmlThemeConstant::kVersionMinor);
+        if (nowVersion != version)
         {
             error = QString("Theme file %1 version number %2 mismatch, valid version number is %3!")
-            .arg(path).arg(strVersion).arg(libVersion);
+            .arg(path).arg(version).arg(nowVersion);
         }
     }
     else
@@ -192,23 +192,23 @@ bool QExtQmlThemeJsonFileParser::parseThemeFile(const QString &path, QMap<QStrin
     }
 
     // parse ITEM data
-    if (themeJsonObject.contains(QExtQmlThemeConstant::THEME_THEME_KEY) &&
-        themeJsonObject[QExtQmlThemeConstant::THEME_THEME_KEY].isObject())
+    if (themeJsonObject.contains(QExtQmlThemeConstant::kTheme) &&
+        themeJsonObject[QExtQmlThemeConstant::kTheme].isObject())
     {
-        QJsonObject jsonObjectClass = themeJsonObject[QExtQmlThemeConstant::THEME_THEME_KEY].toObject();
+        QJsonObject jsonObjectClass = themeJsonObject[QExtQmlThemeConstant::kTheme].toObject();
         QStringList listThemeFieldKey = jsonObjectClass.keys();
         QListIterator<QString> iter(listThemeFieldKey);
         while (iter.hasNext())
         {
-            QString strFieldKey = iter.next();
-            QVariantMap mapField = themeDataMap.value(strFieldKey);
-            QJsonObject jsonObjectBinder = jsonObjectClass.value(strFieldKey).toObject();
-            QStringList listPropertyKey = jsonObjectBinder.keys();
-            foreach (QString strPropertyKey, listPropertyKey)
+            QString fieldKey = iter.next();
+            QVariantMap mapField = themeDataMap.value(fieldKey);
+            QJsonObject jsonObjectBinder = jsonObjectClass.value(fieldKey).toObject();
+            QStringList propertyKeys = jsonObjectBinder.keys();
+            foreach (QString key, propertyKeys)
             {
-                mapField.insert(strPropertyKey, jsonObjectBinder.value(strPropertyKey).toVariant());
+                mapField.insert(key, jsonObjectBinder.value(key).toVariant());
             }
-            themeDataMap.insert(strFieldKey, mapField);
+            themeDataMap.insert(fieldKey, mapField);
         }
     }
     else
@@ -236,14 +236,14 @@ bool QExtQmlThemeJsonFileParser::generateThemeTemplateFile(QString &error, QExtQ
 
     QJsonObject newJsonObject;
     QJsonObject newInfoJsonObject;
-    QJsonObject newThemeJsonObject = oldJsonObject[QExtQmlThemeConstant::THEME_THEME_KEY].toObject();
-    newInfoJsonObject[QExtQmlThemeConstant::THEME_INFO_VERSION_KEY] = QString("%1.%2").
-                                                                      arg(QExtQmlThemeConstant::THEME_VERSION_MAJOR).
-                                                                      arg(QExtQmlThemeConstant::THEME_VERSION_MINOR);
-    newInfoJsonObject[QExtQmlThemeConstant::THEME_INFO_ABOUT_KEY] = QLatin1String("QExtQml theme template file");
-    newInfoJsonObject[QExtQmlThemeConstant::THEME_INFO_NAME_KEY] = QLatin1String("Template");
-    newInfoJsonObject[QExtQmlThemeConstant::THEME_INFO_AUTHOR_KEY] = QLatin1String("QExt");
-    newJsonObject[QExtQmlThemeConstant::THEME_INFO_KEY] = newInfoJsonObject;
+    QJsonObject newThemeJsonObject = oldJsonObject[QExtQmlThemeConstant::kInfo].toObject();
+    newInfoJsonObject[QExtQmlThemeConstant::kInfoVersion] = QString("%1.%2").
+                                                            arg(QExtQmlThemeConstant::kVersionMajor).
+                                                            arg(QExtQmlThemeConstant::kVersionMinor);
+    newInfoJsonObject[QExtQmlThemeConstant::kInfoAbout] = QLatin1String("QExtQml theme template file");
+    newInfoJsonObject[QExtQmlThemeConstant::kInfoName] = QLatin1String("Template");
+    newInfoJsonObject[QExtQmlThemeConstant::kInfoAuthor] = QLatin1String("QExt");
+    newJsonObject[QExtQmlThemeConstant::kInfo] = newInfoJsonObject;
     
     if (nullptr != binder)
     {
@@ -251,21 +251,21 @@ bool QExtQmlThemeJsonFileParser::generateThemeTemplateFile(QString &error, QExtQ
     }
     else
     {
-        foreach (QExtQmlThemeBinder *pBinderItem, QExtQmlThemeBinder::allThemeBinders())
+        foreach (QExtQmlThemeBinder *item, QExtQmlThemeBinder::allThemeBinders())
         {
-            if (nullptr != pBinderItem && nullptr == pBinderItem->themeBinderParent() && pBinderItem->isEnabled())
+            if (nullptr != item && nullptr == item->themeBinderParent() && item->isEnabled())
             {
-                if (!pBinderItem->className().isEmpty())
+                if (!item->className().isEmpty())
                 {
-                    if (pBinderItem->childName().isEmpty())
+                    if (item->childName().isEmpty())
                     {
-                        internal::writeBinderData(pBinderItem, newThemeJsonObject);
+                        internal::writeBinderData(item, newThemeJsonObject);
                     }
                 }
             }
         }
     }
-    newJsonObject[QExtQmlThemeConstant::THEME_THEME_KEY] = newThemeJsonObject;
+    newJsonObject[QExtQmlThemeConstant::kTheme] = newThemeJsonObject;
 
     QJsonDocument jsonSaveDoc(newJsonObject);
     file.resize(0);

@@ -66,3 +66,15 @@ qext_add_executable(QExtExpQmlThemePalette
     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+qext_add_executable(QExtExpQmlThemeManager
+    SOURCES
+    manager/qmlthememanager.cpp
+    manager/qmlthememanager.qrc
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/manager
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
