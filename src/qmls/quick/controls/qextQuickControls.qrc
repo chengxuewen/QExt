@@ -21,5 +21,6 @@
         <file>qml/QExtQuickFontIcon.qml</file>
         <file>qml/QExtQuickSvgIcon1.qml</file>
         <file>qml/QExtQuickIconButton.qml</file>
+        <file>qml/QExtQuickCheckBox.qml</file>
     </qresource>
 </RCC>

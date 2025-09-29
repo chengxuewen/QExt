@@ -55,12 +55,14 @@ Column{
         height: 40;
         spacing: 10
         QExtQuickIconButton{
+            width: implicitWidth
             icon.position: QExtQuickControls.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_apple)
             background.radius: height / 2;
         }
 
         QExtQuickIconButton{
+            width: implicitWidth
             icon.position: QExtQuickControls.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_android)
             icon.color: "#46A0FC"
@@ -105,6 +107,7 @@ Column{
         height: 40;
         spacing: 10
         QExtQuickIconButton{
+            width: implicitWidth
             icon.position: QExtQuickControls.PositionCenter;
             icon.source: "qrc:/images/svg0.svg"
             background.radius: height / 2;

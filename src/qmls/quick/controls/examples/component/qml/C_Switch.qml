@@ -17,7 +17,7 @@ Rectangle {
                 width: 100
                 height: 30
                 onStateChanged: {
-                    console.warn("onStateChanged")
+                    // console.warn("onStateChanged")
                 }
             }
 

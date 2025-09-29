@@ -44,8 +44,8 @@ class QEXT_QUICKCONTROLS_API QExtQuickControls : public QExtQmlSingleton<QExtQui
 public:
     enum ButtonStateEnum
     {
-        ButtonStateNone = 0, // disabled
-        ButtonStateNormal,
+        ButtonStateNormal = 0,
+        ButtonStateDisabled,
         ButtonStateHovered,
         ButtonStatePressed,
         ButtonStateChecked,

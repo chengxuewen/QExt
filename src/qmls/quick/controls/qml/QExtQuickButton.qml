@@ -6,23 +6,28 @@ import QExtQuick.Controls 1.4
 
 QExtQuickButtonArea {
     id: mControl
-    width: mContentLoader.width + padding
-    height: mContentLoader.height + padding
+    // width: mContentLoader.width + padding
+    // height: mContentLoader.height + padding
+    width: 120
+    height: 40
     states: defaultState
 
-    readonly property alias contentWidth: mContentLoader.width;
-    readonly property alias contentHeight: mContentLoader.height;
+    readonly property int textWidth: width - padding * 2
+    readonly property int textHeight: height - padding * 2
+    readonly property int implicitWidth: mContentLoader.implicitTextWidth + padding * 2
+    readonly property int implicitHeight: mContentLoader.implicitTextHeight + padding * 2
 
-    property int padding: 20;
-    property int contentHAlign: Qt.AlignHCenter; //Qt.AlignHCenter 、 Qt.AlignLeft or Qt.AlignRight
+    property int padding: 10
+    property int contentHAlign: Qt.AlignHCenter //Qt.AlignHCenter 、 Qt.AlignLeft or Qt.AlignRight
 
-    property alias theme: mTheme;
-    property alias border: mBorderInfo;
-    property alias content: mTextInfo;
+    property alias theme: mTheme
+    property alias border: mBorderInfo
+    property alias content: mTextInfo
+    property alias text: mTextInfo.text
     property alias background: mRectangleInfo
 
-    property Component contentComponent;
-    property Component backgroundComponent;
+    property Component contentComponent
+    property Component backgroundComponent
 
     property list<State> defaultState: [
         State {
@@ -44,6 +49,7 @@ QExtQuickButtonArea {
     Loader {
         id: mContentLoader
         sourceComponent: contentComponent
+        anchors.margins: mControl.padding
         anchors.verticalCenter: mControl.verticalCenter
         x: {
             if(contentHAlign == Qt.AlignLeft) {
@@ -53,6 +59,9 @@ QExtQuickButtonArea {
             }
             return (mControl.width - width) / 2;
         }
+
+        property int implicitTextWidth: 0
+        property int implicitTextHeight: 0
     }
 
     backgroundComponent: QExtQuickRectangle {
@@ -60,15 +69,12 @@ QExtQuickButtonArea {
         theme.parent: mControl.theme
         theme.childName: "background"
         theme.filterPropertyName: ["width", "height"];
-
         color: mControl.background.color;
         radius: mControl.background.radius;
         visible: mControl.background.visible;
         opacity: mControl.background.opacity;
-
         border.color: mControl.border.color;
         border.width: mControl.border.width;
-
         scale: mTheme.scale;
     }
 
@@ -83,6 +89,13 @@ QExtQuickButtonArea {
         theme.childName: "text"
         theme.parent: {
             return mTheme;
+        }
+
+        onImplicitWidthChanged: {
+            mContentLoader.implicitTextWidth = implicitWidth;
+        }
+        onImplicitHeightChanged: {
+            mContentLoader.implicitTextHeight = implicitHeight;
         }
     }
 

@@ -5,8 +5,8 @@
 
 namespace QExtQuickControlsConstant
 {
-QEXT_STATIC_CONSTANT_STRING(kButtonStateNone, "None")
 QEXT_STATIC_CONSTANT_STRING(kButtonStateNormal, "Normal")
+QEXT_STATIC_CONSTANT_STRING(kButtonStateDisabled, "Disabled")
 QEXT_STATIC_CONSTANT_STRING(kButtonStateHovered, "Hovered")
 QEXT_STATIC_CONSTANT_STRING(kButtonStatePressed, "Pressed")
 QEXT_STATIC_CONSTANT_STRING(kButtonStateChecked, "Checked")

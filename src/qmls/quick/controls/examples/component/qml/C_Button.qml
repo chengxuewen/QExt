@@ -8,6 +8,7 @@ Column{
         height: 40;
         spacing: 10
         QExtQuickButton {
+            width: implicitWidth
             content.text: "Default"
         }
 

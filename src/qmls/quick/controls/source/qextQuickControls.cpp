@@ -83,10 +83,10 @@ QString QExtQuickControls::buttonStateToString(int state) const
 {
     switch (state)
     {
-    case ButtonStateNone:
-        return QExtQuickControlsConstant::kButtonStateNone;
     case ButtonStateNormal:
         return QExtQuickControlsConstant::kButtonStateNormal;
+    case ButtonStateDisabled:
+        return QExtQuickControlsConstant::kButtonStateDisabled;
     case ButtonStateHovered:
         return QExtQuickControlsConstant::kButtonStateHovered;
     case ButtonStatePressed:
@@ -103,13 +103,13 @@ QString QExtQuickControls::buttonStateToString(int state) const
 
 int QExtQuickControls::buttonStateToEnum(const QString &state) const
 {
-    if (state == QExtQuickControlsConstant::kButtonStateNone)
-    {
-        return ButtonStateNone;
-    }
-    else if (state == QExtQuickControlsConstant::kButtonStateNormal)
+    if (state == QExtQuickControlsConstant::kButtonStateNormal)
     {
         return ButtonStateNormal;
+    }
+    else if (state == QExtQuickControlsConstant::kButtonStateDisabled)
+    {
+        return ButtonStateDisabled;
     }
     else if (state == QExtQuickControlsConstant::kButtonStateHovered)
     {
@@ -200,6 +200,8 @@ void QExtQuickControls::registerTypes(const char *url)
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickButton");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButtonArea.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCheckBox.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickCheckBox");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickFontIcon.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontIcon");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIconButton.qml"),
