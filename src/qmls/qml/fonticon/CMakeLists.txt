@@ -55,11 +55,18 @@ qext_add_qml_module(QmlFontIcon
     source/qextQmlFontIcon.cpp
     source/qextQmlFontIcon.h
     source/qextQmlFontIconGlobal.h
+    source/qextQmlFontIconInfo.cpp
+    source/qextQmlFontIconInfo.h
     qextQmlFontIcon.qrc
     PRECOMPILED_HEADER
     source/qextQmlFontIconPch.h
     PUBLIC_LIBRARIES
     ${QEXT_QML_LINK_LIBRARIES})
+
+target_sources(QExtQmlFontIconPlugin
+  PRIVATE
+    source/qextQmlFontIconInfo.h source/qextQmlFontIconInfo.cpp
+)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

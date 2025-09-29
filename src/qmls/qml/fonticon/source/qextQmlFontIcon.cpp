@@ -66,6 +66,49 @@ QExtQmlFontIcon::~QExtQmlFontIcon()
 {
 }
 
+namespace detail
+{
+const QString &fontIconUrlHeader()
+{
+    static const QString urlHeader = "FontIcon:/";
+    return urlHeader;
+}
+}
+
+bool QExtQmlFontIcon::isFontIconUrl(const QString &url)
+{
+    return 0 == url.indexOf(detail::fontIconUrlHeader());
+}
+
+QExtQmlFontIconInfo QExtQmlFontIcon::fontIconInfoFromUrl(const QString &url)
+{
+    QExtQmlFontIconInfo fontIconInfo;
+    if (0 == url.indexOf(detail::fontIconUrlHeader()))
+    {
+        auto content = url;
+        content.remove(detail::fontIconUrlHeader());
+        const QStringList contents = content.split("/");
+        if (2 == contents.size())
+        {
+            fontIconInfo.setFamily(contents.at(0).toLower());
+            fontIconInfo.setText(contents.at(1));
+        }
+    }
+    return fontIconInfo;
+}
+
+bool QExtQmlFontIcon::parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo)
+{
+    QExtQmlFontIconInfo iconInfo = this->fontIconInfoFromUrl(url);
+    fontIconInfo->setFamily(iconInfo.family());
+    fontIconInfo->setText(iconInfo.text());
+    return true;
+}
+
+QString QExtQmlFontIcon::fontIconUrl(const QString &family, const QString &key)
+{
+    return QString("FontIcon:/%1/%2").arg(family, key);
+}
 
 QString QExtQmlFontIcon::version() const
 {
@@ -88,6 +131,8 @@ void QExtQmlFontIcon::registerTypes(const char *url)
 
             const int major = QEXT_VERSION_MAJOR;
             const int minor = QEXT_VERSION_MINOR;
+
+            qmlRegisterType<QExtQmlFontIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
             qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
                                                       QExtQmlFontIcon::create);

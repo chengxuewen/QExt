@@ -33,7 +33,7 @@ if(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
         Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2)
-    if(QEXT_QT_VERSION_MAJOR GREATER 5)
+    if("${QEXT_QT_VERSION}" GREATER "6.2")
         list(APPEND QEXT_QML_LINK_LIBRARIES
             Qt${QEXT_QT_VERSION_MAJOR}::QuickEffectsPrivate)
     endif()
@@ -41,7 +41,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::QmlTheme)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::QmlTheme QExt::QmlFontIcon)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -56,6 +56,7 @@ qext_add_qml_module(QuickControls
     DEPENDENCIES
     QExtQml
     QExtQml.Theme
+    QExtQml.FontIcon
     QtQuick.Effects
     SOURCES
     source/qextQuickControls.cpp
@@ -70,10 +71,13 @@ qext_add_qml_module(QuickControls
     QML_FILES
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
+    qml/QExtQuickFontIcon.qml
+    qml/QExtQuickIconButton.qml
     qml/QExtQuickRectangle.qml
-    qml/QExtQuickSvgImage.qml
-    qml/QExtQuickSvgImage5.qml
-    qml/QExtQuickSvgImage6.qml
+    qml/QExtQuickSvgIcon.qml
+    qml/QExtQuickSvgIcon0.qml
+    qml/QExtQuickSvgIcon1.qml
+    qml/QExtQuickSvgIcon2.qml
     qml/QExtQuickSwitch.qml
     qml/QExtQuickText.qml
     DEFINES

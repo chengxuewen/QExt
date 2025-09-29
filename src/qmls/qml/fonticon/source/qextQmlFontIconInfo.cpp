@@ -1,0 +1,1 @@
+#include <qextQmlFontIconInfo.h>

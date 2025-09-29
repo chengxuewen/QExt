@@ -15,8 +15,11 @@
         <file>qml/QExtQuickText.qml</file>
         <file>qml/QExtQuickButtonArea.qml</file>
         <file>qml/QExtQuickSwitch.qml</file>
-        <file>qml/QExtQuickSvgImage.qml</file>
-        <file>qml/QExtQuickSvgImage6.qml</file>
-        <file>qml/QExtQuickSvgImage5.qml</file>
+        <file>qml/QExtQuickSvgIcon.qml</file>
+        <file>qml/QExtQuickSvgIcon0.qml</file>
+        <file>qml/QExtQuickSvgIcon2.qml</file>
+        <file>qml/QExtQuickFontIcon.qml</file>
+        <file>qml/QExtQuickSvgIcon1.qml</file>
+        <file>qml/QExtQuickIconButton.qml</file>
     </qresource>
 </RCC>

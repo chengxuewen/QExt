@@ -103,9 +103,10 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     set(QEXT_QT_HAS_QML OFF)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Network Test PrintSupport Xml Svg Sql REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent SerialPort QUIET)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
+        Core Network Test PrintSupport Xml Svg Sql Gui Widgets Quick QuickControls2 REQUIRED)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
+        OpenGL Concurrent SerialPort QUIET)
     if(UNIX)
         find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras QUIET)
         set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
@@ -124,9 +125,10 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Core5Compat Network Test PrintSupport Xml Svg Sql REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 QuickEffectsPrivate REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent SerialPort OpenGLWidgets QUIET)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
+        Core Core5Compat Network Test PrintSupport Xml Svg Sql Gui Widgets Quick QuickControls2 REQUIRED)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
+        OpenGL Concurrent SerialPort OpenGLWidgets QuickEffectsPrivate QUIET)
     if(UNIX)
         find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras QUIET)
         set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
@@ -485,7 +487,7 @@ qext_option(QEXT_ENABLE_LIB_DAVIEW "Enable this to build the daview lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_FONTICON "Enable this to build the fonticon lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
-    OR_CONDITION QEXT_BUILD_ALL)
+    OR_CONDITION QEXT_BUILD_ALL OR QEXT_QT_HAS_QML)
 qext_option(QEXT_ENABLE_LIB_KEYBOARD "Enable this to build the keyboard lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)

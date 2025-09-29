@@ -26,7 +26,7 @@ Flickable {
                     "#F36D6F",
                 ]
 
-                delegate: QExtQuickSvgImage {
+                delegate: QExtQuickSvgIcon {
                     width: 40
                     height: 40
                     color: modelData

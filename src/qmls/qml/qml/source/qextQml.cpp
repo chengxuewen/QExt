@@ -136,47 +136,49 @@ int QExtQml::stateToEnum(const QString &state) const
     }
 }
 
-namespace detail
-{
-const QString &fontIconUrlHeader()
-{
-    static const QString urlHeader = "FontIcon:/";
-    return urlHeader;
-}
-}
+// namespace detail
+// {
+// const QString &fontIconUrlHeader()
+// {
+//     static const QString urlHeader = "FontIcon:/";
+//     return urlHeader;
+// }
+// }
 
-bool QExtQml::isFontIconUrl(const QString &url)
-{
-    return 0 == url.indexOf(detail::fontIconUrlHeader());
-}
+// bool QExtQml::isFontIconUrl(const QString &url)
+// {
+//     return 0 == url.indexOf(detail::fontIconUrlHeader());
+// }
 
-QExtQmlFontIconInfo QExtQml::fontIconInfoFromUrl(const QString &url)
-{
-    QExtQmlFontIconInfo fontIconInfo;
-    if (0 == url.indexOf(detail::fontIconUrlHeader()))
-    {
-        QStringList contents = url.right(detail::fontIconUrlHeader().size()).split("/");
-        if (2 == contents.size())
-        {
-            fontIconInfo.setFamily(contents.at(0));
-            fontIconInfo.setText(contents.at(1));
-        }
-    }
-    return fontIconInfo;
-}
+// QExtQmlFontIconInfo QExtQml::fontIconInfoFromUrl(const QString &url)
+// {
+//     QExtQmlFontIconInfo fontIconInfo;
+//     if (0 == url.indexOf(detail::fontIconUrlHeader()))
+//     {
+//         auto content = url;
+//         content.remove(detail::fontIconUrlHeader());
+//         const QStringList contents = content.split("/");
+//         if (2 == contents.size())
+//         {
+//             fontIconInfo.setFamily(contents.at(0).toLower());
+//             fontIconInfo.setText(contents.at(1));
+//         }
+//     }
+//     return fontIconInfo;
+// }
 
-bool QExtQml::parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo)
-{
-    QExtQmlFontIconInfo iconInfo = this->fontIconInfoFromUrl(url);
-    fontIconInfo->setFamily(iconInfo.family());
-    fontIconInfo->setText(iconInfo.text());
-    return true;
-}
+// bool QExtQml::parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo)
+// {
+//     QExtQmlFontIconInfo iconInfo = this->fontIconInfoFromUrl(url);
+//     fontIconInfo->setFamily(iconInfo.family());
+//     fontIconInfo->setText(iconInfo.text());
+//     return true;
+// }
 
-QString QExtQml::fontIconUrl(const QString &family, const QString &key)
-{
-    return QString("FontIcon:/%1/%2").arg(family, key);
-}
+// QString QExtQml::fontIconUrl(const QString &family, const QString &key)
+// {
+//     return QString("FontIcon:/%1/%2").arg(family, key);
+// }
 
 QString QExtQml::qtVersion() const
 {
@@ -227,8 +229,6 @@ void QExtQml::registerTypes(const char *url)
             qmlRegisterType<QExtQmlBorderInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorderInfo");
             qmlRegisterType<QExtQmlPaddingInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPaddingInfo");
             qmlRegisterType<QExtQmlRectangleInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlRectangleInfo");
-
-            qmlRegisterType<QExtQmlFontIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
             qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");

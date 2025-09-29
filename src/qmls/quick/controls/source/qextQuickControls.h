@@ -53,15 +53,15 @@ public:
     };
     Q_ENUM(ButtonStateEnum)
 
-    enum PositionType
+    enum PositionEnum
     {
-        Position_Left = 0,
-        Position_Right,
-        Position_Top,
-        Position_Bottom,
-        Position_Center
+        PositionLeft = 0,
+        PositionRight,
+        PositionTop,
+        PositionBottom,
+        PositionCenter
     };
-    Q_ENUM(PositionType)
+    Q_ENUM(PositionEnum)
 
     enum IconDisplayType
     {
@@ -120,7 +120,9 @@ public:
     int mouseAreaCursorShape() const;
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
 
-    Q_INVOKABLE QString version() const;
+    Q_INVOKABLE int svgIconVersion() const;
+
+    Q_INVOKABLE QString version() const override;
     void registerTypes(const char *url = nullptr) override;
     void initializeEngine(QQmlEngine *engine, const char *uri) override;
 

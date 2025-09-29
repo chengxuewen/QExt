@@ -162,6 +162,15 @@ void QExtQuickControls::setMouseAreaCursorShape(const Qt::CursorShape &cursor)
     d->mMouseAreaCurrsor = cursor;
 }
 
+int QExtQuickControls::svgIconVersion() const
+{
+#ifdef Q_OS_ANDROID
+    return 0;
+#else
+    return (QT_VERSION_MAJOR > 5) ? 1 : 2;
+#endif
+}
+
 QString QExtQuickControls::version() const
 {
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);
@@ -191,10 +200,14 @@ void QExtQuickControls::registerTypes(const char *url)
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickButton");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButtonArea.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickFontIcon.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontIcon");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIconButton.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconButton");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRectangle.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickRectangle");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSvgImage.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgImage");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgIcon");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSwitch.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickSwitch");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickText.qml"),

@@ -33,69 +33,6 @@
 #include <QQuickWindow>
 #include <QScopedPointer>
 
-class QExtQmlFontIconInfo : public QObject
-{
-    Q_OBJECT
-    QEXT_QML_ELEMENT()
-    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-    Q_PROPERTY(QString family READ family WRITE setFamily NOTIFY familyChanged)
-public:
-    QExtQmlFontIconInfo() {}
-    QExtQmlFontIconInfo(const QString &family, const QString &text) : mText(text), mFamily(family) {}
-    QExtQmlFontIconInfo(const QExtQmlFontIconInfo &other) : mText(other.mText), mFamily(other.mFamily) {}
-
-    QExtQmlFontIconInfo &operator =(const QExtQmlFontIconInfo &other)
-    {
-        if (this != &other)
-        {
-            mText = other.mText;
-            mFamily = other.mFamily;
-        }
-        return *this;
-    }
-
-    bool operator==(const QExtQmlFontIconInfo &other) const
-    {
-        if (this != &other)
-        {
-            return mText == other.mText && mFamily == other.mFamily;
-        }
-        return true;
-    }
-    bool operator!=(const QExtQmlFontIconInfo &other) const
-    {
-        return !(*this == other);
-    }
-
-    QString text() const { return mText; }
-    void setText(const QString &text)
-    {
-        if (text != mText)
-        {
-            mText = text;
-            emit this->textChanged(text);
-        }
-    }
-
-    QString family() const { return mFamily; }
-    void setFamily(const QString &family)
-    {
-        if (family != mFamily)
-        {
-            mFamily = family;
-            emit this->familyChanged(family);
-        }
-    }
-
-Q_SIGNALS:
-    void textChanged(const QString &text);
-    void familyChanged(const QString &family);
-
-private:
-    QString mText;
-    QString mFamily;
-};
-
 class QExtQmlWorld;
 class QExtQmlPrivate;
 class QEXT_QML_API QExtQml : public QExtQmlSingleton<QExtQml>
@@ -174,10 +111,10 @@ public:
     Q_INVOKABLE QString stateToString(int state) const;
     Q_INVOKABLE int stateToEnum(const QString &state) const;
 
-    Q_INVOKABLE bool isFontIconUrl(const QString &url);
-    Q_INVOKABLE QExtQmlFontIconInfo fontIconInfoFromUrl(const QString &url);
-    Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
-    Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
+    // Q_INVOKABLE bool isFontIconUrl(const QString &url);
+    // Q_INVOKABLE QExtQmlFontIconInfo fontIconInfoFromUrl(const QString &url);
+    // Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
+    // Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
 
     Q_INVOKABLE QString qtVersion() const;
     Q_INVOKABLE int qtVersionMajor() const;

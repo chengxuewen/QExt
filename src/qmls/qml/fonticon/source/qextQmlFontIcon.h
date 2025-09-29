@@ -26,6 +26,7 @@
 #define _QEXTQMLFONTICON_H
 
 #include <qextQmlFontIconGlobal.h>
+#include <qextQmlFontIconInfo.h>
 #include <qextQmlSingleton.h>
 
 #include <QObject>
@@ -39,6 +40,11 @@ class QEXT_QMLFONTICON_API QExtQmlFontIcon : public QExtQmlSingleton<QExtQmlFont
     Q_OBJECT
     QEXT_DECLARE_QML_SINGLETON(QExtQmlFontIcon)
 public:
+    Q_INVOKABLE bool isFontIconUrl(const QString &url);
+    Q_INVOKABLE QExtQmlFontIconInfo fontIconInfoFromUrl(const QString &url);
+    Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
+    Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
+
     Q_INVOKABLE QString version() const override;
     void registerTypes(const char *url = nullptr) override;
     void initializeEngine(QQmlEngine *engine, const char *uri) override;

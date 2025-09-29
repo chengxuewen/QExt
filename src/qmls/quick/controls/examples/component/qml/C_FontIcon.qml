@@ -1,8 +1,8 @@
 ﻿import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQml.FontIcon 1.3
-import QExtQuick.Controls 1.3
+import QExtQml.FontIcon 1.4
+import QExtQuick.Controls 1.4
 
 Flickable {
     Column {
@@ -22,7 +22,7 @@ Flickable {
                     { s: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_facebook_official), c: "#F36D6F" }
                 ]
 
-                delegate: QExtQuickFontImage{
+                delegate: QExtQuickFontIcon {
                     width: 25
                     height: 25
                     source: modelData.s

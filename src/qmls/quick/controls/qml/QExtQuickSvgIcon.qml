@@ -31,7 +31,7 @@ Item {
     }
 
     Component.onCompleted: {
-        mLoader.setSource("qrc:/QExtQuickControls/qml/QExtQuickSvgImage" + QExtQml.qtVersionMajor() + ".qml", {
+        mLoader.setSource("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon" + QExtQuickControls.svgIconVersion() + ".qml", {
                               color: mControl.color,
                               source: mControl.source,
                               smooth: mControl.smooth,

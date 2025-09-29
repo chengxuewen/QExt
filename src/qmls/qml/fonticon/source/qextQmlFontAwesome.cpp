@@ -23,8 +23,8 @@
 ***********************************************************************************************************************/
 
 #include <qextQmlFontAwesome.h>
+#include <qextQmlFontIcon.h>
 #include <qextOnceFlag.h>
-#include <qextQml.h>
 
 QExtQmlFontAwesome::~QExtQmlFontAwesome()
 {
@@ -52,16 +52,15 @@ QExtQmlFontAwesome *QExtQmlFontAwesome::instance()
 
 QString QExtQmlFontAwesome::fontUrl(int value) const
 {
-    return QExtQml::instance()->fontIconUrl(this->fontName(), this->textFromValue(value));
+    return QExtQmlFontIcon::instance()->fontIconUrl(this->fontName(), this->textFromValue(value));
 }
 
 QString QExtQmlFontAwesome::fontUrl(const QString &key) const
 {
-    return QExtQml::instance()->fontIconUrl(this->fontName(), this->textFromKey(key));
+    return QExtQmlFontIcon::instance()->fontIconUrl(this->fontName(), this->textFromKey(key));
 }
 
 QExtQmlFontAwesome::QExtQmlFontAwesome(QObject *parent)
     : QExtFontAwesome(parent)
 {
-
 }
