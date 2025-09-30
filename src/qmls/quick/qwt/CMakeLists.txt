@@ -31,8 +31,8 @@ if (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_QML_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
-        Qt${QEXT_QT_VERSION_MAJOR}::Svg
-        Qt${QEXT_QT_VERSION_MAJOR}::OpenGL
+        # Qt${QEXT_QT_VERSION_MAJOR}::Svg
+        # Qt${QEXT_QT_VERSION_MAJOR}::OpenGL
         Qt${QEXT_QT_VERSION_MAJOR}::Quick)
 else()
     message(FATAL_ERROR "Not find Qt package")
@@ -53,17 +53,16 @@ qext_add_qml_module(QuickQwt
     PLUGIN_TARGET QExtQuickQwtPlugin
     PLUGIN_SOURCES source/qextQuickQwtPlugin.cpp
     DEPENDENCIES
-    QExt::Core
+    QExtQml
     SOURCES
     source/plotdata.cpp
     source/plotdata.h
-    source/qwtquick2.cpp
-    source/qwtquick2.h
     source/qextQuickQwt.cpp
-    source/qextQuickQwt_p.h
     source/qextQuickQwt.h
     source/qextQuickQwtGlobal.h
-    resources/qextQuickQwt.qrc
+    source/qextQuickQwtPlot.cpp
+    source/qextQuickQwtPlot.h
+    qextQuickQwt.qrc
     PRECOMPILED_HEADER
     source/qextQuickQwtPch.h
     PUBLIC_LIBRARIES

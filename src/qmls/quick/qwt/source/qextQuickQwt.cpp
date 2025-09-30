@@ -22,10 +22,8 @@
 **
 ***********************************************************************************************************************/
 
-#include <private/qextQuickQwt_p.h>
-#include <qextQuickQwtGlobal.h>
-
-#include "qwtquick2.h"
+#include <qextQuickQwt.h>
+#include <qextQuickQwtPlot.h>
 
 #include <qextOnceFlag.h>
 
@@ -34,61 +32,34 @@
 #include <QQmlContext>
 #include <QMutexLocker>
 
-inline void initMyResource()
+class QExtQuickQwtWorld;
+class QExtQuickQwtPrivate
 {
-    Q_INIT_RESOURCE(qextQuickQwt);
-}
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickQwtPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickQwt)
+public:
+    explicit QExtQuickQwtPrivate(QExtQuickQwt *q);
+    virtual ~QExtQuickQwtPrivate();
 
-namespace MyNamespace
-{
-void myFunction()
-{
-    initMyResource();
-}
-}
-
+    QExtQuickQwt * const q_ptr;
+};
 
 QExtQuickQwtPrivate::QExtQuickQwtPrivate(QExtQuickQwt *q)
     : q_ptr(q)
 {
-    m_mouseAreaCurrsor = Qt::ArrowCursor;
 }
 
 QExtQuickQwtPrivate::~QExtQuickQwtPrivate()
 {
-
 }
 
-
-QExtQuickQwt::QExtQuickQwt(QObject *parent)
-    : QObject(parent)
-    , dd_ptr(new QExtQuickQwtPrivate(this))
+QExtQuickQwt::QExtQuickQwt()
+    : dd_ptr(new QExtQuickQwtPrivate(this))
 {
-
 }
 
 QExtQuickQwt::~QExtQuickQwt()
 {
-
-}
-
-QObject *QExtQuickQwt::qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return QExtQuickQwt::instance();
-}
-
-QExtQuickQwt *QExtQuickQwt::instance()
-{
-    static QExtQuickQwt *instance = QEXT_NULLPTR;
-    static QExtOnceFlag onceFlag;
-    if(onceFlag.enter())
-    {
-        instance = new QExtQuickQwt;
-        onceFlag.leave();
-    }
-    return instance;
 }
 
 QString QExtQuickQwt::version() const
@@ -98,36 +69,28 @@ QString QExtQuickQwt::version() const
 
 void QExtQuickQwt::registerTypes(const char *url)
 {
-    Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
-    Q_INIT_RESOURCE(qextQuickQwt);
+    qDebug() << QString("QExtQuickQwt::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+    if (url)
+    {
+        Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
+    }
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
+    {
+        Q_INIT_RESOURCE(qextQuickQwt);
+        const int major = QEXT_VERSION_MAJOR;
+        const int minor = QEXT_VERSION_MINOR;
 
-    const int major = QEXT_VERSION_MAJOR;
-    const int minor = QEXT_VERSION_MINOR;
+        qmlRegisterSingletonType<QExtQuickQwt>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickQwt",
+                                               QExtQuickQwt::create);
 
-    qmlRegisterSingletonType<QExtQuickQwt>(url, major, minor, "QExtQuickQwt", QExtQuickQwt::qmlSingletonTypeProvider);
-    qmlRegisterType<QwtQuick2Plot>(url, major, minor, "QwtQuick2Plot");
+        qmlRegisterType<QExtQuickQwtPlot>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickQwtPlot");
+        onceFlag.leave();
+    }
 }
 
-void QExtQuickQwt::initQmlEngine(QQmlEngine *engine, const char *uri)
+void QExtQuickQwt::initializeEngine(QQmlEngine *engine, const char *uri)
 {
-    Q_D(QExtQuickQwt);
+    Q_UNUSED(engine)
     Q_UNUSED(uri)
-    d->m_qmlEngine = engine;
-}
-
-void QExtQuickQwt::initQuickRoot(QQuickWindow *rootWindow)
-{
-
-}
-
-int QExtQuickQwt::mouseAreaCursorShape() const
-{
-    Q_D(const QExtQuickQwt);
-    return (int)d->m_mouseAreaCurrsor;
-}
-
-void QExtQuickQwt::setMouseAreaCursorShape(const Qt::CursorShape &cursor)
-{
-    Q_D(QExtQuickQwt);
-    d->m_mouseAreaCurrsor = cursor;
 }

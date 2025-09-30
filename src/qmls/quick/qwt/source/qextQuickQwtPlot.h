@@ -1,18 +1,20 @@
-#ifndef QMLPLOT_H
-#define QMLPLOT_H
+#ifndef _QEXTQUICKQWTPLOT_H
+#define _QEXTQUICKQWTPLOT_H
 
-#include <QtQuick>
+#include <qextQmlRegistration.h>
 
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 
-class QwtQuick2Plot : public QQuickPaintedItem
+#include <QQuickPaintedItem>
+
+class QExtQuickQwtPlot : public QQuickPaintedItem
 {
     Q_OBJECT
-
+    QEXT_QML_ELEMENT()
 public:
-    QwtQuick2Plot(QQuickItem* parent = nullptr);
-    virtual ~QwtQuick2Plot();
+    QExtQuickQwtPlot(QQuickItem* parent = nullptr);
+    virtual ~QExtQuickQwtPlot();
 
     void paint(QPainter* painter);
 
@@ -43,4 +45,4 @@ private slots:
 
 };
 
-#endif // QMLPLOT_H
+#endif // _QEXTQUICKQWTPLOT_H

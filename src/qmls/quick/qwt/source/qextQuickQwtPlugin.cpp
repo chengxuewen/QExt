@@ -23,10 +23,13 @@
 ***********************************************************************************************************************/
 
 #include <qextQuickQwt.h>
+#include <qextQmlRegistration.h>
 
 #include <QObject>
 #include <QQmlEngine>
 #include <QQmlExtensionPlugin>
+
+QEXT_QML_DECLARE_REGISTRATION(QExtQuick_Qwt)
 
 class QExtQuickQwtPlugin : public QQmlExtensionPlugin
 {
@@ -34,20 +37,20 @@ class QExtQuickQwtPlugin : public QQmlExtensionPlugin
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    // QQmlExtensionInterface interface
-    void registerTypes(const char *uri);
+    QExtQuickQwtPlugin(QObject *parent = nullptr) : QQmlExtensionPlugin(parent)
+    {
+        QEXT_QML_REFERENCE_REGISTRATION(QExtQuick_Qwt)
+    }
 
-    void initializeEngine(QQmlEngine *engine, const char *uri);
+    void registerTypes(const char *uri)
+    {
+        QExtQuickQwt::instance()->registerTypes(uri);
+    }
+
+    void initializeEngine(QQmlEngine *engine, const char *uri)
+    {
+        QExtQuickQwt::instance()->initializeEngine(engine, uri);
+    }
 };
-
-void QExtQuickQwtPlugin::registerTypes(const char *uri)
-{
-    QExtQuickQwt::instance()->registerTypes(uri);
-}
-
-void QExtQuickQwtPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QExtQuickQwt::instance()->initQmlEngine(engine, uri);
-}
 
 #include <qextQuickQwtPlugin.moc>

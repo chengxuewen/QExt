@@ -3,7 +3,7 @@ import QtQuick.Window 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.0
 
-import QExtQuick.Qwt 1.3
+import QExtQuick.Qwt 1.4
 
 Window {
     id: root
@@ -22,7 +22,7 @@ Window {
             text: qsTr("Plot form")
         }
 
-        QwtQuick2Plot {
+        QExtQuickQwtPlot {
             id: qwtPlot
             anchors.fill: parent
 

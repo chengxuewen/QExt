@@ -104,7 +104,7 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
-        Core Network Test PrintSupport Xml Svg Sql Gui Widgets Quick QuickControls2 REQUIRED)
+        Core Network Test PrintSupport Xml Svg Sql Gui Widgets Quick QuickControls2 OpenGL REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
         OpenGL Concurrent SerialPort QUIET)
     if(UNIX)
@@ -505,7 +505,6 @@ qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatche
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
@@ -518,7 +517,6 @@ qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Adv
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty qcustomplot subdirectory" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
@@ -659,8 +657,9 @@ endif("${isSystemDir}" STREQUAL "-1")
 # Additional rpaths can be passed via QEXT_EXTRA_RPATHS.
 # By default this will include $ORIGIN / @loader_path, so the installation is relocatable.
 # Bottom line: No need to pass anything to CMAKE_INSTALL_RPATH.
-set(CMAKE_INSTALL_RPATH "" CACHE STRING "RPATH for installed binaries")
-
+set(CMAKE_INSTALL_RPATH "" CACHE STRING "RPATH for installed binaries" FORCE)
+# message(QEXT_DEFAULT_INSTALL_RPATH=${QEXT_DEFAULT_INSTALL_RPATH})
+# message(CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH})
 # By default, don't embed auto-determined RPATHs pointing to directories
 # outside of the build tree, into the installed binaries.
 # This ended up adding rpaths like ${QEXT_INSTALL_PREFIX}/lib (or /Users/qext/work/install/lib into
@@ -823,10 +822,9 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 #-----------------------------------------------------------------------------------------------------------------------
 set(QWT_VERSION 6.3.0)
 if(QEXT_ADD_SUBDIRECTORY_QWT)
-    set(QWT_BUILD_ALL ${QEXT_BUILD_ALL})
     set(QExtWrapQwt_DIR_NAME "qwt-${QWT_VERSION}")
     set(QExtWrapQwt_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}")
-    qext_fetch_3rdparty(QExtWrapSingleApp URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}.7z")
+    qext_fetch_3rdparty(QExtWrapQwt URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}.7z")
     add_subdirectory(${QExtWrapQwt_ROOT_DIR}/source ${QExtWrapQwt_ROOT_DIR}/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)

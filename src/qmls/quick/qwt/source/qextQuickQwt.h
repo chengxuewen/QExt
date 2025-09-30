@@ -26,34 +26,23 @@
 #define _QEXTQUICKQWT_H
 
 #include <qextQuickQwtGlobal.h>
+#include <qextQmlSingleton.h>
 
-#include <QObject>
-#include <QQmlEngine>
 #include <QQuickWindow>
-#include <QScopedPointer>
 
-class QExtQuickQwtWorld;
 class QExtQuickQwtPrivate;
-class QEXT_QUICKQWT_API QExtQuickQwt : public QObject
+class QEXT_QUICKQWT_API QExtQuickQwt : public QExtQmlModuleSingleton<QExtQuickQwt>
 {
     Q_OBJECT
-
+    QEXT_DECLARE_QML_SINGLETON(QExtQuickQwt)
 public:
-    ~QExtQuickQwt();
-    static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
-    static QExtQuickQwt *instance();
-
-    Q_INVOKABLE QString version() const;
-
-    void registerTypes(const char *url);
-    void initQmlEngine(QQmlEngine *engine, const char *uri);
-    void initQuickRoot(QQuickWindow *rootWindow);
-
-    Q_INVOKABLE int mouseAreaCursorShape() const;
-    void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
+    Q_INVOKABLE QString version() const override;
+    void registerTypes(const char *uri = nullptr) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
 
 protected:
-    explicit QExtQuickQwt(QObject *parent = QEXT_NULLPTR);
+    QExtQuickQwt();
+    ~QExtQuickQwt() override;
 
     QScopedPointer<QExtQuickQwtPrivate> dd_ptr;
 
