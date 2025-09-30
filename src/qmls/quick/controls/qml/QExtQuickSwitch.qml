@@ -5,74 +5,110 @@ import QExtQml.Theme 1.4
 import QExtQuick.Controls 1.4
 
 QExtQuickButtonArea {
-    id: mControl;
+    id: mControl
+    width: 60
+    height: 40
     checkable: true
-    width: content.width + padding
-    height: content.height + padding
 
     property int padding: 6
+    property int radius: (height - padding * 2) / 2
 
     property alias theme: mTheme
+
     property alias dot: mDotInfo
-    property color activeColor: "#46A0FC"
     property alias background: mBackgroundInfo
+    property alias contentVisible: mContentLoader.visible
+    property alias checkedBackground: mCheckedBackgroundInfo
 
     property Component dotComponent;
+    property Component contentComponent;
     property Component backgroundComponent;
 
     backgroundComponent: Rectangle {
-        color: checked ? activeColor : mBackgroundInfo.color
-        width: mBackgroundInfo.width
-        height: mBackgroundInfo.height
-        radius: mBackgroundInfo.radius
+        color: checked ? mCheckedBackgroundInfo.color : mBackgroundInfo.color
+        radius: checked ? mCheckedBackgroundInfo.radius : mBackgroundInfo.radius
+        opacity: checked ? mCheckedBackgroundInfo.opacity : mBackgroundInfo.opacity
+        anchors.fill: parent
         border.width: 1;
         border.color: Qt.darker(color,1.1)
     }
 
-    dotComponent: Item {
-        width:  mDotInfo.width;
-        height: mDotInfo.height;
-
-        Rectangle{
-            anchors.fill: parent;
-            anchors.margins: 2;
-            color: mDotInfo.color;
-            radius: mDotInfo.radius;
+    contentComponent: Item {
+        anchors.fill: parent
+        Text {
+            text: "On"
+            visible: mControl.checked
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            verticalAlignment: Text.AlignLeft
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Text {
+            text: "OFF"
+            visible: !mControl.checked
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            verticalAlignment: Text.AlignRight
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 
-    QExtQmlRectangleInfo {
-        id: mBackgroundInfo
-        width: 40
-        height: 20
-        color: "#F36D6F"
-        radius: height / 2
+    dotComponent: Item {
+        width: parent.height
+        height: parent.height
+        opacity: mDotInfo.opacity
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 2
+            color: mDotInfo.color
+            radius: mDotInfo.radius
+        }
     }
 
-    QExtQmlRectangleInfo {
-        id: mDotInfo;
-        width: 20
-        height: 20
-        radius: height / 2
+    QExtQmlBackgroundInfo {
+        id: mCheckedBackgroundInfo
+        color: "#6AC044"
+        radius: mControl.radius
+    }
+
+    QExtQmlBackgroundInfo {
+        id: mBackgroundInfo
+        color: "#909399"
+        radius: mControl.radius
+    }
+
+    QExtQmlBackgroundInfo {
+        id: mDotInfo
+        color: "#FFFFFF"
+        radius: mControl.radius
     }
 
     Item {
-        id: content
-        anchors.centerIn: parent
-        width: Math.max(backgroundLoader.width,dotloader.width)
-        height: Math.max(backgroundLoader.height,dotloader.height)
+        id: mContent
+        anchors.fill: parent
+        anchors.margins: mControl.padding
 
         Loader {
-            id: backgroundLoader
+            id: mBackgroundLoader
+            anchors.fill: parent
             sourceComponent: backgroundComponent
-            anchors.verticalCenter: parent.verticalCenter
         }
 
         Loader {
-            id:dotloader;
-            sourceComponent: dotComponent
+            id: mContentLoader
+            visible: false
+            anchors.fill: parent
+            sourceComponent: visible ? contentComponent : null
+        }
+
+        Loader {
+            id: mDotloader
+            width: parent.height
+            height: parent.height
             anchors.verticalCenter: parent.verticalCenter
-            x: checked ? content.width - width : 0
+            sourceComponent: dotComponent
+            x: checked ? mContent.width - width : 0
             Behavior on x {
                 NumberAnimation {
                     duration: 80
@@ -86,30 +122,30 @@ QExtQuickButtonArea {
         className: "QExtQuickSwitch"
 
         QExtQmlThemeBinder {
-            childName: "background"
+            childName: "Background"
             target: mBackgroundInfo
 
-            property int width: mBackgroundInfo.width
-            property int height: mBackgroundInfo.height
-            property int radius: mBackgroundInfo.radius
             property color color: mBackgroundInfo.color
+            property int radius: mBackgroundInfo.radius
+            property int opacity: mBackgroundInfo.opacity
         }
 
         QExtQmlThemeBinder {
-            childName: "activeColor"
-            target: mControl
+            childName: "CheckedBackground"
+            target: mCheckedBackgroundInfo
 
-            property color color: activeColor
+            property color color: mCheckedBackgroundInfo.color
+            property int radius: mCheckedBackgroundInfo.radius
+            property int opacity: mCheckedBackgroundInfo.opacity
         }
 
         QExtQmlThemeBinder {
-            childName: "dot"
+            childName: "Dot"
             target: mDotInfo
 
-            property int width: mDotInfo.width
-            property int height: mDotInfo.height
-            property int radius: mDotInfo.radius
             property color color: mDotInfo.color
+            property int radius: mDotInfo.radius
+            property int opacity: mDotInfo.opacity
         }
 
         Component.onCompleted: initialize();

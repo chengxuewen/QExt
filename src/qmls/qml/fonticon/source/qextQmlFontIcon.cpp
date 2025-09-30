@@ -122,24 +122,21 @@ void QExtQmlFontIcon::registerTypes(const char *url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
     }
-    if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
     {
-        static QExtOnceFlag onceFlag;
-        if (onceFlag.enter())
-        {
-            Q_INIT_RESOURCE(qextQmlFontIcon);
+        Q_INIT_RESOURCE(qextQmlFontIcon);
 
-            const int major = QEXT_VERSION_MAJOR;
-            const int minor = QEXT_VERSION_MINOR;
+        const int major = QEXT_VERSION_MAJOR;
+        const int minor = QEXT_VERSION_MINOR;
 
-            qmlRegisterType<QExtQmlFontIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
+        qmlRegisterType<QExtQmlFontIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
-            qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
-                                                      QExtQmlFontIcon::create);
-            qmlRegisterSingletonType<QExtQmlFontAwesome>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontAwesome",
-                                                         QExtQmlFontAwesome::create);
-            onceFlag.leave();
-        }
+        qmlRegisterSingletonType<QExtQmlFontIcon>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIcon",
+                                                  QExtQmlFontIcon::create);
+        qmlRegisterSingletonType<QExtQmlFontAwesome>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontAwesome",
+                                                     QExtQmlFontAwesome::create);
+        onceFlag.leave();
     }
 }
 

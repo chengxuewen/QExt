@@ -35,10 +35,11 @@
 
 class QExtQmlWorld;
 class QExtQmlPrivate;
-class QEXT_QML_API QExtQml : public QExtQmlSingleton<QExtQml>
+class QEXT_QML_API QExtQml : public QExtQmlModuleSingleton<QExtQml>
 {
     Q_OBJECT
     QEXT_DECLARE_QML_SINGLETON(QExtQml)
+    Q_PROPERTY(QQuickWindow* rootWindow READ rootWindow WRITE setRootWindow NOTIFY rootWindowChanged)
 public:
     enum StateEnum
     {
@@ -67,9 +68,17 @@ public:
     Q_INVOKABLE int qtVersionMinor() const;
     Q_INVOKABLE int qtVersionPatch() const;
 
+    QQuickWindow *rootWindow() const;
+    void setRootWindow(QQuickWindow *window);
+
+    Q_INVOKABLE int svgIconVersion() const;
+
     Q_INVOKABLE QString version() const override;
     void registerTypes(const char *url = nullptr) override;
     void initializeEngine(QQmlEngine *engine, const char *uri) override;
+
+Q_SIGNALS:
+    void rootWindowChanged(QQuickWindow *window);
 
 protected:
     QExtQml();

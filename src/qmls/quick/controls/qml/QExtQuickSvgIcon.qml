@@ -2,7 +2,6 @@ import QtQuick 2.6
 
 import QExtQml 1.4
 import QExtQml.Theme 1.4
-import QExtQuick.Controls 1.4
 
 Item {
     id: mControl
@@ -31,7 +30,7 @@ Item {
     }
 
     Component.onCompleted: {
-        mLoader.setSource("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon" + QExtQuickControls.svgIconVersion() + ".qml", {
+        mLoader.setSource("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon" + QExtQml.svgIconVersion() + ".qml", {
                               color: mControl.color,
                               source: mControl.source,
                               smooth: mControl.smooth,

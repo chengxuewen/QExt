@@ -35,7 +35,7 @@
 
 class QExtQuickWorld;
 class QExtQuickControlsPrivate;
-class QEXT_QUICKCONTROLS_API QExtQuickControls : public QExtQmlSingleton<QExtQuickControls>
+class QEXT_QUICKCONTROLS_API QExtQuickControls : public QExtQmlModuleSingleton<QExtQuickControls>
 {
     Q_OBJECT
     QEXT_DECLARE_QML_SINGLETON(QExtQuickControls)
@@ -50,10 +50,8 @@ public:
     int mouseAreaCursorShape() const;
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
 
-    Q_INVOKABLE int svgIconVersion() const;
-
     Q_INVOKABLE QString version() const override;
-    void registerTypes(const char *url = nullptr) override;
+    Q_INVOKABLE void registerTypes(const char *url = nullptr) override;
     void initializeEngine(QQmlEngine *engine, const char *uri) override;
 
 Q_SIGNALS:

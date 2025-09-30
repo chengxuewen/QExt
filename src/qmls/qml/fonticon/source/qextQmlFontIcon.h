@@ -35,7 +35,7 @@
 
 class QExtQmlWorld;
 class QExtQmlFontIconPrivate;
-class QEXT_QMLFONTICON_API QExtQmlFontIcon : public QExtQmlSingleton<QExtQmlFontIcon>
+class QEXT_QMLFONTICON_API QExtQmlFontIcon : public QExtQmlModuleSingleton<QExtQmlFontIcon>
 {
     Q_OBJECT
     QEXT_DECLARE_QML_SINGLETON(QExtQmlFontIcon)

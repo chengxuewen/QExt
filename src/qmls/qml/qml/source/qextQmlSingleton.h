@@ -11,16 +11,23 @@ class QExtQmlSingleton : public QExtObjectSingleton<T>
 {
 public:
     Q_INVOKABLE virtual QString version() const = 0;
-    virtual void registerTypes(const char *uri = nullptr) = 0;
-    virtual void initializeEngine(QQmlEngine *engine, const char *uri) = 0;
 
 protected:
-    virtual void onQmlCreated(QQmlEngine */*engine*/, QJSEngine */*scriptEngine*/) { this->registerTypes(); }
+    virtual void onQmlCreated(QQmlEngine */*engine*/, QJSEngine */*scriptEngine*/) { }
+};
+
+template <typename T>
+class QExtQmlModuleSingleton : public QExtQmlSingleton<T>
+{
+public:
+    virtual void registerTypes(const char *uri = nullptr) = 0;
+    virtual void initializeEngine(QQmlEngine *engine, const char *uri) = 0;
 };
 
 #define QEXT_DECLARE_QML_SINGLETON(CLASS) \
     public: \
         static QEXT_QML_SINGLETON_TYPE(CLASS) *create(QQmlEngine *engine, QJSEngine *scriptEngine) { \
+            CLASS::instance()->onQmlCreated(engine, scriptEngine); \
             return CLASS::instance(); \
         } \
     private: \

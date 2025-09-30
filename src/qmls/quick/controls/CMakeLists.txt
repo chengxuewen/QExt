@@ -68,6 +68,8 @@ qext_add_qml_module(QuickControls
     qextQuickControls.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
+    SINGLETON_QML_FILES
+    qml/QExtQuickGlobalToast.qml
     QML_FILES
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
@@ -85,6 +87,7 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickSvgIcon2.qml
     qml/QExtQuickSwitch.qml
     qml/QExtQuickText.qml
+    qml/QExtQuickToast.qml
     DEFINES
     QEXT_BUILD_QUICK_LIB
     PUBLIC_LIBRARIES

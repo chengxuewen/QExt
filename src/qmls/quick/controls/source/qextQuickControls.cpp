@@ -108,15 +108,6 @@ void QExtQuickControls::setMouseAreaCursorShape(const Qt::CursorShape &cursor)
     d->mMouseAreaCurrsor = cursor;
 }
 
-int QExtQuickControls::svgIconVersion() const
-{
-#ifdef Q_OS_ANDROID
-    return 0;
-#else
-    return (QT_VERSION_MAJOR > 5) ? 1 : 2;
-#endif
-}
-
 QString QExtQuickControls::version() const
 {
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);
@@ -124,52 +115,55 @@ QString QExtQuickControls::version() const
 
 void QExtQuickControls::registerTypes(const char *url)
 {
-    qDebug() << QString("QExtQml::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+    qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
     if (url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
     }
-    if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
     {
-        static QExtOnceFlag onceFlag;
-        if (onceFlag.enter())
-        {
-            Q_INIT_RESOURCE(qextQuickControls);
+        Q_INIT_RESOURCE(qextQuickControls);
 
-            const int major = QEXT_VERSION_MAJOR;
-            const int minor = QEXT_VERSION_MINOR;
+        const int major = QEXT_VERSION_MAJOR;
+        const int minor = QEXT_VERSION_MINOR;
 
-            qmlRegisterSingletonType<QExtQuickControls>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickControls",
-                                                        QExtQuickControls::create);
+        qmlRegisterSingletonType<QExtQuickControls>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickControls",
+                                                    QExtQuickControls::create);
 
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButton.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickButton");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButtonArea.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCheckBox.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickCheckBox");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickDividerLine.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickDividerLine");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickFontIcon.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontIcon");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIconButton.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconButton");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickInputField.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickInputField");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRadioBox.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickRadioBox");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRadioBoxGroup.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickRadioBoxGroup");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRectangle.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickRectangle");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgIcon");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSwitch.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickSwitch");
-            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickText.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickText");
-            onceFlag.leave();
-        }
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButton.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickButton");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButtonArea.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCheckBox.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickCheckBox");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickDividerLine.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickDividerLine");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickFontIcon.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontIcon");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIconButton.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconButton");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickInputField.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickInputField");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRadioBox.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickRadioBox");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRadioBoxGroup.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickRadioBoxGroup");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRectangle.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickRectangle");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgIcon");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSwitch.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickSwitch");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickText.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickText");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickToast.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickToast");
+
+        qmlRegisterSingletonType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickGlobalToast.qml"),
+                                 QEXT_QML_MODULE_URI, major, minor, "QExtQuickGlobalToast");
+
+        onceFlag.leave();
     }
 }
 

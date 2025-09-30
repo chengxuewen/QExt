@@ -49,6 +49,7 @@ macro(qext_internal_get_internal_add_qml_module_keywords option_args single_args
         TYPE_COMPILER_NAMESPACE)
     set(${multi_args}
         QML_FILES
+        SINGLETON_QML_FILES
         RESOURCES
         IMPORTS
         IMPORT_PATH
@@ -206,6 +207,8 @@ function(qext_add_qml_module target)
         if(QT_KNOWN_POLICY_QTP0001)
             qt_policy(SET QTP0001 NEW)
         endif()
+        set_source_files_properties(${arg_SINGLETON_QML_FILES} 
+            PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
         qt_add_qml_module(${target}
             URI ${arg_URI}
             VERSION ${arg_VERSION}
@@ -213,7 +216,7 @@ function(qext_add_qml_module target)
             PLUGIN_TARGET ${arg_PLUGIN_TARGET}
             OUTPUT_DIRECTORY ${arg_OUTPUT_DIRECTORY}
             DEPENDENCIES ${arg_DEPENDENCIES}
-            QML_FILES ${arg_QML_FILES}
+            QML_FILES ${arg_QML_FILES} ${arg_SINGLETON_QML_FILES}
             NO_GENERATE_PLUGIN_SOURCE
             DESIGNER_SUPPORTED)
         target_compile_definitions(${target} PRIVATE

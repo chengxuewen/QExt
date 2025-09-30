@@ -49,7 +49,6 @@
         <file>qml/C_MoveArea.qml</file>
         <file>qml/C_NavigationBar.qml</file>
         <file>qml/C_Pagination.qml</file>
-        <file>qml/C_Popover.qml</file>
         <file>qml/C_ProgressBar.qml</file>
         <file>qml/C_RadioButton.qml</file>
         <file>qml/C_ResizeArea.qml</file>
@@ -63,8 +62,14 @@
         <file>qml/Test.qml</file>
         <file>qml/Topbar.qml</file>
         <file>qml/C_FontIcon.qml</file>
-        <file>qml/C_Popup.qml</file>
         <file>qml/C_Triangle.qml</file>
         <file>qml/C_Rectangle.qml</file>
+        <file>images/warning.svg</file>
+        <file>images/success.svg</file>
+        <file>images/loading.svg</file>
+        <file>images/info.svg</file>
+        <file>images/error.svg</file>
+        <file>images/close_px.svg</file>
+        <file>images/close.svg</file>
     </qresource>
 </RCC>

@@ -26,5 +26,7 @@
         <file>qml/QExtQuickRadioBoxGroup.qml</file>
         <file>qml/QExtQuickInputField.qml</file>
         <file>qml/QExtQuickDividerLine.qml</file>
+        <file>qml/QExtQuickToast.qml</file>
+        <file>qml/QExtQuickGlobalToast.qml</file>
     </qresource>
 </RCC>

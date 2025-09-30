@@ -2,7 +2,7 @@ import QtQml 2.9
 import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQuick.Controls 1.3
+import QExtQuick.Controls 1.4
 
 Column {
     id: root
@@ -29,15 +29,15 @@ Column {
             x:20
             y:(parent.height - height) / 2
             spacing: 10
-            QExtQuickImage {
+            QExtQuickSvgIcon {
                 id:ticon4
                 anchors.verticalCenter: parent.verticalCenter
                 source:{
                     switch("const_info"){
-                    case "const_success": return "qrc:/QExtQuickControls/image/success.svg"
-                    case "const_warning": return "qrc:/QExtQuickControls/image/warning.svg"
-                    case "const_info":    return "qrc:/QExtQuickControls/image/info.svg"
-                    case "const_error":   return "qrc:/QExtQuickControls/image/error.svg"
+                    case "const_success": return "qrc:/images/success.svg"
+                    case "const_warning": return "qrc:/images/warning.svg"
+                    case "const_info":    return "qrc:/images/info.svg"
+                    case "const_error":   return "qrc:/images/error.svg"
                     }
                     return "#FFFFFF"
                 }
@@ -70,19 +70,19 @@ Column {
                     color:    ticon4.color
                     text:    "User name error\nPassword length error"
                     wrapMode : Text.WordWrap
-                    onContentWidthChanged: {
-                        width = contentWidth <300 - 100 ? 220 : 300
-                    }
+                    // onContentWidthChanged: {
+                    //     width = contentWidth <300 - 100 ? 220 : 300
+                    // }
                 }
             }
         }
 
-        QExtQuickImage {
+        QExtQuickSvgIcon {
             y:4
             x:parent.width - width
             width: 12
             height: width
-            source: "qrc:/QExtQuickControls/image/close_px.svg"
+            source: "qrc:/images/close_px.svg"
             color: "#ADADAD"
         }
     }
@@ -155,7 +155,7 @@ Column {
     }
 
     Component.onCompleted: {
-        QExtQuickGlobalToast.setTopLevelWindow(root)
+        QExtQuickGlobalToast.setTopLevelWindow(root);
         QExtQuickGlobalToast.horizontalAlignment = Qt.AlignRight
         QExtQuickGlobalToast.verticalAlignment = Qt.AlignBottom
     }

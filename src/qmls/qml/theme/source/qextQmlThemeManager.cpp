@@ -266,21 +266,18 @@ void QExtQmlThemeManager::registerTypes(const char *url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
     }
-    if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
     {
-        static QExtOnceFlag onceFlag;
-        if (onceFlag.enter())
-        {
-            Q_INIT_RESOURCE(qextQmlTheme);
-            int major = QEXT_VERSION_MAJOR;
-            int minor = QEXT_VERSION_MINOR;
+        Q_INIT_RESOURCE(qextQmlTheme);
+        int major = QEXT_VERSION_MAJOR;
+        int minor = QEXT_VERSION_MINOR;
 
-            qmlRegisterType<QExtQmlThemeBinder>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemeBinder");
-            qmlRegisterType<QExtQmlThemePalette>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemePalette");
-            qmlRegisterSingletonType<QExtQmlThemeManager>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemeManager",
-                                                          QExtQmlThemeManager::create);
-            onceFlag.leave();
-        }
+        qmlRegisterType<QExtQmlThemeBinder>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemeBinder");
+        qmlRegisterType<QExtQmlThemePalette>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemePalette");
+        qmlRegisterSingletonType<QExtQmlThemeManager>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemeManager",
+                                                      QExtQmlThemeManager::create);
+        onceFlag.leave();
     }
 }
 

@@ -36,7 +36,7 @@
 class QExtQmlThemeBinder;
 class QExtQmlThemeHandler;
 class QExtQmlThemeManagerPrivate;
-class QEXT_QMLTHEME_API QExtQmlThemeManager : public QExtQmlSingleton<QExtQmlThemeManager>
+class QEXT_QMLTHEME_API QExtQmlThemeManager : public QExtQmlModuleSingleton<QExtQmlThemeManager>
 {
     Q_OBJECT
     QEXT_DECLARE_QML_SINGLETON(QExtQmlThemeManager)

@@ -47,16 +47,14 @@ Window {
                 {label: "RadioButton", uri: "qrc:/qml/C_RadioButton.qml"},
                 {label: "DividerLine", uri: "qrc:/qml/C_DividerLine.qml"},
                 {label: "InputField", uri: "qrc:/qml/C_InputField.qml"},
+                {label: "Toast", uri: "qrc:/qml/C_Toast.qml"},
                 // {label: "Badge", uri: "qrc:/qml/C_Badge.qml"},
                 // {label: "Tag", uri: "qrc:/qml/C_Tag.qml"},
                 // {label: "Collapse", uri: "qrc:/qml/C_Collapse.qml"},
                 // {label: "BusyIndicator", uri: "qrc:/qml/C_BusyIndicator.qml"},
                 // {label: "FpsMonitor", uri: "qrc:/qml/C_FpsMonitor.qml"},
                 // {label: "ProgressBar", uri: "qrc:/qml/C_ProgressBar.qml"},
-                // {label: "Toast", uri: "qrc:/qml/C_Toast.qml"},
                 // {label: "Dialog", uri: "qrc:/qml/C_Dialog.qml"},
-                // {label: "Popup", uri: "qrc:/qml/C_Popup.qml"},
-                // {label: "Popover", uri: "qrc:/qml/C_Popover.qml"},
                 // {label: "Triangle", uri: "qrc:/qml/C_Triangle.qml"},
                 // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
                 // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
@@ -80,7 +78,6 @@ Window {
     }
 
     Component.onCompleted: {
-        // QExtQuickGlobalToast.setTopLevelWindow(root);
         root.showMaximized()
         root.showNormal()
     }

@@ -24,6 +24,7 @@
 
 #include <qextQml.h>
 #include <qextQmlGlobal.h>
+#include <qextQmlInitializer.h>
 #include <qextQmlConstant.h>
 #include <qextQmlConfig.h>
 #include <qextQmlSizeInfo.h>
@@ -56,6 +57,7 @@ public:
     QExtQml * const q_ptr;
 
     QPointer<QQmlEngine> mQmlEngine;
+    QQuickWindow *mRootWindow{nullptr};
 };
 
 QExtQmlPrivate::QExtQmlPrivate(QExtQml *q)
@@ -140,6 +142,31 @@ int QExtQml::qtVersionPatch() const
     return QT_VERSION_PATCH;
 }
 
+QQuickWindow *QExtQml::rootWindow() const
+{
+    Q_D(const QExtQml);
+    return d->mRootWindow;
+}
+
+void QExtQml::setRootWindow(QQuickWindow *window)
+{
+    Q_D(QExtQml);
+    if (window != d->mRootWindow)
+    {
+        d->mRootWindow = window;
+        emit this->rootWindowChanged(window);
+    }
+}
+
+int QExtQml::svgIconVersion() const
+{
+#ifdef Q_OS_ANDROID
+    return 0;
+#else
+    return (QT_VERSION_MAJOR > 5) ? 1 : 2;
+#endif
+}
+
 QString QExtQml::version() const
 {
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);
@@ -152,29 +179,28 @@ void QExtQml::registerTypes(const char *url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
     }
-    if (QT_VERSION < QT_VERSION_CHECK(6, 2, 0))
+    static QExtOnceFlag onceFlag;
+    if (onceFlag.enter())
     {
-        static QExtOnceFlag onceFlag;
-        if (onceFlag.enter())
-        {
-            Q_INIT_RESOURCE(qextQml);
-            const int major = QEXT_VERSION_MAJOR;
-            const int minor = QEXT_VERSION_MINOR;
+        Q_INIT_RESOURCE(qextQml);
+        const int major = QEXT_VERSION_MAJOR;
+        const int minor = QEXT_VERSION_MINOR;
 
-            qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml", QExtQml::create);
+        qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml", QExtQml::create);
 
-            qmlRegisterType<QExtQmlSizeInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlSizeInfo");
-            qmlRegisterType<QExtQmlTextInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlTextInfo");
-            qmlRegisterType<QExtQmlIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlIconInfo");
-            qmlRegisterType<QExtQmlBorderInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorderInfo");
-            qmlRegisterType<QExtQmlPaddingInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPaddingInfo");
-            qmlRegisterType<QExtQmlRectangleInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlRectangleInfo");
-            qmlRegisterType<QExtQmlBackgroundInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBackgroundInfo");
+        qmlRegisterType<QExtQmlInitializer>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlInitializer");
 
-            qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"),
-                            QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
-            onceFlag.leave();
-        }
+        qmlRegisterType<QExtQmlSizeInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlSizeInfo");
+        qmlRegisterType<QExtQmlTextInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlTextInfo");
+        qmlRegisterType<QExtQmlIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlIconInfo");
+        qmlRegisterType<QExtQmlBorderInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorderInfo");
+        qmlRegisterType<QExtQmlPaddingInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPaddingInfo");
+        qmlRegisterType<QExtQmlRectangleInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlRectangleInfo");
+        qmlRegisterType<QExtQmlBackgroundInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBackgroundInfo");
+
+        qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
+        onceFlag.leave();
     }
 }
 
