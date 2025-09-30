@@ -1,5 +1,6 @@
 import QtQuick 2.0
 
+import QExtQml 1.4
 import QExtQuick.Controls 1.4
 
 Column{
@@ -19,6 +20,7 @@ Column{
             QExtQuickRadioBox{
                 text: "Guangzhou"
                 checked: true
+                color: "red"
             }
 
             QExtQuickRadioBox{
@@ -26,33 +28,25 @@ Column{
             }
 
             QExtQuickRadioBox{
-                enabled: false;
+                enabled: false
                 text: "Hong Kong"
             }
-
-            // onCurrentItemChanged: result.text =  currentItem.text;
+            onCurrentItemChanged: {
+                console.warn("currentItem.text:" + currentItem.text)
+            }
         }
-
-        // Item{width: 18; height: 10;}
-
-        // Text{
-        //     id:result
-        //     width: 40;
-        //     anchors.verticalCenter: parent.verticalCenter;
-        // }
     }
 
     Row{
         id:layoutborder
         spacing: 25
-        anchors.horizontalCenter: parent.horizontalCenter
         QExtQuickRadioBoxGroup{
             parent: layoutborder
 
             QExtQuickRadioBox{
                 id:tb
                 text: "Primary"
-                // iconPosition: TPosition.Reght
+                iconPosition: QExtQml.PositionRight
                 background.visible: true
                 border.width: 1;
                 theme.groupName: "rboxa"
@@ -71,7 +65,7 @@ Column{
             QExtQuickRadioBox{
                 id:tb2
                 text: "Success"
-                // iconPosition: TPosition.Reght
+                iconPosition: QExtQml.PositionRight
                 background.visible: true
                 border.width: 1;
                 background.color: "#F0F9EB"
@@ -90,7 +84,7 @@ Column{
             QExtQuickRadioBox{
                 id:tb3
                 text: "Warning"
-                // iconPosition: TPosition.Reght
+                iconPosition: QExtQml.PositionRight
                 background.visible: true
                 border.width: 1;
                 background.color: "#FDF6ED"
@@ -109,7 +103,7 @@ Column{
             QExtQuickRadioBox{
                 id:tb4
                 text: "Danger"
-                // iconPosition: TPosition.Reght
+                iconPosition: QExtQml.PositionRight
                 background.visible: true
                 border.width: 1;
                 background.color: "#FEF0F0"
@@ -125,43 +119,40 @@ Column{
                 ]
             }
 
+        }
+    }
+
+    Row{
+        id:layoutWidth
+        spacing: 25
+        QExtQuickRadioBoxGroup{
+            parent: layoutWidth
             QExtQuickRadioBox{
-                id:tb5
-                text: "DangerseFGAERWSGRADSBGHAERG|"
-                // iconPosition: TPosition.Reght
+                width: implicitWidth
+                text: "Primary"
                 background.visible: true
                 border.width: 1;
-                background.color: "#FEF0F0"
-                theme.groupName: "rboxd"
-                states: [
-                    State {
-                        name: "checked"
-                        PropertyChanges {
-                            target: tb5.border
-                            color:"#F56C6C"
-                        }
-                    }
-                ]
             }
 
             QExtQuickRadioBox{
-                id:tb6
                 width: implicitWidth
-                text: "DangerseFGAERDSBGHAERG|"
-                // iconPosition: TPosition.Reght
+                text: "Primary123456789"
                 background.visible: true
                 border.width: 1;
-                background.color: "#FEF0F0"
-                theme.groupName: "rboxd"
-                states: [
-                    State {
-                        name: "checked"
-                        PropertyChanges {
-                            target: tb6.border
-                            color:"#F56C6C"
-                        }
-                    }
-                ]
+            }
+
+            QExtQuickRadioBox{
+                width: 100
+                text: "Primaryabsc"
+                background.visible: true
+                border.width: 1;
+            }
+
+            QExtQuickRadioBox{
+                width: implicitWidth
+                text: "Primary6789"
+                background.visible: true
+                border.width: 1;
             }
         }
     }

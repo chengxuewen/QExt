@@ -45,6 +45,8 @@ Column{
         }
     }
 
+
+
     Row{
         height: 40;
         spacing: 10
@@ -83,6 +85,53 @@ Column{
             content.text: "Danger"
             content.font.bold: true;
             content.color: "#F36D6F"
+            background.color: "#FEF0F0"
+            border.color: "#F36D6F"
+            theme.enabled: false
+        }
+    }
+
+
+
+    Row{
+        height: 40;
+        spacing: 10
+        QExtQuickButton{
+            text: "Default"
+        }
+
+        QExtQuickButton{
+            text: "Primary"
+            color: "#46A0FC"
+            font.bold: true;
+            background.color: "#ECF5FF"
+            background.radius: 15
+            border.color: "#46A0FC"
+            theme.enabled: false
+        }
+
+        QExtQuickButton{
+            text: "Success"
+            font.bold: true;
+            color: "#6AC044"
+            background.color: "#F0F9EB"
+            border.color: "#6AC044"
+            theme.enabled: false
+        }
+
+        QExtQuickButton{
+            text: "Warning"
+            font.bold: true;
+            color: "#E4A147"
+            background.color: "#FDF6ED"
+            border.color: "#E4A147"
+            theme.enabled: false
+        }
+
+        QExtQuickButton{
+            text: "Danger"
+            font.bold: true;
+            color: "#F36D6F"
             background.color: "#FEF0F0"
             border.color: "#F36D6F"
             theme.enabled: false

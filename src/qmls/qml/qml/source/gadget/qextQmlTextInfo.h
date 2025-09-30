@@ -41,7 +41,6 @@ class QEXT_QML_API QExtQmlTextInfo : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
     Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
-    Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
 
 public:
     explicit QExtQmlTextInfo(QObject *parent = QEXT_NULLPTR);
@@ -51,21 +50,18 @@ public:
     QColor color() const;
     qreal scale() const;
     QFont font() const;
-    int fontSize() const;
 
 Q_SIGNALS:
     void textChanged();
     void colorChanged();
     void scaleChanged();
     void fontChanged();
-    void fontSizeChanged(const int &size);
 
 public Q_SLOTS:
     void setText(const QString &text);
     void setColor(const QColor &color);
     void setScale(const qreal &scale);
     void setFont(const QFont &font);
-    void setFontSize(const int &size);
 
 protected:
     QScopedPointer<QExtQmlTextInfoPrivate> dd_ptr;

@@ -6,32 +6,38 @@ import QExtQuick.Controls 1.4
 
 QExtQuickButtonArea {
     id: mControl
-    // width: mContentLoader.width + padding
-    // height: mContentLoader.height + padding
     width: 120
     height: 40
     states: defaultState
+    scale: 1
 
     readonly property int textWidth: width - padding * 2
     readonly property int textHeight: height - padding * 2
+    readonly property alias implicitTextWidth: mContentLoader.implicitTextWidth
+    readonly property alias implicitTextHeight: mContentLoader.implicitTextHeight
+
     readonly property int implicitWidth: mContentLoader.implicitTextWidth + padding * 2
     readonly property int implicitHeight: mContentLoader.implicitTextHeight + padding * 2
 
     property int padding: 10
     property int contentHAlign: Qt.AlignHCenter //Qt.AlignHCenter 、 Qt.AlignLeft or Qt.AlignRight
 
-    property alias theme: mTheme
-    property alias border: mBorderInfo
     property alias content: mTextInfo
     property alias text: mTextInfo.text
-    property alias background: mRectangleInfo
+    property alias font: mTextInfo.font
+    property alias color: mTextInfo.color
+
+    property alias theme: mTheme
+    property alias border: mBorderInfo
+    property alias background: mBackgroundInfo
+    property alias radius: mBackgroundInfo.radius
 
     property Component contentComponent
     property Component backgroundComponent
 
     property list<State> defaultState: [
         State {
-            name: QExtQuickControls.buttonStateToString(QExtQuickControls.ButtonStatePressed)
+            name: QExtQml.stateToString(QExtQml.StatePressed)
             PropertyChanges {
                 target: mTheme
                 scale: 0.92
@@ -69,13 +75,13 @@ QExtQuickButtonArea {
         theme.parent: mControl.theme
         theme.childName: "background"
         theme.filterPropertyName: ["width", "height"];
-        color: mControl.background.color;
-        radius: mControl.background.radius;
-        visible: mControl.background.visible;
-        opacity: mControl.background.opacity;
-        border.color: mControl.border.color;
-        border.width: mControl.border.width;
-        scale: mTheme.scale;
+        color: mControl.background.color
+        radius: mControl.background.radius
+        visible: mControl.background.visible
+        opacity: mControl.background.opacity
+        border.color: mControl.border.color
+        border.width: mControl.border.width
+        scale: mControl.scale
     }
 
     contentComponent: QExtQuickText {
@@ -84,7 +90,7 @@ QExtQuickButtonArea {
         text: mControl.content.text;
         font: mControl.content.font;
         color: mControl.content.color;
-        scale: mTheme.scale;
+        scale: mControl.scale;
 
         theme.childName: "text"
         theme.parent: {
@@ -111,8 +117,8 @@ QExtQuickButtonArea {
         color: "#DCDCDC"
     }
 
-    QExtQmlRectangleInfo {
-        id: mRectangleInfo
+    QExtQmlBackgroundInfo {
+        id: mBackgroundInfo
         color: "#FCFCFC"
         radius: 2
     }
@@ -122,7 +128,8 @@ QExtQuickButtonArea {
         className: "QExtQuickButton"
         state: mControl.state;
 
-        property double scale: 1;
+        property alias scale: mControl.scale
+
         Component.onCompleted: {
             initialize();
         }

@@ -42,77 +42,7 @@ class QEXT_QUICKCONTROLS_API QExtQuickControls : public QExtQmlSingleton<QExtQui
     Q_PROPERTY(QQuickWindow *rootWindow READ rootWindow NOTIFY rootWindowChanged)
 
 public:
-    enum ButtonStateEnum
-    {
-        ButtonStateNormal = 0,
-        ButtonStateDisabled,
-        ButtonStateHovered,
-        ButtonStatePressed,
-        ButtonStateChecked,
-        ButtonStateUnchecked
-    };
-    Q_ENUM(ButtonStateEnum)
-
-    enum PositionEnum
-    {
-        PositionLeft = 0,
-        PositionRight,
-        PositionTop,
-        PositionBottom,
-        PositionCenter
-    };
-    Q_ENUM(PositionEnum)
-
-    enum IconDisplayType
-    {
-        IconDisplay_TextOnly = 0,
-        IconDisplay_IconOnly,
-        IconDisplay_Left,
-        IconDisplay_Right,
-        IconDisplay_Top,
-        IconDisplay_Bottom,
-    };
-    Q_ENUM(IconDisplayType)
-
-    enum IconType
-    {
-        Icon_Awesome = 0,
-        Icon_SVG
-    };
-    Q_ENUM(IconType)
-
-    //h1=32px h2=24px h3=19px h4=16px h5=14px h6=12px
-    enum class PixelSizeType
-    {
-        PH1 = 32,
-        PH2 = 24,
-        PH3 = 19,
-        PH4 = 16,
-        PH5 = 14,
-        PH6 = 12,
-        PH7 = 10,
-        PH8 = 8
-    };
-    Q_ENUM(PixelSizeType)
-
-    enum DragDirectionType
-    {
-        DragDirection_Left = 0,
-        DragDirection_LeftTop,
-        DragDirection_LeftBottom,
-        DragDirection_Right,
-        DragDirection_RightTop,
-        DragDirection_RightBottom,
-        DragDirection_Top,
-        DragDirection_Bottom,
-        DragDirection_Center
-    };
-    Q_ENUM(DragDirectionType)
-
     QQuickWindow *rootWindow() const;
-
-    Q_INVOKABLE QString buttonStateToString(int state) const;
-    Q_INVOKABLE int buttonStateToEnum(const QString &state) const;
 
     void initWorld(QExtQuickWorld *world);
     void initQuickRoot(QQuickWindow *rootWindow);

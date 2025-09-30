@@ -1,24 +1,24 @@
 import QtQuick 2.9
 
-import QExtQml.FontIcon 1.3
-import QExtQuick.Controls 1.3
+import QExtQml 1.4
+import QExtQml.FontIcon 1.4
+import QExtQuick.Controls 1.4
 
 Column{
     spacing: 10
     Row{
         spacing: 30
 
-        QExtQuickInputField{
+        QExtQuickInputField {
             width: 180
             placeholderText: "Default Input"
         }
 
-        QExtQuickInputField{
+        QExtQuickInputField {
             width: 180
-            placeholderIconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_search)
+            placeholderIcon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_search)
             placeholderText: "Icon Placeholder"
         }
-
     }
 
 
@@ -27,19 +27,19 @@ Column{
 
         QExtQuickInputField{
             width: 180
-            backgroundRadius: height/2
-            placeholderIconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_pencil)
+            background.radius: height/2
+            placeholderIcon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_pencil)
             placeholderText: "Left Align"
-            placeholderPosition: QExtQuickControls.Position_Left
+            placeholderPosition: QExtQml.PositionLeft
         }
 
         QExtQuickInputField{
             width: 180
-            backgroundRadius: height/2
-            placeholderIconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_inbox)
+            background.radius: height/2
+            placeholderIcon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_inbox)
             text: "Clearn Input"
             clearable: true
-            placeholderPosition: QExtQuickControls.Position_Left
+            placeholderPosition: QExtQml.PositionLeft
         }
 
     }

@@ -53,6 +53,8 @@ qext_add_qml_module(Qml
     QtQml
     QtQuick
     SOURCES
+    source/gadget/qextQmlBackgroundInfo.cpp
+    source/gadget/qextQmlBackgroundInfo.h
     source/gadget/qextQmlRectangleInfo.cpp
     source/gadget/qextQmlRectangleInfo.h
     source/gadget/qextQmlBorderInfo.cpp
@@ -67,6 +69,7 @@ qext_add_qml_module(Qml
     source/gadget/qextQmlTextInfo.h
     source/qextQml.cpp
     source/qextQml.h
+    source/qextQmlConstant.h
     source/qextQmlGlobal.h
     source/qextQmlRegistration.h
     source/qextQmlSingleton.h

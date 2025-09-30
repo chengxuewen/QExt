@@ -40,81 +40,27 @@ class QEXT_QML_API QExtQml : public QExtQmlSingleton<QExtQml>
     Q_OBJECT
     QEXT_DECLARE_QML_SINGLETON(QExtQml)
 public:
-    enum StateType
+    enum StateEnum
     {
-        State_None = 0,
-        State_Normal,
-        State_Hovered,
-        State_Pressed,
-        State_Checked,
-        State_Unchecked,
-        State_PartiallyChecked,
+        StateNormal = 0,
+        StateHovered,
+        StatePressed,
+        StateChecked
     };
-    Q_ENUM(StateType)
+    Q_ENUM(StateEnum)
 
-    enum PositionType
+    enum PositionEnum
     {
-        Position_Left = 0,
-        Position_Right,
-        Position_Top,
-        Position_Bottom,
-        Position_Center
+        PositionLeft = 0,
+        PositionRight,
+        PositionTop,
+        PositionBottom,
+        PositionCenter
     };
-    Q_ENUM(PositionType)
-
-    enum IconDisplayType
-    {
-        IconDisplay_TextOnly = 0,
-        IconDisplay_IconOnly,
-        IconDisplay_Left,
-        IconDisplay_Right,
-        IconDisplay_Top,
-        IconDisplay_Bottom,
-    };
-    Q_ENUM(IconDisplayType)
-
-    enum IconType
-    {
-        Icon_Awesome = 0,
-        Icon_SVG
-    };
-    Q_ENUM(IconType)
-
-    //h1=32px h2=24px h3=19px h4=16px h5=14px h6=12px
-    enum class PixelSizeType
-    {
-        PH1 = 32,
-        PH2 = 24,
-        PH3 = 19,
-        PH4 = 16,
-        PH5 = 14,
-        PH6 = 12,
-        PH7 = 10,
-        PH8 = 8
-    };
-    Q_ENUM(PixelSizeType)
-
-    enum DragDirectionType
-    {
-        DragDirection_Left = 0,
-        DragDirection_LeftTop,
-        DragDirection_LeftBottom,
-        DragDirection_Right,
-        DragDirection_RightTop,
-        DragDirection_RightBottom,
-        DragDirection_Top,
-        DragDirection_Bottom,
-        DragDirection_Center
-    };
-    Q_ENUM(DragDirectionType)
+    Q_ENUM(PositionEnum)
 
     Q_INVOKABLE QString stateToString(int state) const;
     Q_INVOKABLE int stateToEnum(const QString &state) const;
-
-    // Q_INVOKABLE bool isFontIconUrl(const QString &url);
-    // Q_INVOKABLE QExtQmlFontIconInfo fontIconInfoFromUrl(const QString &url);
-    // Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
-    // Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
 
     Q_INVOKABLE QString qtVersion() const;
     Q_INVOKABLE int qtVersionMajor() const;

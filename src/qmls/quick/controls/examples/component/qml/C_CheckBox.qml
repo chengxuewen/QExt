@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import QExtQml 1.4
 import QExtQuick.Controls 1.4
 
 Column{
@@ -8,11 +9,6 @@ Column{
 
     Row{
         spacing: 5
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        QExtQuickCheckBox{
-            text: ""
-        }
 
         QExtQuickCheckBox{
             text: "MoviesDFVasdvasdfv"
@@ -22,6 +18,7 @@ Column{
             text: "Music34523462346234"
             width: 100
             checked: true
+            checkedIcon.color: "red"
         }
 
         QExtQuickCheckBox{
@@ -39,16 +36,10 @@ Column{
             enabled: false
         }
 
-        CheckBox {
-            width: 100
-            text: "Sleepsawefarsfgerag"
-        }
-
     }
 
     Row{
         spacing: 5
-        anchors.horizontalCenter: parent.horizontalCenter
 
         QExtQuickCheckBox{
             text: "Movie"
@@ -84,20 +75,19 @@ Column{
 
     Row{
         spacing: 5
-        anchors.horizontalCenter: parent.horizontalCenter
 
         QExtQuickCheckBox{
             id:cb
             text: "C++"
             checked: Math.random() > 0.5
-            // textInLeft: true
+            iconPosition: QExtQml.PositionRight
             background.visible: true
             background.color: "#F0F9EB"
             border.color: "#F0F9EB"
             border.width: 1
             states: [
                 State {
-                    name: "Checked"
+                    name: "checked"
                     PropertyChanges {
                         target: cb
                         border.color:"#67C23A"
@@ -110,14 +100,14 @@ Column{
             id:cb2
             text: "Lua"
             checked: Math.random() > 0.5
-            // textInLeft: true
+            iconPosition: QExtQml.PositionRight
             background.visible: true
             background.color: "#F0F9EB"
             border.color: "#F0F9EB"
             border.width: 1
             states: [
                 State {
-                    name: "Checked"
+                    name: "checked"
                     PropertyChanges {
                         target: cb2
                         border.color:"#67C23A"
@@ -132,14 +122,14 @@ Column{
             height: implicitHeight
             text: "234523452346aefdaqswefgrws|"
             checked: Math.random() > 0.5
-            // textInLeft: true
+            iconPosition: QExtQml.PositionRight
             background.visible: true
             background.color: "#FDF6ED"
             border.color: "#FDF6ED"
             border.width: 1
             states: [
                 State {
-                    name: "Checked"
+                    name: "checked"
                     PropertyChanges {
                         target: cb3
                         border.color:"#E6A23C"
@@ -152,14 +142,14 @@ Column{
             id:cb0
             text: "JAVA"
             checked: Math.random() > 0.5
-            // textInLeft: true
+            iconPosition: QExtQml.PositionRight
             background.visible: true
             background.color: "#FDF6ED"
             border.color: "#FDF6ED"
             border.width: 1
             states: [
                 State {
-                    name: "Checked"
+                    name: "checked"
                     PropertyChanges {
                         target: cb0
                         border.color: "#E6A23C"
@@ -167,25 +157,56 @@ Column{
                 }
             ]
         }
+    }
+
+    Row{
+        spacing: 5
+
         QExtQuickCheckBox{
-            id:cb03
-            text: ""
             width: implicitWidth
+            text: "C++ascdefg"
             checked: Math.random() > 0.5
-            // textInLeft: true
             background.visible: true
-            background.color: "#FDF6ED"
-            border.color: "#FDF6ED"
+            background.color: "#F0F9EB"
+            border.color: "#F0F9EB"
             border.width: 1
-            states: [
-                State {
-                    name: "Checked"
-                    PropertyChanges {
-                        target: cb03
-                        border.color: "#E6A23C"
-                    }
-                }
-            ]
+        }
+
+        QExtQuickCheckBox{
+            width: 100
+            text: "C++ascdefg1234"
+            checked: Math.random() > 0.5
+            background.visible: true
+            background.color: "#F0F9EB"
+            border.color: "#F0F9EB"
+            border.width: 1
+        }
+        QExtQuickCheckBox{
+            width: implicitWidth
+            text: "C++ascdefg567"
+            checked: Math.random() > 0.5
+            background.visible: true
+            background.color: "#F0F9EB"
+            border.color: "#F0F9EB"
+            border.width: 1
+        }
+        QExtQuickCheckBox{
+            width: implicitWidth
+            text: "C++asc"
+            checked: Math.random() > 0.5
+            background.visible: true
+            background.color: "#F0F9EB"
+            border.color: "#F0F9EB"
+            border.width: 1
+        }
+        QExtQuickCheckBox{
+            width: implicitWidth
+            text: ""
+            checked: Math.random() > 0.5
+            background.visible: true
+            background.color: "#F0F9EB"
+            border.color: "#F0F9EB"
+            border.width: 1
         }
 
     }

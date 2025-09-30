@@ -36,8 +36,6 @@ public:
 
     qreal mWidth;
     qreal mHeight;
-    int mType;
-    int mPosition;
     qreal mScale;
     QColor mColor;
     QString mSource;
@@ -48,8 +46,6 @@ QExtQmlIconInfoPrivate::QExtQmlIconInfoPrivate(QExtQmlIconInfo *q)
 {
     mWidth = 18;
     mHeight = 18;
-    mType = 0;
-    mPosition = 0;
 }
 
 QExtQmlIconInfoPrivate::~QExtQmlIconInfoPrivate()
@@ -98,18 +94,6 @@ QString QExtQmlIconInfo::source() const
     return d->mSource;
 }
 
-int QExtQmlIconInfo::type() const
-{
-    Q_D(const QExtQmlIconInfo);
-    return d->mType;
-}
-
-int QExtQmlIconInfo::position() const
-{
-    Q_D(const QExtQmlIconInfo);
-    return d->mPosition;
-}
-
 void QExtQmlIconInfo::setWidth(const qreal &width)
 {
     Q_D(QExtQmlIconInfo);
@@ -117,16 +101,6 @@ void QExtQmlIconInfo::setWidth(const qreal &width)
     {
         d->mWidth = width;
         emit this->widthChanged();
-    }
-}
-
-void QExtQmlIconInfo::setPosition(const int &position)
-{
-    Q_D(QExtQmlIconInfo);
-    if (position != d->mPosition)
-    {
-        d->mPosition = position;
-        emit this->positionChanged(position);
     }
 }
 
@@ -170,12 +144,3 @@ void QExtQmlIconInfo::setSource(const QString &source)
     }
 }
 
-void QExtQmlIconInfo::setType(const int &type)
-{
-    Q_D(QExtQmlIconInfo);
-    if (type != d->mType)
-    {
-        d->mType = type;
-        emit this->typeChanged(type);
-    }
-}

@@ -1,5 +1,6 @@
 import QtQuick 2.6
 
+import QExtQml 1.4
 import QExtQml.FontIcon 1.4
 import QExtQuick.Controls 1.4
 
@@ -56,14 +57,14 @@ Column{
         spacing: 10
         QExtQuickIconButton{
             width: implicitWidth
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_apple)
             background.radius: height / 2;
         }
 
         QExtQuickIconButton{
             width: implicitWidth
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_android)
             icon.color: "#46A0FC"
             background.color: "#ECF5FF"
@@ -73,7 +74,7 @@ Column{
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_windows)
             icon.color: "#6AC044"
             background.color: "#F0F9EB"
@@ -83,7 +84,7 @@ Column{
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_github)
             icon.color: "#E4A147"
             background.color: "#FDF6ED"
@@ -93,7 +94,7 @@ Column{
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_star_o)
             icon.color: "#F36D6F"
             background.color: "#FEF0F0"
@@ -108,13 +109,13 @@ Column{
         spacing: 10
         QExtQuickIconButton{
             width: implicitWidth
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: "qrc:/images/svg0.svg"
             background.radius: height / 2;
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: "qrc:/images/svg1.svg"
             icon.color: "#46A0FC"
             background.color: "#ECF5FF"
@@ -124,7 +125,7 @@ Column{
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: "qrc:/images/svg2.svg"
             icon.color: "#6AC044"
             background.color: "#F0F9EB"
@@ -134,7 +135,7 @@ Column{
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: "qrc:/images/svg3.svg"
             icon.color: "#E4A147"
             background.color: "#FDF6ED"
@@ -144,7 +145,7 @@ Column{
         }
 
         QExtQuickIconButton{
-            icon.position: QExtQuickControls.PositionCenter;
+            iconPosition: QExtQml.PositionCenter;
             icon.source: "qrc:/images/svg4.svg"
             icon.color: "#F36D6F"
             background.color: "#FEF0F0"
@@ -152,6 +153,47 @@ Column{
             background.radius: height / 2;
             theme.enabled: false;
         }
+    }
+
+    Row{
+        height: 40;
+        spacing: 10
+        QExtQuickIconButton{
+            width: implicitWidth
+            height: implicitHeight
+            text: "PositionBottom"
+            iconPosition: QExtQml.PositionBottom
+            icon.source: "qrc:/images/svg0.svg"
+            background.radius: height / 2
+        }
+
+        QExtQuickIconButton{
+            width: implicitWidth
+            height: implicitHeight
+            text: "Bottom"
+            iconPosition: QExtQml.PositionBottom
+            icon.source: "qrc:/images/svg0.svg"
+            radius: 2
+        }
+
+        QExtQuickIconButton{
+            width: implicitWidth
+            height: implicitHeight
+            text: "Bottom"
+            iconPosition: QExtQml.PositionTop
+            icon.source: "qrc:/images/svg0.svg"
+            radius: 2
+        }
+
+        QExtQuickIconButton{
+            width: implicitWidth
+            height: implicitHeight
+            text: "Bottom"
+            iconPosition: QExtQml.PositionRight
+            icon.source: "qrc:/images/svg0.svg"
+            radius: 2
+        }
+
     }
 }
 

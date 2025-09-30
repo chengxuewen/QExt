@@ -1,5 +1,6 @@
 import QtQuick 2.12
-import QExtQuick.Controls 1.3
+
+import QExtQuick.Controls 1.4
 
 Column{
     spacing: 15
@@ -9,7 +10,7 @@ Column{
         height: 1
     }
 
-    Row{
+    Row {
         spacing: 10
         Repeater{
             model: 30
@@ -21,7 +22,6 @@ Column{
             }
         }
     }
-
 
     QExtQuickDividerLine{
         width: 350

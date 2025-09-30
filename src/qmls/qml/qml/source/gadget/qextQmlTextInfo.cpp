@@ -38,7 +38,6 @@ public:
     QColor mColor;
     qreal mScale;
     QFont mFont;
-    int mFontSize;
 
 private:
 };
@@ -50,7 +49,6 @@ QExtQmlTextInfoPrivate::QExtQmlTextInfoPrivate(QExtQmlTextInfo *q)
     mColor = Qt::black;
     mScale = 1;
     mFont = QFont();
-    mFontSize = 12;
 }
 
 QExtQmlTextInfoPrivate::~QExtQmlTextInfoPrivate()
@@ -91,22 +89,6 @@ QFont QExtQmlTextInfo::font() const
 {
     Q_D(const QExtQmlTextInfo);
     return d->mFont;
-}
-
-int QExtQmlTextInfo::fontSize() const
-{
-    Q_D(const QExtQmlTextInfo);
-    return d->mFontSize;
-}
-
-void QExtQmlTextInfo::setFontSize(const int &size)
-{
-    Q_D(QExtQmlTextInfo);
-    if (size != d->mFontSize)
-    {
-        d->mFontSize = size;
-        emit this->fontSizeChanged(size);
-    }
 }
 
 void QExtQmlTextInfo::setText(const QString &text)

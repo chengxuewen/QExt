@@ -72,8 +72,10 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
     qml/QExtQuickCheckBox.qml
+    qml/QExtQuickDividerLine.qml
     qml/QExtQuickFontIcon.qml
     qml/QExtQuickIconButton.qml
+    qml/QExtQuickInputField.qml
     qml/QExtQuickRadioBox.qml
     qml/QExtQuickRadioBoxGroup.qml
     qml/QExtQuickRectangle.qml

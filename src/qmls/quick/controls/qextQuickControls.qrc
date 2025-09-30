@@ -24,5 +24,7 @@
         <file>qml/QExtQuickCheckBox.qml</file>
         <file>qml/QExtQuickRadioBox.qml</file>
         <file>qml/QExtQuickRadioBoxGroup.qml</file>
+        <file>qml/QExtQuickInputField.qml</file>
+        <file>qml/QExtQuickDividerLine.qml</file>
     </qresource>
 </RCC>

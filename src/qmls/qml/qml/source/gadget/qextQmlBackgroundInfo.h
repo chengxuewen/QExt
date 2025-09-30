@@ -22,8 +22,8 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQMLICONINFO_H
-#define _QEXTQMLICONINFO_H
+#ifndef _QEXTQMLBACKGROUNDINFO_H
+#define _QEXTQMLBACKGROUNDINFO_H
 
 #include <qextQmlGlobal.h>
 #include <qextQmlRegistration.h>
@@ -31,47 +31,43 @@
 #include <QColor>
 #include <QObject>
 
-class QExtQmlIconInfoPrivate;
-class QEXT_QML_API QExtQmlIconInfo : public QObject
+class QExtQmlBackgroundInfoPrivate;
+class QEXT_QML_API QExtQmlBackgroundInfo : public QObject
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
-    Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
-    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
-    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
+    Q_PROPERTY(qreal radius READ radius WRITE setRadius NOTIFY radiusChanged)
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
+    Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
 
 public:
-    explicit QExtQmlIconInfo(QObject *parent = QEXT_NULLPTR);
-    ~QExtQmlIconInfo();
+    explicit QExtQmlBackgroundInfo(QObject *parent = QEXT_NULLPTR);
+    ~QExtQmlBackgroundInfo();
 
-    qreal scale() const;
-    qreal width() const;
-    qreal height() const;
     QColor color() const;
-    QString source() const;
+    qreal opacity() const;
+    qreal radius() const;
+    bool isVisible() const;
 
 Q_SIGNALS:
-    void scaleChanged();
-    void widthChanged();
-    void heightChanged();
+    void radiusChanged();
     void colorChanged();
-    void sourceChanged();
+    void visibleChanged();
+    void opacityChanged();
 
-protected Q_SLOTS:
-    void setScale(const qreal &scale);
-    void setWidth(const qreal &width);
-    void setHeight(const qreal &height);
+public Q_SLOTS:
     void setColor(const QColor &color);
-    void setSource(const QString &source);
+    void setOpacity(const qreal &opacity);
+    void setRadius(const qreal &radius);
+    void setVisible(const bool &visible);
 
 protected:
-    QScopedPointer<QExtQmlIconInfoPrivate> dd_ptr;
+    QScopedPointer<QExtQmlBackgroundInfoPrivate> dd_ptr;
 
 private:
-    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlIconInfo)
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlIconInfo)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQmlBackgroundInfo)
+    QEXT_DECLARE_PRIVATE_D(dd_ptr, QExtQmlBackgroundInfo)
 };
 
-#endif // _QEXTQMLICONINFO_H
+#endif // _QEXTQMLBACKGROUNDINFO_H

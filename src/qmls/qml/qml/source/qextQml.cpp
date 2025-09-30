@@ -24,6 +24,7 @@
 
 #include <qextQml.h>
 #include <qextQmlGlobal.h>
+#include <qextQmlConstant.h>
 #include <qextQmlConfig.h>
 #include <qextQmlSizeInfo.h>
 #include <qextQmlBorderInfo.h>
@@ -31,6 +32,7 @@
 #include <qextQmlIconInfo.h>
 #include <qextQmlTextInfo.h>
 #include <qextQmlRectangleInfo.h>
+#include <qextQmlBackgroundInfo.h>
 
 #include <qextObject.h>
 #include <qextOnceFlag.h>
@@ -80,20 +82,14 @@ QString QExtQml::stateToString(int state) const
 {
     switch (state)
     {
-    case State_None:
-        return "";
-    case State_Normal:
-        return "Normal";
-    case State_Hovered:
-        return "Hovered";
-    case State_Pressed:
-        return "Pressed";
-    case State_Checked:
-        return "Checked";
-    case State_Unchecked:
-        return "Unchecked";
-    case State_PartiallyChecked:
-        return "PartiallyChecked";
+    case StateNormal:
+        return QExtQmlConstant::kStateNormal;
+    case StateHovered:
+        return QExtQmlConstant::kStateHovered;
+    case StatePressed:
+        return QExtQmlConstant::kStatePressed;
+    case StateChecked:
+        return QExtQmlConstant::kStateChecked;
     default:
         break;
     }
@@ -102,83 +98,27 @@ QString QExtQml::stateToString(int state) const
 
 int QExtQml::stateToEnum(const QString &state) const
 {
-    if (state == "")
+    if (state == QExtQmlConstant::kStateNormal)
     {
-        return State_None;
+        return StateNormal;
     }
-    else if (state == "Normal")
+    else if (state == QExtQmlConstant::kStateHovered)
     {
-        return State_Normal;
+        return StateHovered;
     }
-    else if (state == "Hovered")
+    else if (state == QExtQmlConstant::kStatePressed)
     {
-        return State_Hovered;
+        return StatePressed;
     }
-    else if (state == "Pressed")
+    else if (state == QExtQmlConstant::kStateChecked)
     {
-        return State_Pressed;
-    }
-    else if (state == "Checked")
-    {
-        return State_Checked;
-    }
-    else if (state == "Unchecked")
-    {
-        return State_Unchecked;
-    }
-    else if (state == "PartiallyChecked")
-    {
-        return State_PartiallyChecked;
+        return StateChecked;
     }
     else
     {
         return -1;
     }
 }
-
-// namespace detail
-// {
-// const QString &fontIconUrlHeader()
-// {
-//     static const QString urlHeader = "FontIcon:/";
-//     return urlHeader;
-// }
-// }
-
-// bool QExtQml::isFontIconUrl(const QString &url)
-// {
-//     return 0 == url.indexOf(detail::fontIconUrlHeader());
-// }
-
-// QExtQmlFontIconInfo QExtQml::fontIconInfoFromUrl(const QString &url)
-// {
-//     QExtQmlFontIconInfo fontIconInfo;
-//     if (0 == url.indexOf(detail::fontIconUrlHeader()))
-//     {
-//         auto content = url;
-//         content.remove(detail::fontIconUrlHeader());
-//         const QStringList contents = content.split("/");
-//         if (2 == contents.size())
-//         {
-//             fontIconInfo.setFamily(contents.at(0).toLower());
-//             fontIconInfo.setText(contents.at(1));
-//         }
-//     }
-//     return fontIconInfo;
-// }
-
-// bool QExtQml::parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo)
-// {
-//     QExtQmlFontIconInfo iconInfo = this->fontIconInfoFromUrl(url);
-//     fontIconInfo->setFamily(iconInfo.family());
-//     fontIconInfo->setText(iconInfo.text());
-//     return true;
-// }
-
-// QString QExtQml::fontIconUrl(const QString &family, const QString &key)
-// {
-//     return QString("FontIcon:/%1/%2").arg(family, key);
-// }
 
 QString QExtQml::qtVersion() const
 {
@@ -229,6 +169,7 @@ void QExtQml::registerTypes(const char *url)
             qmlRegisterType<QExtQmlBorderInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorderInfo");
             qmlRegisterType<QExtQmlPaddingInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPaddingInfo");
             qmlRegisterType<QExtQmlRectangleInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlRectangleInfo");
+            qmlRegisterType<QExtQmlBackgroundInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBackgroundInfo");
 
             qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");

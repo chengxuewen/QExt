@@ -10,25 +10,31 @@ QExtQuickButtonArea {
     checkable: true
     width: 120
     height: 40
-    // width:  contentLoader.width  + padding;
-    // height: contentLoader.height + padding;
 
     property int spacing: 5
     property int padding: 10
     readonly property int textWidth: width - padding * 2 - spacing - icon.width
     readonly property int textHeight: height - padding * 2
+    readonly property alias implicitTextWidth: mContentLoader.implicitTextWidth
+    readonly property alias implicitTextHeight: mContentLoader.implicitTextHeight
     readonly property int implicitWidth: mContentLoader.implicitTextWidth + padding * 2 + spacing + icon.width + 1
     readonly property int implicitHeight: mContentLoader.implicitTextHeight + padding * 2
 
     property int groupIndex: -1;
 
     property alias theme: mTheme
+
     property alias icon: mIconInfo
+    property alias checkedIcon: mCheckedIconInfo
+    property int iconPosition: QExtQml.PositionLeft
+
     property alias content: mTextInfo
     property alias text: mTextInfo.text
+    property alias font: mTextInfo.font
+    property alias color: mTextInfo.color
+
     property alias border: mBackground.border
     property alias background: mBackgroundInfo
-    property alias checkedIcon: mIconCheckedInfo
 
     property Component mIconComponent;
 
@@ -41,17 +47,7 @@ QExtQuickButtonArea {
         return mFontIconComponent;
     }
 
-    state: {
-        if(!enabled){
-            return "disabled";
-        }
-        else if(checked){
-            return "checked"
-        }
-        return "none";
-    }
-
-    QExtQmlRectangleInfo {
+    QExtQmlBackgroundInfo {
         id: mBackgroundInfo
         color: "#ECF5FF"
         visible: false
@@ -68,16 +64,14 @@ QExtQuickButtonArea {
         id: mIconInfo
         width: 18
         height: 18
-        // type:   TIconType.Awesome;
         source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_circle_o)
         color: mControl.enabled ? "#46A0FC" : "#9D9D9D"
     }
 
     QExtQmlIconInfo {
-        id: mIconCheckedInfo
+        id: mCheckedIconInfo
         width: 18
         height: 18
-        // type:   TIcosnType.Awesome;
         source: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_dot_circle_o)
         color: mControl.enabled ? "#46A0FC" : "#9D9D9D"
     }
@@ -108,7 +102,7 @@ QExtQuickButtonArea {
         id: mContentRowLayoutComponent
         Row {
             spacing: mControl.spacing
-            // layoutDirection: mControl.iconPosition === TPosition.Left ? Qt.LeftToRight : Qt.RightToLeft;
+            layoutDirection: mControl.iconPosition === QExtQml.PositionLeft ? Qt.LeftToRight : Qt.RightToLeft;
 
             Loader {
                 id:icon
@@ -148,10 +142,10 @@ QExtQuickButtonArea {
         QExtQuickFontIcon {
             enabled: false
             theme.enabled: false
-            color: !checked ? mIconInfo.color  : mIconCheckedInfo.color
-            width: !checked ? mIconInfo.width  : mIconCheckedInfo.width
-            height: !checked ? mIconInfo.height : mIconCheckedInfo.height
-            source: !checked ? mIconInfo.source : mIconCheckedInfo.source
+            color: !checked ? mIconInfo.color  : mCheckedIconInfo.color
+            width: !checked ? mIconInfo.width  : mCheckedIconInfo.width
+            height: !checked ? mIconInfo.height : mCheckedIconInfo.height
+            source: !checked ? mIconInfo.source : mCheckedIconInfo.source
         }
     }
 
@@ -160,10 +154,10 @@ QExtQuickButtonArea {
         QExtQuickSvgIcon {
             enabled: false
             theme.enabled: false
-            color: !checked ? mIconInfo.color  : mIconCheckedInfo.color
-            width: !checked ? mIconInfo.width  : mIconCheckedInfo.width
-            height: !checked ? mIconInfo.height : mIconCheckedInfo.height
-            source: !checked ? mIconInfo.source : mIconCheckedInfo.source
+            color: !checked ? mIconInfo.color  : mCheckedIconInfo.color
+            width: !checked ? mIconInfo.width  : mCheckedIconInfo.width
+            height: !checked ? mIconInfo.height : mCheckedIconInfo.height
+            source: !checked ? mIconInfo.source : mCheckedIconInfo.source
         }
     }
 
@@ -181,9 +175,9 @@ QExtQuickButtonArea {
 
         QExtQmlThemeBinder {
             childName: "icon.checked"
-            property alias color:  mIconCheckedInfo.color
-            property alias width:  mIconCheckedInfo.width
-            property alias height: mIconCheckedInfo.height
+            property alias color:  mCheckedIconInfo.color
+            property alias width:  mCheckedIconInfo.width
+            property alias height: mCheckedIconInfo.height
         }
 
         Component.onCompleted: initialize();

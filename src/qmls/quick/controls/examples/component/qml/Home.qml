@@ -3,10 +3,10 @@ import QtQuick.Controls 2.12
 
 Item {
 
-    Column{
+    Column {
         spacing: 30
         anchors.centerIn: parent
-        Label{
+        Label {
             text: "Hello QExtQuickControls"
             font.pixelSize: 30
             font.bold: true

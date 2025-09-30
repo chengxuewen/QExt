@@ -79,60 +79,6 @@ QQuickWindow *QExtQuickControls::rootWindow() const
     return d->mRootWindow.data();
 }
 
-QString QExtQuickControls::buttonStateToString(int state) const
-{
-    switch (state)
-    {
-    case ButtonStateNormal:
-        return QExtQuickControlsConstant::kButtonStateNormal;
-    case ButtonStateDisabled:
-        return QExtQuickControlsConstant::kButtonStateDisabled;
-    case ButtonStateHovered:
-        return QExtQuickControlsConstant::kButtonStateHovered;
-    case ButtonStatePressed:
-        return QExtQuickControlsConstant::kButtonStatePressed;
-    case ButtonStateChecked:
-        return QExtQuickControlsConstant::kButtonStateChecked;
-    case ButtonStateUnchecked:
-        return QExtQuickControlsConstant::kButtonStateUnchecked;
-    default:
-        break;
-    }
-    return "";
-}
-
-int QExtQuickControls::buttonStateToEnum(const QString &state) const
-{
-    if (state == QExtQuickControlsConstant::kButtonStateNormal)
-    {
-        return ButtonStateNormal;
-    }
-    else if (state == QExtQuickControlsConstant::kButtonStateDisabled)
-    {
-        return ButtonStateDisabled;
-    }
-    else if (state == QExtQuickControlsConstant::kButtonStateHovered)
-    {
-        return ButtonStateHovered;
-    }
-    else if (state == QExtQuickControlsConstant::kButtonStatePressed)
-    {
-        return ButtonStatePressed;
-    }
-    else if (state == QExtQuickControlsConstant::kButtonStateChecked)
-    {
-        return ButtonStateChecked;
-    }
-    else if (state == QExtQuickControlsConstant::kButtonStateUnchecked)
-    {
-        return ButtonStateUnchecked;
-    }
-    else
-    {
-        return -1;
-    }
-}
-
 void QExtQuickControls::initQuickRoot(QQuickWindow *rootWindow)
 {
     Q_D(QExtQuickControls);
@@ -202,10 +148,14 @@ void QExtQuickControls::registerTypes(const char *url)
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCheckBox.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickCheckBox");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickDividerLine.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickDividerLine");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickFontIcon.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontIcon");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIconButton.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconButton");
+            qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickInputField.qml"),
+                            QEXT_QML_MODULE_URI, major, minor, "QExtQuickInputField");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRadioBox.qml"),
                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickRadioBox");
             qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRadioBoxGroup.qml"),
