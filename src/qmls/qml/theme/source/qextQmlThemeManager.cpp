@@ -34,6 +34,7 @@
 #include <QMutexLocker>
 #include <QQmlComponent>
 #include <QQmlEngine>
+#include <QThread>
 #include <QTimer>
 #include <QDir>
 #include <QFile>
@@ -60,7 +61,6 @@ public:
     QScopedPointer<QExtQmlThemeFileParser> mThemeFileParser;
     QMap<QString, QExtQmlThemeHandler *> mThemeNameToHandlerMap;
     bool mGenerateThemeTemplateEnable;
-    QExtQmlThemePalette mPalette;
     QString mStartupThemeName;
     QString mCurrentThemeName;
     QString mLastErrorString;
@@ -181,12 +181,6 @@ bool QExtQmlThemeManager::addTheme(const QString &path)
     return true;
 }
 
-QExtQmlThemePalette *QExtQmlThemeManager::palette()
-{
-    Q_D(QExtQmlThemeManager);
-    return &d->mPalette;
-}
-
 QVariantList QExtQmlThemeManager::themeList() const
 {
     Q_D(const QExtQmlThemeManager);
@@ -274,9 +268,10 @@ void QExtQmlThemeManager::registerTypes(const char *url)
         int minor = QEXT_VERSION_MINOR;
 
         qmlRegisterType<QExtQmlThemeBinder>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemeBinder");
-        qmlRegisterType<QExtQmlThemePalette>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemePalette");
         qmlRegisterSingletonType<QExtQmlThemeManager>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemeManager",
                                                       QExtQmlThemeManager::create);
+        qmlRegisterSingletonType<QExtQmlThemePalette>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlThemePalette",
+                                                      QExtQmlThemePalette::create);
         onceFlag.leave();
     }
 }

@@ -1,8 +1,8 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQml.FontIcon 1.3
-import QExtQuick.Controls 1.3
+import QExtQml.FontIcon 1.4
+import QExtQuick.Controls 1.4
 
 Rectangle {
     id: root

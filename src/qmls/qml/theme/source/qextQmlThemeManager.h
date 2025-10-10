@@ -26,7 +26,6 @@
 #define _QEXTQMLTHEMEMANAGER_H
 
 #include <qextQmlThemeGlobal.h>
-#include <qextQmlThemePalette.h>
 #include <qextQmlSingleton.h>
 
 #include <QObject>
@@ -44,15 +43,12 @@ class QEXT_QMLTHEME_API QExtQmlThemeManager : public QExtQmlModuleSingleton<QExt
     Q_PROPERTY(bool currentThemeValid READ isCurrentThemeValid NOTIFY currentThemeValidChanged)
     Q_PROPERTY(QVariantList themeList READ themeList NOTIFY themeListChanged)
     Q_PROPERTY(QString currentTheme READ currentTheme WRITE setCurrentTheme NOTIFY currentThemeChanged)
-    Q_PROPERTY(QExtQmlThemePalette* palette READ palette CONSTANT)
 
 public:
     bool isGenerateThemeTemplateEnable() const;
     bool isCurrentThemeValid() const;
     bool addThemeDir(const QString &themDir);
     bool addTheme(const QString &path);
-
-    QExtQmlThemePalette *palette();
 
     QVariantList themeList() const;
     QString currentTheme() const;

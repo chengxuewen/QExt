@@ -7,7 +7,7 @@
 #include <QQmlEngine>
 
 template <typename T>
-class QExtQmlSingleton : public QExtObjectSingleton<T>
+class QExtQmlSingleton : public QExtSingleton<T>
 {
 public:
     Q_INVOKABLE virtual QString version() const = 0;
@@ -17,7 +17,13 @@ protected:
 };
 
 template <typename T>
-class QExtQmlModuleSingleton : public QExtQmlSingleton<T>
+class QExtQmlObjectSingleton : public QObject, public QExtQmlSingleton<T>
+{
+    QEXT_DECLARE_OBJECT_SINGLETON()
+};
+
+template <typename T>
+class QExtQmlModuleSingleton : public QExtQmlObjectSingleton<T>
 {
 public:
     virtual void registerTypes(const char *uri = nullptr) = 0;
@@ -26,14 +32,15 @@ public:
 
 #define QEXT_DECLARE_QML_SINGLETON(CLASS) \
     public: \
-        static QEXT_QML_SINGLETON_TYPE(CLASS) *create(QQmlEngine *engine, QJSEngine *scriptEngine) { \
-            CLASS::instance()->onQmlCreated(engine, scriptEngine); \
-            return CLASS::instance(); \
-        } \
+    static QEXT_QML_SINGLETON_TYPE(CLASS) *create(QQmlEngine *engine, QJSEngine *scriptEngine) { \
+        CLASS::instance()->onQmlCreated(engine, scriptEngine); \
+        return CLASS::instance(); \
+    } \
     private: \
-        Q_PROPERTY(QString version READ version CONSTANT FINAL) \
-        QEXT_DECLARE_SINGLETON(CLASS) \
-        QEXT_QML_SINGLETON() \
-        QEXT_QML_ELEMENT()
+    Q_PROPERTY(QString version READ version CONSTANT FINAL) \
+    QEXT_DECLARE_OBJECT_SINGLETON() \
+    QEXT_DECLARE_SINGLETON(CLASS) \
+    QEXT_QML_SINGLETON() \
+    QEXT_QML_ELEMENT()
 
 #endif // _QEXTQMLSINGLETON_H

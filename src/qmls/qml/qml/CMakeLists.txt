@@ -73,6 +73,8 @@ qext_add_qml_module(Qml
     source/qextQmlGlobal.h
     source/qextQmlInitializer.cpp
     source/qextQmlInitializer.h
+    source/qextQmlPalette.cpp
+    source/qextQmlPalette.h
     source/qextQmlRegistration.h
     source/qextQmlSingleton.h
     qextQml.qrc

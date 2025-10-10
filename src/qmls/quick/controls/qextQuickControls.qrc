@@ -28,5 +28,8 @@
         <file>qml/QExtQuickDividerLine.qml</file>
         <file>qml/QExtQuickToast.qml</file>
         <file>qml/QExtQuickGlobalToast.qml</file>
+        <file>qml/QExtQuickCollapseElement.qml</file>
+        <file>qml/QExtQuickCollapse.qml</file>
+        <file>qml/QExtQuickIcon.qml</file>
     </qresource>
 </RCC>

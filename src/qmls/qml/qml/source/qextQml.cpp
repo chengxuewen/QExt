@@ -32,6 +32,7 @@
 #include <qextQmlPaddingInfo.h>
 #include <qextQmlIconInfo.h>
 #include <qextQmlTextInfo.h>
+#include <qextQmlPalette.h>
 #include <qextQmlRectangleInfo.h>
 #include <qextQmlBackgroundInfo.h>
 
@@ -188,6 +189,7 @@ void QExtQml::registerTypes(const char *url)
 
         qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml", QExtQml::create);
 
+        qmlRegisterType<QExtQmlPalette>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPalette");
         qmlRegisterType<QExtQmlInitializer>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlInitializer");
 
         qmlRegisterType<QExtQmlSizeInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlSizeInfo");

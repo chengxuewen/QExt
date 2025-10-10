@@ -137,10 +137,16 @@ void QExtQuickControls::registerTypes(const char *url)
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickButtonArea");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCheckBox.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickCheckBox");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCollapse.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickCollapse");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickCollapseElement.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickCollapseElement");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickDividerLine.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickDividerLine");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickFontIcon.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontIcon");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIcon.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickIcon");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickIconButton.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconButton");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickInputField.qml"),

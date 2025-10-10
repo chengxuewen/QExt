@@ -119,12 +119,14 @@ template <typename T> QExtOnceFlag QExtSingleton<T>::mOnceFlag;
 template <typename T> T* QExtSingleton<T>::mInstance = QEXT_NULLPTR;
 template <typename T> QScopedPointer<T, QExtSingletonScopedPointerDeleter<T> > QExtSingleton<T>::mScoped(QEXT_NULLPTR);
 
+#define QEXT_DECLARE_OBJECT_SINGLETON() \
+    private: \
+        void setParent(QObject *parent) { QObject::setParent(parent); }
 
 template <typename T>
 class QExtObjectSingleton : public QObject, public QExtSingleton<T>
 {
-private:
-    void setParent(QObject *parent) { QObject::setParent(parent); }
+    QEXT_DECLARE_OBJECT_SINGLETON()
 };
 
 QEXT_WARNING_POP

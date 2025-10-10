@@ -1,10 +1,10 @@
 #include "palettetablemodel.h"
-#include <qextQmlThemeManager.h>
+#include <qextQmlThemePalette.h>
 
 PaletteTableModel::PaletteTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    mPalette = QExtQmlThemeManager::instance()->palette();
+    mPalette = QExtQmlThemePalette::instance();
 }
 
 QVariant PaletteTableModel::data(const QModelIndex &index, int role) const
