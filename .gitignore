@@ -79,3 +79,5 @@ build
 .idea
 .vscode
 cmake-build-debug
+
+3rdparty/maplibre-native-qt

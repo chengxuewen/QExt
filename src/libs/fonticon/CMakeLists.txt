@@ -48,7 +48,7 @@ qext_add_library(FontIcon
     source/qextFontAwesome.cpp
     source/qextFontAwesome.h
     source/qextFontIconGlobal.h
-    resources/qextFontIcon.qrc
+    qextFontIcon.qrc
     PRECOMPILED_HEADER
     source/qextFontIconPch.h
     PUBLIC_LIBRARIES

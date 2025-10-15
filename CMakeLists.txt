@@ -477,6 +477,8 @@ qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" O
 qext_option(QEXT_ENABLE_LIB_BREAKPAD "Enable this to build the breakpad lib" OFF
     DEPENDS WIN32 OR UNIX OR APPLE
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_MAP "Enable this to build the map lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_MEDIA "Enable this to build the media lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
