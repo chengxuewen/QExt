@@ -1,4 +1,5 @@
 ﻿#include <qextCommonUtils.h>
+#include <qextDateTimeUtils.h>
 #include <qextConcurrent.h>
 #include <qextOnceFlag.h>
 
@@ -127,6 +128,13 @@ QString QExtCommonUtils::executablePath()
     }
     return buf.data();
 #endif
+}
+
+QString QExtCommonUtils::defaultCrasheDumpLocation(const char *version)
+{
+    const QString versionName = version ? version + QString("/") : "";
+    return QExtCommonUtils::writableLocation(QStandardPaths::AppDataLocation) + "/crashes/" + versionName +
+           QExtDateTimeUtils::localTimeTrimedStringFromSecsSinceEpoch();
 }
 
 namespace detail

@@ -63,35 +63,81 @@ qint64 QExtDateTimeUtils::nsecsTimeSinceEpoch()
 #endif
 }
 
-QString QExtDateTimeUtils::localTimeStringFromSecsSinceEpoch(qint64 secs)
+namespace internal
 {
-    secs = secs > 0 ? secs : secsTimeSinceEpoch();
+QString localTimeStringFromSecsSinceEpoch(bool trimed, qint64 secs)
+{
+    secs = secs > 0 ? secs : QExtDateTimeUtils::secsTimeSinceEpoch();
 #if QEXT_CC_CPP11_OR_GREATER
     std::chrono::seconds seconds(secs);
     std::chrono::system_clock::time_point timePoint(seconds);
     std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
     std::tm *localTime = std::localtime(&time);
     std::stringstream ss;
-    ss << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
+    ss << std::put_time(localTime, trimed ? "%Y%m%d%H%M%S" : "%Y-%m-%d %H:%M:%S");
     return QString::fromStdString(ss.str());
 #else
-    return QDateTime::fromSecsSinceEpoch(secs).toString("yyyy-MM-dd hh:mm:ss");
+    return QDateTime::fromSecsSinceEpoch(secs).toString(trimed ? "yyyyMMddhhmmss" : "yyyy-MM-dd hh:mm:ss");
 #endif
 }
-
-QString QExtDateTimeUtils::localTimeStringFromMSecsSinceEpoch(qint64 msecs)
+QString localTimeStringFromMSecsSinceEpoch(bool trimed, qint64 msecs)
 {
-    msecs = msecs > 0 ? msecs : msecsTimeSinceEpoch();
+    msecs = msecs > 0 ? msecs : QExtDateTimeUtils::msecsTimeSinceEpoch();
 #if QEXT_CC_CPP11_OR_GREATER
     std::chrono::milliseconds milliseconds(msecs);
     std::chrono::system_clock::time_point timePoint(milliseconds);
     std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
     std::tm *localTime = std::localtime(&time);
     std::stringstream ss;
-    ss << std::put_time(localTime, "%Y-%m-%d %H:%M:%S")
+    ss << std::put_time(localTime, trimed ? "%Y%m%d%H%M%S" : "%Y-%m-%d %H:%M:%S")
        << '.' << std::setfill('0') << std::setw(3) << (milliseconds.count() % 1000);
     return QString::fromStdString(ss.str());
 #else
-    return QDateTime::fromMSecsSinceEpoch(msecs).toString("yyyy-MM-dd hh:mm:ss.zzz");
+    return QDateTime::fromMSecsSinceEpoch(msecs).toString(trimed ? "yyyyMMddhhmmss.zzz" : "yyyy-MM-dd hh:mm:ss.zzz");
 #endif
+}
+} // namespace internal
+QString QExtDateTimeUtils::localTimeStringFromSecsSinceEpoch(qint64 secs)
+{
+    return internal::localTimeStringFromSecsSinceEpoch(false, secs);
+//     secs = secs > 0 ? secs : secsTimeSinceEpoch();
+// #if QEXT_CC_CPP11_OR_GREATER
+//     std::chrono::seconds seconds(secs);
+//     std::chrono::system_clock::time_point timePoint(seconds);
+//     std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
+//     std::tm *localTime = std::localtime(&time);
+//     std::stringstream ss;
+//     ss << std::put_time(localTime, "%Y-%m-%d %H:%M:%S");
+//     return QString::fromStdString(ss.str());
+// #else
+//     return QDateTime::fromSecsSinceEpoch(secs).toString("yyyy-MM-dd hh:mm:ss");
+// #endif
+}
+
+QString QExtDateTimeUtils::localTimeStringFromMSecsSinceEpoch(qint64 msecs)
+{
+    return internal::localTimeStringFromMSecsSinceEpoch(false, msecs);
+//     msecs = msecs > 0 ? msecs : msecsTimeSinceEpoch();
+// #if QEXT_CC_CPP11_OR_GREATER
+//     std::chrono::milliseconds milliseconds(msecs);
+//     std::chrono::system_clock::time_point timePoint(milliseconds);
+//     std::time_t time = std::chrono::system_clock::to_time_t(timePoint);
+//     std::tm *localTime = std::localtime(&time);
+//     std::stringstream ss;
+//     ss << std::put_time(localTime, "%Y-%m-%d %H:%M:%S")
+//        << '.' << std::setfill('0') << std::setw(3) << (milliseconds.count() % 1000);
+//     return QString::fromStdString(ss.str());
+// #else
+//     return QDateTime::fromMSecsSinceEpoch(msecs).toString("yyyy-MM-dd hh:mm:ss.zzz");
+// #endif
+}
+
+QString QExtDateTimeUtils::localTimeTrimedStringFromSecsSinceEpoch(qint64 secs)
+{
+    return internal::localTimeStringFromSecsSinceEpoch(true, secs);
+}
+
+QString QExtDateTimeUtils::localTimeTrimedStringFromMSecsSinceEpoch(qint64 msecs)
+{
+    return internal::localTimeStringFromMSecsSinceEpoch(true, msecs);
 }

@@ -119,7 +119,6 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
     if (!reporterPath.isEmpty())
     {
         QExtBreakpadHandlerPrivate *data = static_cast<QExtBreakpadHandlerPrivate *>(context);
-        fprintf(stderr, "Start run %s!\n", reporterPath.toLatin1().data());
         QProcess process;
         process.setProgram(reporterPath);
         QStringList arguments;
@@ -130,6 +129,13 @@ bool DumpCallback(const google_breakpad::MinidumpDescriptor &descriptor,
         arguments.append(QString("--time=%1").arg(data->mReporterAutoCloseTime));
         arguments.append(QString("--app=%1").arg(applicationName));
         arguments.append(QString("--path=%1").arg(path));
+        QString argumentsString;
+        for (QStringList::ConstIterator iter = arguments.cbegin(); iter != arguments.cend(); ++iter)
+        {
+            argumentsString.append("\t").append(*iter).append("\n");
+        }
+        fprintf(stderr, "Start run %s width args:\n%s",
+                reporterPath.toLatin1().data(), argumentsString.toLatin1().data());
         process.setArguments(arguments);
         process.startDetached();
     }

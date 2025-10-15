@@ -10,7 +10,7 @@ template <typename T>
 class QExtQmlSingleton : public QExtSingleton<T>
 {
 public:
-    Q_INVOKABLE virtual QString version() const = 0;
+    Q_INVOKABLE virtual QString version() const { return ""; }
 
 protected:
     virtual void onQmlCreated(QQmlEngine */*engine*/, QJSEngine */*scriptEngine*/) { }
@@ -33,6 +33,7 @@ public:
 #define QEXT_DECLARE_QML_SINGLETON(CLASS) \
     public: \
     static QEXT_QML_SINGLETON_TYPE(CLASS) *create(QQmlEngine *engine, QJSEngine *scriptEngine) { \
+        QQmlEngine::setObjectOwnership(CLASS::instance(), QQmlEngine::CppOwnership); \
         CLASS::instance()->onQmlCreated(engine, scriptEngine); \
         return CLASS::instance(); \
     } \

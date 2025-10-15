@@ -16,6 +16,8 @@ public:
     static QString executableDir();
     static QString executablePath();
 
+    static QString defaultCrasheDumpLocation(const char *version = QEXT_NULLPTR);
+
     static QString defaultDataLocation();
     static void setDefaultDataLocation(const QString &path);
 

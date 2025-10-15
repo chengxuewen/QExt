@@ -78,7 +78,6 @@ QExtQml::QExtQml()
 
 QExtQml::~QExtQml()
 {
-    int i = 0;
 }
 
 QString QExtQml::stateToString(int state) const

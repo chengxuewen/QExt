@@ -14,12 +14,8 @@ Window {
     //        root.showNormal()
     //    }
 
-    QExtQuickBorderGadget {
-
-    }
 
     QExtQuickButton {
-        textColor: "Red"
         anchors.centerIn: parent
     }
 

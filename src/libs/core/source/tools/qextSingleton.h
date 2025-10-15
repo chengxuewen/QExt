@@ -99,8 +99,15 @@ private:
         QObject *object = dynamic_cast<QObject *>(mInstance);
         if (object)
         {
-            object->moveToThread(qApp->thread());
-            object->setParent(qApp);
+            if (qApp)
+            {
+                object->moveToThread(qApp->thread());
+                object->setParent(qApp);
+            }
+            else
+            {
+                qWarning() << "WARN:init object singleton before qApp construct!";
+            }
         }
         else
         {

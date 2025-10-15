@@ -41,9 +41,6 @@ else()
 endif()
 
 list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
-# if(QEXT_ENABLE_LIB_WIDGETS)
-#     list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Widgets)
-# endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
