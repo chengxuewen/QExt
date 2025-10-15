@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDateTime>
 #include <QDebug>
+#include <QFile>
 
 #ifdef QEXT_ENABLE_LIB_WIDGETS
 #   include <qextStyleThemes.h>
@@ -18,6 +19,12 @@
 
 int main(int argc, char *argv[])
 {
+    if (!QFile::exists(QCoreApplication::applicationDirPath() + "/qt.conf"))
+    {
+        QCoreApplication::addLibraryPath(QEXT_QT_KIT_DIR + QString("/plugins"));
+        qDebug() << "libraryPaths:" << QCoreApplication::libraryPaths();
+    }
+
     QCoreApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

@@ -73,7 +73,6 @@ if(QExtWrapBreakpad_PKG_SOURCE)
         if(NOT EXISTS ${QExtWrapBreakpad_SOURCE_DIR})
             message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} FetchContent failed.")
         endif()
-        message(QExtWrapBreakpad_PKG_SOURCE=${QExtWrapBreakpad_PKG_SOURCE})
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapBreakpad_BUILD_DIR}
             WORKING_DIRECTORY "${QExtWrapBreakpad_ROOT_DIR}"
@@ -81,33 +80,54 @@ if(QExtWrapBreakpad_PKG_SOURCE)
         if(NOT (MKDIR_RESULT MATCHES 0))
             message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} lib build directory make failed.")
         endif()
-        execute_process(
-            COMMAND ./configure --prefix=${QExtWrapBreakpad_INSTALL_DIR}
-            WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
-            RESULT_VARIABLE CONFIGURE_RESULT)
-        if(CONFIGURE_RESULT MATCHES 0)
-            message(STATUS "${QExtWrapBreakpad_DIR_NAME} configure success")
+        message(STATUS "${QExtWrapBreakpad_DIR_NAME} build directory: ${QExtWrapBreakpad_BUILD_DIR}")
+        if (ON)
+            list(APPEND QExtWrapBreakpad_mkbuildcontents "#!/bin/bash\n\n")
+            file(WRITE "${QExtWrapBreakpad_BUILD_DIR}/mkbuild.sh"
+                "#!/bin/bash\n\n"
+                "cd ${QExtWrapBreakpad_BUILD_DIR}\n"
+                "./configure --prefix=${QExtWrapBreakpad_INSTALL_DIR}\n"
+                "make -j${QEXT_NUMBER_OF_ASYNC_JOBS} & make install\n")
             execute_process(
-                COMMAND make -j${QEXT_NUMBER_OF_ASYNC_JOBS}
+                COMMAND bash ./mkbuild.sh
                 WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
-                RESULT_VARIABLE BUILD_RESULT)
-            if(BUILD_RESULT MATCHES 0)
-                message(STATUS "${QExtWrapBreakpad_DIR_NAME} build success")
-                execute_process(
-                    COMMAND make install
-                    WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
-                    RESULT_VARIABLE INSTALL_RESULT)
-                if(BUILD_RESULT MATCHES 0)
-                    message(STATUS "${QExtWrapBreakpad_DIR_NAME} install success")
-                    qext_make_stamp_file("${QExtWrapBreakpad_STAMP_FILE_PATH}")
-                else()
-                    message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} install failed.")
-                endif()
+                RESULT_VARIABLE CONFIGURE_RESULT)
+            if(CONFIGURE_RESULT MATCHES 0)
+                message(STATUS "${QExtWrapBreakpad_DIR_NAME} configure & build install success")
+                qext_make_stamp_file("${QExtWrapBreakpad_STAMP_FILE_PATH}")
             else()
-                message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} build failed.")
+                message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} configure & build install failed.")
             endif()
         else()
-            message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} configure failed.")
+            execute_process(
+                COMMAND bash ./mkbuild.sh
+                # COMMAND ./configure --prefix=${QExtWrapBreakpad_INSTALL_DIR}
+                WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
+                RESULT_VARIABLE CONFIGURE_RESULT)
+            if(CONFIGURE_RESULT MATCHES 0)
+                message(STATUS "${QExtWrapBreakpad_DIR_NAME} configure success")
+                execute_process(
+                    COMMAND make -j${QEXT_NUMBER_OF_ASYNC_JOBS}
+                    WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
+                    RESULT_VARIABLE BUILD_RESULT)
+                if(BUILD_RESULT MATCHES 0)
+                    message(STATUS "${QExtWrapBreakpad_DIR_NAME} build success")
+                    execute_process(
+                        # COMMAND make install
+                        WORKING_DIRECTORY "${QExtWrapBreakpad_BUILD_DIR}"
+                        RESULT_VARIABLE INSTALL_RESULT)
+                    if(BUILD_RESULT MATCHES 0)
+                        message(STATUS "${QExtWrapBreakpad_DIR_NAME} install success")
+                        qext_make_stamp_file("${QExtWrapBreakpad_STAMP_FILE_PATH}")
+                    else()
+                        message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} install failed.")
+                    endif()
+                else()
+                    message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} build failed.")
+                endif()
+            else()
+                message(FATAL_ERROR "${QExtWrapBreakpad_DIR_NAME} configure failed.")
+            endif()
         endif()
     endif()
     find_package(PkgConfig REQUIRED)
@@ -146,10 +166,6 @@ else()
                 "${QExtWrapBreakpad_INSTALL_DIR}/lib/liblibbreakpad_client.a"
                 "${QExtWrapBreakpad_INSTALL_DIR}/lib/liblibdisasm.a")
         endif()
-        if(EXISTS "${QExtWrapBreakpad_INSTALL_DIR}/bin")
-            execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory "${QExtWrapBreakpad_INSTALL_DIR}/bin"
-                "${QEXT_BUILD_DIR}/${QEXT_DEFAULT_LIBEXEC}")
-        endif()
     endif()
     set_target_properties(QExt3rdparty::WrapBreakpad PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES
@@ -162,5 +178,8 @@ if(APPLE)
     # without c++11 & AppKit library compiler can't solve address for symbols
     target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE "-framework AppKit")
 endif()
-
+if(EXISTS "${QExtWrapBreakpad_INSTALL_DIR}/bin")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory "${QExtWrapBreakpad_INSTALL_DIR}/bin"
+        "${QEXT_BUILD_DIR}/${QEXT_DEFAULT_LIBEXEC}")
+endif()
 set(QExtWrapBreakpad_FOUND ON)
