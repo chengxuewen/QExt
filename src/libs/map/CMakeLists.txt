@@ -129,8 +129,8 @@ else()
         QExt3rdparty::WrapQMapLibre)
 endif()
 if(LINUX OR ANDROID)
-    qext_find_package(WrapOpenSSL3 PROVIDED_TARGETS QExt3rdparty::WrapOpenSSL3)
-    qext_internal_extend_target(${QEXT_LIB_NAME} PUBLIC_LIBRARIES QExt3rdparty::WrapOpenSSL3)
+    qext_find_package(WrapOpenSSL PROVIDED_TARGETS QExt3rdparty::WrapOpenSSL)
+    qext_internal_extend_target(${QEXT_LIB_NAME} PUBLIC_LIBRARIES QExt3rdparty::WrapOpenSSL)
 endif()
 
 

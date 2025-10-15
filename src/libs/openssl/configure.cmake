@@ -1,8 +1,8 @@
-﻿########################################################################################################################
+########################################################################################################################
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2025 ChengXueWen.
 #
 # License: MIT License
 #
@@ -20,23 +20,3 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
-
-add_subdirectory(core)
-qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
-qext_add_subdirectory(widgets QEXT_ENABLE_LIB_WIDGETS)
-qext_add_subdirectory(auth QEXT_ENABLE_LIB_AUTH)
-qext_add_subdirectory(plot QEXT_ENABLE_LIB_PLOT)
-qext_add_subdirectory(map QEXT_ENABLE_LIB_MAP)
-qext_add_subdirectory(media QEXT_ENABLE_LIB_MEDIA)
-qext_add_subdirectory(openssl QEXT_ENABLE_LIB_OPENSSL)
-qext_add_subdirectory(logging QEXT_ENABLE_LIB_LOGGING)
-qext_add_subdirectory(serialport QEXT_ENABLE_LIB_SERIALPORT)
-qext_add_subdirectory(daview QEXT_ENABLE_LIB_DAVIEW)
-qext_add_subdirectory(patterns QEXT_ENABLE_LIB_PATTERNS)
-qext_add_subdirectory(fonticon QEXT_ENABLE_LIB_FONTICON)
-qext_add_subdirectory(keyboard QEXT_ENABLE_LIB_KEYBOARD)
-qext_add_subdirectory(graphics QEXT_ENABLE_LIB_GRAPHICS)
-qext_add_subdirectory(breakpad QEXT_ENABLE_LIB_BREAKPAD)
-qext_add_subdirectory(blueprint QEXT_ENABLE_LIB_BLUEPRINT)
-qext_add_subdirectory(recordplay QEXT_ENABLE_LIB_RECORDPLAY)
-qext_add_subdirectory(devicewatcher QEXT_ENABLE_LIB_DEVICEWATCHER)
