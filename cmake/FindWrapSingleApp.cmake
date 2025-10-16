@@ -28,8 +28,8 @@ if(TARGET QExt3rdparty::WrapSingleApp)
     return()
 endif()
 
-set(QExtWrapSingleApp_DIR_NAME "SingleApplication-3.5.3")
-set(QExtWrapSingleApp_URL_NAME "SingleApplication-3.5.3.tar.gz")
+set(QExtWrapSingleApp_DIR_NAME "SingleApplication-3.5.4")
+set(QExtWrapSingleApp_URL_NAME "${QExtWrapSingleApp_DIR_NAME}.tar.gz")
 set(QExtWrapSingleApp_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapSingleApp_URL_NAME}")
 set(QExtWrapSingleApp_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}")
 set(QExtWrapSingleApp_SOURCE_DIR "${QExtWrapSingleApp_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
@@ -53,6 +53,7 @@ if(NOT EXISTS ${QExtWrapSingleApp_STAMP_FILE_PATH})
         COMMAND ${CMAKE_COMMAND}
         -G${CMAKE_GENERATOR}
         -DSINGLEAPPLICATION_INSTALL=ON
+        -DQT_DEFAULT_MAJOR_VERSION=${QT_VERSION_MAJOR}
         -DQAPPLICATION_CLASS=FreeStandingSingleApplication
         -DCMAKE_INSTALL_INCLUDEDIR=include
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

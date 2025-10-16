@@ -8,6 +8,7 @@
 #ifdef QEXT_ENABLE_LIB_WIDGETS
 #   include <qextStyleThemes.h>
 #endif
+#include <qextCommonUtils.h>
 
 #include "mainwindow.h"
 
@@ -19,7 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (!QFile::exists(QCoreApplication::applicationDirPath() + "/qt.conf"))
+    if (!QFile::exists(QExtCommonUtils::executableDir() + "/qt.conf"))
     {
         QCoreApplication::addLibraryPath(QEXT_QT_KIT_DIR + QString("/plugins"));
         qDebug() << "libraryPaths:" << QCoreApplication::libraryPaths();

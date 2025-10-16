@@ -514,7 +514,7 @@ qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty 
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5") AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
+    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
@@ -526,7 +526,7 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty q
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
-    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5") AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
+    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
@@ -848,8 +848,7 @@ if(QEXT_ENABLE_3RDPARTY_QTADS)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
-    set(QAPPLICATION_CLASS FreeStandingSingleApplication)
-    set(QExtWrapSingleApp_DIR_NAME "SingleApplication-3.5.3")
+    set(QExtWrapSingleApp_DIR_NAME "SingleApplication-3.5.4")
     set(QExtWrapSingleApp_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapSingleApp URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}.tar.gz")
     add_subdirectory(${QExtWrapSingleApp_ROOT_DIR}/source ${QExtWrapSingleApp_ROOT_DIR}/subbuild)
