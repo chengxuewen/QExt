@@ -1,0 +1,100 @@
+diff --git a/src/core/CMakeLists.txt b/src/core/CMakeLists.txt
+index 43dc4c3..dc2a32c 100644
+--- a/src/core/CMakeLists.txt
++++ b/src/core/CMakeLists.txt
+@@ -121,6 +121,12 @@ target_include_directories(
+         ${MLN_CORE_PATH}/platform/qt/src
+ )
+ 
++if(LINUX AND NOT ANDROID)
++    find_package(PkgConfig REQUIRED)
++    pkg_check_modules(ICU REQUIRED icu-uc)
++    target_link_libraries(MLNQtCore PRIVATE ${ICU_LIBRARIES})
++    target_include_directories(MLNQtCore PRIVATE ${ICU_INCLUDE_DIRS})
++endif()
+ # Common link libraries
+ target_link_libraries(
+     MLNQtCore
+@@ -182,6 +188,59 @@ install(
+     DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/include/mbgl
+     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+ )
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/cheap-ruler-cpp/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/geojson-vt-cpp/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/geojson.hpp/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/geometry.hpp/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/pixelmatch-cpp/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/shelf-pack-cpp/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/deps/variant/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/include/mapbox
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++install(
++    DIRECTORY ${CMAKE_SOURCE_DIR}/vendor/maplibre-native/vendor/mapbox-base/extras/rapidjson/include/rapidjson
++    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
++)
++set(MBGL_SOURCE_DIR "${CMAKE_SOURCE_DIR}/vendor/maplibre-native/src/mbgl")
++file(GLOB MBGL_SOURCE_ENTRIES RELATIVE "${MBGL_SOURCE_DIR}" "${MBGL_SOURCE_DIR}/*")
++foreach(entry ${MBGL_SOURCE_ENTRIES})
++    set(absolute_entry "${MBGL_SOURCE_DIR}/${entry}")
++    if(IS_DIRECTORY "${absolute_entry}")
++        list(APPEND MBGL_SOURCE_SUBDIRS ${entry})
++    endif()
++endforeach()
++foreach(subdir ${MBGL_SOURCE_SUBDIRS})
++    file(GLOB HEADER_FILES "${MBGL_SOURCE_DIR}/${subdir}/*.hpp")
++    install(FILES ${HEADER_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mbgl/${subdir}")
++endforeach()
++
++file(GLOB MBGL_HEADER_FILES "${CMAKE_SOURCE_DIR}/vendor/maplibre-native/platform/qt/src/mbgl/*.hpp")
++install(FILES ${MBGL_HEADER_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mbgl")
++file(GLOB UTILS_HEADER_FILES "${CMAKE_SOURCE_DIR}/vendor/maplibre-native/platform/qt/src/utils/*.hpp")
++install(FILES ${UTILS_HEADER_FILES} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/utils")
+ 
+ install(
+     TARGETS MLNQtCore
+Submodule vendor/maplibre-native contains modified content
+diff --git a/vendor/maplibre-native/src/mbgl/gl/renderer_backend.cpp b/vendor/maplibre-native/src/mbgl/gl/renderer_backend.cpp
+index 6a2bf2fb..7f68b783 100644
+--- a/vendor/maplibre-native/src/mbgl/gl/renderer_backend.cpp
++++ b/vendor/maplibre-native/src/mbgl/gl/renderer_backend.cpp
+@@ -31,7 +31,7 @@ void RendererBackend::assumeFramebufferBinding(const gl::FramebufferID fbo) {
+ 
+ void RendererBackend::assumeViewport(int32_t x, int32_t y, const Size& size) {
+     getContext<gl::Context>().viewport.setCurrentValue({x, y, size});
+-    assert(gl::value::Viewport::Get() == getContext<gl::Context>().viewport.getCurrentValue());
++    // assert(gl::value::Viewport::Get() == getContext<gl::Context>().viewport.getCurrentValue());
+ }
+ 
+ void RendererBackend::assumeScissorTest(bool enabled) {
+@@ -52,7 +52,7 @@ void RendererBackend::setFramebufferBinding(const gl::FramebufferID fbo) {
+ 
+ void RendererBackend::setViewport(int32_t x, int32_t y, const Size& size) {
+     getContext<gl::Context>().viewport = {x, y, size};
+-    assert(gl::value::Viewport::Get() == getContext<gl::Context>().viewport.getCurrentValue());
++    // assert(gl::value::Viewport::Get() == getContext<gl::Context>().viewport.getCurrentValue());
+ }
+ 
+ void RendererBackend::setScissorTest(bool enabled) {

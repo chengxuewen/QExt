@@ -32,19 +32,20 @@ set(QExtWrapQMapLibre_DIR_NAME "maplibre-native-qt")
 set(QExtWrapQMapLibre_URL_NAME "${QExtWrapQMapLibre_DIR_NAME}")
 set(QExtWrapQMapLibre_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQMapLibre_URL_NAME}")
 set(QExtWrapQMapLibre_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQMapLibre_DIR_NAME}")
-set(QExtWrapQMapLibre_SOURCE_DIR "${QExtWrapQMapLibre_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
+set(QExtWrapQMapLibre_SOURCE_DIR "${QExtWrapQMapLibre_URL_PATH}" CACHE INTERNAL "" FORCE)
 set(QExtWrapQMapLibre_BUILD_DIR "${QExtWrapQMapLibre_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
 set(QExtWrapQMapLibre_INSTALL_DIR "${QExtWrapQMapLibre_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
 qext_stamp_file_info(QExtWrapQMapLibre OUTPUT_DIR "${QExtWrapQMapLibre_ROOT_DIR}")
-qext_fetch_3rdparty(QExtWrapQMapLibre URL "${QExtWrapQMapLibre_URL_PATH}")
+# qext_fetch_3rdparty(QExtWrapQMapLibre URL "${QExtWrapQMapLibre_URL_PATH}")
 if(NOT EXISTS ${QExtWrapQMapLibre_STAMP_FILE_PATH})
     if(NOT EXISTS ${QExtWrapQMapLibre_SOURCE_DIR})
         message(FATAL_ERROR "${QExtWrapQMapLibre_DIR_NAME} FetchContent failed.")
     endif()
 
     execute_process(
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQMapLibre_ROOT_DIR}
         COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQMapLibre_BUILD_DIR}
-        WORKING_DIRECTORY "${QExtWrapQMapLibre_ROOT_DIR}"
+        WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/3rdparty"
         RESULT_VARIABLE MKDIR_RESULT)
     if(NOT (MKDIR_RESULT MATCHES 0))
         message(FATAL_ERROR "${QExtWrapQMapLibre_DIR_NAME} lib build directory make failed.")

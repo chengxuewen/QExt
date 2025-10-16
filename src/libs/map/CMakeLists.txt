@@ -97,16 +97,61 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextMapPch.h
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
+
+find_package(Git REQUIRED)
+if(GIT_EXECUTABLE)
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt/.git")
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" clone https://github.com/chengxuewen/maplibre-native-qt.git
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/3rdparty"
+            # OUTPUT_VARIABLE cmake_update_submodules
+            RESULT_VARIABLE CLONE_RESULT
+            COMMAND_ECHO STDOUT)
+        if(NOT (CLONE_RESULT MATCHES 0))
+            message(FATAL_ERROR "maplibre-native-qt clone failed.")
+        endif()
+    endif()
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt/vendor/maplibre-native/src")
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" submodule update --init --recursive --depth 1
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt"
+            RESULT_VARIABLE SUBMODULE_RESULT
+            COMMAND_ECHO STDOUT)
+        if(NOT (SUBMODULE_RESULT MATCHES 0))
+            message(FATAL_ERROR "maplibre-native-qt submodule update failed.")
+        endif()
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" reset --hard HEAD
+            COMMAND "${GIT_EXECUTABLE}" clean -fd
+            COMMAND "${GIT_EXECUTABLE}" submodule foreach --recursive git reset --hard
+            COMMAND "${GIT_EXECUTABLE}" submodule foreach --recursive git clean -fd
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt"
+            COMMAND_ECHO STDOUT)
+        execute_process(
+            COMMAND "${GIT_EXECUTABLE}" apply --check ${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt.diff
+            COMMAND "${GIT_EXECUTABLE}" apply ${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt.diff
+            WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt"
+            RESULT_VARIABLE DIFFAPPLY_RESULT
+            COMMAND_ECHO STDOUT)
+        if(NOT (DIFFAPPLY_RESULT MATCHES 0))
+            message(FATAL_ERROR "maplibre-native-qt diff apply failed.")
+        endif()
+    endif()
+    add_custom_command(
+        DEPENDS ${QEXT_LIB_NAME}
+        OUTPUT ${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt.diff
+        COMMAND cd ${PROJECT_SOURCE_DIR}/3rdparty/maplibre-native-qt
+        COMMAND "${GIT_EXECUTABLE}" diff HEAD > ../maplibre-native-qt.diff
+        VERBATIM)
+endif()
 if(QEXT_FEATURE_USE_SUBDIR_QMAPLIBRE)
+    # 7z a -mx=9 -md=1g maplibre-native-qt.7z maplibre-native-qt
     set(MLN_QT_STATIC ON CACHE INTERNAL "" FORCE)
     set(MLN_WITH_WERROR OFF CACHE INTERNAL "" FORCE)
     set(MLN_QT_WITH_LOCATION OFF CACHE INTERNAL "" FORCE)
     set(QExtWrapQMapLibre_DIR_NAME "maplibre-native-qt")
     set(QExtWrapQMapLibre_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQMapLibre_DIR_NAME}")
     set(QExtWrapQMapLibre_SOURCE_DIR "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQMapLibre_DIR_NAME}")
-    if(NOT EXISTS "${QExtWrapQMapLibre_SOURCE_DIR}")
-        qext_fetch_3rdparty(QExtWrapQMapLibre URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQMapLibre_DIR_NAME}.7z")
-    endif()
     add_subdirectory(${QExtWrapQMapLibre_SOURCE_DIR} ${QExtWrapQMapLibre_ROOT_DIR}/subbuild)
     qext_internal_extend_target(${QEXT_LIB_NAME}
         INCLUDE_DIRECTORIES
