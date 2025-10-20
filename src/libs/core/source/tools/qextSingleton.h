@@ -12,14 +12,15 @@
 #define QEXT_DECLARE_SINGLETON(CLASS) \
     private: \
         void deleteLater() { destroyLater(); }; \
-        friend class QExtSingleton<CLASS>; \
+        friend class QExtSingleton<CLASS, true>; \
+        friend class QExtSingleton<CLASS, false>; \
         friend struct QExtSingletonScopedPointerDeleter<CLASS>;
 
 QEXT_WARNING_PUSH
     QEXT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
 
-    template <typename T>
-    struct QExtSingletonScopedPointerDeleter
+template <typename T>
+struct QExtSingletonScopedPointerDeleter
 {
     static inline void cleanup(T *pointer)
     {
@@ -47,7 +48,7 @@ QEXT_WARNING_PUSH
 };
 
 
-template <typename T>
+template <typename T, bool AutoDtor = false>
 class QExtSingleton
 {
     typedef QExtSingletonScopedPointerDeleter<T> Deleter;
@@ -97,7 +98,7 @@ private:
     {
         mInstance = new T;
         QObject *object = dynamic_cast<QObject *>(mInstance);
-        if (object)
+        if (object && AutoDtor)
         {
             if (qApp)
             {
@@ -122,9 +123,12 @@ private:
     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSingleton)
 };
 
-template <typename T> QExtOnceFlag QExtSingleton<T>::mOnceFlag;
-template <typename T> T* QExtSingleton<T>::mInstance = QEXT_NULLPTR;
-template <typename T> QScopedPointer<T, QExtSingletonScopedPointerDeleter<T> > QExtSingleton<T>::mScoped(QEXT_NULLPTR);
+template <typename T, bool AutoDtor>
+QExtOnceFlag QExtSingleton<T, AutoDtor>::mOnceFlag;
+template <typename T, bool AutoDtor>
+T* QExtSingleton<T, AutoDtor>::mInstance = QEXT_NULLPTR;
+template <typename T, bool AutoDtor>
+QScopedPointer<T, QExtSingletonScopedPointerDeleter<T> > QExtSingleton<T, AutoDtor>::mScoped(QEXT_NULLPTR);
 
 #define QEXT_DECLARE_OBJECT_SINGLETON() \
     private: \

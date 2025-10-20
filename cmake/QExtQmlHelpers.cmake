@@ -1058,13 +1058,13 @@ function(qext_add_qext_qml_module target)
 endfunction()
 
 
-# #-----------------------------------------------------------------------------------------------------------------------
-# #-----------------------------------------------------------------------------------------------------------------------
-# # If a task needs to run before any targets are finalized in the current directory
-# # scope, call this function and pass the ID of that task as the argument.
-# function(qext_internal_delay_finalization_until_after defer_id)
-#     set_property(DIRECTORY APPEND PROPERTY qext_internal_finalizers_wait_for_ids "${defer_id}")
-# endfunction()
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# If a task needs to run before any targets are finalized in the current directory
+# scope, call this function and pass the ID of that task as the argument.
+function(qext_internal_delay_finalization_until_after defer_id)
+    set_property(DIRECTORY APPEND PROPERTY qext_internal_finalizers_wait_for_ids "${defer_id}")
+endfunction()
 
 
 # #-----------------------------------------------------------------------------------------------------------------------

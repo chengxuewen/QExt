@@ -141,6 +141,7 @@ if(QExtWrapBreakpad_PKG_SOURCE)
     target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE
         "${QExtWrapBreakpad_INSTALL_DIR}/include/breakpad")
 else()
+    set(QExtWrapBreakpad_INSTALL_DIR "${QExtWrapBreakpad_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
     add_library(QExt3rdparty::WrapBreakpad STATIC IMPORTED)
     if(WIN32)
         if(CMAKE_BUILD_TYPE MATCHES "Debug")

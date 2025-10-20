@@ -1,4 +1,4 @@
-#ifndef _QEXTREGEXP_H
+﻿#ifndef _QEXTREGEXP_H
 #define _QEXTREGEXP_H
 
 #include <qextGlobal.h>
@@ -13,7 +13,7 @@
 #   define QEXT_MAKE_REGEXP_VALIDATOR(regExp, parent) new QRegularExpressionValidator(regExp.raw(), parent)
 #endif
 
-class QEXT_CORE_API QExtRegExp
+class QExtRegExp
 {
 public:
 #if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))

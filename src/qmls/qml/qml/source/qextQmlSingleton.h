@@ -1,4 +1,4 @@
-#ifndef _QEXTQMLSINGLETON_H
+﻿#ifndef _QEXTQMLSINGLETON_H
 #define _QEXTQMLSINGLETON_H
 
 #include <qextQmlRegistration.h>
@@ -7,7 +7,7 @@
 #include <QQmlEngine>
 
 template <typename T>
-class QExtQmlSingleton : public QExtSingleton<T>
+class QExtQmlSingleton : public QExtSingleton<T, true>
 {
 public:
     Q_INVOKABLE virtual QString version() const { return ""; }

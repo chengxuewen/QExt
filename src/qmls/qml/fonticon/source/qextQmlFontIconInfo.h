@@ -1,10 +1,10 @@
-#ifndef _QEXTQMLFONTICONINFO_H
+﻿#ifndef _QEXTQMLFONTICONINFO_H
 #define _QEXTQMLFONTICONINFO_H
 
 #include <qextQmlFontIconGlobal.h>
 #include <qextQmlSingleton.h>
 
-class QEXT_QMLFONTICON_API QExtQmlFontIconInfo : public QObject
+class QExtQmlFontIconInfo : public QObject
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
