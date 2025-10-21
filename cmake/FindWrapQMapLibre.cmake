@@ -50,12 +50,10 @@ if(NOT EXISTS ${QExtWrapQMapLibre_STAMP_FILE_PATH})
     if(NOT (MKDIR_RESULT MATCHES 0))
         message(FATAL_ERROR "${QExtWrapQMapLibre_DIR_NAME} lib build directory make failed.")
     endif()
-    message(QT_DIR-:${QT_DIR})
-    message(QT_VERSION_MAJOR-:${QT_VERSION_MAJOR})
-    message(CMAKE_PREFIX_PATH-:${CMAKE_PREFIX_PATH})
-    message(CMAKE_FIND_ROOT_PATH-:${CMAKE_FIND_ROOT_PATH})
-    message(CMAKE_TOOLCHAIN_FILE-:${CMAKE_TOOLCHAIN_FILE})
-    message(QT_QMAKE_EXECUTABLE-:${QT_QMAKE_EXECUTABLE})
+    # message(CMAKE_PREFIX_PATH-:${CMAKE_PREFIX_PATH})
+    # message(CMAKE_FIND_ROOT_PATH-:${CMAKE_FIND_ROOT_PATH})
+    # message(CMAKE_TOOLCHAIN_FILE-:${CMAKE_TOOLCHAIN_FILE})
+    # message(QT_QMAKE_EXECUTABLE-:${QT_QMAKE_EXECUTABLE})
     execute_process(
         COMMAND ${CMAKE_COMMAND}
         ${QExtWrapQMapLibre_SOURCE_DIR}
