@@ -9,6 +9,7 @@ Item {
     property string source
     property bool smooth: true
     property bool asynchronous: true
+    property int fillMode: Image.Stretch
 
     property alias status: mImage.status
 
@@ -18,6 +19,7 @@ Item {
         anchors.fill: mControl
         source:  mControl.source
         smooth: mControl.smooth
+        fillMode: mControl.fillMode
         visible: false
         enabled: false
     }

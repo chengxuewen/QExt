@@ -12,6 +12,7 @@ Item {
     property string source
     property bool smooth: true
     property bool asynchronous: true
+    property int fillMode: Image.Stretch
     readonly property alias status: mLoader.itemStatus
 
     property alias theme: mTheme
@@ -34,6 +35,7 @@ Item {
                               color: mControl.color,
                               source: mControl.source,
                               smooth: mControl.smooth,
+                              fillMode: mControl.fillMode,
                               asynchronous: mControl.asynchronous,
                           });
     }
@@ -50,6 +52,11 @@ Item {
     onSmoothChanged: {
         if (mLoader.item) {
             mLoader.item.smooth = mControl.smooth;
+        }
+    }
+    onFillModeChanged: {
+        if (mLoader.item) {
+            mLoader.item.fillMode = mControl.fillMode;
         }
     }
     onAsynchronousChanged: {

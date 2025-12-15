@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.2
 
-import QExtQuick.Controls 1.3
+import QExtQuick.Controls 1.4
 
 Window {
     id: root

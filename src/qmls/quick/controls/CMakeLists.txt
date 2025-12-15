@@ -59,6 +59,8 @@ qext_add_qml_module(QuickControls
     QExtQml.FontIcon
     QtQuick.Effects
     SOURCES
+    source/items/qextQuickTriangleItem.cpp
+    source/items/qextQuickTriangleItem.cpp
     source/qextQuickControls.cpp
     source/qextQuickControls.h
     source/qextQuickControlsConstant.h

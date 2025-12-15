@@ -25,6 +25,7 @@
 #include <qextQuickControls.h>
 #include <qextQuickControlsConfig.h>
 #include <qextQuickControlsConstant.h>
+#include <qextQuickTriangleItem.h>
 #include <qextQuickWorld.h>
 
 #include <qextOnceFlag.h>
@@ -130,6 +131,8 @@ void QExtQuickControls::registerTypes(const char *url)
 
         qmlRegisterSingletonType<QExtQuickControls>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickControls",
                                                     QExtQuickControls::create);
+
+        qmlRegisterType<QExtQuickTriangleItem>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTriangle");
 
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButton.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickButton");
