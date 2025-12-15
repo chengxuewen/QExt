@@ -255,7 +255,7 @@ QString QExtQmlThemeManager::version() const
 
 void QExtQmlThemeManager::registerTypes(const char *url)
 {
-    qDebug() << QString("QExtQmlThemeManager::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+//    qDebug() << QString("QExtQmlThemeManager::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
     if (url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));

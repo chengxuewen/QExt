@@ -174,7 +174,7 @@ QString QExtQml::version() const
 
 void QExtQml::registerTypes(const char *url)
 {
-    qDebug() << QString("QExtQml::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+//    qDebug() << QString("QExtQml::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
     if (url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));

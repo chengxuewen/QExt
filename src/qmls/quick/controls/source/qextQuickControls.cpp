@@ -116,7 +116,7 @@ QString QExtQuickControls::version() const
 
 void QExtQuickControls::registerTypes(const char *url)
 {
-    qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+//    qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
     if (url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
