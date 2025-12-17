@@ -516,9 +516,6 @@ qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib"
 qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
-    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTADS "Enable this to build the 3rdparty Qt Advanced Docking System lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
@@ -855,9 +852,6 @@ if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
     set(QExtWrapSingleApp_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapSingleApp URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}.tar.gz")
     add_subdirectory(${QExtWrapSingleApp_ROOT_DIR}/source ${QExtWrapSingleApp_ROOT_DIR}/subbuild)
-endif()
-if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
-    qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT)

@@ -52,10 +52,9 @@ qext_add_library(${QEXT_LIB_NAME}
     qextSingleApp.qrc
     PRECOMPILED_HEADER
     source/qextSingleAppPch.h
-    EXTERNAL_HEADERS_DIRS
-    ${QExtWrapSingleApp_INSTALL_DIR}/include
-    PUBLIC_LIBRARIES
+    LIBRARIES
     QExt3rdparty::WrapSingleApp
+    PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 
 
