@@ -16,10 +16,7 @@
         <file>qml/QExtQuickButtonArea.qml</file>
         <file>qml/QExtQuickSwitch.qml</file>
         <file>qml/QExtQuickSvgIcon.qml</file>
-        <file>qml/QExtQuickSvgIcon0.qml</file>
-        <file>qml/QExtQuickSvgIcon2.qml</file>
         <file>qml/QExtQuickFontIcon.qml</file>
-        <file>qml/QExtQuickSvgIcon1.qml</file>
         <file>qml/QExtQuickIconButton.qml</file>
         <file>qml/QExtQuickCheckBox.qml</file>
         <file>qml/QExtQuickRadioBox.qml</file>
@@ -31,5 +28,8 @@
         <file>qml/QExtQuickCollapseElement.qml</file>
         <file>qml/QExtQuickCollapse.qml</file>
         <file>qml/QExtQuickIcon.qml</file>
+        <file>qml/svg/QExtQuickSvgIcon0.qml</file>
+        <file>qml/svg/QExtQuickSvgIcon1.qml</file>
+        <file>qml/svg/QExtQuickSvgIcon2.qml</file>
     </qresource>
 </RCC>

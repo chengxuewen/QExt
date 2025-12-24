@@ -1,4 +1,5 @@
 import QtQuick 2.6
+import QtQml 2.9
 
 import QExtQml 1.4
 import QExtQml.Theme 1.4

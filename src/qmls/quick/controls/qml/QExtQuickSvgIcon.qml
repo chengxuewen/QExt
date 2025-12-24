@@ -1,9 +1,11 @@
 import QtQuick 2.6
+import QtQml 2.6
 
 import QExtQml 1.4
 import QExtQml.Theme 1.4
+import QExtQuick.Controls 1.4
 
-Item {
+QExtQuickSvgIconVersion {
     id: mControl
     width: 16
     height: 16
@@ -31,7 +33,8 @@ Item {
     }
 
     Component.onCompleted: {
-        mLoader.setSource("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon" + QExtQml.svgIconVersion() + ".qml", {
+        let source = "qrc:/QExtQuickControls/qml/svg/QExtQuickSvgIcon" + mControl.version + ".qml";
+        mLoader.setSource(source, {
                               color: mControl.color,
                               source: mControl.source,
                               smooth: mControl.smooth,

@@ -26,6 +26,7 @@
 #include <qextQuickControlsConfig.h>
 #include <qextQuickControlsConstant.h>
 #include <qextQuickTriangleItem.h>
+#include <qextQuickSvgIconVersion.h>
 #include <qextQuickWorld.h>
 
 #include <qextOnceFlag.h>
@@ -116,7 +117,7 @@ QString QExtQuickControls::version() const
 
 void QExtQuickControls::registerTypes(const char *url)
 {
-//    qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+    //    qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
     if (url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
@@ -131,6 +132,8 @@ void QExtQuickControls::registerTypes(const char *url)
 
         qmlRegisterSingletonType<QExtQuickControls>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickControls",
                                                     QExtQuickControls::create);
+
+        qmlRegisterType<QExtQuickSvgIconVersion>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgIconVersion");
 
         qmlRegisterType<QExtQuickTriangleItem>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTriangle");
 

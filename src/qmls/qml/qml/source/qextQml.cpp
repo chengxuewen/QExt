@@ -158,15 +158,6 @@ void QExtQml::setRootWindow(QQuickWindow *window)
     }
 }
 
-int QExtQml::svgIconVersion() const
-{
-#ifdef Q_OS_ANDROID
-    return 0;
-#else
-    return (QT_VERSION_MAJOR > 5) ? 1 : 2;
-#endif
-}
-
 QString QExtQml::version() const
 {
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);

@@ -47,6 +47,15 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::QmlTheme QExt::QmlFontIcon)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
+if(ANDROID)
+    set(QEXT_QUICK_SVG_ICON_VERSION 0)
+else()
+    if(${QT_VERSION_MAJOR} GREATER 5)
+        set(QEXT_QUICK_SVG_ICON_VERSION 1)
+    else()
+        set(QEXT_QUICK_SVG_ICON_VERSION 2)
+    endif()
+endif()
 qext_add_qml_module(QuickControls
     URI "QExtQuick.Controls"
     VERSION "${QEXT_VERSION}"
@@ -67,6 +76,8 @@ qext_add_qml_module(QuickControls
     source/qextQuickControlsGlobal.h
     source/qextQuickWorld.cpp
     source/qextQuickWorld.h
+    source/qextQuickSvgIconVersion.cpp
+    source/qextQuickSvgIconVersion.h
     qextQuickControls.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
@@ -87,14 +98,13 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickRadioBoxGroup.qml
     qml/QExtQuickRectangle.qml
     qml/QExtQuickSvgIcon.qml
-    qml/QExtQuickSvgIcon0.qml
-    qml/QExtQuickSvgIcon1.qml
-    qml/QExtQuickSvgIcon2.qml
+    qml/svg/QExtQuickSvgIcon${QEXT_QUICK_SVG_ICON_VERSION}.qml
     qml/QExtQuickSwitch.qml
     qml/QExtQuickText.qml
     qml/QExtQuickToast.qml
     DEFINES
     QEXT_BUILD_QUICK_LIB
+    QEXT_QUICK_SVG_ICON_VERSION=${QEXT_QUICK_SVG_ICON_VERSION}
     PUBLIC_LIBRARIES
     ${QEXT_QML_LINK_LIBRARIES})
 

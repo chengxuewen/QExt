@@ -71,8 +71,6 @@ public:
     QQuickWindow *rootWindow() const;
     void setRootWindow(QQuickWindow *window);
 
-    Q_INVOKABLE int svgIconVersion() const;
-
     Q_INVOKABLE QString version() const override;
     void registerTypes(const char *url = nullptr) override;
     void initializeEngine(QQmlEngine *engine, const char *uri) override;
