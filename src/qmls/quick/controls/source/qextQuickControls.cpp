@@ -162,6 +162,8 @@ void QExtQuickControls::registerTypes(const char *url)
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickRadioBoxGroup");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRectangle.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickRectangle");
+        qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickRoundedShap.qml"),
+                        QEXT_QML_MODULE_URI, major, minor, "QExtQuickRoundedShap");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSvgIcon.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgIcon");
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickSwitch.qml"),

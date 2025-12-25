@@ -47,10 +47,10 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::CorePrivate)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
+    source/qextGuiGlobal.h
     source/qextIconAnimation.cpp
     source/qextIconAnimation_p.h
     source/qextIconAnimation.h
-    source/qextGuiGlobal.h
     source/qextPainter.cpp
     source/qextPainter.h
     source/qextWindowUtils.cpp

@@ -383,14 +383,6 @@ QExtQmlPalette::~QExtQmlPalette()
 {
 }
 
-QColor QExtQmlPalette::randomColor() const
-{
-    return QColor(QEXT_QML_PALETTE_COLOR_RANDOM(1, 255),
-                  QEXT_QML_PALETTE_COLOR_RANDOM(1, 255),
-                  QEXT_QML_PALETTE_COLOR_RANDOM(1, 255),
-                  QEXT_QML_PALETTE_COLOR_RANDOM(1, 255)).name();
-}
-
 QColor QExtQmlPalette::brandColor(int brand) const
 {
     if (brand < 0 || brand >= QExtQmlPalette::BrandEnumCount)
@@ -597,6 +589,22 @@ QString QExtQmlPalette::materialDepthTypeName(int depth)
     default: break;
     }
     return QString("");
+}
+
+QColor QExtQmlPalette::transparent(const QColor &color, double alpha)
+{
+    alpha = qMin(1.0, qMax(0.0, alpha));
+    auto transparent = color;
+    transparent.setAlphaF(alpha);
+    return transparent;
+}
+
+QColor QExtQmlPalette::randomColor()
+{
+    return QColor(QEXT_QML_PALETTE_COLOR_RANDOM(1, 255),
+                  QEXT_QML_PALETTE_COLOR_RANDOM(1, 255),
+                  QEXT_QML_PALETTE_COLOR_RANDOM(1, 255),
+                  QEXT_QML_PALETTE_COLOR_RANDOM(1, 255)).name();
 }
 
 void QExtQmlPalette::setBorderColor(int level, const QColor &color)

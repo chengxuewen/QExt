@@ -145,8 +145,6 @@ public:
     explicit QExtQmlPalette(QObject *parent = QEXT_NULLPTR);
     ~QExtQmlPalette() override;
 
-    Q_INVOKABLE QColor randomColor() const;
-
     Q_INVOKABLE QColor brandColor(int brand) const;
     QString brandPrimaryColor() const;
     QString brandSecondaryColor() const;
@@ -175,6 +173,9 @@ public:
 
     Q_INVOKABLE static QString materialColorTypeName(int color);
     Q_INVOKABLE static QString materialDepthTypeName(int depth);
+
+    Q_INVOKABLE static QColor transparent(const QColor &color, double alpha);
+    Q_INVOKABLE static QColor randomColor();
 
 Q_SIGNALS:
     void brandColorChanged(int brand, const QColor &color);

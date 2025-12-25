@@ -49,6 +49,7 @@ Window {
                 {label: "InputField", uri: "qrc:/qml/C_InputField.qml"},
                 {label: "Toast", uri: "qrc:/qml/C_Toast.qml"},
                 {label: "Collapse", uri: "qrc:/qml/C_Collapse.qml"},
+                {label: "RoundedShap", uri: "qrc:/qml/C_RoundedShap.qml"},
                 {label: "Triangle", uri: "qrc:/qml/C_Triangle.qml"},
                 // {label: "Badge", uri: "qrc:/qml/C_Badge.qml"},
                 // {label: "Tag", uri: "qrc:/qml/C_Tag.qml"},

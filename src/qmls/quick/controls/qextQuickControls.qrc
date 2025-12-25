@@ -28,5 +28,6 @@
         <file>qml/QExtQuickCollapseElement.qml</file>
         <file>qml/QExtQuickCollapse.qml</file>
         <file>qml/QExtQuickIcon.qml</file>
+        <file>qml/QExtQuickRoundedShap.qml</file>
     </qresource>
 </RCC>

@@ -71,5 +71,6 @@
         <file>images/error.svg</file>
         <file>images/close_px.svg</file>
         <file>images/close.svg</file>
+        <file>qml/C_RoundedShap.qml</file>
     </qresource>
 </RCC>
