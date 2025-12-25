@@ -28,8 +28,5 @@
         <file>qml/QExtQuickCollapseElement.qml</file>
         <file>qml/QExtQuickCollapse.qml</file>
         <file>qml/QExtQuickIcon.qml</file>
-        <file>qml/svg/QExtQuickSvgIcon0.qml</file>
-        <file>qml/svg/QExtQuickSvgIcon1.qml</file>
-        <file>qml/svg/QExtQuickSvgIcon2.qml</file>
     </qresource>
 </RCC>

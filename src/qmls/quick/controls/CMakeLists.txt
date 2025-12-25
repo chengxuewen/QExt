@@ -47,14 +47,14 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::QmlTheme QExt::QmlFontIcon)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-if(ANDROID)
-    set(QEXT_QUICK_SVG_ICON_VERSION 0)
-else()
-    if(${QT_VERSION_MAJOR} GREATER 5)
-        set(QEXT_QUICK_SVG_ICON_VERSION 1)
-    else()
+if (${QT_VERSION_MAJOR} GREATER 5)
+    if(ANDROID)
         set(QEXT_QUICK_SVG_ICON_VERSION 2)
+    else()
+        set(QEXT_QUICK_SVG_ICON_VERSION 1)
     endif()
+else()
+    set(QEXT_QUICK_SVG_ICON_VERSION 0)
 endif()
 qext_add_qml_module(QuickControls
     URI "QExtQuick.Controls"
@@ -68,22 +68,24 @@ qext_add_qml_module(QuickControls
     QExtQml.FontIcon
     QtQuick.Effects
     SOURCES
+    source/items/qextQuickSvgIconBaseItem.cpp
+    source/items/qextQuickSvgIconBaseItem.h
     source/items/qextQuickTriangleItem.cpp
-    source/items/qextQuickTriangleItem.cpp
+    source/items/qextQuickTriangleItem.h
     source/qextQuickControls.cpp
     source/qextQuickControls.h
     source/qextQuickControlsConstant.h
     source/qextQuickControlsGlobal.h
     source/qextQuickWorld.cpp
     source/qextQuickWorld.h
-    source/qextQuickSvgIconVersion.cpp
-    source/qextQuickSvgIconVersion.h
     qextQuickControls.qrc
+    qextQuickControlsQt${QT_VERSION_MAJOR}.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
     SINGLETON_QML_FILES
     qml/QExtQuickGlobalToast.qml
     QML_FILES
+    qml/svg/QExtQuickSvgIcon${QEXT_QUICK_SVG_ICON_VERSION}.qml
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
     qml/QExtQuickCheckBox.qml
@@ -98,7 +100,6 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickRadioBoxGroup.qml
     qml/QExtQuickRectangle.qml
     qml/QExtQuickSvgIcon.qml
-    qml/svg/QExtQuickSvgIcon${QEXT_QUICK_SVG_ICON_VERSION}.qml
     qml/QExtQuickSwitch.qml
     qml/QExtQuickText.qml
     qml/QExtQuickToast.qml

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/QExtQuickControlsQt6">
+        <file>qml/svgicon/QExtQuickSvgIcon2.qml</file>
+        <file>qml/svgicon/QExtQuickSvgIcon1.qml</file>
+    </qresource>
+</RCC>

@@ -22,13 +22,21 @@
 **
 ***********************************************************************************************************************/
 
-#include <qextQuickSvgIconVersion.h>
+#ifndef _QEXTQUICKSVGICONBASEITEM_H
+#define _QEXTQUICKSVGICONBASEITEM_H
 
-QExtQuickSvgIconVersion::QExtQuickSvgIconVersion(QQuickItem *parent) : QQuickItem(parent)
-{
-}
+#include <QQuickItem>
 
-int QExtQuickSvgIconVersion::version() const
+#include <qextQuickControlsGlobal.h>
+
+class QEXT_QUICKCONTROLS_API QExtQuickSvgIconBaseItem : public QQuickItem
 {
-    return QEXT_QUICK_SVG_ICON_VERSION;
-}
+    Q_OBJECT
+    Q_PROPERTY(QString backendUrl READ backendUrl CONSTANT)
+public:
+    explicit QExtQuickSvgIconBaseItem(QQuickItem *parent = QEXT_NULLPTR);
+
+    QString backendUrl() const;
+};
+
+#endif // _QEXTQUICKSVGICONBASEITEM_H
