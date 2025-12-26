@@ -154,11 +154,7 @@ qext_add_library(Core
     QExt3rdparty::WrapAnyLite
     ${QEXT_LIB_LINK_LIBRARIES})
 
-if(QEXT_FEATURE_USE_CJSON_BACKEND)
-    qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
-    qext_internal_extend_target(Core LIBRARIES QExt3rdparty::WrapCJSON)
-endif()
-if(QEXT_FEATURE_USE_3RDQJSON_BACKEND)
+if(QEXT_FEATURE_USE_QJSON_BACKEND)
     qext_find_package(WrapQJson PROVIDED_TARGETS QExt3rdparty::WrapQJson)
     qext_internal_extend_target(Core LIBRARIES QExt3rdparty::WrapQJson)
 endif()
@@ -166,8 +162,7 @@ if(QEXT_FEATURE_ENABLE_JSON)
     qext_internal_extend_target(Core
         SOURCES
         source/tools/qextJson.cpp
-        source/tools/qextJson.h
-        source/tools/qextJson_p.h)
+        source/tools/qextJson.h)
 endif()
 
 

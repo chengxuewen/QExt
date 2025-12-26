@@ -23,9 +23,9 @@
 
 
 function(qext_vcpkg_install)
-	if(EXISTS "${QExtVcpkg_EXECUTABLE}" AND EXISTS "${QExtVcpkgTools_EXECUTABLE}")
-		set(QExtVcpkg_FOUND ON)
-		return()
+    if(EXISTS "${QExtVcpkg_EXECUTABLE}" AND EXISTS "${QExtVcpkgTools_EXECUTABLE}")
+        set(QExtVcpkg_FOUND ON)
+        return()
     endif()
 
     set(QExtVcpkg_NAME "vcpkg")
@@ -131,7 +131,7 @@ function(qext_vcpkg_install_package NAME)
     set(${arg_PREFIX}_PACKAGE_NAME "${arg_PACK_NAME}-${${arg_PREFIX}_VCPKG_TRIPLET}.7z"  CACHE INTERNAL "" FORCE)
     set(${arg_PREFIX}_PACKAGE_PATH "${QEXT_3RDPARTY_PACKAGES_DIR}/${${arg_PREFIX}_PACKAGE_NAME}"  CACHE INTERNAL "" FORCE)
     set(${arg_PREFIX}_INSTALL_DIR "${${arg_PREFIX}_ROOT_DIR}/installed/${${arg_PREFIX}_VCPKG_TRIPLET}" CACHE INTERNAL "" FORCE)
-	set(${arg_PREFIX}_VCPKG_TOOLCHAIN_FILE "${${arg_PREFIX}_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake" CACHE INTERNAL "" FORCE)
+    set(${arg_PREFIX}_VCPKG_TOOLCHAIN_FILE "${${arg_PREFIX}_ROOT_DIR}/scripts/buildsystems/vcpkg.cmake" CACHE INTERNAL "" FORCE)
     if(NOT EXISTS "${${arg_PREFIX}_INSTALL_DIR}/include")
         if(EXISTS "${${arg_PREFIX}_PACKAGE_PATH}")
             message(STATUS "${${arg_PREFIX}_PACKAGE_NAME} exist, start unpack...")

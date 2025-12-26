@@ -99,6 +99,7 @@ qext_set01(QEXT_SYSTEM_MAC APPLE)
 # QExt set processor variable
 #-----------------------------------------------------------------------------------------------------------------------
 message(STATUS "Build in processor: ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "Build in processor: ${CMAKE_SYSTEM_PROCESSOR}")
 string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" QEXT_SYSTEM_PROCESSOR)
 qext_set01(QEXT_PROCESSOR_I386
     QEXT_SYSTEM_PROCESSOR STREQUAL "i386")
@@ -146,17 +147,26 @@ qext_set01(QEXT_CXX_COMPILER_QCC
 # QExt arch size variable
 #-----------------------------------------------------------------------------------------------------------------------
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(QEXT_ARCH_BIT 64)
+    set(QEXT_ARCH_NAME x64)
     set(QEXT_ARCH_64BIT TRUE)
 elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    set(QEXT_ARCH_BIT 32)
+    set(QEXT_ARCH_NAME x86)
     set(QEXT_ARCH_32BIT TRUE)
 endif()
+message(STATUS "Build in bit: ${QEXT_ARCH_BIT}")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # QExt vcpkg triplets variable
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_PROCESSOR_X86_64 OR QEXT_PROCESSOR_AMD64)
-    set(QEXT_VCPKG_TRIPLET_ARCH x64)
+    if (QEXT_ARCH_64BIT)
+        set(QEXT_VCPKG_TRIPLET_ARCH x64)
+    else()
+        set(QEXT_VCPKG_TRIPLET_ARCH x86)
+    endif()
     set(QEXT_VCPKG_TRIPLET_ARCH_ARM OFF)
 elseif(QEXT_PROCESSOR_I686 OR QEXT_PROCESSOR_I386)
     set(QEXT_VCPKG_TRIPLET_ARCH x86)

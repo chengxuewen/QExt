@@ -1,4 +1,4 @@
-#include <private/qextJson_p.h>
+﻿#include <qextJson.h>
 #include <qextNumeric.h>
 #include <qextTagId.h>
 
@@ -15,25 +15,111 @@ QThreadStorage<QString> &qextJsonBackendTls()
 }
 }
 
+#if QEXT_FEATURE_USE_QJSON_BACKEND
+#   include <qjsonarray.h>
+#   include <qjsonvalue.h>
+#   include <qjsonobject.h>
+#   include <qjsondocument.h>
+#endif
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+#   include <QJsonValue>
+#   include <QJsonArray>
+#   include <QJsonObject>
+#   include <QJsonDocument>
+#endif
+
+class QEXT_CORE_API QExtJsonValuePrivate
+{
+public:
+    explicit QExtJsonValuePrivate(QExtJsonValue *q);
+    virtual ~QExtJsonValuePrivate();
+
+    QExtJsonValue * const q_ptr;
+
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
+#else
+    QJsonValue mValue;
+#endif
+
+private:
+    QEXT_DECLARE_PUBLIC(QExtJsonValue)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonValuePrivate)
+};
+
+class QEXT_CORE_API QExtJsonObjectPrivate
+{
+public:
+    explicit QExtJsonObjectPrivate(QExtJsonObject *q);
+    virtual ~QExtJsonObjectPrivate();
+
+    QExtJsonObject * const q_ptr;
+
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
+#else
+    QJsonObject mObject;
+#endif
+
+private:
+    QEXT_DECLARE_PUBLIC(QExtJsonObject)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonObjectPrivate)
+};
+
+class QEXT_CORE_API QExtJsonArrayPrivate
+{
+public:
+    explicit QExtJsonArrayPrivate(QExtJsonArray *q);
+    virtual ~QExtJsonArrayPrivate();
+
+    QExtJsonArray * const q_ptr;
+
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
+#else
+    QJsonArray mArray;
+#endif
+
+private:
+    QEXT_DECLARE_PUBLIC(QExtJsonArray)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonArrayPrivate)
+};
+
+class QEXT_CORE_API QExtJsonDocumentPrivate
+{
+public:
+    explicit QExtJsonDocumentPrivate(QExtJsonDocument *q);
+    virtual ~QExtJsonDocumentPrivate();
+
+    QExtJsonDocument * const q_ptr;
+
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
+#else
+    QJsonDocument mDocument;
+#endif
+
+private:
+    QEXT_DECLARE_PUBLIC(QExtJsonDocument)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtJsonDocumentPrivate)
+};
+
+
 /***********************************************************************************************************************
  * QExtJsonValue
 ***********************************************************************************************************************/
 QExtJsonValuePrivate::QExtJsonValuePrivate(QExtJsonValue *q)
     : q_ptr(q)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    m_cJson = QEXT_NULLPTR;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonValuePrivate::~QExtJsonValuePrivate()
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (m_cJson)
-    {
-        cJSON_Delete(m_cJson);
-        m_cJson = QEXT_NULLPTR;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
@@ -42,54 +128,31 @@ QExtJsonValue::QExtJsonValue(TypeEnum type)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    switch (type)
-    {
-    case Type_Null:
-        d->m_cJson = cJSON_CreateNull();
-        break;
-    case Type_Bool:
-        d->m_cJson = cJSON_CreateBool(false);
-        break;
-    case Type_Number:
-        d->m_cJson = cJSON_CreateNumber(0);
-        break;
-    case Type_String:
-        d->m_cJson = cJSON_CreateString("");
-        break;
-    case Type_Array:
-        d->m_cJson = cJSON_CreateArray();
-        break;
-    case Type_Object:
-        d->m_cJson = cJSON_CreateObject();
-        break;
-    default:
-        d->m_cJson = cJSON_CreateRaw("");
-        break;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
     switch (type)
     {
     case Type_Null:
-        d->m_value = QJsonValue::Null;
+        d->mValue = QJsonValue::Null;
         break;
     case Type_Bool:
-        d->m_value = QJsonValue::Bool;
+        d->mValue = QJsonValue::Bool;
         break;
     case Type_Number:
-        d->m_value = QJsonValue::Double;
+        d->mValue = QJsonValue::Double;
         break;
     case Type_String:
-        d->m_value = QJsonValue::String;
+        d->mValue = QJsonValue::String;
         break;
     case Type_Array:
-        d->m_value = QJsonValue::Array;
+        d->mValue = QJsonValue::Array;
         break;
     case Type_Object:
-        d->m_value = QJsonValue::Object;
+        d->mValue = QJsonValue::Object;
         break;
     case Type_Undefined:
-        d->m_value = QJsonValue::Undefined;
+        d->mValue = QJsonValue::Undefined;
         break;
     }
 #endif
@@ -99,10 +162,10 @@ QExtJsonValue::QExtJsonValue(bool boolean)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateBool(boolean);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = boolean;
+    d->mValue = boolean;
 #endif
 }
 
@@ -110,10 +173,10 @@ QExtJsonValue::QExtJsonValue(double number)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateNumber(number);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = number;
+    d->mValue = number;
 #endif
 }
 
@@ -121,10 +184,10 @@ QExtJsonValue::QExtJsonValue(int number)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateNumber((double)number);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = number;
+    d->mValue = number;
 #endif
 }
 
@@ -132,10 +195,10 @@ QExtJsonValue::QExtJsonValue(qint64 number)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateNumber((double)number);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = double(number);
+    d->mValue = double(number);
 #endif
 }
 
@@ -143,10 +206,10 @@ QExtJsonValue::QExtJsonValue(const char *string)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateString(string);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = string;
+    d->mValue = string;
 #endif
 }
 
@@ -154,10 +217,10 @@ QExtJsonValue::QExtJsonValue(const QString &string)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateString(string.toLatin1().data());
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = string;
+    d->mValue = string;
 #endif
 }
 
@@ -165,10 +228,10 @@ QExtJsonValue::QExtJsonValue(const std::string &string)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateString(string.c_str());
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = string.c_str();
+    d->mValue = string.c_str();
 #endif
 }
 
@@ -176,10 +239,10 @@ QExtJsonValue::QExtJsonValue(const QExtJsonArray &array)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(array.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = array.dd_ptr->m_array;
+    d->mValue = array.dd_ptr->mArray;
 #endif
 }
 
@@ -187,10 +250,10 @@ QExtJsonValue::QExtJsonValue(const QExtJsonObject &object)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(object.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = object.dd_ptr->m_object;
+    d->mValue = object.dd_ptr->mObject;
 #endif
 }
 
@@ -198,13 +261,12 @@ QExtJsonValue::QExtJsonValue(const QString &key, const QExtJsonValue &value)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateObject();
-    cJSON_AddItemToObject(d->m_cJson, key.toLatin1().data(), cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
     QJsonObject object;
-    object.insert(key, value.dd_ptr->m_value);
-    d->m_value = object;
+    object.insert(key, value.dd_ptr->mValue);
+    d->mValue = object;
 #endif
 }
 
@@ -212,10 +274,10 @@ QExtJsonValue::QExtJsonValue(const QExtJsonValue &other)
     : dd_ptr(new QExtJsonValuePrivate(this))
 {
     Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_value = other.dd_ptr->m_value;
+    d->mValue = other.dd_ptr->mValue;
 #endif
 }
 
@@ -230,11 +292,10 @@ QExtJsonValue &QExtJsonValue::operator =(const QExtJsonValue &other)
     if (this != &other)
     {
         Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-        cJSON_Delete(d->m_cJson);
-        d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-        d->m_value = other.dd_ptr->m_value;
+        d->mValue = other.dd_ptr->mValue;
 #endif
     }
     return *this;
@@ -243,7 +304,7 @@ QExtJsonValue &QExtJsonValue::operator =(const QExtJsonValue &other)
 //QExtJsonValue QExtJsonValue::fromVariant(const QVariant &variant)
 //{
 //    QExtJsonValue value;
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    value.dd_ptr->m_value = QJsonValue::fromVariant(variant);
@@ -254,47 +315,20 @@ QExtJsonValue &QExtJsonValue::operator =(const QExtJsonValue &other)
 //QVariant QExtJsonValue::toVariant() const
 //{
 //    Q_D(const QExtJsonValue);
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
-//    return d->m_value.toVariant();
+//    return d->mValue.toVariant();
 //#endif
 //}
 
 QExtJsonValue::TypeEnum QExtJsonValue::type() const
 {
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsNull(d->m_cJson))
-    {
-        return Type_Null;
-    }
-    else if (cJSON_IsBool(d->m_cJson))
-    {
-        return Type_Bool;
-    }
-    else if (cJSON_IsNumber(d->m_cJson))
-    {
-        return Type_Number;
-    }
-    else if (cJSON_IsString(d->m_cJson))
-    {
-        return Type_String;
-    }
-    else if (cJSON_IsArray(d->m_cJson))
-    {
-        return Type_Array;
-    }
-    else if (cJSON_IsObject(d->m_cJson))
-    {
-        return Type_Object;
-    }
-    else
-    {
-        return Type_Undefined;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    switch (d->m_value.type())
+    switch (d->mValue.type())
     {
     case QJsonValue::Null: return Type_Null;
     case QJsonValue::Bool: return Type_Bool;
@@ -311,14 +345,10 @@ QExtJsonValue::TypeEnum QExtJsonValue::type() const
 bool QExtJsonValue::toBool(bool defaultValue) const
 {
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsBool(d->m_cJson))
-    {
-        return cJSON_IsTrue(d->m_cJson);
-    }
-    return defaultValue;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_value.toBool(defaultValue);
+    return d->mValue.toBool(defaultValue);
 #endif
 }
 
@@ -339,14 +369,10 @@ int QExtJsonValue::toInt(int defaultValue) const
 double QExtJsonValue::toDouble(double defaultValue) const
 {
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsNumber(d->m_cJson))
-    {
-        return cJSON_GetNumberValue(d->m_cJson);
-    }
-    return defaultValue;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_value.toDouble(defaultValue);
+    return d->mValue.toDouble(defaultValue);
 #endif
 }
 
@@ -363,14 +389,10 @@ qint64 QExtJsonValue::toInteger(qint64 defaultValue) const
 QString QExtJsonValue::toString(const QString &defaultValue) const
 {
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsString(d->m_cJson))
-    {
-        return cJSON_GetStringValue(d->m_cJson);
-    }
-    return defaultValue;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_value.toString(defaultValue);
+    return d->mValue.toString(defaultValue);
 #endif
 }
 
@@ -383,11 +405,10 @@ QExtJsonArray QExtJsonValue::toArray(const QExtJsonArray &defaultValue) const
 {
     QExtJsonArray array;
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_Delete(array.dd_ptr->m_cJson);
-    array.dd_ptr->m_cJson = cJSON_Duplicate(cJSON_IsArray(d->m_cJson) ? d->m_cJson : defaultValue.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    array.dd_ptr->m_array = d->m_value.toArray(defaultValue.dd_ptr->m_array);
+    array.dd_ptr->mArray = d->mValue.toArray(defaultValue.dd_ptr->mArray);
 #endif
     return array;
 }
@@ -401,11 +422,10 @@ QExtJsonObject QExtJsonValue::toObject(const QExtJsonObject &defaultValue) const
 {
     QExtJsonObject object;
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_Delete(object.dd_ptr->m_cJson);
-    object.dd_ptr->m_cJson = cJSON_Duplicate(cJSON_IsObject(d->m_cJson) ? d->m_cJson : defaultValue.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    object.dd_ptr->m_object = d->m_value.toObject(defaultValue.dd_ptr->m_object);
+    object.dd_ptr->mObject = d->mValue.toObject(defaultValue.dd_ptr->mObject);
 #endif
     return object;
 }
@@ -419,18 +439,10 @@ const QExtJsonValue QExtJsonValue::operator[](const char *key) const
 {
     QExtJsonValue value;
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsObject(d->m_cJson))
-    {
-        cJSON *item = cJSON_GetObjectItem(d->m_cJson, key);
-        if (item)
-        {
-            cJSON_Delete(value.dd_ptr->m_cJson);
-            value.dd_ptr->m_cJson = cJSON_Duplicate(item, true);
-        }
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_value[key];
+    value.dd_ptr->mValue = d->mValue[key];
 #endif
     return value;
 }
@@ -439,18 +451,10 @@ const QExtJsonValue QExtJsonValue::operator[](int index) const
 {
     QExtJsonValue value;
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsArray(d->m_cJson))
-    {
-        cJSON *item = cJSON_GetArrayItem(d->m_cJson, index);
-        if (item)
-        {
-            cJSON_Delete(value.dd_ptr->m_cJson);
-            value.dd_ptr->m_cJson = cJSON_Duplicate(item, true);
-        }
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_value[index];
+    value.dd_ptr->mValue = d->mValue[index];
 #endif
     return value;
 }
@@ -458,10 +462,10 @@ const QExtJsonValue QExtJsonValue::operator[](int index) const
 bool QExtJsonValue::operator==(const QExtJsonValue &other) const
 {
     Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_Compare(d->m_cJson, other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_value == other.dd_ptr->m_value;
+    return d->mValue == other.dd_ptr->mValue;
 #endif
 }
 
@@ -529,28 +533,10 @@ QExtJsonValue QExtJsonValueRef::toValue() const
 
 uint qHash(const QExtJsonValue &value, uint seed)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    switch (value.type())
-    {
-    case QExtJsonValue::Type_Null:
-        return qHash(value.dd_ptr->m_cJson, seed);
-    case QExtJsonValue::Type_Bool:
-        return qHash(value.toBool(), seed);
-    case QExtJsonValue::Type_Number:
-        return qHash(value.toDouble(), seed);
-    case QExtJsonValue::Type_String:
-        return qHash(value.toString(), seed);
-    case QExtJsonValue::Type_Array:
-        return qHash(value.toArray(), seed);
-    case QExtJsonValue::Type_Object:
-        return qHash(value.toObject(), seed);
-    case QExtJsonValue::Type_Undefined:
-        return seed;
-    }
-    qFatal("UNREACHABLE");
-    return 0;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return qHash(value.dd_ptr->m_value);
+    return qHash(value.dd_ptr->mValue);
 #endif
 }
 
@@ -694,28 +680,23 @@ QDataStream &operator>>(QDataStream &stream, QExtJsonValue &v)
 QExtJsonObjectPrivate::QExtJsonObjectPrivate(QExtJsonObject *q)
     : q_ptr(q)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    m_cJson = QEXT_NULLPTR;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonObjectPrivate::~QExtJsonObjectPrivate()
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (m_cJson)
-    {
-        cJSON_Delete(m_cJson);
-        m_cJson = QEXT_NULLPTR;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonObject::QExtJsonObject()
     : dd_ptr(new QExtJsonObjectPrivate(this))
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    Q_D(QExtJsonObject);
-    d->m_cJson = cJSON_CreateObject();
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
@@ -723,10 +704,10 @@ QExtJsonObject::QExtJsonObject(const QExtJsonObject &other)
     : dd_ptr(new QExtJsonObjectPrivate(this))
 {
     Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_object = other.dd_ptr->m_object;
+    d->mObject = other.dd_ptr->mObject;
 #endif
 }
 
@@ -734,19 +715,13 @@ QExtJsonObject::QExtJsonObject(const InitArgList &args)
     : dd_ptr(new QExtJsonObjectPrivate(this))
 {
     Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateObject();
-    InitArgList::ConstIterator iter;
-    for (iter = args.begin(); iter != args.end(); ++iter)
-    {
-        const InitArg &arg = *iter;
-        cJSON_AddItemToObject(d->m_cJson, arg.first.toLatin1().data(), cJSON_Duplicate(arg.second.dd_ptr->m_cJson, true));
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
     InitArgList::ConstIterator iter;
     for (iter = args.begin(); iter != args.end(); ++iter)
     {
-        d->m_object.insert((*iter).first, (*iter).second.dd_ptr->m_value);
+        d->mObject.insert((*iter).first, (*iter).second.dd_ptr->mValue);
     }
 #endif
 }
@@ -755,11 +730,10 @@ QExtJsonObject::QExtJsonObject(const QString &key, const QExtJsonValue &value)
     : dd_ptr(new QExtJsonObjectPrivate(this))
 {
     Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateObject();
-    cJSON_AddItemToObject(d->m_cJson, key.toLatin1().data(), cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_object.insert(key, value.dd_ptr->m_value);
+    d->mObject.insert(key, value.dd_ptr->mValue);
 #endif
 }
 
@@ -774,11 +748,10 @@ QExtJsonObject &QExtJsonObject::operator =(const QExtJsonObject &other)
     if (this != &other)
     {
         Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-        cJSON_Delete(d->m_cJson);
-        d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-        d->m_object = other.dd_ptr->m_object;
+        d->mObject = other.dd_ptr->mObject;
 #endif
     }
     return *this;
@@ -787,7 +760,7 @@ QExtJsonObject &QExtJsonObject::operator =(const QExtJsonObject &other)
 //QExtJsonObject QExtJsonObject::fromVariantMap(const QVariantMap &map)
 //{
 //    QExtJsonObject object;
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    object.dd_ptr->m_object = QJsonObject::fromVariantMap(map);
@@ -798,7 +771,7 @@ QExtJsonObject &QExtJsonObject::operator =(const QExtJsonObject &other)
 //QVariantMap QExtJsonObject::toVariantMap() const
 //{
 //    Q_D(const QExtJsonObject);
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    return d->m_object.toVariantMap();
@@ -808,7 +781,7 @@ QExtJsonObject &QExtJsonObject::operator =(const QExtJsonObject &other)
 //QExtJsonObject QExtJsonObject::fromVariantHash(const QVariantHash &map)
 //{
 //    QExtJsonObject object;
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    object.dd_ptr->m_object = QJsonObject::fromVariantHash(map);
@@ -819,48 +792,30 @@ QExtJsonObject &QExtJsonObject::operator =(const QExtJsonObject &other)
 //QVariantHash QExtJsonObject::toVariantHash() const
 //{
 //    Q_D(const QExtJsonObject);
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
-//    return d->m_object.toVariantHash();
+//    return d->mObject.toVariantHash();
 //#endif
 //}
 
 QStringList QExtJsonObject::keys() const
 {
     Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    QStringList keys;
-    cJSON *item = d->m_cJson->child;
-    while (item != NULL)
-    {
-        keys.append(item->string);
-        item = item->next;
-    }
-    qSort(keys.begin(), keys.end());
-    return keys;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_object.keys();
+    return d->mObject.keys();
 #endif
 }
 
 int QExtJsonObject::size() const
 {
     Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    int size = 0;
-    cJSON *child = d->m_cJson->child;
-    while (NULL != child)
-    {
-        if (!cJSON_IsInvalid(child) && !cJSON_IsRaw(child))
-        {
-            size++;
-        }
-        child = child->next;
-    }
-    return size;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_object.size();
+    return d->mObject.size();
 #endif
 }
 
@@ -873,15 +828,10 @@ QExtJsonValue QExtJsonObject::value(const QString &key) const
 {
     Q_D(const QExtJsonObject);
     QExtJsonValue value(QExtJsonValue::Type_Undefined);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON *item = cJSON_GetObjectItem(d->m_cJson, key.toLatin1().data());
-    if (item)
-    {
-        cJSON_Delete(value.dd_ptr->m_cJson);
-        value.dd_ptr->m_cJson = cJSON_Duplicate(item, true);
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_object.value(key);
+    value.dd_ptr->mValue = d->mObject.value(key);
 #endif
     return value;
 }
@@ -899,10 +849,10 @@ QExtJsonValueRef QExtJsonObject::operator[](const QString &key)
 void QExtJsonObject::remove(const QString &key)
 {
     Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_DeleteItemFromObjectCaseSensitive(d->m_cJson, key.toLatin1().data());
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_object.remove(key);
+    d->mObject.remove(key);
 #endif
 }
 
@@ -910,15 +860,10 @@ QExtJsonValue QExtJsonObject::take(const QString &key)
 {
     Q_D(QExtJsonObject);
     QExtJsonValue value(QExtJsonValue::Type_Undefined);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON *item = cJSON_DetachItemFromObjectCaseSensitive(d->m_cJson, key.toLatin1().data());
-    if (item)
-    {
-        cJSON_Delete(value.dd_ptr->m_cJson);
-        value.dd_ptr->m_cJson = item;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_object.take(key);
+    value.dd_ptr->mValue = d->mObject.take(key);
 #endif
     return value;
 }
@@ -926,27 +871,20 @@ QExtJsonValue QExtJsonObject::take(const QString &key)
 bool QExtJsonObject::contains(const QString &key) const
 {
     Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_HasObjectItem(d->m_cJson, key.toLatin1().data());
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_object.contains(key);
+    return d->mObject.contains(key);
 #endif
 }
 
 void QExtJsonObject::insert(const char *key, const QExtJsonValue &value)
 {
     Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_HasObjectItem(d->m_cJson, key))
-    {
-        cJSON_ReplaceItemInObjectCaseSensitive(d->m_cJson, key, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
-    }
-    else
-    {
-        cJSON_AddItemToObject(d->m_cJson, key, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_object.insert(key, value.dd_ptr->m_value);
+    d->mObject.insert(key, value.dd_ptr->mValue);
 #endif
 }
 
@@ -958,10 +896,10 @@ void QExtJsonObject::insert(const QString &key, const QExtJsonValue &value)
 bool QExtJsonObject::operator==(const QExtJsonObject &other) const
 {
     Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_Compare(d->m_cJson, other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_object == other.dd_ptr->m_object;
+    return d->mObject == other.dd_ptr->mObject;
 #endif
 }
 
@@ -972,10 +910,10 @@ bool QExtJsonObject::operator!=(const QExtJsonObject &other) const
 
 uint qHash(const QExtJsonObject &object, uint seed)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return (qulonglong)object.dd_ptr->m_cJson;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return qHash(object.dd_ptr->m_object);
+    return qHash(object.dd_ptr->mObject);
 #endif
 }
 
@@ -1021,28 +959,23 @@ QDataStream &operator>>(QDataStream &stream, QExtJsonObject &object)
 QExtJsonArrayPrivate::QExtJsonArrayPrivate(QExtJsonArray *q)
     : q_ptr(q)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    m_cJson = QEXT_NULLPTR;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonArrayPrivate::~QExtJsonArrayPrivate()
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (m_cJson)
-    {
-        cJSON_Delete(m_cJson);
-        m_cJson = QEXT_NULLPTR;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonArray::QExtJsonArray()
     : dd_ptr(new QExtJsonArrayPrivate(this))
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    Q_D(QExtJsonArray);
-    d->m_cJson = cJSON_CreateArray();
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
@@ -1050,18 +983,13 @@ QExtJsonArray::QExtJsonArray(const QExtJsonArray::InitArgList &args)
     : dd_ptr(new QExtJsonArrayPrivate(this))
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateArray();
-    QList<QExtJsonValue>::ConstIterator iter;
-    for (iter = args.begin(); iter < args.end(); ++iter)
-    {
-        cJSON_AddItemToArray(d->m_cJson, cJSON_Duplicate((*iter).dd_ptr->m_cJson, true));
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
     QList<QExtJsonValue>::ConstIterator iter;
     for (iter = args.begin(); iter < args.end(); ++iter)
     {
-        d->m_array.append((*iter).dd_ptr->m_value);
+        d->mArray.append((*iter).dd_ptr->mValue);
     }
 #endif
 }
@@ -1070,11 +998,10 @@ QExtJsonArray::QExtJsonArray(const QExtJsonValue &arg)
     : dd_ptr(new QExtJsonArrayPrivate(this))
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateArray();
-    cJSON_AddItemToArray(d->m_cJson, cJSON_Duplicate(arg.dd_ptr->m_cJson, true));
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array.append(arg.dd_ptr->m_value);
+    d->mArray.append(arg.dd_ptr->mValue);
 #endif
 }
 
@@ -1082,10 +1009,10 @@ QExtJsonArray::QExtJsonArray(const QExtJsonArray &other)
     : dd_ptr(new QExtJsonArrayPrivate(this))
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array = other.dd_ptr->m_array;
+    d->mArray = other.dd_ptr->mArray;
 #endif
 }
 
@@ -1100,11 +1027,10 @@ QExtJsonArray &QExtJsonArray::operator =(const QExtJsonArray &other)
     if (this != &other)
     {
         Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-        cJSON_Delete(d->m_cJson);
-        d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-        d->m_array = other.dd_ptr->m_array;
+        d->mArray = other.dd_ptr->mArray;
 #endif
     }
     return *this;
@@ -1113,15 +1039,10 @@ QExtJsonArray &QExtJsonArray::operator =(const QExtJsonArray &other)
 QExtJsonArray QExtJsonArray::fromStringList(const QStringList &list)
 {
     QExtJsonArray array;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    QStringList::ConstIterator iter;
-    for (iter = list.begin(); iter != list.end(); ++iter)
-    {
-        const QString &string = *iter;
-        cJSON_AddItemToArray(array.dd_ptr->m_cJson, cJSON_CreateString(string.toLatin1().data()));
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    array.dd_ptr->m_array = QJsonArray::fromStringList(list);
+    array.dd_ptr->mArray = QJsonArray::fromStringList(list);
 #endif
     return array;
 }
@@ -1129,7 +1050,7 @@ QExtJsonArray QExtJsonArray::fromStringList(const QStringList &list)
 //QExtJsonArray QExtJsonArray::fromVariantList(const QVariantList &list)
 //{
 //    QExtJsonArray array;
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    array.dd_ptr->m_array = QJsonArray::fromVariantList(list);
@@ -1140,20 +1061,20 @@ QExtJsonArray QExtJsonArray::fromStringList(const QStringList &list)
 //QVariantList QExtJsonArray::toVariantList() const
 //{
 //    Q_D(const QExtJsonArray);
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
-//    return d->m_array.toVariantList();
+//    return d->mArray.toVariantList();
 //#endif
 //}
 
 int QExtJsonArray::size() const
 {
     Q_D(const QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_GetArraySize(d->m_cJson);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_array.size();
+    return d->mArray.size();
 #endif
 }
 
@@ -1166,15 +1087,10 @@ QExtJsonValue QExtJsonArray::at(int index) const
 {
     QExtJsonValue value(QExtJsonValue::Type_Undefined);
     Q_D(const QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON *item = cJSON_GetArrayItem(d->m_cJson, index);
-    if (item)
-    {
-        cJSON_Delete(value.dd_ptr->m_cJson);
-        value.dd_ptr->m_cJson = cJSON_Duplicate(item, true);
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_array.at(index);
+    value.dd_ptr->mValue = d->mArray.at(index);
 #endif
     return value;
 }
@@ -1192,31 +1108,30 @@ QExtJsonValue QExtJsonArray::last() const
 void QExtJsonArray::prepend(const QExtJsonValue &value)
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_InsertItemInArray(d->m_cJson, 0, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array.prepend(value.dd_ptr->m_value);
+    d->mArray.prepend(value.dd_ptr->mValue);
 #endif
 }
 
 void QExtJsonArray::append(const QExtJsonValue &value)
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON *newItem = value.isUndefined() ? cJSON_CreateNull() : cJSON_Duplicate(value.dd_ptr->m_cJson, true);
-    cJSON_AddItemToArray(d->m_cJson, newItem);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array.append(value.dd_ptr->m_value);
+    d->mArray.append(value.dd_ptr->mValue);
 #endif
 }
 
 void QExtJsonArray::removeAt(int index)
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_DeleteItemFromArray(d->m_cJson, index);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array.removeAt(index);
+    d->mArray.removeAt(index);
 #endif
 }
 
@@ -1224,15 +1139,10 @@ QExtJsonValue QExtJsonArray::takeAt(int index)
 {
     QExtJsonValue value(QExtJsonValue::Type_Undefined);
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON *item = cJSON_DetachItemFromArray(d->m_cJson, index);
-    if (item)
-    {
-        cJSON_Delete(value.dd_ptr->m_cJson);
-        value.dd_ptr->m_cJson = item;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_array.takeAt(index);
+    value.dd_ptr->mValue = d->mArray.takeAt(index);
 #endif
     return value;
 }
@@ -1240,38 +1150,30 @@ QExtJsonValue QExtJsonArray::takeAt(int index)
 void QExtJsonArray::insert(int index, const QExtJsonValue &value)
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_InsertItemInArray(d->m_cJson, index, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array.insert(index, value.dd_ptr->m_value);
+    d->mArray.insert(index, value.dd_ptr->mValue);
 #endif
 }
 
 void QExtJsonArray::replace(int index, const QExtJsonValue &value)
 {
     Q_D(QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_ReplaceItemInArray(d->m_cJson, index, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_array.replace(index, value.dd_ptr->m_value);
+    d->mArray.replace(index, value.dd_ptr->mValue);
 #endif
 }
 
 bool QExtJsonArray::contains(const QExtJsonValue &element) const
 {
     Q_D(const QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    for (int i = 0; i < cJSON_GetArraySize(d->m_cJson); ++i)
-    {
-        cJSON *item = cJSON_GetArrayItem(d->m_cJson, i);
-        if (item && cJSON_Compare(item, element.dd_ptr->m_cJson, true))
-        {
-            return true;
-        }
-    }
-    return false;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_array.contains(element.dd_ptr->m_value);
+    return d->mArray.contains(element.dd_ptr->mValue);
 #endif
 }
 
@@ -1289,10 +1191,10 @@ QExtJsonValue QExtJsonArray::operator[](int index) const
 bool QExtJsonArray::operator==(const QExtJsonArray &other) const
 {
     Q_D(const QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_Compare(d->m_cJson, other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_array == other.dd_ptr->m_array;
+    return d->mArray == other.dd_ptr->mArray;
 #endif
 }
 
@@ -1304,10 +1206,10 @@ bool QExtJsonArray::operator!=(const QExtJsonArray &other) const
 
 uint qHash(const QExtJsonArray &array, uint seed)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return (qulonglong)array.dd_ptr->m_cJson;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return qHash(array.dd_ptr->m_array);
+    return qHash(array.dd_ptr->mArray);
 #endif
 }
 
@@ -1353,28 +1255,23 @@ QDataStream &operator>>(QDataStream &stream, QExtJsonArray &array)
 QExtJsonDocumentPrivate::QExtJsonDocumentPrivate(QExtJsonDocument *q)
     : q_ptr(q)
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    m_cJson = QEXT_NULLPTR;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonDocumentPrivate::~QExtJsonDocumentPrivate()
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (m_cJson)
-    {
-        cJSON_Delete(m_cJson);
-        m_cJson = QEXT_NULLPTR;
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
 QExtJsonDocument::QExtJsonDocument()
     : dd_ptr(new QExtJsonDocumentPrivate(this))
 {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    Q_D(QExtJsonDocument);
-    d->m_cJson = cJSON_CreateRaw("");
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #endif
 }
 
@@ -1382,10 +1279,10 @@ QExtJsonDocument::QExtJsonDocument(const QExtJsonObject &object)
     : dd_ptr(new QExtJsonDocumentPrivate(this))
 {
     Q_D(QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(object.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_document = QJsonDocument(object.dd_ptr->m_object);
+    d->mDocument = QJsonDocument(object.dd_ptr->mObject);
 #endif
 }
 
@@ -1393,10 +1290,10 @@ QExtJsonDocument::QExtJsonDocument(const QExtJsonArray &array)
     : dd_ptr(new QExtJsonDocumentPrivate(this))
 {
     Q_D(QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(array.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_document = QJsonDocument(array.dd_ptr->m_array);
+    d->mDocument = QJsonDocument(array.dd_ptr->mArray);
 #endif
 }
 
@@ -1404,10 +1301,10 @@ QExtJsonDocument::QExtJsonDocument(const QExtJsonDocument &other)
     : dd_ptr(new QExtJsonDocumentPrivate(this))
 {
     Q_D(QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_document = other.dd_ptr->m_document;
+    d->mDocument = other.dd_ptr->mDocument;
 #endif
 }
 
@@ -1422,11 +1319,10 @@ QExtJsonDocument &QExtJsonDocument::operator =(const QExtJsonDocument &other)
     Q_D(QExtJsonDocument);
     if (this != &other)
     {
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-        cJSON_Delete(d->m_cJson);
-        d->m_cJson = cJSON_Duplicate(other.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-        d->m_document = other.dd_ptr->m_document;
+        d->mDocument = other.dd_ptr->mDocument;
 #endif
     }
     return *this;
@@ -1435,7 +1331,7 @@ QExtJsonDocument &QExtJsonDocument::operator =(const QExtJsonDocument &other)
 //QExtJsonDocument QExtJsonDocument::fromVariant(const QVariant &variant)
 //{
 //    QExtJsonDocument document;
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    document.dd_ptr->m_document = QJsonDocument::fromVariant(variant);
@@ -1446,7 +1342,7 @@ QExtJsonDocument &QExtJsonDocument::operator =(const QExtJsonDocument &other)
 //QVariant QExtJsonDocument::toVariant() const
 //{
 //    Q_D(const QExtJsonDocument);
-//#if QEXT_FEATURE_USE_CJSON_BACKEND
+//#if !QEXT_FEATURE_USE_QJSON_BACKEND
 
 //#else
 //    return QVariant::fromValue(this);
@@ -1460,23 +1356,14 @@ QExtJsonDocument QExtJsonDocument::fromJson(const QByteArray &json, QString *err
         *error = "";
     }
     QExtJsonDocument document;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON *cJson = cJSON_ParseWithLength(json.data(), json.length());
-    if (cJson)
-    {
-        cJSON_Delete(document.dd_ptr->m_cJson);
-        document.dd_ptr->m_cJson = cJson;
-    }
-    else if (error)
-    {
-        *error = cJSON_GetErrorPtr();
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
     QJsonParseError parseError;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(json, &parseError);
     if (!jsonDoc.isNull())
     {
-        document.dd_ptr->m_document = jsonDoc;
+        document.dd_ptr->mDocument = jsonDoc;
     }
     else if (error)
     {
@@ -1489,47 +1376,40 @@ QExtJsonDocument QExtJsonDocument::fromJson(const QByteArray &json, QString *err
 QByteArray QExtJsonDocument::toJson(bool formatted) const
 {
     Q_D(const QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    char *jsonString = formatted ? cJSON_Print(d->m_cJson) : cJSON_PrintUnformatted(d->m_cJson);
-    QByteArray json(jsonString);
-    free(jsonString);
-    return json;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_document.toJson(formatted ? QJsonDocument::Indented : QJsonDocument::Compact);
+    return d->mDocument.toJson(formatted ? QJsonDocument::Indented : QJsonDocument::Compact);
 #endif
 }
 
 bool QExtJsonDocument::isEmpty() const
 {
     Q_D(const QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (cJSON_IsObject(d->m_cJson) || cJSON_IsArray(d->m_cJson))
-    {
-        return false;
-    }
-    return !d->m_cJson->string || strlen(d->m_cJson->string) <= 0;
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_document.isEmpty();
+    return d->mDocument.isEmpty();
 #endif
 }
 
 bool QExtJsonDocument::isArray() const
 {
     Q_D(const QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_IsArray(d->m_cJson);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_document.isArray();
+    return d->mDocument.isArray();
 #endif
 }
 
 bool QExtJsonDocument::isObject() const
 {
     Q_D(const QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_IsObject(d->m_cJson);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    return d->m_document.isObject();
+    return d->mDocument.isObject();
 #endif
 }
 
@@ -1537,14 +1417,10 @@ QExtJsonObject QExtJsonDocument::object() const
 {
     Q_D(const QExtJsonDocument);
     QExtJsonObject object;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (this->isObject())
-    {
-        cJSON_Delete(object.dd_ptr->m_cJson);
-        object.dd_ptr->m_cJson = cJSON_Duplicate(d->m_cJson, true);
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    object.dd_ptr->m_object =  d->m_document.object();
+    object.dd_ptr->mObject =  d->mDocument.object();
 #endif
     return object;
 }
@@ -1553,14 +1429,10 @@ QExtJsonArray QExtJsonDocument::array() const
 {
     Q_D(const QExtJsonDocument);
     QExtJsonArray array;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (this->isArray())
-    {
-        cJSON_Delete(array.dd_ptr->m_cJson);
-        array.dd_ptr->m_cJson = cJSON_Duplicate(d->m_cJson, true);
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    array.dd_ptr->m_array = d->m_document.array();
+    array.dd_ptr->mArray = d->mDocument.array();
 #endif
     return array;
 }
@@ -1568,22 +1440,20 @@ QExtJsonArray QExtJsonDocument::array() const
 void QExtJsonDocument::setObject(const QExtJsonObject &object)
 {
     Q_D(QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_Delete(d->m_cJson);
-    d->m_cJson = cJSON_Duplicate(object.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_document.setObject(object.dd_ptr->m_object);
+    d->mDocument.setObject(object.dd_ptr->mObject);
 #endif
 }
 
 void QExtJsonDocument::setArray(const QExtJsonArray &array)
 {
     Q_D(QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_Delete(d->m_cJson);
-    d->m_cJson = cJSON_Duplicate(array.dd_ptr->m_cJson, true);
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    d->m_document.setArray(array.dd_ptr->m_array);
+    d->mDocument.setArray(array.dd_ptr->mArray);
 #endif
 }
 
@@ -1591,18 +1461,10 @@ const QExtJsonValue QExtJsonDocument::operator[](const char *key) const
 {
     Q_D(const QExtJsonDocument);
     QExtJsonValue value;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (this->isObject())
-    {
-        cJSON *item = cJSON_GetObjectItem(d->m_cJson, key);
-        if (item)
-        {
-            cJSON_Delete(value.dd_ptr->m_cJson);
-            value.dd_ptr->m_cJson = cJSON_Duplicate(item, true);
-        }
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_document[key];
+    value.dd_ptr->mValue = d->mDocument[key];
 #endif
     return value;
 }
@@ -1616,18 +1478,10 @@ const QExtJsonValue QExtJsonDocument::operator[](int index) const
 {
     Q_D(const QExtJsonDocument);
     QExtJsonValue value;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    if (this->isArray())
-    {
-        cJSON *item = cJSON_GetArrayItem(d->m_cJson, index);
-        if (item)
-        {
-            cJSON_Delete(value.dd_ptr->m_cJson);
-            value.dd_ptr->m_cJson = cJSON_Duplicate(item, true);
-        }
-    }
+#if !QEXT_FEATURE_USE_QJSON_BACKEND
+
 #else
-    value.dd_ptr->m_value = d->m_document[index];
+    value.dd_ptr->mValue = d->mDocument[index];
 #endif
     return value;
 }
@@ -1635,11 +1489,7 @@ const QExtJsonValue QExtJsonDocument::operator[](int index) const
 bool QExtJsonDocument::operator==(const QExtJsonDocument &other) const
 {
     Q_D(const QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_Compare(d->m_cJson, other.dd_ptr->m_cJson, true);
-#else
-    return d->m_document == other.dd_ptr->m_document;
-#endif
+    return d->mDocument == other.dd_ptr->mDocument;
 }
 
 bool QExtJsonDocument::operator!=(const QExtJsonDocument &other) const
@@ -1650,11 +1500,7 @@ bool QExtJsonDocument::operator!=(const QExtJsonDocument &other) const
 bool QExtJsonDocument::isNull() const
 {
     Q_D(const QExtJsonDocument);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_IsNull(d->m_cJson);
-#else
-    return d->m_document.isNull();
-#endif
+    return d->mDocument.isNull();
 }
 
 

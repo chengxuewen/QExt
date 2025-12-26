@@ -38,17 +38,13 @@ qext_configure_feature("ENABLE_VARIADIC_TEMPLATES" PUBLIC
     LABEL "Enable this to use cxx_variadic_templates"
     CONDITION OFF)
 
-qext_configure_feature("USE_3rdQJSON_BACKEND" PUBLIC
-    LABEL "Enable this to build use 3rd cJSON backend"
+qext_configure_feature("USE_QJSON_BACKEND" PUBLIC
+    LABEL "Enable this to build use QJson backend"
     CONDITION ON)
-qext_configure_feature("USE_CJSON_BACKEND" PUBLIC
-    LABEL "Enable this to build use cJSON backend"
-    AUTODETECT QEXT_USE_QT5
-    CONDITION QEXT_USE_QT4)
 qext_configure_feature("ENABLE_JSON" PUBLIC
     LABEL "Enable this to build enable json"
     AUTODETECT OFF
-    CONDITION QEXT_FEATURE_USE_CJSON_BACKEND OR QEXT_FEATURE_USE_3rdQJSON_BACKEND OR QEXT_QT_HAS_QJSON)
+    CONDITION QEXT_FEATURE_USE_QJSON_BACKEND OR QEXT_QT_HAS_JSON)
 
 qext_configure_definition("QEXT_VERSION_NAME" PUBLIC VALUE "\"${QEXT_VERSION_NAME}\"")
 qext_configure_definition("QEXT_VERSION_MAJOR" PUBLIC VALUE ${QEXT_VERSION_MAJOR})

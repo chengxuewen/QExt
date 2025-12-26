@@ -1,4 +1,4 @@
-# #######################################################################################################################
+﻿# #######################################################################################################################
 #
 # Library: QExt
 #
@@ -28,61 +28,72 @@ if(TARGET QExt3rdparty::WrapQJson)
     return()
 endif()
 
-set(WrapQJson_DIR_NAME "qjson-0.9.0")
-set(WrapQJson_PKG_NAME "qjson-0.9.0.tar.gz")
-set(WrapQJson_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${WrapQJson_PKG_NAME}")
-set(WrapQJson_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${WrapQJson_DIR_NAME}")
-set(WrapQJson_BUILD_DIR "${WrapQJson_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
-set(WrapQJson_SOURCE_DIR "${WrapQJson_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
-set(WrapQJson_INSTALL_DIR "${WrapQJson_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
-if(NOT EXISTS ${WrapQJson_SOURCE_DIR})
-    include(FetchContent)
-    FetchContent_Declare(
-        QExt-3rdparty-QJson
-        SOURCE_DIR ${WrapQJson_SOURCE_DIR}
-        BINARY_DIR ${WrapQJson_BUILD_DIR}
-        URL ${WrapQJson_URL_PATH})
-    FetchContent_Populate(QExt-3rdparty-QJson)
-endif()
-if(NOT EXISTS ${WrapQJson_INSTALL_DIR})
-    if(NOT EXISTS ${WrapQJson_SOURCE_DIR})
-        message(FATAL_ERROR "${WrapQJson_DIR_NAME} FetchContent failed.")
+set(QExtWrapQJson_DIR_NAME "qjson")
+set(QExtWrapQJson_PKG_NAME "${QExtWrapQJson_DIR_NAME}")
+set(QExtWrapQJson_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQJson_PKG_NAME}")
+set(QExtWrapQJson_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQJson_DIR_NAME}")
+set(QExtWrapQJson_BUILD_DIR "${QExtWrapQJson_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
+set(QExtWrapQJson_SOURCE_DIR "${QExtWrapQJson_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
+set(QExtWrapQJson_INSTALL_DIR "${QExtWrapQJson_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
+qext_stamp_file_info(QExtWrapQJson OUTPUT_DIR "${QExtWrapQJson_ROOT_DIR}")
+qext_fetch_3rdparty(QExtWrapQJson URL "${QExtWrapQJson_URL_PATH}")
+if(NOT EXISTS ${QExtWrapQJson_STAMP_FILE_PATH})
+    if(NOT EXISTS ${QExtWrapQJson_SOURCE_DIR})
+        message(FATAL_ERROR "${QExtWrapQJson_DIR_NAME} FetchContent failed.")
+    endif()
+
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQJson_BUILD_DIR}
+        WORKING_DIRECTORY "${QExtWrapQJson_ROOT_DIR}"
+        RESULT_VARIABLE MKDIR_RESULT)
+    if(NOT (MKDIR_RESULT MATCHES 0))
+        message(FATAL_ERROR "${QExtWrapQJson_DIR_NAME} lib build directory make failed.")
+    endif()
+
+    if(${QT_VERSION_MAJOR} EQUAL 4)
+        set(QExtWrapQJson_QT4_BUILD ON)
+    else()
+        set(QExtWrapQJson_QT4_BUILD OFF)
     endif()
     execute_process(
         COMMAND ${CMAKE_COMMAND}
         -G${CMAKE_GENERATOR}
+        -DQT4_BUILD=${QExtWrapQJson_QT4_BUILD}
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DCMAKE_INSTALL_PREFIX=${WrapQJson_INSTALL_DIR} ${WrapQJson_SOURCE_DIR}
-        WORKING_DIRECTORY "${WrapQJson_BUILD_DIR}"
+        -DCMAKE_INSTALL_PREFIX=${QExtWrapQJson_INSTALL_DIR}
+        ${QExtWrapQJson_SOURCE_DIR}
+        WORKING_DIRECTORY "${QExtWrapQJson_BUILD_DIR}"
         RESULT_VARIABLE CONFIGURE_RESULT)
     if(CONFIGURE_RESULT MATCHES 0)
-        message(STATUS "${WrapQJson_DIR_NAME} configure success")
+        message(STATUS "${QExtWrapQJson_DIR_NAME} configure success")
         execute_process(
             COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS} --config Release
-            WORKING_DIRECTORY "${WrapQJson_BUILD_DIR}"
+            WORKING_DIRECTORY "${QExtWrapQJson_BUILD_DIR}"
             RESULT_VARIABLE BUILD_RESULT)
         if(BUILD_RESULT MATCHES 0)
-            message(STATUS "${WrapQJson_DIR_NAME} build success")
+            message(STATUS "${QExtWrapQJson_DIR_NAME} build success")
             execute_process(
                 COMMAND ${CMAKE_COMMAND} --install ./
-                WORKING_DIRECTORY "${WrapQJson_BUILD_DIR}"
+                WORKING_DIRECTORY "${QExtWrapQJson_BUILD_DIR}"
                 RESULT_VARIABLE INSTALL_RESULT)
             if(BUILD_RESULT MATCHES 0)
-                message(STATUS "${WrapQJson_DIR_NAME} install success")
+                message(STATUS "${QExtWrapQJson_DIR_NAME} install success")
+                qext_make_stamp_file("${QExtWrapQJson_STAMP_FILE_PATH}")
             else()
-                message(FATAL_ERROR "${WrapQJson_DIR_NAME} install failed.")
+                message(FATAL_ERROR "${QExtWrapQJson_DIR_NAME} install failed.")
             endif()
         else()
-            message(FATAL_ERROR "${WrapQJson_DIR_NAME} build failed.")
+            message(FATAL_ERROR "${QExtWrapQJson_DIR_NAME} build failed.")
         endif()
     else()
-        message(FATAL_ERROR "${WrapQJson_DIR_NAME} configure failed.")
+        message(FATAL_ERROR "${QExtWrapQJson_DIR_NAME} configure failed.")
     endif()
 endif()
-find_package(QJSON-qt${QEXT_QT_VERSION_MAJOR} HINTS ${WrapQJson_INSTALL_DIR} REQUIRED)
+# wrap lib
+find_package(qjson-qt${QEXT_QT_VERSION_MAJOR} HINTS ${QExtWrapQJson_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQJson INTERFACE IMPORTED)
-target_link_libraries(QExt3rdparty::WrapQJson INTERFACE QJSON-qt${QEXT_QT_VERSION_MAJOR})
+target_link_libraries(QExt3rdparty::WrapQJson INTERFACE qjson-qt${QEXT_QT_VERSION_MAJOR})
 set(QExtWrapQJson_FOUND ON)
