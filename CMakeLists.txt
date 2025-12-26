@@ -463,8 +463,6 @@ qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ${QEXTT_DEFA
 
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_AUTH "Enable this to build the auth lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
     DEPENDS ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
@@ -476,8 +474,6 @@ qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" O
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_BREAKPAD "Enable this to build the breakpad lib" OFF
     DEPENDS WIN32 OR UNIX OR APPLE
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_MAP "Enable this to build the map lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_MEDIA "Enable this to build the media lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -504,9 +500,6 @@ qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib"
 qext_option(QEXT_ENABLE_LIB_SINGLEAPP "Enable this to build the singleapp lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_RECORDPLAY "Enable this to build the recordplay lib" OFF
-    DEPENDS QEXT_CXX_STANDARD17 AND (CMAKE_VERSION VERSION_GREATER_EQUAL 3.20)
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     DEPENDS (NOT ANDROID) AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
@@ -530,10 +523,6 @@ qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty Sin
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
-    OR_CONDITION QEXT_BUILD_ALL)
-
-qext_option(QEXT_ENABLE_APP_RECORDPLAYER "Enable this to build the recordplayer app" OFF
-    DEPENDS QEXT_CXX_STANDARD11 AND QEXT_ENABLE_LIB_PLOT AND QEXT_ENABLE_LIB_WIDGETS AND QEXT_ENABLE_LIB_RECORDPLAY
     OR_CONDITION QEXT_BUILD_ALL)
 
 

@@ -202,10 +202,10 @@ int QExtBreakpadHandler::reporterAutoCloseTime() const
     return d->mReporterAutoCloseTime;
 }
 
-void QExtBreakpadHandler::setReporterAutoCloseTime(int time)
+void QExtBreakpadHandler::setReporterAutoCloseTime(int secs)
 {
     Q_D(QExtBreakpadHandler);
-    d->mReporterAutoCloseTime = time;
+    d->mReporterAutoCloseTime = secs;
 }
 
 QString QExtBreakpadHandler::applicationName() const

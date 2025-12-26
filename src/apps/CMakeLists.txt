@@ -20,5 +20,3 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
-
-qext_add_subdirectory(recordplayer QEXT_ENABLE_APP_RECORDPLAYER)

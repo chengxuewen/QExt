@@ -27,7 +27,7 @@ public:
     void setReporterEnable(bool enable);
 
     int reporterAutoCloseTime() const;
-    void setReporterAutoCloseTime(int time);
+    void setReporterAutoCloseTime(int secs);
 
     QString applicationName() const;
     void setApplicationName(const QString &name);

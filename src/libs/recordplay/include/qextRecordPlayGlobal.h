@@ -1,1 +1,0 @@
-﻿#include "../source/qextRecordPlayGlobal.h"

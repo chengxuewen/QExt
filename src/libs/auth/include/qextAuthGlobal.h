@@ -1,1 +1,0 @@
-﻿#include "../source/qextAuthGlobal.h"
