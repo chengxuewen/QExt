@@ -28,6 +28,22 @@ if(TARGET QExt3rdparty::WrapBreakpad)
     return()
 endif()
 
+include(InstallVcpkg)
+qext_vcpkg_install_package(breakpad
+    NOT_IMPORT
+    TARGET
+    QExt3rdparty::WrapBreakpad
+    PREFIX
+    QExtWrapBreakpad)
+set(CMAKE_PREFIX_PATH_CACHE ${CMAKE_PREFIX_PATH})
+set(CMAKE_PREFIX_PATH ${QExtWrapBreakpad_INSTALL_DIR})
+find_package(unofficial-breakpad REQUIRED)
+target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE
+    unofficial::breakpad::libbreakpad unofficial::breakpad::libbreakpad_client)
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH_CACHE})
+
+
+if(OFF)
 if(QEXT_FEATURE_USE_BREAKPAD_SOURCE)
     set(QExtWrapBreakpad_PKG_SOURCE TRUE)
 elseif(WIN32)
@@ -182,5 +198,6 @@ endif()
 if(EXISTS "${QExtWrapBreakpad_INSTALL_DIR}/bin")
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_directory "${QExtWrapBreakpad_INSTALL_DIR}/bin"
         "${QEXT_BUILD_DIR}/${QEXT_DEFAULT_LIBEXEC}")
+endif()
 endif()
 set(QExtWrapBreakpad_FOUND ON)

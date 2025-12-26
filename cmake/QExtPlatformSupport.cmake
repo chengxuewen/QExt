@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -99,23 +99,25 @@ qext_set01(QEXT_SYSTEM_MAC APPLE)
 # QExt set processor variable
 #-----------------------------------------------------------------------------------------------------------------------
 message(STATUS "Build in processor: ${CMAKE_SYSTEM_PROCESSOR}")
-set(QEXT_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR})
+string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" QEXT_SYSTEM_PROCESSOR)
 qext_set01(QEXT_PROCESSOR_I386
-    CMAKE_SYSTEM_PROCESSOR STREQUAL "i386")
+    QEXT_SYSTEM_PROCESSOR STREQUAL "i386")
 qext_set01(QEXT_PROCESSOR_I686
-    CMAKE_CXX_COMPILER_ID MATCHES "i686")
+    QEXT_SYSTEM_PROCESSOR MATCHES "i686")
 qext_set01(QEXT_PROCESSOR_X86_64
-    CMAKE_CXX_COMPILER_ID MATCHES "x86_64")
+    QEXT_SYSTEM_PROCESSOR MATCHES "x86_64")
 qext_set01(QEXT_PROCESSOR_X86
-    CMAKE_CXX_COMPILER_ID MATCHES "x86")
+    QEXT_SYSTEM_PROCESSOR MATCHES "x86")
 qext_set01(QEXT_PROCESSOR_AMD64
-    CMAKE_CXX_COMPILER_ID STREQUAL "amd64")
+    QEXT_SYSTEM_PROCESSOR STREQUAL "amd64")
+qext_set01(QEXT_PROCESSOR_AARCH64
+    QEXT_SYSTEM_PROCESSOR STREQUAL "aarch64")
 qext_set01(QEXT_PROCESSOR_ARM64
-    CMAKE_CXX_COMPILER_ID STREQUAL "arm64")
+    QEXT_SYSTEM_PROCESSOR STREQUAL "arm64" OR QEXT_PROCESSOR_AARCH64)
 qext_set01(QEXT_PROCESSOR_ARM32
-    CMAKE_CXX_COMPILER_ID STREQUAL "arm32")
+    QEXT_SYSTEM_PROCESSOR STREQUAL "arm32")
 qext_set01(QEXT_PROCESSOR_ARM
-    QEXT_PROCESSOR_ARM64 OR QEXT_PROCESSOR_ARM32)
+    QEXT_PROCESSOR_AARCH64 OR QEXT_PROCESSOR_ARM64 OR QEXT_PROCESSOR_ARM32)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -148,6 +150,48 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
     set(QEXT_ARCH_32BIT TRUE)
 endif()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# QExt vcpkg triplets variable
+#-----------------------------------------------------------------------------------------------------------------------
+if(QEXT_PROCESSOR_X86_64 OR QEXT_PROCESSOR_AMD64)
+    set(QEXT_VCPKG_TRIPLET_ARCH x64)
+    set(QEXT_VCPKG_TRIPLET_ARCH_ARM OFF)
+elseif(QEXT_PROCESSOR_I686 OR QEXT_PROCESSOR_I386)
+    set(QEXT_VCPKG_TRIPLET_ARCH x86)
+    set(QEXT_VCPKG_TRIPLET_ARCH_ARM OFF)
+elseif(QEXT_PROCESSOR_ARM64 OR QEXT_PROCESSOR_AARCH64)
+    set(QEXT_VCPKG_TRIPLET_ARCH arm64)
+    set(QEXT_VCPKG_TRIPLET_ARCH_ARM ON)
+elseif(QEXT_PROCESSOR_ARM32)
+    set(QEXT_VCPKG_TRIPLET_ARCH arm32)
+    set(QEXT_VCPKG_TRIPLET_ARCH_ARM ON)
+else()
+    message(FATAL_ERROR "Unknown processor arch.")
+endif()
+
+if(QEXT_SYSTEM_WIN)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM windows)
+elseif(QEXT_SYSTEM_IOS)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM ios)
+elseif(QEXT_SYSTEM_TVOS)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM tvos)
+elseif(QEXT_SYSTEM_DARWIN)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM osx)
+elseif(QEXT_SYSTEM_LINUX)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM linux)
+elseif(QEXT_SYSTEM_ANDROID)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM android)
+elseif(QEXT_SYSTEM_FREEBSD)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM freebsd)
+elseif(QEXT_CXX_COMPILER_MINGW)
+    set(QEXT_VCPKG_TRIPLET_PLATFORM mingw)
+else()
+    message(FATAL_ERROR "Unknown system platform.")
+endif()
+set(QEXT_VCPKG_TRIPLET "${QEXT_VCPKG_TRIPLET_ARCH}-${QEXT_VCPKG_TRIPLET_PLATFORM}" CACHE INTERNAL "" FORCE)
+message(STATUS "Vcpkg triplet name: ${QEXT_VCPKG_TRIPLET}")
 
 
 #-----------------------------------------------------------------------------------------------------------------------

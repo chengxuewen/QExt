@@ -250,13 +250,26 @@ if(WIN32)
     set(CMAKE_OBJECT_PATH_MAX 2048)
 endif()
 
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Detect 3rdparty packages directories
+#-----------------------------------------------------------------------------------------------------------------------
+if(DEFINED INPUT_QEXT_3RDPARTY_PACKAGES_DIR)
+    set(QEXT_3RDPARTY_PACKAGES_DIR "${INPUT_QEXT_3RDPARTY_PACKAGES_DIR}" CACHE PATH "3rdparty packages directories")
+else()
+    set(QEXT_3RDPARTY_PACKAGES_DIR "" CACHE PATH "3rdparty packages directories")
+endif()
+message(STATUS "Project 3rdparty packages directories: ${QEXT_3RDPARTY_PACKAGES_DIR}")
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set Position independent
+#-----------------------------------------------------------------------------------------------------------------------
 ## Position independent code:
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 # Does the linker support position independent code?
 include(CheckPIESupported)
 check_pie_supported()
-
 # Do not relink dependent libraries when no header has changed:
 set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 
