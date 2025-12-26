@@ -74,10 +74,11 @@ Thumbs.db
 # cmake user file
 CMakeLists.txt.user
 
+vcpkg*
 stashe
 build
 .idea
 .vscode
 cmake-build-debug
 
-3rdparty/maplibre-native-qt
+3rdparty/qjson
