@@ -25,8 +25,14 @@
 #ifndef _QEXTOPTIONAL_H
 #define _QEXTOPTIONAL_H
 
-#include <nonstd/optional.hpp>
+#include <qextCoreConfig.h>
 
+#if QEXT_CXX_STANDARD >= 17
+#   define optional_CONFIG_SELECT_OPTIONAL 0
+#else
+#   define optional_CONFIG_SELECT_OPTIONAL 1
+#endif
+#include <nonstd/optional.hpp>
 
 #define qextSwapOptional std::swap
 #define qextInPlaceOptional nonstd::in_place

@@ -25,6 +25,13 @@
 #ifndef _QEXTVARIANT_H
 #define _QEXTVARIANT_H
 
+#include <qextCoreConfig.h>
+
+#if QEXT_CXX_STANDARD >= 17
+#   define variant_CONFIG_SELECT_VARIANT 0
+#else
+#   define variant_CONFIG_SELECT_VARIANT 1
+#endif
 #include <nonstd/variant.hpp>
 
 #define qextVariantGet nonstd::get

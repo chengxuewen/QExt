@@ -29,7 +29,7 @@ if(TARGET QExt3rdparty::WrapQJson)
 endif()
 
 set(QExtWrapQJson_DIR_NAME "qjson")
-set(QExtWrapQJson_PKG_NAME "${QExtWrapQJson_DIR_NAME}")
+set(QExtWrapQJson_PKG_NAME "${QExtWrapQJson_DIR_NAME}.zip")
 set(QExtWrapQJson_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQJson_PKG_NAME}")
 set(QExtWrapQJson_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQJson_DIR_NAME}")
 set(QExtWrapQJson_BUILD_DIR "${QExtWrapQJson_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
@@ -63,6 +63,7 @@ if(NOT EXISTS ${QExtWrapQJson_STAMP_FILE_PATH})
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+        -DCMAKE_POLICY_VERSION_MINIMUM=3.5
         -DCMAKE_INSTALL_PREFIX=${QExtWrapQJson_INSTALL_DIR}
         ${QExtWrapQJson_SOURCE_DIR}
         WORKING_DIRECTORY "${QExtWrapQJson_BUILD_DIR}"

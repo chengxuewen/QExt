@@ -26,10 +26,18 @@
 #define _QEXTSTRINGVIEW_H
 
 #include <qextGlobal.h>
+#include <qextCoreConfig.h>
 
-#include <QStringView>
-
+#if QEXT_CXX_STANDARD >= 17
+#   define nssv_CONFIG_SELECT_STRING_VIEW 0
+#else
+#   define nssv_CONFIG_SELECT_STRING_VIEW 1
+#endif
 #include <nonstd/string_view.hpp>
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+#   include <QStringView>
+#endif
 
 class QExtStringView : public nonstd::string_view
 {

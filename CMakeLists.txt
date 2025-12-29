@@ -39,7 +39,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.4.1.1 LANGUAGES CXX C)
+project(QExt VERSION 1.4.1.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -323,6 +323,7 @@ if(NOT DEFINED QEXT_FEATURE_DEV_BUILD)
         set(QEXT_FEATURE_DEV_BUILD ${INPUT_QEXT_FEATURE_DEV_BUILD})
     endif()
 endif()
+message(STATUS "Project feature dev build ${QEXT_FEATURE_DEV_BUILD}")
 
 # Pre-calculate the no_prefix feature if it's set by configure via INPUT_QEXT_FEATURE_NO_PREFIX.
 # This needs to be done before configure.cmake is processed.
@@ -349,24 +350,37 @@ else()
     endif()
     string(APPEND QEXT_DEFAULT_PREFIX "QExt${QEXT_VERSION}")
 endif()
+message(STATUS "QExt default prefix set as '${QEXT_DEFAULT_PREFIX}'.")
 
-if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "")
-    set(QEXT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+if(NOT DEFINED INPUT_QEXT_FEATURE_INSTALL_PREFIX)
+    if(QEXT_FEATURE_DEV_BUILD OR QEXT_FEATURE_NO_PREFIX OR NOT CMAKE_INSTALL_PREFIX)
+        set(QEXT_INSTALL_PREFIX "${QEXT_DEFAULT_PREFIX}")
+    else()
+        set(QEXT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+    endif()
 else()
-    set(QEXT_INSTALL_PREFIX "${QEXT_DEFAULT_PREFIX}")
+    set(QEXT_INSTALL_PREFIX ${INPUT_QEXT_FEATURE_INSTALL_PREFIX})
 endif()
+message(STATUS "QExt install prefix set as '${QEXT_INSTALL_PREFIX}'.")
+
+set(QEXT_INSTALL_DIR "${QEXT_INSTALL_PREFIX}")
+set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}")
+message(STATUS "QExt build dir set as '${QEXT_BUILD_DIR}'.")
+message(STATUS "QExt install dir set as '${QEXT_INSTALL_DIR}'.")
 
 if(NOT "${CMAKE_STAGING_PREFIX}" STREQUAL "")
     set(QEXT_STAGING_PREFIX "${CMAKE_STAGING_PREFIX}")
 else()
     set(QEXT_STAGING_PREFIX "${QEXT_DEFAULT_PREFIX}")
 endif()
+message(STATUS "QExt staging prefix set as '${QEXT_DEFAULT_PREFIX}'.")
 
 if(CMAKE_STAGING_PREFIX)
     set(QEXT_PREFIX "${CMAKE_STAGING_PREFIX}")
 else()
     set(QEXT_PREFIX "${QEXT_INSTALL_PREFIX}")
 endif()
+message(STATUS "QExt prefix set as '${QEXT_PREFIX}'.")
 
 if(QEXT_PREFIX STREQUAL QEXT_BINARY_DIR)
     set(QEXTT_DEFAULT_BUILD_INSTALL OFF)
@@ -400,7 +414,7 @@ else()
     set(QEXT_DEFAULT_BUILD_BENCHMARKS OFF)
     set(QEXT_DEFAULT_BUILD_WARNINGS_AS_ERRORS OFF)
 endif()
-message(STATUS "QExt Install prefix set as '${QEXT_INSTALL_PREFIX}'.")
+message(STATUS "QExt cmake install prefix set as '${CMAKE_INSTALL_PREFIX}'.")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -590,67 +604,15 @@ qext_configure_process_path(QEXT_INSTALL_TESTSDIR "tests" "Tests [PREFIX/tests]"
 qext_configure_process_path(QEXT_INSTALL_DESCRIPTIONSDIR
     "${QEXT_INSTALL_DATADIR}/modules" "Module description files directory")
 
-function(qext_internal_set_up_global_paths)
-    # Compute the values of QEXT_BUILD_DIR, QEXT_INSTALL_DIR, QEXT_CONFIG_BUILD_DIR, QEXT_CONFIG_INSTALL_DIR
-    # taking into account whether the current build is a prefix build or a non-prefix build,
-    # and whether it is a superbuild or non-superbuild.
-    # A third case is when another module or standalone tests are built against a super-built QExt.
-    # The layout for the third case is the same as for non-superbuilds.
-    #
-    # These values should be prepended to file paths in commands or properties,
-    # in order to correctly place generated Config files, generated Targets files,
-    # executables / libraries, when copying / installing files, etc.
-    #
-    # The build dir variables will always be absolute paths.
-    # The QEXT_INSTALL_DIR variable will have a relative path in a prefix build,
-    # which means that it can be empty, so use qext_join_path to prevent accidental absolute paths.
-    if(QEXT_SUPERBUILD)
-        # In this case, we always copy all the build products in QEXT_BUILD_DIR/{bin,lib,...}
-        if(QEXT_BUILD_INSTALL)
-            set(QEXT_BUILD_DIR "${QEXT_BINARY_DIR}")
-            set(QEXT_INSTALL_DIR "")
-        else()
-            if("${CMAKE_STAGING_PREFIX}" STREQUAL "")
-                set(QEXT_BUILD_DIR "${QEXT_BINARY_DIR}")
-                set(QEXT_INSTALL_DIR "${QEXT_BINARY_DIR}")
-            else()
-                set(QEXT_BUILD_DIR "${CMAKE_STAGING_PREFIX}")
-                set(QEXT_INSTALL_DIR "${CMAKE_STAGING_PREFIX}")
-            endif()
-        endif()
-    else()
-        if(QEXT_BUILD_INSTALL)
-            # In the usual prefix build case, the build dir is the current module build dir,
-            # and the install dir is the prefix, so we don't set it.
-            set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}")
-            set(QEXT_INSTALL_DIR "")
-        else()
-            # When doing a non-prefix build, both the build dir and install dir are the same, pointing to the
-            # QExt build dir.
-            set(QEXT_BUILD_DIR "${QEXT_STAGING_PREFIX}")
-            set(QEXT_INSTALL_DIR "${QEXT_BUILD_DIR}")
-        endif()
-    endif()
-    if(DEFINED INPUT_QEXT_BUILD_DIR)
-        set(QEXT_BUILD_DIR "${INPUT_QEXT_BUILD_DIR}")
-    endif()
-
-    set(__config_path_part "${QEXT_INSTALL_LIBDIR}/cmake")
-    set(QEXT_CONFIG_BUILD_DIR "${QEXT_BUILD_DIR}/${__config_path_part}")
-    set(QEXT_CONFIG_INSTALL_DIR "${QEXT_INSTALL_DIR}")
-    if(QEXT_CONFIG_INSTALL_DIR)
-        string(APPEND QEXT_CONFIG_INSTALL_DIR "/")
-    endif()
-    string(APPEND QEXT_CONFIG_INSTALL_DIR ${__config_path_part})
-
-    set(QEXT_BUILD_DIR "${QEXT_BUILD_DIR}" CACHE INTERNAL "" FORCE)
-    set(QEXT_INSTALL_DIR "${QEXT_INSTALL_DIR}" CACHE INTERNAL "" FORCE)
-    set(QEXT_CONFIG_BUILD_DIR "${QEXT_CONFIG_BUILD_DIR}" CACHE INTERNAL "" FORCE)
-    set(QEXT_CONFIG_INSTALL_DIR "${QEXT_CONFIG_INSTALL_DIR}" CACHE INTERNAL "" FORCE)
-    message(STATUS "QExt build dir set as '${QEXT_BUILD_DIR}'.")
-    message(STATUS "QExt install dir set as '${QEXT_INSTALL_DIR}'.")
-endfunction()
-qext_internal_set_up_global_paths()
+# set CONFIG_INSTALL_DIR and CONFIG_BUILD_DIR
+set(QEXT_CONFIG_BUILD_DIR "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBDIR}/cmake")
+set(QEXT_CONFIG_INSTALL_DIR "${QEXT_INSTALL_DIR}")
+if(QEXT_CONFIG_INSTALL_DIR)
+    string(APPEND QEXT_CONFIG_INSTALL_DIR "/")
+endif()
+string(APPEND QEXT_CONFIG_INSTALL_DIR "${QEXT_INSTALL_LIBDIR}/cmake")
+message(STATUS "QExt config build dir set as '${QEXT_CONFIG_BUILD_DIR}'.")
+message(STATUS "QExt config install dir set as '${QEXT_CONFIG_INSTALL_DIR}'.")
 
 # the default RPATH to be used when installing, but only if it's not a system directory
 list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${QEXT_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}" isSystemDir)
@@ -660,12 +622,10 @@ endif("${isSystemDir}" STREQUAL "-1")
 
 # The default rpath settings for installed targets is empty.
 # The rpaths will instead be computed for each target separately using qext_apply_rpaths().
-# Additional rpaths can be passed via QEXT_EXTRA_RPATHS.
+# Additional rpaths ca be passed via QEXT_EXTRA_RPATHS.
 # By default this will include $ORIGIN / @loader_path, so the installation is relocatable.
 # Bottom line: No need to pass anything to CMAKE_INSTALL_RPATH.
 set(CMAKE_INSTALL_RPATH "" CACHE STRING "RPATH for installed binaries" FORCE)
-# message(QEXT_DEFAULT_INSTALL_RPATH=${QEXT_DEFAULT_INSTALL_RPATH})
-# message(CMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH})
 # By default, don't embed auto-determined RPATHs pointing to directories
 # outside of the build tree, into the installed binaries.
 # This ended up adding rpaths like ${QEXT_INSTALL_PREFIX}/lib (or /Users/qext/work/install/lib into

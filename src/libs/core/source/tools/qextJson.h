@@ -51,8 +51,8 @@ public:
 
     // void swap(QExtJsonValue &other) noexcept;
 
-//    static QExtJsonValue fromVariant(const QVariant &variant);
-//    QVariant toVariant() const;
+    //    static QExtJsonValue fromVariant(const QVariant &variant);
+    //    QVariant toVariant() const;
 
     TypeEnum type() const;
     inline bool isNull() const { return type() == Type_Null; }
@@ -106,7 +106,7 @@ public:
     QExtJsonValueRef &operator = (const QExtJsonValue &val);
     QExtJsonValueRef &operator = (const QExtJsonValueRef &val);
 
-//    QVariant toVariant() const;
+    //    QVariant toVariant() const;
     inline QExtJsonValue::TypeEnum type() const { return toValue().type(); }
     inline bool isNull() const { return type() == QExtJsonValue::Type_Null; }
     inline bool isBool() const { return type() == QExtJsonValue::Type_Bool; }
@@ -197,10 +197,10 @@ public:
     QExtJsonObject &operator =(const QExtJsonObject &other);
     // void swap(QExtJsonObject &other) noexcept;
 
-//    static QExtJsonObject fromVariantMap(const QVariantMap &map);
-//    QVariantMap toVariantMap() const;
-//    static QExtJsonObject fromVariantHash(const QVariantHash &map);
-//    QVariantHash toVariantHash() const;
+    //    static QExtJsonObject fromVariantMap(const QVariantMap &map);
+    //    QVariantMap toVariantMap() const;
+    //    static QExtJsonObject fromVariantHash(const QVariantHash &map);
+    //    QVariantHash toVariantHash() const;
 
     QStringList keys() const;
     int size() const;
@@ -266,8 +266,8 @@ public:
     // void swap(QExtJsonArray &other) noexcept;
 
     static QExtJsonArray fromStringList(const QStringList &list);
-//    static QExtJsonArray fromVariantList(const QVariantList &list);
-//    QVariantList toVariantList() const;
+    //    static QExtJsonArray fromVariantList(const QVariantList &list);
+    //    QVariantList toVariantList() const;
 
     int size() const;
     inline int count() const { return this->size(); }
@@ -349,8 +349,8 @@ public:
 
     // void swap(QExtJsonDocument &other) noexcept;
 
-//    static QExtJsonDocument fromVariant(const QVariant &variant);
-//    QVariant toVariant() const;
+    //    static QExtJsonDocument fromVariant(const QVariant &variant);
+    //    QVariant toVariant() const;
 
     static QExtJsonDocument fromJson(const QByteArray &json, QString *error = QEXT_NULLPTR);
     QByteArray toJson(bool formatted = true) const;
