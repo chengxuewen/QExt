@@ -117,7 +117,7 @@ QString QExtQuickControls::version() const
 
 void QExtQuickControls::registerTypes(const char *url)
 {
-    //    qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
+    // qDebug() << QString("QExtQuickControls::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);
     if (url)
     {
         Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
@@ -134,7 +134,7 @@ void QExtQuickControls::registerTypes(const char *url)
                                                     QExtQuickControls::create);
 
         qmlRegisterType<QExtQuickSvgIconBaseItem>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgIconBaseItem");
-        qmlRegisterType<QExtQuickTriangleItem>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTriangle");
+        qmlRegisterType<QExtQuickTriangle>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTriangle");
 
         qmlRegisterType(QUrl("qrc:/QExtQuickControls/qml/QExtQuickButton.qml"),
                         QEXT_QML_MODULE_URI, major, minor, "QExtQuickButton");

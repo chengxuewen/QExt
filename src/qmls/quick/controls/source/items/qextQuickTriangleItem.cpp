@@ -4,24 +4,24 @@
 #include <QPainter>
 #include <QDebug>
 
-class QExtQuickTriangleItemPrivate
+class QExtQuickTrianglePrivate
 {
 public:
-    explicit QExtQuickTriangleItemPrivate(QExtQuickTriangleItem *q);
-    virtual ~QExtQuickTriangleItemPrivate();
+    explicit QExtQuickTrianglePrivate(QExtQuickTriangle *q);
+    virtual ~QExtQuickTrianglePrivate();
 
-    QExtQuickTriangleItem * q_ptr;
+    QExtQuickTriangle * q_ptr;
 
     QColor mColor;
     QColor mBorderColor;
     int mBorderWidth;
 
 private:
-    QEXT_DECLARE_PUBLIC(QExtQuickTriangleItem)
-    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickTriangleItemPrivate)
+    QEXT_DECLARE_PUBLIC(QExtQuickTriangle)
+    QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickTrianglePrivate)
 };
 
-QExtQuickTriangleItemPrivate::QExtQuickTriangleItemPrivate(QExtQuickTriangleItem *q)
+QExtQuickTrianglePrivate::QExtQuickTrianglePrivate(QExtQuickTriangle *q)
     : q_ptr(q)
     , mColor(Qt::red)
     , mBorderColor(Qt::transparent)
@@ -29,32 +29,32 @@ QExtQuickTriangleItemPrivate::QExtQuickTriangleItemPrivate(QExtQuickTriangleItem
 {
 }
 
-QExtQuickTriangleItemPrivate::~QExtQuickTriangleItemPrivate()
+QExtQuickTrianglePrivate::~QExtQuickTrianglePrivate()
 {
 
 }
 
-QExtQuickTriangleItem::QExtQuickTriangleItem(QQuickItem *parent)
+QExtQuickTriangle::QExtQuickTriangle(QQuickItem *parent)
     : QQuickPaintedItem(parent)
-    , dd_ptr(new QExtQuickTriangleItemPrivate(this))
+    , dd_ptr(new QExtQuickTrianglePrivate(this))
 {
 
 }
 
-QExtQuickTriangleItem::~QExtQuickTriangleItem()
+QExtQuickTriangle::~QExtQuickTriangle()
 {
 
 }
 
-QColor QExtQuickTriangleItem::color() const
+QColor QExtQuickTriangle::color() const
 {
-    Q_D(const QExtQuickTriangleItem);
+    Q_D(const QExtQuickTriangle);
     return d->mColor;
 }
 
-void QExtQuickTriangleItem::setColor(const QColor &color)
+void QExtQuickTriangle::setColor(const QColor &color)
 {
-    Q_D(QExtQuickTriangleItem);
+    Q_D(QExtQuickTriangle);
     if (color != d->mColor)
     {
         d->mColor = color;
@@ -63,15 +63,15 @@ void QExtQuickTriangleItem::setColor(const QColor &color)
     }
 }
 
-QColor QExtQuickTriangleItem::borderColor() const
+QColor QExtQuickTriangle::borderColor() const
 {
-    Q_D(const QExtQuickTriangleItem);
+    Q_D(const QExtQuickTriangle);
     return d->mBorderColor;
 }
 
-void QExtQuickTriangleItem::setBorderColor(const QColor &color)
+void QExtQuickTriangle::setBorderColor(const QColor &color)
 {
-    Q_D(QExtQuickTriangleItem);
+    Q_D(QExtQuickTriangle);
     if (color != d->mBorderColor)
     {
         d->mBorderColor = color;
@@ -80,15 +80,15 @@ void QExtQuickTriangleItem::setBorderColor(const QColor &color)
     }
 }
 
-int QExtQuickTriangleItem::borderWidth() const
+int QExtQuickTriangle::borderWidth() const
 {
-    Q_D(const QExtQuickTriangleItem);
+    Q_D(const QExtQuickTriangle);
     return d->mBorderWidth;
 }
 
-void QExtQuickTriangleItem::setBorderWidth(int width)
+void QExtQuickTriangle::setBorderWidth(int width)
 {
-    Q_D(QExtQuickTriangleItem);
+    Q_D(QExtQuickTriangle);
     width = qMin<int>(qMax<int>(1, width), this->width() / 2);
     if (width != d->mBorderWidth)
     {
@@ -98,9 +98,9 @@ void QExtQuickTriangleItem::setBorderWidth(int width)
     }
 }
 
-void QExtQuickTriangleItem::paint(QPainter *painter)
+void QExtQuickTriangle::paint(QPainter *painter)
 {
-    Q_D(QExtQuickTriangleItem);
+    Q_D(QExtQuickTriangle);
     painter->save();
     painter->setBrush(d->mColor);
     painter->setPen(QPen(d->mBorderColor, d->mBorderWidth));

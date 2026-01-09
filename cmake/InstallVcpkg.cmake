@@ -187,6 +187,9 @@ function(qext_vcpkg_install_package NAME)
                 message(STATUS "${${arg_PREFIX}_NAME} not installed, start install...")
                 set(${arg_PREFIX}_VCPKG_CONFIGS ${NAME}${${arg_PREFIX}_COMPONENTS_CONFIG}:${${arg_PREFIX}_VCPKG_TRIPLET})
                 message(STATUS "${${arg_PREFIX}_NAME} vcpkg install configs: ${${arg_PREFIX}_VCPKG_CONFIGS}")
+                if(EXISTS ${ANDROID_NDK})
+                    set(ENV{ANDROID_NDK_HOME} ${ANDROID_NDK})
+                endif()
                 execute_process(
                     COMMAND "${Vcpkg_EXECUTABLE}" install ${${arg_PREFIX}_VCPKG_CONFIGS} --recurse
                     WORKING_DIRECTORY "${Vcpkg_ROOT_DIR}"

@@ -35,16 +35,16 @@ qext_vcpkg_install_package(breakpad
     QExt3rdparty::WrapBreakpad
     PREFIX
     QExtWrapBreakpad)
-set(_IMPORT_PREFIX ${QExtWrapBreakpad_INSTALL_DIR})
-add_library(unofficial::breakpad::libbreakpad STATIC IMPORTED)
-add_library(unofficial::breakpad::libbreakpad_client STATIC IMPORTED)
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    include(${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad/unofficial-breakpadTargets-debug.cmake)
-else()
-    include(${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad/unofficial-breakpadTargets-release.cmake)
-endif()
-target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE
-    unofficial::breakpad::libbreakpad
-    unofficial::breakpad::libbreakpad_client)
+# set(_IMPORT_PREFIX ${QExtWrapBreakpad_INSTALL_DIR})
+# add_library(unofficial::breakpad::libbreakpad STATIC IMPORTED)
+# add_library(unofficial::breakpad::libbreakpad_client STATIC IMPORTED)
+# if(CMAKE_BUILD_TYPE MATCHES "Debug")
+#     include(${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad/unofficial-breakpadTargets-debug.cmake)
+# else()
+#     include(${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad/unofficial-breakpadTargets-release.cmake)
+# endif()
+set(unofficial-breakpad_DIR ${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad)
+find_package(unofficial-breakpad REQUIRED)
+target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE unofficial::breakpad::libbreakpad_client)
 target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE "${QExtWrapBreakpad_INSTALL_DIR}/include")
 set(QExtWrapBreakpad_FOUND ON)

@@ -85,7 +85,7 @@ qext_add_qml_module(QuickControls
     SINGLETON_QML_FILES
     qml/QExtQuickGlobalToast.qml
     QML_FILES
-    qml/svg/QExtQuickSvgIcon${QEXT_QUICK_SVG_ICON_VERSION}.qml
+    qml/svgicon/QExtQuickSvgIcon${QEXT_QUICK_SVG_ICON_VERSION}.qml
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
     qml/QExtQuickCheckBox.qml
@@ -99,6 +99,7 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickRadioBox.qml
     qml/QExtQuickRadioBoxGroup.qml
     qml/QExtQuickRectangle.qml
+    qml/QExtQuickRoundedShap.qml
     qml/QExtQuickSvgIcon.qml
     qml/QExtQuickSwitch.qml
     qml/QExtQuickText.qml

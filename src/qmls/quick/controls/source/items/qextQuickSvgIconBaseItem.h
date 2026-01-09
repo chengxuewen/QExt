@@ -25,13 +25,15 @@
 #ifndef _QEXTQUICKSVGICONBASEITEM_H
 #define _QEXTQUICKSVGICONBASEITEM_H
 
-#include <QQuickItem>
-
 #include <qextQuickControlsGlobal.h>
+#include <qextQmlRegistration.h>
+
+#include <QQuickItem>
 
 class QEXT_QUICKCONTROLS_API QExtQuickSvgIconBaseItem : public QQuickItem
 {
     Q_OBJECT
+    QEXT_QML_ELEMENT()
     Q_PROPERTY(QString backendUrl READ backendUrl CONSTANT)
 public:
     explicit QExtQuickSvgIconBaseItem(QQuickItem *parent = QEXT_NULLPTR);

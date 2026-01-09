@@ -40,7 +40,7 @@ qext_configure_feature("ENABLE_VARIADIC_TEMPLATES" PUBLIC
 
 qext_configure_feature("USE_CJSON_BACKEND" PUBLIC
     LABEL "Enable this to build use cJSON backend"
-    CONDITION ON)
+    CONDITION OFF)
 qext_configure_feature("ENABLE_JSON" PUBLIC
     LABEL "Enable this to build enable json"
     AUTODETECT OFF
