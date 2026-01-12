@@ -381,7 +381,7 @@ public:
     QExtOptional<Value> getYfromX(double x) const
     {
         int index = this->getIndexFromX(x);
-        return (index < 0) ? qextMakeNullopt() : qextMakeOptional(Base::mPoints[index].y);
+        return (index < 0) ? qextNullopt : qextMakeOptional(Base::mPoints[index].y);
     }
 
 

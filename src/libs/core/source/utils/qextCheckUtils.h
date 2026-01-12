@@ -14,9 +14,9 @@ public:
     QExtCheckUtils();
     virtual ~QExtCheckUtils() {}
 
-    static quint16 calculateCRC16(CRC16Enum type, const char *chs, int len);
-    static quint16 calculateCRC16(CRC16Enum type, const QByteArray &bytes);
-    static quint16 calculateCRC16(CRC16Enum type, const QString &string);
+    static quint16 calculateCRC16(CRC16Enum type, const char *chs, int len); // modbus
+    static quint16 calculateCRC16(CRC16Enum type, const QByteArray &bytes); // modbus
+    static quint16 calculateCRC16(CRC16Enum type, const QString &string); // modbus
 };
 
 #endif // _QEXTCHECKUTILS_H

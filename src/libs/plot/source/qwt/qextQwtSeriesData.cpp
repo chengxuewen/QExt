@@ -138,7 +138,7 @@ QExtOptional<QPointF> QExtQwtTimeSeriesData::sampleFromTime(double time)
     const int index = mTimeSeriesData->getIndexFromX(time);
     if (index < 0)
     {
-        return qextMakeNullopt();
+        return qextNullopt;
     }
     const QExtPlotTimeSeriesData::Point &point = this->plotData()->at(size_t(index));
     return QPointF(point.x, point.y);

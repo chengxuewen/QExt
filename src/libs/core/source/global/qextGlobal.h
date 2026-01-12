@@ -312,6 +312,11 @@ inline void qextMetaEnum(const QVariant &variant)
 /***********************************************************************************************************************
    QExt assert macro
 ***********************************************************************************************************************/
+#define QEXT_FATAL(field, assertion) \
+    qFatal("%s: \"%s\" in file %s, line %d", field, assertion, __FILE__, __LINE__)
+#define QEXT_FATAL_X(field, where, what) \
+    qFatal("%s failure in %s: \"%s\", file %s, line %d", field, where, what, __FILE__, __LINE__)
+
 #ifndef QT_ASSERT
 QEXT_CORE_API void qextAssert(const char *assertion, const char *file, int line) QEXT_NOTHROW;
 inline void qextNoop(void) {}
@@ -319,18 +324,17 @@ inline void qextNoop(void) {}
 #       if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
 #           define QEXT_ASSERT(cond)  do { } while ((false) && (cond))
 #       else
-#           define QEXT_ASSERT(cond) ((!(cond)) ? qextAssert(#cond, __FILE__, __LINE__) : qextNoop())
+#           define QEXT_ASSERT(cond) ((!(cond)) ? QEXT_FATAL("ASSERT", #cond) : qextNoop())
 #       endif
 #   endif
 #   if defined(QT_NO_DEBUG) && !defined(QT_PAINT_DEBUG)
 #       define QT_NO_PAINT_DEBUG
 #   endif
-    QEXT_CORE_API void qextAssertX(const char *where, const char *what, const char *file, int line) QEXT_NOTHROW;
 #   if !defined(QEXT_ASSERT_X)
 #       if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
 #           define QEXT_ASSERT_X(cond, where, what) do { } while ((false) && (cond))
 #       else
-#           define QEXT_ASSERT_X(cond, where, what) ((!(cond)) ? qextAssertX(where, what, __FILE__, __LINE__) : qextNoop())
+#           define QEXT_ASSERT_X(cond, where, what) ((!(cond)) ? QEXT_FATAL_X("ASSERT", where, what) : qextNoop())
 #       endif
 #   endif
 #else

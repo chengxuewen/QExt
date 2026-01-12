@@ -37,7 +37,7 @@
 #define qextSwapOptional std::swap
 #define qextInPlaceOptional nonstd::in_place
 #define qextMakeOptional nonstd::make_optional
-#define qextMakeNullopt() nonstd::nullopt
+#define qextNullopt nonstd::nullopt
 
 #define qextOptionalSwap qextSwapOptional
 #define qextOptionalMake qextMakeOptional

@@ -122,7 +122,7 @@ public:
     double at(size_t index) const QEXT_OVERRIDE { Q_ASSERT(index < mSize); return index; }
     QExtOptional<size_t> findIndex(double value) const QEXT_OVERRIDE
     {
-        return value >= 0 && size_t(value) < mSize - 1 ? qextMakeOptional(size_t(value)) : qextMakeNullopt();
+        return value >= 0 && size_t(value) < mSize - 1 ? qextMakeOptional(size_t(value)) : qextNullopt;
     }
 
     void resize(size_t size) QEXT_OVERRIDE { mSize = size; }
