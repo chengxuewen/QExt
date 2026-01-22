@@ -30,7 +30,7 @@ endif()
 
 include(InstallVcpkg)
 list(APPEND QExtWrapBreakpad_COMPONENTS core)
-if(NOT ANDROID)
+if(LINUX)
     list(APPEND QExtWrapBreakpad_COMPONENTS tools)
 endif()
 qext_vcpkg_install_package(breakpad
