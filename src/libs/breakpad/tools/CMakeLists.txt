@@ -64,4 +64,40 @@ qext_add_executable(${QEXT_BREAKPAD_REPORTER_NAME}
 if(QEXT_ENABLE_LIB_WIDGETS)
     qext_internal_extend_target(${QEXT_BREAKPAD_REPORTER_NAME} DEFINES QEXT_ENABLE_LIB_WIDGETS)
 endif()
-# qext_hide_executable_console(${QEXT_BREAKPAD_REPORTER_NAME})
+qext_hide_executable_console(${QEXT_BREAKPAD_REPORTER_NAME})
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# add dump_syms script
+#-----------------------------------------------------------------------------------------------------------------------
+if(NOT EXISTS "${QEXT_BUILD_DIR}/breakpad")
+    if(EXISTS "${QExtWrapBreakpad_TOOLS_PACKAGE_DIR}")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E tar xzvf "${QExtWrapBreakpad_TOOLS_PACKAGE_DIR}"
+            WORKING_DIRECTORY "${QEXT_BUILD_DIR}"
+            RESULT_VARIABLE UNPACK_RESULT
+            COMMAND_ECHO STDOUT)
+        if(NOT (UNPACK_RESULT MATCHES 0))
+            message(FATAL_ERROR "${QExtWrapBreakpad_TOOLS_PACKAGE_DIR} unpack failed.")
+        endif()
+    elseif(EXISTS "${QExtWrapBreakpad_TOOLS_DIR}")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${QExtWrapBreakpad_TOOLS_DIR}" "${QEXT_BUILD_DIR}/breakpad"
+            WORKING_DIRECTORY "${QEXT_BUILD_DIR}"
+            RESULT_VARIABLE COPY_RESULT
+            COMMAND_ECHO STDOUT)
+        if(NOT (COPY_RESULT MATCHES 0))
+            message(FATAL_ERROR "${QExtWrapBreakpad_TOOLS_DIR} copy failed.")
+        endif()
+    endif()
+endif()
+if(WIN32)
+    set(QEXT_BREAKPAD_DUMPSYMS_SCRIPT "dump_syms.bat" CACHE INTERNAL "" FORCE)
+else()
+    set(QEXT_BREAKPAD_DUMPSYMS_SCRIPT "dump_syms.sh" CACHE INTERNAL "" FORCE)
+endif()
+if(EXISTS "${QEXT_BUILD_DIR}/breakpad")
+    file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/${QEXT_BREAKPAD_DUMPSYMS_SCRIPT}"
+        DESTINATION "${QEXT_BUILD_DIR}/breakpad"
+        FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_WRITE GROUP_READ)
+endif()

@@ -21,7 +21,7 @@ public:
     QStringList dumpFileList() const;
 
     QString dumpPath() const;
-    void setDumpPath(const QString &path);
+    bool setDumpPath(const QString &path);
 
     bool isReporterEnable() const;
     void setReporterEnable(bool enable);

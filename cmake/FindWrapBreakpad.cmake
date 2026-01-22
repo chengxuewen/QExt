@@ -29,10 +29,16 @@ if(TARGET QExt3rdparty::WrapBreakpad)
 endif()
 
 include(InstallVcpkg)
+list(APPEND QExtWrapBreakpad_COMPONENTS core)
+if(NOT ANDROID)
+    list(APPEND QExtWrapBreakpad_COMPONENTS tools)
+endif()
 qext_vcpkg_install_package(breakpad
     NOT_IMPORT
     TARGET
     QExt3rdparty::WrapBreakpad
+    COMPONENTS
+    ${QExtWrapBreakpad_COMPONENTS}
     PREFIX
     QExtWrapBreakpad)
 set(unofficial-breakpad_DIR ${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad)
@@ -42,4 +48,21 @@ set_target_properties(unofficial::breakpad::libbreakpad_client PROPERTIES IMPORT
 set_target_properties(unofficial::breakpad::libbreakpad_client PROPERTIES IMPORTED_LOCATION_RELWITHDEBINFO ${QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE})
 target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE unofficial::breakpad::libbreakpad_client)
 target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE "${QExtWrapBreakpad_INSTALL_DIR}/include")
+set(QExtWrapBreakpad_TOOLS_DIR "${QExtWrapBreakpad_INSTALL_DIR}/tools/breakpad" CACHE INTERNAL "" FORCE)
+set(QExtWrapBreakpad_TOOLS_PACKAGE_DIR "${QEXT_3RDPARTY_PACKAGES_DIR}/breakpad-tools-${QEXT_HOST_PLATFORM_NAME}.7z" CACHE INTERNAL "" FORCE)
+if(EXISTS "${QExtWrapBreakpad_TOOLS_DIR}")
+    if(NOT "X${QEXT_3RDPARTY_PACKAGES_DIR}" STREQUAL "X")
+        if(NOT EXISTS "${QExtWrapBreakpad_TOOLS_PACKAGE_DIR}")
+            message(STATUS "${QExtWrapBreakpad_TOOLS_PACKAGE_DIR} not exist, start pack...")
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E tar cvf "${QExtWrapBreakpad_TOOLS_PACKAGE_DIR}" --format=7zip "${QExtWrapBreakpad_TOOLS_DIR}"
+                WORKING_DIRECTORY "${QExtWrapBreakpad_INSTALL_DIR}/tools"
+                RESULT_VARIABLE PACK_RESULT
+                COMMAND_ECHO STDOUT)
+            if(NOT (PACK_RESULT MATCHES 0))
+                message(FATAL_ERROR "${QExtWrapBreakpad_TOOLS_PKG_NAME} pack failed.")
+            endif()
+        endif()
+    endif()
+endif()
 set(QExtWrapBreakpad_FOUND ON)

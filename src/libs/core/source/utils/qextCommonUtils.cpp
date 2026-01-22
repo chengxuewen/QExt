@@ -133,8 +133,12 @@ QString QExtCommonUtils::executablePath()
 QString QExtCommonUtils::defaultCrasheDumpLocation(const char *version)
 {
     const QString versionName = version ? version + QString("/") : "";
-    return QExtCommonUtils::writableLocation(QStandardPaths::AppDataLocation) + "/crashes/" + versionName +
-           QExtDateTimeUtils::localTimeTrimedStringFromSecsSinceEpoch();
+    auto dataPath = QExtCommonUtils::writableLocation(QStandardPaths::AppDataLocation);
+#ifdef Q_OS_ANDROID
+    const auto locationPath = dataPath.mid(dataPath.indexOf("org."));
+    dataPath = QExtCommonUtils::writableLocation(QStandardPaths::GenericDataLocation) + "/Android/data/" + locationPath;
+#endif
+    return dataPath + "/crashes/" + versionName + QExtDateTimeUtils::localTimeTrimedStringFromSecsSinceEpoch();
 }
 
 namespace detail
