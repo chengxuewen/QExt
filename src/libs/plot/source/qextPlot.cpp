@@ -806,7 +806,7 @@ Qt::ItemFlags QExtPlotXAxisMinItem::flags() const
     Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isXAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
     return flags;
 }
@@ -862,7 +862,7 @@ Qt::ItemFlags QExtPlotXAxisMaxItem::flags() const
     Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isXAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
     return flags;
 }
@@ -973,7 +973,7 @@ Qt::ItemFlags QExtPlotYAxisMinItem::flags() const
     Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isYAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
     return flags;
 }
@@ -1029,7 +1029,7 @@ Qt::ItemFlags QExtPlotYAxisMaxItem::flags() const
     Qt::ItemFlags flags = Qt::NoItemFlags;
     if (!mPlot->isYAxisAutoScaled())
     {
-        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+        flags |= Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
     }
     return flags;
 }
