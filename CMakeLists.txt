@@ -363,8 +363,8 @@ else()
 endif()
 message(STATUS "QExt install prefix set as '${QEXT_INSTALL_PREFIX}'.")
 
-set(QEXT_INSTALL_DIR "${QEXT_INSTALL_PREFIX}")
-set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}")
+set(QEXT_INSTALL_DIR "${QEXT_INSTALL_PREFIX}" CACHE INTERNAL "" FORCE)
+set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}" CACHE INTERNAL "" FORCE)
 message(STATUS "QExt build dir set as '${QEXT_BUILD_DIR}'.")
 message(STATUS "QExt install dir set as '${QEXT_INSTALL_DIR}'.")
 
