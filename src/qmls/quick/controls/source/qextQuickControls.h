@@ -33,7 +33,6 @@
 #include <QQuickWindow>
 #include <QScopedPointer>
 
-#include <QtQml/qqmlmoduleregistration.h>
 class QExtQuickWorld;
 class QExtQuickControlsPrivate;
 class QEXT_QUICKCONTROLS_API QExtQuickControls : public QExtQmlModuleSingleton<QExtQuickControls>
