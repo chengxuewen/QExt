@@ -1,9 +1,11 @@
+import QtQml 2.0
 import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.0
 
 import QExtQuick.Qwt 1.4
+import MYQExtQuickQwtPlot 1.1
 
 Window {
     id: root
@@ -12,6 +14,7 @@ Window {
     height: 700
 
     title: qsTr("Hello QWT in QML")
+
 
     Item {
         id: plotForm
@@ -22,12 +25,17 @@ Window {
             text: qsTr("Plot form")
         }
 
-        QExtQuickQwtPlot {
-            id: qwtPlot
+        Rectangle {
             anchors.fill: parent
-
-            Component.onCompleted: initQwtPlot()
+            color: "blue"
+            MYQExtQuickQwtPlot {
+                id: qwtPlot
+//                opacity: 0.3
+                anchors.fill: parent
+                Component.onCompleted: {
+                    setAxisVisible(QExtQuickQwtPlot.AxisBottom, false)
+                }
+            }
         }
     }
-
 }

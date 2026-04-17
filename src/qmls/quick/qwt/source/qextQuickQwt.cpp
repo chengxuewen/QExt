@@ -24,6 +24,7 @@
 
 #include <qextQuickQwt.h>
 #include <qextQuickQwtPlot.h>
+#include <qextQuickQwtPlotCurve.h>
 
 #include <qextOnceFlag.h>
 
@@ -37,8 +38,8 @@ class QExtQuickQwtPrivate
 {
     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtQuickQwtPrivate)
     QEXT_DECLARE_PUBLIC(QExtQuickQwt)
-public:
-    explicit QExtQuickQwtPrivate(QExtQuickQwt *q);
+    public:
+        explicit QExtQuickQwtPrivate(QExtQuickQwt *q);
     virtual ~QExtQuickQwtPrivate();
 
     QExtQuickQwt * const q_ptr;
@@ -85,6 +86,8 @@ void QExtQuickQwt::registerTypes(const char *url)
                                                QExtQuickQwt::create);
 
         qmlRegisterType<QExtQuickQwtPlot>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickQwtPlot");
+        qmlRegisterType<QExtQuickQwtPlotCurve>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickQwtPlotCurve");
+
         onceFlag.leave();
     }
 }

@@ -31,14 +31,12 @@ if (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_QML_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
-        # Qt${QEXT_QT_VERSION_MAJOR}::Svg
-        # Qt${QEXT_QT_VERSION_MAJOR}::OpenGL
         Qt${QEXT_QT_VERSION_MAJOR}::Quick)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core QExt::Qml)
 qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 
@@ -55,13 +53,21 @@ qext_add_qml_module(QuickQwt
     DEPENDENCIES
     QExtQml
     SOURCES
-    source/plotdata.cpp
-    source/plotdata.h
     source/qextQuickQwt.cpp
     source/qextQuickQwt.h
     source/qextQuickQwtGlobal.h
     source/qextQuickQwtPlot.cpp
     source/qextQuickQwtPlot.h
+    source/qextQuickQwtPlot_p.h
+    source/qextQuickQwtPlotCurve.cpp
+    source/qextQuickQwtPlotCurve.h
+    source/qextQuickQwtPlotCurve_p.h
+    source/qextQuickQwtSeriesBuffer.cpp
+    source/qextQuickQwtSeriesBuffer.h
+    source/qextQuickQwtSeriesData.cpp
+    source/qextQuickQwtSeriesData.h
+    source/qextQuickQwtSeriesData_p.h
+    source/qextQuickQwtSeriesStore.h
     qextQuickQwt.qrc
     PRECOMPILED_HEADER
     source/qextQuickQwtPch.h

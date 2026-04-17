@@ -1489,10 +1489,16 @@ function(qext_internal_qml_type_registration target)
                 COMMENT "Running qmlplugindump for ${import_name} qml module"
                 POST_BUILD)
         endif()
+        if("${LD_LIBRARY_PATH}" STREQUAL "")
+            set(QEXT_QT_LD_LIBRARY_PATH "${QEXT_QT_LIB_DIR}")
+        else()
+            set(QEXT_QT_LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:${QEXT_QT_LIB_DIR}")
+        endif()
         add_custom_command(
             TARGET ${arg_PLUGIN_TARGET}
-            COMMAND ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version}
-            ${QEXT_QML_OUTPUT_DIRECTORY} -output ${plugin_types_file}
+            COMMAND ${CMAKE_COMMAND} -E env LD_LIBRARY_PATH=${QEXT_QT_LD_LIBRARY_PATH}
+                                    ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version}
+                                    ${QEXT_QML_OUTPUT_DIRECTORY} -output ${plugin_types_file}
             COMMAND ${CMAKE_COMMAND} 
                 -DQMLTYPES_FILE=${plugin_types_file} -DIMPORT_VERSION=${import_version} -DMINOR_VERSION=${minor_version}
                 -P ${QExt_SOURCE_DIR}/cmake/plugin_qmltypesfix.cmake

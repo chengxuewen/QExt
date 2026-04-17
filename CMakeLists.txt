@@ -39,7 +39,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.4.1.3 LANGUAGES CXX C)
+project(QExt VERSION 1.4.2.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -495,14 +495,8 @@ qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_LOGGING "Enable this to build the logging lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_BREAKPAD "Enable this to build the breakpad lib" OFF
     DEPENDS WIN32 OR UNIX OR APPLE
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_MEDIA "Enable this to build the media lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_OPENSSL "Enable this to build the openssl lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -526,9 +520,6 @@ qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib"
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_SINGLEAPP "Enable this to build the singleapp lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
-    DEPENDS (NOT ANDROID) AND ("${QEXT_QT_VERSION}" VERSION_LESS "6")
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF

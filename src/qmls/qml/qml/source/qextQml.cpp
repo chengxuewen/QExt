@@ -30,6 +30,7 @@
 #include <qextQmlSizeInfo.h>
 #include <qextQmlBorderInfo.h>
 #include <qextQmlPaddingInfo.h>
+#include <qextQmlPenInfo.h>
 #include <qextQmlIconInfo.h>
 #include <qextQmlTextInfo.h>
 #include <qextQmlPalette.h>
@@ -187,6 +188,7 @@ void QExtQml::registerTypes(const char *url)
         qmlRegisterType<QExtQmlIconInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlIconInfo");
         qmlRegisterType<QExtQmlBorderInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBorderInfo");
         qmlRegisterType<QExtQmlPaddingInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPaddingInfo");
+        qmlRegisterType<QExtQmlPenInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlPenInfo");
         qmlRegisterType<QExtQmlRectangleInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlRectangleInfo");
         qmlRegisterType<QExtQmlBackgroundInfo>(QEXT_QML_MODULE_URI, major, minor, "QExtQmlBackgroundInfo");
 

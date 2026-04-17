@@ -61,6 +61,8 @@ qext_add_qml_module(Qml
     source/gadget/qextQmlBorderInfo.h
     source/gadget/qextQmlPaddingInfo.cpp
     source/gadget/qextQmlPaddingInfo.h
+    source/gadget/qextQmlPenInfo.cpp
+    source/gadget/qextQmlPenInfo.h
     source/gadget/qextQmlIconInfo.cpp
     source/gadget/qextQmlIconInfo.h
     source/gadget/qextQmlSizeInfo.cpp
