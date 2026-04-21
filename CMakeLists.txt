@@ -550,9 +550,9 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Adva
 # Install locations:
 qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
 qext_configure_process_path(QEXT_INSTALL_BINDIR "bin" "Executables [PREFIX/bin]")
-qext_configure_process_path(QEXT_INSTALL_TOOLDIR "tool" "Executables [PREFIX/tool]")
-qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
+qext_configure_process_path(QEXT_INSTALL_TOOLSDIR "tools" "Executables [PREFIX/tools]")
 qext_configure_process_path(QEXT_INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
+qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
 qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR
     "${QEXT_INSTALL_ARCHDATADIR}/plugins" "Plugins [ARCHDATADIR/plugins]")
 

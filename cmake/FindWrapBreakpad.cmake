@@ -41,13 +41,22 @@ qext_vcpkg_install_package(breakpad
     ${QExtWrapBreakpad_COMPONENTS}
     PREFIX
     QExtWrapBreakpad)
-set(unofficial-breakpad_DIR ${QExtWrapBreakpad_INSTALL_DIR}/share/unofficial-breakpad)
-find_package(unofficial-breakpad REQUIRED)
-get_target_property(QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE unofficial::breakpad::libbreakpad_client IMPORTED_LOCATION_RELEASE)
-set_target_properties(unofficial::breakpad::libbreakpad_client PROPERTIES IMPORTED_LOCATION_MINSIZEREL ${QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE})
-set_target_properties(unofficial::breakpad::libbreakpad_client PROPERTIES IMPORTED_LOCATION_RELWITHDEBINFO ${QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE})
-target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE unofficial::breakpad::libbreakpad_client)
+set(CMAKE_PREFIX_PATH_CACHE ${CMAKE_PREFIX_PATH})
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    set(ZLIB_ROOT "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib")
+else()
+    set(ZLIB_ROOT "${QExtWrapBreakpad_INSTALL_DIR}/lib")
+endif()
+set(ZLIB_USE_STATIC_LIBS ON)
+find_package(unofficial-breakpad PATHS "${QExtWrapBreakpad_INSTALL_DIR}" REQUIRED NO_DEFAULT_PATH)
+get_target_property(QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE
+    unofficial::breakpad::libbreakpad_client IMPORTED_LOCATION_RELEASE)
+set_target_properties(unofficial::breakpad::libbreakpad_client PROPERTIES
+    IMPORTED_LOCATION_MINSIZEREL ${QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE}
+    IMPORTED_LOCATION_RELWITHDEBINFO ${QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE})
 target_include_directories(QExt3rdparty::WrapBreakpad INTERFACE "${QExtWrapBreakpad_INSTALL_DIR}/include")
+target_link_libraries(QExt3rdparty::WrapBreakpad INTERFACE unofficial::breakpad::libbreakpad_client)
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH_CACHE})
 set(QExtWrapBreakpad_TOOLS_DIR "${QExtWrapBreakpad_INSTALL_DIR}/tools/breakpad" CACHE INTERNAL "" FORCE)
 set(QExtWrapBreakpad_TOOLS_PACKAGE_DIR "${QEXT_3RDPARTY_PACKAGES_DIR}/breakpad-tools-${QEXT_HOST_PLATFORM_NAME}.7z" CACHE INTERNAL "" FORCE)
 if(EXISTS "${QExtWrapBreakpad_TOOLS_DIR}")
