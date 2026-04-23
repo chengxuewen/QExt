@@ -132,7 +132,7 @@ QString QExtCommonUtils::executablePath()
 
 QString QExtCommonUtils::defaultCrasheDumpLocation(const char *version)
 {
-    const QString versionName = version ? version + QString("/") : "";
+    const QString versionName = version ? version : "";
     auto dataPath = QExtCommonUtils::writableLocation(QStandardPaths::AppDataLocation);
 #ifdef Q_OS_ANDROID
     const auto locationPath = dataPath.mid(dataPath.indexOf("org."));
