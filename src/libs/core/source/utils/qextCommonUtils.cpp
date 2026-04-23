@@ -138,7 +138,7 @@ QString QExtCommonUtils::defaultCrasheDumpLocation(const char *version)
     const auto locationPath = dataPath.mid(dataPath.indexOf("org."));
     dataPath = QExtCommonUtils::writableLocation(QStandardPaths::GenericDataLocation) + "/Android/data/" + locationPath;
 #endif
-    return dataPath + "/crashes/" + versionName + QExtDateTimeUtils::localTimeTrimedStringFromSecsSinceEpoch();
+    return dataPath + "/crashes/" + versionName;
 }
 
 namespace detail
