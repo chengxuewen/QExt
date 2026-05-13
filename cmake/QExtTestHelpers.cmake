@@ -89,7 +89,8 @@ function(qext_internal_add_test name)
             OUTPUT_DIRECTORY
             WORKING_DIRECTORY
             TIMEOUT
-            VERSION)
+            VERSION
+            FOLDER)
     set(multi_value_args
             TESTDATA
             QEXT_TEST_SERVER_LIST
@@ -104,6 +105,15 @@ function(qext_internal_add_test name)
     if (NOT arg_OUTPUT_DIRECTORY)
         set(arg_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
     endif ()
+
+    if(NOT arg_FOLDER)
+        file(RELATIVE_PATH _dir "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+        if(_dir MATCHES "^src/(.+)$")
+            set(arg_FOLDER "QExt/${CMAKE_MATCH_1}")
+        else()
+            set(arg_FOLDER "QExt/${_dir}")
+        endif()
+    endif()
 
     # QExt modules get compiled without exceptions enabled by default.
     # However, testcases should be still built with exceptions.
@@ -133,6 +143,7 @@ function(qext_internal_add_test name)
                 ${gui_text}
                 ${version_arg}
                 NO_INSTALL
+                FOLDER ${arg_FOLDER}
                 OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}"
                 SOURCES "${arg_SOURCES}"
                 INCLUDE_DIRECTORIES

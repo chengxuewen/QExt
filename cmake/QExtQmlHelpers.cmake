@@ -68,7 +68,8 @@ macro(qext_internal_get_internal_add_qml_module_keywords option_args single_args
     set(${internal_option_args})
     set(${internal_single_args}
         INSTALL_SOURCE_QMLTYPES
-        INSTALL_SOURCE_QMLDIR)
+        INSTALL_SOURCE_QMLDIR
+        FOLDER)
     set(${internal_multi_args})
 
 endmacro()
@@ -353,6 +354,16 @@ function(qext_add_qml_module target)
         RESOURCE_PREFIX "/QExt.org/imports"
         OUTPUT_TARGETS output_targets
         FOLLOW_FOREIGN_VERSIONING)
+    if(NOT arg_FOLDER)
+        file(RELATIVE_PATH _dir "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+        if(_dir MATCHES "^src/(.+)$")
+            set(arg_FOLDER "QExt/${CMAKE_MATCH_1}")
+        else()
+            set(arg_FOLDER "QExt/${_dir}")
+        endif()
+    endif()
+    set_target_properties(${qext_target} PROPERTIES FOLDER "${arg_FOLDER}")
+
     if(output_targets)
         set(plugin_export_targets)
         set(backing_lib_export_targets)
@@ -2494,6 +2505,10 @@ function(qext_internal_expose_source_file_to_ide target file)
     set(ide_target ${target}Files)
     if(NOT TARGET ${ide_target})
         add_custom_target(${ide_target} SOURCES "${file}")
+        get_target_property(_parent_folder ${target} FOLDER)
+        if(_parent_folder)
+            set_target_properties(${ide_target} PROPERTIES FOLDER "${_parent_folder}")
+        endif()
 
         # The new Xcode build system requires a common target to drive the generation of files, otherwise project
         # configuration fails.

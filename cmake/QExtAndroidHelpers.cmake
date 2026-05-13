@@ -884,6 +884,7 @@ function(qext_android_add_apk_target target)
     # Plugins still might be added after creating the deployment targets.
     if(NOT TARGET QExtInternalPlugins)
         add_custom_target(QExtInternalPlugins)
+        set_target_properties(QExtInternalPlugins PROPERTIES FOLDER "QExt/plugins")
     endif()
     # Before running androiddeployqt, we need to make sure all plugins are built.
     list(APPEND extra_deps QExtInternalPlugins)
@@ -1078,8 +1079,8 @@ function(qext_internal_collect_apk_dependencies)
 
     if(NOT TARGET QExtInternalPlugins)
         add_custom_target(QExtInternalPlugins)
+        set_target_properties(QExtInternalPlugins PROPERTIES FOLDER "QExt/plugins")
     endif()
-
     foreach(lib IN LISTS libs)
         if(NOT lib IN_LIST apk_targets)
             list(APPEND extra_library_dirs "$<TARGET_FILE_DIR:${lib}>")

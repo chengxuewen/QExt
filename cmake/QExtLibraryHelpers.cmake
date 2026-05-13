@@ -47,6 +47,7 @@ macro(qext_internal_get_add_library_keywords option_args single_args multi_args)
         CPP_EXPORT_HEADER_BASE_NAME
         EXTERNAL_HEADERS_DIR
         CONFIGURE_RESET
+        FOLDER
         ${QEXT_DEFAULT_TARGET_INFO_ARGS})
     set(${multi_args}
         EXTRA_CMAKE_FILES
@@ -157,6 +158,15 @@ function(qext_add_library name)
     # add target library. If type_to_create is empty, it will be set afterwards
     qext_internal_add_library("${target}" ${type_to_create} ${arg_SOURCES})
     set_target_properties(${target} PROPERTIES _qext_target_base_name ${_qext_base_name})
+    if(NOT arg_FOLDER)
+        file(RELATIVE_PATH _dir "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+        if(_dir MATCHES "^src/(.+)$")
+            set(arg_FOLDER "QExt/${CMAKE_MATCH_1}")
+        else()
+            set(arg_FOLDER "QExt/${_dir}")
+        endif()
+    endif()
+    set_target_properties(${target} PROPERTIES FOLDER "${arg_FOLDER}")
     qext_internal_mark_as_internal_library("${target}")
     get_target_property(target_type ${target} TYPE)
     # Distinguish target_type
@@ -495,6 +505,10 @@ function(qext_add_library name)
             DEPENDS "$<TARGET_PROPERTY:${target},_qext_library_timestamp_dependencies>"
             VERBATIM)
         add_custom_target(${target}_timestamp ALL DEPENDS "${timestamp_file}")
+        get_target_property(_parent_folder ${target} FOLDER)
+        if(_parent_folder)
+            set_target_properties(${target}_timestamp PROPERTIES FOLDER "${_parent_folder}")
+        endif()
     endif()
 
     set(defines_for_extend_target "")

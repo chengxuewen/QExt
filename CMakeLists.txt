@@ -40,6 +40,7 @@ endif()
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
 project(QExt VERSION 1.4.2.1 LANGUAGES CXX C)
+set(CMAKE_USE_FOLDERS ON)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})

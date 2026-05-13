@@ -27,9 +27,10 @@
 # by qext_add_test or qext_add_tool below.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_add_executable name)
+    set(__exec_single_args ${QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS} FOLDER)
     qext_parse_all_arguments(arg "qext_add_executable"
         "${QEXT_INTERNAL_ADD_EXECUTABLE_OPTIONAL_ARGS}"
-        "${QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS}"
+        "${__exec_single_args}"
         "${QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS}"
         ${ARGN})
 
@@ -69,9 +70,27 @@ function(qext_add_executable name)
                 WIN32_EXECUTABLE "${arg_GUI}"
                 MACOSX_BUNDLE "${arg_GUI}")
         endif()
+        if(NOT arg_FOLDER)
+            file(RELATIVE_PATH _dir "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+            if(_dir MATCHES "^src/(.+)$")
+                set(arg_FOLDER "QExt/${CMAKE_MATCH_1}")
+            else()
+                set(arg_FOLDER "QExt/${_dir}")
+            endif()
+        endif()
+        set_target_properties(${name} PROPERTIES FOLDER "${arg_FOLDER}")
         return()
     else()
         qext_internal_create_executable(${name})
+        if(NOT arg_FOLDER)
+            file(RELATIVE_PATH _dir "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+            if(_dir MATCHES "^src/(.+)$")
+                set(arg_FOLDER "QExt/${CMAKE_MATCH_1}")
+            else()
+                set(arg_FOLDER "QExt/${_dir}")
+            endif()
+        endif()
+        set_target_properties(${name} PROPERTIES FOLDER "${arg_FOLDER}")
         if(ANDROID)
             qext_internal_android_executable_finalizer(${name})
         endif()
