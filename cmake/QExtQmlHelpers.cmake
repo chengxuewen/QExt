@@ -90,6 +90,9 @@ endmacro()
 # See qext_internal_add_plugin() and qext_add_qext_qml_module() for the full set of supported keywords.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_add_qml_module target)
+    set(__qext_qml_module_base_name "${target}")
+    qext_internal_target_name(qext_target "${target}")
+
     qext_internal_get_internal_add_module_keywords(
         module_option_args
         module_single_args
@@ -153,7 +156,7 @@ function(qext_add_qml_module target)
     set(plugin_args "")
     if(arg_NO_PLUGIN OR NOT arg_PLUGIN_TARGET STREQUAL target)
         # Allow using an existing backing target.
-        if(NOT TARGET ${target})
+        if(NOT TARGET ${qext_target})
             # Create the backing target now to handle module-related things
             qext_remove_args(module_args
                 ARGS_TO_REMOVE
@@ -173,11 +176,11 @@ function(qext_add_qml_module target)
                 ARGS
                 ${ARGN})
             # message(------module_args=${module_args})
-            qext_add_library(${target} ${module_args} NO_QEXT_PREFIX)
+            qext_add_library(${qext_target} ${module_args} NO_QEXT_PREFIX)
         elseif(arg_SOURCES)
             # If a module target was pre-created, we still need to pass the additional sources.
             # message(------arg_SOURCES=${arg_SOURCES})
-            target_sources(${target} PRIVATE ${arg_PLUGIN_SOURCES})
+            target_sources(${qext_target} PRIVATE ${arg_PLUGIN_SOURCES})
         endif()
     else()
         # Since we are not creating a separate backing target, we have to pass
@@ -209,7 +212,7 @@ function(qext_add_qml_module target)
         endif()
         set_source_files_properties(${arg_SINGLETON_QML_FILES} 
             PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
-        qt_add_qml_module(${target}
+        qt_add_qml_module(${qext_target}
             URI ${arg_URI}
             VERSION ${arg_VERSION}
             CLASS_NAME ${arg_CLASS_NAME}
@@ -219,7 +222,7 @@ function(qext_add_qml_module target)
             QML_FILES ${arg_QML_FILES} ${arg_SINGLETON_QML_FILES}
             NO_GENERATE_PLUGIN_SOURCE
             DESIGNER_SUPPORTED)
-        target_compile_definitions(${target} PRIVATE
+        target_compile_definitions(${qext_target} PRIVATE
             QEXT_QML_MODULE_URI="${arg_URI}"
             QEXT_QML_MODULE_VERSION="${arg_VERSION}")
         target_sources(${arg_PLUGIN_TARGET} PRIVATE ${arg_PLUGIN_SOURCES})
@@ -251,8 +254,8 @@ function(qext_add_qml_module target)
             PLUGIN_TYPE qml_plugin
             DEFAULT_IF FALSE
             SOURCES ${arg_PLUGIN_SOURCES}
-            PUBLIC_LIBRARIES ${target}
-            LIBRARIES ${target}Private
+            PUBLIC_LIBRARIES ${qext_target}
+            LIBRARIES ${qext_target}Private
             OUTPUT_DIRECTORY ${arg_OUTPUT_DIRECTORY}
             INSTALL_DIRECTORY ${arg_INSTALL_DIRERY}
             CLASS_NAME ${arg_CLASS_NAME})
@@ -343,7 +346,7 @@ function(qext_add_qml_module target)
     endif()
     # Update the backing and plugin targets with qml-specific things.
     #     message(add_qml_module_args=${add_qml_module_args})
-    qext_add_qext_qml_module(${target}
+    qext_add_qext_qml_module(${qext_target}
         ${add_qml_module_args}
         __QT_INTERNAL_INSTALL_METATYPES_JSON
         OUTPUT_DIRECTORY ${arg_OUTPUT_DIRECTORY}
@@ -377,7 +380,7 @@ function(qext_add_qml_module target)
             qext_install(TARGETS ${backing_lib_export_targets}
                 EXPORT "${INSTALL_CMAKE_NAMESPACE}${target}Targets"
                 DESTINATION "${arg_INSTALL_DIRECTORY}")
-            qext_internal_record_rcc_object_files(${target} "${backing_lib_export_targets}"
+            qext_internal_record_rcc_object_files(${qext_target} "${backing_lib_export_targets}"
                 INSTALL_DIRECTORY "${arg_INSTALL_DIRECTORY}")
 
             qext_internal_add_targets_to_additional_targets_export_file(
@@ -415,7 +418,7 @@ function(qext_add_qml_module target)
 
     if(NOT arg_NO_GENERATE_QMLTYPES)
         qext_install(
-            FILES ${arg_OUTPUT_DIRECTORY}/$<TARGET_PROPERTY:${target},QEXT_QML_MODULE_TYPEINFO>
+            FILES ${arg_OUTPUT_DIRECTORY}/$<TARGET_PROPERTY:${qext_target},QEXT_QML_MODULE_TYPEINFO>
             DESTINATION "${arg_INSTALL_DIRECTORY}")
     endif()
 
@@ -464,6 +467,9 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_add_qext_qml_module target)
+    set(qml_target "${target}")
+    set(short_name "${__qext_qml_module_base_name}")
+
     set(args_option
         STATIC
         SHARED
@@ -748,7 +754,7 @@ function(qext_add_qext_qml_module target)
         endif()
     endif()
     set_property(GLOBAL APPEND PROPERTY _qext_all_qml_output_dirs ${arg_OUTPUT_DIRECTORY})
-    set_property(GLOBAL APPEND PROPERTY _qext_all_qml_targets     ${target})
+    set_property(GLOBAL APPEND PROPERTY _qext_all_qml_targets     ${qml_target})
 
     if(NOT arg_CLASS_NAME AND TARGET "${arg_PLUGIN_TARGET}")
         get_target_property(class_name ${arg_PLUGIN_TARGET} QT_PLUGIN_CLASS_NAME)
@@ -760,35 +766,35 @@ function(qext_add_qext_qml_module target)
         qext_internal_compute_qml_plugin_class_name_from_uri("${arg_URI}" arg_CLASS_NAME)
     endif()
 
-    if(TARGET ${target})
-        if(arg_PLUGIN_TARGET STREQUAL target)
+    if(TARGET ${qml_target})
+        if(arg_PLUGIN_TARGET STREQUAL qml_target)
             # Insert the plugin's URI into its meta data to enable usage
             # of static plugins in QtDeclarative (like in mkspecs/features/qml_plugin.prf).
-            set_property(TARGET ${target} APPEND PROPERTY AUTOMOC_MOC_OPTIONS "-Muri=${arg_URI}")
+            set_property(TARGET ${qml_target} APPEND PROPERTY AUTOMOC_MOC_OPTIONS "-Muri=${arg_URI}")
         endif()
     else()
-        if(arg_PLUGIN_TARGET STREQUAL target)
+        if(arg_PLUGIN_TARGET STREQUAL qml_target)
             set(conditional_args ${no_gen_source})
             if(arg_NAMESPACE)
                 list(APPEND conditional_args NAMESPACE ${arg_NAMESPACE})
             endif()
-            qext_add_qml_plugin(${target}
+            qext_add_qml_plugin(${qml_target}
                 ${lib_type}
                 OUTPUT_DIRECTORY ${arg_OUTPUT_DIRECTORY}
                 URI ${arg_URI}
                 CLASS_NAME ${arg_CLASS_NAME}
                 ${conditional_args})
         else()
-            qext_add_library(${target} ${lib_type} NO_QEXT_PREFIX)
+            qext_add_library(${qml_target} ${lib_type} NO_QEXT_PREFIX)
         endif()
     endif()
 
-    if(NOT target STREQUAL Qml)
-        target_link_libraries(${target} PRIVATE ${QEXT_QT_EXPORT_NAMESPACE}::Qml)
+    if(NOT short_name STREQUAL Qml)
+        target_link_libraries(${qml_target} PRIVATE ${QEXT_QT_EXPORT_NAMESPACE}::Qml)
     endif()
 
     if(NOT arg_TYPEINFO)
-        set(arg_TYPEINFO ${target}.qmltypes)
+        set(arg_TYPEINFO ${short_name}.qmltypes)
     endif()
 
     if(NOT arg_NO_PLUGIN_OPTIONAL)
@@ -799,14 +805,14 @@ function(qext_add_qext_qml_module target)
         foreach(import IN LISTS arg_${import_set})
             string(FIND ${import} "/" slash_position REVERSE)
             if (slash_position EQUAL -1)
-                set_property(TARGET ${target} APPEND PROPERTY
+                set_property(TARGET ${qml_target} APPEND PROPERTY
                     QT_QML_MODULE_${import_set} "${import}")
             else()
                 string(SUBSTRING ${import} 0 ${slash_position} import_module)
                 math(EXPR slash_position "${slash_position} + 1")
                 string(SUBSTRING ${import} ${slash_position} -1 import_version)
                 if (import_version MATCHES "^([0-9]+(\\.[0-9]+)?|auto)$")
-                    set_property(TARGET ${target} APPEND PROPERTY
+                    set_property(TARGET ${qml_target} APPEND PROPERTY
                         QT_QML_MODULE_${import_set} "${import_module} ${import_version}")
                 else()
                     message(FATAL_ERROR
@@ -820,13 +826,13 @@ function(qext_add_qext_qml_module target)
     foreach(dependency IN LISTS arg_DEPENDENCIES)
         string(FIND ${dependency} "/" slash_position REVERSE)
         if (slash_position EQUAL -1)
-            set_property(TARGET ${target} APPEND PROPERTY QT_QML_MODULE_DEPENDENCIES "${dependency}")
+            set_property(TARGET ${qml_target} APPEND PROPERTY QT_QML_MODULE_DEPENDENCIES "${dependency}")
         else()
             string(SUBSTRING ${dependency} 0 ${slash_position} dep_module)
             math(EXPR slash_position "${slash_position} + 1")
             string(SUBSTRING ${dependency} ${slash_position} -1 dep_version)
             if (dep_version MATCHES "^([0-9]+(\\.[0-9]+)?|auto)$")
-                set_property(TARGET ${target} APPEND PROPERTY QT_QML_MODULE_DEPENDENCIES "${dep_module} ${dep_version}")
+                set_property(TARGET ${qml_target} APPEND PROPERTY QT_QML_MODULE_DEPENDENCIES "${dep_module} ${dep_version}")
             else()
                 message(FATAL_ERROR
                     "Invalid module dependency version number. "
@@ -846,7 +852,7 @@ function(qext_add_qext_qml_module target)
         endif()
     endif()
 
-    set_target_properties(${target} PROPERTIES
+    set_target_properties(${qml_target} PROPERTIES
         QEXT_QML_MODULE_NO_LINT "${arg_NO_LINT}"
         QEXT_QML_MODULE_NO_CACHEGEN "${arg_NO_CACHEGEN}"
         QEXT_QML_MODULE_NO_GENERATE_QMLDIR "${arg_NO_GENERATE_QMLDIR}"
@@ -878,13 +884,13 @@ function(qext_add_qext_qml_module target)
         # TODO: Check how this is used by qext_android_generate_deployment_settings()
         QEXT_QML_IMPORT_PATH "${arg_IMPORT_PATH}")
     # message(arg_TYPEINFO=${arg_TYPEINFO})
-    target_compile_definitions(${target} PRIVATE
+    target_compile_definitions(${qml_target} PRIVATE
         QEXT_QML_MODULE_URI="${arg_URI}"
         QEXT_QML_MODULE_VERSION="${arg_VERSION}")
 
     # Executables don't have a plugin target, so no need to export the properties.
     if(NOT backing_target_type STREQUAL "EXECUTABLE" AND NOT is_android_executable)
-        set_property(TARGET ${target} APPEND PROPERTY
+        set_property(TARGET ${qml_target} APPEND PROPERTY
             EXPORT_PROPERTIES _qext_qml_module_plugin_target _qext_qml_module_installed_plugin_target)
     endif()
 
@@ -896,9 +902,9 @@ function(qext_add_qext_qml_module target)
         QEXT_QMLCACHEGEN_EXECUTABLE
         QEXT_QMLCACHEGEN_ARGUMENTS)
     foreach(prop IN LISTS ensure_set_properties)
-        get_target_property(val ${target} ${prop})
+        get_target_property(val ${qml_target} ${prop})
         if("${val}" MATCHES "-NOTFOUND$")
-            set_target_properties(${target} PROPERTIES ${prop} "")
+            set_target_properties(${qml_target} PROPERTIES ${prop} "")
         endif()
     endforeach()
 
@@ -911,12 +917,12 @@ function(qext_add_qext_qml_module target)
             list(APPEND type_registration_extra_args NAMESPACE ${arg_NAMESPACE})
         endif()
         #TODO: manunal register qml types
-        qext_internal_qml_type_registration(${target} ${type_registration_extra_args})
+        qext_internal_qml_type_registration(${qml_target} ${type_registration_extra_args})
     endif()
 
     set(output_targets)
     if(NOT arg_NO_GENERATE_QMLDIR)
-        qext_internal_target_generate_qmldir(${target})
+        qext_internal_target_generate_qmldir(${qml_target})
 
         # Embed qmldir in qrc. The following comments relate mostly to Qt5->6 transition.
         # The requirement to keep the same resource name might no longer apply, but it doesn't
@@ -953,7 +959,7 @@ function(qext_add_qext_qml_module target)
 
         foreach(prefix IN LISTS prefixes)
             set(resource_targets)
-            qext_add_resources(${target} ${qmldir_resource_name}
+            qext_add_resources(${qml_target} ${qmldir_resource_name}
                 FILES ${arg_OUTPUT_DIRECTORY}/qmldir
                 PREFIX "${prefix}"
                 OUTPUT_TARGETS resource_targets)
@@ -982,24 +988,24 @@ function(qext_add_qext_qml_module target)
         qext_add_qml_plugin(${arg_PLUGIN_TARGET}
             ${plugin_args}
             OUTPUT_DIRECTORY ${arg_OUTPUT_DIRECTORY}
-            BACKING_TARGET ${target}
+            BACKING_TARGET ${qml_target}
             CLASS_NAME ${arg_CLASS_NAME})
     endif()
 
-    if(TARGET "${arg_PLUGIN_TARGET}" AND NOT arg_PLUGIN_TARGET STREQUAL target)
+    if(TARGET "${arg_PLUGIN_TARGET}" AND NOT arg_PLUGIN_TARGET STREQUAL qml_target)
         # message(------target=${target})
-        target_link_libraries(${arg_PLUGIN_TARGET} PRIVATE ${target})
+        target_link_libraries(${arg_PLUGIN_TARGET} PRIVATE ${qml_target})
     endif()
 
     # message(arg_SOURCES=${arg_SOURCES})
-    target_sources(${target} PRIVATE ${arg_SOURCES})
+    target_sources(${qml_target} PRIVATE ${arg_SOURCES})
 
     # QML tooling might need to map build dir paths to source dir paths. Create
     # a mapping file before qext_target_qml_sources() to be able to use it
     if(arg_ENABLE_TYPE_COMPILER)
         # But: for now, only enable this when dealing with qmltc
-        qext_internal_qml_map_build_files(${target} "${arg_QML_FILES}" dir_map_qrc)
-        set_property(TARGET ${target} APPEND PROPERTY _qt_generated_qrc_files "${dir_map_qrc}")
+        qext_internal_qml_map_build_files(${qml_target} "${arg_QML_FILES}" dir_map_qrc)
+        set_property(TARGET ${qml_target} APPEND PROPERTY _qt_generated_qrc_files "${dir_map_qrc}")
     endif()
 
     set(cache_target)
@@ -1036,16 +1042,16 @@ function(qext_add_qext_qml_module target)
             # because the qmldir file must be written before any finalizer
             # might call qt_import_qml_plugins().
             cmake_language(EVAL CODE
-                "cmake_language(DEFER ID_VAR write_id CALL qext_internal_write_deferred_qmldir_file ${target})")
+                "cmake_language(DEFER ID_VAR write_id CALL qext_internal_write_deferred_qmldir_file ${qml_target})")
             qext_internal_delay_finalization_until_after(${write_id})
         else()
             # Can't defer the write, have to do it now
-            qext_internal_write_deferred_qmldir_file(${target})
+            qext_internal_write_deferred_qmldir_file(${qml_target})
         endif()
     endif()
 
     if (arg_ENABLE_TYPE_COMPILER)
-        qext_internal_target_enable_qmltc(${target}
+        qext_internal_target_enable_qmltc(${qml_target}
             QML_FILES ${arg_QML_FILES}
             IMPORT_PATHS ${arg_IMPORT_PATH}
             NAMESPACE ${arg_TYPE_COMPILER_NAMESPACE})

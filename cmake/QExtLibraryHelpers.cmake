@@ -110,6 +110,12 @@ function(qext_add_library name)
         set(target "${name}")
     endif()
 
+    if(name MATCHES "^QExt(.+)$")
+        set(_qext_base_name "${CMAKE_MATCH_1}")
+    else()
+        set(_qext_base_name "${name}")
+    endif()
+
     set(is_internal_library FALSE)
     if(arg_INTERNAL_LIBRARY)
         set(is_internal_library TRUE)
@@ -130,7 +136,7 @@ function(qext_add_library name)
     endif()
 
     if(NOT arg_LIBRARY_INTERFACE_NAME)
-        set(arg_LIBRARY_INTERFACE_NAME "${name}")
+        set(arg_LIBRARY_INTERFACE_NAME "${_qext_base_name}")
     endif()
 
     if(NOT arg_CONFIGURE_RESET)
@@ -150,7 +156,7 @@ function(qext_add_library name)
     # message(arg_SOURCES=${arg_SOURCES})
     # add target library. If type_to_create is empty, it will be set afterwards
     qext_internal_add_library("${target}" ${type_to_create} ${arg_SOURCES})
-    set_target_properties(${target} PROPERTIES _qext_target_base_name ${name})
+    set_target_properties(${target} PROPERTIES _qext_target_base_name ${_qext_base_name})
     qext_internal_mark_as_internal_library("${target}")
     get_target_property(target_type ${target} TYPE)
     # Distinguish target_type
@@ -202,7 +208,7 @@ function(qext_add_library name)
     endif()
 
     if(NOT arg_CONFIG_LIBRARY_NAME)
-        set(arg_CONFIG_LIBRARY_NAME "${name}")
+        set(arg_CONFIG_LIBRARY_NAME "${_qext_base_name}")
     endif()
     set(library_config_header "qext${arg_CONFIG_LIBRARY_NAME}Config.h")
     set(library_config_private_header "qext${arg_CONFIG_LIBRARY_NAME}Config_p.h")
@@ -264,7 +270,7 @@ function(qext_add_library name)
     if(NOT ${arg_NO_PRIVATE_LIBRARY})
         add_library("${target_private}" INTERFACE)
         set_target_properties(${target_private} PROPERTIES
-            _qext_target_base_name "${name}Private"
+            _qext_target_base_name "${_qext_base_name}Private"
             _qext_config_library_name ${arg_CONFIG_LIBRARY_NAME}Private
             _qext_package_version "${PROJECT_VERSION}"
             _qext_package_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${name}"
