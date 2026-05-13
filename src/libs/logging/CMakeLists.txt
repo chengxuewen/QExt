@@ -184,14 +184,14 @@ qext_add_library(${QEXT_LIB_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/source/logger
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
-qext_internal_extend_target(${QEXT_LIB_NAME}
+qext_internal_extend_target(QExt${QEXT_LIB_NAME}
     SOURCES
     source/appender/qextLogColorConsoleAppender.cpp
     source/appender/qextLogColorConsoleAppender.h
     source/appender/qextLogWDCAppender.cpp
     source/appender/qextLogWDCAppender.h
     CONDITION WIN32)
-qext_internal_extend_target(${QEXT_LIB_NAME}
+qext_internal_extend_target(QExt${QEXT_LIB_NAME}
     SOURCES
     source/appender/qextLogDatabaseAppender.cpp
     source/appender/qextLogDatabaseAppender.h
@@ -200,7 +200,7 @@ qext_internal_extend_target(${QEXT_LIB_NAME}
     PUBLIC_LIBRARIES
     Qt${QEXT_QT_VERSION_MAJOR}::Sql
     CONDITION QEXT_FEATURE_USE_LOGGING_DATABASE)
-qext_internal_extend_target(${QEXT_LIB_NAME}
+qext_internal_extend_target(QExt${QEXT_LIB_NAME}
     SOURCES
     source/appender/qextLogTelnetAppender.cpp
     source/appender/qextLogTelnetAppender.h

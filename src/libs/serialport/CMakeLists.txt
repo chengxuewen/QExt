@@ -54,16 +54,16 @@ qext_add_library(SerialPort
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 if(QEXT_FEATURE_SERIALPORT_USE_QT_BACKEND)
-    qext_internal_extend_target(SerialPort SOURCES
+    qext_internal_extend_target(QExtSerialPort SOURCES
         source/qextSerialEnumerator_qt.cpp
         source/qextSerialPort_qt.cpp
         LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::SerialPort)
 else()
     if(UNIX)
-        qext_internal_extend_target(SerialPort SOURCES source/qextSerialPort_unix.cpp)
+        qext_internal_extend_target(QExtSerialPort SOURCES source/qextSerialPort_unix.cpp)
         if(QEXT_SYSTEM_LINUX)
-            qext_internal_extend_target(SerialPort
+            qext_internal_extend_target(QExtSerialPort
                 SOURCES
                 source/qextSerialEnumerator_linux.cpp
                 LIBRARIES
@@ -71,17 +71,17 @@ else()
         elseif(QEXT_SYSTEM_MACOS)
             find_library(IOKIT_LIB IOKit)
             find_library(COREFOUNDATION_LIB CoreFoundation)
-            qext_internal_extend_target(SerialPort
+            qext_internal_extend_target(QExtSerialPort
                 SOURCES
                 source/qextSerialEnumerator_osx.cpp
                 LIBRARIES
                 ${IOKIT_LIB} ${COREFOUNDATION_LIB})
         else()
-            qext_internal_extend_target(SerialPort SOURCES source/qextSerialEnumerator_unix.cpp)
+            qext_internal_extend_target(QExtSerialPort SOURCES source/qextSerialEnumerator_unix.cpp)
         endif()
     endif()
     if(WIN32)
-        qext_internal_extend_target(SerialPort
+        qext_internal_extend_target(QExtSerialPort
             SOURCES
             source/qextSerialEnumerator_win.cpp
             source/qextSerialPort_win.cpp

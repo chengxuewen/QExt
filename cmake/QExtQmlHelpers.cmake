@@ -173,7 +173,7 @@ function(qext_add_qml_module target)
                 ARGS
                 ${ARGN})
             # message(------module_args=${module_args})
-            qext_add_library(${target} ${module_args})
+            qext_add_library(${target} ${module_args} NO_QEXT_PREFIX)
         elseif(arg_SOURCES)
             # If a module target was pre-created, we still need to pass the additional sources.
             # message(------arg_SOURCES=${arg_SOURCES})
@@ -779,7 +779,7 @@ function(qext_add_qext_qml_module target)
                 CLASS_NAME ${arg_CLASS_NAME}
                 ${conditional_args})
         else()
-            qext_add_library(${target} ${lib_type})
+            qext_add_library(${target} ${lib_type} NO_QEXT_PREFIX)
         endif()
     endif()
 
@@ -1261,6 +1261,7 @@ function(qext_add_qml_plugin target)
         endif()
         set_target_properties(${target} PROPERTIES
             BUILD_WITH_INSTALL_RPATH ON
+            BUILD_RPATH "${install_rpath}"
             INSTALL_RPATH "${install_rpath}")
     endif()
 

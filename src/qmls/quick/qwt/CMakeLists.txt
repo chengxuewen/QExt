@@ -73,9 +73,17 @@ qext_add_qml_module(QuickQwt
     source/qextQuickQwtPch.h
     PUBLIC_LIBRARIES
     ${QEXT_QML_LINK_LIBRARIES})
-set_target_properties(QExtQuickQwtPlugin PROPERTIES
-    INSTALL_RPATH "\$ORIGIN/../../../lib"
-    BUILD_WITH_INSTALL_RPATH TRUE)
+if(APPLE)
+    set_target_properties(QExtQuickQwtPlugin PROPERTIES
+        BUILD_RPATH "@loader_path/../Frameworks;@loader_path/../../../lib"
+        INSTALL_RPATH "@loader_path/../Frameworks;@loader_path/../../../lib"
+        BUILD_WITH_INSTALL_RPATH TRUE)
+else()
+    set_target_properties(QExtQuickQwtPlugin PROPERTIES
+        BUILD_RPATH "\$ORIGIN/../../../lib"
+        INSTALL_RPATH "\$ORIGIN/../../../lib"
+        BUILD_WITH_INSTALL_RPATH TRUE)
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------

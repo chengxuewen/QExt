@@ -195,6 +195,16 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+# Common function to compute QExt-prefixed CMake target name from a short base name.
+# Mirrors OpenCTK's octk_internal_target_name().
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_internal_target_name out_var target)
+    set(${out_var} "QExt${target}" PARENT_SCOPE)
+    set(${out_var}_versioned "QExt${QEXT_NAMESPACE_VERSION}${target}" PARENT_SCOPE)
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 # Common function to add QExt prefixes to the target name, use the QExt'fied library name as a framework identifier.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_target_add_fied out_var target)
@@ -207,8 +217,12 @@ endfunction()
 # Add QExt::target and qext1::target as aliases for the target
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_add_target_aliases target)
-    set(versionless_alias "QExt::${target}")
-    set(versionfull_alias "QExt${QEXT_NAMESPACE_VERSION}::${target}")
+    get_target_property(library_base_name ${target} _qext_target_base_name)
+    if(NOT library_base_name)
+        set(library_base_name "${target}")
+    endif()
+    set(versionless_alias "QExt::${library_base_name}")
+    set(versionfull_alias "QExt${QEXT_NAMESPACE_VERSION}::${library_base_name}")
     set_target_properties("${target}" PROPERTIES _qext_versionless_alias "${versionless_alias}")
     set_target_properties("${target}" PROPERTIES _qext_versionfull_alias "${versionfull_alias}")
 
@@ -294,7 +308,8 @@ function(qext_internal_set_compile_pdb_names target)
         if(target_type STREQUAL "STATIC_LIBRARY" OR target_type STREQUAL "OBJECT_LIBRARY")
             get_target_property(output_name ${target} OUTPUT_NAME)
             if(NOT output_name)
-                set(output_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
+                get_target_property(iface_name ${target} _qext_library_interface_name)
+                set(output_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${iface_name}")
             endif()
             set_target_properties(${target} PROPERTIES COMPILE_PDB_NAME "${output_name}")
             set_target_properties(${target} PROPERTIES COMPILE_PDB_NAME_DEBUG "${output_name}d")

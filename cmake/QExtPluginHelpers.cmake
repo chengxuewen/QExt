@@ -251,6 +251,7 @@ function(qext_add_plugin target)
             endif()
             set_target_properties(${target} PROPERTIES
                 BUILD_WITH_INSTALL_RPATH ON
+                BUILD_RPATH "${install_rpath}"
                 INSTALL_RPATH "${install_rpath}")
         endif()
 
@@ -732,7 +733,7 @@ set_source_files_properties("${generated_qext_plugin_file_name}" PROPERTIES GENE
 
 _qext_internal_get_static_plugin_init_target_name("${plugin_target}" plugin_init_target)
 
-qext_add_library("${plugin_init_target}" OBJECT "${generated_qext_plugin_file_name}")
+qext_add_library("${plugin_init_target}" OBJECT "${generated_qext_plugin_file_name}" NO_QEXT_PREFIX)
 target_link_libraries(${plugin_init_target}
     PRIVATE
 

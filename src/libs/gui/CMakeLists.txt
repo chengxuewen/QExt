@@ -61,7 +61,7 @@ qext_add_library(${QEXT_LIB_NAME}
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 if(QEXT_FEATURE_X11EXTRAS)
-    qext_internal_extend_target(${QEXT_LIB_NAME} LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::X11Extras)
+    qext_internal_extend_target(QExt${QEXT_LIB_NAME} LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::X11Extras)
 endif()
 
 
