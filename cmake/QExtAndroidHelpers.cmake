@@ -882,11 +882,11 @@ function(qext_android_add_apk_target target)
     set(extra_deps "")
 
     # Plugins still might be added after creating the deployment targets.
-    if(NOT TARGET qext_internal_plugins)
-        add_custom_target(qext_internal_plugins)
+    if(NOT TARGET QExtInternalPlugins)
+        add_custom_target(QExtInternalPlugins)
     endif()
     # Before running androiddeployqt, we need to make sure all plugins are built.
-    list(APPEND extra_deps qext_internal_plugins)
+    list(APPEND extra_deps QExtInternalPlugins)
 
     # This target is used by Qt Creator's Android support and by the ${target}_make_apk target
     # in case DEPFILEs are not supported.
@@ -1076,8 +1076,8 @@ function(qext_internal_collect_apk_dependencies)
 
     qext_internal_collect_buildsystem_shared_libraries(libs "${CMAKE_SOURCE_DIR}")
 
-    if(NOT TARGET qext_internal_plugins)
-        add_custom_target(qext_internal_plugins)
+    if(NOT TARGET QExtInternalPlugins)
+        add_custom_target(QExtInternalPlugins)
     endif()
 
     foreach(lib IN LISTS libs)
@@ -1086,10 +1086,10 @@ function(qext_internal_collect_apk_dependencies)
             get_target_property(target_type ${lib} TYPE)
             # We collect all MODULE_LIBRARY targets since target APK may have implicit dependency
             # to the plugin that will cause the runtime issue. Plugins that were added using
-            # qext_add_plugin should be already added to the qext_internal_plugins dependency list,
+            # qext_add_plugin should be already added to the QExtInternalPlugins dependency list,
             # but it's ok to re-add them.
             if(target_type STREQUAL "MODULE_LIBRARY")
-                add_dependencies(qext_internal_plugins ${lib})
+                add_dependencies(QExtInternalPlugins ${lib})
             endif()
         endif()
     endforeach()

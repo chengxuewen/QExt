@@ -691,10 +691,10 @@ function(qext_internal_add_plugin target)
         QEXT_DEPRECATED_WARNINGS)
 
     if(target_type STREQUAL "MODULE_LIBRARY")
-        if(NOT TARGET qext_internal_plugins)
-            add_custom_target(qext_internal_plugins)
+        if(NOT TARGET QExtInternalPlugins)
+            add_custom_target(QExtInternalPlugins)
         endif()
-        add_dependencies(qext_internal_plugins ${target})
+        add_dependencies(QExtInternalPlugins ${target})
     endif()
 endfunction()
 
