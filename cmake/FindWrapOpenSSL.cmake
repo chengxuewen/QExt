@@ -94,6 +94,7 @@ else()
     endif()
     # wrap lib
     add_library(QExt3rdparty::WrapOpenSSL INTERFACE IMPORTED)
+    set_target_properties(QExt3rdparty::WrapOpenSSL PROPERTIES FOLDER "QExt/3rdparty")
     find_package(PkgConfig REQUIRED)
     set(PKG_CONFIG_PATH_BKG "${PKG_CONFIG_PATH}")
     set(ENV{PKG_CONFIG_PATH} "${QExtWrapOpenSSL_INSTALL_DIR}/lib64/pkgconfig")
@@ -103,13 +104,19 @@ else()
     target_link_directories(QExt3rdparty::WrapOpenSSL INTERFACE ${OpenSSL_LIBRARY_DIRS})
     if(UNIX)
         file(GLOB QExtWrapOpenSSL_LIBRARIES "${QExtWrapOpenSSL_INSTALL_DIR}/lib64/*.so*")
+        if(APPLE)
+            file(GLOB QExtWrapOpenSSL_DYLIB_LIBS "${QExtWrapOpenSSL_INSTALL_DIR}/lib64/*.dylib*")
+            list(APPEND QExtWrapOpenSSL_LIBRARIES ${QExtWrapOpenSSL_DYLIB_LIBS})
+        endif()
     else()
         file(GLOB QExtWrapOpenSSL_LIBRARIES "${QExtWrapOpenSSL_INSTALL_DIR}/lib64/*.dll*")
     endif()
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QExtWrapOpenSSL_LIBRARIES}
-        "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
-        WORKING_DIRECTORY "${QExtWrapOpenSSL_ROOT_DIR}"
-        RESULT_VARIABLE COPY_RESULT)
-    qext_install(FILES "${QExtWrapOpenSSL_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
+    if(QExtWrapOpenSSL_LIBRARIES)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QExtWrapOpenSSL_LIBRARIES}
+            "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
+            WORKING_DIRECTORY "${QExtWrapOpenSSL_ROOT_DIR}"
+            RESULT_VARIABLE COPY_RESULT)
+        qext_install(FILES "${QExtWrapOpenSSL_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
+    endif()
 endif()
 set(QExtWrapOpenSSL_FOUND ON)

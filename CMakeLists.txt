@@ -39,7 +39,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.4.2.1 LANGUAGES CXX C)
+project(QExt VERSION 1.4.2.2 LANGUAGES CXX C)
 set(CMAKE_USE_FOLDERS ON)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
@@ -784,6 +784,21 @@ if(QEXT_ADD_SUBDIRECTORY_QWT)
     set(QExtWrapQwt_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapQwt URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}.7z")
     add_subdirectory(${QExtWrapQwt_ROOT_DIR}/source ${QExtWrapQwt_ROOT_DIR}/subbuild)
+    if(TARGET Qwt)
+        set_target_properties(Qwt PROPERTIES FOLDER "QExt/3rdparty/Qwt")
+    endif()
+    foreach(_tgt IN ITEMS
+        qwt_exp_animation qwt_exp_barchart qwt_exp_bode qwt_exp_controls
+        qwt_exp_cpuplot qwt_exp_curvedemo qwt_exp_dials qwt_exp_distrowatch
+        qwt_exp_friedberg qwt_exp_itemeditor qwt_exp_legends qwt_exp_oscilloscope
+        qwt_exp_polardemo qwt_exp_polarspectrogram qwt_exp_radio qwt_exp_rasterview
+        qwt_exp_realtime qwt_exp_refreshtest qwt_exp_scatterplot qwt_exp_simpleplot
+        qwt_exp_sinusplot qwt_exp_spectrogram qwt_exp_splineeditor qwt_exp_stockchart
+        qwt_exp_sysinfo qwt_exp_tvplot)
+        if(TARGET ${_tgt})
+            set_target_properties(${_tgt} PROPERTIES FOLDER "QExt/3rdparty/Qwt/examples")
+        endif()
+    endforeach()
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
@@ -796,6 +811,21 @@ if(QEXT_ADD_SUBDIRECTORY_QTADS)
     set(QExtWrapQtADS_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapQtADS URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQtADS_DIR_NAME}.7z")
     add_subdirectory(${QExtWrapQtADS_ROOT_DIR}/source ${QExtWrapQtADS_ROOT_DIR}/subbuild)
+    if(TARGET qtadvanceddocking-qt5)
+        set_target_properties(qtadvanceddocking-qt5 PROPERTIES FOLDER "QExt/3rdparty/QtADS")
+    endif()
+    if(TARGET qtadvanceddocking-qt6)
+        set_target_properties(qtadvanceddocking-qt6 PROPERTIES FOLDER "QExt/3rdparty/QtADS")
+    endif()
+    foreach(_tgt IN ITEMS
+        AdvancedDockingSystemDemo
+        CentralWidgetExample SidebarExample AutoHideDragNDropExample
+        DeleteOnCloseTest DockInDockExample SimpleExample configFlagsExample
+        AutoHideExample EmptyDockAreaExample HideShowExample)
+        if(TARGET ${_tgt})
+            set_target_properties(${_tgt} PROPERTIES FOLDER "QExt/3rdparty/QtADS/examples")
+        endif()
+    endforeach()
 endif()
 if(QEXT_ENABLE_3RDPARTY_QTADS)
     qext_find_package(WrapQtADS PROVIDED_TARGETS QExt3rdparty::WrapQtADS)
@@ -806,6 +836,9 @@ if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
     set(QExtWrapSingleApp_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapSingleApp URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapSingleApp_DIR_NAME}.tar.gz")
     add_subdirectory(${QExtWrapSingleApp_ROOT_DIR}/source ${QExtWrapSingleApp_ROOT_DIR}/subbuild)
+    if(TARGET SingleApplication)
+        set_target_properties(SingleApplication PROPERTIES FOLDER "QExt/3rdparty/SingleApplication")
+    endif()
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT)
@@ -814,6 +847,16 @@ if(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT)
     set(QExtWrapQCustomPlot_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQCustomPlot_DIR_NAME}")
     qext_fetch_3rdparty(QExtWrapQCustomPlot URL "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQCustomPlot_DIR_NAME}.7z")
     add_subdirectory(${QExtWrapQCustomPlot_ROOT_DIR}/source ${QExtWrapQCustomPlot_ROOT_DIR}/subbuild)
+    if(TARGET QCustomPlot)
+        set_target_properties(QCustomPlot PROPERTIES FOLDER "QExt/3rdparty/QCustomPlot")
+    endif()
+    foreach(_tgt IN ITEMS
+        qcustomplot_exp_axis_tags qcustomplot_exp_interactions qcustomplot_exp_plots
+        qcustomplot_exp_scrollbar qcustomplot_exp_text)
+        if(TARGET ${_tgt})
+            set_target_properties(${_tgt} PROPERTIES FOLDER "QExt/3rdparty/QCustomPlot/examples")
+        endif()
+    endforeach()
 endif()
 if(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT)
     qext_find_package(WrapQCustomPlot PROVIDED_TARGETS QExt3rdparty::WrapQCustomPlot)

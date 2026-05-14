@@ -139,6 +139,7 @@ if(PinyinIME_BUILD_SHARED_LIBS)
 else()
     add_library(${PROJECT_NAME} STATIC ${PinyinIME_HEADERS} ${PinyinIME_SOURCES})
 endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "QExt/3rdparty/PinyinIME")
 target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE

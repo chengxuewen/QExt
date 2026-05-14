@@ -88,7 +88,11 @@ endif()
 # wrap lib
 find_package(Qwt ${QWT_VERSION} HINTS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
+set_target_properties(QExt3rdparty::WrapQwt PROPERTIES FOLDER "QExt/3rdparty")
 target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
+if(TARGET Qwt::Qwt)
+    set_target_properties(Qwt::Qwt PROPERTIES FOLDER "QExt/3rdparty/Qwt")
+endif()
 # copy lib to build dir
 set(QExtWrapQwt_INSTALL_DLLDIR "${QExtWrapQwt_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
 qext_get_files("${QExtWrapQwt_INSTALL_DLLDIR}" QExtWrapQwt_LIBRARIES)

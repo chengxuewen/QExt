@@ -42,6 +42,7 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core QExt::KeyboardPrivate)
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_plugin(KeyboardPlugin
+    FOLDER QExt/plugins
     OUTPUT_NAME qextkeyboardplugin
     PLUGIN_TYPE platforminputcontexts
     DEFAULT_IF FALSE

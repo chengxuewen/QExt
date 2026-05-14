@@ -279,6 +279,10 @@ function(qext_add_library name)
     set(target_private "${target}Private")
     if(NOT ${arg_NO_PRIVATE_LIBRARY})
         add_library("${target_private}" INTERFACE)
+        get_target_property(_parent_folder ${target} FOLDER)
+        if(_parent_folder)
+            set_target_properties(${target_private} PROPERTIES FOLDER "${_parent_folder}")
+        endif()
         set_target_properties(${target_private} PROPERTIES
             _qext_target_base_name "${_qext_base_name}Private"
             _qext_config_library_name ${arg_CONFIG_LIBRARY_NAME}Private

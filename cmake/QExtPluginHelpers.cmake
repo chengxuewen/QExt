@@ -169,18 +169,6 @@ function(qext_add_plugin target)
     get_target_property(output_name ${target} OUTPUT_NAME)
     set_property(TARGET "${target}" PROPERTY OUTPUT_NAME "${output_name}${QEXT_LIBINFIX}")
 
-    # Add a custom target with the Qt5 qmake name for a more user friendly ninja experience.
-    if(arg_OUTPUT_NAME AND NOT TARGET "${output_name}")
-        # But don't create such a target if it would just differ in case from "${target}"
-        # and we're not using Ninja. See https://gitlab.kitware.com/cmake/cmake/-/issues/21915
-        string(TOUPPER "${output_name}" uc_output_name)
-        string(TOUPPER "${target}" uc_target)
-        if(NOT uc_output_name STREQUAL uc_target OR CMAKE_GENERATOR MATCHES "^Ninja")
-            add_custom_target("${output_name}")
-            add_dependencies("${output_name}" "${target}")
-        endif()
-    endif()
-
     qext_set_common_target_properties("${target}")
     if(NOT arg_FOLDER)
         file(RELATIVE_PATH _dir "${PROJECT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -191,6 +179,18 @@ function(qext_add_plugin target)
         endif()
     endif()
     set_target_properties(${target} PROPERTIES FOLDER "${arg_FOLDER}")
+
+    # Add a custom target with the Qt5 qmake name for a more user friendly ninja experience.
+    if(arg_OUTPUT_NAME AND NOT TARGET "${output_name}")
+        string(TOUPPER "${output_name}" uc_output_name)
+        string(TOUPPER "${target}" uc_target)
+        if(NOT uc_output_name STREQUAL uc_target OR CMAKE_GENERATOR MATCHES "^Ninja")
+            add_custom_target("${output_name}")
+            add_dependencies("${output_name}" "${target}")
+            set_target_properties(${output_name} PROPERTIES FOLDER "${arg_FOLDER}")
+        endif()
+    endif()
+
     qext_internal_add_target_aliases("${target}")
     qext_skip_warnings_are_errors_when_repo_unclean("${target}")
     qext_internal_apply_strict_cpp("${target}")
@@ -558,7 +558,7 @@ function(qext_internal_get_library_for_plugin target target_type out_var)
 #    message(target_type=${target_type})
 #    message(known_modules=${known_modules})
     foreach(module ${known_modules})
-        if(TARGET ${module})
+        if(TARGET QExt${module} OR TARGET ${module})
             get_target_property(module_type "${QEXT_CMAKE_EXPORT_NAMESPACE}::${module}" TYPE)
             # Assuming interface libraries can't have plugins. Otherwise we'll need to fix the property
             # name, because the current one would be invalid for interface libraries.

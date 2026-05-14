@@ -89,7 +89,11 @@ endif()
 # wrap lib
 find_package(QCustomPlot ${QExtWrapQCustomPlot_VERSION} HINTS ${QExtWrapQCustomPlot_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQCustomPlot INTERFACE IMPORTED)
+set_target_properties(QExt3rdparty::WrapQCustomPlot PROPERTIES FOLDER "QExt/3rdparty")
 target_link_libraries(QExt3rdparty::WrapQCustomPlot INTERFACE QCustomPlot::QCustomPlot)
+if(TARGET QCustomPlot::QCustomPlot)
+    set_target_properties(QCustomPlot::QCustomPlot PROPERTIES FOLDER "QExt/3rdparty/QCustomPlot")
+endif()
 # copy lib to build dir
 set(QExtWrapQCustomPlot_INSTALL_DLLDIR "${QExtWrapQCustomPlot_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
 qext_get_files("${QExtWrapQCustomPlot_INSTALL_DLLDIR}" QExtWrapQCustomPlot_LIBRARIES)

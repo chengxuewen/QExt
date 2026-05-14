@@ -96,5 +96,6 @@ endif()
 # wrap lib
 find_package(qjson-qt${QEXT_QT_VERSION_MAJOR} HINTS ${QExtWrapQJson_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQJson INTERFACE IMPORTED)
+set_target_properties(QExt3rdparty::WrapQJson PROPERTIES FOLDER "QExt/3rdparty")
 target_link_libraries(QExt3rdparty::WrapQJson INTERFACE qjson-qt${QEXT_QT_VERSION_MAJOR})
 set(QExtWrapQJson_FOUND ON)

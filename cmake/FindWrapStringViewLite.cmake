@@ -87,6 +87,7 @@ if(NOT EXISTS ${QExtWrapStringViewLite_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapStringViewLite INTERFACE IMPORTED)
+set_target_properties(QExt3rdparty::WrapStringViewLite PROPERTIES FOLDER "QExt/3rdparty")
 list(APPEND CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ${QExtWrapStringViewLite_INSTALL_DIR})
 find_package(string-view-lite HINTS ${QExtWrapStringViewLite_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapStringViewLite INTERFACE nonstd::string-view-lite)
