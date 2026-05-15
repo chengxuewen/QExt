@@ -1,8 +1,88 @@
 @PACKAGE_INIT@
 
-cmake_minimum_required(VERSION @min_new_policy_version@...@max_new_policy_version@)
+if("@min_new_policy_version@" STREQUAL "")
+    set(_min_new_policy_version "3.15")
+else()
+    set(_min_new_policy_version "@min_new_policy_version@")
+endif()
+if("@max_new_policy_version@" STREQUAL "")
+    set(_max_new_policy_version "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
+else()
+    set(_max_new_policy_version "@max_new_policy_version@")
+endif()
+cmake_minimum_required(VERSION ${_min_new_policy_version}...${_max_new_policy_version})
+
+# Helper functions required by AdditionalTargetInfo (normally defined in QExtPublicTargetHelpers.cmake)
+if(NOT COMMAND qext_internal_promote_target_to_global)
+    function(qext_internal_promote_target_to_global target)
+        get_property(is_global TARGET ${target} PROPERTY IMPORTED_GLOBAL)
+        if(NOT is_global)
+            message(DEBUG "Promoting target to global: '${target}'")
+            set_property(TARGET ${target} PROPERTY IMPORTED_GLOBAL TRUE)
+        endif()
+    endfunction()
+endif()
+if(NOT COMMAND qext_internal_promote_target_to_global_checked)
+    function(qext_internal_promote_target_to_global_checked target)
+        if(QEXT_PROMOTE_TO_GLOBAL_TARGETS AND CMAKE_VERSION VERSION_LESS 3.21)
+            qext_internal_promote_target_to_global(${target})
+        endif()
+    endfunction()
+endif()
+if(NOT COMMAND qext_make_features_available)
+    function(qext_make_features_available target)
+    endfunction()
+endif()
+
+if(NOT COMMAND _qext_internal_suggest_dependency_debugging)
+    function(_qext_internal_suggest_dependency_debugging dep_target var_name)
+    endfunction()
+endif()
+
+# Helper functions for Dependencies.cmake (normally defined in QExt's build-time cmake modules)
+if(NOT COMMAND _qext_internal_find_third_party_dependencies)
+    function(_qext_internal_find_third_party_dependencies dep_target deps_var)
+    endfunction()
+endif()
+if(NOT COMMAND _qext_internal_find_tool_dependencies)
+    function(_qext_internal_find_tool_dependencies dep_target deps_var)
+    endfunction()
+endif()
+if(NOT COMMAND _qext_internal_find_qext_dependencies)
+    function(_qext_internal_find_qext_dependencies dep_target deps_var paths_var)
+        set(_deps "${${deps_var}}")
+        if(NOT _deps)
+            return()
+        endif()
+        set(_paths "${${paths_var}}")
+        foreach(_dep_entry IN LISTS _deps)
+            string(REPLACE "\\;" ";" _dep_parts "${_dep_entry}")
+            list(GET _dep_parts 0 _dep_pkg)
+            list(GET _dep_parts 1 _dep_ver)
+            find_dependency(${_dep_pkg} ${_dep_ver}
+                PATHS ${_paths}
+                ${__qext_use_no_default_path_for_qext_packages}
+            )
+        endforeach()
+    endfunction()
+endif()
 
 include(CMakeFindDependencyMacro)
+
+# Create stub targets for QExt3rdparty libraries that may be referenced
+# by installed INTERFACE_LINK_LIBRARIES. These are header-only wrappers
+# whose include paths are already provided by the parent QExt target.
+# Pattern: Qt6 creates these during build; here we create minimal stubs
+# for find_package() usage since they are not separately exported.
+foreach(_qext_3rdparty_target IN ITEMS
+    WrapStringViewLite WrapOptionalLite WrapVariantLite WrapInvokeLite WrapAnyLite
+    WrapQwt WrapBreakpad
+)
+    if(NOT TARGET "QExt3rdparty::${_qext_3rdparty_target}")
+        add_library("QExt3rdparty::${_qext_3rdparty_target}" INTERFACE IMPORTED)
+    endif()
+endforeach()
+unset(_qext_3rdparty_target)
 
 get_filename_component(_import_prefix "${CMAKE_CURRENT_LIST_FILE}" PATH)
 get_filename_component(_import_prefix "${_import_prefix}" REALPATH)
@@ -35,24 +115,24 @@ if (NOT QEXT_NO_CREATE_TARGETS AND @QEXT_CMAKE_INSTALL_NAMESPACE@@target@_FOUND)
     # Provide old style variables for includes, compile definitions, etc.
     # These variables are deprecated and only provided on a best-effort basis to facilitate porting.
     # Consider using target_link_libraries(app PRIVATE @QEXT_CMAKE_EXPORT_NAMESPACE@@target@) instead.
-    set(@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_LIBRARIES "@QEXT_CMAKE_EXPORT_NAMESPACE@::@target@")
+    set(@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_LIBRARIES "@QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@")
 
     get_target_property(_@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_OWN_INCLUDE_DIRS
-                        @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@ INTERFACE_INCLUDE_DIRECTORIES)
+                        @QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@ INTERFACE_INCLUDE_DIRECTORIES)
     if(NOT _@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_OWN_INCLUDE_DIRS)
         set(_@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_OWN_INCLUDE_DIRS "")
     endif()
 
-    if(TARGET @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@Private)
+    if(TARGET @QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@Private)
         get_target_property(_@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_OWN_PRIVATE_INCLUDE_DIRS
-                            @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@Private INTERFACE_INCLUDE_DIRECTORIES)
+                            @QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@Private INTERFACE_INCLUDE_DIRECTORIES)
         if(NOT _@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_OWN_PRIVATE_INCLUDE_DIRS)
             set(_@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_OWN_PRIVATE_INCLUDE_DIRS "")
         endif()
     endif()
 
     get_target_property(@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_DEFINITIONS
-                        @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@ INTERFACE_COMPILE_DEFINITIONS)
+                        @QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@ INTERFACE_COMPILE_DEFINITIONS)
     if(NOT @QEXT_CMAKE_EXPORT_NAMESPACE@@target@_DEFINITIONS)
         set(@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_DEFINITIONS "")
     else()
@@ -60,7 +140,7 @@ if (NOT QEXT_NO_CREATE_TARGETS AND @QEXT_CMAKE_INSTALL_NAMESPACE@@target@_FOUND)
     endif()
 
     get_target_property(@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_COMPILE_DEFINITIONS
-                        @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@ INTERFACE_COMPILE_DEFINITIONS)
+                        @QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@ INTERFACE_COMPILE_DEFINITIONS)
     if(NOT @QEXT_CMAKE_EXPORT_NAMESPACE@@target@_COMPILE_DEFINITIONS)
         set(@QEXT_CMAKE_EXPORT_NAMESPACE@@target@_COMPILE_DEFINITIONS "")
     endif()
@@ -88,12 +168,12 @@ if (NOT QEXT_NO_CREATE_TARGETS AND @QEXT_CMAKE_INSTALL_NAMESPACE@@target@_FOUND)
     list(REMOVE_DUPLICATES @QEXT_CMAKE_EXPORT_NAMESPACE@@target@_COMPILE_DEFINITIONS)
 endif()
 
-if (TARGET @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@)
+if (TARGET @QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@)
     foreach(extra_cmake_include @extra_cmake_includes@)
         include("${CMAKE_CURRENT_LIST_DIR}/${extra_cmake_include}")
     endforeach()
 
-    qext_make_features_available(@QEXT_CMAKE_EXPORT_NAMESPACE@::@target@)
+    qext_make_features_available(@QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@)
 
     if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/@QEXT_CMAKE_INSTALL_NAMESPACE@@target@Plugins.cmake")
         include("${CMAKE_CURRENT_LIST_DIR}/@QEXT_CMAKE_INSTALL_NAMESPACE@@target@Plugins.cmake")
@@ -101,10 +181,10 @@ if (TARGET @QEXT_CMAKE_EXPORT_NAMESPACE@::@target@)
 
     list(APPEND QEXT_ALL_LIBRARIES_FOUND_VIA_FIND_PACKAGE "@target@")
 
-    get_target_property(_qext_library_target_type "@QEXT_CMAKE_INSTALL_NAMESPACE@::@target@" TYPE)
+    get_target_property(_qext_library_target_type "@QEXT_CMAKE_INSTALL_NAMESPACE@::@export_target@" TYPE)
     if(NOT _qext_library_target_type STREQUAL "INTERFACE_LIBRARY")
         get_target_property(_qext_library_plugin_types
-                            @QEXT_CMAKE_INSTALL_NAMESPACE@::@target@ LIBRARY_PLUGIN_TYPES)
+                            @QEXT_CMAKE_INSTALL_NAMESPACE@::@export_target@ LIBRARY_PLUGIN_TYPES)
         if(_qext_library_plugin_types)
             list(APPEND QEXT_ALL_PLUGIN_TYPES_FOUND_VIA_FIND_PACKAGE "${_qext_library_plugin_types}")
         endif()
@@ -121,7 +201,7 @@ else()
     set(@QEXT_CMAKE_INSTALL_NAMESPACE@@target@_FOUND FALSE)
     if(NOT DEFINED @QEXT_CMAKE_INSTALL_NAMESPACE@@target@_NOT_FOUND_MESSAGE)
         set(@QEXT_CMAKE_INSTALL_NAMESPACE@@target@_NOT_FOUND_MESSAGE
-            "Target \"@QEXT_CMAKE_EXPORT_NAMESPACE@::@target@\" was not found.")
+            "Target \"@QEXT_CMAKE_EXPORT_NAMESPACE@::@export_target@\" was not found.")
 
         if(QEXT_NO_CREATE_TARGETS)
             string(APPEND @QEXT_CMAKE_INSTALL_NAMESPACE@@target@_NOT_FOUND_MESSAGE

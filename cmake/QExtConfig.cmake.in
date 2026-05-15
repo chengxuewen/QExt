@@ -1,0 +1,34 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+
+get_filename_component(_qext_cmake_dir "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+
+set(__qext_use_no_default_path_for_qext_packages "NO_DEFAULT_PATH")
+if(QEXT_DISABLE_NO_DEFAULT_PATH_IN_QEXT_PACKAGES)
+    set(__qext_use_no_default_path_for_qext_packages "")
+endif()
+
+# For each requested component, find the per-module Config file
+foreach(_component ${QExt_FIND_COMPONENTS})
+    set(_config_name "${CMAKE_CURRENT_LIST_DIR}/QExt1${_component}/QExt1${_component}Config.cmake")
+    if(EXISTS "${_config_name}")
+        include("${_config_name}")
+    else()
+        find_package(QExt1${_component}
+            ${QExt_FIND_VERSION}
+            PATHS
+                ${QEXT_BUILD_CMAKE_PREFIX_PATH}
+                ${_qext_cmake_dir}
+                ${_qext_additional_packages_prefix_paths}
+                ${QEXT_EXAMPLES_CMAKE_PREFIX_PATH}
+            ${__qext_use_no_default_path_for_qext_packages}
+        )
+    endif()
+    if(NOT QExt1${_component}_FOUND)
+        set(QExt_${_component}_FOUND FALSE)
+    else()
+        set(QExt_${_component}_FOUND TRUE)
+    endif()
+endforeach()
+
+check_required_components(QExt)

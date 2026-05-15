@@ -49,6 +49,7 @@ if(NOT EXISTS ${QExtWrapQwt_STAMP_FILE_PATH})
         message(FATAL_ERROR "${QExtWrapQwt_DIR_NAME} lib build directory make failed.")
     endif()
 
+    file(REMOVE "${QExtWrapQwt_BUILD_DIR}/CMakeCache.txt")
     execute_process(
         COMMAND ${CMAKE_COMMAND}
         -G${CMAKE_GENERATOR}

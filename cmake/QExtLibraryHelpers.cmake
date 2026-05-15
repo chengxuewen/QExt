@@ -379,7 +379,7 @@ function(qext_add_library name)
                 "${generate_private_cpp_export}")
         endif()
 
-        set(library_depends_header "${library_build_interface_include_dir}/qext${name}Depends.h")
+        set(library_depends_header "${library_build_interface_include_dir}/qext${target}Depends.h")
         set(library_header "${CMAKE_CURRENT_SOURCE_DIR}/include/${library}")
         if(NOT EXISTS "${library_header}")
             set(once_macro "_QEXT${library_upper}_LIBRARY_H")
@@ -659,10 +659,14 @@ function(qext_add_library name)
     qext_internal_get_min_new_policy_cmake_version(min_new_policy_version)
     qext_internal_get_max_new_policy_cmake_version(max_new_policy_version)
     include(CMakePackageConfigHelpers)
+    set(__target_backup "${target}")
+    set(export_target "${target}")
+    set(target "${name}")
     configure_package_config_file(
         "${QEXT_CMAKE_DIR}/QExtModuleConfig.cmake.in"
         "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${name}Config.cmake"
         INSTALL_DESTINATION "${config_install_dir}")
+    set(target "${__target_backup}")
 
     if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${name}BuildInternals.cmake")
         configure_file("${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${name}BuildInternals.cmake"
@@ -709,6 +713,11 @@ function(qext_add_library name)
         FRAMEWORK DESTINATION ${QEXT_INSTALL_LIBDIR}
         PRIVATE_HEADER DESTINATION "${library_install_interface_private_include_dir}"
         PUBLIC_HEADER DESTINATION "${library_install_interface_include_dir}")
+
+    # Build-tree export: directly write Targets file regardless of QEXT_BUILD_INSTALL
+    export(TARGETS ${exported_targets}
+        NAMESPACE ${QEXT_CMAKE_EXPORT_NAMESPACE}::
+        FILE "${config_build_dir}/${export_name}.cmake")
     if(arg_EXTERNAL_HEADERS_DIR)
         set_property(TARGET ${target} PROPERTY PUBLIC_HEADER ${public_header_backup})
         unset(public_header_backup)
@@ -789,7 +798,7 @@ function(qext_add_library name)
             "${library_headers_clean}")
     endif()
 
-    qext_internal_create_library_depends_file(${target})
+    qext_internal_create_library_depends_file(${target} "${name}")
 
     if(arg_INTERNAL_LIBRARY)
         target_include_directories("${target}" INTERFACE ${interface_includes})
@@ -1336,7 +1345,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-function(qext_internal_create_library_depends_file target)
+function(qext_internal_create_library_depends_file target name)
     get_target_property(target_type "${target}" TYPE)
     if(target_type STREQUAL "INTERFACE_LIBRARY")
         set(arg_HEADER_LIBRARY ON)
@@ -1478,21 +1487,30 @@ function(qext_internal_create_library_depends_file target)
     endif()
 
     if(third_party_deps OR main_library_tool_deps OR target_deps)
-        set(path_suffix "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
+        set(path_suffix "${QEXT_CMAKE_INSTALL_NAMESPACE}${name}")
         qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
         qext_path_join(config_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${path_suffix})
 
         # All module packages should look for the QEXT6 package version that QExt was originally built as.
         qext_internal_get_package_version_of_target(Platform main_qext_package_version)
 
+        # QExt modules are self-contained - skip the parent package check
+        set(INSTALL_CMAKE_NAMESPACE "")
+
+        # Switch target to short name (name) for @target@ substitution in Dependencies template
+        set(__depends_target_backup "${target}")
+        set(target "${name}")
+
         # Configure and install ModuleDependencies file.
         configure_file(
             "${QEXT_CMAKE_DIR}/QExtModuleDependencies.cmake.in"
-            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Dependencies.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${name}Dependencies.cmake"
             @ONLY)
 
+        set(target "${__depends_target_backup}")
+
         qext_install(FILES
-            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Dependencies.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${name}Dependencies.cmake"
             DESTINATION "${config_install_dir}"
             COMPONENT ${QEXT_INSTALL_COMPONENT_NAME})
 

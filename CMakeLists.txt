@@ -606,6 +606,55 @@ string(APPEND QEXT_CONFIG_INSTALL_DIR "${QEXT_INSTALL_LIBDIR}/cmake")
 message(STATUS "QExt config build dir set as '${QEXT_CONFIG_BUILD_DIR}'.")
 message(STATUS "QExt config install dir set as '${QEXT_CONFIG_INSTALL_DIR}'.")
 
+# Top-level QExt1Config.cmake for find_package(QExt COMPONENTS ...)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/QExtConfig.cmake.in"
+    "${QEXT_CONFIG_BUILD_DIR}/QExt1Config.cmake"
+    INSTALL_DESTINATION "${QEXT_CONFIG_INSTALL_DIR}")
+write_basic_package_version_file(
+    "${QEXT_CONFIG_BUILD_DIR}/QExt1ConfigVersionImpl.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion)
+qext_internal_write_qext_package_version_file(
+    "QExt1"
+    "${QEXT_CONFIG_BUILD_DIR}/QExt1ConfigVersion.cmake")
+qext_install(FILES
+    "${QEXT_CONFIG_BUILD_DIR}/QExt1Config.cmake"
+    "${QEXT_CONFIG_BUILD_DIR}/QExt1ConfigVersion.cmake"
+    "${QEXT_CONFIG_BUILD_DIR}/QExt1ConfigVersionImpl.cmake"
+    DESTINATION "${QEXT_CONFIG_INSTALL_DIR}")
+
+# Also generate version-less QExtConfig.cmake for find_package(QExt ...)
+# Must be in QExt/ subdirectory per CMake find_package search convention
+file(MAKE_DIRECTORY "${QEXT_CONFIG_BUILD_DIR}/QExt")
+file(WRITE "${QEXT_CONFIG_BUILD_DIR}/QExt/QExtConfig.cmake"
+    "include(\"\${CMAKE_CURRENT_LIST_DIR}/../QExt1Config.cmake\")\n")
+file(WRITE "${QEXT_CONFIG_BUILD_DIR}/QExt/QExtConfigVersion.cmake"
+    "set(PACKAGE_VERSION \"${PROJECT_VERSION}\")\n"
+    "if(PACKAGE_VERSION VERSION_LESS PACKAGE_FIND_VERSION)\n"
+    "  set(PACKAGE_VERSION_COMPATIBLE FALSE)\n"
+    "else()\n"
+    "  set(PACKAGE_VERSION_COMPATIBLE TRUE)\n"
+    "  if(PACKAGE_VERSION STREQUAL PACKAGE_FIND_VERSION)\n"
+    "    set(PACKAGE_VERSION_EXACT TRUE)\n"
+    "  endif()\n"
+    "endif()\n")
+
+qext_install(FILES
+    "${QEXT_CONFIG_BUILD_DIR}/QExt/QExtConfig.cmake"
+    "${QEXT_CONFIG_BUILD_DIR}/QExt/QExtConfigVersion.cmake"
+    DESTINATION "${QEXT_CONFIG_INSTALL_DIR}/QExt")
+
+# Build-tree discovery: set QExt_DIR for parent scope find_package
+set(QEXT_BUILD_CMAKE_PREFIX_PATH "${QEXT_BUILD_DIR}" CACHE STRING
+    "Prefix path for finding QExt packages in the build tree")
+set(CMAKE_PREFIX_PATH "${QEXT_BUILD_DIR};${CMAKE_PREFIX_PATH}" CACHE STRING
+    "Search path for CMake packages" FORCE)
+list(PREPEND CMAKE_PREFIX_PATH "${QEXT_BUILD_DIR}")
+set(QExt_DIR "${QEXT_CONFIG_BUILD_DIR}/QExt" CACHE PATH
+    "Directory containing QExtConfig.cmake" FORCE)
+
 # the default RPATH to be used when installing, but only if it's not a system directory
 list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${QEXT_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}" isSystemDir)
 if("${isSystemDir}" STREQUAL "-1")

@@ -219,7 +219,11 @@ endfunction()
 function(qext_internal_add_target_aliases target)
     get_target_property(library_base_name ${target} _qext_target_base_name)
     if(NOT library_base_name)
-        set(library_base_name "${target}")
+        # Use the library interface name (short name like "Core") as the versionless base
+        get_target_property(library_base_name ${target} _qext_library_interface_name)
+        if(NOT library_base_name)
+            set(library_base_name "${target}")
+        endif()
     endif()
     set(versionless_alias "QExt::${library_base_name}")
     set(versionfull_alias "QExt${QEXT_NAMESPACE_VERSION}::${library_base_name}")
@@ -503,8 +507,14 @@ function(qext_internal_export_modern_cmake_config_targets_file)
 
         add_library("${target}Versionless" INTERFACE)
         target_link_libraries("${target}Versionless" INTERFACE "${target}")
+        # Use the library interface name (short name) as the export name
+        # so that QExt namespace + short name = QExt::Core (not QExt::QExtCore)
+        get_target_property(_vless_iface_name ${target} _qext_library_interface_name)
+        if(NOT _vless_iface_name)
+            set(_vless_iface_name "${target}")
+        endif()
         set_target_properties("${target}Versionless" PROPERTIES
-            EXPORT_NAME "${target}"
+            EXPORT_NAME "${_vless_iface_name}"
             _qext_is_versionless_target "TRUE")
         set_property(TARGET "${target}Versionless"
             APPEND PROPERTY EXPORT_PROPERTIES _qext_is_versionless_target)

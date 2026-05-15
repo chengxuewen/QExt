@@ -37,7 +37,9 @@ function(qext_install)
     endif()
 
     if(NOT QEXT_BUILD_INSTALL)
-        return()
+        if(NOT is_install_targets)
+            return()
+        endif()
     endif()
 
     # In a prefix build, always invoke install() without modification.
@@ -57,7 +59,7 @@ function(qext_install)
         # In a top-level build the exported config files are placed under qextCore/lib/cmake.
         # In a per-repo build, they will be placed in each repo's build dir/lib/cmake.
         if(QEXT_BUILD_INSTALL)
-            qext_path_join(arg_DESTINATION "${QEXT_BUILD_DIR}" "${arg_DESTINATION}")
+            string(REPLACE "${QEXT_INSTALL_PREFIX}" "${QEXT_BUILD_DIR}" arg_DESTINATION "${arg_DESTINATION}")
         endif()
 
         set(namespace_option "")
