@@ -27,7 +27,7 @@ if(TARGET QExt3rdparty::WrapQwt)
     set(QExtWrapQwt_FOUND ON)
     return()
 endif()
-    message(CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH})
+
 set(QExtWrapQwt_DIR_NAME "qwt-${QWT_VERSION}")
 set(QExtWrapQwt_URL_NAME "qwt-${QWT_VERSION}.7z")
 set(QExtWrapQwt_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapQwt_URL_NAME}")
