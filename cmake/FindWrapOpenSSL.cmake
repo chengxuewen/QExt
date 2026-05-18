@@ -61,10 +61,14 @@ else()
             message(FATAL_ERROR "${QExtWrapOpenSSL_DIR_NAME} lib build directory make failed.")
         endif()
 
-        execute_process(
-            COMMAND ./Configure
+        set(QExtWrapOpenSSL_CONFIGURE_ARGS
             --prefix=${QExtWrapOpenSSL_INSTALL_DIR}
-            --openssldir=${QExtWrapOpenSSL_INSTALL_DIR}/ssl
+            --openssldir=${QExtWrapOpenSSL_INSTALL_DIR}/ssl)
+        if(APPLE AND CMAKE_OSX_SYSROOT)
+            list(APPEND QExtWrapOpenSSL_CONFIGURE_ARGS -isysroot ${CMAKE_OSX_SYSROOT})
+        endif()
+        execute_process(
+            COMMAND ./Configure ${QExtWrapOpenSSL_CONFIGURE_ARGS}
             WORKING_DIRECTORY "${QExtWrapOpenSSL_BUILD_DIR}"
             RESULT_VARIABLE CONFIGURE_RESULT)
         if(CONFIGURE_RESULT MATCHES 0)
