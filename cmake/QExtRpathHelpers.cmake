@@ -41,6 +41,38 @@
 # INSTALL_PATH is used to implement the equivalent of qmake's $$qextRelativeRPathBase().
 #
 # QEXT_DISABLE_RPATH can be set to disable embedding any QExt specific rpaths.
+
+# Returns the platform-specific relative RPATH base token.
+function(qext_internal_get_relative_rpath_base_token out_var)
+    if(APPLE)
+        set(token "@loader_path")
+    elseif(UNIX)
+        set(token "\$ORIGIN")
+    else()
+        set(token "NO_KNOWN_RPATH_REL_BASE")
+    endif()
+    set(${out_var} "${token}" PARENT_SCOPE)
+endfunction()
+
+# Computes a relative RPATH from install_location to base_path.
+# base_path may be absolute or relative to QEXT_INSTALL_PREFIX.
+# install_location is relative to QEXT_INSTALL_PREFIX.
+# The result is the relative rpath needed for a target installed at install_location
+# to find libraries installed at base_path.
+function(qext_compute_relative_rpath_base base_path install_location out_var)
+    qext_internal_get_relative_rpath_base_token(rpath_base)
+    if(NOT IS_ABSOLUTE "${base_path}")
+        set(base_path "${QEXT_INSTALL_PREFIX}/${base_path}")
+    endif()
+    file(RELATIVE_PATH rel_path "${QEXT_INSTALL_PREFIX}/${install_location}" "${base_path}")
+    if(rel_path)
+        set(result "${rpath_base}/${rel_path}")
+    else()
+        set(result "${rpath_base}")
+    endif()
+    set(${out_var} "${result}" PARENT_SCOPE)
+endfunction()
+
 function(qext_apply_rpaths)
     # No rpath support for win32 and android.
     if(WIN32 OR ANDROID)
@@ -48,10 +80,11 @@ function(qext_apply_rpaths)
     endif()
 
     # Rpaths explicitly disabled (like for uikit), equivalent to qmake's no_qext_rpath.
-    # Or feature was turned OFF.
-    if(QEXT_DISABLE_RPATH OR NOT QEXT_FEATURE_rpath)
+    if(QEXT_DISABLE_RPATH)
         return()
     endif()
+
+    set(_default_install_rpath "${QEXT_DEFAULT_INSTALL_RPATH}")
 
     qext_parse_all_arguments(arg "qext_apply_rpaths" "RELATIVE_RPATH" "TARGET;INSTALL_PATH" "" ${ARGN})
     if(NOT arg_TARGET)
@@ -144,11 +177,12 @@ function(qext_apply_rpaths)
     if(rpaths)
         list(REMOVE_DUPLICATES rpaths)
         if(QEXT_BUILD_INSTALL)
-            set(prop_name "INSTALL_RPATH")
+            set_property(TARGET "${target}" APPEND PROPERTY INSTALL_RPATH ${rpaths})
         else()
-            set(prop_name "BUILD_RPATH")
+            set_property(TARGET "${target}" PROPERTY BUILD_RPATH "${rpaths}")
+            set_property(TARGET "${target}" PROPERTY INSTALL_RPATH "${rpaths}")
+            set_property(TARGET "${target}" PROPERTY BUILD_WITH_INSTALL_RPATH TRUE)
         endif()
-        set_property(TARGET "${target}" APPEND PROPERTY "${prop_name}" ${rpaths})
     endif()
 endfunction()
 
