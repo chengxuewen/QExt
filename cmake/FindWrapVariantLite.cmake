@@ -87,7 +87,6 @@ if(NOT EXISTS ${QExtWrapVariantLite_STAMP_FILE_PATH})
 endif()
 # wrap lib
 add_library(QExt3rdparty::WrapVariantLite INTERFACE IMPORTED)
-set_target_properties(QExt3rdparty::WrapVariantLite PROPERTIES FOLDER "QExt/3rdparty")
 find_package(variant-lite HINTS ${QExtWrapVariantLite_INSTALL_DIR} REQUIRED)
 target_link_libraries(QExt3rdparty::WrapVariantLite INTERFACE nonstd::variant-lite)
 set(QExtWrapVariantLite_FOUND ON)

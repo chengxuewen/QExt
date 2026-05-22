@@ -98,7 +98,6 @@ else()
     endif()
     # wrap lib
     add_library(QExt3rdparty::WrapOpenSSL INTERFACE IMPORTED)
-    set_target_properties(QExt3rdparty::WrapOpenSSL PROPERTIES FOLDER "QExt/3rdparty")
     find_package(PkgConfig REQUIRED)
     set(PKG_CONFIG_PATH_BKG "${PKG_CONFIG_PATH}")
     set(ENV{PKG_CONFIG_PATH} "${QExtWrapOpenSSL_INSTALL_DIR}/lib64/pkgconfig")
