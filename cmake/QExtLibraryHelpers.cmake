@@ -303,8 +303,9 @@ function(qext_add_library name)
             LIBRARY_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBDIR}"
             RUNTIME_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_BINDIR}"
             ARCHIVE_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBDIR}"
-            VERSION ${PROJECT_VERSION}
-            SOVERSION ${PROJECT_VERSION_MAJOR})
+            VERSION ${QEXT_VERSION}
+            SOVERSION ${QEXT_VERSION_MAJOR})
+
         qext_set_target_info_properties(${target} ${ARGN})
         qext_handle_multi_config_output_dirs("${target}")
 
@@ -337,6 +338,22 @@ function(qext_add_library name)
         endif()
 
         qext_set_common_target_properties(${target})
+
+        if(QEXT_BUILD_SHARED_LIBS AND UNIX AND NOT is_framework)
+            get_target_property(_qext_output_name ${target} OUTPUT_NAME)
+            set(_qext_soname "lib${_qext_output_name}${CMAKE_SHARED_LIBRARY_SUFFIX}")
+            set(_qext_soname_ver "${_qext_soname}.${QEXT_VERSION}")
+            set(_qext_soname_major_minor "${_qext_soname}.${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}")
+
+            add_custom_command(TARGET ${target} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E remove -f
+                    "$<TARGET_FILE_DIR:${target}>/${_qext_soname_major_minor}"
+                COMMAND ${CMAKE_COMMAND} -E create_symlink
+                    "${_qext_soname_ver}"
+                    "$<TARGET_FILE_DIR:${target}>/${_qext_soname_major_minor}"
+                COMMENT "Creating version symlink: ${_qext_soname_major_minor}"
+            )
+        endif()
 
         if(WIN32 AND QEXT_BUILD_SHARED_LIBS)
             qext_internal_generate_win32_rc_file(${target})
