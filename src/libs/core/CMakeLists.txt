@@ -151,6 +151,15 @@ qext_add_library(Core
     QExt3rdparty::WrapAnyLite
     ${QEXT_LIB_LINK_LIBRARIES})
 
+qext_install_public_wrap_headers(QExtCore
+    WRAPS
+    QExt3rdparty::WrapAnyLite|nonstd
+    QExt3rdparty::WrapOptionalLite|nonstd
+    QExt3rdparty::WrapVariantLite|nonstd
+    QExt3rdparty::WrapStringViewLite|nonstd
+    QExt3rdparty::WrapInvokeLite|nonstd
+)
+
 if(QEXT_FEATURE_USE_CJSON_BACKEND)
     qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
     qext_internal_extend_target(QExtCore LIBRARIES QExt3rdparty::WrapCJSON)

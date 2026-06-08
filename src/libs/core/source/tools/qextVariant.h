@@ -32,7 +32,7 @@
 #else
 #   define variant_CONFIG_SELECT_VARIANT 1
 #endif
-#include <nonstd/variant.hpp>
+#include <QExt/3rdparty/nonstd/variant.hpp>
 
 #define qextVariantGet nonstd::get
 #define qextVariantSwap nonstd::swap

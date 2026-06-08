@@ -25,7 +25,7 @@
 #ifndef _QEXTINVOKE_H
 #define _QEXTINVOKE_H
 
-#include <nonstd/invoke.hpp>
+#include <QExt/3rdparty/nonstd/invoke.hpp>
 
 #define QEXT_INVOKE_CPP98_OR_GREATER invoke_CPP98_OR_GREATER
 #define QEXT_INVOKE_CPP11_OR_GREATER invoke_CPP11_OR_GREATER

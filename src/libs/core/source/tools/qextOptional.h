@@ -32,7 +32,7 @@
 #else
 #   define optional_CONFIG_SELECT_OPTIONAL 1
 #endif
-#include <nonstd/optional.hpp>
+#include <QExt/3rdparty/nonstd/optional.hpp>
 
 #define qextSwapOptional std::swap
 #define qextInPlaceOptional nonstd::in_place

@@ -25,7 +25,7 @@
 #ifndef _QEXTANY_H
 #define _QEXTANY_H
 
-#include <nonstd/any.hpp>
+#include <QExt/3rdparty/nonstd/any.hpp>
 
 typedef nonstd::any QExtAny;
 typedef nonstd::bad_any_cast QExtBadAnyCast;

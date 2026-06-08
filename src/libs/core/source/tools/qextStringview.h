@@ -33,7 +33,7 @@
 #else
 #   define nssv_CONFIG_SELECT_STRING_VIEW 1
 #endif
-#include <nonstd/string_view.hpp>
+#include <QExt/3rdparty/nonstd/string_view.hpp>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
 #   include <QStringView>

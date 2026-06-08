@@ -25,7 +25,7 @@
 # Set cmake min version and policy
 #-----------------------------------------------------------------------------------------------------------------------
 message(STATUS "===============================================QExt===================================================")
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.15...3.31)
 cmake_policy(SET CMP0075 NEW) # use CMAKE_REQUIRED_LIBRARIES
 cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 4.0)
@@ -462,6 +462,7 @@ include(QExtCMakeHelpers)
 include(QExtRpathHelpers)
 include(QExtTestHelpers)
 include(QExtQmlHelpers)
+include(QExtPublicWrapHelpers)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
