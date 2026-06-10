@@ -51,7 +51,9 @@ if(NOT EXISTS ${QExtWrapOptionalLite_STAMP_FILE_PATH})
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
         -DCMAKE_INSTALL_PREFIX=${QExtWrapOptionalLite_INSTALL_DIR}

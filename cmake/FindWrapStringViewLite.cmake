@@ -52,7 +52,9 @@ if(NOT EXISTS ${QExtWrapStringViewLite_STAMP_FILE_PATH})
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DSTRING_VIEW_LITE_OPT_BUILD_TESTS=OFF
         "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}

@@ -53,7 +53,9 @@ if(NOT EXISTS ${QExtWrapQtADS_STAMP_FILE_PATH})
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DBUILD_EXAMPLES=OFF
         -DADS_VERSION=${QExtWrapQtADS_VERSION}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

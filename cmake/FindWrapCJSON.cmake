@@ -51,7 +51,9 @@ if(NOT EXISTS ${QExtWrapCJSON_STAMP_FILE_PATH})
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DBUILD_SHARED_LIBS=OFF
         -DCMAKE_C_FLAGS=-fPIC
         -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}

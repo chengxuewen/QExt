@@ -52,7 +52,9 @@ if(NOT EXISTS ${QExtWrapQwt_STAMP_FILE_PATH})
     file(REMOVE "${QExtWrapQwt_BUILD_DIR}/CMakeCache.txt")
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DQWT_BUILD_INSTALL=ON
         -DQWT_BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

@@ -52,7 +52,9 @@ if(NOT EXISTS ${QExtWrapQCustomPlot_STAMP_FILE_PATH})
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DQCUSTOMPLOT_BUILD_INSTALL=ON
         -DQCUSTOMPLOT_BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

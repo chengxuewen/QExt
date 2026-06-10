@@ -57,7 +57,9 @@ if(NOT EXISTS ${QExtWrapQJson_STAMP_FILE_PATH})
     endif()
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DQT4_BUILD=${QExtWrapQJson_QT4_BUILD}
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

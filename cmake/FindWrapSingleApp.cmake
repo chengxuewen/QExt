@@ -51,7 +51,9 @@ if(NOT EXISTS ${QExtWrapSingleApp_STAMP_FILE_PATH})
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
-        -G${CMAKE_GENERATOR}
+        -Wno-deprecated
+		--no-warn-unused-cli
+		-G ${CMAKE_GENERATOR}
         -DSINGLEAPPLICATION_INSTALL=ON
         -DQT_DEFAULT_MAJOR_VERSION=${QT_VERSION_MAJOR}
         -DQAPPLICATION_CLASS=FreeStandingSingleApplication
