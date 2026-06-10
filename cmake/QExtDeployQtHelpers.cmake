@@ -55,13 +55,14 @@ function(qext_find_deployqt)
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${LINUXDEPLOYQT_ROOT}/${tool_name}"
             "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}/"
             WORKING_DIRECTORY "${QEXT_BUILD_DIR}"
-            ERROR_QUIET)
+            )
     endif()
     qext_find_qt_tool(${tool_name} PATHS "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}")
     set(QEXT_DEPLOYQT_EXECUTABLE "${${tool_name}_EXECUTABLE}" PARENT_SCOPE)
     set(QEXT_DEPLOYQT_BIN_DIR "${${tool_name}_BIN_DIR}" PARENT_SCOPE)
     if(NOT ${tool_name}_EXECUTABLE)
-        message(FATAL_ERROR "linuxdeployqt not find in ${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}")
+        message(WARNING "linuxdeployqt not found, deploy/pack will not be available")
+        return()
     endif()
     message(STATUS "Found deployqt ${${tool_name}_EXECUTABLE}")
 endfunction()
