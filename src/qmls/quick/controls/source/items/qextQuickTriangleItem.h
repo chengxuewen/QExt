@@ -7,7 +7,7 @@
 #include <QQuickPaintedItem>
 
 class QExtQuickTrianglePrivate;
-class QExtQuickTriangle : public QQuickPaintedItem
+class QEXT_QUICKCONTROLS_API QExtQuickTriangle : public QQuickPaintedItem
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()

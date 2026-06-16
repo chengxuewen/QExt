@@ -524,6 +524,10 @@ qext_option(QEXT_ENABLE_LIB_SINGLEAPP "Enable this to build the singleapp lib" O
     DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 
+qext_option(QEXT_ENABLE_LIB_QUICK "Enable this to build the quick lib" OFF
+    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
+    OR_CONDITION QEXT_BUILD_ALL)
+
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QCUSTOMPLOT "Enable this to build the 3rdparty qcustomplot lib" OFF

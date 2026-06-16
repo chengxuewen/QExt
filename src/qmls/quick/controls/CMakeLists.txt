@@ -32,6 +32,7 @@ if(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
         Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2)
     if("${QEXT_QT_VERSION}" GREATER "6.2")
         list(APPEND QEXT_QML_LINK_LIBRARIES
@@ -68,10 +69,16 @@ qext_add_qml_module(QuickControls
     QExtQml.FontIcon
     QtQuick.Effects
     SOURCES
+    source/items/qextQuickIpcWidgetItem_p.h
+    source/items/qextQuickIpcWidgetItem.cpp
+    source/items/qextQuickIpcWidgetItem.h
     source/items/qextQuickSvgIconBaseItem.cpp
     source/items/qextQuickSvgIconBaseItem.h
     source/items/qextQuickTriangleItem.cpp
     source/items/qextQuickTriangleItem.h
+    source/items/qextQuickWidgetItem_p.h
+    source/items/qextQuickWidgetItem.cpp
+    source/items/qextQuickWidgetItem.h
     source/qextQuickControls.cpp
     source/qextQuickControls.h
     source/qextQuickControlsConstant.h

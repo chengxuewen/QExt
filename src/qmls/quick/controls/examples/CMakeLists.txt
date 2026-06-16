@@ -91,3 +91,38 @@ qext_add_executable(QExtExpQuickControlComponent
 #     ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
 #     DEFINES
 #     QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+qext_add_executable(QExtExpQuickWidgetItem
+    SOURCES
+    widget/widgetitem/widget.qrc
+    widget/widgetitem/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/widget/widgetitem
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+qext_add_executable(QExtExpQuickIpcWidgetChild
+    SOURCES
+    widget/ipcwidgetitem/child/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/widget/ipcwidgetitem/child
+    LIBRARIES
+    Qt${QEXT_QT_VERSION_MAJOR}::Core
+    Qt${QEXT_QT_VERSION_MAJOR}::Gui
+    Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR})
+qext_add_executable(QExtExpQuickIpcWidgetItem
+    SOURCES
+    widget/ipcwidgetitem/ipcwidgetitem.qrc
+    widget/ipcwidgetitem/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/widget/ipcwidgetitem
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
