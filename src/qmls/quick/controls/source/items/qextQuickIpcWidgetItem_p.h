@@ -27,7 +27,7 @@ public:
     QStringList mProcessArgs;
     QPointer<QVBoxLayout> mLayout;
     QPointer<QWindow> mChildWindow;
-    QPointer<QWidget> mWraperWidget;
+    QPointer<QWidget> mWrapperWidget;
     QPointer<QWindow> mChildWindowParent;
     QPointer<QWidget> mChildWindowContainer;
     ProcessInterface::SharedPtr mProcessInterface;

@@ -15,10 +15,7 @@
 #ifndef QEXT_BUILD_SHARED
 #   include <qextQuickLoader.h>
 #endif
-
-using ProcessInterface = QExtQuickIpcWidgetItem::ProcessInterface;
-
-class QProcessHandler : public QObject, public ProcessInterface
+class QProcessHandler : public QObject, public QExtQuickIpcWidgetItem::ProcessInterface
 {
     Q_OBJECT
 public:
@@ -60,7 +57,10 @@ public:
     void setWorkingPath(const QString &path) override { mWorkingPath = path; }
     QString workingPath() const override              { return mWorkingPath; }
 
-    void setWIdCallback(std::function<void(WId)> callback) override
+    void setConfig(const QVariantMap &config) override { mConfig = config; }
+    QVariantMap config() const override                { return mConfig; }
+
+    void setWIdCallback(std::function<void(quintptr)> callback) override
     {
         mWIdCallback = std::move(callback);
     }
@@ -69,16 +69,18 @@ public:
     {
         mLogCallback = std::move(callback);
     }
+
     void sendShowCommand() override
     {
+        if (!isRunning()) return;
         mProcess->write(">>>SHOW<<<\n");
         qDebug() << "[ProcessHandler] Sent SHOW";
     }
-
-    void sendResizeCommand(int width, int height) override
+    void sendResizeCommand(int width, int height)
     {
         if (!isRunning()) return;
         mProcess->write(QString(">>>SIZE:%1,%2<<<\n").arg(width).arg(height).toUtf8());
+        qDebug() << "[ProcessHandler] Sent Resize";
     }
 
 private:
@@ -93,7 +95,7 @@ private:
             {
                 WId wid = match.captured(1).toULongLong();
                 qDebug() << "[ProcessHandler] WId received:" << wid;
-                if (mWIdCallback) mWIdCallback(wid);
+                if (mWIdCallback) mWIdCallback(static_cast<quintptr>(wid));
             }
             else 
             {
@@ -115,7 +117,8 @@ private:
 
     QProcess *mProcess;
     QString mWorkingPath;
-    std::function<void(WId)> mWIdCallback;
+    QVariantMap mConfig;
+    std::function<void(quintptr)> mWIdCallback;
     std::function<void(const QString &)> mLogCallback;
 };
 
@@ -139,7 +142,7 @@ int main(int argc, char *argv[])
     auto *ipcItem = engine.rootObjects().first()->findChild<QExtQuickIpcWidgetItem *>("ipcItem");
     if (ipcItem) 
     {
-        auto handler = QSharedPointer<QExtQuickIpcWidgetItem::ProcessInterface>(new QProcessHandler);
+        auto handler = QExtQuickIpcWidgetItem::ProcessInterface::SharedPtr(new QProcessHandler);
         ipcItem->setProcessPath("./QExtExpQuickIpcWidgetChild");
         ipcItem->setProcessInterface(handler);
         ipcItem->start();

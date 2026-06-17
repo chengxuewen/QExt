@@ -3,13 +3,11 @@
 #include <QApplication>
 #include <QQuickWindow> 
 
-QAtomicInt QExtQuickWidgetItemPrivate::smInstanceNum = 0;
 
 QExtQuickWidgetItemPrivate::QExtQuickWidgetItemPrivate(QExtQuickWidgetItem *q)
     : q_ptr(q)
     , mItemCompleted(false)
     , mWidgetHideEnable(false)
-    , mAppAboutToQuit(false)
 {
 }
 
@@ -26,7 +24,7 @@ void QExtQuickWidgetItemPrivate::init()
     QObject::connect(q_ptr, &QExtQuickWidgetItem::heightChanged, q_ptr, &QExtQuickWidgetItem::updateWidgetGeometry);
     QObject::connect(qApp, &QApplication::aboutToQuit, q_ptr, [=]()
     {
-        mAppAboutToQuit.storeRelease(true);
+        mAppAboutToQuit = true;
     });
 }
 
@@ -36,7 +34,7 @@ void QExtQuickWidgetItemPrivate::initEmbeddedWidget()
     {
         QObject::connect(q_ptr, &QExtQuickWidgetItem::visibleChanged, mWidget.data(), [=]()
         {
-            if (mWidgetHideEnable && !mAppAboutToQuit.loadAcquire())
+            if (mWidgetHideEnable && !mAppAboutToQuit)
             {
                 mWidget->setVisible(q_ptr->isVisible());
                 emit q_ptr->widgetVisibleChanged(mWidget->isVisible());
@@ -45,7 +43,7 @@ void QExtQuickWidgetItemPrivate::initEmbeddedWidget()
         WId pWId = mRootWindow->winId();
         mWidget->setProperty("_q_embedded_native_parent_handle", QVariant(pWId));
         mWidget->winId();
-        mWidget->windowHandle()->setParent(mRootWindow.data());
+        if (auto *wh = mWidget->windowHandle()) { wh->setParent(mRootWindow.data()); }
         q_ptr->updateWidgetGeometry();
         mWidget->show();
         emit q_ptr->widgetVisibleChanged(true);
@@ -61,7 +59,7 @@ void QExtQuickWidgetItemPrivate::resetEmbeddedWidget()
         q_ptr->disconnect(mWidget);
         mWidget->hide();
         emit q_ptr->widgetVisibleChanged(false);
-        mWidget->windowHandle()->setParent(nullptr);
+        if (auto *wh = mWidget->windowHandle()) { wh->setParent(nullptr); }
         mWidget->deleteLater();
         mWidget.clear();
     }
@@ -91,13 +89,13 @@ bool QExtQuickWidgetItem::isWidgetHideEnabled() const
     return d->mWidgetHideEnable;
 }
 
-void QExtQuickWidgetItem::setWidgetHideEnable(bool enable)
+void QExtQuickWidgetItem::setWidgetHideEnabled(bool enable)
 {
     Q_D(QExtQuickWidgetItem);
     if (enable != d->mWidgetHideEnable)
     {
         d->mWidgetHideEnable = enable;
-        emit this->widgetHideEnableChanged(enable);
+        emit this->widgetHideEnabledChanged(enable);
     }
 }
 
@@ -185,7 +183,6 @@ void QExtQuickWidgetItem::componentComplete()
     {
         this->setRootWindow(win);
     }
-    this->polish();
 }
 
 void QExtQuickWidgetItem::updateWidgetGeometry()
@@ -195,18 +192,10 @@ void QExtQuickWidgetItem::updateWidgetGeometry()
     if (!d->mWidget.isNull() && !d->mRootWindow.isNull())
     {
         qDebug() << "QExtQuickWidgetItem::updateWidgetGeometry: " << this->x() << this->y() << this->width() << this->height();
-        if (this->parent() != d->mRootWindow.data())
-        {
-            qDebug() << "[QExtQuickWidgetItem] updateWidgetGeometry globalPos";
-            auto globalPos = QQuickItem::mapToItem(qobject_cast<QQuickItem *>(d->mRootWindow.data()), this->position());
-            d->mWidget->setGeometry(globalPos.x(), globalPos.y(), this->width(), this->height());
-        }
-        else
-        {
-            qDebug() << "[QExtQuickWidgetItem] updateWidgetGeometry this";
-            d->mWidget->setGeometry(this->x(), this->y(), this->width(), this->height());
-        }
-        d->mWidget->resize(this->width(), this->height());
+        qDebug() << "[QExtQuickWidgetItem] updateWidgetGeometry globalPos";
+        auto globalPos = this->mapToGlobal(this->position());
+        auto localPos = d->mRootWindow->mapFromGlobal(globalPos.toPoint());
+        d->mWidget->setGeometry(localPos.x(), localPos.y(), this->width(), this->height());
         qDebug() << "[QExtWidgetItem] updateWidgetGeometry: widget.actualSize =" << d->mWidget->size()
                  << "childGeometry:" << d->mWidget->geometry();
     }

@@ -11,7 +11,7 @@ class QEXT_QUICKCONTROLS_API QExtQuickWidgetItem : public QQuickItem
 {
     Q_OBJECT
     QEXT_QML_ELEMENT()
-    Q_PROPERTY(bool widgetHideEnable READ isWidgetHideEnabled WRITE setWidgetHideEnable NOTIFY widgetHideEnableChanged)
+    Q_PROPERTY(bool widgetHideEnabled READ isWidgetHideEnabled WRITE setWidgetHideEnabled NOTIFY widgetHideEnabledChanged)
     Q_PROPERTY(QWindow *rootWindow READ rootWindow WRITE setRootWindow NOTIFY rootWindowChanged)
     Q_PROPERTY(bool widgetVisible READ isWidgetVisible NOTIFY widgetVisibleChanged)
 
@@ -20,14 +20,14 @@ public:
     QExtQuickWidgetItem(QExtQuickWidgetItemPrivate *d, QQuickItem *parent = nullptr);
     ~QExtQuickWidgetItem() override;
 
-    Q_INVOKABLE QWindow *rootWindow() const;
+    QWindow *rootWindow() const;
     Q_INVOKABLE void setRootWindow(QWindow *window);
 
-    Q_INVOKABLE QWidget *widget() const;
-    Q_INVOKABLE void setWidget(QWidget *widget);
+    QWidget *widget() const;
+    void setWidget(QWidget *widget);
 
     bool isWidgetHideEnabled() const;
-    void setWidgetHideEnable(bool enable);
+    void setWidgetHideEnabled(bool enable);
 
     bool isWidgetVisible() const;
     bool isItemCompleted() const;
@@ -35,7 +35,7 @@ public:
     void updateWidgetGeometry();
 
 Q_SIGNALS:
-    void widgetHideEnableChanged(bool enabled);
+    void widgetHideEnabledChanged(bool enabled);
     void widgetVisibleChanged(bool visible);
     void rootWindowChanged(QWindow *window);
     void itemCompleted();
@@ -44,7 +44,6 @@ protected:
     void updatePolish() override;
     void componentComplete() override;
 
-protected:
     QScopedPointer<QExtQuickWidgetItemPrivate> dd_ptr;
 
 private:

@@ -23,9 +23,8 @@ public:
     bool mWidgetHideEnable;
     QPointer<QWidget> mWidget;
     QPointer<QWindow> mRootWindow;
-    QAtomicInt mAppAboutToQuit;
+    bool mAppAboutToQuit = false;
 
-    static QAtomicInt smInstanceNum;
 
 private:
     Q_DECLARE_PUBLIC(QExtQuickWidgetItem)

@@ -3,10 +3,6 @@
 
 #include <qextQuickWidgetItem.h>
 
-#include <QProcess>
-
-#include <functional>
-
 class QExtQuickIpcWidgetItemPrivate;
 
 class QEXT_QUICKCONTROLS_API QExtQuickIpcWidgetItem : public QExtQuickWidgetItem
@@ -21,27 +17,26 @@ public:
     struct ProcessInterface 
     {
         using SharedPtr = QSharedPointer<ProcessInterface>;
+        virtual ~ProcessInterface() = default;
+        
+        virtual bool start(const QString &path, const QStringList &args) = 0;
+        virtual void stop() = 0;
+        
+        virtual bool isRunning() const = 0;
+        virtual bool isStopped() const = 0;
 
-    virtual ~ProcessInterface() = default;
+        virtual QString workingPath() const = 0;
+        virtual void setWorkingPath(const QString &path) = 0;
+        
+        virtual QVariantMap config() const = 0;
+        virtual void setConfig(const QVariantMap &config) = 0;
 
-    virtual bool start(const QString &path, const QStringList &args) = 0;
-    virtual void stop() = 0;
-    virtual bool isRunning() const = 0;
-    virtual bool isStopped() const = 0;
-
-    virtual void setWorkingPath(const QString &path) = 0;
-    virtual QString workingPath() const = 0;
-
-    // WId discovery callback (implementation-specific: QProcess stdout / DDS topic / file / pipe)
-    virtual void setWIdCallback(std::function<void(WId)> callback) = 0;
-
-    // Child process stdout/stderr callback
-    virtual void setLogCallback(std::function<void(const QString &)> callback) = 0;
-
-    // Send show command to child process (implementation-specific)
-    virtual void sendShowCommand() = 0;
-    virtual void sendResizeCommand(int width, int height) = 0;
-};
+        virtual void setWIdCallback(std::function<void(quintptr)> callback) = 0;
+        virtual void setLogCallback(std::function<void(const QString &)> callback) = 0;
+        
+        virtual void sendShowCommand() = 0;
+        virtual void sendResizeCommand(int width, int height) = 0;
+    };
 
     explicit QExtQuickIpcWidgetItem(QQuickItem *parent = nullptr);
     ~QExtQuickIpcWidgetItem() override;
@@ -61,7 +56,7 @@ Q_SIGNALS:
     void processArgsChanged(const QStringList &args);
 
     void asyncUpdateWidgetGeometry(QPrivateSignal);
-    void asyncSetWidgetWId(WId wId, QPrivateSignal);
+    void asyncSetWidgetWId(quintptr wId, QPrivateSignal);
 
 public Q_SLOTS:
     void setWorkingPath(const QString &path);
@@ -76,49 +71,8 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickIpcWidgetItem)
+    Q_DECLARE_PRIVATE(QExtQuickIpcWidgetItem)
     Q_DISABLE_COPY(QExtQuickIpcWidgetItem)
-};
-
-
-class QEXT_QUICKCONTROLS_API QExtQuickIpcWidgetItemProcessHandler : public QObject, 
-    public QExtQuickIpcWidgetItem::ProcessInterface
-{
-    Q_OBJECT
-public:
-    explicit QExtQuickIpcWidgetItemProcessHandler(QObject *parent = nullptr);
-    ~QExtQuickIpcWidgetItemProcessHandler() override;
-
-    // QExtProcessInterface interface
-    bool start(const QString &path, const QStringList &args) override;
-    void stop() override;
-    bool isRunning() const override;
-    bool isStopped() const override;
-
-    void setWorkingPath(const QString &path) override;
-    QString workingPath() const override;
-
-    void setWIdCallback(std::function<void(WId)> callback) override;
-    void setLogCallback(std::function<void(const QString &)> callback) override;
-    void sendShowCommand() override;
-    void sendResizeCommand(int width, int height) override;
-
-Q_SIGNALS:
-    void started();
-    void stopped();
-    void errorOccurred(const QString &error);
-
-private Q_SLOTS:
-    void onReadyReadStandardOutput();
-    void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void onProcessErrorOccurred(QProcess::ProcessError error);
-    void onKillTimeout();
-
-private:
-    std::unique_ptr<QProcess> mProcess;
-    std::unique_ptr<QTimer> mKillTimer;
-    std::function<void(WId)> mWidCallback;
-    std::function<void(const QString &)> mLogCallback;
 };
 
 #endif // _QEXTQUICKIPCWIDGETITEM_H
