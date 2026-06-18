@@ -139,19 +139,29 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    auto *ipcItem = engine.rootObjects().first()->findChild<QExtQuickIpcWidgetItem *>("ipcItem");
-    if (ipcItem) 
+
+    auto rootObject = engine.rootObjects().first();
+    if (rootObject)
     {
-        auto handler = QExtQuickIpcWidgetItem::ProcessInterface::SharedPtr(new QProcessHandler);
-        ipcItem->setProcessPath("./QExtExpQuickIpcWidgetChild");
-        ipcItem->setProcessInterface(handler);
-        ipcItem->start();
-        qDebug() << "[Main] ProcessHandler set on ipcItem";
+        auto *ipcItem = rootObject->findChild<QExtQuickIpcWidgetItem *>("ipcItemA");
+        if (ipcItem) 
+        {
+            auto handler = QExtQuickIpcWidgetItem::ProcessInterface::SharedPtr(new QProcessHandler);
+            ipcItem->setProcessPath("./QExtExpQuickIpcWidgetChild");
+            ipcItem->setProcessInterface(handler);
+            ipcItem->start();
+            qDebug() << "[Main] ProcessHandler set on ipcItem";
+        }
+        else 
+        {
+            qWarning() << "[Main] ipcItem not found!";
+        }
     }
-    else 
+    else
     {
-        qWarning() << "[Main] ipcItem not found!";
+        return -1;
     }
+    
 
     return app.exec();
 }

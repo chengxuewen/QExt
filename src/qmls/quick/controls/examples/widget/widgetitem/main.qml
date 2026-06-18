@@ -15,7 +15,7 @@ Window {
         id: bg
         anchors.fill: parent
         anchors.margins: 40
-        color: "#3c3c3c"
+        color: '#e90e0e'
         border.color: "#555"
         border.width: 1
         radius: 4
@@ -32,8 +32,11 @@ Window {
             id: widgetItem
             objectName: "widgetItem"
             anchors.fill: parent
+            anchors.margins: 20
+            anchors.leftMargin: 40
+            anchors.rightMargin: 40
             rootWindow: root
-            widgetHideEnable: true
+            widgetHideEnabled: true
 
             onRootWindowChanged: console.log("rootWindow changed:", rootWindow)
         }
