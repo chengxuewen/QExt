@@ -193,7 +193,7 @@ void QExtQuickWidgetItem::updateWidgetGeometry()
     {
         qDebug() << "QExtQuickWidgetItem::updateWidgetGeometry: " << this->x() << this->y() << this->width() << this->height();
         qDebug() << "[QExtQuickWidgetItem] updateWidgetGeometry globalPos";
-        auto globalPos = this->mapToGlobal(this->position());
+        auto globalPos = this->mapToGlobal(QPointF(0, 0));
         auto localPos = d->mRootWindow->mapFromGlobal(globalPos.toPoint());
         d->mWidget->setGeometry(localPos.x(), localPos.y(), this->width(), this->height());
         qDebug() << "[QExtWidgetItem] updateWidgetGeometry: widget.actualSize =" << d->mWidget->size()

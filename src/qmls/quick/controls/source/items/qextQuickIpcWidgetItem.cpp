@@ -254,6 +254,7 @@ void QExtQuickIpcWidgetItem::setProcessPath(const QString &path)
     if (path != d->mProcessPath) 
     {
         d->mProcessPath = path;
+        emit this->processPathChanged(path);
         // Propagate to ProcessInterface
         if (d->mProcessInterface) 
         {
@@ -261,7 +262,6 @@ void QExtQuickIpcWidgetItem::setProcessPath(const QString &path)
             config["processPath"] = path;
             d->mProcessInterface->setConfig(config);
         }
-        emit this->processPathChanged(path);
     }
 }
 

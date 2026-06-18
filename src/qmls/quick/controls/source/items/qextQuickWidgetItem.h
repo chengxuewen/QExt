@@ -20,11 +20,11 @@ public:
     QExtQuickWidgetItem(QExtQuickWidgetItemPrivate *d, QQuickItem *parent = nullptr);
     ~QExtQuickWidgetItem() override;
 
-    QWindow *rootWindow() const;
+    Q_INVOKABLE QWindow *rootWindow() const;
     Q_INVOKABLE void setRootWindow(QWindow *window);
 
-    QWidget *widget() const;
-    void setWidget(QWidget *widget);
+    Q_INVOKABLE QWidget *widget() const;
+    Q_INVOKABLE void setWidget(QWidget *widget);
 
     bool isWidgetHideEnabled() const;
     void setWidgetHideEnabled(bool enable);

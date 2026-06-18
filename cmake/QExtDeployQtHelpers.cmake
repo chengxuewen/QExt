@@ -53,9 +53,8 @@ function(qext_find_deployqt)
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E make_directory "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}"
             COMMAND ${CMAKE_COMMAND} -E copy_if_different "${LINUXDEPLOYQT_ROOT}/${tool_name}"
-            "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}/"
-            WORKING_DIRECTORY "${QEXT_BUILD_DIR}"
-            )
+            "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}/${tool_name}"
+            WORKING_DIRECTORY "${QEXT_BUILD_DIR}")
     endif()
     qext_find_qt_tool(${tool_name} PATHS "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}")
     set(QEXT_DEPLOYQT_EXECUTABLE "${${tool_name}_EXECUTABLE}" PARENT_SCOPE)

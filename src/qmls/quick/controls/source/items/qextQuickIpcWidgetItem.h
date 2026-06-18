@@ -71,7 +71,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
-    Q_DECLARE_PRIVATE(QExtQuickIpcWidgetItem)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickIpcWidgetItem)
     Q_DISABLE_COPY(QExtQuickIpcWidgetItem)
 };
 

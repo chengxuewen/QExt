@@ -42,6 +42,7 @@ qext_vcpkg_install_package(breakpad
     PREFIX
     QExtWrapBreakpad)
 set(CMAKE_PREFIX_PATH_CACHE ${CMAKE_PREFIX_PATH})
+set(ZLIB_INCLUDE_DIR "${QExtWrapBreakpad_INSTALL_DIR}/include")
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     set(ZLIB_ROOT "${QExtWrapBreakpad_INSTALL_DIR}/debug/lib")
 else()
