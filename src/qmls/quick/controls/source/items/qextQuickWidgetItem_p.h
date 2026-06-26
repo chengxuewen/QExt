@@ -5,7 +5,8 @@
 
 #include <QDebug>
 #include <QWindow>
-#include <QWidget> 
+#include <QWidget>
+#include <QPointer>
 
 class QEXT_QUICKCONTROLS_API QExtQuickWidgetItemPrivate
 {
