@@ -50,7 +50,7 @@ bool OpenOskKeyboard()
     }
     else
     {
-        qWarning() << "Wow64DisableWow64FsRedirection fail err code:" << GetLastError();
+        qCWarning(QExtKeyboard) << "Wow64DisableWow64FsRedirection fail err code:" << GetLastError();
         return false;
     }
 }
@@ -61,7 +61,7 @@ bool IsNewTabTipKeyboardVisable()
     HWND parent = FindWindowExA(NULL, NULL, kWindowParentClass, NULL);
     if (!parent)
     {
-        qWarning() << "no more windows, keyboard state is unknown. class:"
+        qCWarning(QExtKeyboard) << "no more windows, keyboard state is unknown. class:"
                    << UnicodeToUtf8(kWindowParentClass);
         return false;
     }
@@ -69,7 +69,7 @@ bool IsNewTabTipKeyboardVisable()
     HWND wnd = FindWindowExA(parent, NULL, kWindowClass, kWindowCaption);
     if (!wnd)
     {
-        qWarning() << "it's a child of a WindowParentClass1709 window - the keyboard is open. class:"
+        qCWarning(QExtKeyboard) << "it's a child of a WindowParentClass1709 window - the keyboard is open. class:"
                    << UnicodeToUtf8(kWindowClass)
                    << " caption"
                    << UnicodeToUtf8(kWindowCaption);
@@ -81,10 +81,10 @@ bool IsNewTabTipKeyboardVisable()
     int cloaked = 0;
     if (DwmGetWindowAttribute(wnd, DWMWA_CLOAKED, &cloaked, DWM_CLOAKED_INHERITED) != S_OK)
     {
-        qWarning() << "DwmGetWindowAttribute err:" << GetLastError();
+        qCWarning(QExtKeyboard) << "DwmGetWindowAttribute err:" << GetLastError();
         return false;
     }
-    qWarning() << "DwmGetWindowAttribute cloaked=" << cloaked;
+    qCWarning(QExtKeyboard) << "DwmGetWindowAttribute cloaked=" << cloaked;
     return 0 == cloaked;
 }
 
@@ -94,13 +94,13 @@ bool IsOldTabTipKeyboardVisable()
     HWND touchhWnd = FindWindowA(kKeyboardWindowClass, NULL);
     if (!touchhWnd)
     {
-        qWarning() << "without window:" << UnicodeToUtf8(kKeyboardWindowClass);
+        qCWarning(QExtKeyboard) << "without window:" << UnicodeToUtf8(kKeyboardWindowClass);
         return false;
     }
 
     unsigned long style = GetWindowLong(touchhWnd, GWL_STYLE);
     // 由于有的系统在键盘不显示时候只是多返回一个WS_DISABLED这个字段。所以加一个它的判断
-    qWarning() << "WS_CLIPSIBLINGS:" << (style & WS_CLIPSIBLINGS)
+    qCWarning(QExtKeyboard) << "WS_CLIPSIBLINGS:" << (style & WS_CLIPSIBLINGS)
                << " WS_VISIBLE:" << (style & WS_VISIBLE)
                << " WS_POPUP:" << (style & WS_POPUP)
                << " WS_DISABLED:" << !(style & WS_DISABLED);
@@ -112,10 +112,10 @@ bool OpenTabTipByProcess(const std::string &tabTipPath)
     //将进程TabTip.exe拉起，如果是进程存在的情况下，再次调用会直接显示键盘界面
     if (!ShellExecuteA(NULL, "open", tabTipPath.c_str(), NULL, NULL, SW_SHOWNORMAL))
     {
-        qWarning() << "ShellExecuteW tabTip err:" << GetLastError();
+        qCWarning(QExtKeyboard) << "ShellExecuteW tabTip err:" << GetLastError();
         return false;
     }
-    qWarning() << "ShellExecuteW tabTip success";
+    qCWarning(QExtKeyboard) << "ShellExecuteW tabTip success";
     return true;
 }
 
@@ -138,10 +138,10 @@ bool OpenTabTipByProcess(const std::string &tabTipPath)
 bool OpenTabTip()
 {
     // auto version = PublicUtils::Environment::OsVersion();
-    // qWarning() << "os version:" << version.ToString();
+    // qCWarning(QExtKeyboard) << "os version:" << version.ToString();
     // if (IsNewTabTipKeyboardVisable() || IsOldTabTipKeyboardVisable())
     // {
-    //     // qWarning() << "keyboard is visible";
+    //     // qCWarning(QExtKeyboard) << "keyboard is visible";
     //     return true;
     // }
     //系统版本大于等于win10 10.0.14393.0，需要使用com组件的接口才能将键盘界面显示出来

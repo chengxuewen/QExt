@@ -15,23 +15,23 @@ public:
 
     QExtKeyboardInputContext * const q_ptr;
 
-    bool m_visible;
-    bool m_needHiden;
-    QString m_preeditText;
-    QEvent *m_filterEvent;
-    QObject *m_focusObject;
-    QSize m_inputPanelSize;
-    QPoint m_inputPanelFollowPos;
-    QExtKeyboardLayout m_mainLayout;
-    QExtKeyboardLayout m_symbolLayout;
-    QStringList m_editablePropertyNames;
-    QStringList m_readonlyPropertyNames;
-    QStringList m_editableWidgetClassNames;
-    QStringList m_readonlyWidgetClassNames;
-    QExtAbstractInputMethod *m_inputMethod;
-    Qt::InputMethodHints m_inputMethodHints;
-    QPointer<QExtKeyboardPanel> m_inputPanel;
-    QExtKeyboardInputContext::PopupModeEnum m_inputPanelPopupMode;
+    bool mVisible;
+    bool mNeedHiden;
+    QString mPreeditText;
+    QEvent *mFilterEvent;
+    QObject *mFocusObject;
+    QSize mInputPanelSize;
+    QPoint mInputPanelFollowPos;
+    QExtKeyboardLayout mMainLayout;
+    QExtKeyboardLayout mSymbolLayout;
+    QStringList mEditablePropertyNames;
+    QStringList mReadonlyPropertyNames;
+    QStringList mEditableWidgetClassNames;
+    QStringList mReadonlyWidgetClassNames;
+    QExtAbstractInputMethod *mInputMethod;
+    Qt::InputMethodHints mInputMethodHints;
+    QPointer<QExtKeyboardPanel> mInputPanel;
+    QExtKeyboardInputContext::PopupModeEnum mInputPanelPopupMode;
 
 private:
     QEXT_DECLARE_PUBLIC(QExtKeyboardInputContext)

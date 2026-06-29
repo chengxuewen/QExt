@@ -4,7 +4,6 @@
 #include <qextKeyboardGlobal.h>
 
 #include <QWidget>
-
 class QPropertyAnimation;
 class QExtKeyboardPanelPrivate;
 class QEXT_KEYBOARD_API QExtKeyboardPanel : public QWidget

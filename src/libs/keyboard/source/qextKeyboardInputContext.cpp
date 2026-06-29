@@ -19,28 +19,28 @@
 
 QExtKeyboardInputContextPrivate::QExtKeyboardInputContextPrivate(QExtKeyboardInputContext *q)
     : q_ptr(q)
-    , m_visible(false)
-    , m_needHiden(true)
-    , m_filterEvent(QEXT_NULLPTR)
-    , m_focusObject(QEXT_NULLPTR)
-    , m_inputPanel(QEXT_NULLPTR)
+    , mVisible(false)
+    , mNeedHiden(true)
+    , mFilterEvent(QEXT_NULLPTR)
+    , mFocusObject(QEXT_NULLPTR)
+    , mInputPanel(QEXT_NULLPTR)
 {
-    m_inputPanelSize = QSize(800, 600);
-    m_inputPanelPopupMode = QExtKeyboardInputContext::PopupMode_BottomCenter;
-    m_editableWidgetClassNames << "QLineEdit"
-                               << "QTextEdit"
-                               << "QPlainTextEdit"
-                               << "QAbstractSpinBox"
-                               << "QComboBox"
-                               << "QQuickWidget"
-                               << "QWebView"
-                               << "QtWebEngineCore::RenderWidgetHostViewQtDelegateWidget";
-    m_readonlyWidgetClassNames << "QAbstractItemView"
-                               << "QPushButton"
-                               << "QFrame";
-    m_editablePropertyNames << "editable";
-    m_readonlyPropertyNames << "noinput"
-                            << "readOnly";
+    mInputPanelSize = QSize(800, 600);
+    mInputPanelPopupMode = QExtKeyboardInputContext::PopupMode_BottomCenter;
+    mEditableWidgetClassNames << "QLineEdit"
+                              << "QTextEdit"
+                              << "QPlainTextEdit"
+                              << "QAbstractSpinBox"
+                              << "QComboBox"
+                              << "QQuickWidget"
+                              << "QWebView"
+                              << "QtWebEngineCore::RenderWidgetHostViewQtDelegateWidget";
+    mReadonlyWidgetClassNames << "QAbstractItemView"
+                              << "QPushButton"
+                              << "QFrame";
+    mEditablePropertyNames << "editable";
+    mReadonlyPropertyNames << "noinput"
+                           << "readOnly";
 }
 
 QExtKeyboardInputContextPrivate::~QExtKeyboardInputContextPrivate()
@@ -52,9 +52,9 @@ QExtKeyboardInputContext::QExtKeyboardInputContext()
     , dd_ptr(new QExtKeyboardInputContextPrivate(this))
 {
     Q_D(QExtKeyboardInputContext);
-    d->m_inputMethod = new QExtPinyinInputMethod(this);
-    qobject_cast<QExtPinyinInputMethod*>(d->m_inputMethod)->setInputContext(this);
-    d->m_inputMethodHints = Qt::ImhNone;
+    d->mInputMethod = new QExtPinyinInputMethod(this);
+    qobject_cast<QExtPinyinInputMethod*>(d->mInputMethod)->setInputContext(this);
+    d->mInputMethodHints = Qt::ImhNone;
     QExtKeyboardLayout().LoadLayout(":/QExtKeyboard/layout/main.json");
 }
 
@@ -72,7 +72,7 @@ QExtKeyboardInputContext *QExtKeyboardInputContext::instance()
 
 QExtKeyboardInputContext::~QExtKeyboardInputContext()
 {
-    qDebug() << "~QExtKeyboardInputContext()";
+    qCDebug(QExtKeyboard) << "~QExtKeyboardInputContext()";
 }
 
 bool QExtKeyboardInputContext::isValid() const
@@ -83,13 +83,13 @@ bool QExtKeyboardInputContext::isValid() const
 QRectF QExtKeyboardInputContext::keyboardRect() const
 {
     Q_D(const QExtKeyboardInputContext);
-    return d->m_inputPanel ? d->m_inputPanel->rect() : QRect();
+    return d->mInputPanel ? d->mInputPanel->rect() : QRect();
 }
 
 bool QExtKeyboardInputContext::isAnimating() const
 {
     Q_D(const QExtKeyboardInputContext);
-    return d->m_inputPanel ? d->m_inputPanel->isAnimating() : false;
+    return d->mInputPanel ? d->mInputPanel->isAnimating() : false;
 }
 
 void QExtKeyboardInputContext::commit(const QString &text, int replaceFrom, int replaceLength)
@@ -109,66 +109,89 @@ void QExtKeyboardInputContext::commit()
 void QExtKeyboardInputContext::showInputPanel()
 {
     Q_D(QExtKeyboardInputContext);
-    if (!d->m_visible)
+    qCDebug(QExtKeyboard) << "[QExtKbd::showInputPanel] ENTER mVisible=" << d->mVisible
+                          << "panel=" << (d->mInputPanel ? (d->mInputPanel->isVisible() ? "visible" : "hidden") : "null");
+    d->mVisible = true;
+    if (d->mInputPanel && d->mInputPanelPopupMode == PopupMode_BottomCenter)
     {
-        d->m_visible = true;
+        qCDebug(QExtKeyboard) << "[QExtKbd::showInputPanel] → direct animationShow() (bypass isVisible check)";
+        d->mInputPanel->animationShow();
     }
-    this->updateInputPanelVisible();
+    else
+    {
+        this->updateInputPanelVisible();
+    }
+    //    this->updateInputPanelVisible();
+    qCDebug(QExtKeyboard) << "[QExtKbd::showInputPanel] EXIT  mVisible=" << d->mVisible;
 }
 
 void QExtKeyboardInputContext::hideInputPanel()
 {
     Q_D(QExtKeyboardInputContext);
-    if (d->m_visible && d->m_needHiden)
+    qCDebug(QExtKeyboard) << "[QExtKbd::hideInputPanel] ENTER mVisible=" << d->mVisible << "mNeedHiden=" << d->mNeedHiden
+                          << "panel=" << (d->mInputPanel ? (d->mInputPanel->isVisible() ? "visible" : "hidden") : "null");
+    if (d->mVisible)
     {
-        d->m_visible = false;
+        d->mVisible = false;
     }
-
-    this->updateInputPanelVisible();
-    d->m_inputMethod->reset();
+    if (d->mInputPanel && d->mInputPanelPopupMode == PopupMode_BottomCenter)
+    {
+        qCDebug(QExtKeyboard) << "[QExtKbd::hideInputPanel] → direct animationHide()";
+        d->mInputPanel->animationHide();
+    }
+    else
+    {
+        this->updateInputPanelVisible();
+    }
+    //    this->updateInputPanelVisible();
+    d->mInputMethod->reset();
+    qCDebug(QExtKeyboard) << "[QExtKbd::hideInputPanel] EXIT  mVisible=" << d->mVisible;
 }
 
 bool QExtKeyboardInputContext::isInputPanelVisible() const
 {
     Q_D(const QExtKeyboardInputContext);
-    return d->m_inputPanel ? d->m_inputPanel->isVisible() : false;
+    return d->mInputPanel ? d->mInputPanel->isVisible() : false;
 }
 
 QObject *QExtKeyboardInputContext::focusObject()
 {
     Q_D(const QExtKeyboardInputContext);
-    return d->m_focusObject;
+    return d->mFocusObject;
 }
 
 void QExtKeyboardInputContext::setFocusObject(QObject *object)
 {
     Q_D(QExtKeyboardInputContext);
+    qCDebug(QExtKeyboard) << "[QExtKbd::setFocusObject] object=" << object
+                          << (object ? QString(" class=%1 isWidget=%2").arg(object->metaObject()->className()).arg(object->isWidgetType()) : QString(" null"));
+
     static const int deskWidth = qApp->desktop()->availableGeometry().width();
     static const int deskHeight = qApp->desktop()->availableGeometry().height();
     bool editableWidget = true;
-    if (d->m_focusObject != object)
+    if (d->mFocusObject != object)
     {
-        if (d->m_focusObject)
+        if (d->mFocusObject)
         {
-            if (!d->m_preeditText.isEmpty())
+            if (!d->mPreeditText.isEmpty())
             {
                 this->setPreeditText(QString());
             }
 
-            d->m_focusObject->removeEventFilter(this);
+            d->mFocusObject->removeEventFilter(this);
         }
-        d->m_focusObject = object;
-        if (d->m_focusObject)
+        d->mFocusObject = object;
+        if (d->mFocusObject)
         {
-            if (d->m_focusObject->isWidgetType())
+            if (d->mFocusObject->isWidgetType())
             {
-                const QString superClassName = d->m_focusObject->metaObject()->superClass()->className();
-                // qDebug() << "superClassName=" << superClassName;
+                const QString superClassName = d->mFocusObject->metaObject()->superClass()->className();
+                // qCDebug(QExtKeyboard) << "superClassName=" << superClassName;
                 if (editableWidget)
                 {
-                    if (d->m_readonlyWidgetClassNames.contains(superClassName))
+                    if (d->mReadonlyWidgetClassNames.contains(superClassName))
                     {
-                        // qDebug() << "ret:readonlyWidget=" << superClassName;
+                        // qCDebug(QExtKeyboard) << "ret:readonlyWidget=" << superClassName;
                         editableWidget = false;
                     }
                 }
@@ -176,24 +199,24 @@ void QExtKeyboardInputContext::setFocusObject(QObject *object)
                 QStringList::ConstIterator iter;
                 if (editableWidget)
                 {
-                    for (iter = d->m_readonlyPropertyNames.constBegin(); iter != d->m_readonlyPropertyNames.constEnd(); ++iter)
+                    for (iter = d->mReadonlyPropertyNames.constBegin(); iter != d->mReadonlyPropertyNames.constEnd(); ++iter)
                     {
-                        const QVariant property = d->m_focusObject->property((*iter).toLatin1().data());
+                        const QVariant property = d->mFocusObject->property((*iter).toLatin1().data());
                         if (property.isValid() && property.toBool())
                         {
-                            // qDebug() << "ret:readonlyProperty=" << (*iter);
+                            // qCDebug(QExtKeyboard) << "ret:readonlyProperty=" << (*iter);
                             editableWidget = false;
                         }
                     }
                 }
                 if (editableWidget)
                 {
-                    for (iter = d->m_editablePropertyNames.constBegin(); iter != d->m_editablePropertyNames.constEnd(); ++iter)
+                    for (iter = d->mEditablePropertyNames.constBegin(); iter != d->mEditablePropertyNames.constEnd(); ++iter)
                     {
-                        const QVariant property = d->m_focusObject->property((*iter).toLatin1().data());
+                        const QVariant property = d->mFocusObject->property((*iter).toLatin1().data());
                         if (property.isValid() && !property.toBool())
                         {
-                            // qDebug() << "ret:editableProperty=" << (*iter);
+                            // qCDebug(QExtKeyboard) << "ret:editableProperty=" << (*iter);
                             editableWidget = false;
                         }
                     }
@@ -203,36 +226,37 @@ void QExtKeyboardInputContext::setFocusObject(QObject *object)
                 {
                     const int deskWidth = qApp->desktop()->availableGeometry().width();
                     const int deskHeight = qApp->desktop()->availableGeometry().height();
-                    QWidget *focusWidget = qobject_cast<QWidget *>(d->m_focusObject);
+                    QWidget *focusWidget = qobject_cast<QWidget *>(d->mFocusObject);
                     const QRect rect = focusWidget->rect();
                     QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
                     pos = focusWidget->mapToGlobal(pos);
 
                     int x = pos.x();
-                    if (x + d->m_inputPanelSize.width() > deskWidth)
+                    if (x + d->mInputPanelSize.width() > deskWidth)
                     {
-                        x = deskWidth - d->m_inputPanelSize.width();
+                        x = deskWidth - d->mInputPanelSize.width();
                     }
 
                     int y = pos.y();
-                    if (y + d->m_inputPanelSize.height() > deskHeight)
+                    if (y + d->mInputPanelSize.height() > deskHeight)
                     {
-                        y = y - d->m_inputPanelSize.height() - rect.height() - 2;
+                        y = y - d->mInputPanelSize.height() - rect.height() - 2;
                     }
 
-                    d->m_inputPanelFollowPos = QPoint(x, y);
-                    // qDebug() << "inputPanelFollowPos=" << d->m_inputPanelFollowPos;
-                    if (!d->m_inputPanel.isNull() && PopupMode_AutoFollow == d->m_inputPanelPopupMode)
+                    d->mInputPanelFollowPos = QPoint(x, y);
+                    qCDebug(QExtKeyboard) << "inputPanelFollowPos=" << d->mInputPanelFollowPos;
+                    if (!d->mInputPanel.isNull() && PopupMode_AutoFollow == d->mInputPanelPopupMode)
                     {
-                        d->m_inputPanel->move(d->m_inputPanelFollowPos);
+                        d->mInputPanel->move(d->mInputPanelFollowPos);
                     }
                 }
             }
-            d->m_focusObject->installEventFilter(this);
+            d->mFocusObject->installEventFilter(this);
         }
         // emit this->focusObjectChanged();
     }
 
+    qCDebug(QExtKeyboard) << "[QExtKbd::setFocusObject] → calling update(Qt::ImQueryAll)";
     this->update(Qt::ImQueryAll);
 }
 
@@ -243,52 +267,57 @@ void QExtKeyboardInputContext::update(Qt::InputMethodQueries queries)
     Q_D(QExtKeyboardInputContext);
 
     bool enabled = this->inputMethodQuery(Qt::ImEnabled).toBool();
-    // qDebug() << "enabled=" << enabled << ", queries=" << queries;
-    if (enabled && d->m_inputPanel.isNull())
+    qCDebug(QExtKeyboard) << "[QExtKbd::update] enabled=" << enabled
+                          << "mVisible=" << d->mVisible << "mNeedHiden=" << d->mNeedHiden
+                          << "panel=" << (d->mInputPanel ? (d->mInputPanel->isVisible() ? "vis" : "hid") : "null");
+    if (enabled && d->mInputPanel.isNull())
     {
-        d->m_inputPanel = QExtKeyboardPanel::instance();
-        d->m_inputPanel->setObjectName("Qt5KeyBoard");
-        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::hideKeyboard,
+        d->mInputPanel = QExtKeyboardPanel::instance();
+        d->mInputPanel->setObjectName("Qt5KeyBoard");
+        connect(d->mInputPanel.data(), &QExtKeyboardPanel::hideKeyboard,
                 this, &QExtKeyboardInputContext::hideKeyboard);
-        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::keyPressed,
-                d->m_inputMethod, &QExtAbstractInputMethod::keyEvent);
-        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::changeLanguage,
-                d->m_inputMethod, &QExtAbstractInputMethod::changeLanguage);
-        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::chooseCandidate,
-                d->m_inputMethod, &QExtAbstractInputMethod::chooseCandidate);
+        connect(d->mInputPanel.data(), &QExtKeyboardPanel::keyPressed,
+                d->mInputMethod, &QExtAbstractInputMethod::keyEvent);
+        connect(d->mInputPanel.data(), &QExtKeyboardPanel::changeLanguage,
+                d->mInputMethod, &QExtAbstractInputMethod::changeLanguage);
+        connect(d->mInputPanel.data(), &QExtKeyboardPanel::chooseCandidate,
+                d->mInputMethod, &QExtAbstractInputMethod::chooseCandidate);
 
-        connect(d->m_inputMethod, &QExtAbstractInputMethod::showCandidateList,
-                d->m_inputPanel.data(), &QExtKeyboardPanel::setCandidateList);
-        connect(d->m_inputMethod, &QExtAbstractInputMethod::showLanguageName,
-                d->m_inputPanel.data(), &QExtKeyboardPanel::setLanguageName);
+        connect(d->mInputMethod, &QExtAbstractInputMethod::showCandidateList,
+                d->mInputPanel.data(), &QExtKeyboardPanel::setCandidateList);
+        connect(d->mInputMethod, &QExtAbstractInputMethod::showLanguageName,
+                d->mInputPanel.data(), &QExtKeyboardPanel::setLanguageName);
 
-        d->m_inputPanel->setFixedSize(d->m_inputPanelSize);
+        d->mInputPanel->setFixedSize(d->mInputPanelSize);
     }
 
-    //if (m_inputContext) {
     if (enabled)
     {
-        //m_inputContext->priv()->update(queries);
-        if (d->m_visible)
+        if (d->mVisible)
         {
-            d->m_needHiden = false;
+            qCDebug(QExtKeyboard) << "[QExtKbd::update] → branch: maintain visibility";
+            d->mNeedHiden = false;
             this->updateInputPanelVisible();
+        }
+        else
+        {
+            qCDebug(QExtKeyboard) << "[QExtKbd::update] → branch: showInputPanel()";
+            this->showInputPanel();
         }
     }
     else
     {
-        d->m_needHiden = true;
+        qCDebug(QExtKeyboard) << "[QExtKbd::update] → branch: hideInputPanel()";
+        d->mNeedHiden = true;
         this->hideInputPanel();
     }
-    // m_inputContext->priv()->setFocus(enabled);
-    //}
 
     Qt::InputMethodHints inputMethodHints = Qt::InputMethodHints(inputMethodQuery(Qt::ImHints).toInt());
-    bool newInputMethodHints = inputMethodHints != d->m_inputMethodHints;
-    d->m_inputMethodHints = inputMethodHints;
-    if (newInputMethodHints && d->m_inputPanel)
+    bool newInputMethodHints = inputMethodHints != d->mInputMethodHints;
+    d->mInputMethodHints = inputMethodHints;
+    if (newInputMethodHints && d->mInputPanel)
     {
-        d->m_inputPanel->setInputMethodHints(inputMethodHints);
+        d->mInputPanel->setInputMethodHints(inputMethodHints);
     }
 }
 
@@ -299,38 +328,38 @@ void QExtKeyboardInputContext::sendKeyEvent(QKeyEvent *event)
     QWindow *focusWindow = app ? app->focusWindow() : QEXT_NULLPTR;
     if (focusWindow)
     {
-        d->m_filterEvent = event;
+        d->mFilterEvent = event;
         QGuiApplication::sendEvent(focusWindow, event);
-        d->m_filterEvent = QEXT_NULLPTR;
+        d->mFilterEvent = QEXT_NULLPTR;
     }
 }
 
 void QExtKeyboardInputContext::sendEvent(QEvent *event)
 {
     Q_D(QExtKeyboardInputContext);
-    if (d->m_focusObject)
+    if (d->mFocusObject)
     {
-        d->m_filterEvent = event;
-        QGuiApplication::sendEvent(d->m_focusObject, event);
-        d->m_filterEvent = QEXT_NULLPTR;
+        d->mFilterEvent = event;
+        QGuiApplication::sendEvent(d->mFocusObject, event);
+        d->mFilterEvent = QEXT_NULLPTR;
     }
 }
 
 QSize QExtKeyboardInputContext::inputPanelSize() const
 {
     Q_D(const QExtKeyboardInputContext);
-    return d->m_inputPanelSize;
+    return d->mInputPanelSize;
 }
 
 void QExtKeyboardInputContext::setInputPanelSize(const QSize &size)
 {
     Q_D(QExtKeyboardInputContext);
-    if (size != d->m_inputPanelSize)
+    if (size != d->mInputPanelSize)
     {
-        d->m_inputPanelSize = size;
-        if (!d->m_inputPanel.isNull())
+        d->mInputPanelSize = size;
+        if (!d->mInputPanel.isNull())
         {
-            d->m_inputPanel->setFixedSize(size);
+            d->mInputPanel->setFixedSize(size);
         }
         emit this->inputPanelSizeChanged(size);
     }
@@ -344,15 +373,15 @@ void QExtKeyboardInputContext::setInputPanelSize(int width, int height)
 QExtKeyboardInputContext::PopupModeEnum QExtKeyboardInputContext::inputPanelPopupMode() const
 {
     Q_D(const QExtKeyboardInputContext);
-    return d->m_inputPanelPopupMode;
+    return d->mInputPanelPopupMode;
 }
 
 void QExtKeyboardInputContext::setInputPanelPopupMode(PopupModeEnum mode)
 {
     Q_D(QExtKeyboardInputContext);
-    if (mode != d->m_inputPanelPopupMode)
+    if (mode != d->mInputPanelPopupMode)
     {
-        d->m_inputPanelPopupMode = mode;
+        d->mInputPanelPopupMode = mode;
         emit this->inputPanelPopupModeChanged(mode);
     }
 }
@@ -360,11 +389,15 @@ void QExtKeyboardInputContext::setInputPanelPopupMode(PopupModeEnum mode)
 void QExtKeyboardInputContext::hideKeyboard()
 {
     Q_D(QExtKeyboardInputContext);
-    if (d->m_inputPanel)
+    qCDebug(QExtKeyboard) << "[QExtKbd::hideKeyboard] ENTER mVisible=" << d->mVisible
+                          << "panel=" << (d->mInputPanel ? (d->mInputPanel->isVisible() ? "vis" : "hid") : "null");
+    if (d->mInputPanel)
     {
-        d->m_inputPanel->hide();
-        d->m_inputPanel->onHideSymbol();
+        d->mVisible = false;
+        d->mInputPanel->hide();
+        d->mInputPanel->onHideSymbol();
     }
+    qCDebug(QExtKeyboard) << "[QExtKbd::hideKeyboard] EXIT  mVisible=" << d->mVisible;
 }
 
 
@@ -384,7 +417,7 @@ void QExtKeyboardInputContext::sendPreedit(const QString &text, const QExtKeyboa
                                            int replaceFrom, int replaceLength)
 {
     Q_D(QExtKeyboardInputContext);
-    d->m_preeditText = text;
+    d->mPreeditText = text;
 
     QInputMethodEvent event(text, attributes);
     const bool replace = replaceFrom != 0 || replaceLength > 0;
@@ -413,36 +446,48 @@ void QExtKeyboardInputContext::sendPreedit(const QString &text, const QExtKeyboa
 void QExtKeyboardInputContext::updateInputPanelVisible()
 {
     Q_D(QExtKeyboardInputContext);
-    if (!d->m_inputPanel)
+    if (!d->mInputPanel)
     {
+        qCDebug(QExtKeyboard) << "[QExtKbd::updateInputPanelVisible] panel=null, return";
         return;
     }
 
-    if (d->m_visible != d->m_inputPanel->isVisible())
+    bool pv = d->mInputPanel->isVisible();
+    qCDebug(QExtKeyboard) << "[QExtKbd::updateInputPanelVisible] mVisible=" << d->mVisible << "panel.isVisible=" << pv
+                          << "mismatch=" << (d->mVisible != pv) << "mode=" << d->mInputPanelPopupMode;
+
+    if (d->mVisible != pv)
     {
-        switch (d->m_inputPanelPopupMode)
+        switch (d->mInputPanelPopupMode)
         {
         case PopupMode_BottomCenter:
         {
-            d->m_inputPanel->animationSetVisible(d->m_visible);
+            qCDebug(QExtKeyboard) << "[QExtKbd::updateInputPanelVisible] → bottomCenter animationSetVisible(" << d->mVisible << ")";
+            d->mInputPanel->animationSetVisible(d->mVisible);
             break;
         }
         case PopupMode_AutoFollow:
         {
-            if (d->m_visible)
+            if (d->mVisible)
             {
-                d->m_inputPanel->move(d->m_inputPanelFollowPos);
-                d->m_inputPanel->show();
+                qCDebug(QExtKeyboard) << "[QExtKbd::updateInputPanelVisible] → autoFollow show() at" << d->mInputPanelFollowPos;
+                d->mInputPanel->move(d->mInputPanelFollowPos);
+                d->mInputPanel->show();
             }
             else
             {
-                d->m_inputPanel->hide();
+                qCDebug(QExtKeyboard) << "[QExtKbd::updateInputPanelVisible] → autoFollow hide()";
+                d->mInputPanel->hide();
             }
             break;
         }
         default:
             break;
         }
+    }
+    else
+    {
+        qCDebug(QExtKeyboard) << "[QExtKbd::updateInputPanelVisible] → NO-OP (mVisible==isVisible, possible deadlock)";
     }
 }
 

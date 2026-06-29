@@ -11,6 +11,8 @@
 #include <QApplication>
 #include <QPropertyAnimation>
 
+Q_LOGGING_CATEGORY(QExtKeyboard, "qext.keyboard", QtCriticalMsg)
+
 class QExtKeyboardPanelPrivate
 {
 public:
@@ -19,10 +21,10 @@ public:
 
     QExtKeyboardPanel * const q_ptr;
 
-    bool m_hiding;
+    bool mHiding;
     QVBoxLayout *mMainLayout;
     QHBoxLayout *mBottomLayout;
-    QPropertyAnimation *m_animation;
+    QPropertyAnimation *mAnimation;
     QExtNormalKeyboard *mNormalKeyboard;
     QExtSymbolKeyboard *mSymbolKeyboard;
     QExtCandidatesListWidget *mTextDisplayWidget;
@@ -74,7 +76,7 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
 
     d->mSymbolKeyboard->hide();
 
-//将KeyboardContainer设置为模态窗口会导致下面的语句不起作用,虚拟键盘会抢输入框焦点
+    //将KeyboardContainer设置为模态窗口会导致下面的语句不起作用,虚拟键盘会抢输入框焦点
 #if (QT_VERSION > QT_VERSION_CHECK(5, 0, 0))
     this->setWindowFlags(Qt::Tool |
                          Qt::FramelessWindowHint |
@@ -89,65 +91,65 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
 #endif
 
     this->setStyleSheet("*{font-size: 18pt;font-family: 'Microsoft YaHei';outline: none} \
-        QWidget\
-        {\
-                color: #eff0f1;\
-                background-color: rgb(0,0,0);\
-                selection-background-color:#3daee9;\
-                selection-color: #eff0f1;\
-                background-clip: border;\
-                border-image: none;\
-                border: 0px transparent black;\
-                outline: 0;\
-        }\
-        QPushButton\
-        {\
-                color:rgb(255,255,255);\
-                background-color:rgb(56,53,51);\
-                border: none;\
-                border-radius: 5px;\
-        }\
-        QPushButton:hover:pressed\
-        {\
-                color:rgb(255,255,255);\
-                background-color:rgb(45,125,154);\
-        }\
-        QPushButton:hover:!pressed\
-                            {\
-                                    color:rgb(255,255,255);\
-                                    background-color:rgb(42,40,38);\
-                            }\
-                            QPushButton:disabled\
-        {\
-                color:rgb(120,120,120);\
-                background-color:rgb(20,20,20);\
-        }"
-        );
+                        QWidget\
+                        {\
+                            color: #eff0f1;\
+                            background-color: rgb(0,0,0);\
+                            selection-background-color:#3daee9;\
+                            selection-color: #eff0f1;\
+                            background-clip: border;\
+                            border-image: none;\
+                            border: 0px transparent black;\
+                            outline: 0;\
+                        }\
+                        QPushButton\
+                        {\
+                            color:rgb(255,255,255);\
+                            background-color:rgb(56,53,51);\
+                            border: none;\
+                            border-radius: 5px;\
+                        }\
+                        QPushButton:hover:pressed\
+                        {\
+                            color:rgb(255,255,255);\
+                            background-color:rgb(45,125,154);\
+                        }\
+                        QPushButton:hover:!pressed\
+                        {\
+                            color:rgb(255,255,255);\
+                            background-color:rgb(42,40,38);\
+                        }\
+                        QPushButton:disabled\
+                        {\
+                            color:rgb(120,120,120);\
+                            background-color:rgb(20,20,20);\
+                        }"
+                        );
 
     d->mTextDisplayWidget->setStyleSheet("*{font-size: 18pt;font-family: 'Microsoft YaHei';outline: none} \
-        QPushButton\
-        {\
-                color:rgb(255,255,255);\
-                background-color:rgb(56,53,51);\
-                border: none;\
-                border-radius: 0px;\
-        }\
-        QPushButton:hover:pressed\
-        {\
-                color:rgb(255,255,255);\
-                background-color:rgb(45,125,154);\
-        }\
-        QPushButton:hover:!pressed\
-                            {\
-                                    color:rgb(255,255,255);\
-                                    background-color:rgb(42,40,38);\
-                            }\
-                            QPushButton:disabled\
-        {\
-                color:rgb(120,120,120);\
-                background-color:rgb(20,20,20);\
-        }"
-        );
+                                         QPushButton\
+                                         {\
+                                             color:rgb(255,255,255);\
+                                             background-color:rgb(56,53,51);\
+                                             border: none;\
+                                             border-radius: 0px;\
+                                         }\
+                                         QPushButton:hover:pressed\
+                                         {\
+                                             color:rgb(255,255,255);\
+                                             background-color:rgb(45,125,154);\
+                                         }\
+                                         QPushButton:hover:!pressed\
+                                         {\
+                                             color:rgb(255,255,255);\
+                                             background-color:rgb(42,40,38);\
+                                         }\
+                                         QPushButton:disabled\
+                                         {\
+                                             color:rgb(120,120,120);\
+                                             background-color:rgb(20,20,20);\
+                                         }"
+                                         );
 
     connect(d->mNormalKeyboard, &QExtNormalKeyboard::changeLanguage, this, &QExtKeyboardPanel::changeLanguage);
     connect(d->mSymbolKeyboard, &QExtSymbolKeyboard::changeLanguage, this, &QExtKeyboardPanel::changeLanguage);
@@ -161,10 +163,10 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
     connect(d->mSymbolKeyboard, &QExtSymbolKeyboard::keyPressed, this, &QExtKeyboardPanel::keyPressed);
     connect(d->mTextDisplayWidget,&QExtCandidatesListWidget::chooseText,this,&QExtKeyboardPanel::chooseCandidate);
 
-    d->m_animation = new QPropertyAnimation(this, "pos");
-    d->m_animation->setDuration(200);
-    connect(d->m_animation, &QAbstractAnimation::finished, this, &QExtKeyboardPanel::onAnimationFinished);
-    d->m_hiding = false;
+    d->mAnimation = new QPropertyAnimation(this, "pos");
+    d->mAnimation->setDuration(200);
+    connect(d->mAnimation, &QAbstractAnimation::finished, this, &QExtKeyboardPanel::onAnimationFinished);
+    d->mHiding = false;
 
     this->setAttribute(Qt::WA_DeleteOnClose);
 }
@@ -186,14 +188,14 @@ QExtKeyboardPanel::~QExtKeyboardPanel()
     Q_D(QExtKeyboardPanel);
     if(this->isAnimating())
     {
-        d->m_animation->stop();
+        d->mAnimation->stop();
     }
 }
 
 bool QExtKeyboardPanel::isAnimating() const
 {
     Q_D(const QExtKeyboardPanel);
-    return d->m_animation->state() == QAbstractAnimation::Running;
+    return d->mAnimation->state() == QAbstractAnimation::Running;
 }
 
 void QExtKeyboardPanel::setCandidateList(const QStringList &texts)
@@ -243,15 +245,17 @@ void QExtKeyboardPanel::animationHide()
     int screenHeight = qApp->primaryScreen()->size().height();
     const int posX = (screenWidth - this->width()) / 2;
 
+    qCDebug(QExtKeyboard) << "[QExtKbdPanel::animationHide] isAnimating=" << this->isAnimating() << "mHiding(before)=" << d->mHiding;
+
     if(this->isAnimating())
     {
-        d->m_animation->stop();
+        d->mAnimation->stop();
     }
 
-    d->m_hiding = true;
-    d->m_animation->setStartValue(QPoint(posX, this->pos().y()));
-    d->m_animation->setEndValue(QPoint(posX, screenHeight));
-    d->m_animation->start();
+    d->mHiding = true;
+    d->mAnimation->setStartValue(QPoint(posX, this->pos().y()));
+    d->mAnimation->setEndValue(QPoint(posX, screenHeight));
+    d->mAnimation->start();
 }
 
 void QExtKeyboardPanel::animationShow()
@@ -261,12 +265,22 @@ void QExtKeyboardPanel::animationShow()
     int screenHeight = qApp->primaryScreen()->size().height();
     const int posX = (screenWidth - this->width()) / 2;
 
+    qCDebug(QExtKeyboard) << "[QExtKbdPanel::animationShow] isAnimating=" << this->isAnimating() << "mHiding(before)=" << d->mHiding << "isVisible=" << this->isVisible();
+
+    if(this->isAnimating())
+    {
+        d->mAnimation->stop();
+    }
+    d->mHiding = false;
+
     this->move(posX, qApp->primaryScreen()->size().height());
     this->show();
+    this->raise();
+    this->activateWindow();
 
-    d->m_animation->setStartValue(QPoint(posX, screenHeight));
-    d->m_animation->setEndValue(QPoint(posX, screenHeight - this->height()));
-    d->m_animation->start();
+    d->mAnimation->setStartValue(QPoint(posX, screenHeight));
+    d->mAnimation->setEndValue(QPoint(posX, screenHeight - this->height()));
+    d->mAnimation->start();
 }
 
 void QExtKeyboardPanel::animationSetVisible(bool visible)
@@ -289,9 +303,11 @@ void QExtKeyboardPanel::setInputMethodHints(Qt::InputMethodHints hints)
 void QExtKeyboardPanel::onAnimationFinished()
 {
     Q_D(QExtKeyboardPanel);
-    if(d->m_hiding)
+    qCDebug(QExtKeyboard) << "[QExtKbdPanel::onAnimationFinished] mHiding=" << d->mHiding << "isVisible=" << this->isVisible();
+    if(d->mHiding)
     {
+        qCDebug(QExtKeyboard) << "[QExtKbdPanel::onAnimationFinished] → hide()";
         this->hide();
     }
-    d->m_hiding = false;
+    d->mHiding = false;
 }

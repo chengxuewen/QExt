@@ -3,6 +3,11 @@
 
 #include <qextGlobal.h>
 
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(QExtKeyboard)
+
+
 /***********************************************************************************************************************
    QExt Compiler specific cmds for export and import code to DLL
 ***********************************************************************************************************************/

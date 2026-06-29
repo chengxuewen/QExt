@@ -6,45 +6,45 @@
 QExtNormalKeyboard::QExtNormalKeyboard(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::QExtNormalKeyboard)
-    , m_modifier(Qt::ShiftModifier)
+    , mModifier(Qt::ShiftModifier)
 {
     ui->setupUi(this);
-    m_letterkeys[ui->A] = Qt::Key_A;
-    m_letterkeys[ui->B] = Qt::Key_B;
-    m_letterkeys[ui->C] = Qt::Key_C;
-    m_letterkeys[ui->D] = Qt::Key_D;
-    m_letterkeys[ui->E] = Qt::Key_E;
-    m_letterkeys[ui->F] = Qt::Key_F;
-    m_letterkeys[ui->G] = Qt::Key_G;
-    m_letterkeys[ui->H] = Qt::Key_H;
-    m_letterkeys[ui->I] = Qt::Key_I;
-    m_letterkeys[ui->J] = Qt::Key_J;
-    m_letterkeys[ui->K] = Qt::Key_K;
-    m_letterkeys[ui->L] = Qt::Key_L;
-    m_letterkeys[ui->M] = Qt::Key_M;
-    m_letterkeys[ui->N] = Qt::Key_N;
-    m_letterkeys[ui->O] = Qt::Key_O;
-    m_letterkeys[ui->P] = Qt::Key_P;
-    m_letterkeys[ui->Q] = Qt::Key_Q;
-    m_letterkeys[ui->R] = Qt::Key_R;
-    m_letterkeys[ui->S] = Qt::Key_S;
-    m_letterkeys[ui->T] = Qt::Key_T;
-    m_letterkeys[ui->U] = Qt::Key_U;
-    m_letterkeys[ui->V] = Qt::Key_V;
-    m_letterkeys[ui->W] = Qt::Key_W;
-    m_letterkeys[ui->X] = Qt::Key_X;
-    m_letterkeys[ui->Y] = Qt::Key_Y;
-    m_letterkeys[ui->Z] = Qt::Key_Z;
+    mLetterkeys[ui->A] = Qt::Key_A;
+    mLetterkeys[ui->B] = Qt::Key_B;
+    mLetterkeys[ui->C] = Qt::Key_C;
+    mLetterkeys[ui->D] = Qt::Key_D;
+    mLetterkeys[ui->E] = Qt::Key_E;
+    mLetterkeys[ui->F] = Qt::Key_F;
+    mLetterkeys[ui->G] = Qt::Key_G;
+    mLetterkeys[ui->H] = Qt::Key_H;
+    mLetterkeys[ui->I] = Qt::Key_I;
+    mLetterkeys[ui->J] = Qt::Key_J;
+    mLetterkeys[ui->K] = Qt::Key_K;
+    mLetterkeys[ui->L] = Qt::Key_L;
+    mLetterkeys[ui->M] = Qt::Key_M;
+    mLetterkeys[ui->N] = Qt::Key_N;
+    mLetterkeys[ui->O] = Qt::Key_O;
+    mLetterkeys[ui->P] = Qt::Key_P;
+    mLetterkeys[ui->Q] = Qt::Key_Q;
+    mLetterkeys[ui->R] = Qt::Key_R;
+    mLetterkeys[ui->S] = Qt::Key_S;
+    mLetterkeys[ui->T] = Qt::Key_T;
+    mLetterkeys[ui->U] = Qt::Key_U;
+    mLetterkeys[ui->V] = Qt::Key_V;
+    mLetterkeys[ui->W] = Qt::Key_W;
+    mLetterkeys[ui->X] = Qt::Key_X;
+    mLetterkeys[ui->Y] = Qt::Key_Y;
+    mLetterkeys[ui->Z] = Qt::Key_Z;
 
-    m_letterkeys[ui->enter] = Qt::Key_Enter;
-    m_letterkeys[ui->shiftl] = Qt::Key_Shift;
-    m_letterkeys[ui->shiftr] = Qt::Key_Shift;
-    m_letterkeys[ui->space] = Qt::Key_Space;
-    m_letterkeys[ui->backspace] = Qt::Key_Backspace;
-    m_letterkeys[ui->period] = Qt::Key_Period;
-    m_letterkeys[ui->apostrophe] = Qt::Key_Apostrophe;
-    m_letterkeys[ui->minus] = Qt::Key_Minus;
-    m_letterkeys[ui->at] = Qt::Key_At;
+    mLetterkeys[ui->enter] = Qt::Key_Enter;
+    mLetterkeys[ui->shiftl] = Qt::Key_Shift;
+    mLetterkeys[ui->shiftr] = Qt::Key_Shift;
+    mLetterkeys[ui->space] = Qt::Key_Space;
+    mLetterkeys[ui->backspace] = Qt::Key_Backspace;
+    mLetterkeys[ui->period] = Qt::Key_Period;
+    mLetterkeys[ui->apostrophe] = Qt::Key_Apostrophe;
+    mLetterkeys[ui->minus] = Qt::Key_Minus;
+    mLetterkeys[ui->at] = Qt::Key_At;
 
     ui->groupLetter->addButton(ui->backspace);
     ui->groupLetter->addButton(ui->enter);
@@ -78,20 +78,20 @@ void QExtNormalKeyboard::setCurLanguage(const QString &lang)
 
 void QExtNormalKeyboard::letterClicked(QAbstractButton* button)
 {
-    if(m_letterkeys.contains(button))
+    if(mLetterkeys.contains(button))
     {
-        if(m_letterkeys[button] == Qt::Key_Shift)
+        if(mLetterkeys[button] == Qt::Key_Shift)
         {
-            if(m_modifier == Qt::NoModifier)
+            if(mModifier == Qt::NoModifier)
             {
-                m_modifier = Qt::ShiftModifier;
+                mModifier = Qt::ShiftModifier;
             }
-            else if(m_modifier == Qt::ShiftModifier)
+            else if(mModifier == Qt::ShiftModifier)
             {
-                m_modifier = Qt::NoModifier;
+                mModifier = Qt::NoModifier;
             }
 
-            if(m_modifier == Qt::ShiftModifier)
+            if(mModifier == Qt::ShiftModifier)
             {
                 ui->shiftr->setIcon(QPixmap(":/QExtKeyboard/images/shift_checked.png"));
                 ui->shiftl->setIcon(QPixmap(":/QExtKeyboard/images/shift_checked.png"));
@@ -108,25 +108,25 @@ void QExtNormalKeyboard::letterClicked(QAbstractButton* button)
         }
 
 
-        if(m_modifier == Qt::ShiftModifier)
+        if(mModifier == Qt::ShiftModifier)
         {
-            emit this->keyPressed(m_letterkeys[button],buttonText(button).toUpper(),Qt::NoModifier);
+            emit this->keyPressed(mLetterkeys[button],buttonText(button).toUpper(),Qt::NoModifier);
 
             ui->shiftr->setIcon(QPixmap(":/QExtKeyboard/images/shift.png"));
             ui->shiftl->setIcon(QPixmap(":/QExtKeyboard/images/shift.png"));
-            m_modifier = Qt::NoModifier;
+            mModifier = Qt::NoModifier;
             this->capsLock();
         }
         else
         {
-            emit this->keyPressed(m_letterkeys[button],buttonText(button).toLower(),Qt::NoModifier);
+            emit this->keyPressed(mLetterkeys[button],buttonText(button).toLower(),Qt::NoModifier);
         }
     }
 }
 
 QString QExtNormalKeyboard::buttonText(QAbstractButton * button)
 {
-    if(m_letterkeys[button] == Qt::Key_Space)
+    if(mLetterkeys[button] == Qt::Key_Space)
     {
         return QLatin1String(" ");
     }
@@ -139,7 +139,7 @@ QString QExtNormalKeyboard::buttonText(QAbstractButton * button)
 
 void QExtNormalKeyboard::capsLock()
 {
-    if(m_modifier == Qt::ShiftModifier)
+    if(mModifier == Qt::ShiftModifier)
     {
         ui->A->setText("A");
         ui->B->setText("B");

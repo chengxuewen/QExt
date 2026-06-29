@@ -54,9 +54,9 @@ static size_t fix_cand_len(size_t cand, int maxOutputLen)
 QExtPinyinPrivate::QExtPinyinPrivate(QExtPinyin *q)
     : q_ptr(q)
 {
-    m_bOk = false;
-    m_iMaxInputLength = 26;
-    m_iMaxOutputLength = 26;
+    mOk = false;
+    mMaxInputLength = 26;
+    mMaxOutputLength = 26;
 }
 
 QExtPinyinPrivate::~QExtPinyinPrivate()
@@ -79,13 +79,13 @@ QExtPinyin::~QExtPinyin()
 bool QExtPinyin::open(const QString &strDBPath)
 {
     //Load the input font file
-       // QString pyPath = QString("%1/dict_pinyin.dat").arg(dbPath);
-       // QString pyUserPath = QString("%1/dict_pinyin_user.dat").arg(dbPath);
+    // QString pyPath = QString("%1/dict_pinyin.dat").arg(dbPath);
+    // QString pyUserPath = QString("%1/dict_pinyin_user.dat").arg(dbPath);
     Q_UNUSED(strDBPath);
     // Q_INIT_RESOURCE(qextGui);
     QString strPYPath = QString(":/QExtKeyboard/input/dict_pinyin.dat");
     QString strPYUserPath = QString(":/QExtKeyboard/input/dict_pinyin_user.dat");
-    dd_ptr->m_bOk = im_open_decoder(strPYPath.toUtf8().constData(), strPYUserPath.toUtf8().constData());
+    dd_ptr->mOk = im_open_decoder(strPYPath.toUtf8().constData(), strPYUserPath.toUtf8().constData());
 
     //Load the custom dictionary file
     if (!im_is_user_dictionary_enabled())
@@ -93,17 +93,17 @@ bool QExtPinyin::open(const QString &strDBPath)
         im_init_user_dictionary(strPYUserPath.toUtf8().constData());
     }
 
-    if (dd_ptr->m_bOk)
+    if (dd_ptr->mOk)
     {
-        im_set_max_lens(dd_ptr->m_iMaxInputLength, dd_ptr->m_iMaxOutputLength);
+        im_set_max_lens(dd_ptr->mMaxInputLength, dd_ptr->mMaxOutputLength);
         im_reset_search();
     }
     else
     {
-        qCritical() << "load GooglePinYin error";
+        qCCritical(QExtKeyboard) << "load GooglePinYin error";
     }
 
-    return dd_ptr->m_bOk;
+    return dd_ptr->mOk;
 }
 
 void QExtPinyin::close()
@@ -129,7 +129,7 @@ void QExtPinyin::reset()
 int QExtPinyin::select(const QString &strPinyin)
 {
     //Maximum support is 26 letters
-    if (!dd_ptr->m_bOk || strPinyin.length() > 26)
+    if (!dd_ptr->mOk || strPinyin.length() > 26)
     {
         return 0;
     }
@@ -138,17 +138,17 @@ int QExtPinyin::select(const QString &strPinyin)
     QByteArray bytearray = strPinyin.toUtf8();
     char *pPy = bytearray.data();
     size_t count = im_search(pPy, bytearray.size());
-    count = fix_cand_len(count, dd_ptr->m_iMaxOutputLength);
+    count = fix_cand_len(count, dd_ptr->mMaxOutputLength);
     return count;
 }
 
 QString QExtPinyin::getChinese(const int &iIndex)
 {
-    char16 *pCand_buf = new char16[dd_ptr->m_iMaxOutputLength];
+    char16 *pCand_buf = new char16[dd_ptr->mMaxOutputLength];
     char16 *pCand;
     QString strCand;
 
-    pCand = im_get_candidate(iIndex, pCand_buf, dd_ptr->m_iMaxOutputLength);
+    pCand = im_get_candidate(iIndex, pCand_buf, dd_ptr->mMaxOutputLength);
     if (pCand)
     {
         strCand = QString::fromUtf16(pCand);
@@ -168,13 +168,13 @@ QString QExtPinyin::getChinese(const int &iIndex)
 
 int QExtPinyin::deleteSelect(const int &iPos)
 {
-    if (!dd_ptr->m_bOk)
+    if (!dd_ptr->mOk)
     {
         return 0;
     }
 
     size_t count = im_delsearch(iPos, false, false);
-    count = fix_cand_len(count, dd_ptr->m_iMaxOutputLength);
+    count = fix_cand_len(count, dd_ptr->mMaxOutputLength);
     return count;
 }
 

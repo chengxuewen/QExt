@@ -51,8 +51,8 @@ public:
 
     QExtPinyinDecoderService * const q_ptr;
 
-    bool m_initDone;
-    QExtSpinLock m_spinLock;
+    bool mInitDone;
+    QExtSpinLock mSpinLock;
 
 private:
     QEXT_DECLARE_PUBLIC(QExtPinyinDecoderService)
@@ -61,16 +61,16 @@ private:
 
 QExtPinyinDecoderServicePrivate::QExtPinyinDecoderServicePrivate(QExtPinyinDecoderService *q)
     : q_ptr(q)
-    , m_initDone(false)
+    , mInitDone(false)
 {
 }
 
 QExtPinyinDecoderServicePrivate::~QExtPinyinDecoderServicePrivate()
 {
-    if (m_initDone)
+    if (mInitDone)
     {
         im_close_decoder();
-        m_initDone = false;
+        mInitDone = false;
     }
 }
 
@@ -100,8 +100,8 @@ QExtPinyinDecoderService *QExtPinyinDecoderService::instance()
 bool QExtPinyinDecoderService::init()
 {
     Q_D(QExtPinyinDecoderService);
-    QExtSpinLock::Locker locker(d->m_spinLock);
-    if (d->m_initDone)
+    QExtSpinLock::Locker locker(d->mSpinLock);
+    if (d->mInitDone)
     {
         return true;
     }
@@ -121,17 +121,17 @@ bool QExtPinyinDecoderService::init()
     QFileInfo usrDictInfo(usrDictPath + QLatin1String("/QExtKeyboard/pinyin/usr_dict.dat"));
     if (!usrDictInfo.exists())
     {
-        qWarning() << "QExtPinyinDecoderService::init(): creating directory for user dictionary" << usrDictInfo.absolutePath();
+        qCWarning(QExtKeyboard) << "QExtPinyinDecoderService::init(): creating directory for user dictionary" << usrDictInfo.absolutePath();
         QDir().mkpath(usrDictInfo.absolutePath());
     }
 
-    d->m_initDone = im_open_decoder(sysDict.toUtf8().constData(), usrDictInfo.absoluteFilePath().toUtf8().constData());
-    if (!d->m_initDone)
+    d->mInitDone = im_open_decoder(sysDict.toUtf8().constData(), usrDictInfo.absoluteFilePath().toUtf8().constData());
+    if (!d->mInitDone)
     {
-        qWarning() << "Could not initialize pinyin engine. sys_dict:" << sysDict << "usr_dict:" << usrDictInfo.absoluteFilePath();
+        qCWarning(QExtKeyboard) << "Could not initialize pinyin engine. sys_dict:" << sysDict << "usr_dict:" << usrDictInfo.absoluteFilePath();
     }
 
-    return d->m_initDone;
+    return d->mInitDone;
 }
 
 void QExtPinyinDecoderService::setUserDictionary(bool enabled)

@@ -40,8 +40,8 @@ protected:
 
 private:
     Ui::QExtNormalKeyboard *ui;
-    Qt::KeyboardModifiers m_modifier;
-    QMap<QAbstractButton*,Qt::Key> m_letterkeys;
+    Qt::KeyboardModifiers mModifier;
+    QMap<QAbstractButton*,Qt::Key> mLetterkeys;
     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtNormalKeyboard)
 };
 

@@ -38,11 +38,11 @@ protected:
 
 private:
     Ui::QExtSymbolKeyboard *ui;
-    int m_curPage;
-    int m_maxPage;
-    QVector<QPair<int, QString>> m_page1;
-    QMap<QAbstractButton *, int> m_keyMap;
-    QVector<QAbstractButton *> m_symbolButtons;
+    int mCurPage;
+    int mMaxPage;
+    QVector<QPair<int, QString>> mPage1;
+    QMap<QAbstractButton *, int> mKeyMap;
+    QVector<QAbstractButton *> mSymbolButtons;
     QEXT_DECLARE_DISABLE_COPY_MOVE(QExtSymbolKeyboard)
 };
 

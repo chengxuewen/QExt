@@ -35,7 +35,6 @@ bool QExtKeyboardLayout::LoadLayout(const QString &strJsonPath)
                 }
             }
         }
-
     }
 
     return false;

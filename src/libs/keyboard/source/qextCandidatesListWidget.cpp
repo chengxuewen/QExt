@@ -14,15 +14,15 @@ public:
 
     QExtCandidatesListWidget * const q_ptr;
 
-    int m_curIndex;
-    int m_pageIndex;
-    int m_headTextIndex;
-    int m_tailTextIndex;
-    QPushButton *m_lastPage;
-    QPushButton *m_nextPage;
-    QList<QRect> m_textRects;
-    QList<int> m_pageHeadIndex;
-    QStringList m_candidatesList;
+    int mCurIndex;
+    int mPageIndex;
+    int mHeadTextIndex;
+    int mTailTextIndex;
+    QPushButton *mLastPage;
+    QPushButton *mNextPage;
+    QList<QRect> mTextRects;
+    QList<int> mPageHeadIndex;
+    QStringList mCandidatesList;
 
 private:
     QEXT_DECLARE_PUBLIC(QExtCandidatesListWidget)
@@ -31,12 +31,12 @@ private:
 
 QExtCandidatesListWidgetPrivate::QExtCandidatesListWidgetPrivate(QExtCandidatesListWidget *q)
     : q_ptr(q)
-    , m_curIndex(0)
-    , m_pageIndex(0)
-    , m_headTextIndex(0)
-    , m_tailTextIndex(0)
-    , m_lastPage(QEXT_NULLPTR)
-    , m_nextPage(QEXT_NULLPTR)
+    , mCurIndex(0)
+    , mPageIndex(0)
+    , mHeadTextIndex(0)
+    , mTailTextIndex(0)
+    , mLastPage(QEXT_NULLPTR)
+    , mNextPage(QEXT_NULLPTR)
 {
 }
 
@@ -49,32 +49,32 @@ QExtCandidatesListWidget::QExtCandidatesListWidget(QWidget *parent)
     , dd_ptr(new QExtCandidatesListWidgetPrivate(this))
 {
     Q_D(QExtCandidatesListWidget);
-    d->m_lastPage = new QPushButton(this);
-    d->m_nextPage= new QPushButton(this);
+    d->mLastPage = new QPushButton(this);
+    d->mNextPage= new QPushButton(this);
 
-    d->m_lastPage->setText("<");
-    d->m_nextPage->setText(">");
+    d->mLastPage->setText("<");
+    d->mNextPage->setText(">");
 
-    d->m_lastPage->setMinimumSize(50, 40);
-    d->m_nextPage->setMinimumSize(50, 40);
+    d->mLastPage->setMinimumSize(50, 40);
+    d->mNextPage->setMinimumSize(50, 40);
 
-    d->m_nextPage->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
-    d->m_lastPage->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+    d->mNextPage->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
+    d->mLastPage->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
 
-    connect(d->m_lastPage, &QPushButton::clicked,this, &QExtCandidatesListWidget::onLastPage);
-    connect(d->m_nextPage, &QPushButton::clicked,this, &QExtCandidatesListWidget::onNextPage);
+    connect(d->mLastPage, &QPushButton::clicked,this, &QExtCandidatesListWidget::onLastPage);
+    connect(d->mNextPage, &QPushButton::clicked,this, &QExtCandidatesListWidget::onNextPage);
 
     QHBoxLayout * layout = new QHBoxLayout;
-    layout->addWidget(d->m_lastPage);
-    layout->addWidget(d->m_nextPage);
+    layout->addWidget(d->mLastPage);
+    layout->addWidget(d->mNextPage);
     layout->addItem(new QSpacerItem(80, 40, QSizePolicy::Expanding, QSizePolicy::Minimum));
     layout->setSpacing(5);
 
     this->setLayout(layout);
     this->setFont(QFont("Arial",20));
 
-    d->m_lastPage->setEnabled(false);
-    d->m_nextPage->setEnabled(false);
+    d->mLastPage->setEnabled(false);
+    d->mNextPage->setEnabled(false);
 }
 
 QExtCandidatesListWidget::~QExtCandidatesListWidget()
@@ -84,31 +84,31 @@ QExtCandidatesListWidget::~QExtCandidatesListWidget()
 void QExtCandidatesListWidget::setCandidatesList(const QStringList &texts)
 {
     Q_D(QExtCandidatesListWidget);
-    d->m_candidatesList = texts;
-    d->m_pageIndex = 0;
-    d->m_curIndex = 0;
-    d->m_headTextIndex = 0;
-    d->m_tailTextIndex = 0;
-    d->m_textRects.clear();
-    d->m_pageHeadIndex.clear();
-    d->m_pageHeadIndex.append(0);
+    d->mCandidatesList = texts;
+    d->mPageIndex = 0;
+    d->mCurIndex = 0;
+    d->mHeadTextIndex = 0;
+    d->mTailTextIndex = 0;
+    d->mTextRects.clear();
+    d->mPageHeadIndex.clear();
+    d->mPageHeadIndex.append(0);
     this->update();
 }
 
 void QExtCandidatesListWidget::onLastPage()
 {
     Q_D(QExtCandidatesListWidget);
-    if(0 == d->m_pageIndex)
+    if(0 == d->mPageIndex)
     {
         return;
     }
 
-    --d->m_pageIndex;
-    d->m_headTextIndex = d->m_pageHeadIndex.at(d->m_pageIndex);
+    --d->mPageIndex;
+    d->mHeadTextIndex = d->mPageHeadIndex.at(d->mPageIndex);
 
-    if(0 == d->m_pageIndex)
+    if(0 == d->mPageIndex)
     {
-        d->m_lastPage->setEnabled(false);
+        d->mLastPage->setEnabled(false);
     }
     this->update();
 }
@@ -120,18 +120,18 @@ void QExtCandidatesListWidget::clear()
 void QExtCandidatesListWidget::onNextPage()
 {
     Q_D(QExtCandidatesListWidget);
-    if(d->m_tailTextIndex >= d->m_candidatesList.size() - 1)
+    if(d->mTailTextIndex >= d->mCandidatesList.size() - 1)
     {
         return;
     }
 
-    d->m_lastPage->setEnabled(true);
-    d->m_headTextIndex = d->m_tailTextIndex + 1;
-    ++d->m_pageIndex;
+    d->mLastPage->setEnabled(true);
+    d->mHeadTextIndex = d->mTailTextIndex + 1;
+    ++d->mPageIndex;
 
-    if(d->m_pageIndex >= d->m_pageHeadIndex.size())
+    if(d->mPageIndex >= d->mPageHeadIndex.size())
     {
-        d->m_pageHeadIndex.append(d->m_headTextIndex);
+        d->mPageHeadIndex.append(d->mHeadTextIndex);
     }
     this->update();
 }
@@ -146,15 +146,15 @@ void QExtCandidatesListWidget::paintEvent(QPaintEvent *event)
     QFont font("Microsoft YaHei",18);
     painter.setFont(font);
 
-    QRect rectText = d->m_nextPage->geometry();
+    QRect rectText = d->mNextPage->geometry();
     rectText.setLeft(rectText.right() + 20);
     rectText.setRight(width());
 
-    d->m_textRects.clear();
+    d->mTextRects.clear();
     int i;
-    for(i = d->m_headTextIndex;i < d->m_candidatesList.size();++i)
+    for(i = d->mHeadTextIndex;i < d->mCandidatesList.size();++i)
     {
-        if(i == d->m_headTextIndex)
+        if(i == d->mHeadTextIndex)
         {
             painter.setPen(QColor(Qt::white));
         }
@@ -163,13 +163,13 @@ void QExtCandidatesListWidget::paintEvent(QPaintEvent *event)
             painter.setPen(QColor(121, 193, 59));
         }
 
-        QString strTextDraw = /*QString::number(i - headTextIndex + 1) + "." + */d->m_candidatesList[i];
+        QString strTextDraw = /*QString::number(i - headTextIndex + 1) + "." + */d->mCandidatesList[i];
 
         QRect br = painter.boundingRect(rectText,Qt::AlignLeft | Qt::AlignVCenter,strTextDraw);
 
         if(br.right() + 30 >= this->width())
         {
-            d->m_nextPage->setEnabled(true);
+            d->mNextPage->setEnabled(true);
             break;
         }
         else
@@ -177,25 +177,25 @@ void QExtCandidatesListWidget::paintEvent(QPaintEvent *event)
             painter.drawText(rectText,Qt::AlignLeft | Qt::AlignVCenter,strTextDraw);
         }
 
-        d->m_textRects.append(br);
-        d->m_tailTextIndex = i;
+        d->mTextRects.append(br);
+        d->mTailTextIndex = i;
         rectText.translate(br.width() + 30, 0);
     }
 
-    if(i >= d->m_candidatesList.size())
+    if(i >= d->mCandidatesList.size())
     {
-        d->m_nextPage->setEnabled(false);
+        d->mNextPage->setEnabled(false);
     }
 }
 
 void QExtCandidatesListWidget::mousePressEvent(QMouseEvent *e)
 {
     Q_D(QExtCandidatesListWidget);
-    for(int i = 0;i < d->m_textRects.size();++i)
+    for(int i = 0;i < d->mTextRects.size();++i)
     {
-        if(d->m_textRects[i].contains(e->pos()))
+        if(d->mTextRects[i].contains(e->pos()))
         {
-            this->chooseText(d->m_headTextIndex + i);
+            this->chooseText(d->mHeadTextIndex + i);
         }
     }
 }

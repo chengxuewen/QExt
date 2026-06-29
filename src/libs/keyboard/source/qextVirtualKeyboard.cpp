@@ -71,42 +71,42 @@ private:
     QExtVirtualKeyboard *q_ptr;
     Q_DECLARE_PUBLIC(QExtVirtualKeyboard)
 
-    bool m_bIsUpper;
-    bool m_bIsNumber;
-    bool m_bOnlyControl;
-    int m_iColumnCount;
-    int m_iMaxCount;
+    bool mIsUpper;
+    bool mIsNumber;
+    bool mOnlyControl;
+    int mColumnCount;
+    int mMaxCount;
 
-    QString m_strDataBasePath;
-    QString m_strIconType;
-    QExtVirtualKeyboard::PopUpTypes m_ePopUpType;
-    QExtVirtualKeyboard::InputTypes m_eInputType;
-    QExtVirtualKeyboard::StyleTypes m_eStyleType;
+    QString mDataBasePath;
+    QString mIconType;
+    QExtVirtualKeyboard::PopUpTypes mPopUpType;
+    QExtVirtualKeyboard::InputTypes mInputType;
+    QExtVirtualKeyboard::StyleTypes mStyleType;
 
-    QWidget *m_pCurrentWidget;
-    QList<QLabel *> m_listChineseLabel;
-    QList<QLabel *> m_listMoreChineseLabel;
+    QWidget *mCurrentWidget;
+    QList<QLabel *> mChineseLabels;
+    QList<QLabel *> mMoreChineseLabels;
 
-    QStringList m_listAllPinYin;
-    QExtPinyin m_googlePinYin;
+    QStringList mAllPinYins;
+    QExtPinyin mGooglePinYin;
 
-    QString m_strMainTextColor;
-    QString m_strButtonHoveColor;
-    QString m_strLastText;
+    QString mMainTextColor;
+    QString mButtonHoveColor;
+    QString mLastText;
 
-    QPropertyAnimation *m_pChineseAnimation;
-    QPropertyAnimation *m_pMoreAnimation;
+    QPropertyAnimation *mChineseAnimation;
+    QPropertyAnimation *mMoreAnimation;
 
-    QStringList m_listSelectKey;
-    QStringList m_listSelectValue;
-    QStringList m_listUserKey;
-    QStringList m_listUserValue;
+    QStringList mSelectKeys;
+    QStringList mSelectValues;
+    QStringList mUserKeys;
+    QStringList mUserValues;
 };
 
 QExtVirtualKeyboardPrivate::QExtVirtualKeyboardPrivate()
 {
-    m_ePopUpType = QExtVirtualKeyboard::PopUp_BottomCenter;
-    m_eStyleType = QExtVirtualKeyboard::Style_Black;
+    mPopUpType = QExtVirtualKeyboard::PopUp_BottomCenter;
+    mStyleType = QExtVirtualKeyboard::Style_Black;
 }
 
 QExtVirtualKeyboardPrivate::~QExtVirtualKeyboardPrivate()
@@ -121,13 +121,13 @@ void QExtVirtualKeyboardPrivate::initForm()
 #else
     q_ptr->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 #endif
-    m_pCurrentWidget = 0;
-    m_bIsUpper = false;
-    m_bIsNumber = false;
-    m_bOnlyControl = false;
-    m_iColumnCount = 8;
-    m_iMaxCount = 256;
-    m_strDataBasePath = qApp->applicationDirPath();
+    mCurrentWidget = 0;
+    mIsUpper = false;
+    mIsNumber = false;
+    mOnlyControl = false;
+    mColumnCount = 8;
+    mMaxCount = 256;
+    mDataBasePath = qApp->applicationDirPath();
 
     //Bind buttons to events
     QList<QPushButton *> listButton;
@@ -160,19 +160,19 @@ void QExtVirtualKeyboardPrivate::initForm()
     }
 
     //By default, a maximum of 256 are generated and added to the top scroll area
-    for (int i = 0; i < m_iMaxCount; i++)
+    for (int i = 0; i < mMaxCount; i++)
     {
         QLabel *lab = new QLabel;
         lab->setProperty("labCn", true);
         lab->setEnabled(false);
         q_ptr->ui->layout->addWidget(lab);
-        m_listChineseLabel << lab;
+        mChineseLabels << lab;
     }
 
     //The default is to generate a maximum of 256, which is added to more scrolling areas
     int iRow = 0;
     int iColumn = 0;
-    for (int i = 0; i < m_iMaxCount; i++)
+    for (int i = 0; i < mMaxCount; i++)
     {
         QLabel *pLabel = new QLabel();
         pLabel->setProperty("labMore", true);
@@ -180,10 +180,10 @@ void QExtVirtualKeyboardPrivate::initForm()
         pLabel->setAlignment(Qt::AlignCenter);
         pLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         q_ptr->ui->gridLayout->addWidget(pLabel, iRow, iColumn);
-        m_listMoreChineseLabel << pLabel;
+        mMoreChineseLabels << pLabel;
 
         iColumn++;
-        if (iColumn >= m_iColumnCount)
+        if (iColumn >= mColumnCount)
         {
             iRow++;
             iColumn = 0;
@@ -209,18 +209,18 @@ void QExtVirtualKeyboardPrivate::initForm()
     q_ptr->setStyleType(QExtVirtualKeyboard::Style_Black);
 
     //Define an animation to produce a smooth value
-    m_pChineseAnimation = new QPropertyAnimation(q_ptr->ui->scrollAreaCn->horizontalScrollBar(), "value");
-    m_pChineseAnimation->setEasingCurve(QEasingCurve::OutCirc);
-    m_pChineseAnimation->setDuration(500);
+    mChineseAnimation = new QPropertyAnimation(q_ptr->ui->scrollAreaCn->horizontalScrollBar(), "value");
+    mChineseAnimation->setEasingCurve(QEasingCurve::OutCirc);
+    mChineseAnimation->setDuration(500);
 
-    m_pMoreAnimation = new QPropertyAnimation(q_ptr->ui->scrollAreaMore->verticalScrollBar(), "value");
-    m_pMoreAnimation->setEasingCurve(QEasingCurve::OutCirc);
-    m_pMoreAnimation->setDuration(500);
+    mMoreAnimation = new QPropertyAnimation(q_ptr->ui->scrollAreaMore->verticalScrollBar(), "value");
+    mMoreAnimation->setEasingCurve(QEasingCurve::OutCirc);
+    mMoreAnimation->setDuration(500);
 }
 
 void QExtVirtualKeyboardPrivate::init()
 {
-    if (m_bOnlyControl)
+    if (mOnlyControl)
     {
         q_ptr->ui->labPY->setVisible(false);
         q_ptr->installEventFilter(q_ptr);
@@ -230,12 +230,12 @@ void QExtVirtualKeyboardPrivate::init()
         q_ptr->ui->widgetCn->installEventFilter(q_ptr);
         q_ptr->ui->widgetMore->installEventFilter(q_ptr);
 
-        foreach (QLabel *pLabel, m_listChineseLabel)
+        foreach (QLabel *pLabel, mChineseLabels)
         {
             pLabel->installEventFilter(q_ptr);
         }
 
-        foreach (QLabel *pLabel, m_listMoreChineseLabel)
+        foreach (QLabel *pLabel, mMoreChineseLabels)
         {
             pLabel->installEventFilter(q_ptr);
         }
@@ -248,7 +248,7 @@ void QExtVirtualKeyboardPrivate::init()
         qApp->installEventFilter(q_ptr);
     }
 
-    m_googlePinYin.open(m_strDataBasePath);
+    mGooglePinYin.open(mDataBasePath);
     this->readChinese();
 }
 
@@ -263,8 +263,8 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
 
     if ("btnUpper" == strObjectName)
     {
-        m_bIsUpper = !m_bIsUpper;
-        q_ptr->setUpper(m_bIsUpper);
+        mIsUpper = !mIsUpper;
+        q_ptr->setUpper(mIsUpper);
         clearChinese();
         q_ptr->ui->labPY->clear();
     }
@@ -274,14 +274,14 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
     }
     else if ("btnNumber2" == strObjectName)
     {
-        m_bIsNumber = !m_bIsNumber;
-        q_ptr->setNumber(m_bIsNumber);
+        mIsNumber = !mIsNumber;
+        q_ptr->setNumber(mIsNumber);
     }
     else if ("btnDelete" == strObjectName || "btnDelete2" == strObjectName)
     {
         //If the current mode is Chinese, delete the corresponding pinyin, and then delete the content of the corresponding text input box after deleting the pinyin
         int iLength = strLabelText.length();
-        if (QExtVirtualKeyboard::Input_Chinese == m_eInputType && iLength > 0)
+        if (QExtVirtualKeyboard::Input_Chinese == mInputType && iLength > 0)
         {
             q_ptr->ui->labPY->setText(strLabelText.left(iLength - 1));
             this->selectChinese();
@@ -297,9 +297,9 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
     else if ("btnSpace" == strObjectName || "btnSpace2" == strObjectName)
     {
         //If The Chinese mode is to be entered and the character is to be entered, the first Chinese character is inserted if there is any Chinese character
-        if (QExtVirtualKeyboard::Input_Chinese == m_eInputType && !strLabelText.isEmpty())
+        if (QExtVirtualKeyboard::Input_Chinese == mInputType && !strLabelText.isEmpty())
         {
-            QString strText = m_listChineseLabel.first()->text();
+            QString strText = mChineseLabels.first()->text();
             if (strText.isEmpty())
             {
                 this->insertValue(strLabelText);
@@ -318,17 +318,17 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
     else if ("btnEnter" == strObjectName || "btnEnter2" == strObjectName)
     {
         //If Chinese mode and the letter is to be entered, insert the letter immediately
-        if (QExtVirtualKeyboard::Input_Chinese == m_eInputType && !strLabelText.isEmpty())
+        if (QExtVirtualKeyboard::Input_Chinese == mInputType && !strLabelText.isEmpty())
         {
             this->insertValue(strLabelText);
             this->clearChinese();
         }
 
-        if (QEXT_NULLPTR != m_pCurrentWidget && !m_bOnlyControl)
+        if (QEXT_NULLPTR != mCurrentWidget && !mOnlyControl)
         {
             this->hidePanel();
             QKeyEvent keyPress(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier, QString("\n"));
-            QApplication::sendEvent(m_pCurrentWidget, &keyPress);
+            QApplication::sendEvent(mCurrentWidget, &keyPress);
         }
         else
         {
@@ -344,7 +344,7 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
         }
 
         //If the current mode is not Chinese, click the button corresponding to text as the passing parameter, uppercase first
-        if (QExtVirtualKeyboard::Input_Chinese != m_eInputType || m_bIsUpper)
+        if (QExtVirtualKeyboard::Input_Chinese != mInputType || mIsUpper)
         {
             this->insertValue(strButtonText);
         }
@@ -361,15 +361,15 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
 
 void QExtVirtualKeyboardPrivate::focusChanged(QWidget *oldWidget, QWidget *nowWidget)
 {
-    //    qDebug() << "oldWidget:" << oldWidget << "nowWidget:" << nowWidget;
+    //    qCDebug(QExtKeyboard) << "oldWidget:" << oldWidget << "nowWidget:" << nowWidget;
     Q_UNUSED(oldWidget);
-    m_pCurrentWidget = nowWidget;
+    mCurrentWidget = nowWidget;
     if (nowWidget != 0 && !q_ptr->isAncestorOf(nowWidget))
     {
         //If the corresponding property NoInput is true or read-only, it is not displayed
         if (nowWidget->property("noinput").toBool() || nowWidget->property("readOnly").toBool())
         {
-            m_pCurrentWidget = 0;
+            mCurrentWidget = 0;
             QTimer::singleShot(0, q_ptr, SLOT(hidePanel()));
             return;
         }
@@ -403,7 +403,7 @@ void QExtVirtualKeyboardPrivate::focusChanged(QWidget *oldWidget, QWidget *nowWi
             }
             else
             {
-                m_pCurrentWidget = 0;
+                mCurrentWidget = 0;
                 this->hidePanel();
             }
         }
@@ -418,16 +418,16 @@ void QExtVirtualKeyboardPrivate::movePosition()
     int iWidth = q_ptr->width();
     int iHeight = q_ptr->height();
 
-    if (QExtVirtualKeyboard::PopUp_Center == m_ePopUpType)
+    if (QExtVirtualKeyboard::PopUp_Center == mPopUpType)
     {
         QPoint pos = QPoint(iDeskWidth / 2 - iWidth / 2, iDeskHeight / 2 - iHeight / 2);
         q_ptr->setGeometry(pos.x(), pos.y(), iWidth, iHeight);
     }
-    else if (QExtVirtualKeyboard::PopUp_BottomCenter == m_ePopUpType)
+    else if (QExtVirtualKeyboard::PopUp_BottomCenter == mPopUpType)
     {
-        QRect rect = m_pCurrentWidget->rect();
+        QRect rect = mCurrentWidget->rect();
         QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
-        pos = m_pCurrentWidget->mapToGlobal(pos);
+        pos = mCurrentWidget->mapToGlobal(pos);
         int iX = (iDeskWidth - iWidth) / 2;
         int iY = iDeskHeight - iHeight;
         if (pos.y() + iHeight > iDeskHeight)
@@ -436,11 +436,11 @@ void QExtVirtualKeyboardPrivate::movePosition()
         }
         q_ptr->setGeometry(iX, iY, iWidth, iHeight);
     }
-    else if (QExtVirtualKeyboard::PopUp_FocusHCenter == m_ePopUpType)
+    else if (QExtVirtualKeyboard::PopUp_FocusHCenter == mPopUpType)
     {
-        QRect rect = m_pCurrentWidget->rect();
+        QRect rect = mCurrentWidget->rect();
         QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
-        pos = m_pCurrentWidget->mapToGlobal(pos);
+        pos = mCurrentWidget->mapToGlobal(pos);
         int iX = (iDeskWidth - iWidth) / 2;
         int iY = pos.y();
         if (iY + iHeight > iDeskHeight)
@@ -449,11 +449,11 @@ void QExtVirtualKeyboardPrivate::movePosition()
         }
         q_ptr->setGeometry(iX, iY, iWidth, iHeight);
     }
-    else if (QExtVirtualKeyboard::PopUp_Control == m_ePopUpType)
+    else if (QExtVirtualKeyboard::PopUp_Control == mPopUpType)
     {
-        QRect rect = m_pCurrentWidget->rect();
+        QRect rect = mCurrentWidget->rect();
         QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
-        pos = m_pCurrentWidget->mapToGlobal(pos);
+        pos = mCurrentWidget->mapToGlobal(pos);
         int iX = pos.x();
         if (iX + iWidth > iDeskWidth)
         {
@@ -477,41 +477,41 @@ void QExtVirtualKeyboardPrivate::selectChinese()
     QString strLabelText = q_ptr->ui->labPY->text();
     if (strLabelText.length() > 15)
     {
-        qDebug() << "input too long";
+        qCDebug(QExtKeyboard) << "input too long";
         return;
     }
 
-    int iCount = m_googlePinYin.select(strLabelText);
-    iCount = iCount > m_iMaxCount ? m_iMaxCount : iCount;
+    int iCount = mGooglePinYin.select(strLabelText);
+    iCount = iCount > mMaxCount ? mMaxCount : iCount;
 
     //Insert the user to create the word Chinese characters, the highest priority, insert the first
-    int iIndexUser = m_listUserKey.indexOf(strLabelText);
+    int iIndexUser = mUserKeys.indexOf(strLabelText);
     if (iIndexUser >= 0)
     {
-        QString strChineses = m_listUserValue.at(iIndexUser);
+        QString strChineses = mUserValues.at(iIndexUser);
         QStringList list = strChineses.split("|");
         for (int i = list.count() - 1; i >= 0; i--)
         {
             QString strChinese = list.at(i);
             if (!strChinese.isEmpty())
             {
-                m_listAllPinYin.insert(0, strChinese);
+                mAllPinYins.insert(0, strChinese);
             }
         }
     }
 
     //Insert the user-selected word, in the middle of the priority list, immediately after the user-generated word
-    int iIndexSelect = m_listSelectKey.indexOf(strLabelText);
+    int iIndexSelect = mSelectKeys.indexOf(strLabelText);
     if (iIndexSelect >= 0)
     {
-        QString strChineses = m_listSelectValue.at(iIndexSelect);
+        QString strChineses = mSelectValues.at(iIndexSelect);
         QStringList list = strChineses.split("|");
         for (int i = 0; i < list.count(); i++)
         {
             QString strChinese = list.at(i);
-            if (!strChinese.isEmpty() && !m_listAllPinYin.contains(strChinese))
+            if (!strChinese.isEmpty() && !mAllPinYins.contains(strChinese))
             {
-                m_listAllPinYin << strChinese;
+                mAllPinYins << strChinese;
             }
         }
     }
@@ -519,10 +519,10 @@ void QExtVirtualKeyboardPrivate::selectChinese()
     //Insert queried Chinese characters that have been filtered in the Chinese character queue
     for (int i = 0; i < iCount; i++)
     {
-        QString strText = m_googlePinYin.getChinese(i);
-        if (!strText.isEmpty() && !m_listAllPinYin.contains(strText))
+        QString strText = mGooglePinYin.getChinese(i);
+        if (!strText.isEmpty() && !mAllPinYins.contains(strText))
         {
-            m_listAllPinYin << strText;
+            mAllPinYins << strText;
         }
     }
 
@@ -532,41 +532,41 @@ void QExtVirtualKeyboardPrivate::selectChinese()
 
 void QExtVirtualKeyboardPrivate::showChinese()
 {
-    for (int i = 0; i < m_iMaxCount; i++)
+    for (int i = 0; i < mMaxCount; i++)
     {
-        m_listChineseLabel.at(i)->clear();
-        m_listMoreChineseLabel.at(i)->clear();
-        m_listChineseLabel.at(i)->setEnabled(false);
-        m_listMoreChineseLabel.at(i)->setEnabled(false);
+        mChineseLabels.at(i)->clear();
+        mMoreChineseLabels.at(i)->clear();
+        mChineseLabels.at(i)->setEnabled(false);
+        mMoreChineseLabels.at(i)->setEnabled(false);
     }
 
-    for (int i = 0; i < m_listAllPinYin.count(); i++)
+    for (int i = 0; i < mAllPinYins.count(); i++)
     {
-        m_listChineseLabel.at(i)->setText(m_listAllPinYin.at(i));
-        m_listMoreChineseLabel.at(i)->setText(m_listAllPinYin.at(i));
-        m_listChineseLabel.at(i)->setEnabled(true);
-        m_listMoreChineseLabel.at(i)->setEnabled(true);
+        mChineseLabels.at(i)->setText(mAllPinYins.at(i));
+        mMoreChineseLabels.at(i)->setText(mAllPinYins.at(i));
+        mChineseLabels.at(i)->setEnabled(true);
+        mMoreChineseLabels.at(i)->setEnabled(true);
     }
 }
 
 void QExtVirtualKeyboardPrivate::clearChinese()
 {
-    m_listAllPinYin.clear();
-    for (int i = 0; i < m_iMaxCount; i++)
+    mAllPinYins.clear();
+    for (int i = 0; i < mMaxCount; i++)
     {
-        m_listChineseLabel.at(i)->clear();
-        m_listMoreChineseLabel.at(i)->clear();
-        m_listChineseLabel.at(i)->setEnabled(false);
-        m_listMoreChineseLabel.at(i)->setEnabled(false);
+        mChineseLabels.at(i)->clear();
+        mMoreChineseLabels.at(i)->clear();
+        mChineseLabels.at(i)->setEnabled(false);
+        mMoreChineseLabels.at(i)->setEnabled(false);
     }
 }
 
 void QExtVirtualKeyboardPrivate::readChinese()
 {
     //Load the local priority lexicon
-    m_listSelectKey.clear();
-    m_listSelectValue.clear();
-    QFile fileSelect(m_strDataBasePath + "/chinese_select.txt");
+    mSelectKeys.clear();
+    mSelectValues.clear();
+    QFile fileSelect(mDataBasePath + "/chinese_select.txt");
     if (fileSelect.open(QFile::ReadOnly | QFile::Text))
     {
         while (!fileSelect.atEnd())
@@ -574,17 +574,17 @@ void QExtVirtualKeyboardPrivate::readChinese()
             QString line = fileSelect.readLine();
             line = line.replace("\n", "");
             QStringList list = line.split(" ");
-            m_listSelectKey << list.at(0);
-            m_listSelectValue << list.at(1);
+            mSelectKeys << list.at(0);
+            mSelectValues << list.at(1);
         }
 
         fileSelect.close();
     }
 
     //Loads the local custom thesaurus
-    m_listUserKey.clear();
-    m_listUserValue.clear();
-    QFile fileUser(m_strDataBasePath + "/chinese_user.txt");
+    mUserKeys.clear();
+    mUserValues.clear();
+    QFile fileUser(mDataBasePath + "/chinese_user.txt");
     if (fileUser.open(QFile::ReadOnly | QFile::Text))
     {
         while (!fileUser.atEnd())
@@ -592,8 +592,8 @@ void QExtVirtualKeyboardPrivate::readChinese()
             QString line = fileUser.readLine();
             line = line.replace("\n", "");
             QStringList list = line.split(" ");
-            m_listUserKey << list.at(0);
-            m_listUserValue << list.at(1);
+            mUserKeys << list.at(0);
+            mUserValues << list.at(1);
         }
 
         fileUser.close();
@@ -603,20 +603,20 @@ void QExtVirtualKeyboardPrivate::readChinese()
 void QExtVirtualKeyboardPrivate::saveChinese(const QString &value)
 {
     //Not currently in Chinese input state need not be processed
-    if (QExtVirtualKeyboard::Input_Chinese != m_eInputType || value.isEmpty() || m_strLastText.isEmpty())
+    if (QExtVirtualKeyboard::Input_Chinese != mInputType || value.isEmpty() || mLastText.isEmpty())
     {
         return;
     }
 
     //Insert the currently selected Character into the file as the priority word library
     QString strPinyin = q_ptr->ui->labPY->text();
-    int iIndex = m_listSelectKey.indexOf(strPinyin);
+    int iIndex = mSelectKeys.indexOf(strPinyin);
 
     //If the current letter is already in the priority thesaurus file, update the character corresponding to that letter
     if (iIndex >= 0)
     {
         QStringList listTemp;
-        QString strChineses = m_listSelectValue.at(iIndex);
+        QString strChineses = mSelectValues.at(iIndex);
         QStringList list = strChineses.split("|");
 
         //If it already exists, it does not need to be added at present. It can be directly inserted in the front after
@@ -634,24 +634,24 @@ void QExtVirtualKeyboardPrivate::saveChinese(const QString &value)
         }
 
         listTemp.insert(0, value);
-        m_listSelectValue[iIndex] = listTemp.join("|");
+        mSelectValues[iIndex] = listTemp.join("|");
     }
     else
     {
-        m_listSelectKey << strPinyin;
-        m_listSelectValue << value;
+        mSelectKeys << strPinyin;
+        mSelectValues << value;
     }
 
     QStringList list;
-    int iCount = m_listSelectKey.count();
+    int iCount = mSelectKeys.count();
     for (int i = 0; i < iCount; i++)
     {
-        list << QString("%1 %2").arg(m_listSelectKey.at(i)).arg(m_listSelectValue.at(i));
+        list << QString("%1 %2").arg(mSelectKeys.at(i)).arg(mSelectValues.at(i));
     }
 
     //Re-save the priority thesaurus file
     QString strData = list.join("\n");
-    QFile file(m_strDataBasePath + "/chinese_select.txt");
+    QFile file(mDataBasePath + "/chinese_select.txt");
     if (file.open(QFile::WriteOnly | QFile::Text))
     {
         file.write(strData.toUtf8());
@@ -661,7 +661,7 @@ void QExtVirtualKeyboardPrivate::saveChinese(const QString &value)
 void QExtVirtualKeyboardPrivate::insertValue(const QString &value)
 {
     //Just use it as a separate panel and send the selected content
-    if (m_bOnlyControl)
+    if (mOnlyControl)
     {
         this->saveChinese(value);
         this->clearValue();
@@ -669,7 +669,7 @@ void QExtVirtualKeyboardPrivate::insertValue(const QString &value)
         return;
     }
 
-    if (m_pCurrentWidget == 0)
+    if (mCurrentWidget == 0)
     {
         return;
     }
@@ -678,11 +678,11 @@ void QExtVirtualKeyboardPrivate::insertValue(const QString &value)
     this->saveChinese(value);
 
     //Cast to uppercase if a control is enabled for permanent uppercase
-    QString strText = m_pCurrentWidget->property("upper").toBool() ? value.toUpper() : value;
+    QString strText = mCurrentWidget->property("upper").toBool() ? value.toUpper() : value;
     if (!strText.isEmpty())
     {
         QKeyEvent keyPress(QEvent::KeyPress, 0, Qt::NoModifier, QString(strText));
-        QApplication::sendEvent(m_pCurrentWidget, &keyPress);
+        QApplication::sendEvent(mCurrentWidget, &keyPress);
     }
 
     this->clearValue();
@@ -706,13 +706,13 @@ void QExtVirtualKeyboardPrivate::clearValue()
 
 void QExtVirtualKeyboardPrivate::deleteValue()
 {
-    if (QEXT_NULLPTR == m_pCurrentWidget)
+    if (QEXT_NULLPTR == mCurrentWidget)
     {
         return;
     }
 
     QKeyEvent keyPress(QEvent::KeyPress, Qt::Key_Backspace, Qt::NoModifier, QString());
-    QApplication::sendEvent(m_pCurrentWidget, &keyPress);
+    QApplication::sendEvent(mCurrentWidget, &keyPress);
 }
 
 void QExtVirtualKeyboardPrivate::showPanel()
@@ -720,26 +720,26 @@ void QExtVirtualKeyboardPrivate::showPanel()
     if (q_ptr->isEnabled())
     {
         //Hide the Chinese character panel and display the letter panel if it is displayed on the Chinese character panel
-        QString strFlag = m_pCurrentWidget->property("flag").toString();
-        if (m_pCurrentWidget->inherits("QAbstractSpinBox"))
+        QString strFlag = mCurrentWidget->property("flag").toString();
+        if (mCurrentWidget->inherits("QAbstractSpinBox"))
         {
             strFlag = "number";
         }
 
         if (strFlag == "number")
         {
-            if (QExtVirtualKeyboard::Input_Number != m_eInputType)
+            if (QExtVirtualKeyboard::Input_Number != mInputType)
             {
                 q_ptr->setVisible(false);
                 q_ptr->setInputType(QExtVirtualKeyboard::Input_Number);
             }
 
-            m_bIsNumber = false;
-            q_ptr->setNumber(m_bIsNumber);
+            mIsNumber = false;
+            q_ptr->setNumber(mIsNumber);
         }
         else
         {
-            if (QExtVirtualKeyboard::Input_Number == m_eInputType)
+            if (QExtVirtualKeyboard::Input_Number == mInputType)
             {
                 q_ptr->setVisible(false);
                 q_ptr->setInputType(QExtVirtualKeyboard::Input_English);
@@ -757,20 +757,20 @@ void QExtVirtualKeyboardPrivate::hidePanel()
     q_ptr->setVisible(false);
 }
 
-QExtVirtualKeyboard *QExtVirtualKeyboard::sm_pInstance = QEXT_NULLPTR;
+QExtVirtualKeyboard *QExtVirtualKeyboard::smInstance = QEXT_NULLPTR;
 QExtVirtualKeyboard *QExtVirtualKeyboard::instance()
 {
-    if (QEXT_NULLPTR == sm_pInstance)
+    if (QEXT_NULLPTR == smInstance)
     {
         static QMutex mutex;
         QMutexLocker locker(&mutex);
-        sm_pInstance = new QExtVirtualKeyboard;
+        smInstance = new QExtVirtualKeyboard;
 #ifdef Q_WS_QWS
         sm_pInstance->show();
 #endif
-        sm_pInstance->hide();
+        smInstance->hide();
     }
-    return sm_pInstance;
+    return smInstance;
 }
 
 QExtVirtualKeyboard::QExtVirtualKeyboard(QWidget *parent)
@@ -822,7 +822,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
         else if (event->type() == QEvent::MouseMove)
         {
             if (bMousePressed &&
-                (pMouseEvent->buttons() & Qt::LeftButton && PopUp_BottomCenter != dd_ptr->m_ePopUpType))
+                    (pMouseEvent->buttons() & Qt::LeftButton && PopUp_BottomCenter != dd_ptr->mPopUpType))
             {
                 this->move(pMouseEvent->globalPos() - mousePoint);
                 this->update();
@@ -834,8 +834,8 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
-            if (Input_Chinese == dd_ptr->m_eInputType && !dd_ptr->m_bIsUpper &&
-                dd_ptr->m_listChineseLabel.first()->isEnabled())
+            if (Input_Chinese == dd_ptr->mInputType && !dd_ptr->mIsUpper &&
+                    dd_ptr->mChineseLabels.first()->isEnabled())
             {
                 if (!ui->widgetChinese->isVisible())
                 {
@@ -857,11 +857,11 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
-            if (Input_English == dd_ptr->m_eInputType)
+            if (Input_English == dd_ptr->mInputType)
             {
                 this->setInputType(Input_Chinese);
             }
-            else if (Input_Chinese == dd_ptr->m_eInputType)
+            else if (Input_Chinese == dd_ptr->mInputType)
             {
                 this->setInputType(Input_English);
             }
@@ -877,7 +877,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
     else if (watched == ui->widgetCn)
     {
         //Do not continue if there are no Chinese characters or if there are no Chinese characters in the press or if the current number of Chinese character tags is too small
-        if (!dd_ptr->m_listChineseLabel.first()->isEnabled() || dd_ptr->m_strLastText.isEmpty())
+        if (!dd_ptr->mChineseLabels.first()->isEnabled() || dd_ptr->mLastText.isEmpty())
         {
             return false;
         }
@@ -892,7 +892,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
         {
             bPressed = true;
             lastPos = pMouseEvent->pos();
-            dd_ptr->m_pChineseAnimation->stop();
+            dd_ptr->mChineseAnimation->stop();
             lastTime = QDateTime::currentDateTime();
         }
         else if (event->type() == QEvent::MouseButtonRelease)
@@ -908,15 +908,15 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
                     bool bMoveleft = (pMouseEvent->pos().x() - lastPos.x()) < 0;
                     int iOffset = bMoveleft ? 350 : -350;
                     int iValue = ui->scrollAreaCn->horizontalScrollBar()->value();
-                    dd_ptr->m_pChineseAnimation->setStartValue(iValue);
-                    dd_ptr->m_pChineseAnimation->setEndValue(iValue + iOffset);
-                    dd_ptr->m_pChineseAnimation->start();
+                    dd_ptr->mChineseAnimation->setStartValue(iValue);
+                    dd_ptr->mChineseAnimation->setEndValue(iValue + iOffset);
+                    dd_ptr->mChineseAnimation->start();
                 }
             }
         }
         else if (event->type() == QEvent::MouseMove)
         {
-            if (bPressed && dd_ptr->m_listChineseLabel.first()->isEnabled())
+            if (bPressed && dd_ptr->mChineseLabels.first()->isEnabled())
             {
                 //Calculate the distance traveled
                 bool bMoveleft = (pMouseEvent->pos().x() - lastPos.x()) < 0;
@@ -930,7 +930,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
     else if (watched == ui->widgetMore)
     {
         //Do not continue if there are no Chinese characters or if there are no Chinese characters in the press or if the current number of Chinese character tags is too small
-        if (!dd_ptr->m_listMoreChineseLabel.first()->isEnabled() || dd_ptr->m_strLastText.isEmpty())
+        if (!dd_ptr->mMoreChineseLabels.first()->isEnabled() || dd_ptr->mLastText.isEmpty())
         {
             return false;
         }
@@ -943,7 +943,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
         {
             bPressed = true;
             lastPos = pMouseEvent->pos();
-            dd_ptr->m_pMoreAnimation->stop();
+            dd_ptr->mMoreAnimation->stop();
             lastTime = QDateTime::currentDateTime();
         }
         else if (event->type() == QEvent::MouseButtonRelease)
@@ -959,15 +959,15 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
                     bool bMovebottom = (pMouseEvent->pos().y() - lastPos.y()) < 0;
                     int iOffset = bMovebottom ? 150 : -150;
                     int iValue = ui->scrollAreaMore->verticalScrollBar()->value();
-                    dd_ptr->m_pMoreAnimation->setStartValue(iValue);
-                    dd_ptr->m_pMoreAnimation->setEndValue(iValue + iOffset);
-                    dd_ptr->m_pMoreAnimation->start();
+                    dd_ptr->mMoreAnimation->setStartValue(iValue);
+                    dd_ptr->mMoreAnimation->setEndValue(iValue + iOffset);
+                    dd_ptr->mMoreAnimation->start();
                 }
             }
         }
         else if (event->type() == QEvent::MouseMove)
         {
-            if (bPressed && dd_ptr->m_listMoreChineseLabel.first()->isEnabled())
+            if (bPressed && dd_ptr->mMoreChineseLabels.first()->isEnabled())
             {
                 //Calculate the distance traveled
                 bool bMovebottom = (pMouseEvent->pos().y() - lastPos.y()) < 0;
@@ -981,7 +981,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
     else if (watched->inherits("QLabel"))
     {
         QLabel *pLabel = (QLabel *)watched;
-        if (!dd_ptr->m_bIsUpper && Input_Chinese == dd_ptr->m_eInputType)
+        if (!dd_ptr->mIsUpper && Input_Chinese == dd_ptr->mInputType)
         {
             if (pLabel->property("labCn").toBool())
             {
@@ -990,12 +990,12 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
                 if (event->type() == QEvent::MouseButtonPress)
                 {
                     iLastPosition = ui->scrollAreaCn->horizontalScrollBar()->value();
-                    dd_ptr->m_strLastText = pLabel->text();
+                    dd_ptr->mLastText = pLabel->text();
                 }
                 else if (event->type() == QEvent::MouseButtonRelease)
                 {
                     if (iLastPosition == ui->scrollAreaCn->horizontalScrollBar()->value() &&
-                        !dd_ptr->m_strLastText.isEmpty())
+                            !dd_ptr->mLastText.isEmpty())
                     {
                         dd_ptr->insertValue(pLabel->text());
                         dd_ptr->clearChinese();
@@ -1009,12 +1009,12 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
                 if (event->type() == QEvent::MouseButtonPress)
                 {
                     iLastPosition = ui->scrollAreaMore->verticalScrollBar()->value();
-                    dd_ptr->m_strLastText = pLabel->text();
+                    dd_ptr->mLastText = pLabel->text();
                 }
                 else if (event->type() == QEvent::MouseButtonRelease)
                 {
                     if (iLastPosition == ui->scrollAreaMore->verticalScrollBar()->value() &&
-                        !dd_ptr->m_strLastText.isEmpty())
+                            !dd_ptr->mLastText.isEmpty())
                     {
                         dd_ptr->insertValue(pLabel->text());
                         dd_ptr->clearChinese();
@@ -1027,7 +1027,7 @@ bool QExtVirtualKeyboard::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
-            if (dd_ptr->m_pCurrentWidget != 0)
+            if (dd_ptr->mCurrentWidget != 0)
             {
                 if (!this->isVisible())
                 {
@@ -1062,12 +1062,12 @@ void QExtVirtualKeyboard::setFontInfo(const QString &fontName, const int &iBtnFo
     ui->labType2->setFont(btnFont);
     ui->labPY->setFont(labFont);
 
-    foreach (QLabel *pLabel, dd_ptr->m_listChineseLabel)
+    foreach (QLabel *pLabel, dd_ptr->mChineseLabels)
     {
         pLabel->setFont(labFont);
     }
 
-    foreach (QLabel *pLabel, dd_ptr->m_listMoreChineseLabel)
+    foreach (QLabel *pLabel, dd_ptr->mMoreChineseLabels)
     {
         pLabel->setFont(labFont);
         pLabel->setFixedHeight(iLabFontSize + 30);
@@ -1100,27 +1100,27 @@ void QExtVirtualKeyboard::setTopHeight(const int &iTopHeight)
 
 void QExtVirtualKeyboard::setOnlyControl(const bool &bOnlyControl)
 {
-    dd_ptr->m_bOnlyControl = bOnlyControl;
+    dd_ptr->mOnlyControl = bOnlyControl;
 }
 
 void QExtVirtualKeyboard::setColumnCount(const int &iColumnCount)
 {
-    dd_ptr->m_iColumnCount = iColumnCount;
+    dd_ptr->mColumnCount = iColumnCount;
 }
 
 void QExtVirtualKeyboard::setMaxCount(const int &iMaxCount)
 {
-    dd_ptr->m_iMaxCount = iMaxCount;
+    dd_ptr->mMaxCount = iMaxCount;
 }
 
 void QExtVirtualKeyboard::setDbPath(const QString &dbPath)
 {
-    dd_ptr->m_strDataBasePath = dbPath;
+    dd_ptr->mDataBasePath = dbPath;
 }
 
 void QExtVirtualKeyboard::setPopUpType(const QExtVirtualKeyboard::PopUpTypes &eType)
 {
-    dd_ptr->m_ePopUpType = eType;
+    dd_ptr->mPopUpType = eType;
 }
 
 void QExtVirtualKeyboard::setInputType(const InputTypes &eInputType)
@@ -1131,7 +1131,7 @@ void QExtVirtualKeyboard::setInputType(const InputTypes &eInputType)
     ui->scrollAreaCn->horizontalScrollBar()->setValue(0);
     ui->scrollAreaMore->verticalScrollBar()->setValue(0);
 
-    dd_ptr->m_eInputType = eInputType;
+    dd_ptr->mInputType = eInputType;
     if (Input_Number == eInputType)
     {
         ui->widgetLetter->setVisible(false);
@@ -1144,7 +1144,7 @@ void QExtVirtualKeyboard::setInputType(const InputTypes &eInputType)
         ui->widgetNumber->setVisible(false);
         ui->widgetChinese->setVisible(false);
         ui->labType->setText(QString("<font color='%1'>ZH/</font><font color='%2' size='4'>Eng</font>")
-                                 .arg(dd_ptr->m_strMainTextColor).arg(dd_ptr->m_strButtonHoveColor));
+                             .arg(dd_ptr->mMainTextColor).arg(dd_ptr->mButtonHoveColor));
     }
     else if (Input_Chinese == eInputType)
     {
@@ -1152,7 +1152,7 @@ void QExtVirtualKeyboard::setInputType(const InputTypes &eInputType)
         ui->widgetNumber->setVisible(false);
         ui->widgetChinese->setVisible(false);
         ui->labType->setText(QString("<font color='%2' size='4'>ZH</font><font color='%1'>/Eng</font>")
-                                 .arg(dd_ptr->m_strMainTextColor).arg(dd_ptr->m_strButtonHoveColor));
+                             .arg(dd_ptr->mMainTextColor).arg(dd_ptr->mButtonHoveColor));
     }
 }
 
@@ -1167,7 +1167,7 @@ void QExtVirtualKeyboard::setUpper(const bool &bIsUpper)
 
     //Change the icon
     ui->btnUpper->setIcon(QIcon(
-        QString(":/QExtKeyboard/input/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
+                              QString(":/QExtKeyboard/input/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->mIconType)));
 }
 
 void QExtVirtualKeyboard::setNumber(const bool &bIsNumber)
@@ -1214,13 +1214,13 @@ void QExtVirtualKeyboard::setNumber(const bool &bIsNumber)
     ui->btn24->setText(listChars.at(24));
     ui->btn25->setText(listChars.at(25));
 
-    ui->btnNumber2->setText(QString("%1").arg(dd_ptr->m_bIsNumber ? "123" : "#+="));
+    ui->btnNumber2->setText(QString("%1").arg(dd_ptr->mIsNumber ? "123" : "#+="));
 }
 
 void QExtVirtualKeyboard::setStyleType(const StyleTypes &eStyle)
 {
-    dd_ptr->m_eStyleType = eStyle;
-    dd_ptr->m_strIconType = "white";
+    dd_ptr->mStyleType = eStyle;
+    dd_ptr->mIconType = "white";
     if (Style_Black == eStyle)
     {
         setColor("#191919", "#F3F3F3", "#313131", "#24B1DF", "#F3F3F3", "#F95717", "#F3F3F3");
@@ -1240,17 +1240,17 @@ void QExtVirtualKeyboard::setStyleType(const StyleTypes &eStyle)
     else if (Style_Silvery == eStyle)
     {
         setColor("#868690", "#000002", "#C3C2C7", "#F0F0F0", "#000002", "#F0F0F0", "#000002");
-        dd_ptr->m_strIconType = "black";
+        dd_ptr->mIconType = "black";
     }
 
-    ui->labMore->setPixmap(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("more").arg(dd_ptr->m_strIconType));
+    ui->labMore->setPixmap(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("more").arg(dd_ptr->mIconType));
     ui->btnDelete->setIcon(
-        QIcon(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+                QIcon(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->mIconType)));
     ui->btnDelete2->setIcon(
-        QIcon(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+                QIcon(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->mIconType)));
     ui->btnUpper->setIcon(QIcon(
-        QString(":/QExtKeyboard/input/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(
-            dd_ptr->m_strIconType)));
+                              QString(":/QExtKeyboard/input/btn_%1_%2.png").arg(dd_ptr->mIsUpper ? "daxie" : "xiaoxie").arg(
+                                  dd_ptr->mIconType)));
 }
 
 void QExtVirtualKeyboard::setColor(const QString &mainBkgColor, const QString &mainTextColor,
@@ -1258,8 +1258,8 @@ void QExtVirtualKeyboard::setColor(const QString &mainBkgColor, const QString &m
                                    const QString &btnHoveTextColor, const QString &labHoveColor,
                                    const QString &labHoveTextColor)
 {
-    dd_ptr->m_strMainTextColor = mainTextColor;
-    dd_ptr->m_strButtonHoveColor = btnHoveColor;
+    dd_ptr->mMainTextColor = mainTextColor;
+    dd_ptr->mButtonHoveColor = btnHoveColor;
 
     QStringList qssStrings;
     qssStrings.append(QString("QScrollArea{"
@@ -1315,9 +1315,9 @@ void QExtVirtualKeyboard::setColor(const QString &mainBkgColor, const QString &m
     this->setStyleSheet(qssStrings.join(""));
 
     ui->labType->setText(
-        QString("<font color='%1'>ZH/</font><font color='%2' size='4'>Eng</font>").arg(mainTextColor).arg(btnHoveColor));
+                QString("<font color='%1'>ZH/</font><font color='%2' size='4'>Eng</font>").arg(mainTextColor).arg(btnHoveColor));
     ui->labType2->setText(
-        QString("<font color='%2' size='4'>ZH</font><font color='%1'>/Eng</font>").arg(mainTextColor).arg(btnHoveColor));
+                QString("<font color='%2' size='4'>ZH</font><font color='%1'>/Eng</font>").arg(mainTextColor).arg(btnHoveColor));
     qApp->processEvents();
 }
 

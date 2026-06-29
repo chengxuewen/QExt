@@ -11,9 +11,9 @@ public:
 
     QExtPinyin *q_ptr;
 
-    bool m_bOk;                 //If there is something wrong
-    int m_iMaxInputLength;      //Maximum input length
-    int m_iMaxOutputLength;     //Maximum output length
+    bool mOk;                 //If there is something wrong
+    int mMaxInputLength;      //Maximum input length
+    int mMaxOutputLength;     //Maximum output length
 
 private:
     QEXT_DECLARE_PUBLIC(QExtPinyin)
