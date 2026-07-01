@@ -42,7 +42,7 @@ function(qext_find_deployqt)
     elseif(APPLE)
         set(tool_name "macdeployqt")
     else()
-        set(LINUXDEPLOYQT_ROOT "${PROJECT_SOURCE_DIR}/3rdparty/linuxdeployqt")
+        set(LINUXDEPLOYQT_ROOT "${QEXT_SOURCE_DIR}/3rdparty/linuxdeployqt")
         if(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "aarch64")
             set(tool_name "linuxdeployqt-aarch64.AppImage")
         elseif(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "x86_64")
@@ -50,11 +50,42 @@ function(qext_find_deployqt)
         else()
             message(FATAL_ERROR "Unsupported host architecture with linuxdeployqt!")
         endif()
-        execute_process(
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${LINUXDEPLOYQT_ROOT}/${tool_name}"
-            "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}/${tool_name}"
-            WORKING_DIRECTORY "${QEXT_BUILD_DIR}")
+        set(LINUXDEPLOYQT_TOOLS_DIR "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}")
+        set(LINUXDEPLOYQT_EXTRACTED_DIR "${LINUXDEPLOYQT_TOOLS_DIR}/linuxdeployqt-extracted")
+        set(LINUXDEPLOYQT_EXTRACTED_APPRUN "${LINUXDEPLOYQT_EXTRACTED_DIR}/AppRun")
+        if(NOT EXISTS "${LINUXDEPLOYQT_EXTRACTED_APPRUN}")
+            message(STATUS "Extracting linuxdeployqt AppImage (to avoid FUSE dependency)...")
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E make_directory "${LINUXDEPLOYQT_TOOLS_DIR}"
+                OUTPUT_QUIET)
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    "${LINUXDEPLOYQT_ROOT}/${tool_name}"
+                    "${LINUXDEPLOYQT_TOOLS_DIR}/${tool_name}"
+                OUTPUT_QUIET)
+            execute_process(
+                COMMAND chmod +x "${LINUXDEPLOYQT_TOOLS_DIR}/${tool_name}"
+                OUTPUT_QUIET)
+            execute_process(
+                COMMAND "${LINUXDEPLOYQT_TOOLS_DIR}/${tool_name}" --appimage-extract
+                WORKING_DIRECTORY "${LINUXDEPLOYQT_TOOLS_DIR}"
+                RESULT_VARIABLE extract_result
+                OUTPUT_VARIABLE extract_output
+                ERROR_VARIABLE extract_error)
+            if(NOT extract_result EQUAL 0)
+                message(STATUS "Extraction output:\n${extract_output}")
+                message(STATUS "Extraction error:\n${extract_error}")
+                message(FATAL_ERROR "Failed to extract linuxdeployqt AppImage")
+            endif()
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E rename
+                    "${LINUXDEPLOYQT_TOOLS_DIR}/squashfs-root"
+                    "${LINUXDEPLOYQT_EXTRACTED_DIR}")
+        endif()
+        set(QEXT_DEPLOYQT_EXECUTABLE "${LINUXDEPLOYQT_EXTRACTED_APPRUN}" PARENT_SCOPE)
+        set(QEXT_DEPLOYQT_BIN_DIR "${LINUXDEPLOYQT_EXTRACTED_DIR}" PARENT_SCOPE)
+        message(STATUS "Found deployqt ${LINUXDEPLOYQT_EXTRACTED_APPRUN}")
+        return()
     endif()
     qext_find_qt_tool(${tool_name} PATHS "${QEXT_BUILD_DIR}/${QEXT_INSTALL_TOOLSDIR}")
     set(QEXT_DEPLOYQT_EXECUTABLE "${${tool_name}_EXECUTABLE}" PARENT_SCOPE)
