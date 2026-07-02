@@ -4,7 +4,7 @@
 #include <QLoggingCategory>
 #include <QtGui/private/qguiapplication_p.h>
 
-Q_LOGGING_CATEGORY(lcQExtColoredPixmapIconEngine, "QExtColoredPixmapIconEngine")
+Q_LOGGING_CATEGORY(lcQExtColoredPixmapIconEngine, "qext.plugin.coloredpixmapiconengine")
 
 #define lcDebug qCDebug(lcQExtColoredPixmapIconEngine)
 

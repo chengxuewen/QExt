@@ -6,7 +6,7 @@
 #include <QLoggingCategory>
 #include <QRegularExpression>
 
-Q_LOGGING_CATEGORY(lcQExtColoredPixmapIconEnginePlugin, "QExtColoredPixmapIconEnginePlugin")
+Q_LOGGING_CATEGORY(lcQExtColoredPixmapIconEnginePlugin, "qext.plugin.coloredpixmapiconengine")
 
 #define lcDebug qCDebug(lcQExtColoredPixmapIconEnginePlugin)
 #define lcWarning qCWarning(lcQExtColoredPixmapIconEnginePlugin)
