@@ -361,7 +361,7 @@ void QExtVirtualKeyboardPrivate::buttonClicked()
 
 void QExtVirtualKeyboardPrivate::focusChanged(QWidget *oldWidget, QWidget *nowWidget)
 {
-    //    qCDebug(QExtKeyboard) << "oldWidget:" << oldWidget << "nowWidget:" << nowWidget;
+    //    qCDebug(lcQExtKeyboard) << "oldWidget:" << oldWidget << "nowWidget:" << nowWidget;
     Q_UNUSED(oldWidget);
     mCurrentWidget = nowWidget;
     if (nowWidget != 0 && !q_ptr->isAncestorOf(nowWidget))
@@ -477,7 +477,7 @@ void QExtVirtualKeyboardPrivate::selectChinese()
     QString strLabelText = q_ptr->ui->labPY->text();
     if (strLabelText.length() > 15)
     {
-        qCDebug(QExtKeyboard) << "input too long";
+        qCDebug(lcQExtKeyboard) << "input too long";
         return;
     }
 

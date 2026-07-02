@@ -100,7 +100,7 @@ bool QExtPinyin::open(const QString &strDBPath)
     }
     else
     {
-        qCCritical(QExtKeyboard) << "load GooglePinYin error";
+        qCCritical(lcQExtKeyboard) << "load GooglePinYin error";
     }
 
     return dd_ptr->mOk;

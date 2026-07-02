@@ -121,14 +121,14 @@ bool QExtPinyinDecoderService::init()
     QFileInfo usrDictInfo(usrDictPath + QLatin1String("/QExtKeyboard/pinyin/usr_dict.dat"));
     if (!usrDictInfo.exists())
     {
-        qCWarning(QExtKeyboard) << "QExtPinyinDecoderService::init(): creating directory for user dictionary" << usrDictInfo.absolutePath();
+        qCWarning(lcQExtKeyboard) << "QExtPinyinDecoderService::init(): creating directory for user dictionary" << usrDictInfo.absolutePath();
         QDir().mkpath(usrDictInfo.absolutePath());
     }
 
     d->mInitDone = im_open_decoder(sysDict.toUtf8().constData(), usrDictInfo.absoluteFilePath().toUtf8().constData());
     if (!d->mInitDone)
     {
-        qCWarning(QExtKeyboard) << "Could not initialize pinyin engine. sys_dict:" << sysDict << "usr_dict:" << usrDictInfo.absoluteFilePath();
+        qCWarning(lcQExtKeyboard) << "Could not initialize pinyin engine. sys_dict:" << sysDict << "usr_dict:" << usrDictInfo.absoluteFilePath();
     }
 
     return d->mInitDone;

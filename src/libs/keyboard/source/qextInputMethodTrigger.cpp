@@ -70,7 +70,7 @@ void QExtInputMethodTriggerPrivate::updateFocusedWidget(QWidget *widget)
         mFocusedWidget = widget;
         if (widget && widget->isEnabled())
         {
-            qCDebug(QExtKeyboard) << "widget=" << widget;
+            qCDebug(lcQExtKeyboard) << "widget=" << widget;
             if (!widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_NOINPUT).toBool() &&
                     !widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_READONLY).toBool())
             {
@@ -80,7 +80,7 @@ void QExtInputMethodTriggerPrivate::updateFocusedWidget(QWidget *widget)
                     QString superClassName = metaObject->className();
                     if (mEditableSuperClassNames.contains(superClassName))
                     {
-                        qCDebug(QExtKeyboard) << "superClassName=" << superClassName;
+                        qCDebug(lcQExtKeyboard) << "superClassName=" << superClassName;
                         //Determines whether the drop-down box's editable property is true if it is currently a drop-down box
                         QComboBox *comboBox = qobject_cast<QComboBox *>(widget);
                         if (!comboBox || widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_EDITABLE).toBool())
@@ -97,10 +97,10 @@ void QExtInputMethodTriggerPrivate::updateFocusedWidget(QWidget *widget)
         if (showKeyboard)
         {
             qint64 timestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
-            qCDebug(QExtKeyboard) << "singleShot:showKeyboard:touched:" << timestamp - mTouchedTimestamp;
+            qCDebug(lcQExtKeyboard) << "singleShot:showKeyboard:touched:" << timestamp - mTouchedTimestamp;
             if (timestamp - mTouchedTimestamp <= 1000)
             {
-                qCDebug(QExtKeyboard) << "mShowKeyboardTimer.start()";
+                qCDebug(lcQExtKeyboard) << "mShowKeyboardTimer.start()";
                 mShowKeyboardTimer.start();
                 return;
             }
@@ -174,7 +174,7 @@ void QExtInputMethodTrigger::hideKeyboard()
 void QExtInputMethodTrigger::onShowKeyboardTimerTimeout()
 {
     Q_D(QExtInputMethodTrigger);
-    qCDebug(QExtKeyboard) << "onShowKeyboardTimerTimeout():" << d->mShowKeyboardFlag.loadAcquire();
+    qCDebug(lcQExtKeyboard) << "onShowKeyboardTimerTimeout():" << d->mShowKeyboardFlag.loadAcquire();
     if (d->mShowKeyboardFlag.loadAcquire())
     {
         this->showKeyboard();
@@ -202,28 +202,28 @@ bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
     {
         d->mTouched = true;
         d->mTouchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
-        qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchBegin:" << watched;
+        qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchBegin:" << watched;
         break;
     }
     case QEvent::TouchUpdate:
     {
         d->mTouched = true;
         d->mTouchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
-        qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchUpdate:" << watched;
+        qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchUpdate:" << watched;
         break;
     }
     case QEvent::TouchCancel:
     {
         d->mTouched = false;
         d->mTouchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
-        qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchCancel:" << watched;
+        qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchCancel:" << watched;
         break;
     }
     case QEvent::TouchEnd:
     {
         d->mTouched = false;
         d->mTouchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
-        qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchEnd:" << watched;
+        qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():TouchEnd:" << watched;
         break;
     }
     default:
@@ -245,25 +245,25 @@ bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
                         d->mTouchedTimestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
                         this->showKeyboard();
                     }
-                    qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():MouseButtonPress:" << widget;
+                    qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():MouseButtonPress:" << widget;
                     break;
                 }
                 case QEvent::MouseButtonRelease:
                 {
                     d->mPressed = false;
-                    qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():MouseButtonRelease:" << widget;
+                    qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():MouseButtonRelease:" << widget;
                     break;
                 }
                 case QEvent::FocusIn:
                 {
                     d->updateFocusedWidget(widget);
-                    qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():FocusIn:" << widget;
+                    qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():FocusIn:" << widget;
                     break;
                 }
                 case QEvent::FocusOut:
                 {
                     d->updateFocusedWidget(QEXT_NULLPTR);
-                    qCDebug(QExtKeyboard) << "QExtInputMethodTrigger::eventFilter():FocusOut:" << widget;
+                    qCDebug(lcQExtKeyboard) << "QExtInputMethodTrigger::eventFilter():FocusOut:" << widget;
                     break;
                 }
                 default:

@@ -5,7 +5,7 @@
 
 #include <QLoggingCategory>
 
-Q_DECLARE_LOGGING_CATEGORY(QExtKeyboard)
+Q_DECLARE_LOGGING_CATEGORY(lcQExtKeyboard)
 
 
 /***********************************************************************************************************************

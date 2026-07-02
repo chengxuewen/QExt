@@ -11,7 +11,7 @@
 #include <QApplication>
 #include <QPropertyAnimation>
 
-Q_LOGGING_CATEGORY(QExtKeyboard, "qext.keyboard", QtCriticalMsg)
+Q_LOGGING_CATEGORY(lcQExtKeyboard, "qext.quick.keyboard", QtCriticalMsg)
 
 class QExtKeyboardPanelPrivate
 {
@@ -245,7 +245,7 @@ void QExtKeyboardPanel::animationHide()
     int screenHeight = qApp->primaryScreen()->size().height();
     const int posX = (screenWidth - this->width()) / 2;
 
-    qCDebug(QExtKeyboard) << "[QExtKbdPanel::animationHide] isAnimating=" << this->isAnimating() << "mHiding(before)=" << d->mHiding;
+    qCDebug(lcQExtKeyboard) << "[QExtKbdPanel::animationHide] isAnimating=" << this->isAnimating() << "mHiding(before)=" << d->mHiding;
 
     if(this->isAnimating())
     {
@@ -265,7 +265,7 @@ void QExtKeyboardPanel::animationShow()
     int screenHeight = qApp->primaryScreen()->size().height();
     const int posX = (screenWidth - this->width()) / 2;
 
-    qCDebug(QExtKeyboard) << "[QExtKbdPanel::animationShow] isAnimating=" << this->isAnimating() << "mHiding(before)=" << d->mHiding << "isVisible=" << this->isVisible();
+    qCDebug(lcQExtKeyboard) << "[QExtKbdPanel::animationShow] isAnimating=" << this->isAnimating() << "mHiding(before)=" << d->mHiding << "isVisible=" << this->isVisible();
 
     if(this->isAnimating())
     {
@@ -303,10 +303,10 @@ void QExtKeyboardPanel::setInputMethodHints(Qt::InputMethodHints hints)
 void QExtKeyboardPanel::onAnimationFinished()
 {
     Q_D(QExtKeyboardPanel);
-    qCDebug(QExtKeyboard) << "[QExtKbdPanel::onAnimationFinished] mHiding=" << d->mHiding << "isVisible=" << this->isVisible();
+    qCDebug(lcQExtKeyboard) << "[QExtKbdPanel::onAnimationFinished] mHiding=" << d->mHiding << "isVisible=" << this->isVisible();
     if(d->mHiding)
     {
-        qCDebug(QExtKeyboard) << "[QExtKbdPanel::onAnimationFinished] → hide()";
+        qCDebug(lcQExtKeyboard) << "[QExtKbdPanel::onAnimationFinished] → hide()";
         this->hide();
     }
     d->mHiding = false;
