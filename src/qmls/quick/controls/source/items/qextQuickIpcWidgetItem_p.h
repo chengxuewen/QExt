@@ -9,10 +9,16 @@
 #include <QPointer>
 #include <QVBoxLayout>
 
+#include <QTimer>
+#include <functional>
+#include <cstdint>
+
 class QEXT_QUICKCONTROLS_API QExtQuickIpcWidgetItemPrivate : public QExtQuickWidgetItemPrivate
 {
 public:
     using ProcessInterface = QExtQuickIpcWidgetItem::ProcessInterface;
+    using State = ProcessInterface::State;
+    using ConnectionEpoch = ProcessInterface::ConnectionEpoch;
 
     explicit QExtQuickIpcWidgetItemPrivate(QExtQuickIpcWidgetItem *q);
     ~QExtQuickIpcWidgetItemPrivate() override;
@@ -21,8 +27,9 @@ public:
     void initIpcCallbacks();
     void clearLayout();
     void detachChildWindow();
+    void startProbeRetry();
+    void stopProbeRetry();
 
-    WId mCachedWId{0};
     QString mProcessPath;
     QStringList mProcessArgs;
     QPointer<QVBoxLayout> mLayout;
@@ -31,6 +38,13 @@ public:
     QPointer<QWindow> mChildWindowParent;
     QPointer<QWidget> mChildWindowContainer;
     ProcessInterface::SharedPtr mProcessInterface;
+
+    State mState{State::Disconnected};
+    ConnectionEpoch mConnectionEpoch{0};
+    bool mShutdownGuard{false};
+
+    QTimer *mProbeRetryTimer{nullptr};
+    int mRetryCount{0};
 
 private:
     Q_DECLARE_PUBLIC(QExtQuickIpcWidgetItem)

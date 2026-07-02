@@ -3,6 +3,11 @@
 
 #include <qextQuickWidgetItem.h>
 
+#include <QSharedPointer>
+#include <functional>
+#include <cstdint>
+#include <QLoggingCategory>
+
 class QExtQuickIpcWidgetItemPrivate;
 
 class QEXT_QUICKCONTROLS_API QExtQuickIpcWidgetItem : public QExtQuickWidgetItem
@@ -11,31 +16,44 @@ class QEXT_QUICKCONTROLS_API QExtQuickIpcWidgetItem : public QExtQuickWidgetItem
     QEXT_QML_ELEMENT()
     Q_PROPERTY(QString processPath READ processPath WRITE setProcessPath NOTIFY processPathChanged)
     Q_PROPERTY(QStringList processArgs READ processArgs WRITE setProcessArgs NOTIFY processArgsChanged)
-    Q_PROPERTY(QString workingPath READ workingPath WRITE setWorkingPath NOTIFY workingPathChanged)
 
 public:
-    struct ProcessInterface 
+    struct ProcessInterface
     {
         using SharedPtr = QSharedPointer<ProcessInterface>;
+        using ConnectionEpoch = uint64_t;
+
+        enum Command { Show = 0, Resize = 1, Custom = 1000 };
+        enum State { Disconnected, Connecting, Connected, Disconnecting };
+
         virtual ~ProcessInterface() = default;
-        
-        virtual bool start(const QString &path, const QStringList &args) = 0;
-        virtual void stop() = 0;
-        
-        virtual bool isRunning() const = 0;
-        virtual bool isStopped() const = 0;
 
-        virtual QString workingPath() const = 0;
-        virtual void setWorkingPath(const QString &path) = 0;
-        
-        virtual QVariantMap config() const = 0;
-        virtual void setConfig(const QVariantMap &config) = 0;
+        // === Lifecycle ===
+        virtual bool start() { return false; }
+        virtual void stop() {}
+        virtual bool probe() { return false; }
+        virtual bool isAlive() const { return false; }
+        virtual void disconnect() {}
 
+        // === Callback registration ===
         virtual void setWIdCallback(std::function<void(quintptr)> callback) = 0;
         virtual void setLogCallback(std::function<void(const QString &)> callback) = 0;
-        
+        virtual void setReadyCallback(std::function<void()> callback) = 0;
+        virtual void setLostCallback(std::function<void()> callback) = 0;
+
+        // === Command channel ===
         virtual void sendShowCommand() = 0;
         virtual void sendResizeCommand(int width, int height) = 0;
+        virtual void *commandChannel() { return nullptr; }
+
+        // === Texture frame transport (stubs, default false/null) ===
+        virtual bool initFrameTransport() { return false; }
+        virtual void shutdownFrameTransport() {}
+        virtual bool isFrameTransportAvailable() const { return false; }
+        virtual void *acquireFrame() { return nullptr; }
+        virtual void releaseFrame(void * /*handle*/) {}
+        virtual void setFrameAvailableCallback(std::function<void()> /*callback*/) {}
+        virtual void destroyGlResources() {}
     };
 
     explicit QExtQuickIpcWidgetItem(QQuickItem *parent = nullptr);
@@ -46,12 +64,12 @@ public:
 
     QString processPath() const;
     QStringList processArgs() const;
-    QString workingPath() const;
 
     ProcessInterface::SharedPtr processInterface() const;
 
+    static ProcessInterface::SharedPtr createDefaultHandler();
+
 Q_SIGNALS:
-    void workingPathChanged(const QString &path);
     void processPathChanged(const QString &path);
     void processArgsChanged(const QStringList &args);
 
@@ -59,7 +77,6 @@ Q_SIGNALS:
     void asyncSetWidgetWId(quintptr wId, QPrivateSignal);
 
 public Q_SLOTS:
-    void setWorkingPath(const QString &path);
     void setProcessPath(const QString &path);
     void setProcessArgs(const QStringList &args);
     void setProcessInterface(const ProcessInterface::SharedPtr &interface);
@@ -74,5 +91,6 @@ private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickIpcWidgetItem)
     Q_DISABLE_COPY(QExtQuickIpcWidgetItem)
 };
+Q_DECLARE_LOGGING_CATEGORY(lcQExtQuickIpc)
 
 #endif // _QEXTQUICKIPCWIDGETITEM_H
