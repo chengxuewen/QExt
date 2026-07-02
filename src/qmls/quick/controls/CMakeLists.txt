@@ -72,6 +72,9 @@ qext_add_qml_module(QuickControls
     source/items/qextQuickIpcWidgetItem_p.h
     source/items/qextQuickIpcWidgetItem.cpp
     source/items/qextQuickIpcWidgetItem.h
+    source/items/qextQuickEmbedIpcHandler.h
+    source/items/qextQuickFrameTransportImpl.h
+    source/items/qextQuickNozzleIpcHandler.h
     source/items/qextQuickSvgIconBaseItem.cpp
     source/items/qextQuickSvgIconBaseItem.h
     source/items/qextQuickTriangleItem.cpp
