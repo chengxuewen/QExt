@@ -354,40 +354,40 @@ QExtQmlObject {
                         }
                     }
                 }
-                // QExtQuickSvgIcon {
-                //     id: mSvgIcon
-                //     anchors.verticalCenter: mRowlayout.verticalCenter
-                //     source: {
-                //         switch(superItem.type) {
-                //         case mData.const_success:
-                //             return "qrc:/QExtQuickControls/resources/image/success.svg"
-                //         case mData.const_warning:
-                //             return "qrc:/QExtQuickControls/resources/image/warning.svg"
-                //         case mData.const_info:
-                //             return "qrc:/QExtQuickControls/resources/image/info.svg"
-                //         case mData.const_error:
-                //             return "qrc:/QExtQuickControls/resources/image/error.svg"
-                //         }
-                //         return ""
-                //     }
+                QExtQuickSvgIcon {
+                    id: mSvgIcon
+                    anchors.verticalCenter: mRowlayout.verticalCenter
+                    source: {
+                        switch(superItem.type) {
+                        case mData.const_success:
+                            return "qrc:/QExtQuickControls/resources/image/success.svg"
+                        case mData.const_warning:
+                            return "qrc:/QExtQuickControls/resources/image/warning.svg"
+                        case mData.const_info:
+                            return "qrc:/QExtQuickControls/resources/image/info.svg"
+                        case mData.const_error:
+                            return "qrc:/QExtQuickControls/resources/image/error.svg"
+                        }
+                        return ""
+                    }
 
-                //     width: more.visible ? 40 : 22
-                //     height: more.visible ? 40 : 22
+                    width: more.visible ? 40 : 22
+                    height: more.visible ? 40 : 22
 
-                //     color: {
-                //         switch(superItem.type) {
-                //         case mData.const_success:
-                //             return "#6AC044"
-                //         case mData.const_warning:
-                //             return "#E4A147"
-                //         case mData.const_info:
-                //             return "#909399"
-                //         case mData.const_error:
-                //             return "#F36D6F"
-                //         }
-                //         return "#FFFFFF"
-                //     }
-                // }
+                    color: {
+                        switch(superItem.type) {
+                        case mData.const_success:
+                            return "#6AC044"
+                        case mData.const_warning:
+                            return "#E4A147"
+                        case mData.const_info:
+                            return "#909399"
+                        case mData.const_error:
+                            return "#F36D6F"
+                        }
+                        return "#FFFFFF"
+                    }
+                }
 
                 Column {
                     spacing: 5
