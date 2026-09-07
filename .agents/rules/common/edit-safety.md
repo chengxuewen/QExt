@@ -1,0 +1,184 @@
+# Code Edit Safety
+
+> **Target audience**: AI agents editing QExt source code.
+> **Violation of these rules causes token waste from repeated fix cycles.**
+
+## Tool Selection
+
+| Change Size | Tool | Reason |
+|-------------|------|--------|
+| Rewrite entire function/file | `write` | Guarantees brace balance, no stale lines |
+| ≤20 line single-location edit | `edit` | Minimal diff, safe for small changes |
+| Structural pattern replacement | `ast_grep_replace` | Syntax-aware, preserves matching |
+| Complex multi-file refactor | Delegate to subagent | Isolated context, verify independently |
+
+## Forbidden Patterns
+
+| Anti-Pattern | Why |
+|--------------|-----|
+| `sed` for code modification | Quote escaping errors, regex silent failures |
+| Multiple sequential `edit` calls without re-reading | Line numbers drift, stale hash IDs |
+| Deleting a line by replacing with empty `lines: []` and assuming brace count is still correct | May leave unbalanced braces |
+| Appending `}` to "fix" an unclosed delimiter without counting braces first | Masks root cause, may create double-close |
+
+## Verify Immediately
+
+After EVERY code change (edit, write, or ast_grep_replace):
+
+```
+C++:    cmake --build build/<qext-pkg>      (或 make.sh 编译目标)
+QML:   qmllint <file>                      (5-10s)
+Shell:  bash -n <script>             (脚本)
+
+### 批量 edits 数组必须逐操作验证 (PIT-41)
+
+多个 replace 操作引用相邻区域时，边界行号/内容易错位（一个操作可能覆盖另一个操作的保留区域）。每次 edit 调用后立即跑对应格式验证；发现破坏 → 重读文件恢复，不叠加修复。
+
+If verification fails, STOP. Do NOT apply another edit on top. Instead:
+1. `git diff` to see what changed
+2. If the change is wrong, `git checkout -- <file>` to revert
+3. Re-apply the fix correctly
+
+## Brace Safety Checklist
+
+Before marking any multi-line edit complete, verify:
+- [ ] Every `{` has a matching `}` at the same indent level
+- [ ] Every `(` has a matching `)`
+- [ ] Every `[` has a matching `]`
+- [ ] No duplicate function definitions or closing braces
+- [ ] `cmake --build` 通过
+
+## When to Delegate
+
+Delegate to a `deep` category subagent when:
+- The change touches 3+ files
+- The change requires understanding cross-module dependencies
+- You've failed the same edit 2+ times
+
+The subagent gets a clean context, reads the files fresh, and applies all changes atomically.
+
+## Architectural Decision Gate (NON-NEGOTIABLE)
+
+Before implementing ANY architectural change (protocol, data flow, transport mode, API contract):
+- **ALWAYS ask the user first** using the `question` tool with explicit options
+- **NEVER fall back to an alternative architecture** without user approval
+- **NEVER silently switch** from the agreed architecture (e.g., SFU → P2P) even if it seems "easier"
+- **NEVER implement a workaround** that changes the system's design without explicit user consent
+
+If the agreed approach fails, report the failure and ask: "方案 X 失败，原因是 Y。建议改用 Z，是否同意？"
+
+## Test Execution Constraint (NON-NEGOTIABLE)
+
+After claiming tests are written or features are working:
+- **ALWAYS run the tests** against the live system. Writing test files without executing them is a violation.
+- **ALWAYS report actual test output** — pass/fail counts, error messages. Never claim "tests pass" without evidence.
+- **E2E tests MUST run against the actual running service**, not mocked endpoints.
+- If tests fail, fix them in the same turn. Do not defer to "later".
+
+## Verification Honesty (NON-NEGOTIABLE)
+
+- **NEVER claim a feature works based on a partial test.** A Python WS test passing does NOT mean the browser flow works.
+- **ALWAYS verify at the actual user-facing layer.** If the feature is browser-based, test in the browser. If it's API-based, test with curl.
+- **ALWAYS report exactly what was tested and what was NOT tested.** Example: "Python WS test passed. Browser flow NOT yet verified."
+- **NEVER present a component test as end-to-end proof.** Each layer must be verified independently.
+- **If you cannot verify at the user-facing layer, say so explicitly.** Do not imply success.
+
+## Build Target Discipline
+
+- **构建入口统一走 make.sh / CMake 预设**，禁止绕过环境直接调裸 cmake/ninja（pixi 环境变量缺失会假性失败）
+- **Before building, ALWAYS verify**: 修改 CMakeLists 后若 ninja 命令未见新依赖，删包 build 目录强制全新 configure
+
+## Self-Verification Requirement (NON-NEGOTIABLE)
+
+- **ALWAYS verify browser-based features yourself using Playwright MCP tools** (`local-playwright_browser_navigate`, `local-playwright_browser_evaluate`, etc.)
+- **NEVER ask the user to test what you can test yourself.** If Playwright is available, use it.
+- **After fixing a browser bug, ALWAYS re-test in the browser** before reporting the fix.
+- **Report the actual browser console output** as evidence of verification.
+
+## User Confirmation Before Edit (NON-NEGOTIABLE)
+
+- **NEVER start editing files without explicit user approval.** Describing a plan ≠ approval to execute.
+- **When user asks 'what can be done' or 'is it possible to...', they are asking a question, not giving an instruction to edit.** Answer the question. Do NOT edit files.
+- **Before editing, present the plan AND use the `question` tool to confirm.** Wait for affirmative response before touching files.
+- **Silence / '继续' / timeout ≠ approval.** Only explicit 'yes' / 'do it' / '执行' counts.
+
+
+- **NEVER use `pgrep -f` / `pkill -f` with a pattern that matches your own shell command line** — it kills the shell itself, hanging the tool. Use `pgrep -x <exact-process-name>` (matches process name only), or exclude own PID.
+
+- **curl 本机服务必须 --noproxy**：bash 环境有 `http_proxy` 时，`curl http://127.0.0.1:PORT` 会走代理 → 超时假死。用 `curl --noproxy "*" http://127.0.0.1:PORT/`。
+
+
+## Git 恢复操作
+
+- **批量 `git restore <paths>` 恢复已 staged 删除时，可能部分目录工作区未实际写回**——`git ls-files`（index）有文件但磁盘（worktree）为空，grep 该目录无结果。根因：`restore` 对 staged 删除的路径恢复不完整。**优先用 `git checkout HEAD -- <paths>`**（强制从 HEAD 写回工作区）。
+- **验证必须是全量对比，不能抽样**：恢复/删除 N 个目录后，逐个 `for d in ...; do echo "[$d] index=$(git ls-files $d/ | wc -l) worktree=$(ls $d/ 2>/dev/null | wc -l)"; done` 核对，index 与 worktree 计数必须全部相等。只 `ls` 部分目录 = 遗漏（PIT-68：恢复 10 个目录仅 7 个实际写回，3 个磁盘为空未被发现）。
+
+**来源**：PIT-68 (2026-08-06 .agents 精简恢复轮)
+
+### 8. edit 工具多行替换后必须验证行唯一性 (PIT-78a)
+
+**规则**: 对 .py/.cpp/.h 文件用 edit 做多行替换后，若替换内容含重复模式（相同行），必须 grep 验证唯一性：
+
+```bash
+grep -c "重复模式" <file>    # 期望 1；>1 = edit 重复插入
+```
+
+**先例**: 2026-08-10 会话内 edit 工具两次异常——① 替换丢失前几行（配置路径缩进损坏但语法合法，编译通过但逻辑旧）；② 重复插入分派行（相邻行相同 → 脚本执行两轮）。**修复**: ① 改用 python 精确字符串替换（读文件→replace→写回）；② 删除重复行后 grep -c 验证。
+
+**阻塞条件**: 多行 edit 后未验证唯一性/行数即提交。
+
+### 9. 同区域连续 edit 前必须 grep 现状 (PIT-81 轮)
+
+**规则**: 对同一文件同一函数/区域做连续 edit 时，每次 edit 前先 `grep -c "<锚点行内容>" <file>` 确认唯一性；对"已有内容 + 插入"模式（在旧代码前加日志/改签名），优先用 python 精确字符串替换（读→replace→写回），不用 edit 的 lines 数组重复命中。
+
+**先例**: 2026-08-11 PIT-81 调试轮 — edit 工具三次重复插入（stop() 函数签名 ×2、main 声明 ×2、日志行残留），每次 build 才暴露，浪费 3 轮。修复统一走 python replace（assert count==1）。
+
+**阻塞条件**: 同一函数连续第 2 次 edit 前未 grep 验证；已出现重复插入但未删除重复行即提交。
+
+### 10. python 批量替换脚本必须逐块写盘或前置验证 (PIT-84)
+
+**规则**: 多块替换的 python 脚本（assert → replace → write 模式），**每块 replace 后立即写盘**，或**所有 assert 前置验证后再统一替换**；禁止"全部替换后末尾一次写盘"（任一 assert 失败 → 全盘丢失，PIT-84 踩 2 次）。
+
+**验证**: 脚本执行后 `grep -c "<关键替换内容>" <file>` 确认每块生效；失败重跑前检查哪些块已写。
+
+**阻塞条件**: 多块脚本末尾一次性写盘；assert 失败后未确认中间状态直接重跑。
+**阻塞条件**: 多块脚本末尾一次性写盘；assert 失败后未确认中间状态直接重跑。
+
+### 11. 大块 markdown 追加用 heredoc，不用 edit 工具 JSON (PIT-85 轮)
+
+**规则**: 对 `.agents/memorys/*.md` 等大块 markdown（含引号/反引号/长中文）**追加**新条目时，优先用 `cat >> file <<'EOF'` heredoc；
+**禁止用 edit 工具做长内容 append**——edit 的 JSON 载荷会因复杂引号/反引号/超长内容反复解析失败
+（本次踩 3 次："unsupported op undefined"×2 + JSON parse error×1，each 浪费一轮）。
+
+**验证**: 追加后 `grep -c "<关键标题>" <file>` 确认生效 + `wc -l` 行数增长。
+
+**阻塞条件**: 长 markdown/memory 内容用 edit 工具 append 且失败后未改用 heredoc。
+
+
+### 13. 批量 edit 遇 hash mismatch → 完整 re-read 再重试，禁止用错误输出的部分 tags 拼接 (2026-08-17)
+
+**规则**: 批量 edit 报 "hash mismatch" 后，**先完整 re-read 目标文件再重试**；禁止直接用错误输出中更新的部分 LINE#ID 拼接第二次调用（未变化行仍用旧 tag → 再次失败，浪费 2 轮）。对全局配置（`~/.config/opencode/*.jsonc`）等 opencode 运行中可能被改写的文件，**编辑前必须现场 re-read**（会话早段读取的 tags 会失效）。
+
+**先例**: 2026-08-17 omo.jsonc 批量 edit 第 1 次 8 行 mismatch → 用错误提示更新 tags 重试仍失败 → 完整 re-read 167-347 行后才成功（3 轮 vs 2 轮）。
+
+**验证**: edit 后 `python3 -m json.tool <file>`（json）或 `grep -c '"reasoningEffort": "low"' .omo/omo.jsonc`（jsonc 目标字段）确认生效。
+
+**阻塞条件**: 未 re-read 直接拼接错误输出的部分 tags 重试；JSON 替换后未做语法校验。
+
+### 14. 仓级重命名/批量编辑是代理并发禁区 (PIT-98)
+
+**规则**: 有子代理在运行（background task 未收到完成通知）时，**禁止**执行仓级重命名、跨文件批量替换、`git checkout/restore` 目录级操作。子代理可能：① 后续提交覆盖/还原工作区（git checkout 恢复"污染"会连带冲掉编排者的未提交改动——PIT-98 实证 10 文件重命名被整体冲掉）；② 基于旧内容继续编码产生冲突合并。
+
+**验证**: 重命名/批量替换后 `grep -rc "<旧模式>" <范围>` 必须为 0 + 二进制级验证（`readelf --dyn-syms` 符号名）；重做前确认 `git log` 静止 + 无 background 任务。
+
+**阻塞条件**: 有未完成子代理时执行仓级替换；批量替换后未做符号/内容双重验证即提交。
+
+### 15. hashline 区间删除必须 pos+end 成对，编辑后强制残留 grep (PIT-6)
+
+**规则**: edit 工具 replace 操作只传 `end` 漏传 `pos` 时**静默退化为单行删除并返回成功**——区间残骸留在原地（半损类体/悬空声明），grep 旧符号大面积假阳性误导后续修复。区间删/换必须同时给 pos+end；每次结构删除后立即跑残留 grep + 括号 balance，不许只看工具返回 "Updated"。
+
+**先例**: 2026-08-31 visualaid 删功能轮，5 文件批量 end-only 操作静默部分应用，2 文件结构损坏（columnTypeString 缺 }、createEditor 声明断头），python 双标记切割重建才恢复（PIT-6）。
+
+**验证**: `grep -rc "<被删块独有符号>" <范围>` 必须 0；`python3 -c "s=open(f).read(); print(s.count('{')-s.count('}'))"` 每文件 0。
+
+**阻塞条件**: 区间操作缺 pos 或缺 end；结构删除后未做残留 grep 即继续下一文件。
