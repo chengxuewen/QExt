@@ -1,0 +1,45 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "model": "new-api/deepseek-v4-pro",
+    "compaction": {
+      "auto": true,
+      "tail_turns": 15
+    },
+    "enabled_providers": [
+      "new-api"
+    ],
+    "plugin": [
+      "superpowers@git+https://github.com/obra/superpowers.git",
+      "@dietrichgebert/ponytail",
+      "oh-my-openagent@4.19.4",
+      "context-mode"
+    ],
+    "instructions": [
+      ".agents/memorys/status.md",
+      ".agents/memorys/conventions.md",
+      ".agents/rules/common/security.md",
+      ".agents/rules/common/coding-style.md",
+      ".agents/rules/common/agents.md",
+      ".agents/rules/common/code-review.md",
+      ".agents/rules/common/development-workflow.md",
+      ".agents/rules/common/hooks.md",
+      ".agents/rules/common/patterns.md",
+      ".agents/rules/common/performance.md",
+      ".agents/rules/common/testing.md",
+      ".agents/rules/common/constraints.md",
+      ".agents/rules/common/edit-safety.md",
+      ".agents/rules/common/lesson-memory.md",
+      ".agents/rules/cpp/coding-style.md",
+      ".agents/rules/cpp/hooks.md",
+      ".agents/rules/cpp/patterns.md",
+      ".agents/rules/cpp/security.md",
+      ".agents/rules/cpp/testing.md"
+    ],
+    "mcp": {
+      "websearch": {
+        "type": "remote",
+        "url": "https://websearch.opencode.ai",
+        "enabled": false
+      }
+    }
+  }

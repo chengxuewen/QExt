@@ -85,3 +85,5 @@ build
 cmake-build-debug
 
 3rdparty/qjson
+# CodeGraph index
+.codegraph/
