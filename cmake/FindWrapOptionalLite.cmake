@@ -55,6 +55,7 @@ if(NOT EXISTS ${QExtWrapOptionalLite_STAMP_FILE_PATH})
 		--no-warn-unused-cli
 		-G ${CMAKE_GENERATOR}
         "-DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
         -DCMAKE_INSTALL_PREFIX=${QExtWrapOptionalLite_INSTALL_DIR}
         ${QExtWrapOptionalLite_SOURCE_DIR}
