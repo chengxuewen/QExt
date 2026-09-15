@@ -64,6 +64,8 @@ QExtKeyboardPanel::QExtKeyboardPanel(QWidget *parent)
     d->mBottomLayout->addWidget(d->mSymbolKeyboard);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     d->mBottomLayout->setMargin(0);
+#else
+    d->mBottomLayout->setContentsMargins(0, 0, 0, 0);
 #endif
     widgetContainer->setLayout(d->mBottomLayout);
     widgetContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);

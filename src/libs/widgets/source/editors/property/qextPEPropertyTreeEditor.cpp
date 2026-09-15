@@ -354,7 +354,7 @@ static QIcon drawIndicatorIcon(const QPalette &palette, QStyle *style)
 void QExtPEPropertyTreeEditorPrivate::init(QWidget *parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(parent);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     m_treeWidget = new QExtPEPropertyTreeEditorView(parent);
     m_treeWidget->setEditorPrivate(this);
     m_treeWidget->setIconSize(QSize(18, 18));

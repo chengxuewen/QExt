@@ -373,7 +373,7 @@ ObjectController::ObjectController(QWidget *parent)
 
     d_ptr->m_editor = new QExtPEPropertyGroupBoxEditor(this);
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     layout->addWidget(scroll);
     scroll->setWidget(d_ptr->m_editor);
 */
@@ -381,7 +381,7 @@ ObjectController::ObjectController(QWidget *parent)
     editor->setRootIsDecorated(false);
     dd_ptr->m_editor = editor;
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     layout->addWidget(dd_ptr->m_editor);
 
     dd_ptr->m_readOnlyManager = new QExtPEVariantPropertyManager(this);

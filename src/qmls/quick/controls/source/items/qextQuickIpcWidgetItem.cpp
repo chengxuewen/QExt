@@ -85,7 +85,11 @@ void QExtQuickIpcWidgetItemPrivate::init()
             mWrapperWidget.clear();
         }
         mLayout = new QVBoxLayout;
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
         mLayout->setMargin(0);
+#else
+        mLayout->setContentsMargins(0, 0, 0, 0);
+#endif
         mLayout->setSpacing(0);
         mWrapperWidget = new QWidget;
         mWrapperWidget->hide();

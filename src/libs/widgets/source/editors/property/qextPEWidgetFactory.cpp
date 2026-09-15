@@ -1295,7 +1295,7 @@ QExtKeySequenceEdit::QExtKeySequenceEdit(QWidget *parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(m_lineEdit);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     m_lineEdit->installEventFilter(this);
     m_lineEdit->setReadOnly(true);
     m_lineEdit->setFocusProxy(this);
@@ -1556,7 +1556,7 @@ QExtCharEdit::QExtCharEdit(QWidget *parent)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(m_lineEdit);
-    layout->setMargin(0);
+    qextSetLayoutMargin(layout, 0);
     m_lineEdit->installEventFilter(this);
     m_lineEdit->setReadOnly(true);
     m_lineEdit->setFocusProxy(this);
@@ -2219,7 +2219,7 @@ QExtColorEditWidget::QExtColorEditWidget(QWidget *parent)
 {
     QHBoxLayout *lt = new QHBoxLayout(this);
     setupTreeViewEditorMargin(lt);
-    lt->setMargin(0);
+    qextSetLayoutMargin(lt, 0);
     lt->setSpacing(0);
     lt->addWidget(m_pixmapLabel);
     lt->addWidget(m_label);

@@ -44,14 +44,17 @@
 #   define QEXT_WIDGETS_HIDDEN
 #endif
 
-#include <QBoxLayout>
-static inline void qextSetLayoutMargin(QBoxLayout *layout, int margin)
+/***********************************************************************************************************************
+   QExt widgets version adaptation
+   QLayout::setMargin() has been removed since Qt6, use QLayout::setContentsMargins() instead.
+***********************************************************************************************************************/
+#include <QLayout>
+static inline void qextSetLayoutMargin(QLayout *layout, int margin)
 {
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-    layout->setMargin(0);
+    layout->setMargin(margin);
 #else
-    Q_UNUSED(layout);
-    Q_UNUSED(margin);
+    layout->setContentsMargins(margin, margin, margin, margin);
 #endif
 }
 

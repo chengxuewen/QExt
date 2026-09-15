@@ -166,7 +166,7 @@ void MainWindowPrivate::initPaletteColorTableWidget(const QPalette &palette)
             labelColor->setStyleSheet(QString("background:%1").arg(brush.color().name()));
             layout->addWidget(labelName);
             layout->addWidget(labelColor);
-            layout->setMargin(0);
+            qextSetLayoutMargin(layout, 0);
             layout->setSpacing(0);
             ui->tableWidgetPalette->setCellWidget(i, j + 1, widget);
         }
