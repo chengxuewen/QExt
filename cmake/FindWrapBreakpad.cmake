@@ -49,7 +49,7 @@ else()
     set(ZLIB_ROOT "${QExtWrapBreakpad_INSTALL_DIR}/lib")
 endif()
 set(ZLIB_USE_STATIC_LIBS ON)
-find_package(unofficial-breakpad PATHS "${QExtWrapBreakpad_INSTALL_DIR}" REQUIRED NO_DEFAULT_PATH)
+find_package(unofficial-breakpad PATHS "${QExtWrapBreakpad_INSTALL_DIR}" REQUIRED NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
 get_target_property(QExtWrapBreakpad_IMPORTED_LOCATION_RELEASE
     unofficial::breakpad::libbreakpad_client IMPORTED_LOCATION_RELEASE)
 set_target_properties(unofficial::breakpad::libbreakpad_client PROPERTIES
