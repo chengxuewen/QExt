@@ -5,6 +5,8 @@
 #include <qextQmlRegistration.h>
 
 #include <QQuickItem>
+#include <QWindow>
+#include <QWidget>
 
 class QExtQuickWidgetItemPrivate;
 class QEXT_QUICKCONTROLS_API QExtQuickWidgetItem : public QQuickItem
