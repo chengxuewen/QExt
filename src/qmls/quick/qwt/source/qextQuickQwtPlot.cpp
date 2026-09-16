@@ -311,7 +311,7 @@ void QExtQuickQwtPlot::routeWheelEvents(QWheelEvent* event)
     Q_D(QExtQuickQwtPlot);
     if (d->mQwtPlot)
     {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 12, 0))
+#if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))   // 5.12/5.13：旧 API（position() 系 5.14 才有）；>=5.14 及 Qt6：新 API（Qt6 中 pos() 已被移除）
         QWheelEvent* newEvent = new QWheelEvent(event->pos(), event->globalPos(),
                                                 event->pixelDelta(), event->angleDelta(),
                                                 event->buttons(), event->modifiers(),
