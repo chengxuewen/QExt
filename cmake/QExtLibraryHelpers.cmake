@@ -729,10 +729,15 @@ function(qext_add_library name)
         PRIVATE_HEADER DESTINATION "${library_install_interface_private_include_dir}"
         PUBLIC_HEADER DESTINATION "${library_install_interface_include_dir}")
 
-    # Build-tree export: directly write Targets file regardless of QEXT_BUILD_INSTALL
-    export(TARGETS ${exported_targets}
-        NAMESPACE ${QEXT_CMAKE_EXPORT_NAMESPACE}::
-        FILE "${config_build_dir}/${export_name}.cmake")
+    # Build-tree export for non-installer builds only. When QEXT_BUILD_INSTALL=ON,
+    # qext_install(EXPORT ...) below already writes this exact file via export(EXPORT)
+    # (DESTINATION remapped to QEXT_BUILD_DIR); a second export() to the same FILE is
+    # a hard error under CMP0103 NEW (CMake >= 3.18; QExt sets cmake_minimum_required 3.15...3.31).
+    if(NOT QEXT_BUILD_INSTALL)
+        export(TARGETS ${exported_targets}
+            NAMESPACE ${QEXT_CMAKE_EXPORT_NAMESPACE}::
+            FILE "${config_build_dir}/${export_name}.cmake")
+    endif()
     if(arg_EXTERNAL_HEADERS_DIR)
         set_property(TARGET ${target} PROPERTY PUBLIC_HEADER ${public_header_backup})
         unset(public_header_backup)
