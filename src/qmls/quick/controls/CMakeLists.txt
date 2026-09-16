@@ -33,11 +33,8 @@ if(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
         Qt${QEXT_QT_VERSION_MAJOR}::Widgets
-        Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2)
-    if("${QEXT_QT_VERSION}" GREATER "6.2")
-        list(APPEND QEXT_QML_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::QuickEffectsPrivate)
-    endif()
+        Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2
+        Qt${QEXT_QT_VERSION_MAJOR}::Svg)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -48,15 +45,6 @@ list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml QExt::QmlTheme QExt::QmlFontIcon)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-if (${QT_VERSION_MAJOR} GREATER 5)
-    if(ANDROID)
-        set(QEXT_QUICK_SVG_ICON_VERSION 2)
-    else()
-        set(QEXT_QUICK_SVG_ICON_VERSION 1)
-    endif()
-else()
-    set(QEXT_QUICK_SVG_ICON_VERSION 0)
-endif()
 qext_add_qml_module(QuickControls
     URI "QExtQuick.Controls"
     VERSION "${QEXT_VERSION}"
@@ -67,7 +55,6 @@ qext_add_qml_module(QuickControls
     QExtQml
     QExtQml.Theme
     QExtQml.FontIcon
-    QtQuick.Effects
     SOURCES
     source/items/qextQuickIpcWidgetItem_p.h
     source/items/qextQuickIpcWidgetItem.cpp
@@ -75,8 +62,6 @@ qext_add_qml_module(QuickControls
     source/items/qextQuickEmbedIpcHandler.h
     source/items/qextQuickFrameTransportImpl.h
     source/items/qextQuickNozzleIpcHandler.h
-    source/items/qextQuickSvgIconBaseItem.cpp
-    source/items/qextQuickSvgIconBaseItem.h
     source/items/qextQuickTriangleItem.cpp
     source/items/qextQuickTriangleItem.h
     source/items/qextQuickWidgetItem_p.h
@@ -84,18 +69,18 @@ qext_add_qml_module(QuickControls
     source/items/qextQuickWidgetItem.h
     source/qextQuickControls.cpp
     source/qextQuickControls.h
+    source/qextSvgColorImageProvider.cpp
+    source/qextSvgColorImageProvider.h
     source/qextQuickControlsConstant.h
     source/qextQuickControlsGlobal.h
     source/qextQuickWorld.cpp
     source/qextQuickWorld.h
     qextQuickControls.qrc
-    qextQuickControlsQt${QT_VERSION_MAJOR}.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
     SINGLETON_QML_FILES
     qml/QExtQuickGlobalToast.qml
     QML_FILES
-    qml/svgicon/QExtQuickSvgIcon${QEXT_QUICK_SVG_ICON_VERSION}.qml
     qml/QExtQuickButton.qml
     qml/QExtQuickButtonArea.qml
     qml/QExtQuickCheckBox.qml
@@ -116,7 +101,6 @@ qext_add_qml_module(QuickControls
     qml/QExtQuickToast.qml
     DEFINES
     QEXT_BUILD_QUICK_LIB
-    QEXT_QUICK_SVG_ICON_VERSION=${QEXT_QUICK_SVG_ICON_VERSION}
     PUBLIC_LIBRARIES
     ${QEXT_QML_LINK_LIBRARIES})
 

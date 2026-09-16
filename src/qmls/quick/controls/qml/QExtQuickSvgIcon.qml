@@ -1,70 +1,70 @@
 import QtQuick 2.6
+import QtQuick.Window 2.12
 import QtQml 2.6
 
 import QExtQml 1.4
 import QExtQml.Theme 1.4
 import QExtQuick.Controls 1.4
 
-QExtQuickSvgIconBaseItem {
+Item {
     id: mControl
     width: 16
     height: 16
 
+    // ↓ 对外契约与改前逐项一致（color/source/smooth/asynchronous/fillMode/status/theme）
     property color color
     property string source
     property bool smooth: true
-    property bool asynchronous: true
+    property bool asynchronous: false  // 默认同步出图：新色首访无空帧（R-1）
     property int fillMode: Image.Stretch
-    readonly property alias status: mLoader.itemStatus
+    readonly property alias status: mImage.status
 
     property alias theme: mTheme
 
-    Loader {
-        id: mLoader
-        anchors.fill: parent
-        onLoaded: {
-            if (item) {
-                item.statusChanged.connect(function () {
-                    mLoader.itemStatus = item.status;
-                });
-            }
-        }
-        property int itemStatus: Image.Null
+    property var rootWindow: Window.window                        // 附加属性，入窗后自动重算
+    readonly property real dpr: (rootWindow && rootWindow.devicePixelRatio !== undefined)
+                                ? rootWindow.devicePixelRatio : 1.0   // 入窗前/析构中 attached 值可能为 undefined
+
+    function hex2(v) {
+        var s = Math.round(Math.max(0, Math.min(255, v))).toString(16);
+        return s.length < 2 ? "0" + s : s;
     }
 
-    Component.onCompleted: {
-        mLoader.setSource(mControl.backendUrl, {
-                              color: mControl.color,
-                              source: mControl.source,
-                              smooth: mControl.smooth,
-                              fillMode: mControl.fillMode,
-                              asynchronous: mControl.asynchronous,
-                          });
+    // 量化表与 C++ urlFor()/sizeBucket()/dprBucket() 完全一致（单测对拍锁定，改一处必改另一处）
+    function bucketPx(v) {
+        var b = [8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256];
+        for (var i = 0; i < b.length; ++i)
+            if (v <= b[i])
+                return b[i];
+        return Math.ceil(v / 256) * 256;
     }
-    onColorChanged: {
-        if (mLoader.item) {
-            mLoader.item.color = mControl.color;
-        }
+    function bucketDpr(v) {
+        var s = [0.5, 1, 1.5, 2, 3, 4];
+        for (var i = 0; i < s.length; ++i)
+            if (v <= s[i])
+                return s[i];
+        return 4;                                   // 上限钳制（R-2）
     }
-    onSourceChanged: {
-        if (mLoader.item) {
-            mLoader.item.source = mControl.source;
-        }
+
+    readonly property url tintUrl: {
+        if (mControl.source.length === 0 || mControl.width <= 0 || mControl.height <= 0)
+            return "";
+        var c = mControl.color;
+        return "image://qextsvg/"
+             + bucketPx(mControl.width) + "/" + bucketPx(mControl.height) + "/"
+             + Math.round(bucketDpr(mControl.dpr) * 100) + "/"
+             + hex2(c.a * 255) + hex2(c.r * 255) + hex2(c.g * 255) + hex2(c.b * 255) + "/"
+             + encodeURIComponent(mControl.source);
     }
-    onSmoothChanged: {
-        if (mLoader.item) {
-            mLoader.item.smooth = mControl.smooth;
-        }
-    }
-    onFillModeChanged: {
-        if (mLoader.item) {
-            mLoader.item.fillMode = mControl.fillMode;
-        }
-    }
-    onAsynchronousChanged: {
-        if (mLoader.item) {
-            mLoader.item.asynchronous = mControl.asynchronous;
-        }
+
+    Image {
+        id: mImage
+        anchors.fill: parent
+        asynchronous: mControl.asynchronous
+        smooth: mControl.smooth
+        fillMode: mControl.fillMode          // 缩放语义完全交回 Image（D2）
+        cache: true
+        source: mControl.tintUrl
     }
 
     QExtQmlThemeBinder {

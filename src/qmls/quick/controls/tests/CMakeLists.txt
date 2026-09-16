@@ -20,5 +20,38 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+#-----------------------------------------------------------------------------------------------------------------------
+# Add test link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_TEST_LINK_LIBRARIES)
+
+if(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Svg
+        Qt${QEXT_QT_VERSION_MAJOR}::Quick
+        Qt${QEXT_QT_VERSION_MAJOR}::Test)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# add tests
+#-----------------------------------------------------------------------------------------------------------------------
+# QExtSvgColorImageProvider 不导出符号（设计 §14.3），测试目标直接编译 provider 源文件本体
+qext_internal_add_test(QExtTstSvgColorProvider
+    SOURCES
+    svgcolor/tst_svgcolorprovider.cpp
+    svgcolor/testdata.qrc
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source/qextSvgColorImageProvider.cpp
+    INCLUDE_DIRECTORIES
+    "${CMAKE_CURRENT_SOURCE_DIR}/../source"
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
+
 
 

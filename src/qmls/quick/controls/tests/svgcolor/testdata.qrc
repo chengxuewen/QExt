@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/svgcolor-test">
+        <file>square.svg</file>
+    </qresource>
+</RCC>

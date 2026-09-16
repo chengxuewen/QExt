@@ -22,23 +22,38 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTQUICKSVGICONBASEITEM_H
-#define _QEXTQUICKSVGICONBASEITEM_H
+#ifndef _QEXTSVGCOLORIMAGEPROVIDER_H
+#define _QEXTSVGCOLORIMAGEPROVIDER_H
 
 #include <qextQuickControlsGlobal.h>
-#include <qextQmlRegistration.h>
 
-#include <QQuickItem>
+#include <QCache>
+#include <QMutex>
+#include <QQuickImageProvider>
 
-class QEXT_QUICKCONTROLS_API QExtQuickSvgIconBaseItem : public QQuickItem
+class QColor;
+
+// image://qextsvg/<wBucket>/<hBucket>/<dpr档 x100>/<AARRGGBB>/<percent-encoded source>
+class QExtSvgColorImageProvider : public QQuickImageProvider
 {
-    Q_OBJECT
-    QEXT_QML_ELEMENT()
-    Q_PROPERTY(QString backendUrl READ backendUrl CONSTANT)
 public:
-    explicit QExtQuickSvgIconBaseItem(QQuickItem *parent = QEXT_NULLPTR);
+    static const QString kId;                      // "qextsvg"（QLatin1String 自 Qt 6.4 起弃用）
+    enum { kCacheBytes = 8 << 20 };                // QCache 代价按 QImage::sizeInBytes() 计（byteCount() Qt6 已删）
 
-    QString backendUrl() const;
+    QExtSvgColorImageProvider();
+
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) QEXT_OVERRIDE;
+
+    // 供 C++/单测使用；QML 侧当前用 QExtQuickSvgIcon.qml 的等价 JS 拼装（量化表双实现，单测对拍锁定）
+    static QString urlFor(const QString &source, const QColor &color,
+                          qreal width, qreal height, qreal devicePixelRatio);
+
+    static bool parseId(const QString &id, QString *source, QColor *color,
+                        qreal *width, qreal *height, qreal *dpr);
+
+private:
+    QCache<QString, QImage> mCache;                // id 即键（已含全部影响成像的参数）
+    QMutex mMutex;                                 // 异步路径下 requestImage 可能来自线程池
 };
 
-#endif // _QEXTQUICKSVGICONBASEITEM_H
+#endif // _QEXTSVGCOLORIMAGEPROVIDER_H
