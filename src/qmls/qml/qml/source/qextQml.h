@@ -72,8 +72,9 @@ public:
     void setRootWindow(QQuickWindow *window);
 
     Q_INVOKABLE QString version() const override;
+    Q_INVOKABLE QString qmlModuleUri() const override;
     void registerTypes(const char *url = nullptr) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri = nullptr) override;
 
 Q_SIGNALS:
     void rootWindowChanged(QQuickWindow *window);

@@ -26,8 +26,9 @@ template <typename T>
 class QExtQmlModuleSingleton : public QExtQmlObjectSingleton<T>
 {
 public:
+    virtual QString qmlModuleUri() const = 0;
     virtual void registerTypes(const char *uri = nullptr) = 0;
-    virtual void initializeEngine(QQmlEngine *engine, const char *uri) = 0;
+    virtual void initializeEngine(QQmlEngine *engine, const char *uri = nullptr) = 0;
 };
 
 #define QEXT_DECLARE_QML_SINGLETON(CLASS) \

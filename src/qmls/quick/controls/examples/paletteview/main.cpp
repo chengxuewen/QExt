@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     engine.addImportPath(QML_MODULES_DIR);
 #endif
     // linked-in/无插件部署引擎引导(provider 注册 + ":/" bundle 兼底，均幂等；须在 load() 前)
-    QExtQuickControls::instance()->initializeEngine(&engine, "QExtQuick.Controls");
+    QExtQuickControls::instance()->initializeEngine(&engine);
 
     qmlRegisterType<QExtQuickPaletteTableModel>("QExtQuickPaletteView", 1, 0, "QExtQuickPaletteTableModel");
 

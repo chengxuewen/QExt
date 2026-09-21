@@ -68,6 +68,11 @@ QString QExtQuickQwt::version() const
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);
 }
 
+QString QExtQuickQwt::qmlModuleUri() const
+{
+    return QLatin1String(QEXT_QML_MODULE_URI);
+}
+
 void QExtQuickQwt::registerTypes(const char *url)
 {
     qDebug() << QString("QExtQuickQwt::registerTypes(%1)").arg(QEXT_QML_MODULE_URI);

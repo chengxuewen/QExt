@@ -37,8 +37,9 @@ class QEXT_QUICKQWT_API QExtQuickQwt : public QExtQmlModuleSingleton<QExtQuickQw
     QEXT_DECLARE_QML_SINGLETON(QExtQuickQwt)
 public:
     Q_INVOKABLE QString version() const override;
+    Q_INVOKABLE QString qmlModuleUri() const override;
     void registerTypes(const char *uri = nullptr) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri = nullptr) override;
 
 protected:
     QExtQuickQwt();

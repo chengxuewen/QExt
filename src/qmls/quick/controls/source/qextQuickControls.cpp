@@ -40,6 +40,7 @@
 #include <QQmlContext>
 #include <QMutexLocker>
 #include <QQuickWindow>
+#include <QList>
 
 class QExtQuickWorld;
 class QExtQuickControlsPrivate
@@ -51,7 +52,7 @@ public:
     explicit QExtQuickControlsPrivate(QExtQuickControls *q);
     virtual ~QExtQuickControlsPrivate();
 
-    QPointer<QQmlEngine> mQmlEngine;
+    QList<QPointer<QQmlEngine>> mQmlEngines; // [修复 PIT-10] 多引擎登记: 插件只为加载它的引擎调 initializeEngine, 附加引擎需消费方显式注册
     QPointer<QQuickWindow> mRootWindow;
     QPointer<QExtQuickWorld> mQuickWorld;
     Qt::CursorShape mMouseAreaCurrsor = Qt::ArrowCursor;
@@ -89,7 +90,9 @@ void QExtQuickControls::initQuickRoot(QQuickWindow *rootWindow)
     if (d->mRootWindow.isNull())
     {
         d->mRootWindow = rootWindow;
-        d->mQmlEngine->rootContext()->setContextProperty("QExtQuickRootWindow", rootWindow);
+        for (auto &&e : qAsConst(d->mQmlEngines)) // 根窗广播到全部已登记引擎
+            if (e)
+                e->rootContext()->setContextProperty("QExtQuickRootWindow", rootWindow);
         emit this->rootWindowChanged(rootWindow);
     }
 }
@@ -115,6 +118,11 @@ void QExtQuickControls::setMouseAreaCursorShape(const Qt::CursorShape &cursor)
 QString QExtQuickControls::version() const
 {
     return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);
+}
+
+QString QExtQuickControls::qmlModuleUri() const
+{
+    return QLatin1String(QEXT_QML_MODULE_URI);
 }
 
 void QExtQuickControls::registerTypes(const char *url)
@@ -187,8 +195,12 @@ void QExtQuickControls::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     Q_UNUSED(uri)
     Q_D(QExtQuickControls);
-    d->mQmlEngine = engine;
-    d->mQmlEngine->rootContext()->setContextProperty("QExtQuickRootWindow", QEXT_NULLPTR);
+    if (!d->mQmlEngines.contains(engine))
+    {
+        d->mQmlEngines.append(engine);
+    }
+    // 新引擎直接以当前根窗播种(早于 initializeEngine 时为 null, 与旧行为等价)
+    engine->rootContext()->setContextProperty("QExtQuickRootWindow", d->mRootWindow.data());
     // 引导 linked-in/Android 无插件部署：Qt<6.4 引擎默认不扫 ":/" 资源根，而 android rcc bundle
     // 里各 QExt 模块的 qmldir+qml 恰挂在 ":/<Module>/..."（≥6.4 改挂 ":/qt/qml/..." 且引擎默认搜索）。
     // addImportPath 为追加（全局最低优先级），仅兼底；重复添加会被引擎去重，桌面插件模式无感知。
@@ -198,5 +210,7 @@ void QExtQuickControls::initializeEngine(QQmlEngine *engine, const char *uri)
     // 注：linked-in（Android link-target）解析下插件的 initializeEngine 可能不被调用，
     //     消费方（例子/主程序）须在 engine.load() 前显式调用本函数（幂等守卫防重复）。
     if (engine->imageProvider(QExtSvgColorImageProvider::kId) == QEXT_NULLPTR)
+    {
         engine->addImageProvider(QExtSvgColorImageProvider::kId, new QExtSvgColorImageProvider);
+    }
 }
