@@ -236,6 +236,12 @@ function(qext_add_qml_module target)
     qext_find_qt_tool(rcc)
     set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
     # message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
+    # QEXT_SKIP_QMLPLUGINDUMP(默认 OFF): sanitizer 构建须 ON——plugins.qmltypes 仅 IDE
+    # 补全元数据, 而 qmlplugindump(非插桩工具) dlopen 插桩 .so 会触发静态 TLS 崩
+    # (liblsan/libasan "无法在静态 TLS 块中分配内存", 2026-10-10 实证) → 插件 target 整体失败。
+    if(NOT DEFINED QEXT_SKIP_QMLPLUGINDUMP)
+        option(QEXT_SKIP_QMLPLUGINDUMP "Skip qmlplugindump qmltypes generation (required for sanitizer builds)" OFF)
+    endif()
     qext_find_qt_tool(qmlplugindump)
     set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
     # message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
@@ -1488,7 +1494,8 @@ function(qext_internal_qml_type_registration target)
     # message(QEXT_QML_OUTPUT_DIRECTORY=${QEXT_QML_OUTPUT_DIRECTORY})
     # message(arg_LIBRARIES=${arg_LIBRARIES})
     # message(arg_PUBLIC_LIBRARIES=${arg_PUBLIC_LIBRARIES})
-    if(TARGET ${arg_PLUGIN_TARGET} AND EXISTS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}")
+    if(TARGET ${arg_PLUGIN_TARGET} AND EXISTS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}"
+            AND NOT QEXT_SKIP_QMLPLUGINDUMP)
         if(WIN32)
             foreach(library ${arg_PUBLIC_LIBRARIES})
                 if (TARGET ${library})
