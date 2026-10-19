@@ -236,12 +236,8 @@ function(qext_add_qml_module target)
     qext_find_qt_tool(rcc)
     set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
     # message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
-    # QEXT_SKIP_QMLPLUGINDUMP(默认 OFF): sanitizer 构建须 ON——plugins.qmltypes 仅 IDE
-    # 补全元数据, 而 qmlplugindump(非插桩工具) dlopen 插桩 .so 会触发静态 TLS 崩
-    # (liblsan/libasan "无法在静态 TLS 块中分配内存", 2026-10-10 实证) → 插件 target 整体失败。
-    if(NOT DEFINED QEXT_SKIP_QMLPLUGINDUMP)
-        option(QEXT_SKIP_QMLPLUGINDUMP "Skip qmlplugindump qmltypes generation (required for sanitizer builds)" OFF)
-    endif()
+    # QEXT_SKIP_QMLPLUGINDUMP is declared in the top-level option block (after QEXT_ENABLE_LIB_QUICK,
+    # via qext_option, cross builds default ON) -- do not re-declare here; consume it only.
     qext_find_qt_tool(qmlplugindump)
     set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
     # message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
@@ -433,7 +429,7 @@ function(qext_add_qml_module target)
         endforeach()
     endif()
 
-    if(NOT arg_NO_GENERATE_QMLTYPES)
+    if(NOT arg_NO_GENERATE_QMLTYPES AND NOT QEXT_SKIP_QMLPLUGINDUMP)  # skip 时文件不生成, install 规则须同步省略(§3a)
         qext_install(
             FILES ${arg_OUTPUT_DIRECTORY}/$<TARGET_PROPERTY:${qext_target},QEXT_QML_MODULE_TYPEINFO>
             DESTINATION "${arg_INSTALL_DIRECTORY}")

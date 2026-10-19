@@ -519,13 +519,26 @@ qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
+# 2026-10-16: cross allowed for SINGLEAPP/QUICK family (aarch64 artifacts were built with these libs under the
+# rk3568 kit already; the old (NOT CMAKE_CROSSCOMPILING) guard predates the CP-04 sysroot fix and was a crutch.
 qext_option(QEXT_ENABLE_LIB_SINGLEAPP "Enable this to build the singleapp lib" OFF
-    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_LIB_QUICK "Enable this to build the quick lib" OFF
-    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
+
+# QEXT_SKIP_QMLPLUGINDUMP: plugins.qmltypes is IDE-only completion metadata; the runtime QML engine
+# does not need it. Cross builds default ON -- the SDK's qmlplugindump is a target-arch (aarch64)
+# binary that cannot run on the host; sanitizer builds crash with a static-TLS error when it dlopens
+# instrumented plugins (observed 2026-10-10). Users may override with -D...=OFF (qemu / native tools).
+if(CMAKE_CROSSCOMPILING)
+    set(QEXT_DEFAULT_SKIP_QMLPLUGINDUMP ON)
+else()
+    set(QEXT_DEFAULT_SKIP_QMLPLUGINDUMP OFF)
+endif()
+qext_option(QEXT_SKIP_QMLPLUGINDUMP "Skip qmlplugindump qmltypes generation (required for sanitizer and cross builds)" ${QEXT_DEFAULT_SKIP_QMLPLUGINDUMP})
 
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -542,7 +555,7 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QCUSTOMPLOT "Enable this to add the 3rdparty q
     DEPENDS (NOT CMAKE_CROSSCOMPILING)
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
-    DEPENDS (NOT CMAKE_CROSSCOMPILING) AND ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
+    DEPENDS ("${QEXT_QT_VERSION}" VERSION_GREATER_EQUAL "5")
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTADS "Enable this to add the 3rdparty Qt Advanced Docking System subdirectory" OFF
     DEPENDS (NOT CMAKE_CROSSCOMPILING)

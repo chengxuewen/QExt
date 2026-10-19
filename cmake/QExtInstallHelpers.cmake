@@ -46,8 +46,37 @@ function(qext_install)
     # In a non-prefix build, pass install(TARGETS) commands to allow
     # association of targets to export names, so we can later use the export names
     # in export() commands.
+
+    # QEXT_INSTALL_RELOCATE (consumer opt-in, e.g. rk3568 remote deploy via DESTDIR staging):
+    # This repo's no-prefix design pins the install prefix to an absolute build-tree path; DESTDIR-staging
+    # deployers that mirror staged paths verbatim (e.g. Qt Creator "Deploy files") would try to create that
+    # host path on the device and fail on permissions. When ON, the prefix is stripped from DESTINATION
+    # values so rules mount under the consumer's CMAKE_INSTALL_PREFIX. Prerequisite: no spaces/semicolons
+    # in arguments (true for this repo's paths).
+    set(_qi_argv "${ARGV}")
+    if(QEXT_INSTALL_RELOCATE AND NOT "${QEXT_INSTALL_PREFIX}" STREQUAL "")
+        string(LENGTH "${QEXT_INSTALL_PREFIX}" _qi_plen)
+        set(_qi_fixed "")
+        set(_qi_next_is_dest FALSE)
+        foreach(_qi_arg IN LISTS _qi_argv)
+            if(_qi_next_is_dest)
+                set(_qi_next_is_dest FALSE)
+                string(FIND "${_qi_arg}" "${QEXT_INSTALL_PREFIX}/" _qi_hit)
+                if(_qi_hit EQUAL 0)
+                    string(SUBSTRING "${_qi_arg}" ${_qi_plen} -1 _qi_arg)
+                    string(SUBSTRING "${_qi_arg}" 1 -1 _qi_arg)   # 剪掉前缀后的 '/' → 相对 DESTINATION
+                endif()
+            elseif(_qi_arg STREQUAL "DESTINATION")
+                # 只改写 DESTINATION 的后随参数；FILES/SOURCE 侧路径必须保持原样(源文件在构建树)
+                set(_qi_next_is_dest TRUE)
+            endif()
+            list(APPEND _qi_fixed "${_qi_arg}")
+        endforeach()
+        set(_qi_argv "${_qi_fixed}")
+    endif()
+
     if(QEXT_BUILD_INSTALL OR is_install_targets)
-        install(${ARGV})
+        install(${_qi_argv})
     endif()
 
     # When install(EXPORT) is called, also call export(EXPORT)
